@@ -1,0 +1,6 @@
+peewee
+python-telegram-bot
+jinja2
+textual
+rich-pixels
+
