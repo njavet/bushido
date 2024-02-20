@@ -24,6 +24,10 @@ class UnitRetriever(unitproc.UnitRetriever):
         super().__init__()
         self.unit_model = BalanceUnit
 
+    def datetime2unit(self, user_id):
+        query = self.retrieve_units(user_id)
+        return {unit.log_time: unit for unit in query}
+
 
 class BalanceUnit(db.Unit):
     weight = pw.FloatField()

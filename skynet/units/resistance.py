@@ -1,5 +1,6 @@
 # general imports
 import peewee as pw
+import collections
 
 # project imports
 import config
@@ -19,6 +20,15 @@ class UnitRetriever(unitproc.UnitRetriever):
         super().__init__()
         self.unit_model = ResistanceUnit
         self.subunit_model = ResistanceSet
+
+    def datetime2unit(self, user_id):
+        query = self.retrieve_units(user_id)
+        dix = collections.defaultdict(dict)
+        for unit in query:
+            dix[unit.unit_name] = collections.defaultdict(list)
+        for unit in query:
+            dix[unit.unit_name][unit.log_time].append(unit.resistanceset)
+        return dix
 
 
 class ResistanceUnit(db.Unit):
@@ -63,6 +73,9 @@ class ResistanceSet(db.SubUnit):
     orm = pw.FloatField()
     rel_strength = pw.FloatField(null=True)
     unit = pw.ForeignKeyField(ResistanceUnit, backref='')
+
+    def __str__(self):
+        return 'Weight: {}, Reps: {}, Pause: {}'.format(self.weight, self.reps, self.pause)
 
 
 database = pw.SqliteDatabase(config.db_name)

@@ -1,4 +1,6 @@
 # general imports
+import collections
+
 import peewee as pw
 
 # project imports
@@ -19,6 +21,13 @@ class UnitRetriever(unitproc.UnitRetriever):
         super().__init__()
         self.unit_model = GymUnit
 
+    def datetime2unit(self, user_id):
+        query = self.retrieve_units(user_id)
+        dix = collections.defaultdict(dict)
+        for unit in query:
+            dix[unit.unit_name][unit.log_time] = unit
+        return dix
+
 
 class GymUnit(db.ChronoUnit):
     def parse(self, words):
@@ -33,7 +42,7 @@ class GymUnit(db.ChronoUnit):
             raise exceptions.UnitProcessingError('Specify the gym')
 
     def __str__(self):
-        return self.place
+        return 'Training:' + self.unit_name + ' at ' + self.place
 
 
 database = pw.SqliteDatabase(config.db_name)

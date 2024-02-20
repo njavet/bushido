@@ -1,4 +1,5 @@
 # general imports
+import collections
 import peewee as pw
 
 # project imports
@@ -19,6 +20,13 @@ class UnitRetriever(unitproc.UnitRetriever):
         super().__init__()
         self.unit_model = WimhofUnit
         self.subunit_model = WimhofRound
+
+    def datetime2unit(self, user_id):
+        query = self.retrieve_units(user_id)
+        dt2units = collections.defaultdict(list)
+        for unit in query:
+            dt2units[unit.log_time].append(unit.wimhofround)
+        return dt2units
 
 
 class WimhofUnit(db.Unit):
@@ -45,6 +53,9 @@ class WimhofRound(db.SubUnit):
     breaths = pw.IntegerField()
     retention = pw.IntegerField()
     unit = pw.ForeignKeyField(WimhofUnit, backref='')
+
+    def __str__(self):
+        return 'Breaths: {}, Retention: {}'.format(self.breaths, self.retention)
 
 
 database = pw.SqliteDatabase(config.db_name)
