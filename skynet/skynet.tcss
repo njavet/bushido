@@ -1,0 +1,16 @@
+
+#tree-view {
+    display: none;
+    scrollbar-gutter: stable;
+    scrollbar-size: 1 1;
+    overflow: auto;
+    height: 100%;
+    dock: left;
+}
+
+Skynet.-show-tree #tree-view {
+    display: block;
+    max-width: 50%;
+}
+
+

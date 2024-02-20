@@ -25,6 +25,7 @@ class Skynet(App):
                 ('r', 'res', 'Res'),
                 ('l', 'log_unit', 'Log')]
 
+    CSS_PATH = 'skynet.tcss'
     show_tree = var(True)
 
     def watch_show_tree(self, show_tree):
