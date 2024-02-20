@@ -7,15 +7,14 @@ from textual.widgets import *
 from textual.suggester import SuggestFromList, Suggester
 from textual import on, events
 
-import secconf
-
 
 class UnitLog(ModalScreen):
 
     BINDINGS = [('b', 'app.pop_screen', 'Back')]
 
-    def __init__(self, string_processor):
+    def __init__(self, user_id, string_processor):
         super().__init__()
+        self.user_id = user_id
         self.string_processor = string_processor
 
     def compose(self) -> ComposeResult:
@@ -40,7 +39,7 @@ class UnitLog(ModalScreen):
         else:
             rl.clear()
             res = self.string_processor.process_string(event.value,
-                                                       user_id=secconf.user_id)
+                                                       user_id=self.user_id)
 
             if res.success:
                 rl.write('Unit confirmed!')

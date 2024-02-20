@@ -45,7 +45,7 @@ class ResistanceUnit(db.Unit):
                 rel_strength = orm / at.weight
             except TypeError:
                 rel_strength = None
-            ls = ResistanceSet(unit=self.get_id(),
+            ls = ResistanceSet(unit=self.id,
                                set_nr=i,
                                weight=w,
                                reps=r,
@@ -62,6 +62,7 @@ class ResistanceSet(db.SubUnit):
     pause = pw.IntegerField()
     orm = pw.FloatField()
     rel_strength = pw.FloatField(null=True)
+    unit = pw.ForeignKeyField(ResistanceUnit, backref='')
 
 
 database = pw.SqliteDatabase(config.db_name)

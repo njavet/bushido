@@ -1,4 +1,5 @@
 # general imports
+import datetime
 import collections
 import importlib
 
@@ -107,18 +108,21 @@ class UnitRetriever:
                      .order_by(self.unit_model.log_time.desc()))
         else:
             query = (self.unit_model
-                     .select(self.unit_model, self.subunit_model)
+                     .select()
                      .where(self.unit_model.user == user_id)
                      .order_by(self.unit_model.log_time.desc()))
 
         return query
 
-    def datetime2units(self, user_id):
+    def datetime2unit(self, user_id):
         query = self.retrieve_units(user_id)
-        dt2units = collections.defaultdict(list)
-        for unit in query:
-            dt2units[unit.log_time].append(unit)
-        return dt2units
+        if self.subunit_model:
+            dt2unit = collections.defaultdict(list)
+            for unit in query:
+                dt2unit[unit.log_time].append(unit)
+        else:
+            dt2unit = {unit.log_time: unit for unit in query}
+        return dt2unit
 
     def date2units(self, user_id):
         query = self.retrieve_units(user_id)

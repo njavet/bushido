@@ -32,6 +32,9 @@ class GymUnit(db.ChronoUnit):
         except IndexError:
             raise exceptions.UnitProcessingError('Specify the gym')
 
+    def __str__(self):
+        return self.place
+
 
 database = pw.SqliteDatabase(config.db_name)
 database.connect()

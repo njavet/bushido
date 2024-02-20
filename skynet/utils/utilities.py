@@ -1,5 +1,28 @@
 import importlib
 import datetime
+from rich.text import Text
+
+import db
+
+
+def add_tree_node(name, node, data):
+    if isinstance(data, dict):
+        node.set_label(name.capitalize())
+        for key, value in data.items():
+            new_node = node.add('')
+            add_tree_node(key, new_node, value)
+    elif isinstance(data, list):
+        node.set_label(Text(
+            name.strftime("%Y-%m-%d %H:%M:%S")
+        ))
+        for index, item in enumerate(data):
+            new_node = node.add('')
+            add_tree_node(str(index), new_node, item)
+    else:
+        node.allow_expand = False
+        node.set_label(Text.assemble(
+            Text.from_markup(f'[b]{name}[/b] = ', style='cyan'),
+            str(data), style='green'))
 
 
 def find_previous_sunday(dt):
@@ -16,13 +39,20 @@ def find_previous_sunday(dt):
         return dt
 
 
-def load_unit_retrievers(emojis):
-    unit_retrievers = {}
+def get_unit_modules(emojis):
+    modules = []
     for emoji, compound_name in emojis.items():
         module_name = compound_name.split('.')[0]
-        if module_name not in unit_retrievers:
-            module = importlib.import_module('units.' + module_name)
-            unit_retrievers[module_name] = module.UnitRetriever()
+        if module_name not in modules:
+            modules.append(module_name)
+    return modules
+
+
+def load_unit_retrievers(emojis):
+    unit_retrievers = {}
+    for module_name in get_unit_modules(emojis):
+        module = importlib.import_module('units.' + module_name)
+        unit_retrievers[module_name] = module.UnitRetriever()
     return unit_retrievers
 
 

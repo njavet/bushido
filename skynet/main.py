@@ -7,11 +7,13 @@ from textual.containers import Vertical, Horizontal
 from rich.text import Text
 
 import config
+import secconf
+
 from unitproc import StringProcessor
 # project imports
 from utils import utilities
-from txscreens import helpscreen, unitlog, timetable
-from txwidgets import clock
+from txscreens import helpscreen, unitlog, timetable, resistance
+import txwidgets
 
 
 class Skynet(App):
@@ -20,6 +22,7 @@ class Skynet(App):
                 ('h', 'help', 'Help'),
                 ('t', 'toggle_tree', 'Toggle Tree'),
                 ('g', 'unit_timeline', 'TimeLine'),
+                ('r', 'res', 'Res'),
                 ('l', 'log_unit', 'Log')]
 
     show_tree = var(True)
@@ -34,9 +37,9 @@ class Skynet(App):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield clock.Clock()
+        yield txwidgets.Clock()
         with Horizontal():
-            yield Tree('', id='tree-view')
+            yield Tree('Units', id='tree-view')
         yield Footer()
 
     def on_mount(self):
@@ -49,61 +52,24 @@ class Skynet(App):
         self.app.push_screen(helpscreen.HelpScreen())
 
     def action_log_unit(self):
-        self.app.push_screen(unitlog.UnitLog(self.string_processor))
+        self.app.push_screen(unitlog.UnitLog(secconf.user_id,
+                                             self.string_processor))
 
     def action_unit_timeline(self):
-        self.app.push_screen(timetable.TimeTable(self.unit_retrievers))
+        self.app.push_screen(timetable.TimeTable(secconf.user_id,
+                                                 self.unit_retrievers))
+
+    def action_res(self):
+        self.app.push_screen(resistance.ResistanceScreen(secconf.user_id,
+                                                         self.unit_retrievers))
 
     def build_tree(self) -> None:
-        tree = self.query_one(Tree)
+        tree = self.query_one('#tree-view', Tree)
         tree.root.expand()
 
-        def add_node(name, node, data):
-            """Adds a node to the tree.
-
-            Args:
-                name (str): Name of the node.
-                node (TreeNode): Parent node.
-                data (object): Data associated with the node.
-            """
-            if isinstance(data, dict):
-                node.label = Text(name)
-                for key, value in data.items():
-                    new_node = node.add('')
-                    add_node(key, new_node, value)
-            elif isinstance(data, list):
-                if isinstance(name, datetime.datetime):
-                    node.label = Text(datetime.datetime.strftime(name, '%d.%m.%y %H:%M'))
-                else:
-                    node.label = name
-
-                for index, value in enumerate(data):
-                    new_node = node.add('')
-                    add_node(str(index), new_node, value)
-            else:
-                node.allow_expand = False
-                if name:
-                    if isinstance(data, lifts.LiftsUnit):
-                        data_str = str(data.liftsset)
-                    elif isinstance(data, cali.CaliUnit):
-                        data_str = str(data.caliset)
-                    elif isinstance(data, wimhof.WimhofUnit):
-                        data_str = str(data.wimhofround)
-                    else:
-                        data_str = str(data)
-
-                    label = Text.assemble(
-                        Text.from_markup(f'[b]{name}[/b] = ', style='blue'),
-                        data_str, style='cyan')
-
-                    #Text.from_markup(f"[b]{name}[/b]="), self.highlighter(
-                    #self.unit2string(data)
-                    #)
-                else:
-                    label = Text(repr(data))
-                node.label = label
-
-        #add_node(self.mod.mod_name.capitalize(), tree.root, self.mod.dt2units)
+        for module_name, ur in self.unit_retrievers.items():
+            dix = ur.datetime2unit(secconf.user_id)
+            utilities.add_tree_node(module_name, tree.root.add(''), dix)
 
 
 if __name__ == '__main__':

@@ -49,6 +49,9 @@ class BalanceUnit(db.Unit):
         except (IndexError, ValueError):
             self.muscles = None
 
+    def __str__(self):
+        return str(self.weight) + 'Kg'
+
 
 database = pw.SqliteDatabase(config.db_name)
 database.connect()

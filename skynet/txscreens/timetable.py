@@ -10,8 +10,9 @@ from utils import utilities
 class TimeTable(ModalScreen):
     BINDINGS = [('b', 'app.pop_screen', 'Back')]
 
-    def __init__(self, unit_retrievers):
+    def __init__(self, user_id, unit_retrievers):
         super().__init__()
+        self.user_id = user_id
         self.unit_retrievers = unit_retrievers
 
     def compose(self):
