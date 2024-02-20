@@ -51,6 +51,7 @@ class SubUnit(BaseModel):
 
 
 class ChronoUnit(Unit):
+    unit_name = pw.CharField()
     seconds = pw.FloatField()
     start = pw.DateTimeField(null=True)
     end = pw.DateTimeField(null=True)
