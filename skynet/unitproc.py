@@ -115,6 +115,7 @@ class UnitRetriever:
         return query
 
     def datetime2unit(self, user_id):
+        # TODO rename method
         query = self.retrieve_units(user_id)
         if self.subunit_model:
             dt2unit = collections.defaultdict(list)

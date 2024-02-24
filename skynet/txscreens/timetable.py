@@ -15,6 +15,11 @@ class TimeTable(ModalScreen):
         self.user_id = user_id
         self.unit_retrievers = unit_retrievers
 
+    def collect_units(self):
+        for module_name in ['balance', 'wimhof']:
+            dtu = self.unit_retrievers[module_name].date2units(self.user_id)
+
+
     def compose(self):
         with TabbedContent(initial='tab-2023'):
             with TabPane('2020', id='tab-2020'):
@@ -40,12 +45,21 @@ def construct_table(year):
     table.add_column('Date')
     table.add_column('Weight')
     table.add_column('Wimhof')
-    start = utilities.find_previous_sunday(
-        datetime.datetime(year, 1, 1))
-    while start <= datetime.datetime(year, 12, 31):
-        dt = datetime.datetime.strftime(start, '%d.%m.%y')
-        table.add_row(dt)
-        start += datetime.timedelta(days=1)
+    first = utilities.find_previous_sunday(
+        datetime.datetime(year, 1, 1)
+    )
+    last = utilities.find_next_saturday(
+        datetime.datetime.now()
+    )
+
+    days = (last - first).days
+    while last >= first:
+        dt = datetime.datetime.strftime(last, '%d.%m.%y')
+        table.add_row(str(days), dt)
+        if days % 7 == 0:
+            table.add_section()
+        last -= datetime.timedelta(days=1)
+        days -= 1
     return table
 
 

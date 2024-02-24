@@ -37,8 +37,9 @@ class Skynet(App):
         self.unit_retrievers = utilities.load_unit_retrievers(config.emojis)
 
     def compose(self) -> ComposeResult:
-        yield Header()
-        yield txwidgets.Clock()
+        # yield Header()
+        with Horizontal():
+            yield txwidgets.Binclock()
         with Horizontal():
             yield Tree('Units', id='tree-view')
         yield Footer()

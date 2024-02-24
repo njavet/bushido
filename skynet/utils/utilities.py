@@ -42,6 +42,14 @@ def find_previous_sunday(dt):
         return dt
 
 
+def find_next_saturday(dt):
+    if dt.weekday() != 6:
+        days = 5 - dt.weekday()
+        return dt + datetime.timedelta(days=days)
+    else:
+        return dt + datetime.timedelta(days=6)
+
+
 def get_unit_modules(emojis):
     modules = []
     for emoji, compound_name in emojis.items():
