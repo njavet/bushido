@@ -30,6 +30,14 @@ class UnitRetriever(unitproc.UnitRetriever):
             dix[unit.unit_name][unit.log_time].append(unit.resistanceset)
         return dix
 
+    def date2unit_str(self, user_id):
+        date2units = self.date2units(user_id)
+        dix = collections.defaultdict(str)
+        for k, v in date2units.items():
+            dix[k] = ' '.join([str(u.unit_emoji) for u in v])
+        return dix
+
+
 
 class ResistanceUnit(db.Unit):
     unit_name = pw.CharField()

@@ -10,7 +10,7 @@ from textual import on, events
 
 class UnitLog(ModalScreen):
 
-    BINDINGS = [('b', 'app.pop_screen', 'Back')]
+    BINDINGS = [('q', 'app.pop_screen', 'Back')]
 
     def __init__(self, user_id, string_processor):
         super().__init__()

@@ -1,4 +1,6 @@
 # general imports
+import collections
+
 import peewee as pw
 
 # project imports
@@ -28,6 +30,13 @@ class UnitRetriever(unitproc.UnitRetriever):
         query = self.retrieve_units(user_id)
         return {unit.log_time: unit for unit in query}
 
+    def date2unit_str(self, user_id):
+        date2units = self.date2units(user_id)
+        dix = collections.defaultdict(str)
+        for k, v in date2units.items():
+            dix[k] = str(v[0])
+        return dix
+
 
 class BalanceUnit(db.Unit):
     weight = pw.FloatField()
@@ -54,7 +63,7 @@ class BalanceUnit(db.Unit):
             self.muscles = None
 
     def __str__(self):
-        return str(self.weight) + 'Kg'
+        return self.unit_emoji + '  ' + str(self.weight) + 'Kg'
 
 
 database = pw.SqliteDatabase(config.db_name)

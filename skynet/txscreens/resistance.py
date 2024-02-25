@@ -5,7 +5,7 @@ from rich.table import Table
 
 
 class ResistanceScreen(ModalScreen):
-    BINDINGS = [('b', 'app.pop_screen', 'Back')]
+    BINDINGS = [('q', 'app.pop_screen', 'Back')]
 
     def __init__(self, user_id, unit_retrievers):
         super().__init__()

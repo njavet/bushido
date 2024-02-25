@@ -28,6 +28,13 @@ class UnitRetriever(unitproc.UnitRetriever):
             dix[unit.unit_name][unit.log_time] = unit
         return dix
 
+    def date2unit_str(self, user_id):
+        date2units = self.date2units(user_id)
+        dix = collections.defaultdict(str)
+        for k, v in date2units.items():
+            dix[k] = v[0].unit_emoji
+        return dix
+
 
 class GymUnit(db.ChronoUnit):
     def parse(self, words):

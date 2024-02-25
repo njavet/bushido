@@ -132,3 +132,5 @@ class UnitRetriever:
             date2units[unit.log_date].append(unit)
         return date2units
 
+    def date2unit_str(self, user_id):
+        raise NotImplementedError

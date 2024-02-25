@@ -28,6 +28,14 @@ class UnitRetriever(unitproc.UnitRetriever):
             dt2units[unit.log_time].append(unit.wimhofround)
         return dt2units
 
+    def date2unit_str(self, user_id):
+        date2units = self.date2units(user_id)
+        dix = collections.defaultdict(str)
+        for k, v in date2units.items():
+            dix[k] = v[0].unit_emoji
+        return dix
+
+
 
 class WimhofUnit(db.Unit):
 

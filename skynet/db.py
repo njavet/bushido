@@ -109,6 +109,9 @@ class ChronoUnit(Unit):
         # receive time is "right after training" aka a few minutes after the end
         # "normal case": 0400 <= start < end <= 2359
 
+    def __str__(self):
+        return self.unit_emoji
+
 
 database = pw.SqliteDatabase(config.db_name)
 database.connect()
