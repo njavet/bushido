@@ -78,6 +78,7 @@ class UnitProcessor:
         self.init_unit(user_id, emoji, unit_name, comment)
         self.unit.set_time(recv_time)
         self.parse_and_save(words)
+        self.post_saving(user_id)
 
     def init_unit(self, user_id, unit_emoji, unit_name=None, comment=None):
         self.unit = self.unit_model(user=user_id,
