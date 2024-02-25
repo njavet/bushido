@@ -23,12 +23,18 @@ emojis = {
     b'\xf0\x9f\xa6\x85'.decode(): 'resistance.pullups',
     b'\xf0\x9f\x8c\x90'.decode(): 'resistance.pushups',
 
-    #b'\xf0\x9f\xaa\x96'.decode(): 'cardio.running',
+    b'\xf0\x9f\xaa\x96'.decode(): 'cardio.running',
 
-    #b'\xe2\x9a\x94\xef\xb8\x8f'.decode(): 'chrono.splitmachine',
-    #b'\xf0\x9f\x8f\xb9'.decode(): 'chrono.stretch',
-    #b'\xf0\x9f\x94\xa5'.decode(): 'chrono.naulikriya',
+    b'\xe2\x9a\x94\xef\xb8\x8f'.decode(): 'chrono.splitmachine',
+    b'\xf0\x9f\x8f\xb9'.decode(): 'chrono.stretch',
+    b'\xf0\x9f\x94\xa5'.decode(): 'chrono.naulikriya',
+}
 
-
+# emojis
+single2double = {
+    b'\xe2\x9b\xa9': b'\xe2\x9b\xa9\xef\xb8\x8f',  # shinto -> squats
+    b'\xf0\x9f\x8f\x97': b'\xf0\x9f\x8f\x97\xef\xb8\x8f',  # crane -> deadlift'
+    b'\xe2\x9a\x94': b'\xe2\x9a\x94\xef\xb8\x8f',  # sword -> split_machine
+    b'\xe2\x9a\x96': b'\xe2\x9a\x96\xef\xb8\x8f',  # balance
 }
 

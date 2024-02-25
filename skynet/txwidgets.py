@@ -23,3 +23,6 @@ class Binclock(Static):
                 cell.set_class(d == '1', 'box-light')
 
 
+
+class Title(Static):
+    pass

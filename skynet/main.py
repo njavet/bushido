@@ -38,10 +38,13 @@ class Skynet(App):
 
     def compose(self) -> ComposeResult:
         # yield Header()
-        with Horizontal():
-            yield txwidgets.Binclock()
-        with Horizontal():
-            yield Tree('Units', id='tree-view')
+        yield txwidgets.Binclock()
+        yield Rule()
+        yield Tree('Units', id='tree-view')
+        yield Placeholder()
+        yield Placeholder()
+        yield Placeholder()
+
         yield Footer()
 
     def on_mount(self):
