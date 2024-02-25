@@ -94,6 +94,12 @@ class UnitProcessor:
         pass
 
 
+class Unit:
+    def __init__(self):
+        self.unit_retriever = None
+        self.unit_stats = None
+
+
 class UnitRetriever:
     def __init__(self):
         self.unit_model = None
@@ -134,3 +140,9 @@ class UnitRetriever:
 
     def date2unit_str(self, user_id):
         raise NotImplementedError
+
+
+class UnitStats:
+    pass
+
+

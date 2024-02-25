@@ -1,7 +1,10 @@
 from textual.screen import ModalScreen
 from textual.widgets import Collapsible, Label, RichLog
-
+import datetime
 from rich.table import Table
+from rich.text import Text
+
+from units import resistance
 
 
 class ResistanceScreen(ModalScreen):
@@ -28,3 +31,21 @@ class ResistanceScreen(ModalScreen):
                 yield rll
 
 
+    def render(self):
+        exercise = Text(self.heaviest.unit_name.capitalize(), style='bold cyan')
+
+        def get_table(unit, rectype):
+            table = Table('Type', 'Date', 'Weight', 'Reps', '1RM', 'RS')
+            table.add_row(rectype,
+                          datetime.datetime.strftime(unit.log_time, '%d.%m.%y'),
+                          Text(str(unit.resistanceset.weight)),
+                          Text(str(unit.resistanceset.reps)),
+                          '{:.0f}'.format(unit.resistanceset.orm),
+                          '{:.2f}'.format(unit.resistanceset.rel_strength))
+            return table
+        ht = get_table(self.heaviest, 'Heaviest')
+        rt = get_table(self.most_reps, 'Most Reps')
+        ot = get_table(self.best_orm, 'Best 1RM')
+        st = get_table(self.best_rs, 'Best RS')
+
+        return exercise, ht, rt, ot, st

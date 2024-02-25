@@ -21,6 +21,12 @@ class UnitProcessor(unitproc.UnitProcessor):
         user.save()
 
 
+class Unit(unitproc.Unit):
+    def __init__(self):
+        super().__init__()
+        self.unit_retriever = UnitRetriever()
+
+
 class UnitRetriever(unitproc.UnitRetriever):
     def __init__(self):
         super().__init__()

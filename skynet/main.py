@@ -34,7 +34,7 @@ class Skynet(App):
     def __init__(self):
         super().__init__()
         self.string_processor = StringProcessor(config.emojis)
-        self.unit_retrievers = utilities.load_unit_retrievers(config.emojis)
+        self.units = utilities.load_units(config.emojis)
 
     def compose(self) -> ComposeResult:
         # yield Header()
@@ -62,18 +62,18 @@ class Skynet(App):
 
     def action_unit_timeline(self):
         self.app.push_screen(timetable.TimeTable(secconf.user_id,
-                                                 self.unit_retrievers))
+                                                 self.units))
 
     def action_res(self):
         self.app.push_screen(resistance.ResistanceScreen(secconf.user_id,
-                                                         self.unit_retrievers))
+                                                         self.units))
 
     def build_tree(self) -> None:
         tree = self.query_one('#tree-view', Tree)
         tree.root.expand()
 
-        for module_name, ur in self.unit_retrievers.items():
-            dix = ur.datetime2unit(secconf.user_id)
+        for module_name, unit in self.units.items():
+            dix = unit.unit_retriever.datetime2unit(secconf.user_id)
             utilities.add_tree_node(module_name, tree.root.add(''), dix)
 
 

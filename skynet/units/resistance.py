@@ -15,6 +15,13 @@ class UnitProcessor(unitproc.UnitProcessor):
         self.unit_model = ResistanceUnit
 
 
+class Unit(unitproc.Unit):
+    def __init__(self):
+        super().__init__()
+        self.unit_retriever = UnitRetriever()
+        self.unit_stats = UnitStats()
+
+
 class UnitRetriever(unitproc.UnitRetriever):
     def __init__(self):
         super().__init__()
@@ -37,6 +44,35 @@ class UnitRetriever(unitproc.UnitRetriever):
             dix[k] = ' '.join([str(u.unit_emoji) for u in v])
         return dix
 
+
+class UnitStats(unitproc.UnitStats):
+    def __init__(self):
+        super().__init__()
+        self.heaviest = None
+        self.most_reps = None
+        self.best_orm = None
+        self.best_rs = None
+
+    def compute_stats(self, units):
+        self.heaviest = units[0]
+        self.most_reps = units[0]
+        self.best_orm = units[0]
+        self.best_rs = units[0]
+        for unit in units:
+            if unit.resistanceset.weight > self.heaviest.resistanceset.weight:
+                self.heaviest = unit
+            if unit.resistanceset.weight == self.heaviest.resistanceset.weight:
+                if unit.resistanceset.reps > self.heaviest.resistanceset.reps:
+                    self.heaviest = unit
+            if unit.resistanceset.reps > self.most_reps.resistanceset.reps:
+                self.most_reps = unit
+            if unit.resistanceset.reps == self.most_reps.resistanceset.reps:
+                if unit.resistanceset.weight > self.most_reps.resistanceset.weight:
+                    self.most_reps = unit
+            if unit.resistanceset.orm > self.best_orm.resistanceset.orm:
+                self.best_orm = unit
+            if unit.resistanceset.rel_strength > self.best_rs.resistanceset.rel_strength:
+                self.best_rs = unit
 
 
 class ResistanceUnit(db.Unit):
@@ -90,3 +126,5 @@ database = pw.SqliteDatabase(config.db_name)
 database.connect()
 database.create_tables([ResistanceUnit, ResistanceSet], safe=True)
 database.close()
+
+

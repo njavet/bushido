@@ -59,12 +59,12 @@ def get_unit_modules(emojis):
     return modules
 
 
-def load_unit_retrievers(emojis):
-    unit_retrievers = {}
+def load_units(emojis):
+    units = {}
     for module_name in get_unit_modules(emojis):
         module = importlib.import_module('units.' + module_name)
-        unit_retrievers[module_name] = module.UnitRetriever()
-    return unit_retrievers
+        units[module_name] = module.Unit()
+    return units
 
 
 def estimate_orm(weight, reps):

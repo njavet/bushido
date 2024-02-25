@@ -15,6 +15,12 @@ class UnitProcessor(unitproc.UnitProcessor):
         self.unit_model = WimhofUnit
 
 
+class Unit(unitproc.Unit):
+    def __init__(self):
+        super().__init__()
+        self.unit_retriever = UnitRetriever()
+
+
 class UnitRetriever(unitproc.UnitRetriever):
     def __init__(self):
         super().__init__()
@@ -34,7 +40,6 @@ class UnitRetriever(unitproc.UnitRetriever):
         for k, v in date2units.items():
             dix[k] = v[0].unit_emoji
         return dix
-
 
 
 class WimhofUnit(db.Unit):
