@@ -17,8 +17,8 @@ Skynet.-show-tree #tree-view {
 Binclock {
 	width: auto;
 	height: auto;
-    layout: grid;
-    grid-size: 6 4;
+	layout: grid;
+	grid-size: 6 4;
 	grid-gutter: 1 2;
 	grid-rows: 1;
 	grid-columns: 2;

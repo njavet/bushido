@@ -24,5 +24,3 @@ class Binclock(Static):
 
 
 
-class Title(Static):
-    pass

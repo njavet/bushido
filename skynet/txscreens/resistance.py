@@ -5,7 +5,6 @@ import datetime
 from rich.table import Table
 from rich.text import Text
 
-from units import resistance
 
 
 class ResistanceScreen(ModalScreen):
@@ -42,7 +41,6 @@ class ResistanceScreen(ModalScreen):
         benchpress = self.get_table(dix['benchpress'])
         rl = self.query_one('#benchpress', RichLog)
         rl.write(benchpress)
-
 
     def get_table(self, units):
         self.units['resistance'].unit_stats.compute_stats(units)

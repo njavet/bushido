@@ -3,6 +3,8 @@ from textual.screen import ModalScreen
 from textual.widgets import Pretty
 
 import config
+import pygame
+import vlc
 
 
 class HelpScreen(ModalScreen):
@@ -13,4 +15,3 @@ class HelpScreen(ModalScreen):
 
     def compose(self):
         yield Pretty(config.emojis)
-

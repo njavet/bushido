@@ -6,13 +6,12 @@ from textual.reactive import var
 from textual.containers import Vertical, Horizontal
 from rich.text import Text
 
+# project imports
 import config
 import secconf
-
 from unitproc import StringProcessor
-# project imports
 from utils import utilities
-from txscreens import helpscreen, unitlog, timetable, resistance
+import txscreens
 import txwidgets
 
 
@@ -23,6 +22,8 @@ class Skynet(App):
                 ('t', 'toggle_tree', 'Toggle Tree'),
                 ('g', 'unit_timeline', 'TimeLine'),
                 ('r', 'res', 'Res'),
+                ('w', 'wimhof', 'Wimhof'),
+                ('s', 'study', 'Study'),
                 ('l', 'log_unit', 'Log')]
 
     CSS_PATH = 'skynet.tcss'
@@ -38,7 +39,7 @@ class Skynet(App):
 
     def compose(self) -> ComposeResult:
         # yield Header()
-        yield txwidgets.Binclock()
+        yield txwidgets.binclock.Binclock()
         yield Rule()
         yield Tree('Units', id='tree-view')
         yield Placeholder()
@@ -54,19 +55,23 @@ class Skynet(App):
         self.show_tree = not self.show_tree
 
     def action_help(self):
-        self.app.push_screen(helpscreen.HelpScreen())
+        self.app.push_screen(txscreens.helpscreen.HelpScreen())
 
     def action_log_unit(self):
-        self.app.push_screen(unitlog.UnitLog(secconf.user_id,
-                                             self.string_processor))
+        self.app.push_screen(txscreens.unitlog.UnitLog(secconf.user_id,
+                                                       self.string_processor))
 
     def action_unit_timeline(self):
-        self.app.push_screen(timetable.TimeTable(secconf.user_id,
-                                                 self.units))
+        self.app.push_screen(txscreens.timetable.TimeTable(secconf.user_id,
+                                                           self.units))
 
     def action_res(self):
-        self.app.push_screen(resistance.ResistanceScreen(secconf.user_id,
-                                                         self.units))
+        self.app.push_screen(txscreens.resistance.ResistanceScreen(secconf.user_id,
+                                                                   self.units))
+
+    def action_wimhof(self):
+        self.app.push_screen(txscreens.wimhof.WimhofScreen(secconf.user_id,
+                                                           self.units))
 
     def build_tree(self) -> None:
         tree = self.query_one('#tree-view', Tree)
