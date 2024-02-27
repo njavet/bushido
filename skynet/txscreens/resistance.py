@@ -6,7 +6,6 @@ from rich.table import Table
 from rich.text import Text
 
 
-
 class ResistanceScreen(ModalScreen):
     BINDINGS = [('q', 'app.pop_screen', 'Back')]
 
