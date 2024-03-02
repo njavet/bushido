@@ -9,10 +9,10 @@ from rich.text import Text
 class ResistanceScreen(ModalScreen):
     BINDINGS = [('q', 'app.pop_screen', 'Back')]
 
-    def __init__(self, user_id, units):
+    def __init__(self, user_id, modules):
         super().__init__()
         self.user_id = user_id
-        self.units = units
+        self.modules = modules
 
     def compose(self):
         with Collapsible(title='Big Three'):
@@ -24,7 +24,7 @@ class ResistanceScreen(ModalScreen):
             yield RichLog(id='benchpress')
 
     def on_mount(self):
-        query = self.units['resistance'].unit_retriever.retrieve_units(self.user_id)
+        query = self.modules['resistance'].retrieve_units(self.user_id)
         dix = collections.defaultdict(list)
         for unit in query:
             dix[unit.unit_name].append(unit)
@@ -42,7 +42,11 @@ class ResistanceScreen(ModalScreen):
         rl.write(benchpress)
 
     def get_table(self, units):
-        self.units['resistance'].unit_stats.compute_stats(units)
+        # self.modules['resistance'].unit_stats.compute_stats(units)
+        h = self.modules['resistance'].get_heaviest(units)
+        r = self.modules['resistance'].get_most_reps(units)
+        orm = self.modules['resistance'].get_best_orm(units)
+        rs = self.modules['resistance'].get_best_rs(units)
 
         table = Table('Type', 'Date', 'Weight', 'Reps', '1RM', 'RS')
 
@@ -54,9 +58,9 @@ class ResistanceScreen(ModalScreen):
                           '{:.0f}'.format(unit.resistanceset.orm),
                           '{:.2f}'.format(unit.resistanceset.rel_strength))
 
-        add_row(self.units['resistance'].unit_stats.heaviest, 'Heaviest')
-        add_row(self.units['resistance'].unit_stats.most_reps, 'Most Reps')
-        add_row(self.units['resistance'].unit_stats.best_orm, 'Best 1RM')
-        add_row(self.units['resistance'].unit_stats.best_rs, 'Best RS')
+        add_row(h[0], 'Heaviest')
+        add_row(r[0], 'Most Reps')
+        add_row(orm[0], 'Best 1RM')
+        add_row(rs[0], 'Best RS')
 
         return table

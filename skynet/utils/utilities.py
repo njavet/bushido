@@ -1,8 +1,5 @@
-import importlib
 import datetime
 from rich.text import Text
-
-import db
 
 
 def add_tree_node(name, node, data):
@@ -48,23 +45,6 @@ def find_next_saturday(dt):
         return dt + datetime.timedelta(days=days)
     else:
         return dt + datetime.timedelta(days=6)
-
-
-def get_unit_modules(emojis):
-    modules = []
-    for emoji, compound_name in emojis.items():
-        module_name = compound_name.split('.')[0]
-        if module_name not in modules:
-            modules.append(module_name)
-    return modules
-
-
-def load_units(emojis):
-    units = {}
-    for module_name in get_unit_modules(emojis):
-        module = importlib.import_module('units.' + module_name)
-        units[module_name] = module.Unit()
-    return units
 
 
 def estimate_orm(weight, reps):

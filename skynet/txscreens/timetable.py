@@ -10,15 +10,15 @@ from utils import utilities
 class TimeTable(ModalScreen):
     BINDINGS = [('q', 'app.pop_screen', 'Back')]
 
-    def __init__(self, user_id, units):
+    def __init__(self, user_id, modules):
         super().__init__()
         self.user_id = user_id
-        self.units = units
+        self.modules = modules
 
     def collect_units(self):
         dix = {}
         for module_name in ['balance', 'wimhof', 'chrono', 'gym']:
-            dtu = self.units[module_name].unit_retriever.date2unit_str(self.user_id)
+            dtu = self.modules[module_name].date2unit_str(self.user_id)
             dix[module_name] = dtu
         return dix
 

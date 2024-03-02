@@ -1,30 +1,20 @@
 # general imports
-import collections
-
 import peewee as pw
-import datetime
-import re
 
 # project imports
 import config
-import unitproc
+import unit
 import db
 from utils import exceptions
 
 
-class UnitProcessor(unitproc.UnitProcessor):
-    def __init__(self):
-        super().__init__()
+class UnitProcessor(unit.UnitProcessor):
+    def __init__(self, unit_emoji, unit_name):
+        super().__init__(unit_emoji, unit_name)
         self.unit_model = CardioUnit
 
 
-class Unit(unitproc.Unit):
-    def __init__(self):
-        super().__init__()
-        self.unit_retriever = UnitRetriever()
-
-
-class UnitRetriever(unitproc.UnitRetriever):
+class UnitStats(unit.UnitStats):
     def __init__(self):
         super().__init__()
         self.unit_model = CardioUnit

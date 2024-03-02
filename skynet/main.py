@@ -9,7 +9,7 @@ from rich.text import Text
 # project imports
 import config
 import secconf
-from unitproc import StringProcessor
+import unit_manager
 from utils import utilities
 import txscreens
 import txwidgets
@@ -20,7 +20,7 @@ class Skynet(App):
     BINDINGS = [('q', 'quit', 'Quit'),
                 ('h', 'help', 'Help'),
                 ('t', 'toggle_tree', 'Toggle Tree'),
-                ('g', 'unit_timeline', 'TimeLine'),
+                ('g', 'timetable', 'TimeTable'),
                 ('r', 'res', 'Res'),
                 ('w', 'wimhof', 'Wimhof'),
                 ('s', 'study', 'Study'),
@@ -34,8 +34,7 @@ class Skynet(App):
 
     def __init__(self):
         super().__init__()
-        self.string_processor = StringProcessor(config.emojis)
-        self.units = utilities.load_units(config.emojis)
+        self.um = unit_manager.UnitManager()
 
     def compose(self) -> ComposeResult:
         # yield Header()
@@ -59,26 +58,26 @@ class Skynet(App):
 
     def action_log_unit(self):
         self.app.push_screen(txscreens.unitlog.UnitLog(secconf.user_id,
-                                                       self.string_processor))
+                                                       self.um))
 
-    def action_unit_timeline(self):
+    def action_timetable(self):
         self.app.push_screen(txscreens.timetable.TimeTable(secconf.user_id,
-                                                           self.units))
+                                                           self.um.modname2ret))
 
     def action_res(self):
         self.app.push_screen(txscreens.resistance.ResistanceScreen(secconf.user_id,
-                                                                   self.units))
+                                                                   self.um.modname2ret))
 
     def action_wimhof(self):
         self.app.push_screen(txscreens.wimhof.WimhofScreen(secconf.user_id,
-                                                           self.units))
+                                                           self.um.modname2ret['wimhof']))
 
     def build_tree(self) -> None:
         tree = self.query_one('#tree-view', Tree)
         tree.root.expand()
 
-        for module_name, unit in self.units.items():
-            dix = unit.unit_retriever.datetime2unit(secconf.user_id)
+        for module_name, ur in self.um.modname2ret.items():
+            dix = ur.datetime2unit(secconf.user_id)
             utilities.add_tree_node(module_name, tree.root.add(''), dix)
 
 

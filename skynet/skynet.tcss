@@ -33,3 +33,13 @@ Binclock {
 .box-light {
     background: $accent-lighten-2;
 }
+
+
+.started {
+
+
+}
+
+.paused {
+
+}

@@ -1,28 +1,22 @@
 # general imports
 import peewee as pw
 import collections
+import operator
 
 # project imports
 import config
 import db
 from utils import exceptions, utilities
-import unitproc
+import unit
 
 
-class UnitProcessor(unitproc.UnitProcessor):
-    def __init__(self):
-        super().__init__()
+class UnitProcessor(unit.UnitProcessor):
+    def __init__(self, unit_emoji, unit_name):
+        super().__init__(unit_emoji, unit_name)
         self.unit_model = ResistanceUnit
 
 
-class Unit(unitproc.Unit):
-    def __init__(self):
-        super().__init__()
-        self.unit_retriever = UnitRetriever()
-        self.unit_stats = UnitStats()
-
-
-class UnitRetriever(unitproc.UnitRetriever):
+class UnitStats(unit.UnitStats):
     def __init__(self):
         super().__init__()
         self.unit_model = ResistanceUnit
@@ -31,10 +25,10 @@ class UnitRetriever(unitproc.UnitRetriever):
     def datetime2unit(self, user_id):
         query = self.retrieve_units(user_id)
         dix = collections.defaultdict(dict)
-        for unit in query:
-            dix[unit.unit_name] = collections.defaultdict(list)
-        for unit in query:
-            dix[unit.unit_name][unit.log_time].append(unit.resistanceset)
+        for u in query:
+            dix[u.unit_name] = collections.defaultdict(list)
+        for u in query:
+            dix[u.unit_name][u.log_time].append(u.resistanceset)
         return dix
 
     def date2unit_str(self, user_id):
@@ -44,14 +38,28 @@ class UnitRetriever(unitproc.UnitRetriever):
             dix[k] = ' '.join([str(u.unit_emoji) for u in v])
         return dix
 
+    def get_heaviest(self, units):
 
-class UnitStats(unitproc.UnitStats):
-    def __init__(self):
-        super().__init__()
-        self.heaviest = None
-        self.most_reps = None
-        self.best_orm = None
-        self.best_rs = None
+        return sorted(units, key=lambda u: (u.resistanceset.weight,
+                                                     u.resistanceset.reps),
+                               reverse=True)
+
+    def get_most_reps(self, units):
+        return sorted(units, key=lambda u: (u.resistanceset.reps,
+                                                      u.resistanceset.weight),
+                                reverse=True)
+
+    def get_best_orm(self, units):
+        return sorted(units, key=lambda u: (u.resistanceset.orm,
+                                                     -u.resistanceset.reps,
+                                                     u.resistanceset.weight),
+                               reverse=True)
+
+    def get_best_rs(self, units):
+        return sorted(units, key=lambda u: (u.resistanceset.rel_strength,
+                                                    u.resistanceset.weight,
+                                                    u.resistanceset.reps),
+                              reverse=True)
 
     def compute_stats(self, units):
         self.heaviest = units[0]
@@ -79,9 +87,12 @@ class ResistanceUnit(db.Unit):
     unit_name = pw.CharField()
 
     def parse(self, words):
-        weights = [float(w) for w in words[::3]]
-        reps = [float(r) for r in words[1::3]]
-        pauses = [float(p) for p in words[2::3]] + [0]
+        try:
+            weights = [float(w) for w in words[::3]]
+            reps = [float(r) for r in words[1::3]]
+            pauses = [float(p) for p in words[2::3]] + [0]
+        except ValueError:
+            raise exceptions.UnitProcessingError('invalid input')
 
         if len(reps) != len(weights):
             raise exceptions.UnitProcessingError('Not the same number of reps and weights')

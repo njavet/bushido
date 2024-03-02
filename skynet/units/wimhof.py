@@ -5,23 +5,17 @@ import peewee as pw
 # project imports
 import db
 import config
-import unitproc
+import unit
 from utils import exceptions
 
 
-class UnitProcessor(unitproc.UnitProcessor):
-    def __init__(self):
-        super().__init__()
+class UnitProcessor(unit.UnitProcessor):
+    def __init__(self, unit_emoji, unit_name):
+        super().__init__(unit_emoji, unit_name)
         self.unit_model = WimhofUnit
 
 
-class Unit(unitproc.Unit):
-    def __init__(self):
-        super().__init__()
-        self.unit_retriever = UnitRetriever()
-
-
-class UnitRetriever(unitproc.UnitRetriever):
+class UnitStats(unit.UnitStats):
     def __init__(self):
         super().__init__()
         self.unit_model = WimhofUnit
@@ -45,8 +39,11 @@ class UnitRetriever(unitproc.UnitRetriever):
 class WimhofUnit(db.Unit):
 
     def parse(self, words):
-        breaths = [int(b) for b in words[::2]]
-        retentions = [int(r) for r in words[1::2]]
+        try:
+            breaths = [int(b) for b in words[::2]]
+            retentions = [int(r) for r in words[1::2]]
+        except ValueError:
+            raise exceptions.UnitProcessingError('value error')
         if len(breaths) != len(retentions):
             raise exceptions.UnitProcessingError('Not the same number of breaths and seconds')
         if len(breaths) < 1:

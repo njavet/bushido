@@ -12,22 +12,22 @@ class UnitLog(ModalScreen):
 
     BINDINGS = [('q', 'app.pop_screen', 'Back')]
 
-    def __init__(self, user_id, string_processor):
+    def __init__(self, user_id, um):
         super().__init__()
         self.user_id = user_id
-        self.string_processor = string_processor
+        self.um = um
 
     def compose(self) -> ComposeResult:
         yield Grid(
             Label('Unit Log'),
             TextInput(validators=[Function(self.is_valid_key, 'Not a valid key')],
-                      suggester=UnitSuggester(self.string_processor.emojis)),
+                      suggester=UnitSuggester(self.um.emoji2proc.keys())),
             RichLog(id='response'),
             id='unit_log')
 
     def is_valid_key(self, value: str) -> bool:
         try:
-            return value.split()[0] in [e for e in self.string_processor.emojis.keys()]
+            return value.split()[0] in [e for e in self.um.emoji2proc.keys()]
         except IndexError:
             return False
 
@@ -38,8 +38,8 @@ class UnitLog(ModalScreen):
             rl.write('\n'.join(event.validation_result.failure_descriptions))
         else:
             rl.clear()
-            res = self.string_processor.process_string(event.value,
-                                                       user_id=self.user_id)
+            res = self.um.process_string(event.value,
+                                         user_id=self.user_id)
 
             if res.success:
                 rl.write('Unit confirmed!')

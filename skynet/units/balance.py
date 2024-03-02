@@ -1,18 +1,17 @@
 # general imports
 import collections
-
 import peewee as pw
 
 # project imports
 import config
 import db
-import unitproc
+import unit
 from utils import exceptions
 
 
-class UnitProcessor(unitproc.UnitProcessor):
-    def __init__(self):
-        super().__init__()
+class UnitProcessor(unit.UnitProcessor):
+    def __init__(self, unit_emoji, unit_name=None):
+        super().__init__(unit_emoji, unit_name)
         self.unit_model = BalanceUnit
 
     def post_saving(self, user_id):
@@ -21,20 +20,14 @@ class UnitProcessor(unitproc.UnitProcessor):
         user.save()
 
 
-class Unit(unitproc.Unit):
-    def __init__(self):
-        super().__init__()
-        self.unit_retriever = UnitRetriever()
-
-
-class UnitRetriever(unitproc.UnitRetriever):
+class UnitStats(unit.UnitStats):
     def __init__(self):
         super().__init__()
         self.unit_model = BalanceUnit
 
     def datetime2unit(self, user_id):
         query = self.retrieve_units(user_id)
-        return {unit.log_time: unit for unit in query}
+        return {u.log_time: u for u in query}
 
     def date2unit_str(self, user_id):
         date2units = self.date2units(user_id)
