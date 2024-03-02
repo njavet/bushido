@@ -21,6 +21,10 @@ class UnitStats(unit.UnitStats):
         super().__init__()
         self.unit_model = ResistanceUnit
         self.subunit_model = ResistanceSet
+        self.heaviest = None
+        self.most_reps = None
+        self.best_orm = None
+        self.best_rs = None
 
     def datetime2unit(self, user_id):
         query = self.retrieve_units(user_id)
@@ -38,49 +42,34 @@ class UnitStats(unit.UnitStats):
             dix[k] = ' '.join([str(u.unit_emoji) for u in v])
         return dix
 
-    def get_heaviest(self, units):
-
-        return sorted(units, key=lambda u: (u.resistanceset.weight,
-                                                     u.resistanceset.reps),
+    def compute_stats(self, units):
+        self.heaviest = sorted(units,
+                               key=lambda u: (u.resistanceset.weight,
+                                              u.resistanceset.reps,
+                                              u.resistanceset.orm,
+                                              u.resistanceset.rel_strength),
                                reverse=True)
 
-    def get_most_reps(self, units):
-        return sorted(units, key=lambda u: (u.resistanceset.reps,
-                                                      u.resistanceset.weight),
+        self.most_reps = sorted(units,
+                                key=lambda u: (u.resistanceset.reps,
+                                               u.resistanceset.weight,
+                                               u.resistanceset.orm,
+                                               u.resistanceset.rel_strength),
                                 reverse=True)
 
-    def get_best_orm(self, units):
-        return sorted(units, key=lambda u: (u.resistanceset.orm,
-                                                     -u.resistanceset.reps,
-                                                     u.resistanceset.weight),
+        self.best_orm = sorted(units,
+                               key=lambda u: (u.resistanceset.orm,
+                                              -u.resistanceset.reps,
+                                              u.resistanceset.weight,
+                                              u.resistanceset.rel_strength),
                                reverse=True)
 
-    def get_best_rs(self, units):
-        return sorted(units, key=lambda u: (u.resistanceset.rel_strength,
-                                                    u.resistanceset.weight,
-                                                    u.resistanceset.reps),
+        self.best_rs = sorted(units,
+                              key=lambda u: (u.resistanceset.rel_strength,
+                                             u.resistanceset.weight,
+                                             u.resistanceset.reps,
+                                             u.resistanceset.orm),
                               reverse=True)
-
-    def compute_stats(self, units):
-        self.heaviest = units[0]
-        self.most_reps = units[0]
-        self.best_orm = units[0]
-        self.best_rs = units[0]
-        for unit in units:
-            if unit.resistanceset.weight > self.heaviest.resistanceset.weight:
-                self.heaviest = unit
-            if unit.resistanceset.weight == self.heaviest.resistanceset.weight:
-                if unit.resistanceset.reps > self.heaviest.resistanceset.reps:
-                    self.heaviest = unit
-            if unit.resistanceset.reps > self.most_reps.resistanceset.reps:
-                self.most_reps = unit
-            if unit.resistanceset.reps == self.most_reps.resistanceset.reps:
-                if unit.resistanceset.weight > self.most_reps.resistanceset.weight:
-                    self.most_reps = unit
-            if unit.resistanceset.orm > self.best_orm.resistanceset.orm:
-                self.best_orm = unit
-            if unit.resistanceset.rel_strength > self.best_rs.resistanceset.rel_strength:
-                self.best_rs = unit
 
 
 class ResistanceUnit(db.Unit):

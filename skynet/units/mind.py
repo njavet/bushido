@@ -9,14 +9,13 @@ import config
 import db
 
 
-
 class UnitProcessor(unit.UnitProcessor):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, unit_emoji, unit_name):
+        super().__init__(unit_emoji, unit_name)
         self.unit_model = MindUnit
 
 
-class UnitRetriever(unit.UnitRetriever):
+class UnitStats(unit.UnitStats):
     def __init__(self):
         super().__init__()
         self.unit_model = MindUnit

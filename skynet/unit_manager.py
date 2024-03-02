@@ -9,7 +9,7 @@ import config
 class UnitManager:
     def __init__(self):
         self.emoji2proc = {}
-        self.modname2ret = {}
+        self.modname2stats = {}
         self.load_modules()
 
     def load_modules(self):
@@ -21,8 +21,8 @@ class UnitManager:
 
             module = importlib.import_module('units.' + module_name)
             self.emoji2proc[emoji] = module.UnitProcessor(emoji, unit_name)
-            if module_name not in self.modname2ret.keys():
-                self.modname2ret[module_name] = module.UnitStats()
+            if module_name not in self.modname2stats.keys():
+                self.modname2stats[module_name] = module.UnitStats()
 
     def process_string(self, input_string, user_id, recv_time=None):
         # input_string = <emoji> <payload> // <comment>

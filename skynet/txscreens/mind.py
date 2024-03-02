@@ -12,6 +12,8 @@ from textual.timer import Timer
 
 # project imports 
 import db
+import secconf
+from units import mind
 
 
 class Mind(Screen):
@@ -28,8 +30,6 @@ class Mind(Screen):
             pass
 
 
-
-
 class Lecture(Container):
 
     tt = reactive(0)
@@ -37,8 +37,8 @@ class Lecture(Container):
 
     def __init__(self, lecture):
         super().__init__()
-        self.lecture = config.lectures[lecture]
-        self.unit = StudyUnit(user=101, name=self.lecture[0])
+        self.lecture = lecture
+        self.unit = mind.MindUnit(user_id=secconf.user_id, unit_name=lecture)
 
     def on_mount(self):
         today = datetime.datetime.today()

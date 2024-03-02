@@ -1,5 +1,6 @@
 from textual.screen import ModalScreen
-from textual.widgets import Collapsible, Label, RichLog
+from textual.containers import Horizontal
+from textual.widgets import Collapsible, Label, RichLog, ProgressBar
 import collections
 import datetime
 from rich.table import Table
@@ -9,22 +10,24 @@ from rich.text import Text
 class ResistanceScreen(ModalScreen):
     BINDINGS = [('q', 'app.pop_screen', 'Back')]
 
-    def __init__(self, user_id, modules):
+    def __init__(self, user_id, modname2stats):
         super().__init__()
         self.user_id = user_id
-        self.modules = modules
+        self.modname2stats = modname2stats
 
     def compose(self):
-        with Collapsible(title='Big Three'):
-            yield Label(Text('Squat', style='bold cyan'))
-            yield RichLog(id='squat')
-            yield Label(Text('Deadlift', style='bold cyan'))
+        with Collapsible(title='Squat'):
+            with Horizontal():
+                yield RichLog(id='squat')
+                yield ProgressBar(total=1.75, show_eta=False)
+        with Collapsible(title='Deadlift'):
             yield RichLog(id='deadlift')
-            yield Label(Text('Benchpress', style='bold cyan'))
+        with Collapsible(title='Benchpress'):
             yield RichLog(id='benchpress')
 
     def on_mount(self):
-        query = self.modules['resistance'].retrieve_units(self.user_id)
+        query = self.modname2stats['resistance'].retrieve_units(self.user_id)
+
         dix = collections.defaultdict(list)
         for unit in query:
             dix[unit.unit_name].append(unit)
@@ -42,25 +45,26 @@ class ResistanceScreen(ModalScreen):
         rl.write(benchpress)
 
     def get_table(self, units):
-        # self.modules['resistance'].unit_stats.compute_stats(units)
-        h = self.modules['resistance'].get_heaviest(units)
-        r = self.modules['resistance'].get_most_reps(units)
-        orm = self.modules['resistance'].get_best_orm(units)
-        rs = self.modules['resistance'].get_best_rs(units)
+        self.modname2stats['resistance'].compute_stats(units)
+        table = Table('Date', 'Weight', 'Reps', '1RM', 'RS')
 
-        table = Table('Type', 'Date', 'Weight', 'Reps', '1RM', 'RS')
-
-        def add_row(unit, rectype):
-            table.add_row(rectype,
-                          datetime.datetime.strftime(unit.log_time, '%d.%m.%y'),
+        def add_row(unit):
+            table.add_row(datetime.datetime.strftime(unit.log_time, '%d.%m.%y'),
                           Text(str(unit.resistanceset.weight)),
                           Text(str(unit.resistanceset.reps)),
                           '{:.0f}'.format(unit.resistanceset.orm),
                           '{:.2f}'.format(unit.resistanceset.rel_strength))
 
-        add_row(h[0], 'Heaviest')
-        add_row(r[0], 'Most Reps')
-        add_row(orm[0], 'Best 1RM')
-        add_row(rs[0], 'Best RS')
+        for s in self.modname2stats['resistance'].heaviest[0:4]:
+            add_row(s)
+        table.add_section()
+        for s in self.modname2stats['resistance'].most_reps[0:4]:
+            add_row(s)
+        table.add_section()
+        for s in self.modname2stats['resistance'].best_orm[0:4]:
+            add_row(s)
+        table.add_section()
+        for s in self.modname2stats['resistance'].best_rs[0:4]:
+            add_row(s)
 
         return table
