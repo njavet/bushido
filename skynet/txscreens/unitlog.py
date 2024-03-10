@@ -21,7 +21,7 @@ class UnitLog(ModalScreen):
         yield Grid(
             Label('Unit Log'),
             TextInput(validators=[Function(self.is_valid_key, 'Not a valid key')],
-                      suggester=UnitSuggester(self.um.emoji2proc.keys())),
+                      suggester=UnitSuggester(self.um.emoji2proc)),
             RichLog(id='response'),
             id='unit_log')
 
@@ -72,12 +72,8 @@ class UnitSuggester(Suggester):
 
     async def get_suggestion(self, value: str) -> str | None:
         dix = {}
-        for e, n in self.emojis.items():
-            lst = n.split('.')
-            if len(lst) == 2:
-                dix[e] = lst[1]
-            else:
-                dix[e] = lst[0]
+        for e, eproc in self.emojis.items():
+            dix[e] = eproc.unit_name
 
         es = [e for e, n in dix.items() if n.startswith(value)]
         if len(es) == 1:

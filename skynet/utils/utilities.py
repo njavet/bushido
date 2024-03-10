@@ -108,8 +108,6 @@ def estimate_orm(weight, reps):
         return weight / 0.52
     elif int(reps) == 29:
         return weight / 0.51
-    elif int(reps) == 30:
-        return weight / 0.50
     else:
-        return weight
+        return weight / 0.50
 

@@ -14,15 +14,15 @@ class UnitManager:
 
     def load_modules(self):
         for emoji, compound_name in config.emojis.items():
-            try:
-                module_name, unit_name = compound_name.split('.')
-            except ValueError:
-                module_name, unit_name = compound_name, None
-
+            module_name, unit_name = compound_name.split('.')
             module = importlib.import_module('units.' + module_name)
-            self.emoji2proc[emoji] = module.UnitProcessor(emoji, unit_name)
+            self.emoji2proc[emoji] = module.UnitProcessor(module_name,
+                                                          unit_name,
+                                                          emoji)
             if module_name not in self.modname2stats.keys():
-                self.modname2stats[module_name] = module.UnitStats()
+                self.modname2stats[module_name] = module.ModuleStats([unit_name])
+            else:
+                self.modname2stats[module_name].unit_names.append(unit_name)
 
     def process_string(self, input_string, user_id, recv_time=None):
         # input_string = <emoji> <payload> // <comment>

@@ -1,6 +1,6 @@
 
 from . import (helpscreen,
-               resistance,
+               lifting,
                timetable,
                unitlog,
                wimhof)

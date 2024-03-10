@@ -2,69 +2,77 @@
 import collections
 import abc
 
+# project imports
+import db
+
 
 class UnitProcessor(abc.ABC):
-    def __init__(self, unit_emoji, unit_name=None):
-        self.unit_emoji = unit_emoji
+    def __init__(self, module_name, unit_name, emoji):
+        self.module_name = module_name
         self.unit_name = unit_name
+        self.unit_emoji = emoji
         self.unit = None
-        self.unit_model = None
-        self.subunit_model = None
+        self.subunit = None
 
     def process_unit(self,
                      user_id: int,
                      words: list,
                      comment=None,
                      recv_time=None):
+        # init unit
         self.init_unit(user_id, comment)
         self.unit.set_time(recv_time)
-        self.parse_and_save(words)
+
+        # possible preparation
+        self.pre_saving(user_id)
+
+        # save unit and handle subunit
+        self.unit.save()
+        self.subunit_handler(words)
+
+        # possible follow-ups
         self.post_saving(user_id)
 
     def init_unit(self, user_id, comment=None):
-        self.unit = self.unit_model(user=user_id,
-                                    unit_emoji=self.unit_emoji,
-                                    comment=comment)
-        if self.unit_name:
-            self.unit.unit_name = self.unit_name
+        self.unit = db.Unit(user_id=user_id,
+                            module_name=self.module_name,
+                            unit_name=self.unit_name,
+                            unit_emoji=self.unit_emoji,
+                            comment=comment)
 
-    def parse_and_save(self, words):
-        self.unit.parse(words)
-        self.unit.save()
+    @classmethod
+    def parse_words(cls, words) -> dict:
+        raise NotImplementedError
+
+    def subunit_handler(self, words):
+        raise NotImplementedError
+
+    def pre_saving(self, user_id):
+        pass
 
     def post_saving(self, user_id):
         pass
 
 
-class UnitStats(abc.ABC):
-    def __init__(self):
-        self.unit_model = None
+class ModuleStats(abc.ABC):
+    def __init__(self, unit_names):
+        self.unit_names = unit_names
         self.subunit_model = None
 
     def retrieve_units(self, user_id):
-        if self.subunit_model:
-            query = (self.unit_model
-                     .select(self.unit_model, self.subunit_model)
-                     .where(self.unit_model.user == user_id)
-                     .join(self.subunit_model)
-                     .order_by(self.unit_model.log_time.desc()))
-        else:
-            query = (self.unit_model
-                     .select()
-                     .where(self.unit_model.user == user_id)
-                     .order_by(self.unit_model.log_time.desc()))
+        query = (db.Unit
+                 .select(db.Unit, self.subunit_model)
+                 .where(db.Unit.user_id == user_id)
+                 .join(self.subunit_model))
 
         return query
 
     def datetime2unit(self, user_id):
         # TODO rename method
         query = self.retrieve_units(user_id)
-        if self.subunit_model:
-            dt2unit = collections.defaultdict(list)
-            for unit in query:
-                dt2unit[unit.log_time].append(unit)
-        else:
-            dt2unit = {unit.log_time: unit for unit in query}
+        dt2unit = collections.defaultdict(list)
+        for unit in query:
+            dt2unit[unit.log_time].append(unit)
         return dt2unit
 
     def date2units(self, user_id):
@@ -75,4 +83,7 @@ class UnitStats(abc.ABC):
         return date2units
 
     def date2unit_str(self, user_id):
+        raise NotImplementedError
+
+    def unit_name2unit_list(self, user_id):
         raise NotImplementedError

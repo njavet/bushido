@@ -10,15 +10,21 @@ import db
 
 
 class UnitProcessor(unit.UnitProcessor):
-    def __init__(self, unit_emoji, unit_name):
-        super().__init__(unit_emoji, unit_name)
-        self.unit_model = GymUnit
+    def __init__(self, module_name, unit_name, emoji):
+        super().__init__(module_name, unit_name, emoji)
+
+    def subunit_handler(self, words):
+        pass
+
+    @classmethod
+    def parse(cls, words):
+        pass
 
 
-class UnitStats(unit.UnitStats):
-    def __init__(self):
-        super().__init__()
-        self.unit_model = GymUnit
+class ModuleStats(unit.ModuleStats):
+    def __init__(self, unit_names):
+        super().__init__(unit_names)
+        self.subunit_model = Gym
 
     def datetime2unit(self, user_id):
         query = self.retrieve_units(user_id)
@@ -35,7 +41,7 @@ class UnitStats(unit.UnitStats):
         return dix
 
 
-class GymUnit(db.ChronoUnit):
+class Gym(db.SubUnit):
     def parse(self, words):
         try:
             self.parse_and_set_start_end_time(words[0])
@@ -53,5 +59,5 @@ class GymUnit(db.ChronoUnit):
 
 database = pw.SqliteDatabase(config.db_name)
 database.connect()
-database.create_tables([GymUnit], safe=True)
+database.create_tables([Gym], safe=True)
 database.close()

@@ -10,22 +10,42 @@ from utils import exceptions
 
 
 class UnitProcessor(unit.UnitProcessor):
-    def __init__(self, unit_emoji, unit_name):
-        super().__init__(unit_emoji, unit_name)
-        self.unit_model = WimhofUnit
+    def __init__(self, module_name, unit_name, emoji):
+        super().__init__(module_name, unit_name, emoji)
+
+    def subunit_handler(self, words):
+        attributes = self.parse_words(words)
+        for round_nr, attrs in attributes.items():
+            Wimhof.create(unit_id=self.unit.id, round_nr=round_nr, **attrs)
+
+    @classmethod
+    def parse_words(cls, words):
+        try:
+            breaths = [int(b) for b in words[::2]]
+            retentions = [int(r) for r in words[1::2]]
+        except ValueError:
+            raise exceptions.UnitProcessingError('value error')
+        if len(breaths) != len(retentions):
+            raise exceptions.UnitProcessingError('Not the same number of breaths and seconds')
+        if len(breaths) < 1:
+            raise exceptions.UnitProcessingError('At least one round necessary')
+
+        attributes = {}
+        for round_nr, (b, r) in enumerate(zip(breaths, retentions)):
+            attributes[round_nr] = {'breaths': b, 'retention': r}
+        return attributes
 
 
-class UnitStats(unit.UnitStats):
-    def __init__(self):
-        super().__init__()
-        self.unit_model = WimhofUnit
-        self.subunit_model = WimhofRound
+class ModuleStats(unit.ModuleStats):
+    def __init__(self, unit_names):
+        super().__init__(unit_names)
+        self.subunit_model = Wimhof
 
     def datetime2unit(self, user_id):
         query = self.retrieve_units(user_id)
         dt2units = collections.defaultdict(list)
         for unit in query:
-            dt2units[unit.log_time].append(unit.wimhofround)
+            dt2units[unit.log_time].append(unit.wimhof)
         return dt2units
 
     def date2unit_str(self, user_id):
@@ -36,39 +56,13 @@ class UnitStats(unit.UnitStats):
         return dix
 
 
-class WimhofUnit(db.Unit):
-
-    def parse(self, words):
-        try:
-            breaths = [int(b) for b in words[::2]]
-            retentions = [int(r) for r in words[1::2]]
-        except ValueError:
-            raise exceptions.UnitProcessingError('value error')
-        if len(breaths) != len(retentions):
-            raise exceptions.UnitProcessingError('Not the same number of breaths and seconds')
-        if len(breaths) < 1:
-            raise exceptions.UnitProcessingError('At least one round necessary')
-        self.save()
-
-        for i, (b, r) in enumerate(zip(breaths, retentions)):
-            r = WimhofRound(unit=self.id,
-                            round_nr=i,
-                            breaths=b,
-                            retention=r)
-            r.save()
-
-
-class WimhofRound(db.SubUnit):
+class Wimhof(db.SubUnit):
     round_nr = pw.IntegerField()
     breaths = pw.IntegerField()
     retention = pw.IntegerField()
-    unit = pw.ForeignKeyField(WimhofUnit, backref='')
-
-    def __str__(self):
-        return 'Breaths: {}, Retention: {}'.format(self.breaths, self.retention)
 
 
 database = pw.SqliteDatabase(config.db_name)
 database.connect()
-database.create_tables([WimhofUnit, WimhofRound], safe=True)
+database.create_tables([Wimhof], safe=True)
 database.close()

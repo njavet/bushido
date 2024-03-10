@@ -65,8 +65,8 @@ class Skynet(App):
                                                            self.um.modname2stats))
 
     def action_res(self):
-        self.app.push_screen(txscreens.resistance.ResistanceScreen(secconf.user_id,
-                                                                   self.um.modname2stats))
+        self.app.push_screen(txscreens.lifting.LiftingScreen(secconf.user_id,
+                                                             self.um.modname2stats))
 
     def action_wimhof(self):
         self.app.push_screen(txscreens.wimhof.WimhofScreen(secconf.user_id,
@@ -76,8 +76,8 @@ class Skynet(App):
         tree = self.query_one('#tree-view', Tree)
         tree.root.expand()
 
-        for module_name, ur in self.um.modname2stats.items():
-            dix = ur.datetime2unit(secconf.user_id)
+        for module_name, stats in self.um.modname2stats.items():
+            dix = stats.datetime2unit(secconf.user_id)
             utilities.add_tree_node(module_name, tree.root.add(''), dix)
 
 
