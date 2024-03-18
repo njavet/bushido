@@ -1,10 +1,19 @@
 # general import*s
+import collections
 import datetime
+import peewee as pw
 from rich.table import Table
 from textual.screen import ModalScreen
 from textual.widgets import *
 import config
 from utils import utilities
+
+from db import Unit
+from units.balance import Balance
+from units.wimhof import Wimhof
+from units.chrono import Chrono
+from units.gym import Gym
+from units.lifting import Lifting
 
 
 class TimeTable(ModalScreen):
@@ -16,6 +25,44 @@ class TimeTable(ModalScreen):
         self.modules = modules
 
     def collect_units(self):
+        sq0 = (Unit
+               .select(Unit.log_date, Unit.unit_emoji, Balance.weight)
+               .join(Balance)
+               .group_by(Unit.log_date)
+               .alias('balance_units')
+               )
+
+        sq1 = (Unit
+               .select(Unit.log_date, Unit.unit_emoji)
+               .join(Wimhof)
+               .group_by(Unit.log_date)
+               .alias('wimhof_units')
+               )
+
+        sq2 = (Unit
+               .select(Unit.log_date, Unit.unit_emoji)
+               .join(Chrono)
+               .group_by(Unit.log_date)
+               .alias('chrono_units')
+               )
+
+        q0 = (Unit
+              .select(Unit,
+                      sq0.c.weight.alias('bw'),
+                      sq0.c.unit_emoji.alias('bu_emoji'),
+                      sq1.c.unit_emoji.alias('wu_emoji'),
+                      sq2.c.unit_emoji.alias('cu_emoij'))
+              .join(Gym, pw.JOIN.LEFT_OUTER)
+              .switch(Unit)
+              .join(sq0, pw.JOIN.LEFT_OUTER, on=(Unit.log_date == sq0.c.log_date))
+              .switch(Unit)
+              .join(sq1, pw.JOIN.LEFT_OUTER, on=(Unit.log_date == sq1.c.log_date))
+              .switch(Unit)
+              .join(sq2, pw.JOIN.LEFT_OUTER, on=(Unit.log_date == sq2.c.log_date))
+              .order_by(Unit.log_time.desc())
+              )
+
+        return q0
         dix = {}
         for module_name in ['balance', 'wimhof', 'chrono', 'gym']:
             dtu = self.modules[module_name].date2unit_str(self.user_id)
@@ -43,6 +90,10 @@ class TimeTable(ModalScreen):
 
 
 def construct_table(year, dix):
+    dd = collections.defaultdict(list)
+    for q in dix:
+        dd[q.log_date].append(q)
+
     table = Table(title='Unit Timeline')
     table.add_column('Day')
     table.add_column('Date')
@@ -67,11 +118,18 @@ def construct_table(year, dix):
         dt = datetime.datetime.strftime(last, '%d.%m.%y')
         table.add_row(str(days),
                       dt,
+                      str(dd[last]))
+
+        """
+        table.add_row(str(days),
+                      dt,
                       dix['balance'][last],
                       dix['wimhof'][last],
                       dix['chrono'][last],
                       dix['gym'][last])
+                      """
         if days % 7 == 0:
+
             table.add_section()
         last -= datetime.timedelta(days=1)
         days -= 1

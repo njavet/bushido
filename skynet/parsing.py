@@ -3,8 +3,8 @@ import datetime
 import re
 
 # project imports
-import skynet.config
-from skynet.utils import exceptions
+import config
+from utils import exceptions
 
 
 def parse_time_string(time_string: str) -> float:

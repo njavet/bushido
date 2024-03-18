@@ -63,7 +63,8 @@ class ModuleStats(abc.ABC):
         query = (db.Unit
                  .select(db.Unit, self.subunit_model)
                  .where(db.Unit.user_id == user_id)
-                 .join(self.subunit_model))
+                 .join(self.subunit_model)
+                 .order_by(db.Unit.log_time.desc()))
 
         return query
 

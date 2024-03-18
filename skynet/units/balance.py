@@ -42,11 +42,6 @@ class UnitProcessor(unit.UnitProcessor):
 
         return attributes
 
-    def post_saving(self, user_id):
-        user = db.User.select().where(db.User.user_id == user_id).get()
-        user.weight = self.subunit.weight
-        user.save()
-
 
 class ModuleStats(unit.ModuleStats):
     def __init__(self, unit_names):

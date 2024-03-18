@@ -33,8 +33,20 @@ class LiftingScreen(ModalScreen):
         dix = self.modname2stats['lifting'].unit_name2unit_list(self.user_id)
 
         table = self.query_one('#squat', DataTable)
+        table.zebra_stripes = True
         table.add_columns(*dix['squat'][0])
-        table.add_rows(dix['squat'][1:])
+        same = {}
+        cc = 0
+        for row in dix['squat'][1:]:
+            if (row[0], row[1]) not in same:
+                label = Text(str(cc))
+                cc += 1
+            else:
+                label = ''
+                same[row[0], row[1]] = 0
+            table.add_row(*row, label=label)
+
+        #table.add_rows(dix['squat'][1:])
 
         table = self.query_one('#deadlift', DataTable)
         table.add_columns(*dix['deadlift'][0])

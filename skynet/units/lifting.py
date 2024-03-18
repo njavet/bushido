@@ -10,6 +10,7 @@ import config
 import db
 from utils import exceptions, utilities
 import unit
+from units.balance import Balance
 
 
 class UnitProcessor(unit.UnitProcessor):
@@ -17,21 +18,13 @@ class UnitProcessor(unit.UnitProcessor):
         super().__init__(module_name, unit_name, emoji)
 
     def subunit_handler(self, words):
-        user = db.User.select().where(db.User.user_id == self.unit.user_id).get()
         attributes = self.parse_words(words)
         for set_nr, attrs in attributes.items():
-            orm = utilities.estimate_orm(attrs['weight'], attrs['reps'])
-            try:
-                rel_strength = orm / user.weight
-            except TypeError:
-                rel_strength = None
             Lifting.create(unit_id=self.unit.id,
                            set_nr=set_nr,
                            weight=attrs['weight'],
                            reps=attrs['reps'],
-                           pause=attrs['pause'],
-                           orm=orm,
-                           rel_strength=rel_strength)
+                           pause=attrs['pause'])
 
     @classmethod
     def parse_words(cls, words):
@@ -77,51 +70,48 @@ class ModuleStats(unit.ModuleStats):
         return dix
 
     def unit_name2unit_list(self, user_id):
-        columns = ['Date', 'Time', 'Set_Nr', 'Weight', 'Reps', 'ORM', 'RS']
+        columns = ['Date', 'Time', 'BW', 'Set_Nr', 'Weight', 'Reps']
         dix = {unit_name: [columns] for unit_name in self.unit_names}
-        query = self.retrieve_units(user_id)
+        #query = self.retrieve_units(user_id)
+
+        sq0 = (db.Unit
+               .select(db.Unit.log_date,
+                       db.Unit.log_time,
+                       db.Unit.unit_emoji,
+                       Balance.weight)
+               .join(Balance)
+               .group_by(db.Unit.log_date)
+               .alias('balance_units')
+               )
+
+        query = (db.Unit
+                 .select(db.Unit,
+                         Lifting,
+                         sq0.c.weight.alias('bw'),
+                         sq0.c.unit_emoji.alias('balance_emoji'),
+                         sq0.c.log_time)
+                 .join(Lifting)
+                 .switch(db.Unit)
+                 .join(sq0, pw.JOIN.LEFT_OUTER, on=(db.Unit.log_date == sq0.c.log_date))
+                 .order_by(db.Unit.log_time.desc())
+                 )
 
         for u in query:
             date = datetime.datetime.strftime(u.log_time, '%d.%m.%y')
             time = datetime.datetime.strftime(u.log_time, '%H:%M')
+            try:
+                bw = u.unit.balance_emoji + '  ' + str(u.unit.bw) + 'Kg'
+            except AttributeError:
+                bw = ''
+
             row = [date,
                    time,
+                   bw,
                    u.lifting.set_nr,
                    u.lifting.weight,
-                   u.lifting.reps,
-                   u.lifting.orm,
-                   u.lifting.rel_strength]
+                   u.lifting.reps]
             dix[u.unit_name].append(row)
         return dix
-
-    def compute_stats(self, units):
-        self.heaviest = sorted(units,
-                               key=lambda u: (u.resistanceset.weight,
-                                              u.resistanceset.reps,
-                                              u.resistanceset.orm,
-                                              u.resistanceset.rel_strength),
-                               reverse=True)
-
-        self.most_reps = sorted(units,
-                                key=lambda u: (u.resistanceset.reps,
-                                               u.resistanceset.weight,
-                                               u.resistanceset.orm,
-                                               u.resistanceset.rel_strength),
-                                reverse=True)
-
-        self.best_orm = sorted(units,
-                               key=lambda u: (u.resistanceset.orm,
-                                              -u.resistanceset.reps,
-                                              u.resistanceset.weight,
-                                              u.resistanceset.rel_strength),
-                               reverse=True)
-
-        self.best_rs = sorted(units,
-                              key=lambda u: (u.resistanceset.rel_strength,
-                                             u.resistanceset.weight,
-                                             u.resistanceset.reps,
-                                             u.resistanceset.orm),
-                              reverse=True)
 
 
 class Lifting(db.SubUnit):
@@ -129,13 +119,12 @@ class Lifting(db.SubUnit):
     weight = pw.FloatField()
     reps = pw.FloatField()
     pause = pw.IntegerField()
-    orm = pw.FloatField()
-    rel_strength = pw.FloatField(null=True)
+
+    def __str__(self):
+        return ' '.join([str(self.weight), str(self.reps), str(self.pause)])
 
 
 database = pw.SqliteDatabase(config.db_name)
 database.connect()
 database.create_tables([Lifting], safe=True)
 database.close()
-
-

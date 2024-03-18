@@ -14,9 +14,6 @@ class BaseModel(pw.Model):
 class User(BaseModel):
     user_id = pw.IntegerField(primary_key=True)
     user_name = pw.CharField(default='Platon')
-    age = pw.IntegerField(null=True)
-    weight = pw.FloatField(null=True)
-    height = pw.FloatField(null=True)
 
 
 class Unit(BaseModel):

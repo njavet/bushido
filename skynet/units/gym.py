@@ -4,6 +4,7 @@ import peewee as pw
 
 # project imports
 import unit
+import parsing
 from utils import exceptions
 import config
 import db
@@ -14,11 +15,14 @@ class UnitProcessor(unit.UnitProcessor):
         super().__init__(module_name, unit_name, emoji)
 
     def subunit_handler(self, words):
-        pass
+        self.subunit = Gym(**self.parse_words(words))
+        self.subunit.unit_id = self.unit.id
+        self.subunit.save()
 
     @classmethod
-    def parse(cls, words):
-        pass
+    def parse_words(cls, words):
+        start_t, end_t = parsing.parse_start_end_time_string(words[0])
+        return {'start_t': start_t, 'end_t': end_t, 'gym': words[1]}
 
 
 class ModuleStats(unit.ModuleStats):
@@ -42,19 +46,10 @@ class ModuleStats(unit.ModuleStats):
 
 
 class Gym(db.SubUnit):
-    def parse(self, words):
-        try:
-            self.parse_and_set_start_end_time(words[0])
-        except IndexError:
-            raise exceptions.UnitProcessingError('Specify the start and end time of the unit!')
-        self.seconds = (self.end - self.start).seconds
-        try:
-            self.place = words[1]
-        except IndexError:
-            raise exceptions.UnitProcessingError('Specify the gym')
-
-    def __str__(self):
-        return 'Training:' + self.unit_name + ' at ' + self.place
+    start_t = pw.TimeField()
+    end_t = pw.TimeField()
+    gym = pw.CharField()
+    training = pw.CharField(null=True)
 
 
 database = pw.SqliteDatabase(config.db_name)
