@@ -5,6 +5,7 @@ import peewee as pw
 
 # project imports
 import umodule
+import db
 from utils import exceptions, utilities
 import config
 
@@ -42,6 +43,11 @@ class UManager:
         parts = input_string.split('//', 1)
         emoji_payload = parts[0]
         comment = parts[1] if len(parts) > 1 else None
+
+        db.Message.create(user_id=user_id,
+                          msg=emoji_payload,
+                          comment=comment,
+                          log_time=recv_time)
 
         if not emoji_payload:
             raise exceptions.InvalidUnitError('Input is empty')

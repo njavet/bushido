@@ -34,13 +34,7 @@ class Skynet(App):
     def compose(self) -> ComposeResult:
         # yield Header()
         yield txwidgets.binclock.Binclock()
-        yield Rule()
         yield txwidgets.loghistory.LogHistory(secconf.user_id)
-        yield ListView(
-            ListItem(Label("One")),
-            ListItem(Label("Two")),
-            ListItem(Label("Three")),
-        )
         yield Footer()
 
     def action_help(self):

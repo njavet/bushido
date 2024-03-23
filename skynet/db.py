@@ -46,9 +46,8 @@ class SubUnit(BaseModel):
 
 class Message(BaseModel):
     user_id = pw.ForeignKeyField(User)
-    # from the T800 or from textual
-    input_source = pw.CharField()
     msg = pw.TextField()
+    comment = pw.TextField(null=True)
     log_time = pw.DateTimeField()
 
 

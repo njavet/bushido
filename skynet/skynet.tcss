@@ -1,9 +1,22 @@
-Skynet {
-    layout: grid;
-    grid-size: 4;
+Title {
+    background: $boost;
+    color: $secondary;
+    padding: 2 4;
+    border-right: $background;
+    dock: top;
+    text-align: center;
+    text-style: bold;
+}
 
+LogHistory {
 
 }
+
+RichLog {
+    border: white;
+    scrollbar-size: 1 1;
+}
+
 #tree-view {
     display: none;
     scrollbar-gutter: stable;
@@ -18,9 +31,8 @@ TimeTable.-show-tree #tree-view {
     max-width: 50%;
 }
 
-
 Binclock {
-    dock: top;
+    dock: right;
 	width: auto;
 	height: auto;
 	layout: grid;
@@ -31,9 +43,6 @@ Binclock {
 	border: $surface-darken-1;
 }
 
-LogHistory {
-    border: $surface-darken-1;
-}
 
 .box {
     background: $surface-lighten-2;

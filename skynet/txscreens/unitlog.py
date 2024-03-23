@@ -41,12 +41,6 @@ class UnitLog(ModalScreen):
             rl.write('\n'.join(event.validation_result.failure_descriptions))
         else:
             rl.clear()
-            # TODO temporary message storage code
-            db.Message.create(user_id=self.user_id,
-                              input_source='textual',
-                              msg=event.value,
-                              log_time=datetime.datetime.now())
-
             res = self.um.process_string(event.value,
                                          user_id=self.user_id)
 

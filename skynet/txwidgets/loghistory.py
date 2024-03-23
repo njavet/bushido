@@ -2,8 +2,10 @@ from datetime import datetime
 
 from textual.app import ComposeResult
 from textual.widgets import RichLog, Static
+from textual.containers import ScrollableContainer
 
 from db import Message
+from txwidgets import styles
 
 
 class LogHistory(Static):
@@ -12,7 +14,7 @@ class LogHistory(Static):
         self.user_id = user_id
 
     def compose(self) -> ComposeResult:
-        yield Static('Unit History')
+        yield styles.Title('Unit History')
         yield RichLog()
 
     def on_mount(self):
@@ -21,7 +23,11 @@ class LogHistory(Static):
     def update_history(self):
         rl = self.query_one(RichLog)
         rl.clear()
-        query = Message.select().where(Message.user_id == self.user_id)
+        query = (Message
+                 .select()
+                 .where(Message.user_id == self.user_id)
+                 .order_by(Message.log_time)
+                 )
         for msg in query:
             dt_str = datetime.strftime(msg.log_time, '%H:%M:%S - %d.%m.%y')
             msg_text = msg.msg
