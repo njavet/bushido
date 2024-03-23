@@ -8,7 +8,8 @@ import vlc
 
 
 class HelpScreen(ModalScreen):
-    BINDINGS = [('q', 'app.pop_screen', 'Back')]
+    BINDINGS = [('q', 'app.pop_screen', 'Back'),
+                ('h', 'app.pop_screen', 'Back')]
 
     def __init__(self):
         super().__init__()

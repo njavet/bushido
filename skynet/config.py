@@ -6,6 +6,7 @@ emojis = {
 
     b'\xf0\x9f\xa6\x8d'.decode(): 'gym.weights',
     b'\xf0\x9f\xa5\x8b'.decode(): 'gym.martial_arts',
+    b'\xe2\x9a\x93\xef\xb8\x8f'.decode(): 'gym.yoga',
 
     b'\xe2\x9b\xa9\xef\xb8\x8f'.decode(): 'lifting.squat',
     b'\xf0\x9f\x8f\x97\xef\xb8\x8f'.decode(): 'lifting.deadlift',

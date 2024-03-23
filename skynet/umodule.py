@@ -1,6 +1,7 @@
 # general imports
 import collections
 import abc
+import datetime
 
 # project imports
 from db import Unit
@@ -49,8 +50,7 @@ class UnitProcessor(abc.ABC):
                      comment=None,
                      recv_time=None) -> None:
         # init unit
-        self.init_unit(user_id, comment)
-        self.unit.set_time(recv_time)
+        self.init_unit(user_id, comment, recv_time)
 
         # possible preparation
         self.pre_saving(user_id)
@@ -62,11 +62,15 @@ class UnitProcessor(abc.ABC):
         # possible follow-ups
         self.post_saving(user_id)
 
-    def init_unit(self, user_id, comment=None):
+    def init_unit(self, user_id, comment=None, recv_time=None):
+        if recv_time is None:
+            recv_time = datetime.datetime.now()
+
         self.unit = Unit(user_id=user_id,
                          module_name=self.module_name,
                          unit_name=self.unit_name,
                          unit_emoji=self.unit_emoji,
+                         log_time=recv_time,
                          comment=comment)
 
     @classmethod

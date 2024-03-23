@@ -46,8 +46,8 @@ class UManager:
 
         db.Message.create(user_id=user_id,
                           msg=emoji_payload,
-                          comment=comment,
-                          log_time=recv_time)
+                          log_time=recv_time,
+                          comment=comment)
 
         if not emoji_payload:
             raise exceptions.InvalidUnitError('Input is empty')

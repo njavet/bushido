@@ -38,6 +38,16 @@ def parse_module_dix():
     return dix
 
 
+def get_date_from_logtime(logtime: datetime.datetime) -> datetime.date:
+    """
+
+    """
+    if 0 <= logtime.hour < config.day_start:
+        return logtime.date() - datetime.timedelta(days=1)
+    else:
+        return logtime.date()
+
+
 def find_previous_sunday(dt):
     """
     Finds the previous sunday of the given date

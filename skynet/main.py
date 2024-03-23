@@ -13,6 +13,7 @@ import umanager
 from utils import utilities
 import txscreens
 import txwidgets
+from txwidgets.unithistory import UnitHistory
 
 
 class Skynet(App):
@@ -34,7 +35,7 @@ class Skynet(App):
     def compose(self) -> ComposeResult:
         # yield Header()
         yield txwidgets.binclock.Binclock()
-        yield txwidgets.loghistory.LogHistory(secconf.user_id)
+        yield UnitHistory(secconf.user_id)
         yield Footer()
 
     def action_help(self):
