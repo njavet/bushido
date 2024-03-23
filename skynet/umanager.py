@@ -1,4 +1,5 @@
 # general imports
+import datetime
 import importlib
 import inspect
 import peewee as pw
@@ -44,19 +45,26 @@ class UManager:
         emoji_payload = parts[0]
         comment = parts[1] if len(parts) > 1 else None
 
-        db.Message.create(user_id=user_id,
-                          msg=emoji_payload,
-                          log_time=recv_time,
-                          comment=comment)
+        if recv_time is None:
+            recv_time = datetime.datetime.now()
 
         if not emoji_payload:
             raise exceptions.InvalidUnitError('Input is empty')
 
-        emoji, payload = emoji_payload.split(maxsplit=1)
+        try:
+            emoji, payload = emoji_payload.split(maxsplit=1)
+        except ValueError:
+            raise exceptions.InvalidUnitError('Input is empty')
+
         try:
             unit_processor = self.emoji2proc[emoji]
         except KeyError:
             raise exceptions.InvalidUnitError('Invalid emoji: {}'.format(emoji))
+
+        db.Message.create(user_id=user_id,
+                          msg=emoji_payload,
+                          log_time=recv_time,
+                          comment=comment)
 
         try:
             words = payload.split()

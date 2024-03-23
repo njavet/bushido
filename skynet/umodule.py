@@ -47,8 +47,8 @@ class UnitProcessor(abc.ABC):
     def process_unit(self,
                      user_id: int,
                      words: list,
-                     comment=None,
-                     recv_time=None) -> None:
+                     recv_time: datetime.datetime,
+                     comment=None) -> None:
         # init unit
         self.init_unit(user_id, comment, recv_time)
 
@@ -62,10 +62,7 @@ class UnitProcessor(abc.ABC):
         # possible follow-ups
         self.post_saving(user_id)
 
-    def init_unit(self, user_id, comment=None, recv_time=None):
-        if recv_time is None:
-            recv_time = datetime.datetime.now()
-
+    def init_unit(self, user_id, recv_time, comment=None):
         self.unit = Unit(user_id=user_id,
                          module_name=self.module_name,
                          unit_name=self.unit_name,

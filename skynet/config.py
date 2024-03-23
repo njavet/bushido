@@ -25,11 +25,12 @@ single2double = {
     b'\xf0\x9f\x8f\x97': b'\xf0\x9f\x8f\x97\xef\xb8\x8f',  # crane -> deadlift'
     b'\xe2\x9a\x94': b'\xe2\x9a\x94\xef\xb8\x8f',  # sword -> split_machine
     b'\xe2\x9a\x96': b'\xe2\x9a\x96\xef\xb8\x8f',  # balance
+    b'\xe2\x9a\x93': b'\xe2\x9a\x93\xef\xb8\x8f'   # anchor -> yoga',
 }
 
 
 # database name
-db_name = 'skynet.db'
+db_name = 'test.db'
 
 
 # day starts at 0400
