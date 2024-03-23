@@ -3,7 +3,6 @@ import datetime
 import re
 
 # project imports
-import config
 from utils import exceptions
 
 
