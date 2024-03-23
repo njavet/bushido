@@ -44,7 +44,15 @@ class SubUnit(BaseModel):
     unit_id = pw.ForeignKeyField(Unit)
 
 
+class Message(BaseModel):
+    user_id = pw.ForeignKeyField(User)
+    # from the T800 or from textual
+    input_source = pw.CharField()
+    msg = pw.TextField()
+    log_time = pw.DateTimeField()
+
+
 database = pw.SqliteDatabase(config.db_name)
 database.connect()
-database.create_tables([User, Unit], safe=True)
+database.create_tables([User, Unit, Message], safe=True)
 database.close()

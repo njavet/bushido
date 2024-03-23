@@ -1,28 +1,41 @@
 # general imports
 import importlib
+import inspect
+import peewee as pw
 
 # project imports
-from utils import exceptions
+import umodule
+from utils import exceptions, utilities
 import config
 
 
-class UnitManager:
+class UManager:
     def __init__(self):
         self.emoji2proc = {}
-        self.modname2stats = {}
+        self.umodules = {}
         self.load_modules()
+        self.create_tables()
+
+    def create_tables(self):
+        database = pw.SqliteDatabase(config.db_name)
+        database.connect()
+        ts = [m.subunit_model for m in self.umodules.values()]
+        database.create_tables(ts, safe=True)
+        database.close()
 
     def load_modules(self):
-        for emoji, compound_name in config.emojis.items():
-            module_name, unit_name = compound_name.split('.')
-            module = importlib.import_module('units.' + module_name)
-            self.emoji2proc[emoji] = module.UnitProcessor(module_name,
-                                                          unit_name,
-                                                          emoji)
-            if module_name not in self.modname2stats.keys():
-                self.modname2stats[module_name] = module.ModuleStats([unit_name])
-            else:
-                self.modname2stats[module_name].unit_names.append(unit_name)
+        for module_name, unit_lst in utilities.parse_module_dix().items():
+            module = importlib.import_module('umodules.' + module_name)
+            subunit_model = [member for member in inspect.getmembers(module)
+                             if inspect.isclass(member[1])
+                             and member[0] == module_name.capitalize()][0][1]
+            unit_names = []
+            for emoji, unit_name in unit_lst:
+                unit_names.append(unit_name)
+                self.emoji2proc[emoji] = module.UnitProcessor(module_name,
+                                                              unit_name,
+                                                              emoji)
+            self.umodules[module_name] = umodule.UModule(subunit_model, unit_names)
 
     def process_string(self, input_string, user_id, recv_time=None):
         # input_string = <emoji> <payload> // <comment>

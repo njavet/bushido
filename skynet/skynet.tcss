@@ -1,4 +1,9 @@
+Skynet {
+    layout: grid;
+    grid-size: 4;
 
+
+}
 #tree-view {
     display: none;
     scrollbar-gutter: stable;
@@ -8,13 +13,14 @@
     dock: left;
 }
 
-Skynet.-show-tree #tree-view {
+TimeTable.-show-tree #tree-view {
     display: block;
     max-width: 50%;
 }
 
 
 Binclock {
+    dock: top;
 	width: auto;
 	height: auto;
 	layout: grid;
@@ -23,7 +29,10 @@ Binclock {
 	grid-rows: 1;
 	grid-columns: 2;
 	border: $surface-darken-1;
+}
 
+LogHistory {
+    border: $surface-darken-1;
 }
 
 .box {

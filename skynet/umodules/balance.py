@@ -1,15 +1,13 @@
 # general imports
-import collections
 import peewee as pw
 
 # project imports
-import config
 import db
-import unit
+import umodule
 from utils import exceptions
 
 
-class UnitProcessor(unit.UnitProcessor):
+class UnitProcessor(umodule.UnitProcessor):
     def __init__(self, module_name, unit_name, emoji):
         super().__init__(module_name, unit_name, emoji)
 
@@ -43,20 +41,8 @@ class UnitProcessor(unit.UnitProcessor):
         return attributes
 
 
-class ModuleStats(unit.ModuleStats):
-    def __init__(self, unit_names):
-        super().__init__(unit_names)
-        self.subunit_model = Balance
-
-
 class Balance(db.SubUnit):
     weight = pw.FloatField()
     fat = pw.FloatField(null=True)
     water = pw.FloatField(null=True)
     muscles = pw.FloatField(null=True)
-
-
-database = pw.SqliteDatabase(config.db_name)
-database.connect()
-database.create_tables([Balance], safe=True)
-database.close()

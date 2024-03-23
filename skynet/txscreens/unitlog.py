@@ -1,4 +1,5 @@
 # general import*s
+import datetime
 from textual.screen import ModalScreen
 from textual.validation import Function, Validator, ValidationResult
 from textual.app import ComposeResult
@@ -6,6 +7,8 @@ from textual.containers import *
 from textual.widgets import *
 from textual.suggester import SuggestFromList, Suggester
 from textual import on, events
+
+import db
 
 
 class UnitLog(ModalScreen):
@@ -38,6 +41,12 @@ class UnitLog(ModalScreen):
             rl.write('\n'.join(event.validation_result.failure_descriptions))
         else:
             rl.clear()
+            # TODO temporary message storage code
+            db.Message.create(user_id=self.user_id,
+                              input_source='textual',
+                              msg=event.value,
+                              log_time=datetime.datetime.now())
+
             res = self.um.process_string(event.value,
                                          user_id=self.user_id)
 

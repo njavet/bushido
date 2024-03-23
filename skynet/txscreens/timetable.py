@@ -3,21 +3,24 @@ import collections
 import datetime
 import peewee as pw
 from rich.table import Table
-from textual.screen import ModalScreen
+from textual.screen import ModalScreen, Screen
 from textual.widgets import *
+from textual.reactive import var
 import config
 from utils import utilities
 
 from db import Unit
-from units.balance import Balance
-from units.wimhof import Wimhof
-from units.chrono import Chrono
-from units.gym import Gym
-from units.lifting import Lifting
+
 
 
 class TimeTable(ModalScreen):
-    BINDINGS = [('q', 'app.pop_screen', 'Back')]
+    BINDINGS = [('q', 'app.pop_screen', 'Back'),
+                ('t', 'toggle_tree', 'Toggle Tree')]
+
+    show_tree = var(True)
+
+    def watch_show_tree(self, show_tree):
+        self.set_class(show_tree, '-show-tree')
 
     def __init__(self, user_id, modules):
         super().__init__()
@@ -70,6 +73,7 @@ class TimeTable(ModalScreen):
         return dix
 
     def compose(self):
+        yield Tree('Units', id='tree-view')
         with TabbedContent(initial='tab-2024'):
             with TabPane('2020', id='tab-2020'):
                 yield RichLog(id='log-2020')
@@ -81,12 +85,25 @@ class TimeTable(ModalScreen):
                 yield RichLog(id='log-2023')
             with TabPane('2024', id='tab-2024'):
                 yield RichLog(id='log-2024')
+        yield Footer()
 
     def on_mount(self):
         text_log = self.query_one('#log-2024', RichLog)
         dix = self.collect_units()
         table = construct_table(2024, dix)
         text_log.write(table)
+        self.build_tree()
+
+    def build_tree(self) -> None:
+        tree = self.query_one('#tree-view', Tree)
+        tree.root.expand()
+
+        for module_name, stats in self.modules.items():
+            dix = stats.datetime2unit(self.user_id)
+            utilities.add_tree_node(module_name, tree.root.add(''), dix)
+
+    def action_toggle_tree(self):
+        self.show_tree = not self.show_tree
 
 
 def construct_table(year, dix):

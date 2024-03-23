@@ -1,3 +1,4 @@
 
 from . import (styles,
-               binclock)
+               binclock,
+               loghistory)
