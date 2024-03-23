@@ -10,10 +10,10 @@ from rich.text import Text
 class LiftingScreen(ModalScreen):
     BINDINGS = [('q', 'app.pop_screen', 'Back')]
 
-    def __init__(self, user_id, modname2stats):
+    def __init__(self, user_id, umodules):
         super().__init__()
         self.user_id = user_id
-        self.modname2stats = modname2stats
+        self.umodules = umodules
 
     def compose(self):
         with Collapsible(title='Squat'):
@@ -30,7 +30,7 @@ class LiftingScreen(ModalScreen):
                 yield ProgressBar(total=1.2, show_eta=False)
 
     def on_mount(self):
-        dix = self.modname2stats['lifting'].unit_name2unit_list(self.user_id)
+        dix = self.umodules['lifting'].unit_name2unit_list(self.user_id)
 
         table = self.query_one('#squat', DataTable)
         table.zebra_stripes = True
