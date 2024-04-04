@@ -2,7 +2,7 @@ version: 0.0.{build}
 pull_requests:
   do_not_increment_build_number: true
 
-image: Ubuntu-latest
+image: Ubuntu2204
 
 install:
   - pip install -r requirements.txt
