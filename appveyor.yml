@@ -5,6 +5,8 @@ pull_requests:
 image: Ubuntu2204
 
 install:
+  - python3 -m venv venv
+  - sourve venv/bin/activate
   - pip install -r requirements.txt
 
 test_script:
