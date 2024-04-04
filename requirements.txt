@@ -4,3 +4,4 @@ jinja2
 textual
 pylint
 pytest
+wheel
