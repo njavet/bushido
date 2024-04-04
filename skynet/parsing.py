@@ -3,7 +3,7 @@ import datetime
 import re
 
 # project imports
-from utils import exceptions
+from skynet.utils import exceptions
 
 
 def parse_time_string(time_string: str) -> float:
