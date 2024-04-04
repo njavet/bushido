@@ -11,7 +11,5 @@ install:
 test_script:
   - export PYTHONPATH=$PYTHONPATH:'.'
   - python -m unittest discover -s tests
-
-deploy_script:
-  - python setup.py sdist
+  - pylint skynet
 
