@@ -5,7 +5,7 @@ pull_requests:
 image: Ubuntu2204
 
 install:
-  - sourve $HOME/venv3.11.8/bin/activate
+  - source $HOME/venv3.11.8/bin/activate
   - pip install -r requirements.txt
 
 test_script:
