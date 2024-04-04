@@ -1,0 +1,15 @@
+version: 0.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+
+image: Ubuntu-latest
+
+install:
+  - pip install -r requirements.txt
+
+test_script:
+  - python -m unittest discover -s tests
+
+deploy_script:
+  - python setup.py sdist bdist_wheel
+
