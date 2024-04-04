@@ -14,5 +14,5 @@ test_script:
   - pylint skynet
 
 deploy_script:
-  - python setup.py sdist bdist_wheel
+  - python setup.py sdist
 
