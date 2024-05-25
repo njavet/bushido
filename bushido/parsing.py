@@ -87,4 +87,3 @@ def parse_start_end_time_string(time_string: str) -> tuple[datetime.time, dateti
 
     return start_t, end_t
 
-
