@@ -53,7 +53,8 @@ class AsyncTelegramClient(TelegramClient):
                                                max_id=0,
                                                min_id=last_message_id + 1,
                                                hash=0))
-        for msg in history.messages:
+        messages = [msg for msg in history.messages if not msg.reply_to]
+        for msg in messages:
             processing_result = self.um.process_string(msg.message)
             if processing_result.success:
                 tg_message_data = self.construct_telegram_message_data(msg)
