@@ -3,6 +3,7 @@
 data_dir = '.bushido-data'
 db_name = 'bushido.db'
 
+# TODO fix this
 t800_session = '/home/tosh/.bushido-data/t800.session'
 bushido_session = '/home/tosh/.bushido-data/bushido.session'
 
@@ -32,6 +33,10 @@ emojis = {
     b'\xe2\x9a\x94\xef\xb8\x8f'.decode(): 'chrono.splitmachine',
     b'\xf0\x9f\x8f\xb9'.decode(): 'chrono.stretch',
     b'\xf0\x9f\x94\xa5'.decode(): 'chrono.naulikriya',
+
+    b'\xf0\x9f\xaa\x96'.decode(): 'cardio.running',
+    b'\xf0\x9f\xa6\x88'.decode(): 'cardio.swimming'
+
 }
 
 # emojis

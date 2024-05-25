@@ -11,3 +11,8 @@ pip install -r requirements.txt
 python bushido/app.py
 ```
 
+## Tests
+```
+export PYTHONPATH='bushido/'
+python -m unittest discover -s tests/
+```
