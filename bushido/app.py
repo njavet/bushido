@@ -26,6 +26,7 @@ class Bushido(App):
         super().__init__()
         self.um = UnitManager(config.emojis)
         self.t800 = None
+        self.unit_history = UnitHistory()
         self.tg_client = AsyncTelegramClient(session=config.bushido_session,
                                              umanager=self.um)
 
@@ -38,7 +39,7 @@ class Bushido(App):
         is_authorized = await self.tg_client.is_user_authorized()
         if is_authorized:
             await self.query_one(LoadingIndicator).remove()
-            await self.mount(UnitHistory(), before=self.query_one(Footer))
+            await self.mount(self.unit_history, before=self.query_one(Footer))
             await self.tg_client.fetch_missed_messages('csm101_bot')
         else:
             await self.push_screen(LoginScreen(self.tg_client), self.check_login)
