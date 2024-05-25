@@ -39,6 +39,9 @@ emojis = {
                                   
     b'\xf0\x9f\xa6\x85'.decode(): 'cali.pullups',
 
+    b'\xf0\x9f\x93\xa1'.decode(): 'mind.study',
+    b'\xf0\x9f\xa6\x89'.decode(): 'mind.reading'
+
 }
 
 # emojis
