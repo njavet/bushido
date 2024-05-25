@@ -60,7 +60,6 @@ class UnitManager:
         for module_name, emoji_uname_lst in self._parse_emoji_dix(emojis).items():
             module_path = '.'.join([config.unit_modules_dir, module_name])
             module = importlib.import_module(module_path)
-            print('module', module_name)
             subunit_model = [member for member in inspect.getmembers(module)
                              if inspect.isclass(member[1])
                              and member[0] == module_name.capitalize()][0][1]

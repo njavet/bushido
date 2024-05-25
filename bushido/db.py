@@ -75,3 +75,14 @@ def get_me():
         logger.debug('operational error... ')
         agent = None
     return agent
+
+
+def get_last_msg_id(agent_id) -> int:
+    try:
+        msg = (Message
+               .select(Message.msg_id)
+               .where(Message.from_id == agent_id)).get()
+        return msg.msg_id
+    except pw.DoesNotExist:
+        return 0
+
