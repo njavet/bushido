@@ -35,7 +35,9 @@ emojis = {
     b'\xf0\x9f\x94\xa5'.decode(): 'chrono.naulikriya',
 
     b'\xf0\x9f\xaa\x96'.decode(): 'cardio.running',
-    b'\xf0\x9f\xa6\x88'.decode(): 'cardio.swimming'
+    b'\xf0\x9f\xa6\x88'.decode(): 'cardio.swimming',
+                                  
+    b'\xf0\x9f\xa6\x85'.decode(): 'cali.pullups',
 
 }
 
