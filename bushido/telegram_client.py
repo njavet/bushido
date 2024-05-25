@@ -9,13 +9,16 @@ from telethon.events.newmessage import NewMessage
 from dotenv import find_dotenv, load_dotenv
 import logging
 
+# project imports
+import db
 
 logger = logging.getLogger(__name__)
 
 
 class AsyncTelegramClient(TelegramClient):
-    def __init__(self, session='anon'):
+    def __init__(self, session='anon', umanager=None):
         super().__init__(session, *self.get_api_keys())
+        self.um = umanager
 
     @staticmethod
     def get_api_keys():
@@ -28,9 +31,19 @@ class AsyncTelegramClient(TelegramClient):
         api_hash = os.getenv('API_HASH')
         return api_id, api_hash
 
-    async def fetch_missed_messages(self, chat, last_message_id):
-        if last_message_id is None:
-            return
+    @staticmethod
+    def construct_telegram_message_data(message):
+        log_time = message.date.astimezone(pytz.timezone('CET'))
+        unix_timestamp = message.date.timestamp()
+        tg = TelegramMessage(msg_id=message.id,
+                             from_id=message.from_id.user_id,
+                             to_id=message.peer_id.user_id,
+                             log_time=log_time,
+                             unix_timestamp=unix_timestamp)
+        return tg
+
+    async def fetch_missed_messages(self, chat):
+        last_message_id = db.get_last_msg_id(db.get_me())
 
         history = await self(GetHistoryRequest(peer=chat,
                                                offset_id=last_message_id,
@@ -40,6 +53,18 @@ class AsyncTelegramClient(TelegramClient):
                                                max_id=0,
                                                min_id=last_message_id + 1,
                                                hash=0))
+        for msg in history.messages:
+            processing_result = self.um.process_string(msg.message)
+            if processing_result.success:
+                tg_message_data = self.construct_telegram_message_data(msg)
+                self.um.save_unit_data(tg_message_data)
+                await self.send_message('csm101_bot',
+                                        processing_result.msg,
+                                        reply_to=msg.id)
+            else:
+                await self.send_message('csm101_bot',
+                                        'Fail: ' + processing_result.msg,
+                                        reply_to=msg.id)
 
 
 class T800(AsyncTelegramClient):
@@ -64,22 +89,11 @@ class T800(AsyncTelegramClient):
     async def msg_recv_handler(self, event):
         processing_result = self.um.process_string(event.message.message)
         if processing_result.success:
-            tg_message_data = self.construct_telegram_message_data(event)
+            tg_message_data = self.construct_telegram_message_data(event.message)
             self.um.save_unit_data(tg_message_data)
             await event.reply(processing_result.msg)
         else:
             await event.reply('FAIL: ' + processing_result.msg)
-
-    @staticmethod
-    def construct_telegram_message_data(event):
-        log_time = event.message.date.astimezone(pytz.timezone('CET'))
-        unix_timestamp = event.message.date.timestamp()
-        tg = TelegramMessage(msg_id=event.message.id,
-                             from_id=event.message.sender.id,
-                             to_id=event.message.peer_id.user_id,
-                             log_time=log_time,
-                             unix_timestamp=unix_timestamp)
-        return tg
 
 
 @dataclass
