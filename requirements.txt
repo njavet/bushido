@@ -1,0 +1,7 @@
+textual
+textual-dev
+rich
+telethon
+peewee
+python-dotenv
+pytz
