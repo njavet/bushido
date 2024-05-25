@@ -35,8 +35,12 @@ class AsyncTelegramClient(TelegramClient):
     def construct_telegram_message_data(message):
         log_time = message.date.astimezone(pytz.timezone('CET'))
         unix_timestamp = message.date.timestamp()
+        try:
+            from_id = message.from_id.user_id
+        except AttributeError:
+            from_id = message.sender.id
         tg = TelegramMessage(msg_id=message.id,
-                             from_id=message.from_id.user_id,
+                             from_id=from_id,
                              to_id=message.peer_id.user_id,
                              log_time=log_time,
                              unix_timestamp=unix_timestamp)
