@@ -1,7 +1,4 @@
-import asyncio
-
 import peewee as pw
-from playhouse.signals import Model, post_save, post_delete
 import sys
 import os
 import logging
@@ -53,19 +50,27 @@ class Unit(BaseModel):
     module_name = pw.CharField()
     unit_name = pw.CharField()
     unit_emoji = pw.CharField()
-    log_time = pw.DateTimeField()
     unix_timestamp = pw.FloatField()
 
 
 class Message(BaseModel):
-    msg_id = pw.IntegerField()
     from_id = pw.ForeignKeyField(Agent)
     to_id = pw.ForeignKeyField(Agent)
     unit_id = pw.ForeignKeyField(Unit)
     emoji_payload = pw.TextField()
-    log_time = pw.DateTimeField()
     unix_timestamp = pw.FloatField()
     comment = pw.TextField(null=True)
+
+
+def add_agent(agent_id: int, name: str, is_me=False):
+    try:
+        agent = Agent.create(agent_id=agent_id,
+                             name=name,
+                             is_me=is_me)
+    except pw.IntegrityError:
+        agent = None
+
+    return agent
 
 
 def get_me():
@@ -80,12 +85,13 @@ def get_me():
     return agent
 
 
-def get_last_msg_id(agent_id) -> int:
+def get_last_timestamp(agent_id) -> int:
     try:
         msg = (Message
-               .select(Message.msg_id)
-               .where(Message.from_id == agent_id)).get()
-        return msg.msg_id
+               .select(Message.unix_timestamp)
+               .where(Message.from_id == agent_id)
+               .order_by(Message.unix_timestamp.desc())).get()
+        return msg.unix_timestamp
     except pw.DoesNotExist:
         return 0
 

@@ -4,9 +4,9 @@ from textual.widgets import Footer, LoadingIndicator
 
 # project imports
 from unit_manager import UnitManager
+from telegram_client import T800, AsyncTelegramClient
 from txscreens.helpscreen import HelpScreen
 from txscreens.login import LoginScreen
-from telegram_client import T800, AsyncTelegramClient
 from txscreens.unitlog import UnitLog
 from txwidgets.unithistory import UnitHistory
 import db
@@ -30,6 +30,12 @@ class Bushido(App):
         self.tg_client = AsyncTelegramClient(session=config.bushido_session,
                                              umanager=self.um)
 
+    def init_unit_tables(self):
+        models = []
+        for unit_module in self.um.unit_modules.values():
+            models.append(unit_module.subunit_model)
+        db.init_storage(models)
+
     def compose(self) -> ComposeResult:
         yield LoadingIndicator()
         yield Footer()
@@ -45,8 +51,8 @@ class Bushido(App):
             await self.push_screen(LoginScreen(self.tg_client), self.check_login)
 
     def check_login(self, user):
-        db.Agent.create(agent_id=user.id,
-                        name=user.first_name)
+        # TODO check failure
+        db.add_agent(user.id, user.first_name, is_me=True)
         self.query_one(LoadingIndicator).remove()
         self.mount(UnitHistory(), before=self.query_one(Footer))
 

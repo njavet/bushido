@@ -1,9 +1,7 @@
 import datetime
 import sys
 import os
-from dataclasses import dataclass, field
 import pytz
-from telethon.tl.functions.messages import GetHistoryRequest
 from telethon import TelegramClient
 from telethon.events.newmessage import NewMessage
 from dotenv import find_dotenv, load_dotenv
@@ -32,37 +30,43 @@ class AsyncTelegramClient(TelegramClient):
         return api_id, api_hash
 
     @staticmethod
-    def construct_telegram_message_data(message):
-        log_time = message.date.astimezone(pytz.timezone('CET'))
+    def extract_ids_and_time(message):
+        log_time = message.date.astimezone(pytz.timezone('utc'))
         unix_timestamp = message.date.timestamp()
+        to_id = message.peer_id.user_id
         try:
             from_id = message.from_id.user_id
         except AttributeError:
             from_id = message.sender.id
-        tg = TelegramMessage(msg_id=message.id,
-                             from_id=from_id,
-                             to_id=message.peer_id.user_id,
-                             log_time=log_time,
-                             unix_timestamp=unix_timestamp)
-        return tg
+
+        return from_id, to_id, unix_timestamp
 
     async def fetch_missed_messages(self, chat):
-        last_message_id = db.get_last_msg_id(db.get_me())
+        last_message_timestamp = db.get_last_timestamp(db.get_me())
+        print('last timestamp', last_message_timestamp)
+        print('last utc time', datetime.datetime.fromtimestamp(last_message_timestamp,
+                                                               pytz.timezone('utc')))
+        print('last local time', datetime.datetime.fromtimestamp(last_message_timestamp,
+                                                               pytz.timezone('Europe/Zurich')))
+        all_messages = await self.get_messages(chat, limit=32)
+        messages = []
+        for msg in all_messages:
+            # unix utc timestamp
+            cond0 = msg.date.timestamp() > last_message_timestamp
+            cond1 = msg.reply_to is None
+            if cond0 and cond1:
+                print('msg', msg)
+                messages.append(msg)
 
-        history = await self(GetHistoryRequest(peer=chat,
-                                               offset_id=last_message_id,
-                                               offset_date=None,
-                                               add_offset=0,
-                                               limit=64,
-                                               max_id=0,
-                                               min_id=last_message_id + 1,
-                                               hash=0))
-        messages = [msg for msg in history.messages if not msg.reply_to]
         for msg in messages:
             processing_result = self.um.process_string(msg.message)
             if processing_result.success:
-                tg_message_data = self.construct_telegram_message_data(msg)
-                self.um.save_unit_data(tg_message_data)
+                agent_id, to_id, unix_timestamp = self.extract_ids_and_time(
+                    msg
+                )
+                self.um.save_unit_data(agent_id,
+                                       to_id,
+                                       unix_timestamp)
                 await self.send_message('csm101_bot',
                                         processing_result.msg,
                                         reply_to=msg.id)
@@ -94,23 +98,13 @@ class T800(AsyncTelegramClient):
     async def msg_recv_handler(self, event):
         processing_result = self.um.process_string(event.message.message)
         if processing_result.success:
-            tg_message_data = self.construct_telegram_message_data(event.message)
-            self.um.save_unit_data(tg_message_data)
+            agent_id, to_id, unix_timestamp = self.extract_ids_and_time(
+                event.message
+            )
+            self.um.save_unit_data(agent_id,
+                                   to_id,
+                                   unix_timestamp)
             await event.reply(processing_result.msg)
         else:
             await event.reply('FAIL: ' + processing_result.msg)
 
-
-@dataclass
-class TelegramMessage:
-    msg_id: int
-    from_id: int
-    to_id: int
-    log_time: datetime.datetime
-    unix_timestamp: float
-    emoji_payload: str = field(init=False)
-    comment: str | None = field(init=False)
-
-    def set_data(self, emoji_payload, comment):
-        self.emoji_payload = emoji_payload
-        self.comment = comment
