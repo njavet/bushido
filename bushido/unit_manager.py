@@ -1,4 +1,5 @@
 from typing import Optional
+import datetime
 import collections
 import importlib
 import inspect
@@ -6,8 +7,8 @@ from dataclasses import dataclass
 import logging
 
 # project imports
+from unit_module import UnitModule
 import config
-import db
 import helpers
 import exceptions
 
@@ -23,13 +24,16 @@ class ProcessingResult:
 
 @dataclass
 class UnitMessage:
-    emoji_payload: str
-    comment: str | None
+    from_id: int
+    to_id: int
+    log_time: datetime.datetime
+    unix_timestamp: float
 
 
 class UnitManager:
     def __init__(self, emojis: dict) -> None:
         self.emoji2proc = {}
+        self.unit_modules = {}
         self._load_unit_modules(emojis)
         # TODO temporary unit storage data, check if this is good practice
         self.unit_processor = None
@@ -50,7 +54,7 @@ class UnitManager:
             dix[module_name].append((emoji, unit_name))
         return dix
 
-    def _load_emoji_dicts(self, module_name, module, emoji_uname_lst) -> None:
+    def _load_unit_processors(self, module_name, module, emoji_uname_lst) -> None:
         for emoji, unit_name in emoji_uname_lst:
             self.emoji2proc[emoji] = module.UnitProcessor(module_name,
                                                           unit_name,
@@ -63,9 +67,8 @@ class UnitManager:
             subunit_model = [member for member in inspect.getmembers(module)
                              if inspect.isclass(member[1])
                              and member[0] == module_name.capitalize()][0][1]
-            self._load_emoji_dicts(module_name, module, emoji_uname_lst)
-            # TODO fix this
-            db.init_storage([subunit_model])
+            self._load_unit_processors(module_name, module, emoji_uname_lst)
+            self.unit_modules[module_name] = UnitModule(subunit_model)
 
     @staticmethod
     def _preprocess_string(input_string) -> Optional[tuple[str, list, str | None]]:
@@ -101,13 +104,11 @@ class UnitManager:
         except exceptions.UnitProcessingError as err:
             return ProcessingResult(False, str(err))
         else:
-            self.unit_message = UnitMessage(emoji_payload=' '.join([emoji] + words),
-                                            comment=comment)
+            self.unit_processor.emoji_payload = ' '.join([emoji] + words)
+            self.unit_processor.comment = comment
             return ProcessingResult(True, 'Unit confirmed!')
 
-    def save_unit_data(self, tg_message_data):
-        self.unit_processor.save_unit(tg_message_data)
-        tg_message_data.set_data(self.unit_message.emoji_payload,
-                                 self.unit_message.comment)
-        self.unit_processor.save_unit_message(tg_message_data)
+    def save_unit_data(self, agent_id, to_id, unix_timestamp):
+        self.unit_processor.save_unit(agent_id, unix_timestamp)
+        self.unit_processor.save_unit_message(to_id)
 

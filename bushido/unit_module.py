@@ -1,11 +1,10 @@
-# general imports
 import collections
 
 # project imports
 from db import Unit
 
 
-class UModule(object):
+class UnitModule(object):
     def __init__(self, subunit_model):
         self.subunit_model = subunit_model
 

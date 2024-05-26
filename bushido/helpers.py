@@ -31,7 +31,7 @@ def convert_emoji(emoji):
 
 
 def get_datetime_from_unix_timestamp(unix_timestamp: float) -> datetime.datetime:
-    cet_timezone = pytz.timezone('CET')
+    cet_timezone = pytz.timezone('Europe/Zurich')
     cet_dt = datetime.datetime.fromtimestamp(unix_timestamp, cet_timezone)
     return cet_dt
 
