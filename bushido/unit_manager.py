@@ -104,7 +104,7 @@ class UnitManager:
         except exceptions.UnitProcessingError as err:
             return ProcessingResult(False, str(err))
         else:
-            self.unit_processor.emoji_payload = ' '.join([emoji] + words)
+            self.unit_processor.payload = ' '.join(words)
             self.unit_processor.comment = comment
             return ProcessingResult(True, 'Unit confirmed!')
 
