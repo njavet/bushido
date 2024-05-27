@@ -57,7 +57,8 @@ class Message(BaseModel):
     from_id = pw.ForeignKeyField(Agent)
     to_id = pw.ForeignKeyField(Agent)
     unit_id = pw.ForeignKeyField(Unit)
-    emoji_payload = pw.TextField()
+    emoji = pw.CharField()
+    payload = pw.CharField(null=True)
     unix_timestamp = pw.FloatField()
     comment = pw.TextField(null=True)
 

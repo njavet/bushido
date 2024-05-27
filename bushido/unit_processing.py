@@ -13,7 +13,7 @@ class UnitProcessor(abc.ABC):
         self.unit_emoji = unit_emoji
         # TODO is there a name / pattern for this mechanism ? the field
         #  unit and subunit serve as temporary storage, is it good / bad ?
-        self.emoji_payload = None
+        self.payload = None
         self.comment = None
         self.attrs: Attrs | None = None
         self.unit: db.Unit | None = None
@@ -42,7 +42,8 @@ class UnitProcessor(abc.ABC):
                                 to_id=to_id,
                                 unit_id=self.unit,
                                 unix_timestamp=self.unit.unix_timestamp,
-                                emoji_payload=self.emoji_payload,
+                                emoji=self.unit.unit_emoji,
+                                payload=self.payload,
                                 comment=self.comment)
         return msg
 
