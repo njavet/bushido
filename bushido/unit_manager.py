@@ -11,6 +11,7 @@ from unit_module import UnitModule
 import config
 import helpers
 import exceptions
+import parsing
 
 
 logger = logging.getLogger(__name__)
@@ -99,6 +100,13 @@ class UnitManager:
         except KeyError:
             return ProcessingResult(False, f'Invalid emoji: {emoji}')
 
+        # local time string
+        dt_str = parsing.parse_option(words, '-dt')
+        if dt_str:
+            self.unit_processor.unix_timestamp = helpers.convert_local_dt_to_unix_timestamp(dt_str)
+        else:
+            self.unit_processor.unix_timestamp = None
+
         try:
             self.unit_processor.parse_words(words)
         except exceptions.UnitProcessingError as err:
@@ -110,6 +118,10 @@ class UnitManager:
             return ProcessingResult(True, 'Unit confirmed!')
 
     def save_unit_data(self, agent_id, unix_timestamp):
-        self.unit_processor.save_unit(agent_id, unix_timestamp)
-        self.unit_processor.save_unit_message()
+        # unix_timestamp might be different for unit and message, because
+        #  of -dt
+        if self.unit_processor.unix_timestamp is None:
+            self.unit_processor.unix_timestamp = unix_timestamp
+        self.unit_processor.save_unit(agent_id)
+        self.unit_processor.save_unit_message(unix_timestamp)
 

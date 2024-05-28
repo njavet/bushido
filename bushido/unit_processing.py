@@ -13,6 +13,8 @@ class UnitProcessor(abc.ABC):
         self.unit_emoji = unit_emoji
         # TODO is there a name / pattern for this mechanism ? the field
         #  unit and subunit serve as temporary storage, is it good / bad ?
+        #  properties, clean OO
+        self.unix_timestamp = None
         self.payload = None
         self.comment = None
         self.attrs: Attrs | None = None
@@ -27,18 +29,19 @@ class UnitProcessor(abc.ABC):
         """
         raise NotImplementedError
 
-    def save_unit(self, agent_id, unix_timestamp) -> db.Unit | None:
+    def save_unit(self, agent_id) -> db.Unit | None:
         self.unit = db.Unit.create(agent_id=agent_id,
                                    module_name=self.module_name,
                                    name=self.unit_name,
                                    emoji=self.unit_emoji,
-                                   unix_timestamp=unix_timestamp)
+                                   unix_timestamp=self.unix_timestamp)
         self.save_subunit()
         return self.unit
 
-    def save_unit_message(self):
+    def save_unit_message(self, unix_timestamp):
         # TODO fix this bad design
         msg = db.Message.create(unit_id=self.unit,
+                                unix_timestamp=unix_timestamp,
                                 payload=self.payload,
                                 comment=self.comment)
         return msg

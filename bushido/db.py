@@ -56,6 +56,7 @@ class Unit(BaseModel):
 
 class Message(BaseModel):
     unit = pw.ForeignKeyField(Unit)
+    unix_timestamp = pw.FloatField()
     payload = pw.CharField(null=True)
     comment = pw.TextField(null=True)
 
@@ -94,11 +95,12 @@ def get_me():
 
 def get_last_timestamp(agent_id) -> int:
     try:
-        unit = (Unit
-                .select(Unit.unix_timestamp)
-                .where(Unit.agent == agent_id)
-                .order_by(Unit.unix_timestamp.desc())).get()
-        return unit.unix_timestamp
+        msg = (Message
+               .select(Message.unix_timestamp)
+               .join(Unit)
+               .where(Message.unit.agent == agent_id)
+               .order_by(Message.unix_timestamp.desc())).get()
+        return msg.unix_timestamp
     except pw.DoesNotExist:
         return 0
 
