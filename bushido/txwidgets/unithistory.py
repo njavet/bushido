@@ -21,28 +21,33 @@ class UnitHistory(Static):
     def on_mount(self):
         rl = self.query_one(RichLog)
         query = (Message
-                 .select()
-                 .where(Message.from_id == self.me.agent_id)
-                 .order_by(Message.unix_timestamp))
+                 .select(Message, db.Unit)
+                 .join(db.Unit)
+                 .order_by(db.Unit.unix_timestamp))
 
         date2msg = collections.defaultdict(list)
         for msg in query:
-            cet_dt = helpers.get_datetime_from_unix_timestamp(msg.unix_timestamp)
+            cet_dt = helpers.get_datetime_from_unix_timestamp(
+                msg.unit.unix_timestamp
+            )
             ld = helpers.get_bushido_date_from_datetime(cet_dt)
             date2msg[ld].append(msg)
 
         # day = datetime.date(2023, 1, 1)
+        # TODO from a user config file
         day = datetime.date(2024, 5, 26)
         while day <= datetime.date.today():
             title = datetime.date.strftime(day, '%d.%m.%y')
             lst = []
             for msg in date2msg[day]:
-                cet_dt = helpers.get_datetime_from_unix_timestamp(msg.unix_timestamp)
+                cet_dt = helpers.get_datetime_from_unix_timestamp(
+                    msg.unit.unix_timestamp
+                )
                 time_str = datetime.datetime.strftime(cet_dt, '%H:%M')
-                if len(msg.emoji) == 2:
-                    e = msg.emoji + '  '
+                if len(msg.unit.emoji) == 2:
+                    e = msg.unit.emoji + '  '
                 else:
-                    e = msg.emoji + ' '
+                    e = msg.unit.emoji + ' '
                 lst.append(time_str + '  ' + e + msg.payload)
 
             text = Text('\n'.join(lst))

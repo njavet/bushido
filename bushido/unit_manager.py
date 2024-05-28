@@ -104,11 +104,12 @@ class UnitManager:
         except exceptions.UnitProcessingError as err:
             return ProcessingResult(False, str(err))
         else:
+            # TODO fix this
             self.unit_processor.payload = ' '.join(words)
             self.unit_processor.comment = comment
             return ProcessingResult(True, 'Unit confirmed!')
 
-    def save_unit_data(self, agent_id, to_id, unix_timestamp):
+    def save_unit_data(self, agent_id, unix_timestamp):
         self.unit_processor.save_unit(agent_id, unix_timestamp)
-        self.unit_processor.save_unit_message(to_id)
+        self.unit_processor.save_unit_message()
 

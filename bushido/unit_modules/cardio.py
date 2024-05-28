@@ -97,6 +97,7 @@ class Attrs(unit_processing.Attrs):
 
 
 class Cardio(unit_processing.SubUnit):
+    # TODO switch to unix utc timestamps
     start_t = pw.TimeField()
     seconds = pw.FloatField()
     gym = pw.CharField()

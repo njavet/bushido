@@ -29,8 +29,9 @@ def init_storage(models):
         logger.error(f'peewee operational error: {e}')
         sys.exit(1)
     else:
-        database.create_tables([Agent, Unit, Message], safe=True)
-        database.create_tables(models, safe=True)
+        database.create_tables(models=[Agent, Unit, Message, TxMindUnit],
+                               safe=True)
+        database.create_tables(models=models, safe=True)
     database.close()
 
 
@@ -46,21 +47,26 @@ class Agent(BaseModel):
 
 
 class Unit(BaseModel):
-    agent_id = pw.ForeignKeyField(Agent)
+    agent = pw.ForeignKeyField(Agent)
     module_name = pw.CharField()
-    unit_name = pw.CharField()
-    unit_emoji = pw.CharField()
+    name = pw.CharField()
+    emoji = pw.CharField()
     unix_timestamp = pw.FloatField()
 
 
 class Message(BaseModel):
-    from_id = pw.ForeignKeyField(Agent)
-    to_id = pw.ForeignKeyField(Agent)
-    unit_id = pw.ForeignKeyField(Unit)
-    emoji = pw.CharField()
+    unit = pw.ForeignKeyField(Unit)
     payload = pw.CharField(null=True)
-    unix_timestamp = pw.FloatField()
     comment = pw.TextField(null=True)
+
+
+class TxMindUnit(BaseModel):
+    agent = pw.ForeignKeyField(Agent)
+    name = pw.CharField()
+    start_t = pw.FloatField()
+    end_t = pw.FloatField()
+    seconds = pw.IntegerField(default=0)
+    breaks = pw.IntegerField(default=0)
 
 
 def add_agent(agent_id: int, name: str, is_me=False):
@@ -88,11 +94,11 @@ def get_me():
 
 def get_last_timestamp(agent_id) -> int:
     try:
-        msg = (Message
-               .select(Message.unix_timestamp)
-               .where(Message.from_id == agent_id)
-               .order_by(Message.unix_timestamp.desc())).get()
-        return msg.unix_timestamp
+        unit = (Unit
+                .select(Unit.unix_timestamp)
+                .where(Unit.agent == agent_id)
+                .order_by(Unit.unix_timestamp.desc())).get()
+        return unit.unix_timestamp
     except pw.DoesNotExist:
         return 0
 

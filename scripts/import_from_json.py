@@ -13,7 +13,6 @@ import db
 
 def convert_tg_export(json_data):
     lst = []
-    to_id = json_data['id']
     for message in json_data['messages']:
         msg_text = message['text']
         reply = 'reply_to_message_id' in message
@@ -26,7 +25,6 @@ def convert_tg_export(json_data):
             dt_utc = dt_cet.astimezone(pytz.utc)
             unix_timestamp = dt_utc.timestamp()
             dix = {'from_id': from_id,
-                   'to_id': to_id,
                    'text': msg_text,
                    'unix_timestamp': unix_timestamp}
             lst.append(dix)
@@ -43,9 +41,8 @@ def insert_json_in_db(unit_manager, json_data):
     for msg in json_data:
         pr = unit_manager.process_string(msg['text'])
         if pr.success:
-            um.save_unit_data(msg['from_id'],
-                              msg['to_id'],
-                              msg['unix_timestamp'])
+            unit_manager.save_unit_data(msg['from_id'],
+                                        msg['unix_timestamp'])
         else:
             print('failed:', msg)
 
@@ -63,15 +60,17 @@ def insert_from_tg_export(unit_manager, json_data):
     insert_json_in_db(unit_manager, res)
 
 
-if __name__ == '__main__':
+def main():
     if len(sys.argv) != 2:
         print(f'usage: python {sys.argv[0]} <json_file>')
         sys.exit(1)
-
     with open(sys.argv[1], 'r') as f:
         data = json.load(f)
 
     um = UnitManager(config.emojis)
-    # init_database(um)
-    # insert_from_tg_export(um, data)
+    init_database(um)
+    insert_from_tg_export(um, data)
 
+
+if __name__ == '__main__':
+    main()
