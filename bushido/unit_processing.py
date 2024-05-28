@@ -30,19 +30,15 @@ class UnitProcessor(abc.ABC):
     def save_unit(self, agent_id, unix_timestamp) -> db.Unit | None:
         self.unit = db.Unit.create(agent_id=agent_id,
                                    module_name=self.module_name,
-                                   unit_name=self.unit_name,
-                                   unit_emoji=self.unit_emoji,
+                                   name=self.unit_name,
+                                   emoji=self.unit_emoji,
                                    unix_timestamp=unix_timestamp)
         self.save_subunit()
         return self.unit
 
-    def save_unit_message(self, to_id):
+    def save_unit_message(self):
         # TODO fix this bad design
-        msg = db.Message.create(from_id=self.unit.agent_id,
-                                to_id=to_id,
-                                unit_id=self.unit,
-                                unix_timestamp=self.unit.unix_timestamp,
-                                emoji=self.unit.unit_emoji,
+        msg = db.Message.create(unit_id=self.unit,
                                 payload=self.payload,
                                 comment=self.comment)
         return msg

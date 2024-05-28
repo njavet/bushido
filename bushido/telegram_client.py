@@ -33,13 +33,12 @@ class AsyncTelegramClient(TelegramClient):
     def extract_ids_and_time(message):
         log_time = message.date.astimezone(pytz.timezone('utc'))
         unix_timestamp = message.date.timestamp()
-        to_id = message.peer_id.user_id
         try:
             from_id = message.from_id.user_id
         except AttributeError:
             from_id = message.sender.id
 
-        return from_id, to_id, unix_timestamp
+        return from_id, unix_timestamp
 
     async def fetch_missed_messages(self, chat):
         last_message_timestamp = db.get_last_timestamp(db.get_me())
@@ -61,11 +60,10 @@ class AsyncTelegramClient(TelegramClient):
         for msg in messages:
             processing_result = self.um.process_string(msg.message)
             if processing_result.success:
-                agent_id, to_id, unix_timestamp = self.extract_ids_and_time(
+                agent_id, unix_timestamp = self.extract_ids_and_time(
                     msg
                 )
                 self.um.save_unit_data(agent_id,
-                                       to_id,
                                        unix_timestamp)
                 await self.send_message('csm101_bot',
                                         processing_result.msg,
@@ -98,11 +96,10 @@ class T800(AsyncTelegramClient):
     async def msg_recv_handler(self, event):
         processing_result = self.um.process_string(event.message.message)
         if processing_result.success:
-            agent_id, to_id, unix_timestamp = self.extract_ids_and_time(
+            agent_id, unix_timestamp = self.extract_ids_and_time(
                 event.message
             )
             self.um.save_unit_data(agent_id,
-                                   to_id,
                                    unix_timestamp)
             await event.reply(processing_result.msg)
         else:
