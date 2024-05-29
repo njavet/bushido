@@ -33,9 +33,9 @@ class UnitHistory(Static):
             ld = helpers.get_bushido_date_from_datetime(cet_dt)
             date2msg[ld].append(msg)
 
-        # day = datetime.date(2023, 1, 1)
         # TODO from a user config file
         day = datetime.date(2024, 5, 26)
+        day = datetime.date(2023, 1, 1)
         while day <= datetime.date.today():
             title = datetime.date.strftime(day, '%d.%m.%y')
             lst = []
