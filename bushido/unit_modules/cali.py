@@ -27,7 +27,7 @@ class UnitProcessor(unit_processing.UnitProcessor):
                            pauses=pauses)
 
     def save_subunit(self):
-        for set_nr, w, r, p in self.attrs.zipped():
+        for set_nr, r, p in self.attrs.zipped():
             Cali.create(unit_id=self.unit,
                         set_nr=set_nr,
                         reps=r,
