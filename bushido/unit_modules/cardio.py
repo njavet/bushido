@@ -1,5 +1,4 @@
 import datetime
-
 import peewee as pw
 from dataclasses import dataclass, field
 

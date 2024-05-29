@@ -13,6 +13,9 @@ import db
 
 
 def convert_tg_export(json_data):
+    """
+    this converts jsondata that was exported by telegram
+    """
     lst = []
     for message in json_data['messages']:
         msg_text = message['text']
@@ -25,7 +28,7 @@ def convert_tg_export(json_data):
             dt_cet = datetime.datetime.strptime(dt_str, dt_format)
             dt_utc = dt_cet.astimezone(pytz.utc)
             unix_timestamp = dt_utc.timestamp()
-            dix = {'from_id': from_id,
+            dix = {'agent_id': from_id,
                    'text': msg_text,
                    'utc_datetime': datetime.datetime.strftime(dt_utc, dt_format),
                    'local_datetime': dt_str,
@@ -41,33 +44,14 @@ def convert_tg_export_to_file(json_data):
 
 
 def insert_json_in_db(unit_manager, json_data):
-    ems = collections.defaultdict(int)
-    txts = collections.defaultdict(str)
     for msg in json_data:
-        try:
-            pr = unit_manager.process_string(msg['text'])
-            if pr.success:
-                try:
-                    from_id = msg['from_id']
-                except KeyError:
-                    from_id = msg['user_id']
-
-                try:
-                    unix_timestamp = msg['unix_timestamp']
-                except KeyError:
-                    unix_timestamp = msg['unixtime']
-                unit_manager.save_unit_data(from_id, unix_timestamp)
-            else:
-                em = msg['text'].split()[0]
-                ems[em] += 1
-                txts[em] += '\n' + msg.text
-        except:
-            em = msg['text'].split()[0]
-            ems[em] += 1
-            txts[em] += '\n' + msg['text']
-
-    for k, v in txts.items():
-        print('k=', k, 'v=', v)
+        pr = unit_manager.process_string(msg['text'])
+        if pr.success:
+            agent_id = msg['agent_id']
+            unix_timestamp = msg['unix_timestamp']
+            unit_manager.save_unit_data(agent_id, unix_timestamp)
+        else:
+            print(pr.msg)
 
 
 def init_database(unit_manager):
