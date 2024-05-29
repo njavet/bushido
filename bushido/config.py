@@ -16,6 +16,8 @@ day_start = 4
 
 # emojis
 emojis = {
+    b'\xf0\x9f\x8c\x90'.decode(): 'log.log',
+
     b'\xe2\x9a\x96\xef\xb8\x8f'.decode(): 'balance.balance',
 
     b'\xf0\x9f\xaa\x90'.decode(): 'wimhof.wimhof',

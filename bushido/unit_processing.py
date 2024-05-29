@@ -1,4 +1,4 @@
-import abc
+from abc import ABC
 from dataclasses import dataclass
 import peewee as pw
 
@@ -6,7 +6,7 @@ import peewee as pw
 import db
 
 
-class UnitProcessor(abc.ABC):
+class UnitProcessor(ABC):
     def __init__(self, module_name, unit_name, unit_emoji) -> None:
         self.module_name = module_name
         self.unit_name = unit_name
