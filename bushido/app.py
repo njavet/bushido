@@ -29,6 +29,7 @@ class Bushido(App):
         self.unit_history = UnitHistory()
         self.tg_client = AsyncTelegramClient(session=config.bushido_session,
                                              umanager=self.um)
+        self.init_unit_tables()
 
     def init_unit_tables(self):
         models = []
@@ -65,7 +66,11 @@ class Bushido(App):
         self.app.push_screen(HelpScreen(config.emojis))
 
     def action_log_unit(self):
-        self.app.push_screen(UnitLog(self.um.emoji2proc, self.tg_client))
+        def unit_logged(success: bool) -> None:
+            if success:
+                self.unit_history.update_history()
+        self.app.push_screen(UnitLog(self.um.emoji2proc, self.tg_client),
+                             unit_logged)
 
 
 if __name__ == '__main__':
