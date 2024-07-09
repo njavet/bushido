@@ -8,7 +8,6 @@ import logging
 
 # project imports
 from unit_module import UnitModule
-import config
 import helpers
 import exceptions
 import parsing
@@ -63,7 +62,7 @@ class UnitManager:
 
     def _load_unit_modules(self, emojis):
         for module_name, emoji_uname_lst in self._parse_emoji_dix(emojis).items():
-            module_path = '.'.join([config.unit_modules_dir, module_name])
+            module_path = '.'.join(['unit_modules', module_name])
             module = importlib.import_module(module_path)
             subunit_model = [member for member in inspect.getmembers(module)
                              if inspect.isclass(member[1])

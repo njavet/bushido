@@ -1,28 +1,21 @@
+import os.path
+
 import peewee as pw
 import sys
-import os
 import logging
-
-# project imports
-import config
-import helpers
+from settings import db_url, data_dir
 
 
 logger = logging.getLogger(__name__)
 
 
-def get_database():
-    data_dir_path = helpers.get_data_dir_path()
-    db_path = os.path.join(data_dir_path, config.db_name)
-    database = pw.SqliteDatabase(db_path)
-    return database
-
-
 def init_storage(models):
-    # create user data dir
-    helpers.create_user_data_dir()
+    # create datadir
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+
     # create tables
-    database = get_database()
+    database = pw.SqliteDatabase(db_url)
     try:
         database.connect()
     except pw.OperationalError as e:
@@ -37,7 +30,7 @@ def init_storage(models):
 
 class BaseModel(pw.Model):
     class Meta:
-        database = get_database()
+        database = pw.SqliteDatabase(db_url)
 
 
 class Agent(BaseModel):
