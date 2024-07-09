@@ -20,7 +20,7 @@ class Bushido(App):
                 ('l', 'log_unit', 'Log')]
 
     # TODO clean config
-    CSS_PATH = '../stylesheets/main.tcss'
+    CSS_PATH = 'assets/main.tcss'
 
     def __init__(self):
         super().__init__()
