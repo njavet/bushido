@@ -1,4 +1,6 @@
 import asyncio
+import sys
+import os
 from textual.app import App, ComposeResult
 from textual.widgets import Footer, LoadingIndicator
 
@@ -10,7 +12,7 @@ from txscreens.login import LoginScreen
 from txscreens.unitlog import UnitLog
 from txwidgets.unithistory import UnitHistory
 import db
-import config
+import settings
 
 
 class Bushido(App):
@@ -24,10 +26,10 @@ class Bushido(App):
 
     def __init__(self):
         super().__init__()
-        self.um = UnitManager(config.emojis)
+        self.um = UnitManager(settings.emojis)
         self.t800 = None
         self.unit_history = UnitHistory()
-        self.tg_client = AsyncTelegramClient(session=config.bushido_session,
+        self.tg_client = AsyncTelegramClient(session=settings.agent_session,
                                              umanager=self.um)
         self.init_unit_tables()
 
@@ -59,7 +61,7 @@ class Bushido(App):
 
     async def on_mount(self):
         await asyncio.create_task(self.check_authorization())
-        self.t800 = T800(session=config.t800_session, umanager=self.um)
+        self.t800 = T800(session=settings.t800_session, umanager=self.um)
         await self.t800.start_bot()
 
     def action_help(self):

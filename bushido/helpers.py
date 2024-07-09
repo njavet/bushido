@@ -1,31 +1,13 @@
-# general imports
 import datetime
-import os
-import re
 import pytz
 
 # project imports
-import config
-
-
-def get_data_dir_path() -> str:
-    """
-        return the absolute path of the data directory
-    """
-    home = os.path.expanduser('~')
-    data_dir_path = os.path.join(home, config.data_dir)
-    return data_dir_path
-
-
-def create_user_data_dir():
-    data_dir_path = get_data_dir_path()
-    if not os.path.exists(data_dir_path):
-        os.makedirs(data_dir_path)
+import settings
 
 
 def convert_emoji(emoji):
     try:
-        return config.single2double[emoji.encode('utf-8')].decode('utf-8')
+        return settings.single2double[emoji.encode('utf-8')].decode('utf-8')
     except KeyError:
         return emoji
 
@@ -42,7 +24,7 @@ def get_datetime_from_unix_timestamp(unix_timestamp: float) -> datetime.datetime
 
 
 def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
-    if 0 <= dt.hour < config.day_start:
+    if 0 <= dt.hour < settings.day_start:
         return dt.date() - datetime.timedelta(days=1)
     else:
         return dt.date()
