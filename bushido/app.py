@@ -40,6 +40,7 @@ class Bushido(App):
         yield Footer()
 
     async def check_authorization(self):
+        # ConnectionError: Connection to Telegram failed 5 time(s)
         await self.tg_com.tg_agent.connect()
         is_authorized = await self.tg_com.tg_agent.is_user_authorized()
         if is_authorized:
@@ -56,8 +57,8 @@ class Bushido(App):
         self.mount(UnitHistory(), before=self.query_one(Footer))
 
     async def on_mount(self):
-        await asyncio.create_task(self.check_authorization())
         await self.tg_com.start_bot()
+        await asyncio.create_task(self.check_authorization())
 
     def action_help(self):
         self.app.push_screen(HelpScreen(config.emojis))

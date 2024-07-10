@@ -76,17 +76,18 @@ class TgCom:
 
         for msg in messages:
             processing_result = self.um.process_string(msg.message)
+            agent_id, unix_timestamp = self.extract_ids_and_time(
+                msg
+            )
             if processing_result.success:
-                agent_id, unix_timestamp = self.extract_ids_and_time(
-                    msg
-                )
+                print('MSG ID', msg.id)
                 self.um.save_unit_data(agent_id,
                                        unix_timestamp)
-                await self.tg_bot.send_message('csm101_bot',
+                await self.tg_bot.send_message('teva_nx5',
                                                processing_result.msg,
                                                reply_to=msg.id)
             else:
-                await self.tg_bot.send_message('csm101_bot',
+                await self.tg_bot.send_message(agent_id,
                                                'Fail: ' + processing_result.msg,
                                                reply_to=msg.id)
 
