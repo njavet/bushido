@@ -5,6 +5,20 @@ import pytz
 import settings
 
 
+def create_emoji2uname_dict(emoji2proc):
+    dix = {}
+    for emoji, proc in emoji2proc.items():
+        dix[emoji] = proc.unit_name
+    return dix
+
+
+def is_valid_emoji(value: str) -> bool:
+    try:
+        return value.split()[0] in settings.emojis.keys()
+    except IndexError:
+        return False
+
+
 def convert_emoji(emoji):
     try:
         return settings.single2double[emoji.encode('utf-8')].decode('utf-8')
