@@ -3,7 +3,7 @@ from textual.app import App, ComposeResult
 from textual.widgets import Footer, LoadingIndicator
 
 # project imports
-from unit_manager import UnitManager
+from unit_mgr import UnitManager
 from tgcom import TgCom
 from txscreens.helpscreen import HelpScreen
 from txscreens.login import LoginScreen
