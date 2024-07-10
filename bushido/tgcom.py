@@ -28,11 +28,13 @@ class TgCom:
         return tg_bot
 
     async def msg_recv_handler(self, event):
+        agent_id, unix_timestamp = self.extract_ids_and_time(
+            event.message
+        )
+        if event.message.reply_to is not None:
+            return
         processing_result = self.um.process_string(event.message.message)
         if processing_result.success:
-            agent_id, unix_timestamp = self.extract_ids_and_time(
-                event.message
-            )
             self.um.save_unit_data(agent_id,
                                    unix_timestamp)
             await event.reply(processing_result.msg)
@@ -73,21 +75,15 @@ class TgCom:
 
     async def process_missed_messages(self, chat):
         messages = await self.fetch_missed_messages(chat)
-
         for msg in messages:
             processing_result = self.um.process_string(msg.message)
             agent_id, unix_timestamp = self.extract_ids_and_time(
                 msg
             )
             if processing_result.success:
-                print('MSG ID', msg.id)
                 self.um.save_unit_data(agent_id,
                                        unix_timestamp)
-                await self.tg_bot.send_message('teva_nx5',
-                                               processing_result.msg,
-                                               reply_to=msg.id)
+                await msg.reply(processing_result.msg)
             else:
-                await self.tg_bot.send_message(agent_id,
-                                               'Fail: ' + processing_result.msg,
-                                               reply_to=msg.id)
+                await msg.reply('FAIL: ' + processing_result.msg)
 
