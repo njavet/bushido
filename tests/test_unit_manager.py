@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 from exceptions import UnitProcessingError
-from unit_manager import UnitManager
+from unit_mgr import UnitManager
 
 
 class TestPreprocess(unittest.TestCase):
