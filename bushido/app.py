@@ -7,7 +7,7 @@ from unit_manager import UnitManager
 from tgcom import TgCom
 from txscreens.helpscreen import HelpScreen
 from txscreens.login import LoginScreen
-from txscreens.unitlog import UnitLog
+from txscreens.tx_unit_mgr import TxUnitManager
 from txwidgets.unithistory import UnitHistory
 import db
 import settings
@@ -17,7 +17,7 @@ class Bushido(App):
 
     BINDINGS = [('q', 'quit', 'Quit'),
                 ('h', 'help', 'Help'),
-                ('l', 'log_unit', 'Log')]
+                ('u', 'manage_units', 'Unit')]
 
     # TODO clean config
     CSS_PATH = 'assets/main.tcss'
@@ -62,12 +62,14 @@ class Bushido(App):
     def action_help(self):
         self.app.push_screen(HelpScreen(config.emojis))
 
-    def action_log_unit(self):
-        def unit_logged(success: bool) -> None:
-            if success:
+    def action_manage_units(self):
+        def units_changed(changed: bool) -> None:
+            if changed:
                 self.unit_history.update_history()
-        self.app.push_screen(UnitLog(self.um.emoji2proc, self.tg_com.tg_agent),
-                             unit_logged)
+
+        self.app.push_screen(TxUnitManager(self.um.emoji2proc,
+                                           self.tg_com.tg_agent),
+                             units_changed)
 
 
 if __name__ == '__main__':

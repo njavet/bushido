@@ -6,38 +6,28 @@ from textual.app import ComposeResult
 from textual.suggester import Suggester
 from textual import events
 
+# project imports
+import helpers
 
-class UnitLog(ModalScreen):
+
+class TxUnitManager(ModalScreen):
 
     BINDINGS = [('q', 'app.pop_screen', 'Back'),
                 ('l', 'app.pop_screen', 'Back')]
 
-    def __init__(self, emoji2proc, tg_client):
+    def __init__(self, emoji2proc, tg_agent):
         super().__init__()
-        self.emoji2uname = self._create_emoji2uname_dict(emoji2proc)
-        self.tg_client = tg_client
-
-    @staticmethod
-    def _create_emoji2uname_dict(emoji2proc):
-        dix = {}
-        for emoji, proc in emoji2proc.items():
-            dix[emoji] = proc.unit_name
-        return dix
+        self.emoji2uname = helpers.create_emoji2uname_dict(emoji2proc)
+        self.tg_agent = tg_agent
 
     def compose(self) -> ComposeResult:
         yield Grid(
             Label('Unit Log'),
-            TextInput(validators=[Function(self.is_valid_key,
+            TextInput(validators=[Function(helpers.is_valid_emoji,
                                            'Not a valid key')],
                       suggester=UnitSuggester(self.emoji2uname)),
             RichLog(id='response'),
             id='unit_log')
-
-    def is_valid_key(self, value: str) -> bool:
-        try:
-            return value.split()[0] in [e for e in self.emoji2uname.keys()]
-        except IndexError:
-            return False
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
         rl = self.query_one('#response', RichLog)
@@ -46,7 +36,7 @@ class UnitLog(ModalScreen):
             rl.write('\n'.join(event.validation_result.failure_descriptions))
         else:
             rl.clear()
-            msg = await self.tg_client.send_message('csm101_bot', event.value)
+            msg = await self.tg_agent.send_message('csm101_bot', event.value)
             if msg:
                 self.dismiss(True)
             else:
