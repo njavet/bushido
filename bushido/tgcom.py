@@ -69,6 +69,10 @@ class TgCom:
             if cond0 and cond1:
                 print('msg', msg)
                 messages.append(msg)
+        return messages
+
+    async def process_missed_messages(self, chat):
+        messages = await self.fetch_missed_messages(chat)
 
         for msg in messages:
             processing_result = self.um.process_string(msg.message)
@@ -79,11 +83,10 @@ class TgCom:
                 self.um.save_unit_data(agent_id,
                                        unix_timestamp)
                 await self.tg_bot.send_message('csm101_bot',
-                                                processing_result.msg,
-                                                reply_to=msg.id)
+                                               processing_result.msg,
+                                               reply_to=msg.id)
             else:
                 await self.tg_bot.send_message('csm101_bot',
-                                        'Fail: ' + processing_result.msg,
-                                        reply_to=msg.id)
-
+                                               'Fail: ' + processing_result.msg,
+                                               reply_to=msg.id)
 
