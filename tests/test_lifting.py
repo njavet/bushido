@@ -3,7 +3,7 @@ import peewee as pw
 
 import settings
 import db
-from unit_manager import UnitManager
+from unit_mgr import UnitManager
 
 
 test_db = pw.SqliteDatabase(':memory:')
