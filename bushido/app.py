@@ -45,8 +45,8 @@ class Bushido(App):
         is_authorized = await self.tg_com.tg_agent.is_user_authorized()
         if is_authorized:
             await self.query_one(LoadingIndicator).remove()
-            await self.mount(self.unit_history, before=self.query_one(Footer))
             await self.tg_com.process_missed_messages('csm101_bot')
+            await self.mount(self.unit_history, before=self.query_one(Footer))
         else:
             await self.push_screen(LoginScreen(self.tg_com.tg_agent), self.check_login)
 
