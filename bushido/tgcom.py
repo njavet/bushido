@@ -11,10 +11,37 @@ import db
 logger = logging.getLogger(__name__)
 
 
-class AsyncTelegramClient(TelegramClient):
-    def __init__(self, session='anon', umanager=None):
-        super().__init__(session, settings.api_id, settings.api_hash)
-        self.um = umanager
+class TgCom:
+    def __init__(self, um):
+        self.um = um
+        self.tg_agent = TelegramClient(settings.agent_session,
+                                       settings.api_id,
+                                       settings.api_hash)
+        self.tg_bot = self.setup_bot()
+
+    def setup_bot(self):
+        tg_bot = TelegramClient(settings.t800_session,
+                                settings.api_id,
+                                settings.api_hash)
+        tg_bot.add_event_handler(self.msg_recv_handler,
+                                 NewMessage(incoming=True))
+        return tg_bot
+
+    async def msg_recv_handler(self, event):
+        processing_result = self.um.process_string(event.message.message)
+        if processing_result.success:
+            agent_id, unix_timestamp = self.extract_ids_and_time(
+                event.message
+            )
+            self.um.save_unit_data(agent_id,
+                                   unix_timestamp)
+            await event.reply(processing_result.msg)
+        else:
+            await event.reply('FAIL: ' + processing_result.msg)
+
+    async def start_bot(self):
+        # TODO 'class telegram client does not define __await__ warning
+        await self.tg_bot.start(bot_token=settings.bot_token)
 
     @staticmethod
     def extract_ids_and_time(message):
@@ -33,7 +60,7 @@ class AsyncTelegramClient(TelegramClient):
                                                                pytz.timezone('utc')))
         print('last local time', datetime.datetime.fromtimestamp(last_message_timestamp,
                                                                  pytz.timezone('Europe/Zurich')))
-        all_messages = await self.get_messages(chat, limit=32)
+        all_messages = await self.tg_agent.get_messages(chat, limit=32)
         messages = []
         for msg in all_messages:
             # unix utc timestamp
@@ -51,34 +78,12 @@ class AsyncTelegramClient(TelegramClient):
                 )
                 self.um.save_unit_data(agent_id,
                                        unix_timestamp)
-                await self.send_message('csm101_bot',
-                                        processing_result.msg,
-                                        reply_to=msg.id)
+                await self.tg_bot.send_message('csm101_bot',
+                                                processing_result.msg,
+                                                reply_to=msg.id)
             else:
-                await self.send_message('csm101_bot',
+                await self.tg_bot.send_message('csm101_bot',
                                         'Fail: ' + processing_result.msg,
                                         reply_to=msg.id)
 
 
-class T800(AsyncTelegramClient):
-    def __init__(self, session='bot', umanager=None):
-        super().__init__(session)
-        self.um = umanager
-        self.add_event_handler(self.msg_recv_handler,
-                               NewMessage(incoming=True))
-
-    async def start_bot(self):
-        # TODO 'class telegram client does not define __await__ warning
-        await self.start(bot_token=settings.bot_token)
-
-    async def msg_recv_handler(self, event):
-        processing_result = self.um.process_string(event.message.message)
-        if processing_result.success:
-            agent_id, unix_timestamp = self.extract_ids_and_time(
-                event.message
-            )
-            self.um.save_unit_data(agent_id,
-                                   unix_timestamp)
-            await event.reply(processing_result.msg)
-        else:
-            await event.reply('FAIL: ' + processing_result.msg)

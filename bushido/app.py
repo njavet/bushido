@@ -6,7 +6,7 @@ from textual.widgets import Footer, LoadingIndicator
 
 # project imports
 from unit_manager import UnitManager
-from telegram_client import T800, AsyncTelegramClient
+from tgcom import TgCom
 from txscreens.helpscreen import HelpScreen
 from txscreens.login import LoginScreen
 from txscreens.unitlog import UnitLog
@@ -27,10 +27,8 @@ class Bushido(App):
     def __init__(self):
         super().__init__()
         self.um = UnitManager(settings.emojis)
-        self.t800 = None
         self.unit_history = UnitHistory()
-        self.tg_client = AsyncTelegramClient(session=settings.agent_session,
-                                             umanager=self.um)
+        self.tg_com = TgCom(self.um)
         self.init_unit_tables()
 
     def init_unit_tables(self):
@@ -44,14 +42,14 @@ class Bushido(App):
         yield Footer()
 
     async def check_authorization(self):
-        await self.tg_client.connect()
-        is_authorized = await self.tg_client.is_user_authorized()
+        await self.tg_com.tg_agent.connect()
+        is_authorized = await self.tg_com.tg_agent.is_user_authorized()
         if is_authorized:
             await self.query_one(LoadingIndicator).remove()
             await self.mount(self.unit_history, before=self.query_one(Footer))
-            await self.tg_client.fetch_missed_messages('csm101_bot')
+            await self.tg_com.fetch_missed_messages('csm101_bot')
         else:
-            await self.push_screen(LoginScreen(self.tg_client), self.check_login)
+            await self.push_screen(LoginScreen(self.tg_com.tg_agent), self.check_login)
 
     def check_login(self, user):
         # TODO check failure
@@ -61,8 +59,7 @@ class Bushido(App):
 
     async def on_mount(self):
         await asyncio.create_task(self.check_authorization())
-        self.t800 = T800(session=settings.t800_session, umanager=self.um)
-        await self.t800.start_bot()
+        await self.tg_com.start_bot()
 
     def action_help(self):
         self.app.push_screen(HelpScreen(config.emojis))
@@ -71,7 +68,7 @@ class Bushido(App):
         def unit_logged(success: bool) -> None:
             if success:
                 self.unit_history.update_history()
-        self.app.push_screen(UnitLog(self.um.emoji2proc, self.tg_client),
+        self.app.push_screen(UnitLog(self.um.emoji2proc, self.tg_com.tg_agent),
                              unit_logged)
 
 
