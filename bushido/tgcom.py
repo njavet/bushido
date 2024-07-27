@@ -5,8 +5,8 @@ from telethon.events.newmessage import NewMessage
 import logging
 
 # project imports
-import settings
-import db
+import bushido.settings as settings
+import bushido.db as db
 
 logger = logging.getLogger(__name__)
 
