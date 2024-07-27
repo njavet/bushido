@@ -13,6 +13,11 @@ class Keiko(BaseModel):
     unit_id = pw.ForeignKeyField(Unit)
 
 
+class AbsHelper(ABC):
+    def __init__(self, category: str):
+        self.category = category
+
+
 class AbsProcessor(ABC):
     def __init__(self, category: str, uname: str, umoji: str) -> None:
         self.category = category
