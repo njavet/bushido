@@ -3,13 +3,13 @@ from textual.app import App, ComposeResult
 from textual.widgets import Footer, LoadingIndicator
 
 # project imports
-from bushido import UnitManager
-from tgcom import TgCom
-from txscreens.helpscreen import HelpScreen
-from txscreens.login import LoginScreen
-from txscreens.tx_unit_mgr import TxUnitManager
-from txwidgets.unithistory import UnitHistory
-import db
+from bushido.manager import UnitManager
+from bushido.tgcom import TgCom
+from bushido.txscreens.helpscreen import HelpScreen
+from bushido.txscreens.login import LoginScreen
+from bushido.txscreens.tx_unit_mgr import TxUnitManager
+from bushido.txwidgets.unithistory import UnitHistory
+import bushido.db as db
 
 
 class Bushido(App):

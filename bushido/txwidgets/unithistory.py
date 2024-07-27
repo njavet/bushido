@@ -5,39 +5,15 @@ from rich.text import Text
 from textual.app import ComposeResult
 from textual.widgets import RichLog, Static, Collapsible
 
-import db
-from db import Message
-import helpers
-
 
 class UnitHistory(Static):
     def __init__(self):
         super().__init__()
-        self.me = db.get_me()
-        self.message_query = self.get_messages()
 
     def compose(self) -> ComposeResult:
         yield RichLog()
         with Collapsible():
             yield Static('yo')
-
-    def get_messages(self):
-        query = (Message
-                 .select(Message, db.Unit)
-                 .join(db.Unit)
-                 .where(db.Unit.agent == self.me.agent_id)
-                 .order_by(db.Unit.unix_timestamp))
-        return query
-
-    def get_date2msg(self):
-        date2msg = collections.defaultdict(list)
-        for msg in self.message_query:
-            cet_dt = helpers.get_datetime_from_unix_timestamp(
-                msg.unit.unix_timestamp
-            )
-            ld = helpers.get_bushido_date_from_datetime(cet_dt)
-            date2msg[ld].append(msg)
-        return date2msg
 
     def on_mount(self):
         rl = self.query_one(RichLog)
@@ -45,7 +21,7 @@ class UnitHistory(Static):
         # TODO from a user config file
         day = datetime.date(2024, 7, 7)
         day = datetime.date(2023, 1, 1)
-        date2msg = self.get_date2msg()
+        date2msg = []
         while day <= datetime.date.today():
             title = datetime.date.strftime(day, '%d.%m.%y')
             lst = []
