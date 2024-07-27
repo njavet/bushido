@@ -16,7 +16,7 @@ class Bushido(App):
 
     BINDINGS = [('q', 'quit', 'Quit'),
                 ('h', 'help', 'Help'),
-                ('u', 'manage_units', 'Unit')]
+                ('l', 'log_unit', 'log')]
 
     # TODO clean config
     CSS_PATH = 'assets/main.tcss'
@@ -53,16 +53,11 @@ class Bushido(App):
         await asyncio.create_task(self.check_authorization())
 
     def action_help(self):
-        self.app.push_screen(HelpScreen(config.emojis))
+        self.app.push_screen(HelpScreen(self.um))
 
-    def action_manage_units(self):
-        def units_changed(changed: bool) -> None:
-            if changed:
-                self.unit_history.update_history()
-
+    def action_log_unit(self):
         self.app.push_screen(TxUnitManager(self.um,
-                                           self.tg_com.tg_agent),
-                             units_changed)
+                                           self.tg_com.tg_agent))
 
 
 if __name__ == '__main__':

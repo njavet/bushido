@@ -58,7 +58,10 @@ class TgCom:
 
     async def fetch_missed_messages(self, chat):
         # TODO when the -dt option is used, this can fail
-        last_message_timestamp = db.get_last_timestamp(db.get_me())
+        try:
+            last_message_timestamp = self.um.retrieve_messages()[0].timestamp
+        except IndexError:
+            last_message_timestamp = 0
         print('last timestamp', last_message_timestamp)
         print('last utc time', datetime.datetime.fromtimestamp(last_message_timestamp,
                                                                pytz.timezone('utc')))
