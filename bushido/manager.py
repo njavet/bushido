@@ -17,7 +17,7 @@ class UnitManager:
         self._load_categories()
 
     def _load_categories(self):
-        categories = Path('keikolib/category')
+        categories = Path('bushido/category')
         # all file_path in categories should be valid category implementations
         db_models = []
         for file_path in categories.rglob('*.py'):
