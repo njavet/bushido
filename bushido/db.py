@@ -1,4 +1,5 @@
 import peewee as pw
+import os
 import sys
 import logging
 
@@ -9,6 +10,8 @@ database = pw.SqliteDatabase(None)
 
 def init_database(db_url, models):
     # init database
+    data_dir = os.path.join(os.path.expanduser('~'), '.local/share/bushido')
+    db_url = os.path.join(data_dir, 'bushido.db')
     database.init(db_url)
 
     # create tables
