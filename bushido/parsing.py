@@ -3,7 +3,7 @@ import datetime
 import re
 
 # project imports
-import exceptions
+from .exceptions import ProcessingError
 
 
 def parse_time_string(time_string: str) -> float:
@@ -38,7 +38,7 @@ def parse_colon_separated_time_string(values: list[str]) -> float:
             m = float(values[1])
             s = float(values[2])
         except ValueError:
-            raise exceptions.UnitProcessingError('colon time format error')
+            raise ProcessingError('colon time format error')
         else:
             return h * 60 * 60 + m * 60 + s
     # format MM:SS
@@ -47,22 +47,22 @@ def parse_colon_separated_time_string(values: list[str]) -> float:
             m = float(values[0])
             s = float(values[1])
         except ValueError:
-            raise exceptions.UnitProcessingError('colon time format error')
+            raise ProcessingError('colon time format error')
         else:
             return m * 60 + s
     else:
-        raise exceptions.UnitProcessingError('colon time format error')
+        raise ProcessingError('colon time format error')
 
 
 def parse_military_time_string(time_string: str) -> datetime.time:
     # e.g. 1600 for 16:00
     if len(time_string) != 4:
-        raise exceptions.UnitProcessingError('incorrect military time')
+        raise ProcessingError('incorrect military time')
     try:
         hour = int(time_string[0:2])
         minutes = int(time_string[2:])
     except ValueError:
-        raise exceptions.UnitProcessingError('incorrect military time')
+        raise ProcessingError('incorrect military time')
     else:
         return datetime.time(hour, minutes)
 
@@ -80,7 +80,7 @@ def parse_start_end_time_string(time_string: str) -> tuple[datetime.time, dateti
     try:
         s, e = reg.group().split('-')
     except AttributeError:
-        raise exceptions.UnitProcessingError('wrong time format')
+        raise ProcessingError('wrong time format')
 
     start_t = parse_military_time_string(s)
     end_t = parse_military_time_string(e)

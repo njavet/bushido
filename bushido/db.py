@@ -1,28 +1,24 @@
-import os.path
-
 import peewee as pw
 import sys
 import logging
-from settings import db_url, data_dir
 
 
 logger = logging.getLogger(__name__)
+database = pw.SqliteDatabase(None)
 
 
-def init_storage(models):
-    # create datadir
-    if not os.path.exists(data_dir):
-        os.makedirs(data_dir)
+def init_database(db_url, models):
+    # init database
+    database.init(db_url)
 
     # create tables
-    database = pw.SqliteDatabase(db_url)
     try:
         database.connect()
     except pw.OperationalError as e:
         logger.error(f'peewee operational error: {e}')
         sys.exit(1)
     else:
-        database.create_tables(models=[Agent, Unit, Message, TxMindUnit],
+        database.create_tables(models=[Budoka, Unit, Message],
                                safe=True)
         database.create_tables(models=models, safe=True)
     database.close()
@@ -30,70 +26,47 @@ def init_storage(models):
 
 class BaseModel(pw.Model):
     class Meta:
-        database = pw.SqliteDatabase(db_url)
+        database = database
 
 
-class Agent(BaseModel):
-    agent_id = pw.IntegerField(primary_key=True)
+class Budoka(BaseModel):
+    budoka_id = pw.IntegerField(primary_key=True)
     name = pw.CharField()
     is_me = pw.BooleanField(default=True)
 
 
 class Unit(BaseModel):
-    agent = pw.ForeignKeyField(Agent)
-    module_name = pw.CharField()
-    name = pw.CharField()
-    emoji = pw.CharField()
-    unix_timestamp = pw.FloatField()
+    budoka = pw.ForeignKeyField(Budoka)
+    category = pw.CharField()
+    uname = pw.CharField()
+    umoji = pw.CharField()
+    timestamp = pw.FloatField()
 
 
 class Message(BaseModel):
     unit = pw.ForeignKeyField(Unit)
-    unix_timestamp = pw.FloatField()
     payload = pw.CharField(null=True)
     comment = pw.TextField(null=True)
 
 
-class TxMindUnit(BaseModel):
-    agent = pw.ForeignKeyField(Agent)
-    name = pw.CharField()
-    start_t = pw.FloatField()
-    end_t = pw.FloatField()
-    seconds = pw.IntegerField(default=0)
-    breaks = pw.IntegerField(default=0)
-
-
-def add_agent(agent_id: int, name: str, is_me=False):
+def add_budoka(budoka_id: int, name: str, is_me=False) -> Budoka | None:
     try:
-        agent = Agent.create(agent_id=agent_id,
-                             name=name,
-                             is_me=is_me)
+        budoka = Budoka.create(budoka_id=budoka_id,
+                               name=name,
+                               is_me=is_me)
     except pw.IntegrityError:
-        agent = None
+        budoka = None
 
-    return agent
+    return budoka
 
 
-def get_me():
+def get_me() -> Budoka | None:
     try:
-        agent = Agent.get(is_me=True)
+        budoka = Budoka.get(is_me=True)
     except pw.DoesNotExist:
-        logger.debug('Agent does not exist...')
-        agent = None
+        logger.debug('Budoka does not exist...')
+        budoka = None
     except pw.OperationalError:
         logger.debug('operational error... ')
-        agent = None
-    return agent
-
-
-def get_last_timestamp(agent_id) -> int:
-    try:
-        msg = (Message
-               .select(Message.unix_timestamp)
-               .join(Unit)
-               .where(Message.unit.agent == agent_id)
-               .order_by(Message.unix_timestamp.desc())).get()
-        return msg.unix_timestamp
-    except pw.DoesNotExist:
-        return 0
-
+        budoka = None
+    return budoka

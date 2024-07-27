@@ -1,7 +1,9 @@
 import unittest
 import datetime
-import parsing
-import exceptions
+
+# project imports
+import bushido.parsing as parsing
+from bushido.exceptions import ProcessingError
 
 
 class TestParsingTimeString(unittest.TestCase):
@@ -48,12 +50,12 @@ class TestParsingTimeString(unittest.TestCase):
     def test_parse_time_string_wrong_input_0(self):
         ts = 'not a valid time_string'
         sec = parsing.parse_time_string(ts)
-        self.assertRaises(exceptions.UnitProcessingError)
+        self.assertRaises(ProcessingError)
 
     def test_parse_time_string_wrong_input_1(self):
         ts = '32five'
         sec = parsing.parse_time_string(ts)
-        self.assertRaises(exceptions.UnitProcessingError)
+        self.assertRaises(ProcessingError)
 
 
 class TestParsingMilitaryTimeString(unittest.TestCase):

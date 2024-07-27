@@ -1,7 +1,7 @@
 import unittest
-import datetime
-import parsing
-import exceptions
+
+# project imports
+import bushido.parsing as parsing
 
 
 class TestParsingTimeString(unittest.TestCase):
