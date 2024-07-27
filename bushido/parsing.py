@@ -3,7 +3,7 @@ import datetime
 import re
 
 # project imports
-from .exceptions import ProcessingError
+from bushido.exceptions import ProcessingError
 
 
 def parse_time_string(time_string: str) -> float:

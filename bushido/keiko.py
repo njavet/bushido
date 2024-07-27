@@ -5,7 +5,7 @@ from collections import defaultdict
 from abc import ABC
 
 # project imports
-from .db import BaseModel, Unit, Message
+from bushido.db import BaseModel, Unit, Message
 
 
 class Keiko(BaseModel):

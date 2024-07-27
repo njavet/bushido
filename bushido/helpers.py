@@ -1,9 +1,6 @@
 import datetime
 import pytz
 
-# project imports
-import settings
-
 
 def create_emoji2uname_dict(emoji2proc):
     dix = {}

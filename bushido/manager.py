@@ -3,9 +3,9 @@ import importlib
 import inspect
 import logging
 
-from .exceptions import ProcessingError
-from .filters import preprocess_string
-from .db import init_database
+from bushido.exceptions import ProcessingError
+from bushido.filters import preprocess_string
+from bushido.db import init_database
 
 logger = logging.getLogger(__name__)
 

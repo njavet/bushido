@@ -1,5 +1,5 @@
 from typing import Optional
-from .exceptions import ProcessingError
+from bushido.exceptions import ProcessingError
 
 
 def preprocess_string(input_string: str) -> Optional[tuple[str, list[str], str]]:
