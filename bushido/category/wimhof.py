@@ -2,39 +2,39 @@ from dataclasses import dataclass
 import peewee as pw
 
 # project imports
-import unit_processing
-import exceptions
+from bushido.keiko import Keiko, AbsProcessor, AbsRetriever, AbsAttrs, AbsUmojis
+from bushido.exceptions import ProcessingError
 
 
-class UnitProcessor(unit_processing.UnitProcessor):
-    def __init__(self, module_name, unit_name, unit_emoji):
-        super().__init__(module_name, unit_name, unit_emoji)
+class Processor(AbsProcessor):
+    def __init__(self, category, uname, umoji):
+        super().__init__(category, uname, umoji)
 
-    def parse_words(self, words):
+    def _process_words(self, words):
         try:
             breaths = [int(b) for b in words[::2]]
             retentions = [int(r) for r in words[1::2]]
         except ValueError:
-            raise exceptions.UnitProcessingError('value error')
+            raise ProcessingError('value error')
         if len(breaths) != len(retentions):
-            raise exceptions.UnitProcessingError('Not the same number of breaths and seconds')
+            raise ProcessingError('Not the same number of breaths and seconds')
         if len(breaths) < 1:
-            raise exceptions.UnitProcessingError('At least one round necessary')
+            raise ProcessingError('At least one round necessary')
 
         self.attrs = Attrs(rounds=list(range(len(breaths))),
                            breaths=breaths,
                            retentions=retentions)
 
-    def save_subunit(self):
+    def _save_keiko(self, unit):
         for round_nr, b, r in self.attrs.zipped():
-            Wimhof.create(unit_id=self.unit,
+            Wimhof.create(unit_id=unit,
                           round_nr=round_nr,
                           breaths=b,
                           retention=r)
 
 
 @dataclass
-class Attrs(unit_processing.Attrs):
+class Attrs(AbsAttrs):
     rounds: list[int]
     breaths: list[int]
     retentions: list[int]
@@ -43,7 +43,13 @@ class Attrs(unit_processing.Attrs):
         return zip(self.rounds, self.breaths, self.retentions)
 
 
-class Wimhof(unit_processing.SubUnit):
+class Wimhof(Keiko):
     round_nr = pw.IntegerField()
     breaths = pw.IntegerField()
     retention = pw.IntegerField()
+
+
+class Umojis(AbsUmojis):
+    umoji2uname = {
+        b'\xf0\x9f\xaa\x90'.decode(): 'wimhof'}
+

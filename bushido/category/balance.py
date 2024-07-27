@@ -2,19 +2,19 @@ from dataclasses import dataclass, field
 import peewee as pw
 
 # project imports
-import unit_processing
-import exceptions
+from bushido.keiko import Keiko, AbsProcessor, AbsRetriever, AbsAttrs, AbsUmojis
+from bushido.exceptions import ProcessingError
 
 
-class UnitProcessor(unit_processing.UnitProcessor):
-    def __init__(self, module_name, unit_name, unit_emoji):
-        super().__init__(module_name, unit_name, unit_emoji)
+class Processor(AbsProcessor):
+    def __init__(self, category, uname, umoji):
+        super().__init__(category, uname, umoji)
 
-    def parse_words(self, words: list) -> None:
+    def _process_words(self, words: list) -> None:
         try:
             self.attrs = Attrs(weight=float(words[0]))
         except (IndexError, ValueError):
-            raise exceptions.UnitProcessingError('Specify the weight')
+            raise ProcessingError('Specify the weight')
 
         try:
             fat = float(words[1])
@@ -33,16 +33,16 @@ class UnitProcessor(unit_processing.UnitProcessor):
 
         self.attrs.set_optional_data(fat, water, muscles)
 
-    def save_subunit(self):
-        self.subunit = Balance.create(unit_id=self.unit,
-                                      weight=self.attrs.weight,
-                                      fat=self.attrs.fat,
-                                      water=self.attrs.water,
-                                      muscles=self.attrs.muscles)
+    def _save_keiko(self, unit):
+        Balance.create(unit_id=unit,
+                       weight=self.attrs.weight,
+                       fat=self.attrs.fat,
+                       water=self.attrs.water,
+                       muscles=self.attrs.muscles)
 
 
 @dataclass
-class Attrs(unit_processing.Attrs):
+class Attrs(AbsAttrs):
     weight: float
     fat: float | None = field(init=False)
     water: float | None = field(init=False)
@@ -54,8 +54,14 @@ class Attrs(unit_processing.Attrs):
         self.muscles = muscles
 
 
-class Balance(unit_processing.SubUnit):
+class Balance(Keiko):
     weight = pw.FloatField()
     fat = pw.FloatField(null=True)
     water = pw.FloatField(null=True)
     muscles = pw.FloatField(null=True)
+
+
+class Umojis(AbsUmojis):
+    umoji2uname = {b'\xe2\x9a\x96\xef\xb8\x8f'.decode(): 'balance'}
+    emoji2umoji = {b'\xe2\x9a\x96'.decode(): b'\xe2\x9a\x96\xef\xb8\x8f'.decode()}
+

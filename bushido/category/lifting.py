@@ -2,38 +2,38 @@ import peewee as pw
 from dataclasses import dataclass
 
 # project imports
-import unit_processing
-import exceptions
+from bushido.keiko import Keiko, AbsProcessor, AbsRetriever, AbsAttrs, AbsUmojis
+from bushido.exceptions import ProcessingError
 
 
-class UnitProcessor(unit_processing.UnitProcessor):
-    def __init__(self, module_name, unit_name, unit_emoji):
-        super().__init__(module_name, unit_name, unit_emoji)
+class Processor(AbsProcessor):
+    def __init__(self, category, uname, umoji):
+        super().__init__(category, uname, umoji)
 
-    def parse_words(self, words) -> None:
+    def _process_words(self, words) -> None:
         try:
             weights = [float(w) for w in words[::3]]
             reps = [float(r) for r in words[1::3]]
             pauses = [int(p) for p in words[2::3]] + [0]
         except ValueError:
-            raise exceptions.UnitProcessingError('invalid input')
+            raise ProcessingError('invalid input')
 
         if len(reps) != len(weights):
-            raise exceptions.UnitProcessingError(
+            raise ProcessingError(
                 'Not the same number of reps and weights')
         if len(pauses) != len(reps):
-            raise exceptions.UnitProcessingError('break error')
+            raise ProcessingError('break error')
         if len(reps) < 1:
-            raise exceptions.UnitProcessingError('No set')
+            raise ProcessingError('No set')
 
         self.attrs = Attrs(sets=list(range(len(weights))),
                            weights=weights,
                            reps=reps,
                            pauses=pauses)
 
-    def save_subunit(self):
+    def _save_keiko(self, unit):
         for set_nr, w, r, p in self.attrs.zipped():
-            Lifting.create(unit_id=self.unit,
+            Lifting.create(unit_id=unit,
                            set_nr=set_nr,
                            weight=w,
                            reps=r,
@@ -41,7 +41,7 @@ class UnitProcessor(unit_processing.UnitProcessor):
 
 
 @dataclass
-class Attrs(unit_processing.Attrs):
+class Attrs(AbsAttrs):
     sets: list[int]
     weights: list[float]
     reps: list[float]
@@ -51,7 +51,7 @@ class Attrs(unit_processing.Attrs):
         return zip(self.sets, self.weights, self.reps, self.pauses)
 
 
-class Lifting(unit_processing.SubUnit):
+class Lifting(Keiko):
     set_nr = pw.IntegerField()
     weight = pw.FloatField()
     reps = pw.FloatField()
@@ -59,4 +59,18 @@ class Lifting(unit_processing.SubUnit):
 
     def __str__(self):
         return ' '.join([str(self.weight), str(self.reps), str(self.pause)])
+
+
+class Umojis(AbsUmojis):
+    umoji2uname = {
+            b'\xe2\x9b\xa9\xef\xb8\x8f'.decode(): 'squat',
+            b'\xf0\x9f\x8f\x97\xef\xb8\x8f'.decode(): 'deadlift',
+            b'\xf0\x9f\x9a\x81'.decode(): 'benchpress',
+            b'\xf0\x9f\xa6\xad'.decode(): 'overheadpress',
+            b'\xf0\x9f\x90\xa2'.decode(): 'rows'}
+    emoji2umoji = {
+            # shinto -> squats
+            b'\xe2\x9b\xa9'.decode(): b'\xe2\x9b\xa9\xef\xb8\x8f'.decode(),
+            # crane -> deadlift'
+            b'\xf0\x9f\x8f\x97'.decode(): b'\xf0\x9f\x8f\x97\xef\xb8\x8f'.decode()}
 

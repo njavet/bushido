@@ -1,15 +1,15 @@
 import unittest
 import peewee as pw
 
-import settings
-import db
-from unit_mgr import UnitManager
+# project imports
+from bushido.db import Budoka, Unit, Message, add_budoka
+from bushido.manager import UnitManager
 
 
 test_db = pw.SqliteDatabase(':memory:')
-models = [db.Agent,
-          db.Unit,
-          db.Message]
+models = [Budoka,
+          Unit,
+          Message]
 
 
 class TestLifting(unittest.TestCase):
@@ -17,8 +17,8 @@ class TestLifting(unittest.TestCase):
         test_db.bind(models, bind_refs=False, bind_backrefs=False)
         test_db.connect()
         test_db.create_tables(models)
-        db.add_agent(agent_id=101, name='N300', is_me=True)
-        self.um = UnitManager(settings.emojis)
+        add_budoka(budoka_id=101, name='N300', is_me=True)
+        self.um = UnitManager()
 
     def tearDown(self) -> None:
         test_db.drop_tables(models)
