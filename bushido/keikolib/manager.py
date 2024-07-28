@@ -50,7 +50,6 @@ class UnitManager:
             pass
 
     def log_unit(self,
-                 budoka_id: int,
                  timestamp: float,
                  input_string: str) -> str:
         """

@@ -5,12 +5,12 @@ from collections import defaultdict
 from abc import ABC
 
 # project imports
-from bushido.db import BaseModel, Unit, Message
+from keikolib.db import Unit, Message
 
 
-class Keiko(BaseModel):
-    """ abstract base class for all keikos """
-    unit_id = pw.ForeignKeyField(Unit)
+class AbsCategory(ABC):
+    def __init__(self):
+        self.name: str | None = None
 
 
 class AbsHelper(ABC):
@@ -19,11 +19,14 @@ class AbsHelper(ABC):
 
 
 class AbsProcessor(ABC):
-    def __init__(self, category: str, uname: str, umoji: str) -> None:
-        self.category = category
+    def __init__(self, uname: str, umoji: str) -> None:
         self.uname = uname
         self.umoji = umoji
-        self.attrs: None | AbsAttrs = None
+        self.attrs = self.AbsAttrs()
+
+    @dataclass
+    class AbsAttrs:
+        pass
 
     def process_unit(self, timestamp, words, comment):
         self._process_words(words)
@@ -61,11 +64,6 @@ class AbsRetriever(ABC):
                  .join(self.keiko)
                  .order_by(Unit.timestamp.desc()))
         return query
-
-
-@dataclass
-class AbsAttrs:
-    pass
 
 
 @dataclass

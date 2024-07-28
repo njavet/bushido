@@ -39,6 +39,11 @@ class Unit(BaseModel):
     timestamp = pw.FloatField()
 
 
+class Keiko(BaseModel):
+    """ abstract base class for all keikos """
+    unit = pw.ForeignKeyField(Unit)
+
+
 class Message(BaseModel):
     unit = pw.ForeignKeyField(Unit)
     payload = pw.CharField(null=True)
