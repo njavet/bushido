@@ -25,18 +25,17 @@ class AbsProcessor(ABC):
         self.umoji = umoji
         self.attrs: None | AbsAttrs = None
 
-    def process_unit(self, budoka_id, timestamp, words, comment):
+    def process_unit(self, timestamp, words, comment):
         self._process_words(words)
-        unit = self._save_unit(budoka_id, timestamp)
+        unit = self._save_unit(timestamp)
         self._save_message(unit, words, comment)
         self._save_keiko(unit)
 
     def _process_words(self, words: list[str]):
         raise NotImplementedError
 
-    def _save_unit(self, budoka_id, timestamp) -> Unit:
-        unit = Unit.create(budoka_id=budoka_id,
-                           category=self.category,
+    def _save_unit(self, timestamp) -> Unit:
+        unit = Unit.create(category=self.category,
                            uname=self.uname,
                            umoji=self.umoji,
                            timestamp=timestamp)
@@ -56,10 +55,9 @@ class AbsRetriever(ABC):
     def __init__(self, keiko: Keiko):
         self.keiko = keiko
 
-    def retrieve_units(self, budoka_id):
+    def retrieve_units(self):
         query = (Unit
                  .select(Unit, self.keiko)
-                 .where(Unit.budoka == budoka_id)
                  .join(self.keiko)
                  .order_by(Unit.timestamp.desc()))
         return query
