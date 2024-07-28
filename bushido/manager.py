@@ -6,7 +6,7 @@ import logging
 
 from bushido.exceptions import ProcessingError
 from bushido.filters import preprocess_string
-from bushido.db import init_database, Unit, Message, get_me
+from bushido.db import init_database, Unit, Message
 
 logger = logging.getLogger(__name__)
 
