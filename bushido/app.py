@@ -1,15 +1,11 @@
-import asyncio
 from textual.app import App, ComposeResult
 from textual.widgets import Footer, LoadingIndicator
 
 # project imports
-from bushido.manager import UnitManager
-from bushido.tgcom import TgCom
+from bushido.keikolib import UnitManager
 from bushido.txscreens.helpscreen import HelpScreen
-from bushido.txscreens.login import LoginScreen
 from bushido.txscreens.tx_unit_mgr import TxUnitManager
 from bushido.txwidgets.unithistory import UnitHistory
-import bushido.db as db
 
 
 class Bushido(App):
@@ -25,39 +21,16 @@ class Bushido(App):
         super().__init__()
         self.um = UnitManager()
         self.unit_history = UnitHistory()
-        self.tg_com = TgCom(self.um)
 
     def compose(self) -> ComposeResult:
-        yield LoadingIndicator()
+        yield self.unit_history
         yield Footer()
-
-    async def check_authorization(self):
-        # ConnectionError: Connection to Telegram failed 5 time(s)
-        await self.tg_com.tg_agent.connect()
-        is_authorized = await self.tg_com.tg_agent.is_user_authorized()
-        if is_authorized:
-            await self.query_one(LoadingIndicator).remove()
-            await self.tg_com.process_missed_messages('csm101_bot')
-            await self.mount(self.unit_history, before=self.query_one(Footer))
-        else:
-            await self.push_screen(LoginScreen(self.tg_com.tg_agent), self.check_login)
-
-    def check_login(self, user):
-        # TODO check failure
-        db.add_budoka(user.id, user.first_name, is_me=True)
-        self.query_one(LoadingIndicator).remove()
-        self.mount(UnitHistory(), before=self.query_one(Footer))
-
-    async def on_mount(self):
-        await self.tg_com.start_bot()
-        await asyncio.create_task(self.check_authorization())
 
     def action_help(self):
         self.app.push_screen(HelpScreen(self.um))
 
     def action_log_unit(self):
-        self.app.push_screen(TxUnitManager(self.um,
-                                           self.tg_com.tg_agent))
+        self.app.push_screen(TxUnitManager(self.um))
 
 
 if __name__ == '__main__':

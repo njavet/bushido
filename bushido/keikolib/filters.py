@@ -1,5 +1,4 @@
 from typing import Optional
-from bushido.exceptions import ProcessingError
 
 
 def preprocess_string(input_string: str) -> Optional[tuple[str, list[str], str]]:
@@ -19,7 +18,7 @@ def preprocess_string(input_string: str) -> Optional[tuple[str, list[str], str]]
         comment = None
 
     if not emoji_payload:
-        raise ProcessingError('Empty payload')
+        raise ValueError('Empty payload')
 
     all_words = emoji_payload.split()
     emoji = all_words[0]

@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 import peewee as pw
 
 # project imports
-from keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
-from keikolib.parsing import parse_time_string
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from bushido.keikolib.parsing import parse_time_string
 
 
 class Processor(AbsProcessor):
