@@ -1,3 +1,7 @@
+clean:
+	rm -rf bushido.egg-info
+	rm -rf build
+	rm -rf dist
 
 reset:
 	rm -rf ~/.bushido-data

@@ -5,28 +5,15 @@ from collections import defaultdict
 from abc import ABC
 
 # project imports
-from keikolib.db import Unit, Message
-
-
-class AbsCategory(ABC):
-    def __init__(self):
-        self.name: str | None = None
-
-
-class AbsHelper(ABC):
-    def __init__(self, category: str):
-        self.category = category
+from keikolib.db import BaseModel, Unit, Message
 
 
 class AbsProcessor(ABC):
-    def __init__(self, uname: str, umoji: str) -> None:
+    def __init__(self, category: str, uname: str, umoji: str) -> None:
+        self.category = category
         self.uname = uname
         self.umoji = umoji
-        self.attrs = self.AbsAttrs()
-
-    @dataclass
-    class AbsAttrs:
-        pass
+        self.attrs = None
 
     def process_unit(self, timestamp, words, comment):
         self._process_words(words)
@@ -55,15 +42,23 @@ class AbsProcessor(ABC):
 
 
 class AbsRetriever(ABC):
-    def __init__(self, keiko: Keiko):
-        self.keiko = keiko
+    def __init__(self, category: str, uname: str) -> None:
+        self.category = category
+        self.uname = uname
+        self.keiko = None
 
     def retrieve_units(self):
         query = (Unit
                  .select(Unit, self.keiko)
                  .join(self.keiko)
+                 .where((Unit.category == self.category) &
+                        (Unit.uname == self.uname))
                  .order_by(Unit.timestamp.desc()))
         return query
+
+
+class Keiko(BaseModel):
+    unit = pw.ForeignKeyField(Unit)
 
 
 @dataclass
@@ -71,3 +66,5 @@ class AbsUmojis:
     umoji2uname: Dict[str, str]
     # needed for different sized byte encodings of some emojis
     emoji2umoji: defaultdict[dict] = field(default_factory=lambda: defaultdict(dict))
+
+
