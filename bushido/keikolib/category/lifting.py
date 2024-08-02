@@ -2,13 +2,22 @@ import peewee as pw
 from dataclasses import dataclass
 
 # project imports
-from bushido.keiko import Keiko, AbsProcessor, AbsRetriever, AbsAttrs, AbsUmojis
-from bushido.exceptions import ProcessingError
+from keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
 
 
 class Processor(AbsProcessor):
     def __init__(self, category, uname, umoji):
         super().__init__(category, uname, umoji)
+
+    @dataclass
+    class Attrs:
+        sets: list[int]
+        weights: list[float]
+        reps: list[float]
+        pauses: list[int]
+
+        def zipped(self):
+            return zip(self.sets, self.weights, self.reps, self.pauses)
 
     def _process_words(self, words) -> None:
         try:
@@ -16,20 +25,20 @@ class Processor(AbsProcessor):
             reps = [float(r) for r in words[1::3]]
             pauses = [int(p) for p in words[2::3]] + [0]
         except ValueError:
-            raise ProcessingError('invalid input')
+            raise ValueError('invalid input')
 
         if len(reps) != len(weights):
-            raise ProcessingError(
+            raise ValueError(
                 'Not the same number of reps and weights')
         if len(pauses) != len(reps):
-            raise ProcessingError('break error')
+            raise ValueError('break error')
         if len(reps) < 1:
-            raise ProcessingError('No set')
+            raise ValueError('No set')
 
-        self.attrs = Attrs(sets=list(range(len(weights))),
-                           weights=weights,
-                           reps=reps,
-                           pauses=pauses)
+        self.attrs = self.Attrs(sets=list(range(len(weights))),
+                                weights=weights,
+                                reps=reps,
+                                pauses=pauses)
 
     def _save_keiko(self, unit):
         for set_nr, w, r, p in self.attrs.zipped():
@@ -40,15 +49,10 @@ class Processor(AbsProcessor):
                            pause=p)
 
 
-@dataclass
-class Attrs(AbsAttrs):
-    sets: list[int]
-    weights: list[float]
-    reps: list[float]
-    pauses: list[int]
-
-    def zipped(self):
-        return zip(self.sets, self.weights, self.reps, self.pauses)
+class Retriever(AbsRetriever):
+    def __init__(self, category: str, uname: str) -> None:
+        super().__init__(category, uname)
+        self.keiko = Lifting
 
 
 class Lifting(Keiko):
