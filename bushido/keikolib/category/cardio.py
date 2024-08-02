@@ -96,8 +96,6 @@ class Processor(AbsProcessor):
 class Retriever(AbsRetriever):
     def __init__(self, category: str, uname: str) -> None:
         super().__init__(category, uname)
-        self.category = category
-        self.uname = uname
         self.keiko = Cardio
 
 

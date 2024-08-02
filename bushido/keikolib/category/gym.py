@@ -3,30 +3,32 @@ import datetime
 import peewee as pw
 
 # project imports
-from bushido.keiko import Keiko, AbsProcessor, AbsRetriever, AbsAttrs, AbsUmojis
-from bushido.parsing import parse_start_end_time_string
-from bushido.exceptions import ProcessingError
-
-
-class Gym(Keiko):
-    start_t = pw.TimeField()
-    end_t = pw.TimeField()
-    gym = pw.CharField()
-    training = pw.CharField(null=True)
+from keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from keikolib.parsing import parse_start_end_time_string
 
 
 class Processor(AbsProcessor):
     def __init__(self, category, uname, umoji):
         super().__init__(category, uname, umoji)
 
+    @dataclass
+    class Attrs:
+        start_t: datetime.time
+        end_t: datetime.time
+        gym: str
+        training: str | None = field(init=False)
+
+        def set_optional_data(self, training):
+            self.training = training
+
     def _process_words(self, words: list[str]) -> None:
         start_t, end_t = parse_start_end_time_string(words[0])
         try:
             gym = words[1]
         except IndexError:
-            raise ProcessingError('no gym')
+            raise ValueError('no gym')
 
-        self.attrs = Attrs(start_t, end_t, gym)
+        self.attrs = self.Attrs(start_t, end_t, gym)
         try:
             training = words[2]
         except IndexError:
@@ -43,18 +45,16 @@ class Processor(AbsProcessor):
 
 
 class Retriever(AbsRetriever):
-    pass
+    def __init__(self, category: str, uname: str) -> None:
+        super().__init__(category, uname)
+        self.keiko = Gym
 
 
-@dataclass
-class Attrs(AbsAttrs):
-    start_t: datetime.time
-    end_t: datetime.time
-    gym: str
-    training: str | None = field(init=False)
-
-    def set_optional_data(self, training):
-        self.training = training
+class Gym(Keiko):
+    start_t = pw.TimeField()
+    end_t = pw.TimeField()
+    gym = pw.CharField()
+    training = pw.CharField(null=True)
 
 
 class Umojis(AbsUmojis):

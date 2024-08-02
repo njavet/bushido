@@ -2,28 +2,36 @@ from dataclasses import dataclass
 import peewee as pw
 
 # project imports
-from bushido.keiko import Keiko, AbsProcessor, AbsRetriever, AbsAttrs, AbsUmojis
-from bushido.exceptions import ProcessingError
+from keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
 
 
 class Processor(AbsProcessor):
     def __init__(self, category, uname, umoji):
         super().__init__(category, uname, umoji)
 
+    @dataclass
+    class Attrs:
+        rounds: list[int]
+        breaths: list[int]
+        retentions: list[int]
+
+        def zipped(self):
+            return zip(self.rounds, self.breaths, self.retentions)
+
     def _process_words(self, words):
         try:
             breaths = [int(b) for b in words[::2]]
             retentions = [int(r) for r in words[1::2]]
         except ValueError:
-            raise ProcessingError('value error')
+            raise ValueError('value error')
         if len(breaths) != len(retentions):
-            raise ProcessingError('Not the same number of breaths and seconds')
+            raise ValueError('Not the same number of breaths and seconds')
         if len(breaths) < 1:
-            raise ProcessingError('At least one round necessary')
+            raise ValueError('At least one round necessary')
 
-        self.attrs = Attrs(rounds=list(range(len(breaths))),
-                           breaths=breaths,
-                           retentions=retentions)
+        self.attrs = self.Attrs(rounds=list(range(len(breaths))),
+                                breaths=breaths,
+                                retentions=retentions)
 
     def _save_keiko(self, unit):
         for round_nr, b, r in self.attrs.zipped():
@@ -33,14 +41,10 @@ class Processor(AbsProcessor):
                           retention=r)
 
 
-@dataclass
-class Attrs(AbsAttrs):
-    rounds: list[int]
-    breaths: list[int]
-    retentions: list[int]
-
-    def zipped(self):
-        return zip(self.rounds, self.breaths, self.retentions)
+class Retriever(AbsRetriever):
+    def __init__(self, category: str, uname: str) -> None:
+        super().__init__(category, uname)
+        self.keiko = Wimhof
 
 
 class Wimhof(Keiko):

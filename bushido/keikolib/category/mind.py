@@ -2,29 +2,37 @@ from dataclasses import dataclass, field
 import peewee as pw
 
 # project imports
-from bushido.keiko import Keiko, AbsProcessor, AbsRetriever, AbsAttrs, AbsUmojis
-from bushido.exceptions import ProcessingError
-from bushido.parsing import parse_time_string
+from keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from keikolib.parsing import parse_time_string
 
 
 class Processor(AbsProcessor):
     def __init__(self, category, uname, umoji):
         super().__init__(category, uname, umoji)
 
+    @dataclass
+    class Attrs:
+        seconds: float
+        topic: str
+        focus: str | None = field(init=False)
+
+        def set_optional_data(self, focus):
+            self.focus = focus
+
     def _process_words(self, words):
         seconds = parse_time_string(words[0])
         try:
             topic = words[1]
         except IndexError:
-            raise ProcessingError('no topic')
+            raise ValueError('no topic')
 
         try:
             focus = words[2]
         except IndexError:
             focus = None
 
-        self.attrs = Attrs(seconds=seconds,
-                           topic=topic)
+        self.attrs = self.Attrs(seconds=seconds,
+                                topic=topic)
         self.attrs.set_optional_data(focus)
 
     def _save_keiko(self, unit):
@@ -34,14 +42,10 @@ class Processor(AbsProcessor):
                     focus=self.attrs.focus)
 
 
-@dataclass
-class Attrs(AbsAttrs):
-    seconds: float
-    topic: str
-    focus: str | None = field(init=False)
-
-    def set_optional_data(self, focus):
-        self.focus = focus
+class Retriever(AbsRetriever):
+    def __init__(self, category: str, uname: str) -> None:
+        super().__init__(category, uname)
+        self.keiko = Mind
 
 
 class Mind(Keiko):

@@ -52,6 +52,12 @@ class Processor(AbsProcessor):
                        muscles=self.attrs.muscles)
 
 
+class Retriever(AbsRetriever):
+    def __init__(self, category: str, uname: str) -> None:
+        super().__init__(category, uname)
+        self.keiko = Balance
+
+
 class Balance(Keiko):
     weight = pw.FloatField()
     fat = pw.FloatField(null=True)
