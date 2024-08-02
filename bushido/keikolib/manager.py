@@ -1,7 +1,10 @@
 import logging
+from pathlib import Path
+import importlib.util
+import inspect
 
-from keikolib.filters import preprocess_string
-from keikolib.db import Unit, Message
+from bushido.keikolib.filters import preprocess_string
+from bushido.keikolib.db import Unit, Message, init_database
 
 logger = logging.getLogger(__name__)
 
@@ -15,15 +18,44 @@ class UnitManager:
         # retrievers
         self.umoji2ret: dict = {}
         self.uname2ret: dict = {}
+        self._load_categories()
 
-    def load_classes(self, category, module) -> None:
+    @staticmethod
+    def _get_category_path():
+        current_dir = Path(__file__).resolve().parent
+        target_directory = current_dir / 'category'
+        return target_directory
+
+    def _load_categories(self):
+        categories = self._get_category_path()
+        # all file_path in categories should be valid category implementations
+        db_models = []
+        for module_path in categories.rglob('*.py'):
+            module_name = module_path.stem
+            if module_name == '__init__':
+                continue
+            spec = importlib.util.spec_from_file_location(module_name, module_path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+
+            keiko_name = module_name.capitalize()
+            print('modname', keiko_name)
+            keiko = [member for member in inspect.getmembers(module)
+                     if inspect.isclass(member[1]) and member[0] == keiko_name][0][1]
+            db_models.append(keiko)
+
+            self._load_classes(module_name, module)
+            self._load_incomplete_emojis(module)
+        init_database('test.db', db_models)
+
+    def _load_classes(self, category, module) -> None:
         for umoji, uname in module.Umojis.umoji2uname.items():
             self.umoji2proc[umoji] = module.Processor(category, uname, umoji)
             ret = module.Retriever(category, uname)
             self.umoji2ret[umoji] = ret
             self.uname2ret[uname] = ret
 
-    def load_incomplete_emojis(self, module) -> None:
+    def _load_incomplete_emojis(self, module) -> None:
         try:
             for emoji, umoji in module.Umojis.emoji2umoji.items():
                 self.emoji2umoji[emoji] = umoji

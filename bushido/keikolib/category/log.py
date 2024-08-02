@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import peewee as pw
 
 # project imports
-from keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
 
 
 class Processor(AbsProcessor):

@@ -3,8 +3,8 @@ import peewee as pw
 from dataclasses import dataclass, field
 
 # project imports
-from keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
-import keikolib.parsing as parsing
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+import bushido.keikolib.parsing as parsing
 
 
 class Processor(AbsProcessor):
