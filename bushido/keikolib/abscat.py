@@ -15,20 +15,20 @@ class AbsProcessor(ABC):
         self.umoji = umoji
         self.attrs = None
 
-    def process_unit(self, timestamp, words, comment):
+    def process_unit(self, unix_timestamp, words, comment):
         self._process_words(words)
-        unit = self._save_unit(timestamp)
+        unit = self._save_unit(unix_timestamp)
         self._save_message(unit, words, comment)
         self._save_keiko(unit)
 
     def _process_words(self, words: list[str]):
         raise NotImplementedError
 
-    def _save_unit(self, timestamp) -> Unit:
+    def _save_unit(self, unix_timestamp) -> Unit:
         unit = Unit.create(category=self.category,
                            uname=self.uname,
                            umoji=self.umoji,
-                           timestamp=timestamp)
+                           unix_timestamp=unix_timestamp)
         return unit
 
     @staticmethod

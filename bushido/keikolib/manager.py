@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 import importlib.util
 import inspect
+import peewee as pw
 
 from bushido.keikolib.filters import preprocess_string
 from bushido.keikolib.db import Unit, Message, init_database
@@ -98,5 +99,10 @@ class UnitManager:
     def get_last_unit_timestamp():
         query = (Unit
                  .select()
-                 .order_by(Unit.timestamp.desc()))
-        return query.get().unix_timestamp
+                 .order_by(Unit.unix_timestamp.desc()))
+        try:
+            unix_timestamp = query.get().unix_timestamp
+        except pw.DoesNotExist:
+            unix_timestamp = 0
+
+        return unix_timestamp

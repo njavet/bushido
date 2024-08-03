@@ -1,5 +1,3 @@
-import datetime
-import pytz
 import os
 from dotenv import load_dotenv
 from telethon import TelegramClient
@@ -39,48 +37,29 @@ class TgCom:
         if event.message.reply_to is not None:
             return
 
-        budoka_id, timestamp = self.extract_ids_and_time(event.message)
-        ans = self.um.log_unit(budoka_id, timestamp, event.message.message)
+        ans = self.um.log_unit(event.message.date.timestamp(),
+                               event.message.message)
         await event.reply(ans)
 
     async def start_bot(self):
         # TODO 'class telegram client does not define __await__ warning
         await self.tg_bot.start(bot_token=self.bot_token)
 
-    @staticmethod
-    def extract_ids_and_time(message):
-        timestamp = message.date.timestamp()
-        try:
-            from_id = message.from_id.user_id
-        except AttributeError:
-            from_id = message.sender.id
-        return from_id, timestamp
-
     async def fetch_missed_messages(self, chat):
         # TODO when the -dt option is used, this can fail
-        try:
-            last_message_timestamp = self.um.retrieve_messages()[0].timestamp
-        except IndexError:
-            last_message_timestamp = 0
-        print('last timestamp', last_message_timestamp)
-        print('last utc time', datetime.datetime.fromtimestamp(last_message_timestamp,
-                                                               pytz.timezone('utc')))
-        print('last local time', datetime.datetime.fromtimestamp(last_message_timestamp,
-                                                                 pytz.timezone('Europe/Zurich')))
+        last_message_timestamp = self.um.get_last_unit_timestamp()
         all_messages = await self.tg_agent.get_messages(chat, limit=32)
         messages = []
         for msg in all_messages:
-            # unix utc timestamp
+            # unix timestamp
             cond0 = msg.date.timestamp() > last_message_timestamp
             cond1 = msg.reply_to is None
             if cond0 and cond1:
-                print('msg', msg)
                 messages.append(msg)
         return messages
 
     async def process_missed_messages(self, chat):
         messages = await self.fetch_missed_messages(chat)
         for msg in messages:
-            budoka_id, timestamp = self.extract_ids_and_time(msg)
-            ans = self.um.log_unit(budoka_id, timestamp, msg.message)
+            ans = self.um.log_unit(msg.date.timestamp(), msg.message)
             await msg.reply(ans)
