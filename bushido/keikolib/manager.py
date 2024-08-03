@@ -92,7 +92,7 @@ class UnitManager:
         query = (Unit
                  .select(Unit, Message)
                  .join(Message)
-                 .order_by(Unit.unix_timestamp.desc()))
+                 .order_by(Unit.unix_timestamp))
         return query
 
     @staticmethod
