@@ -29,7 +29,7 @@ class TxUnitManager(ModalScreen):
         rl = self.query_one('#response', RichLog)
         rl.clear()
         #msg = await self.tg_agent.send_message('csm101_bot', event.value)
-        ans = self.um.log_unit(0, 'yo')
+        ans = self.um.log_unit(0, event.value)
         rl.write(ans)
         self.query_one(Input).action_delete_left_all()
         self.query_one(Input).action_delete_right_all()
