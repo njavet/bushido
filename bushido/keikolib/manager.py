@@ -80,6 +80,8 @@ class UnitManager:
             return 'unknown emoji'
         except ValueError as err:
             return str(err)
+        else:
+            return 'Unit confirmed!'
 
     def retrieve_units(self, uname=None) -> list:
         pass
