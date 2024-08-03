@@ -14,5 +14,5 @@ term:
 
 run:
 	export PYTHONPATH=${PYTHONPATH}:'.'
-	textual run bushido/app.py --dev
+	textual run --dev bushido/app.py 
 

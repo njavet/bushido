@@ -20,26 +20,17 @@ class UnitManager:
         self.uname2ret: dict = {}
         self._load_categories()
 
-    @staticmethod
-    def _get_category_path():
-        current_dir = Path(__file__).resolve().parent
-        target_directory = current_dir / 'category'
-        return target_directory
-
     def _load_categories(self):
-        categories = self._get_category_path()
+        categories = Path('bushido/keikolib')
         # all file_path in categories should be valid category implementations
         db_models = []
-        for module_path in categories.rglob('*.py'):
-            module_name = module_path.stem
-            if module_name == '__init__':
-                continue
+        for module_path in categories.rglob('cat_*.py'):
+            module_name = module_path.stem[4:]
             spec = importlib.util.spec_from_file_location(module_name, module_path)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
 
             keiko_name = module_name.capitalize()
-            print('modname', keiko_name)
             keiko = [member for member in inspect.getmembers(module)
                      if inspect.isclass(member[1]) and member[0] == keiko_name][0][1]
             db_models.append(keiko)

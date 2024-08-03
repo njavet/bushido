@@ -24,6 +24,7 @@ class Bushido(App):
 
     def compose(self) -> ComposeResult:
         yield self.unit_history
+        print(self.um.umoji2proc)
         yield Footer()
 
     def action_help(self):

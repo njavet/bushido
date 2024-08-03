@@ -1,1 +1,1 @@
-from bushido.keikolib.manager import UnitManager
+from .manager import UnitManager
