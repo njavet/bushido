@@ -7,8 +7,9 @@ from textual.widgets import RichLog, Static, Collapsible
 
 
 class UnitHistory(Static):
-    def __init__(self):
+    def __init__(self, um):
         super().__init__()
+        self.um = um
 
     def compose(self) -> ComposeResult:
         yield RichLog()
@@ -22,8 +23,8 @@ class UnitHistory(Static):
         day = datetime.date(2024, 7, 7)
         day = datetime.date(2023, 1, 1)
         date2msg = []
-        return
         while day <= datetime.date.today():
+            return
             title = datetime.date.strftime(day, '%d.%m.%y')
             lst = []
             for msg in date2msg[day]:

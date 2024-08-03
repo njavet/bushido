@@ -1,6 +1,8 @@
 import datetime
 import pytz
 
+from bushido.constants import day_start
+
 
 def convert_local_dt_to_unix_timestamp(dt_str):
     dt = datetime.datetime.strptime(dt_str, '%d%m%y-%H%M')
@@ -14,7 +16,7 @@ def get_datetime_from_unix_timestamp(unix_timestamp: float) -> datetime.datetime
 
 
 def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
-    if 0 <= dt.hour < settings.day_start:
+    if 0 <= dt.hour < day_start:
         return dt.date() - datetime.timedelta(days=1)
     else:
         return dt.date()
