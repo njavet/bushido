@@ -50,11 +50,13 @@ class TgCom:
         last_message_timestamp = self.um.get_last_unit_timestamp()
         all_messages = await self.tg_agent.get_messages(chat, limit=32)
         messages = []
+        me = await self.tg_agent.get_me()
         for msg in all_messages:
             # unix timestamp
             cond0 = msg.date.timestamp() > last_message_timestamp
             cond1 = msg.reply_to is None
-            if cond0 and cond1:
+            cond2 = msg.from_id and msg.from_id.user_id == me.id
+            if cond0 and cond1 and cond2:
                 messages.append(msg)
         return messages
 
