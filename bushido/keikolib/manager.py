@@ -54,7 +54,7 @@ class UnitManager:
             pass
 
     def log_unit(self,
-                 timestamp: float,
+                 unix_timestamp: float,
                  input_string: str) -> str:
         """
         interface for users of the library
@@ -73,7 +73,7 @@ class UnitManager:
 
         # dispatch
         try:
-            self.umoji2proc[umoji].process_unit(timestamp,
+            self.umoji2proc[umoji].process_unit(unix_timestamp,
                                                 words,
                                                 comment)
         except KeyError:
@@ -83,13 +83,20 @@ class UnitManager:
         else:
             return 'Unit confirmed!'
 
-    def retrieve_units(self, uname=None) -> list:
-        pass
+    def retrieve_unit_keikos(self, uname=None) -> list:
+        return self.uname2ret[uname].retrieve_units()
 
     @staticmethod
-    def retrieve_messages() -> list:
+    def retrieve_unit_messages() -> list:
         query = (Unit
                  .select(Unit, Message)
                  .join(Message)
-                 .order_by(Unit.timestamp.desc()))
+                 .order_by(Unit.unix_timestamp.desc()))
         return query
+
+    @staticmethod
+    def get_last_unit_timestamp():
+        query = (Unit
+                 .select()
+                 .order_by(Unit.timestamp.desc()))
+        return query.get().unix_timestamp

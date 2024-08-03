@@ -20,7 +20,7 @@ class Bushido(App):
     def __init__(self):
         super().__init__()
         self.um = UnitManager()
-        self.unit_history = UnitHistory()
+        self.unit_history = UnitHistory(self.um)
 
     def compose(self) -> ComposeResult:
         yield self.unit_history

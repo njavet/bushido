@@ -37,8 +37,7 @@ class Unit(BaseModel):
     category = pw.CharField()
     uname = pw.CharField()
     umoji = pw.CharField()
-    # unix utc timestamp
-    timestamp = pw.FloatField()
+    unix_timestamp = pw.FloatField()
 
 
 class Keiko(BaseModel):
