@@ -14,9 +14,10 @@ class TxUnitManager(ModalScreen):
     BINDINGS = [('q', 'app.pop_screen', 'Back'),
                 ('l', 'app.pop_screen', 'Back')]
 
-    def __init__(self, um):
+    def __init__(self, um, tg_agent):
         super().__init__()
         self.um = um
+        self.tg_agent = tg_agent
 
     def compose(self) -> ComposeResult:
         yield Grid(
@@ -28,8 +29,7 @@ class TxUnitManager(ModalScreen):
     async def on_input_submitted(self, event: Input.Submitted) -> None:
         rl = self.query_one('#response', RichLog)
         rl.clear()
-        #msg = await self.tg_agent.send_message('csm101_bot', event.value)
-        ans = self.um.log_unit(0, event.value)
+        ans = await self.tg_agent.send_message('csm101_bot', event.value)
         rl.write(ans)
         self.query_one(Input).action_delete_left_all()
         self.query_one(Input).action_delete_right_all()
