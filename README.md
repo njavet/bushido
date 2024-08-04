@@ -16,3 +16,8 @@ python bushido/app.py
 export PYTHONPATH='bushido/'
 python -m unittest discover -s tests/
 ```
+
+## TODO
+* unithistory weeks, collapsible
+* stats for every unit
+* unit delete function

@@ -2,8 +2,14 @@ from dataclasses import dataclass, field
 import peewee as pw
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
 from bushido.keikolib.parsing import parse_time_string
+
+
+class Category(AbsCategory):
+    def __init__(self, category: str) -> None:
+        super().__init__(category)
+        self.keiko = Mind
 
 
 class Processor(AbsProcessor):
@@ -40,12 +46,6 @@ class Processor(AbsProcessor):
                     seconds=self.attrs.seconds,
                     topic=self.attrs.topic,
                     focus=self.attrs.focus)
-
-
-class Retriever(AbsRetriever):
-    def __init__(self, category: str, uname: str) -> None:
-        super().__init__(category, uname)
-        self.keiko = Mind
 
 
 class Mind(Keiko):

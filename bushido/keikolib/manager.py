@@ -1,5 +1,4 @@
 import logging
-from dataclasses import dataclass
 from pathlib import Path
 import importlib.util
 import inspect
@@ -15,14 +14,14 @@ logger = logging.getLogger(__name__)
 
 class UnitManager:
     def __init__(self) -> None:
+        # categories
+        self.categories: dict = {}
         self.unit_logged = unit_logged
         # needed because of different encoding of emojis (single vs double)
         self.emoji2umoji: dict = {}
         # unit log processors
         self.umoji2proc: dict = {}
         # retrievers
-        self.umoji2ret: dict = {}
-        self.uname2ret: dict = {}
         self._load_categories()
 
     def _load_categories(self):
@@ -40,19 +39,17 @@ class UnitManager:
                      if inspect.isclass(member[1]) and member[0] == keiko_name][0][1]
             db_models.append(keiko)
 
-            self._load_classes(module_name, module)
+            self.categories[module_name] = module.Category(module_name)
+            self._load_processors(module_name, module)
             self._load_incomplete_emojis(module)
 
         data_dir = os.path.join(os.path.expanduser('~'), '.local/share/bushido')
         db_url = os.path.join(data_dir, 'keiko.db')
         init_database(db_url, db_models)
 
-    def _load_classes(self, category, module) -> None:
+    def _load_processors(self, category, module) -> None:
         for umoji, uname in module.Umojis.umoji2uname.items():
             self.umoji2proc[umoji] = module.Processor(category, uname, umoji)
-            ret = module.Retriever(category, uname)
-            self.umoji2ret[umoji] = ret
-            self.uname2ret[uname] = ret
 
     def _load_incomplete_emojis(self, module) -> None:
         try:
@@ -90,9 +87,6 @@ class UnitManager:
             return str(err)
         else:
             return 'Unit confirmed!'
-
-    def retrieve_unit_keikos(self, uname=None) -> list:
-        return self.uname2ret[uname].retrieve_units()
 
     @staticmethod
     def retrieve_unit_messages() -> list:

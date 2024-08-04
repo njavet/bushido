@@ -3,8 +3,14 @@ import datetime
 import peewee as pw
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
 from bushido.keikolib.parsing import parse_start_end_time_string
+
+
+class Category(AbsCategory):
+    def __init__(self, category: str) -> None:
+        super().__init__(category)
+        self.keiko = Gym
 
 
 class Processor(AbsProcessor):
@@ -42,12 +48,6 @@ class Processor(AbsProcessor):
                    end_t=self.attrs.end_t,
                    gym=self.attrs.gym,
                    training=self.attrs.training)
-
-
-class Retriever(AbsRetriever):
-    def __init__(self, category: str, uname: str) -> None:
-        super().__init__(category, uname)
-        self.keiko = Gym
 
 
 class Gym(Keiko):
