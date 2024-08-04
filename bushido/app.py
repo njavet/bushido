@@ -1,6 +1,7 @@
 import asyncio
 from textual.app import App, ComposeResult
 from textual.widgets import Footer, LoadingIndicator, Button
+from textual.containers import Horizontal, Vertical
 
 # project imports
 from bushido.keikolib import UnitManager
@@ -27,7 +28,6 @@ class Bushido(App):
         self.unit_history = UnitHistory(self.um)
 
     def compose(self) -> ComposeResult:
-        yield Button('squat')
         yield LoadingIndicator()
         yield Footer()
 
