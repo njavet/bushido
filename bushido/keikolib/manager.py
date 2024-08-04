@@ -3,9 +3,11 @@ from pathlib import Path
 import importlib.util
 import inspect
 import peewee as pw
+import os
 
 from bushido.keikolib.filters import preprocess_string
 from bushido.keikolib.db import Unit, Message, init_database
+
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +40,10 @@ class UnitManager:
 
             self._load_classes(module_name, module)
             self._load_incomplete_emojis(module)
-        init_database('test.db', db_models)
+
+        data_dir = os.path.join(os.path.expanduser('~'), '.local/share/bushido')
+        db_url = os.path.join(data_dir, 'keiko.db')
+        init_database(db_url, db_models)
 
     def _load_classes(self, category, module) -> None:
         for umoji, uname in module.Umojis.umoji2uname.items():

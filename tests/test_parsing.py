@@ -1,7 +1,7 @@
 import unittest
 
 # project imports
-import bushido.parsing as parsing
+import bushido.keikolib.parsing as parsing
 
 
 class TestParsingTimeString(unittest.TestCase):

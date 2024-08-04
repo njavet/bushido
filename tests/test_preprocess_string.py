@@ -2,7 +2,7 @@ import unittest
 from typing import Optional
 
 # project impots
-from bushido.filters import preprocess_string, ProcessingError
+from bushido.keikolib.filters import preprocess_string
 
 
 class TestPreprocessString(unittest.TestCase):
@@ -21,7 +21,7 @@ class TestPreprocessString(unittest.TestCase):
 
     def test_preprocess_string_empty_payload(self):
         input_string = "// this is a comment"
-        with self.assertRaises(ProcessingError):
+        with self.assertRaises(ValueError):
             preprocess_string(input_string)
 
     def test_preprocess_string_only_emoji(self):
@@ -38,12 +38,12 @@ class TestPreprocessString(unittest.TestCase):
 
     def test_preprocess_string_no_emoji_payload(self):
         input_string = "//"
-        with self.assertRaises(ProcessingError):
+        with self.assertRaises(ValueError):
             preprocess_string(input_string)
 
     def test_preprocess_string_empty_string(self):
         input_string = ""
-        with self.assertRaises(ProcessingError):
+        with self.assertRaises(ValueError):
             preprocess_string(input_string)
 
 
