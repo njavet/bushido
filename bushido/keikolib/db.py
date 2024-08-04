@@ -1,11 +1,12 @@
 import peewee as pw
-import os
 import sys
 import logging
+from blinker import signal
 
 
 logger = logging.getLogger(__name__)
 database = pw.SqliteDatabase(None)
+unit_logged = signal('unit_logged')
 
 
 def init_database(db_url, models):
@@ -46,3 +47,7 @@ class Message(BaseModel):
     unit = pw.ForeignKeyField(Unit)
     payload = pw.CharField(null=True)
     comment = pw.TextField(null=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        unit_logged.send(self)

@@ -6,8 +6,6 @@ from textual.app import ComposeResult
 from textual.suggester import Suggester
 from textual import events
 
-# project imports
-
 
 class TxUnitManager(ModalScreen):
 
@@ -29,8 +27,8 @@ class TxUnitManager(ModalScreen):
     async def on_input_submitted(self, event: Input.Submitted) -> None:
         rl = self.query_one('#response', RichLog)
         rl.clear()
-        ans = await self.tg_agent.send_message('csm101_bot', event.value)
-        rl.write(ans)
+        msg = await self.tg_agent.send_message('csm101_bot', event.value)
+        rl.write(msg.message)
         self.query_one(Input).action_delete_left_all()
         self.query_one(Input).action_delete_right_all()
 
