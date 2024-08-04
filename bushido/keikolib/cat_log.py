@@ -2,7 +2,13 @@ from dataclasses import dataclass
 import peewee as pw
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
+
+
+class Category(AbsCategory):
+    def __init__(self, category: str) -> None:
+        super().__init__(category)
+        self.keiko = Log
 
 
 class Processor(AbsProcessor):
@@ -24,12 +30,6 @@ class Processor(AbsProcessor):
     def _save_keiko(self, unit):
         Log.create(unit_id=unit,
                    log_str=self.attrs.log_str)
-
-
-class Retriever(AbsRetriever):
-    def __init__(self, category: str, uname: str) -> None:
-        super().__init__(category, uname)
-        self.keiko = Log
 
 
 class Log(Keiko):

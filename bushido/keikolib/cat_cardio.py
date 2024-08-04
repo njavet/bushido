@@ -3,8 +3,14 @@ import peewee as pw
 from dataclasses import dataclass, field
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
 import bushido.keikolib.parsing as parsing
+
+
+class Category(AbsCategory):
+    def __init__(self, category: str) -> None:
+        super().__init__(category)
+        self.keiko = Cardio
 
 
 class Processor(AbsProcessor):
@@ -91,12 +97,6 @@ class Processor(AbsProcessor):
                       cal=self.attrs.cal,
                       avghr=self.attrs.avghr,
                       maxhr=self.attrs.maxhr)
-
-
-class Retriever(AbsRetriever):
-    def __init__(self, category: str, uname: str) -> None:
-        super().__init__(category, uname)
-        self.keiko = Cardio
 
 
 class Cardio(Keiko):

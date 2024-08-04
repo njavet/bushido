@@ -2,7 +2,13 @@ from dataclasses import dataclass
 import peewee as pw
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
+
+
+class Category(AbsCategory):
+    def __init__(self, category: str) -> None:
+        super().__init__(category)
+        self.keiko = Wimhof
 
 
 class Processor(AbsProcessor):
@@ -39,12 +45,6 @@ class Processor(AbsProcessor):
                           round_nr=round_nr,
                           breaths=b,
                           retention=r)
-
-
-class Retriever(AbsRetriever):
-    def __init__(self, category: str, uname: str) -> None:
-        super().__init__(category, uname)
-        self.keiko = Wimhof
 
 
 class Wimhof(Keiko):

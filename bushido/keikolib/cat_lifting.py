@@ -2,7 +2,13 @@ import peewee as pw
 from dataclasses import dataclass
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
+
+
+class Category(AbsCategory):
+    def __init__(self, category: str) -> None:
+        super().__init__(category)
+        self.keiko = Lifting
 
 
 class Processor(AbsProcessor):
@@ -47,12 +53,6 @@ class Processor(AbsProcessor):
                            weight=w,
                            reps=r,
                            pause=p)
-
-
-class Retriever(AbsRetriever):
-    def __init__(self, category: str, uname: str) -> None:
-        super().__init__(category, uname)
-        self.keiko = Lifting
 
 
 class Lifting(Keiko):

@@ -2,7 +2,13 @@ from dataclasses import dataclass, field
 import peewee as pw
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsRetriever, AbsUmojis
+from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
+
+
+class Category(AbsCategory):
+    def __init__(self, category: str) -> None:
+        super().__init__(category)
+        self.keiko = Balance
 
 
 class Processor(AbsProcessor):
@@ -50,12 +56,6 @@ class Processor(AbsProcessor):
                        fat=self.attrs.fat,
                        water=self.attrs.water,
                        muscles=self.attrs.muscles)
-
-
-class Retriever(AbsRetriever):
-    def __init__(self, category: str, uname: str) -> None:
-        super().__init__(category, uname)
-        self.keiko = Balance
 
 
 class Balance(Keiko):

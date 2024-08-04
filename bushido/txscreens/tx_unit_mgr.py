@@ -10,7 +10,7 @@ from textual import events
 class TxUnitManager(ModalScreen):
 
     BINDINGS = [('q', 'app.pop_screen', 'Back'),
-                ('l', 'app.pop_screen', 'Back')]
+                ('m', 'app.pop_screen', 'Back')]
 
     def __init__(self, um, tg_agent):
         super().__init__()

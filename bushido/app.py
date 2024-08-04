@@ -1,6 +1,6 @@
 import asyncio
 from textual.app import App, ComposeResult
-from textual.widgets import Footer, LoadingIndicator
+from textual.widgets import Footer, LoadingIndicator, Button
 
 # project imports
 from bushido.keikolib import UnitManager
@@ -23,10 +23,11 @@ class Bushido(App):
     def __init__(self):
         super().__init__()
         self.um = UnitManager()
-        self.unit_history = UnitHistory(self.um)
         self.tg_com = TgCom(self.um)
+        self.unit_history = UnitHistory(self.um)
 
     def compose(self) -> ComposeResult:
+        yield Button('squat')
         yield LoadingIndicator()
         yield Footer()
 
@@ -49,6 +50,9 @@ class Bushido(App):
         await self.tg_com.start_bot()
         await asyncio.create_task(self.check_authorization())
         self.um.unit_logged.connect(self.unit_history.update_view)
+
+    def on_button_pressed(self, event):
+        pass
 
     def action_help(self):
         self.app.push_screen(HelpScreen(self.um))

@@ -8,6 +8,23 @@ from abc import ABC
 from bushido.keikolib.db import BaseModel, Unit, Message
 
 
+class AbsCategory(ABC):
+    def __init__(self, category: str):
+        self.category = category
+        self.keiko = None
+
+    def retrieve_units(self, uname=None) -> list:
+        query = (Unit
+                 .select(Unit, self.keiko)
+                 .join(self.keiko)
+                 .where(Unit.category == self.category)
+                 .order_by(Unit.timestamp.desc()))
+        if uname:
+            return [unit for unit in query if unit.uname == uname]
+        else:
+            return list(query)
+
+
 class AbsProcessor(ABC):
     def __init__(self, category: str, uname: str, umoji: str) -> None:
         self.category = category
@@ -41,22 +58,6 @@ class AbsProcessor(ABC):
         raise NotImplementedError
 
 
-class AbsRetriever(ABC):
-    def __init__(self, category: str, uname: str) -> None:
-        self.category = category
-        self.uname = uname
-        self.keiko = None
-
-    def retrieve_units(self):
-        query = (Unit
-                 .select(Unit, self.keiko)
-                 .join(self.keiko)
-                 .where((Unit.category == self.category) &
-                        (Unit.uname == self.uname))
-                 .order_by(Unit.timestamp.desc()))
-        return query
-
-
 class Keiko(BaseModel):
     unit = pw.ForeignKeyField(Unit)
 
@@ -66,5 +67,3 @@ class AbsUmojis:
     umoji2uname: Dict[str, str]
     # needed for different sized byte encodings of some emojis
     emoji2umoji: defaultdict[dict] = field(default_factory=lambda: defaultdict(dict))
-
-
