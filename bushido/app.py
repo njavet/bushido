@@ -36,7 +36,7 @@ class Bushido(App):
         is_authorized = await self.tg_com.tg_agent.is_user_authorized()
         if is_authorized:
             await self.query_one(LoadingIndicator).remove()
-            await self.tg_com.process_missed_messages('csm101_bot')
+            #await self.tg_com.process_missed_messages('csm101_bot')
             await self.mount(self.unit_history, before=self.query_one(Footer))
         else:
             await self.push_screen(LoginScreen(self.tg_com.tg_agent), self.check_login)
@@ -48,18 +48,14 @@ class Bushido(App):
     async def on_mount(self):
         await self.tg_com.start_bot()
         await asyncio.create_task(self.check_authorization())
+        self.um.unit_logged.connect(self.unit_history.update_view)
 
     def action_help(self):
         self.app.push_screen(HelpScreen(self.um))
 
     def action_manage_units(self):
-        def units_changed(changed: bool) -> None:
-            if changed:
-                self.unit_history.update_history()
-
         self.app.push_screen(TxUnitManager(self.um,
-                                           self.tg_com.tg_agent),
-                             units_changed)
+                                           self.tg_com.tg_agent))
 
 
 if __name__ == '__main__':

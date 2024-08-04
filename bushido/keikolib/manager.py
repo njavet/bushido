@@ -1,4 +1,5 @@
 import logging
+from dataclasses import dataclass
 from pathlib import Path
 import importlib.util
 import inspect
@@ -6,7 +7,7 @@ import peewee as pw
 import os
 
 from bushido.keikolib.filters import preprocess_string
-from bushido.keikolib.db import Unit, Message, init_database
+from bushido.keikolib.db import Unit, Message, init_database, unit_logged
 
 
 logger = logging.getLogger(__name__)
@@ -14,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 class UnitManager:
     def __init__(self) -> None:
+        self.unit_logged = unit_logged
         # needed because of different encoding of emojis (single vs double)
         self.emoji2umoji: dict = {}
         # unit log processors
@@ -94,9 +96,9 @@ class UnitManager:
 
     @staticmethod
     def retrieve_unit_messages() -> list:
-        query = (Unit
-                 .select(Unit, Message)
-                 .join(Message)
+        query = (Message
+                 .select()
+                 .join(Unit)
                  .order_by(Unit.unix_timestamp))
         return query
 

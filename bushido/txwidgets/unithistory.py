@@ -1,4 +1,5 @@
 import collections
+from dataclasses import dataclass
 import datetime
 from rich.panel import Panel
 from rich.text import Text
@@ -12,69 +13,63 @@ class UnitHistory(Static):
     def __init__(self, um):
         super().__init__()
         self.um = um
+        self.bdate_to_umsg = self.get_date2msg()
+        self.bdate_to_panels = {}
 
     def compose(self) -> ComposeResult:
         yield RichLog()
         with Collapsible():
             yield Static('yo')
 
+    def on_mount(self):
+        rl = self.query_one(RichLog)
+        # TODO from a user config file
+        day = datetime.date(2024, 7, 14)
+
+        while day <= datetime.date.today():
+            panel = self.create_panel(day)
+            rl.write(panel)
+            day += datetime.timedelta(days=1)
+
+    @dataclass
+    class UnitMessage:
+        text: str
+        comment: str | None
+        bushido_date: datetime.date
+
+    def create_unit_message(self, umsg):
+        cet_dt = dt_functions.get_datetime_from_unix_timestamp(
+            umsg.unit.unix_timestamp
+        )
+        bushido_date = dt_functions.get_bushido_date_from_datetime(cet_dt)
+        local_time = datetime.datetime.strftime(cet_dt, '%H:%M')
+        if len(umsg.unit.umoji) == 2:
+            text = ' '.join([local_time, umsg.unit.umoji + ' ', umsg.payload])
+        else:
+            text = ' '.join([local_time, umsg.unit.umoji, umsg.payload])
+
+        return self.UnitMessage(text=text,
+                                comment=umsg.comment,
+                                bushido_date=bushido_date)
+
+    def create_panel(self, day):
+        title = datetime.date.strftime(day, '%d.%m.%y')
+        text = Text('\n'.join(self.bdate_to_umsg[day]))
+        panel = Panel(text, title=title, width=90, title_align='left')
+        self.bdate_to_panels[day] = panel
+        return panel
+
     def get_date2msg(self):
         dix = collections.defaultdict(list)
         for umsg in self.um.retrieve_unit_messages():
-            cet_dt = dt_functions.get_datetime_from_unix_timestamp(umsg.unix_timestamp)
-            bushido_date = dt_functions.get_bushido_date_from_datetime(cet_dt)
-            dix[bushido_date].append((umsg.umoji,
-                                      umsg.message.payload,
-                                      datetime.datetime.strftime(cet_dt,
-                                                                 '%H:%M'))
-                                     )
+            unit_message = self.create_unit_message(umsg)
+            dix[unit_message.bushido_date].append(unit_message.text)
         return dix
 
-    def on_mount(self):
+    def update_view(self, sender):
+        unit_message = self.create_unit_message(sender)
+        day = unit_message.bushido_date
+        self.bdate_to_umsg[day].append(unit_message.text)
+        panel = self.create_panel(day)
         rl = self.query_one(RichLog)
-
-        # TODO from a user config file
-        day = datetime.date(2024, 7, 7)
-        day = datetime.date(2023, 1, 1)
-        day = datetime.date(2024, 7, 14)
-        date2msg = self.get_date2msg()
-        while day <= datetime.date.today():
-            title = datetime.date.strftime(day, '%d.%m.%y')
-            lst = []
-            for msg_tuple in date2msg[day]:
-                if len(msg_tuple[0]) == 2:
-                    e = msg_tuple[0] + '  '
-                else:
-                    e = msg_tuple[0] + ' '
-                lst.append(msg_tuple[2] + '  ' + e + msg_tuple[1])
-
-            text = Text('\n'.join(lst))
-            rl.write(Panel(text,
-                           title=title,
-                           width=90,
-                           title_align='left'))
-            day += datetime.timedelta(days=1)
-
-    def update_history(self):
-        rl = self.query_one(RichLog)
-        msg = (Message
-               .select(Message, db.Unit)
-               .join(db.Unit)
-               .order_by(db.Unit.unix_timestamp.desc())).get()
-
-        cet_dt = helpers.get_datetime_from_unix_timestamp(
-            msg.unit.unix_timestamp
-        )
-        time_str = datetime.datetime.strftime(cet_dt, '%H:%M')
-        if len(msg.unit.emoji) == 2:
-            e = msg.unit.emoji + '  '
-        else:
-            e = msg.unit.emoji + ' '
-        text = Text(time_str + '  ' + e + msg.payload)
-        rl.write(Panel(text,
-                       title='yo',
-                       width=90,
-                       title_align='left'))
-        ld = helpers.get_bushido_date_from_datetime(cet_dt)
-
-
+        rl.write(panel)
