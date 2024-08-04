@@ -8,11 +8,8 @@ logger = logging.getLogger(__name__)
 database = pw.SqliteDatabase(None)
 
 
-def init_database(db_name, models):
-    # TODO move this code (OS independent, installation code)
-    data_dir = os.path.join(os.path.expanduser('~'), '.local/share/bushido')
+def init_database(db_url, models):
     # init database
-    db_url = os.path.join(data_dir, db_name)
     database.init(db_url)
 
     # create tables

@@ -2,8 +2,7 @@ import unittest
 import datetime
 
 # project imports
-import bushido.parsing as parsing
-from bushido.exceptions import ProcessingError
+import bushido.keikolib.parsing as parsing
 
 
 class TestParsingTimeString(unittest.TestCase):
@@ -50,12 +49,12 @@ class TestParsingTimeString(unittest.TestCase):
     def test_parse_time_string_wrong_input_0(self):
         ts = 'not a valid time_string'
         sec = parsing.parse_time_string(ts)
-        self.assertRaises(ProcessingError)
+        self.assertRaises(ValueError)
 
     def test_parse_time_string_wrong_input_1(self):
         ts = '32five'
         sec = parsing.parse_time_string(ts)
-        self.assertRaises(ProcessingError)
+        self.assertRaises(ValueError)
 
 
 class TestParsingMilitaryTimeString(unittest.TestCase):

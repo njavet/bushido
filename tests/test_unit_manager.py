@@ -2,24 +2,23 @@ import unittest
 from unittest.mock import MagicMock
 
 # project imports
-from bushido.exceptions import ProcessingError
-from bushido.filters import preprocess_string
+from bushido.keikolib.filters import preprocess_string
 
 
 class TestPreprocess(unittest.TestCase):
     def test_empty_input_string(self):
         input_string = ''
-        with self.assertRaises(ProcessingError):
+        with self.assertRaises(ValueError):
             preprocess_string(input_string)
 
     def test_comment_symbol_only(self):
         input_string = '//'
-        with self.assertRaises(ProcessingError):
+        with self.assertRaises(ValueError):
             preprocess_string(input_string)
 
     def test_empty_payload(self):
         input_string = '// this is a comment'
-        with self.assertRaises(ProcessingError):
+        with self.assertRaises(ValueError):
             preprocess_string(input_string)
 
     def test_correct_input_without_emoji_no_comment(self):
