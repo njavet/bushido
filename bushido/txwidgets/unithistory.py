@@ -1,34 +1,49 @@
 import collections
 from dataclasses import dataclass
 import datetime
+from textual.reactive import Reactive
 from rich.panel import Panel
 from rich.text import Text
 from textual.app import ComposeResult
-from textual.widgets import RichLog, Static, Collapsible
+from textual.widgets import Static
+from textual.containers import ScrollableContainer
 
 import dt_functions
+
+
+class DayWidget(Static):
+    content: Reactive[str] = Reactive('')
+
+    def __init__(self, text, title):
+        super().__init__()
+        self.content = text
+        self.title = title
+
+    def render(self) -> Panel:
+        return Panel(Text(self.content),
+                     title=self.title,
+                     width=90,
+                     title_align='left')
 
 
 class UnitHistory(Static):
     def __init__(self, um):
         super().__init__()
         self.um = um
-        self.bdate_to_umsg = self.get_date2msg()
-        self.bdate_to_panels = {}
+        self.scroll_container = ScrollableContainer()
+        self.bdate2umsg = self.get_bdate2umsg()
+        self.bdate2dw = {}
 
     def compose(self) -> ComposeResult:
-        yield RichLog()
-        with Collapsible():
-            yield Static('yo')
+        yield self.scroll_container
 
-    def on_mount(self):
-        rl = self.query_one(RichLog)
+    async def on_mount(self):
         # TODO from a user config file
         day = datetime.date(2024, 7, 14)
 
         while day <= datetime.date.today():
-            panel = self.create_panel(day)
-            rl.write(panel)
+            dw = self.create_day_widget(day)
+            await self.scroll_container.mount(dw)
             day += datetime.timedelta(days=1)
 
     @dataclass
@@ -52,14 +67,14 @@ class UnitHistory(Static):
                                 comment=umsg.comment,
                                 bushido_date=bushido_date)
 
-    def create_panel(self, day):
+    def create_day_widget(self, day) -> DayWidget:
         title = datetime.date.strftime(day, '%d.%m.%y')
-        text = Text('\n'.join(self.bdate_to_umsg[day]))
-        panel = Panel(text, title=title, width=90, title_align='left')
-        self.bdate_to_panels[day] = panel
-        return panel
+        text = '\n'.join(self.bdate2umsg[day])
+        dw = DayWidget(text, title)
+        self.bdate2dw[day] = dw
+        return dw
 
-    def get_date2msg(self):
+    def get_bdate2umsg(self):
         dix = collections.defaultdict(list)
         for umsg in self.um.retrieve_unit_messages():
             unit_message = self.create_unit_message(umsg)
@@ -69,7 +84,13 @@ class UnitHistory(Static):
     def update_view(self, sender):
         unit_message = self.create_unit_message(sender)
         day = unit_message.bushido_date
-        self.bdate_to_umsg[day].append(unit_message.text)
-        panel = self.create_panel(day)
-        rl = self.query_one(RichLog)
-        rl.write(panel)
+        self.bdate2umsg[day].append(unit_message.text)
+        try:
+            dw = self.bdate2dw[day]
+            text = '\n'.join(self.bdate2umsg[day])
+            dw.content = text
+        except KeyError:
+            dw = self.create_day_widget(day)
+            self.scroll_container.mount(dw)
+
+
