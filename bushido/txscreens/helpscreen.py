@@ -6,9 +6,9 @@ class HelpScreen(ModalScreen):
     BINDINGS = [('q', 'app.pop_screen', 'Back'),
                 ('h', 'app.pop_screen', 'Back')]
 
-    def __init__(self, emojis):
+    def __init__(self, um):
         super().__init__()
-        self.emojis = emojis
+        self.um = um
 
     def compose(self):
-        yield Pretty(self.emojis)
+        pass

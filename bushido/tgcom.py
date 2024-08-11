@@ -1,89 +1,67 @@
-import datetime
-import pytz
+import os
+from dotenv import load_dotenv
 from telethon import TelegramClient
 from telethon.events.newmessage import NewMessage
 import logging
 
 # project imports
-import settings
-import db
-
 logger = logging.getLogger(__name__)
 
 
 class TgCom:
     def __init__(self, um):
         self.um = um
-        self.tg_agent = TelegramClient(settings.agent_session,
-                                       settings.api_id,
-                                       settings.api_hash)
+        load_dotenv()
+        self.api_id = int(os.getenv('API_ID'))
+        self.api_hash = os.getenv('API_HASH')
+        self.bot_token = os.getenv('T800_TOKEN')
+        # TODO find a better solution
+        data_dir = os.path.join(os.path.expanduser('~'), '.local/share/bushido')
+        self.t800_session = os.path.join(data_dir, 't800.session')
+        self.agent_session = os.path.join(data_dir, 'bushido.session')
+
+        self.tg_agent = TelegramClient(self.agent_session,
+                                       self.api_id,
+                                       self.api_hash)
         self.tg_bot = self.setup_bot()
 
     def setup_bot(self):
-        tg_bot = TelegramClient(settings.t800_session,
-                                settings.api_id,
-                                settings.api_hash)
+        tg_bot = TelegramClient(self.t800_session,
+                                self.api_id,
+                                self.api_hash)
         tg_bot.add_event_handler(self.msg_recv_handler,
                                  NewMessage(incoming=True))
         return tg_bot
 
     async def msg_recv_handler(self, event):
-        agent_id, unix_timestamp = self.extract_ids_and_time(
-            event.message
-        )
         if event.message.reply_to is not None:
             return
-        processing_result = self.um.process_string(event.message.message)
-        if processing_result.success:
-            self.um.save_unit_data(agent_id,
-                                   unix_timestamp)
-            await event.reply(processing_result.msg)
-        else:
-            await event.reply('FAIL: ' + processing_result.msg)
+
+        ans = self.um.log_unit(event.message.date.timestamp(),
+                               event.message.message)
+        await event.reply(ans)
 
     async def start_bot(self):
         # TODO 'class telegram client does not define __await__ warning
-        await self.tg_bot.start(bot_token=settings.bot_token)
-
-    @staticmethod
-    def extract_ids_and_time(message):
-        unix_timestamp = message.date.timestamp()
-        try:
-            from_id = message.from_id.user_id
-        except AttributeError:
-            from_id = message.sender.id
-        return from_id, unix_timestamp
+        await self.tg_bot.start(bot_token=self.bot_token)
 
     async def fetch_missed_messages(self, chat):
         # TODO when the -dt option is used, this can fail
-        last_message_timestamp = db.get_last_timestamp(db.get_me())
-        print('last timestamp', last_message_timestamp)
-        print('last utc time', datetime.datetime.fromtimestamp(last_message_timestamp,
-                                                               pytz.timezone('utc')))
-        print('last local time', datetime.datetime.fromtimestamp(last_message_timestamp,
-                                                                 pytz.timezone('Europe/Zurich')))
+        last_message_timestamp = self.um.get_last_unit_timestamp()
         all_messages = await self.tg_agent.get_messages(chat, limit=32)
         messages = []
+        me = await self.tg_agent.get_me()
         for msg in all_messages:
-            # unix utc timestamp
+            # unix timestamp
             cond0 = msg.date.timestamp() > last_message_timestamp
             cond1 = msg.reply_to is None
-            if cond0 and cond1:
-                print('msg', msg)
+            cond2 = msg.from_id and msg.from_id.user_id == me.id
+            if cond0 and cond1 and cond2:
                 messages.append(msg)
         return messages
 
     async def process_missed_messages(self, chat):
         messages = await self.fetch_missed_messages(chat)
         for msg in messages:
-            processing_result = self.um.process_string(msg.message)
-            agent_id, unix_timestamp = self.extract_ids_and_time(
-                msg
-            )
-            if processing_result.success:
-                self.um.save_unit_data(agent_id,
-                                       unix_timestamp)
-                await msg.reply(processing_result.msg)
-            else:
-                await msg.reply('FAIL: ' + processing_result.msg)
-
+            ans = self.um.log_unit(msg.date.timestamp(), msg.message)
+            await msg.reply(ans)
