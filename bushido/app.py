@@ -2,14 +2,16 @@ import asyncio
 from textual.app import App, ComposeResult
 from textual.widgets import Footer, LoadingIndicator, Button
 from textual.containers import Horizontal, Vertical
+import os
+import sys
 
 # project imports
 from bushido.keikolib import UnitManager
-from tgcom import TgCom
-from txscreens.helpscreen import HelpScreen
-from txscreens.login import LoginScreen
-from txscreens.tx_unit_mgr import TxUnitManager
-from txwidgets.unithistory import UnitHistory
+from bushido.tgcom import TgCom
+from bushido.txscreens.helpscreen import HelpScreen
+from bushido.txscreens.login import LoginScreen
+from bushido.txscreens.tx_unit_mgr import TxUnitManager
+from bushido.txwidgets.unithistory import UnitHistory
 
 
 class Bushido(App):
@@ -37,7 +39,7 @@ class Bushido(App):
         is_authorized = await self.tg_com.tg_agent.is_user_authorized()
         if is_authorized:
             await self.query_one(LoadingIndicator).remove()
-            #await self.tg_com.process_missed_messages('csm101_bot')
+            await self.tg_com.process_missed_messages('csm101_bot')
             await self.mount(self.unit_history, before=self.query_one(Footer))
         else:
             await self.push_screen(LoginScreen(self.tg_com.tg_agent), self.check_login)
