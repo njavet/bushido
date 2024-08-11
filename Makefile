@@ -1,3 +1,7 @@
+clean:
+	rm -rf bushido.egg-info
+	rm -rf build
+	rm -rf dist
 
 reset:
 	rm -rf ~/.bushido-data
@@ -9,5 +13,6 @@ term:
 	textual console -x EVENT -x SYSTEM -x DEBUG -x WORKER
 
 run:
-	textual run bushido/app.py --dev
+	export PYTHONPATH=${PYTHONPATH}:'.'
+	textual run --dev bushido/app.py 
 

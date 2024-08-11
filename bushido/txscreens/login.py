@@ -2,10 +2,9 @@ from textual.app import ComposeResult
 from textual.screen import ModalScreen
 from textual.containers import Container
 from textual.widgets import Static, Input, Button
-from telethon.types import User
 
 
-class LoginScreen(ModalScreen[User | None]):
+class LoginScreen(ModalScreen[bool]):
     def __init__(self, tg_client):
         super().__init__()
         self.tg_client = tg_client
@@ -20,7 +19,7 @@ class LoginScreen(ModalScreen[User | None]):
         elif event.button.id == 'login':
             code = self.query_one('#code', Input).value
             user = await self.tg_client.sign_in(phone=phone, code=code)
-            self.dismiss(user)
+            self.dismiss(True)
 
 
 class LoginForm(Container):

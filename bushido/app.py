@@ -1,39 +1,33 @@
 import asyncio
 from textual.app import App, ComposeResult
-from textual.widgets import Footer, LoadingIndicator
+from textual.widgets import Footer, LoadingIndicator, Button
+from textual.containers import Horizontal, Vertical
+import os
+import sys
 
 # project imports
-from unit_mgr import UnitManager
-from tgcom import TgCom
-from txscreens.helpscreen import HelpScreen
-from txscreens.login import LoginScreen
-from txscreens.tx_unit_mgr import TxUnitManager
-from txwidgets.unithistory import UnitHistory
-import db
-import settings
+from bushido.keikolib import UnitManager
+from bushido.tgcom import TgCom
+from bushido.txscreens.helpscreen import HelpScreen
+from bushido.txscreens.login import LoginScreen
+from bushido.txscreens.tx_unit_mgr import TxUnitManager
+from bushido.txwidgets.unithistory import UnitHistory
 
 
 class Bushido(App):
 
     BINDINGS = [('q', 'quit', 'Quit'),
                 ('h', 'help', 'Help'),
-                ('u', 'manage_units', 'Unit')]
+                ('m', 'manage_units', 'Unit')]
 
     # TODO clean config
     CSS_PATH = 'assets/main.tcss'
 
     def __init__(self):
         super().__init__()
-        self.um = UnitManager(settings.emojis)
-        self.unit_history = UnitHistory()
+        self.um = UnitManager()
         self.tg_com = TgCom(self.um)
-        self.init_unit_tables()
-
-    def init_unit_tables(self):
-        models = []
-        for unit_module in self.um.unit_modules.values():
-            models.append(unit_module.subunit_model)
-        db.init_storage(models)
+        self.unit_history = UnitHistory(self.um)
 
     def compose(self) -> ComposeResult:
         yield LoadingIndicator()
@@ -50,27 +44,24 @@ class Bushido(App):
         else:
             await self.push_screen(LoginScreen(self.tg_com.tg_agent), self.check_login)
 
-    def check_login(self, user):
-        # TODO check failure
-        db.add_agent(user.id, user.first_name, is_me=True)
+    def check_login(self):
         self.query_one(LoadingIndicator).remove()
-        self.mount(UnitHistory(), before=self.query_one(Footer))
+        self.mount(self.unit_history, before=self.query_one(Footer))
 
     async def on_mount(self):
         await self.tg_com.start_bot()
         await asyncio.create_task(self.check_authorization())
+        self.um.unit_logged.connect(self.unit_history.update_view)
+
+    def on_button_pressed(self, event):
+        pass
 
     def action_help(self):
-        self.app.push_screen(HelpScreen(config.emojis))
+        self.app.push_screen(HelpScreen(self.um))
 
     def action_manage_units(self):
-        def units_changed(changed: bool) -> None:
-            if changed:
-                self.unit_history.update_history()
-
-        self.app.push_screen(TxUnitManager(self.um.emoji2proc,
-                                           self.tg_com.tg_agent),
-                             units_changed)
+        self.app.push_screen(TxUnitManager(self.um,
+                                           self.tg_com.tg_agent))
 
 
 if __name__ == '__main__':
