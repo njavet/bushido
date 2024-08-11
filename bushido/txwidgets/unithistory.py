@@ -8,7 +8,8 @@ from textual.app import ComposeResult
 from textual.widgets import Static
 from textual.containers import ScrollableContainer
 
-import dt_functions
+from bushido.dt_functions import (get_bushido_date_from_datetime,
+                                  get_datetime_from_unix_timestamp)
 
 
 class DayWidget(Static):
@@ -53,10 +54,10 @@ class UnitHistory(Static):
         bushido_date: datetime.date
 
     def create_unit_message(self, umsg):
-        cet_dt = dt_functions.get_datetime_from_unix_timestamp(
+        cet_dt = get_datetime_from_unix_timestamp(
             umsg.unit.unix_timestamp
         )
-        bushido_date = dt_functions.get_bushido_date_from_datetime(cet_dt)
+        bushido_date = get_bushido_date_from_datetime(cet_dt)
         local_time = datetime.datetime.strftime(cet_dt, '%H:%M')
         if len(umsg.unit.umoji) == 2:
             text = ' '.join([local_time, umsg.unit.umoji + ' ', umsg.payload])
