@@ -35,6 +35,16 @@ class TrainingTopic(Base):
     name: Mapped[str] = mapped_column(unique=True, nullable=False)
 
 
+class WorkProject(Base):
+    __tablename__ = 'work_project'
+    name: Mapped[str] = mapped_column(unique=True, nullable=False)
+
+
+class StudyTopic(Base):
+    __tablename__ = 'study_topic'
+    name: Mapped[str] = mapped_column(unique=True, nullable=False)
+
+
 class Unit(Base):
     __tablename__ = 'unit'
     unix_timestamp: Mapped[float] = mapped_column(nullable=False)

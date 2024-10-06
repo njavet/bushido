@@ -8,7 +8,6 @@ from base_tables import Base, Keiko
 
 class Wimhof(Keiko):
     __tablename__ = 'wimhof'
-    pass
 
 
 class WimhofRound(Base):

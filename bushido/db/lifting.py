@@ -18,4 +18,3 @@ class LSet(Base):
     pause: Mapped[int] = mapped_column()
     lifting: Mapped[int] = mapped_column(ForeignKey(Lifting.id_),
                                          nullable=False)
-
