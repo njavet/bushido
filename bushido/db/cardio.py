@@ -3,21 +3,18 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 # project imports
-from base_tables import Keiko
-
-
-
-class Chrono(Keiko):
-    seconds: Mapped[float] = mapped_column(nullable=False)
+from base_tables import Keiko, GymName
 
 
 class Cardio(Keiko):
-    # TODO switch to unix utc timestamps
-    start_t = pw.TimeField()
-    seconds = pw.FloatField()
-    gym = pw.CharField()
-    distance = pw.FloatField(null=True)
-    cal = pw.IntegerField(null=True)
-    avghr = pw.IntegerField(null=True)
-    maxhr = pw.IntegerField(null=True)
+    __tablename__ = 'cardio'
+    start_t: Mapped[float] = mapped_column(nullable=False)
+    seconds: Mapped[float] = mapped_column(nullable=False)
 
+    distance: Mapped[float] = mapped_column()
+    cal: Mapped[int] = mapped_column()
+    avghr: Mapped[int] = mapped_column()
+    maxhr: Mapped[int] = mapped_column()
+
+    gym: Mapped[str] = mapped_column(ForeignKey(GymName.name),
+                                     nullable=False)

@@ -3,15 +3,18 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 # project imports
-from base_tables import Keiko
+from base_tables import Keiko, StudyTopic, WorkProject
 
 
 class Mind(Keiko):
-    seconds = pw.FloatField()
-    topic = pw.CharField()
-    focus = pw.CharField(null=True)
-    # unix utc timestamps
-    start_t = pw.FloatField(null=True)
-    end_t = pw.FloatField(null=True)
-    breaks = pw.IntegerField(null=True)
+    __tablename__ = 'mind'
 
+    seconds: Mapped[float] = mapped_column(nullable=False)
+    start_t: Mapped[float] = mapped_column()
+    end_t: Mapped[float] = mapped_column()
+    breaks: Mapped[int] = mapped_column()
+
+    project: Mapped[str] = mapped_column(ForeignKey(WorkProject.name),
+                                         nullable=False)
+    topic: Mapped[str] = mapped_column(ForeignKey(StudyTopic.name),
+                                       nullable=False)
