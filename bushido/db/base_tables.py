@@ -12,15 +12,27 @@ class Base(DeclarativeBase):
 
 class Category(Base):
     __tablename__ = 'category'
-    name: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str] = mapped_column(unique=True, nullable=False)
 
 
 class Emoji(Base):
     __tablename__ = 'emoji'
-    emoji: Mapped[str] = mapped_column(unique=True)
-    name: Mapped[str] = mapped_column(unique=True)
+    emoji_base: Mapped[str] = mapped_column(unique=True, nullable=False)
+    emoji_ext: Mapped[str] = mapped_column(unique=True)
+    emoji_name: Mapped[str] = mapped_column(unique=True, nullable=False)
+    unit_name: Mapped[str] = mapped_column(unique=True, nullable=False)
     category: Mapped[str] = mapped_column(ForeignKey(Category.name),
                                           nullable=False)
+
+
+class GymName(Base):
+    __tablename__ = 'gym_name'
+    name: Mapped[str] = mapped_column(unique=True, nullable=False)
+
+
+class TrainingTopic(Base):
+    __tablename__ = 'training_topic'
+    name: Mapped[str] = mapped_column(unique=True, nullable=False)
 
 
 class Unit(Base):
