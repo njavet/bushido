@@ -3,7 +3,7 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 # project imports
-from base_tables import Base, Keiko
+from bushido.db.models.base import Base, Keiko
 
 
 class Lifting(Keiko):
@@ -16,5 +16,5 @@ class LSet(Base):
     weight: Mapped[float] = mapped_column(nullable=False)
     reps: Mapped[float] = mapped_column(nullable=False)
     pause: Mapped[int] = mapped_column()
-    lifting: Mapped[int] = mapped_column(ForeignKey(Lifting.id_),
+    lifting: Mapped[int] = mapped_column(ForeignKey(Lifting.key),
                                          nullable=False)
