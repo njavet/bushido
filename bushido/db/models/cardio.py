@@ -3,7 +3,8 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 # project imports
-from base_tables import Keiko, GymName
+from bushido.db.models.base import Keiko
+from bushido.db.models import GymName
 
 
 class Cardio(Keiko):

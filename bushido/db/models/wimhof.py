@@ -3,7 +3,7 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 # project imports
-from base_tables import Base, Keiko
+from bushido.db.models.base import Base, Keiko
 
 
 class Wimhof(Keiko):
@@ -15,5 +15,5 @@ class WimhofRound(Base):
     round_nr: Mapped[int] = mapped_column(nullable=False)
     breaths: Mapped[int] = mapped_column(nullable=False)
     retention: Mapped[int] = mapped_column(nullable=False)
-    wimhof: Mapped[int] = mapped_column(ForeignKey(Wimhof.id_),
+    wimhof: Mapped[int] = mapped_column(ForeignKey(Wimhof.key),
                                         nullable=False)
