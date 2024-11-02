@@ -1,10 +1,8 @@
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 # project imports
 from bushido.db.models.base import Keiko
-from bushido.db.models import StudyTopic, WorkProject
 
 
 class Mind(Keiko):
@@ -15,7 +13,5 @@ class Mind(Keiko):
     end_t: Mapped[float] = mapped_column()
     breaks: Mapped[int] = mapped_column()
 
-    project: Mapped[str] = mapped_column(ForeignKey(WorkProject.name),
-                                         nullable=False)
-    topic: Mapped[str] = mapped_column(ForeignKey(StudyTopic.name),
-                                       nullable=False)
+    project: Mapped[str] = mapped_column(nullable=False)
+    topic: Mapped[str] = mapped_column(nullable=False)
