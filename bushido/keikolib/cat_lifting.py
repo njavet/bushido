@@ -53,28 +53,3 @@ class Processor(AbsProcessor):
                            weight=w,
                            reps=r,
                            pause=p)
-
-
-class Lifting(Keiko):
-    set_nr = pw.IntegerField()
-    weight = pw.FloatField()
-    reps = pw.FloatField()
-    pause = pw.IntegerField()
-
-    def __str__(self):
-        return ' '.join([str(self.weight), str(self.reps), str(self.pause)])
-
-
-class Umojis(AbsUmojis):
-    umoji2uname = {
-            b'\xe2\x9b\xa9\xef\xb8\x8f'.decode(): 'squat',
-            b'\xf0\x9f\x8f\x97\xef\xb8\x8f'.decode(): 'deadlift',
-            b'\xf0\x9f\x9a\x81'.decode(): 'benchpress',
-            b'\xf0\x9f\xa6\xad'.decode(): 'overheadpress',
-            b'\xf0\x9f\x90\xa2'.decode(): 'rows'}
-    emoji2umoji = {
-            # shinto -> squats
-            b'\xe2\x9b\xa9'.decode(): b'\xe2\x9b\xa9\xef\xb8\x8f'.decode(),
-            # crane -> deadlift'
-            b'\xf0\x9f\x8f\x97'.decode(): b'\xf0\x9f\x8f\x97\xef\xb8\x8f'.decode()}
-

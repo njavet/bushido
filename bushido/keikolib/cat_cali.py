@@ -47,12 +47,3 @@ class Processor(AbsProcessor):
                         reps=r,
                         pause=p)
 
-
-class Cali(Keiko):
-    set_nr = pw.IntegerField()
-    reps = pw.FloatField()
-    pause = pw.IntegerField()
-
-
-class Umojis(AbsUmojis):
-    umoji2uname = {b'\xf0\x9f\xa6\x85'.decode(): 'pullups'}

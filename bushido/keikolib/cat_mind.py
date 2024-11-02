@@ -47,23 +47,3 @@ class Processor(AbsProcessor):
                     topic=self.attrs.topic,
                     focus=self.attrs.focus)
 
-
-class Mind(Keiko):
-    seconds = pw.FloatField()
-    topic = pw.CharField()
-    focus = pw.CharField(null=True)
-    # unix utc timestamps
-    start_t = pw.FloatField(null=True)
-    end_t = pw.FloatField(null=True)
-    breaks = pw.IntegerField(null=True)
-
-
-class Umojis(AbsUmojis):
-    umoji2uname = {
-           b'\xf0\x9f\x93\xa1'.decode(): 'study',
-           b'\xf0\x9f\x9b\xb0\xef\xb8\x8f'.decode(): 'exam',
-           b'\xf0\x9f\xa6\x89'.decode(): 'reading'}
-    emoji2umoji = {
-           # orbital -> exam
-           b'\xf0\x9f\x9b\xb0'.decode(): b'\xf0\x9f\x9b\xb0\xef\xb8\x8f'.decode()}
-

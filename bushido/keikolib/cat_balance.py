@@ -49,23 +49,3 @@ class Processor(AbsProcessor):
             muscles = None
 
         self.attrs.set_optional_data(fat, water, muscles)
-
-    def _save_keiko(self, unit):
-        Balance.create(unit_id=unit,
-                       weight=self.attrs.weight,
-                       fat=self.attrs.fat,
-                       water=self.attrs.water,
-                       muscles=self.attrs.muscles)
-
-
-class Balance(Keiko):
-    weight = pw.FloatField()
-    fat = pw.FloatField(null=True)
-    water = pw.FloatField(null=True)
-    muscles = pw.FloatField(null=True)
-
-
-class Umojis(AbsUmojis):
-    umoji2uname = {b'\xe2\x9a\x96\xef\xb8\x8f'.decode(): 'balance'}
-    emoji2umoji = {b'\xe2\x9a\x96'.decode(): b'\xe2\x9a\x96\xef\xb8\x8f'.decode()}
-
