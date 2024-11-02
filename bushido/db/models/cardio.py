@@ -1,10 +1,8 @@
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 # project imports
 from bushido.db.models.base import Keiko
-from bushido.db.models import GymName
 
 
 class Cardio(Keiko):
@@ -17,5 +15,4 @@ class Cardio(Keiko):
     avghr: Mapped[int] = mapped_column()
     maxhr: Mapped[int] = mapped_column()
 
-    gym: Mapped[str] = mapped_column(ForeignKey(GymName.name),
-                                     nullable=False)
+    gym: Mapped[str] = mapped_column(nullable=False)
