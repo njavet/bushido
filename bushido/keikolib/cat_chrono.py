@@ -27,18 +27,3 @@ class Processor(AbsProcessor):
     def _save_keiko(self, unit):
         Chrono.create(unit_id=unit, seconds=self.attrs.seconds)
 
-
-class Chrono(Keiko):
-    seconds = pw.FloatField()
-
-
-class Umojis(AbsUmojis):
-
-    umoji2uname = {
-           b'\xe2\x9a\x94\xef\xb8\x8f'.decode(): 'splitmachine',
-           b'\xf0\x9f\x8f\xb9'.decode(): 'stretch',
-           b'\xf0\x9f\x94\xa5'.decode(): 'naulikriya'}
-    emoji2umoji = {
-           # sword -> split_machine
-           b'\xe2\x9a\x94'.decode(): b'\xe2\x9a\x94\xef\xb8\x8f'.decode()}
-

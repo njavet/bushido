@@ -49,17 +49,3 @@ class Processor(AbsProcessor):
                    gym=self.attrs.gym,
                    training=self.attrs.training)
 
-
-class Gym(Keiko):
-    start_t = pw.TimeField()
-    end_t = pw.TimeField()
-    gym = pw.CharField()
-    training = pw.CharField(null=True)
-
-
-class Umojis(AbsUmojis):
-    umoji2uname = {b'\xf0\x9f\xa6\x8d'.decode(): 'weights',
-                   b'\xf0\x9f\xa5\x8b'.decode(): 'martial_arts',
-                   b'\xe2\x9a\x93\xef\xb8\x8f'.decode(): 'yoga'}
-    # anchor emoji for yoga
-    emoji2umoji = {b'\xe2\x9a\x93'.decode(): b'\xe2\x9a\x93\xef\xb8\x8f'.decode()}

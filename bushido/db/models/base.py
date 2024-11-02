@@ -72,5 +72,4 @@ class Message(Base):
 
 class Keiko(Base):
     __abstract__ = True
-    unit: Mapped[int] = mapped_column(ForeignKey(Unit.key),
-                                      nullable=False)
+    unit: Mapped[int] = mapped_column(ForeignKey(Unit.key), nullable=False)

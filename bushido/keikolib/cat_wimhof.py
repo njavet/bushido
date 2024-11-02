@@ -45,15 +45,3 @@ class Processor(AbsProcessor):
                           round_nr=round_nr,
                           breaths=b,
                           retention=r)
-
-
-class Wimhof(Keiko):
-    round_nr = pw.IntegerField()
-    breaths = pw.IntegerField()
-    retention = pw.IntegerField()
-
-
-class Umojis(AbsUmojis):
-    umoji2uname = {
-        b'\xf0\x9f\xaa\x90'.decode(): 'wimhof'}
-

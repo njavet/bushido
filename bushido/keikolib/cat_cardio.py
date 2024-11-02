@@ -98,31 +98,3 @@ class Processor(AbsProcessor):
                       avghr=self.attrs.avghr,
                       maxhr=self.attrs.maxhr)
 
-
-class Cardio(Keiko):
-    # TODO switch to unix utc timestamps
-    start_t = pw.TimeField()
-    seconds = pw.FloatField()
-    gym = pw.CharField()
-    distance = pw.FloatField(null=True)
-    cal = pw.IntegerField(null=True)
-    avghr = pw.IntegerField(null=True)
-    maxhr = pw.IntegerField(null=True)
-
-    def seconds2time_str(self):
-        m, s = divmod(int(self.seconds), 60)
-        return str(m).zfill(2) + ':' + str(s).zfill(2)
-
-    def __str__(self):
-        return ', '.join([self.seconds2time_str(),
-                          str(self.distance),
-                          '{:0.1f}'.format(self.avg_speed),
-                          str(self.avghr),
-                          str(self.maxhr),
-                          str(self.cal)])
-
-
-class Umojis(AbsUmojis):
-    umoji2uname = {
-           b'\xf0\x9f\xaa\x96'.decode(): 'running',
-           b'\xf0\x9f\xa6\x88'.decode(): 'swimming'}

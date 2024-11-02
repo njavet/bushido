@@ -26,10 +26,7 @@ class AbsCategory(ABC):
 
 
 class AbsProcessor(ABC):
-    def __init__(self, category: str, uname: str, umoji: str) -> None:
-        self.category = category
-        self.uname = uname
-        self.umoji = umoji
+    def __init__(self) -> None:
         self.attrs = None
 
     def process_unit(self, unix_timestamp, words, comment):
