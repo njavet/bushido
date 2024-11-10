@@ -1,4 +1,5 @@
 from sqlalchemy import ForeignKey
+from typing import Optional
 from sqlalchemy.orm import (DeclarativeBase,
                             Mapped,
                             mapped_column,
@@ -20,11 +21,10 @@ class Category(Base):
 class Emoji(Base):
     __tablename__ = 'emoji'
     emoji_base: Mapped[str] = mapped_column(unique=True, nullable=False)
-    emoji_ext: Mapped[str] = mapped_column(unique=True)
+    emoji_ext: Mapped[Optional[str]] = mapped_column()
     emoji_name: Mapped[str] = mapped_column(unique=True, nullable=False)
     unit_name: Mapped[str] = mapped_column(unique=True, nullable=False)
-    category: Mapped[str] = mapped_column(ForeignKey(Category.name),
-                                          nullable=False)
+    category: Mapped[str] = mapped_column(ForeignKey(Category.name), nullable=False)
 
     categories: Mapped['Category'] = relationship(back_populates='emoji')
     units: Mapped['Unit'] = relationship(back_populates='emojis')
@@ -33,7 +33,7 @@ class Emoji(Base):
 class Unit(Base):
     __tablename__ = 'unit'
     unix_timestamp: Mapped[float] = mapped_column(nullable=False)
-    emoji: Mapped[str] = mapped_column(ForeignKey(Emoji.unit_name))
+    emoji: Mapped[str] = mapped_column(ForeignKey(Emoji.unit_name), nullable=False)
 
     emojis: Mapped['Emoji'] = relationship(back_populates='units')
     messages: Mapped['Message'] = relationship(back_populates='units',
@@ -43,9 +43,8 @@ class Unit(Base):
 class Message(Base):
     __tablename__ = 'message'
     payload: Mapped[str] = mapped_column()
-    comment: Mapped[str] = mapped_column()
-    unit: Mapped[int] = mapped_column(ForeignKey(Unit.key),
-                                      nullable=False)
+    comment: Mapped[Optional[str]] = mapped_column()
+    unit: Mapped[int] = mapped_column(ForeignKey(Unit.key), nullable=False)
     units: Mapped['Unit'] = relationship(back_populates='messages',
                                          cascade='all, delete-orphan')
 
