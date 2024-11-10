@@ -15,6 +15,6 @@ class LSet(Base):
     set_nr: Mapped[int] = mapped_column(nullable=False)
     weight: Mapped[float] = mapped_column(nullable=False)
     reps: Mapped[float] = mapped_column(nullable=False)
-    pause: Mapped[int] = mapped_column()
+    pause: Mapped[int] = mapped_column(default=0)
     lifting: Mapped[int] = mapped_column(ForeignKey(Lifting.key),
                                          nullable=False)
