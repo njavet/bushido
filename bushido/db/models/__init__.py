@@ -1,9 +1,5 @@
 from bushido.db.models.base import (Category,
                                     Emoji,
-                                    GymName,
-                                    TrainingTopic,
-                                    WorkProject,
-                                    StudyTopic,
                                     Unit,
                                     Message)
 from bushido.db.models.cardio import Cardio
