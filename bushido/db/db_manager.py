@@ -31,3 +31,9 @@ class DatabaseManager:
         session = self.get_session()
         stmt = select(Emoji)
         pass
+
+
+def prepare_emojis():
+    emojis = pd.read_csv('bushido/static/master_data/emojis.csv')
+    emojis['emoji_ext'] = emojis['emoji_ext'].fillna('')
+    emojis['emoji'] = emojis['emoji_base'] + emojis['emoji_ext']
