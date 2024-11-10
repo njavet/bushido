@@ -15,5 +15,4 @@ class WimhofRound(Base):
     round_nr: Mapped[int] = mapped_column(nullable=False)
     breaths: Mapped[int] = mapped_column(nullable=False)
     retention: Mapped[int] = mapped_column(nullable=False)
-    wimhof: Mapped[int] = mapped_column(ForeignKey(Wimhof.key),
-                                        nullable=False)
+    wimhof: Mapped[int] = mapped_column(ForeignKey(Wimhof.key), nullable=False)
