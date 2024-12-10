@@ -12,7 +12,9 @@ class Wimhof(Keiko):
 
 class WimhofRound(Base):
     __tablename__ = 'rounds'
-    round_nr: Mapped[int] = mapped_column(nullable=False)
-    breaths: Mapped[int] = mapped_column(nullable=False)
-    retention: Mapped[int] = mapped_column(nullable=False)
-    wimhof: Mapped[int] = mapped_column(ForeignKey(Wimhof.key), nullable=False)
+
+    round_nr: Mapped[int] = mapped_column()
+    breaths: Mapped[int] = mapped_column()
+    retention: Mapped[int] = mapped_column()
+    wimhof: Mapped[int] = mapped_column(ForeignKey(Wimhof.key))
+

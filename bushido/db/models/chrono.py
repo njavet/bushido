@@ -8,4 +8,5 @@ from bushido.db.models.base import Keiko
 class Chrono(Keiko):
     __tablename__ = 'chrono'
 
-    seconds: Mapped[float] = mapped_column(nullable=False)
+    seconds: Mapped[float] = mapped_column()
+

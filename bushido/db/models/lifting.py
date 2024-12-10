@@ -12,9 +12,10 @@ class Lifting(Keiko):
 
 class LSet(Base):
     __tablename__ = 'lifting_set'
-    set_nr: Mapped[int] = mapped_column(nullable=False)
-    weight: Mapped[float] = mapped_column(nullable=False)
-    reps: Mapped[float] = mapped_column(nullable=False)
+
+    set_nr: Mapped[int] = mapped_column()
+    weight: Mapped[float] = mapped_column()
+    reps: Mapped[float] = mapped_column()
     pause: Mapped[int] = mapped_column(default=0)
-    lifting: Mapped[int] = mapped_column(ForeignKey(Lifting.key),
-                                         nullable=False)
+    lifting: Mapped[int] = mapped_column(ForeignKey(Lifting.key))
+

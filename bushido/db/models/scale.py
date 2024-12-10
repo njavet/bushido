@@ -8,7 +8,9 @@ from bushido.db.models.base import Keiko
 
 class Scale(Keiko):
     __tablename__ = 'scale'
-    weight: Mapped[float] = mapped_column(nullable=False)
+
+    weight: Mapped[float] = mapped_column()
     fat: Mapped[Optional[float]] = mapped_column()
     water: Mapped[Optional[float]] = mapped_column()
     muscles: Mapped[Optional[float]] = mapped_column()
+
