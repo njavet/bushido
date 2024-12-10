@@ -4,13 +4,13 @@ import datetime
 
 # project imports
 from bushido.db.models import Gym
-from bushido.services.units.abs_unit_proc import AbsUnitProcessor
+from bushido.procs.abs_unit_proc import AbsUnitProcessor
 from bushido.parsing import parse_start_end_time_string
 
 
 class UnitProcessor(AbsUnitProcessor):
-    def __init__(self, engine, emoji2key):
-        super().__init__(engine, emoji2key)
+    def __init__(self, engine):
+        super().__init__(engine)
 
     @dataclass
     class Attrs:
