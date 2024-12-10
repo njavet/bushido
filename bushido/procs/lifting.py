@@ -7,8 +7,8 @@ from bushido.procs.abs_unit_proc import AbsUnitProcessor
 
 
 class UnitProcessor(AbsUnitProcessor):
-    def __init__(self, engine, emoji2key):
-        super().__init__(engine, emoji2key)
+    def __init__(self, engine):
+        super().__init__(engine)
 
     @dataclass
     class Attrs:
