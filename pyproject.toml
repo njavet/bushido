@@ -15,6 +15,7 @@ textual-dev = "^1.5.1"
 telethon = "^1.36.0"
 sqlalchemy = "^2.0.35"
 pandas = "^2.2.3"
+pydantic = "^2.10.3"
 
 
 [build-system]
