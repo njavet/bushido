@@ -1,19 +1,14 @@
 from dataclasses import dataclass, field
-import peewee as pw
+from sqlalchemy.orm import Session
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
+from bushido.db.models import Scale
+from bushido.services.units.abs_unit_proc import AbsUnitProcessor
 
 
-class Category(AbsCategory):
-    def __init__(self, category: str) -> None:
-        super().__init__(category)
-        self.keiko = Balance
-
-
-class Processor(AbsProcessor):
-    def __init__(self, category, uname, umoji):
-        super().__init__(category, uname, umoji)
+class UnitProcessor(AbsUnitProcessor):
+    def __init__(self, engine, emoji2key):
+        super().__init__(engine, emoji2key)
 
     @dataclass
     class Attrs:
@@ -49,3 +44,14 @@ class Processor(AbsProcessor):
             muscles = None
 
         self.attrs.set_optional_data(fat, water, muscles)
+
+    def _upload_keiko(self, unit_key):
+        scale = Scale(weight=self.attrs.weight,
+                      fat=self.attrs.fat,
+                      water=self.attrs.water,
+                      muscles=self.attrs.muscles,
+                      unit=unit_key)
+        with Session(self.engine) as session:
+            session.add(scale)
+            session.commit()
+
