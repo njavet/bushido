@@ -1,6 +1,1 @@
-from .app import Bushido
-
-
-if __name__ == '__main__':
-    app = Bushido()
-    app.run()
+run_app()
