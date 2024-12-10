@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+import pandas as pd
 
 
 class EmojiSpec(BaseModel):
@@ -26,3 +27,12 @@ def format_emojis(emojis: list) -> list[EmojiSpec]:
         lst.append(emoji_spec)
     return lst
 
+
+def prepare_emojis():
+    emojis = pd.read_csv('bushido/static/master_data/emojis.csv')
+    emojis['emoji_ext'] = emojis['emoji_ext'].fillna('')
+    emojis['emoji'] = emojis['emoji_base'] + emojis['emoji_ext']
+    emojis['emoji'] = emojis['emoji'].apply(
+        lambda x: x.encode('utf-8').decode('unicode_escape')
+    )
+    return emojis
