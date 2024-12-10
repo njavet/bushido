@@ -13,4 +13,3 @@ class Scale(Keiko):
     fat: Mapped[Optional[float]] = mapped_column()
     water: Mapped[Optional[float]] = mapped_column()
     muscles: Mapped[Optional[float]] = mapped_column()
-
