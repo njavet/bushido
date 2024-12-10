@@ -1,20 +1,15 @@
 from dataclasses import dataclass
-import peewee as pw
+from sqlalchemy.orm import Session
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
-from bushido.keikolib.parsing import parse_time_string
+from bushido.services.units.abs_unit_proc import AbsUnitProcessor
+from bushido.db.models import Chrono
+from bushido.parsing import parse_time_string
 
 
-class Category(AbsCategory):
-    def __init__(self, category: str) -> None:
-        super().__init__(category)
-        self.keiko = Chrono
-
-
-class Processor(AbsProcessor):
-    def __init__(self, category, uname, umoji):
-        super().__init__(category, uname, umoji)
+class UnitProcessor(AbsUnitProcessor):
+    def __init__(self, engine, emoji2key):
+        super().__init__(engine, emoji2key)
 
     @dataclass
     class Attrs:
@@ -24,6 +19,10 @@ class Processor(AbsProcessor):
         seconds = parse_time_string(words[0])
         self.attrs = self.Attrs(seconds=seconds)
 
-    def _save_keiko(self, unit):
-        Chrono.create(unit_id=unit, seconds=self.attrs.seconds)
+    def _upload_keiko(self, unit_key):
+        chrono = Chrono(seconds=self.attrs.seconds,
+                        unit=unit_key)
+        with Session(self.engine) as session:
+            session.add(chrono)
+            session.commit()
 
