@@ -9,7 +9,8 @@ from bushido.db.models.base import Keiko
 class Gym(Keiko):
     __tablename__ = 'gym'
 
-    start_t: Mapped[float] = mapped_column(nullable=False)
-    end_t: Mapped[float] = mapped_column(nullable=False)
-    gym: Mapped[str] = mapped_column(nullable=False)
+    start_t: Mapped[float] = mapped_column()
+    end_t: Mapped[float] = mapped_column()
+    gym: Mapped[str] = mapped_column()
     training: Mapped[Optional[str]] = mapped_column()
+

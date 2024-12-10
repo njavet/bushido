@@ -7,5 +7,6 @@ from bushido.db.models.base import Keiko
 
 class Log(Keiko):
     __tablename__ = 'log'
-    log: Mapped[str] = mapped_column(nullable=False)
+
+    log: Mapped[str] = mapped_column()
 
