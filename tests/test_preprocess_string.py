@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import Mock
+from unittest.mock import MagicMock
 
 # project imports
 from bushido.services.unit_manager import UnitManager
@@ -8,7 +8,7 @@ from bushido.services.unit_manager import UnitManager
 class TestPreprocess(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        mock_dbm = Mock()
+        mock_dbm = MagicMock()
         cls.um = UnitManager(mock_dbm)
 
     def test_empty_input_string(self):
