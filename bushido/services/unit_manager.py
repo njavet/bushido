@@ -4,7 +4,8 @@ import inspect
 import os
 
 # project imports
-from bushido.utils.emojis import format_emojis
+from bushido.utils.emojis import create_emoji_dix
+
 
 class UnitManager:
     def __init__(self, dbm) -> None:
@@ -15,8 +16,23 @@ class UnitManager:
         self._load_emojis()
         self._load_processors()
 
+    def process_input(self, unix_timestamp, input_str):
+        try:
+            emoji, words, comment = self._preprocess_string(input_str)
+        except ValueError as err:
+            return str(err)
+        try:
+            emoji_key = self.emoji2key[emoji]
+            processor = self.emoji2proc[emoji]
+        except KeyError:
+            return 'Unknown emoji'
+        res = processor.process_unit(unix_timestamp, words, comment, emoji_key)
+        return res
+
     def _load_emojis(self):
         emojis = self.dbm.get_emojis()
+        # TODO investigate key only vs spec
+        self.emoji2key = create_emoji_dix(emojis)
 
     def _load_processors(self):
         proc_dir = Path('bushido/keikolib')
@@ -32,35 +48,6 @@ class UnitManager:
             keiko = [member for member in inspect.getmembers(module)
                      if inspect.isclass(member[1]) and member[0] == keiko_name][0][1]
             db_models.append(keiko)
-
-            self.categories[module_name] = module.Category(module_name)
-            self._load_processors(module_name, module)
-            self._load_incomplete_emojis(module)
-
-
-    def _load_processors(self, category, module) -> None:
-        for umoji, uname in module.Umojis.umoji2uname.items():
-            self.umoji2proc[umoji] = module.Processor(category, uname, umoji)
-
-    def _load_incomplete_emojis(self, module) -> None:
-        try:
-            for emoji, umoji in module.Umojis.emoji2umoji.items():
-                self.emoji2umoji[emoji] = umoji
-        except AttributeError:
-            pass
-
-    def process_input(self, unix_timestamp, input_str):
-        try:
-            emoji, words, comment = self._preprocess_string(input_str)
-        except ValueError as err:
-            return str(err)
-        try:
-            emoji_key = self.emoji2key[emoji]
-            processor = self.emoji2proc[emoji]
-        except KeyError:
-            return 'Unknown emoji'
-        res = processor.process_unit(unix_timestamp, words, comment, emoji_key)
-        return res
 
     @staticmethod
     def _preprocess_string(input_str: str):
