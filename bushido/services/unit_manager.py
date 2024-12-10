@@ -1,6 +1,7 @@
 from pathlib import Path
 import importlib.util
 import inspect
+from collections import defaultdict
 import os
 
 # project imports
@@ -35,14 +36,24 @@ class UnitManager:
         self.emoji2spec = create_emoji_dix(emojis)
 
     def _load_processors(self):
+        # TODO refactor
+        dix = defaultdict(list)
+        self.emoji2proc = {}
+        for emoji, spec in self.emoji2spec.items():
+            dix[spec.category].append(emoji)
+
         proc_dir = Path('bushido/procs')
-        for module_path in proc_dir.rglob('*.py'):
+        procs = [file for file in proc_dir.rglob('*.py') if '_' not in file.stem]
+        for module_path in procs:
             module_name = module_path.stem
             spec = importlib.util.spec_from_file_location(module_name, module_path)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
             proc = [member for member in inspect.getmembers(module)
                     if inspect.isclass(member[1]) and member[0] == 'UnitProcessor'][0][1]
+            for emoji in dix[module_name]:
+                self.emoji2proc[emoji] = proc(self.dbm.engine)
+
 
     @staticmethod
     def _preprocess_string(input_str: str):
