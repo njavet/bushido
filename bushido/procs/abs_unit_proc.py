@@ -29,7 +29,8 @@ class AbsUnitProcessor(ABC):
         with Session(self.engine) as session:
             session.add(unit)
             session.commit()
-        return unit.key
+            # TODO investigate not bound to a session error
+            return unit.key
 
     def _upload_message(self, payload, comment, unit_key) -> None:
         msg = Message(payload=payload, comment=comment, unit=unit_key)
