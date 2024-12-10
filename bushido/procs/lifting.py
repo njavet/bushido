@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 # project imports
 from bushido.db.models import Lifting
-from bushido.services.units.abs_unit_proc import AbsUnitProcessor
+from bushido.procs.abs_unit_proc import AbsUnitProcessor
 
 
 class UnitProcessor(AbsUnitProcessor):
