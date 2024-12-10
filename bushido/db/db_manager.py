@@ -7,8 +7,10 @@ from bushido.db.models import Base, Emoji
 
 
 class DatabaseManager:
-    def __init__(self, db_url):
+    def __init__(self, db_url, init=False):
         self.engine = create_engine(db_url)
+        if init:
+            self.init_tables()
 
     def init_tables(self):
         Base.metadata.create_all(self.engine)
