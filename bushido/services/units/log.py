@@ -1,19 +1,14 @@
 from dataclasses import dataclass
-import peewee as pw
+from sqlalchemy.orm import Session
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
+from bushido.db.models import Log
+from bushido.services.units.abs_unit_proc import AbsUnitProcessor
 
 
-class Category(AbsCategory):
-    def __init__(self, category: str) -> None:
-        super().__init__(category)
-        self.keiko = Log
-
-
-class Processor(AbsProcessor):
-    def __init__(self, category, uname, umoji):
-        super().__init__(category, uname, umoji)
+class UnitProcessor(AbsUnitProcessor):
+    def __init__(self, engine, emoji2key):
+        super().__init__(engine, emoji2key)
 
     @dataclass
     class Attrs:
@@ -27,6 +22,9 @@ class Processor(AbsProcessor):
 
         self.attrs = self.Attrs(log_str=log_str)
 
-    def _save_keiko(self, unit):
-        Log.create(unit_id=unit,
-                   log_str=self.attrs.log_str)
+    def _upload_keiko(self, unit_key):
+        log = Log(log=self.attrs.log_str,
+                  unit=unit_key)
+        with Session(self.engine) as session:
+            session.add(log)
+            session.commit()
