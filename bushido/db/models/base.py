@@ -24,7 +24,7 @@ class Emoji(Base):
     emoji_ext: Mapped[Optional[str]] = mapped_column()
     emoji_name: Mapped[str] = mapped_column(unique=True)
     unit_name: Mapped[str] = mapped_column(unique=True)
-    category: Mapped[str] = mapped_column(ForeignKey(Category.key))
+    category: Mapped[str] = mapped_column(ForeignKey(Category.name))
 
     categories: Mapped['Category'] = relationship(back_populates='emoji')
     units: Mapped['Unit'] = relationship(back_populates='emojis')
