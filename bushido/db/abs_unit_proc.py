@@ -37,7 +37,7 @@ class AbsUnitProcessor(ABC):
 
         return 'Unit confirmed'
 
-    def _preprocess_string(self, input_str: str):
+    def _preprocess_string(self, input_str: str) -> None:
         parts = input_str.split('//', 1)
         self.payload = parts[0]
 
@@ -49,7 +49,7 @@ class AbsUnitProcessor(ABC):
         else:
             self.comment = None
 
-    def _process_words(self, words: list[str]):
+    def _process_words(self, words: list[str]) -> None:
         raise NotImplementedError
 
     def _upload_unit(self, unix_timestamp, emoji_key) -> int:
@@ -59,7 +59,7 @@ class AbsUnitProcessor(ABC):
             session.commit()
         return unit.key
 
-    def _upload_message(self, unit_key):
+    def _upload_message(self, unit_key) -> None:
         msg = Message(payload=self.payload, comment=self.comment, unit=unit_key)
         with Session(self.engine) as session:
             session.add(msg)
