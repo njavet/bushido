@@ -10,7 +10,7 @@ from bushido.utils.emojis import create_emoji_dix
 class UnitManager:
     def __init__(self, dbm) -> None:
         self.dbm = dbm
-        self.emoji2key: dict = {}
+        self.emoji2spec: dict = {}
         self.emoji2proc: dict = {}
         # retrievers
         self._load_emojis()
@@ -22,7 +22,7 @@ class UnitManager:
         except ValueError as err:
             return str(err)
         try:
-            emoji_key = self.emoji2key[emoji]
+            emoji_key = self.emoji2spec[emoji].key
             processor = self.emoji2proc[emoji]
         except KeyError:
             return 'Unknown emoji'
@@ -32,22 +32,17 @@ class UnitManager:
     def _load_emojis(self):
         emojis = self.dbm.get_emojis()
         # TODO investigate key only vs spec
-        self.emoji2key = create_emoji_dix(emojis)
+        self.emoji2spec = create_emoji_dix(emojis)
 
     def _load_processors(self):
-        proc_dir = Path('bushido/keikolib')
-        # all file_path in categories should be valid category implementations
-        db_models = []
-        for module_path in categories.rglob('cat_*.py'):
-            module_name = module_path.stem[4:]
+        proc_dir = Path('bushido/procs')
+        for module_path in proc_dir.rglob('*.py'):
+            module_name = module_path.stem
             spec = importlib.util.spec_from_file_location(module_name, module_path)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-
-            keiko_name = module_name.capitalize()
-            keiko = [member for member in inspect.getmembers(module)
-                     if inspect.isclass(member[1]) and member[0] == keiko_name][0][1]
-            db_models.append(keiko)
+            proc = [member for member in inspect.getmembers(module)
+                    if inspect.isclass(member[1]) and member[0] == 'UnitProcessor'][0][1]
 
     @staticmethod
     def _preprocess_string(input_str: str):
