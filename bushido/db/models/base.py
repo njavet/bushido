@@ -46,8 +46,7 @@ class Message(Base):
     comment: Mapped[Optional[str]] = mapped_column()
     unit: Mapped[int] = mapped_column(ForeignKey(Unit.key))
 
-    units: Mapped['Unit'] = relationship(back_populates='messages',
-                                         cascade='all, delete-orphan')
+    units: Mapped['Unit'] = relationship(back_populates='messages')
 
 
 class Keiko(Base):
