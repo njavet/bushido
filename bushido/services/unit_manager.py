@@ -54,7 +54,6 @@ class UnitManager:
             for emoji in dix[module_name]:
                 self.emoji2proc[emoji] = proc(self.dbm.engine)
 
-
     @staticmethod
     def _preprocess_string(input_str: str):
         parts = input_str.split('//', 1)
