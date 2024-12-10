@@ -3,12 +3,12 @@ from sqlalchemy.orm import Session
 
 # project imports
 from bushido.db.models import Scale
-from bushido.services.units.abs_unit_proc import AbsUnitProcessor
+from bushido.services.abs_unit_proc import AbsUnitProcessor
 
 
 class UnitProcessor(AbsUnitProcessor):
-    def __init__(self, engine, emoji2key):
-        super().__init__(engine, emoji2key)
+    def __init__(self, engine):
+        super().__init__(engine)
 
     @dataclass
     class Attrs:
