@@ -11,8 +11,8 @@ class UnitManager:
         # retrievers
         self._load_categories()
 
-    def _load_categories(self):
-        categories = Path('bushido/keikolib')
+    def _load_processors(self):
+        proc_dir = Path('bushido/keikolib')
         # all file_path in categories should be valid category implementations
         db_models = []
         for module_path in categories.rglob('cat_*.py'):
@@ -30,9 +30,6 @@ class UnitManager:
             self._load_processors(module_name, module)
             self._load_incomplete_emojis(module)
 
-        data_dir = os.path.join(os.path.expanduser('~'), '.local/share/bushido')
-        db_url = os.path.join(data_dir, 'keiko.db')
-        init_database(db_url, db_models)
 
     def _load_processors(self, category, module) -> None:
         for umoji, uname in module.Umojis.umoji2uname.items():
