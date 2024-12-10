@@ -67,3 +67,4 @@ class Bushido(App):
 if __name__ == '__main__':
     app = Bushido()
     app.run()
+
