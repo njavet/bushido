@@ -24,7 +24,7 @@ class Emoji(Base):
     emoji_ext: Mapped[Optional[str]] = mapped_column()
     emoji_name: Mapped[str] = mapped_column(unique=True)
     unit_name: Mapped[str] = mapped_column(unique=True)
-    category: Mapped[str] = mapped_column(ForeignKey(Category.name))
+    category: Mapped[str] = mapped_column(ForeignKey(Category.key))
 
     categories: Mapped['Category'] = relationship(back_populates='emoji')
     units: Mapped['Unit'] = relationship(back_populates='emojis')
@@ -33,7 +33,7 @@ class Emoji(Base):
 class Unit(Base):
     __tablename__ = 'unit'
     unix_timestamp: Mapped[float] = mapped_column()
-    emoji: Mapped[str] = mapped_column(ForeignKey(Emoji.unit_name))
+    emoji: Mapped[int] = mapped_column(ForeignKey(Emoji.key))
 
     emojis: Mapped['Emoji'] = relationship(back_populates='units')
     messages: Mapped['Message'] = relationship(back_populates='units',
