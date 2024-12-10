@@ -1,21 +1,16 @@
 from dataclasses import dataclass, field
+from sqlalchemy.orm import Session
 import datetime
-import peewee as pw
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
-from bushido.keikolib.parsing import parse_start_end_time_string
+from bushido.db.models import Gym
+from bushido.services.units.abs_unit_proc import AbsUnitProcessor
+from bushido.parsing import parse_start_end_time_string
 
 
-class Category(AbsCategory):
-    def __init__(self, category: str) -> None:
-        super().__init__(category)
-        self.keiko = Gym
-
-
-class Processor(AbsProcessor):
-    def __init__(self, category, uname, umoji):
-        super().__init__(category, uname, umoji)
+class UnitProcessor(AbsUnitProcessor):
+    def __init__(self, engine, emoji2key):
+        super().__init__(engine, emoji2key)
 
     @dataclass
     class Attrs:
@@ -42,10 +37,13 @@ class Processor(AbsProcessor):
 
         self.attrs.set_optional_data(training)
 
-    def _save_keiko(self, unit):
-        Gym.create(unit_id=unit,
-                   start_t=self.attrs.start_t,
-                   end_t=self.attrs.end_t,
-                   gym=self.attrs.gym,
-                   training=self.attrs.training)
+    def _upload_keiko(self, unit_key):
+        gym = Gym(start_t=self.attrs.start_t,
+                  end_t=self.attrs.end_t,
+                  gym=self.attrs.gym,
+                  training=self.attrs.training,
+                  unit=unit_key)
+        with Session(self.engine) as session:
+            session.add(gym)
+            session.commit()
 
