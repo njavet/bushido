@@ -1,7 +1,7 @@
 from typing import Optional
 
 
-def preprocess_string(input_string: str) -> Optional[tuple[str, list[str], str]]:
+def preprocess_string(input_string: str) -> Optional[tuple[str, list[str], str | None]]:
     """
     first filter, either it raises an exception when the input string is not
     in the required format: <emoji> <payload> // <comment>
@@ -12,16 +12,16 @@ def preprocess_string(input_string: str) -> Optional[tuple[str, list[str], str]]
     # input_string = <emoji> <payload> // <comment>
     parts = input_string.split('//', 1)
     emoji_payload = parts[0]
+
+    if not emoji_payload:
+        raise ValueError('Empty payload')
+
     if len(parts) > 1 and parts[1]:
         comment = parts[1].strip()
     else:
         comment = None
 
-    if not emoji_payload:
-        raise ValueError('Empty payload')
-
     all_words = emoji_payload.split()
     emoji = all_words[0]
     words = all_words[1:]
     return emoji, words, comment
-
