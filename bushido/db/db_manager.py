@@ -42,7 +42,8 @@ class DatabaseManager:
         stmt = (select(Emoji.emoji_base,
                        Emoji.emoji_ext,
                        Category.name,
-                       Emoji.unit_name)
+                       Emoji.unit_name,
+                       Emoji.key)
                 .join(Emoji))
         with Session(self.engine) as session:
             emojis = session.execute(stmt).all()

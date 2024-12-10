@@ -3,13 +3,20 @@ import importlib.util
 import inspect
 import os
 
+# project imports
+from bushido.utils.emojis import format_emojis
 
 class UnitManager:
-    def __init__(self) -> None:
+    def __init__(self, dbm) -> None:
+        self.dbm = dbm
         self.emoji2key: dict = {}
         self.emoji2proc: dict = {}
         # retrievers
-        self._load_categories()
+        self._load_emojis()
+        self._load_processors()
+
+    def _load_emojis(self):
+        emojis = self.dbm.get_emojis()
 
     def _load_processors(self):
         proc_dir = Path('bushido/keikolib')

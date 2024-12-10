@@ -7,9 +7,10 @@ class EmojiSpec(BaseModel):
     emoji: str
     unit_name: str
     category: str
+    key: int
 
 
-def format_emojis(emojis: list) -> list[EmojiSpec]:
+def create_emoji_specs(emojis: list) -> list[EmojiSpec]:
     lst = []
     for row in emojis:
         if row[1]:
@@ -22,10 +23,19 @@ def format_emojis(emojis: list) -> list[EmojiSpec]:
         emoji_spec = EmojiSpec(base_emoji=base_emoji,
                                emoji=emoji,
                                category=row[2],
-                               unit_name=row[3])
-
+                               unit_name=row[3],
+                               key=row[4])
         lst.append(emoji_spec)
     return lst
+
+
+def create_emoji_dix(emojis: list) -> dict:
+    emoji_specs = create_emoji_specs(emojis)
+    dix = {}
+    for emoji_spec in emoji_specs:
+        dix[emoji_spec.base_emoji] = emoji_spec
+        dix[emoji_spec.emoji] = emoji_spec
+    return dix
 
 
 def prepare_emojis():
