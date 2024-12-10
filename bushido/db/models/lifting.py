@@ -1,21 +1,14 @@
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 # project imports
-from bushido.db.models.base import Base, Keiko
+from bushido.db.models.base import Keiko
 
 
 class Lifting(Keiko):
     __tablename__ = 'lifting'
 
-
-class LSet(Base):
-    __tablename__ = 'lifting_set'
-
     set_nr: Mapped[int] = mapped_column()
     weight: Mapped[float] = mapped_column()
     reps: Mapped[float] = mapped_column()
     pause: Mapped[int] = mapped_column(default=0)
-    lifting: Mapped[int] = mapped_column(ForeignKey(Lifting.key))
-
