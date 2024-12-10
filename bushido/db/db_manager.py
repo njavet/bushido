@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, select
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
 import pandas as pd
 
 # project imports
@@ -9,11 +9,6 @@ from bushido.db.models import Base, Emoji
 class DatabaseManager:
     def __init__(self, db_url):
         self.engine = create_engine(db_url)
-
-    def get_session(self):
-        Session = sessionmaker(bind=self.engine)
-        session = Session()
-        return session
 
     def init_tables(self):
         Base.metadata.create_all(self.engine)
@@ -28,7 +23,6 @@ class DatabaseManager:
         emojis.to_sql('emoji', self.engine, index=False, if_exists='append')
 
     def download_emoji_to_dict(self):
-        session = self.get_session()
         stmt = select(Emoji)
         pass
 
@@ -40,3 +34,5 @@ def prepare_emojis():
     emojis['emoji'] = emojis['emoji'].apply(
         lambda x: x.encode('utf-8').decode('unicode_escape')
     )
+    return emojis
+
