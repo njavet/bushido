@@ -9,6 +9,7 @@ class AbsUnitProcessor(ABC):
     def __init__(self, engine, emoji2key):
         self.engine = engine
         self.emoji2key = emoji2key
+        self.attrs = None
         self.payload = None
         self.comment = None
 

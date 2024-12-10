@@ -1,21 +1,16 @@
 import datetime
-import peewee as pw
+from sqlalchemy.orm import Session
 from dataclasses import dataclass, field
 
 # project imports
-from bushido.keikolib.abscat import Keiko, AbsProcessor, AbsCategory, AbsUmojis
-import bushido.keikolib.parsing as parsing
+from bushido.services.units.abs_unit_proc import AbsUnitProcessor
+from bushido.db.models import Cardio
+import bushido.parsing as parsing
 
 
-class Category(AbsCategory):
-    def __init__(self, category: str) -> None:
-        super().__init__(category)
-        self.keiko = Cardio
-
-
-class Processor(AbsProcessor):
-    def __init__(self, category, uname, umoji):
-        super().__init__(category, uname, umoji)
+class UnitProcessor(AbsUnitProcessor):
+    def __init__(self, engine, emoji2key):
+        super().__init__(engine, emoji2key)
 
     @dataclass
     class Attrs:
@@ -88,13 +83,16 @@ class Processor(AbsProcessor):
                                 gym=gym)
         self.attrs.set_optional_data(distance, cal, avghr, maxhr)
 
-    def _save_keiko(self, unit):
-        Cardio.create(unit_id=unit,
-                      start_t=self.attrs.start_t,
-                      seconds=self.attrs.seconds,
-                      gym=self.attrs.gym,
-                      distance=self.attrs.distance,
-                      cal=self.attrs.cal,
-                      avghr=self.attrs.avghr,
-                      maxhr=self.attrs.maxhr)
+    def _upload_keiko(self, unit_key):
+        cardio = Cardio(start_t=self.attrs.start_t,
+                        seconds=self.attrs.seconds,
+                        gym=self.attrs.gym,
+                        distance=self.attrs.distance,
+                        cal=self.attrs.cal,
+                        avghr=self.attrs.avghr,
+                        maxhr=self.attrs.maxhr,
+                        unit=unit_key)
+        with Session(self.engine) as session:
+            session.add(cardio)
+            session.commit()
 
