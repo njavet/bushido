@@ -21,12 +21,11 @@ class TestBaseDataIntegration(unittest.TestCase):
     def test_valid_gym_units(self):
         d0 = datetime(2024, 12, 8, 8, 8)
         d1 = datetime(2024, 12, 9, 9, 16)
-        d2 = datetime(2024, 12, 10, 10, 32)
         emoji = '\U0001F98D'
         t0 = ' '.join([emoji, '0700-0800', 'hm', '//', 'fake training'])
         t1 = ' '.join([emoji, '0830-0930', 'gloria'])
         self.um.process_input(d0.timestamp(), t0)
-        self.um.process_input(d2.timestamp(), t1)
+        self.um.process_input(d1.timestamp(), t1)
 
         stmt = (select(Emoji.emoji_base,
                        Unit.unix_timestamp,
@@ -49,7 +48,7 @@ class TestBaseDataIntegration(unittest.TestCase):
 
         self.assertEqual(r1[0].encode().decode('unicode_escape'), emoji)
         self.assertEqual(r1[4], 'gloria')
-        self.assertEqual(r0[5], '0700-0800 hm')
+        self.assertEqual(r1[5], '0830-0930 gloria')
         self.assertIsNone(r1[6])
 
 
