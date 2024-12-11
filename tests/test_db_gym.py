@@ -4,9 +4,9 @@ from sqlalchemy import select
 from datetime import datetime
 
 # project imports
-from bushido.db import DatabaseManager
-from bushido.services.unit_manager import UnitManager
-from bushido.db.models import Unit, Gym, Emoji, Message
+from ulib.db import DatabaseManager
+from ulib.services.unit_manager import UnitManager
+from ulib.db.models import Unit, Gym, Emoji, Message
 
 
 class TestBaseDataIntegration(unittest.TestCase):
