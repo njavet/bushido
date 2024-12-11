@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock
 
 # project imports
-from bushido.services.unit_manager import UnitManager
+from ulib.services import UnitManager
 
 
 class TestPreprocess(unittest.TestCase):
