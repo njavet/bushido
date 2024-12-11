@@ -6,7 +6,7 @@ from datetime import datetime
 # project imports
 from bushido.db import DatabaseManager
 from bushido.services.unit_manager import UnitManager
-from bushido.db.models import Unit, Gym, Emoji
+from bushido.db.models import Unit, Gym, Emoji, Message
 
 
 class TestBaseDataIntegration(unittest.TestCase):
@@ -24,28 +24,33 @@ class TestBaseDataIntegration(unittest.TestCase):
         d2 = datetime(2024, 12, 10, 10, 32)
         emoji = '\U0001F98D'
         t0 = ' '.join([emoji, '0700-0800', 'hm', '//', 'fake training'])
-        t1 = ' '.join([emoji, '0800-0900', 'hm', '//', 'again a fake training'])
-        t2 = ' '.join([emoji, '0830-0930', 'gloria'])
+        t1 = ' '.join([emoji, '0830-0930', 'gloria'])
         self.um.process_input(d0.timestamp(), t0)
-        self.um.process_input(d1.timestamp(), t1)
-        self.um.process_input(d2.timestamp(), t2)
+        self.um.process_input(d2.timestamp(), t1)
 
         stmt = (select(Emoji.emoji_base,
                        Unit.unix_timestamp,
                        Gym.start_t,
                        Gym.end_t,
-                       Gym.gym)
+                       Gym.gym,
+                       Message.payload,
+                       Message.comment)
                 .join(Unit, Emoji.key == Unit.emoji)
-                .join(Gym, Unit.key == Gym.key))
+                .join(Gym, Unit.key == Gym.key)
+                .join(Message, Message.key == Unit.key))
 
+        # TODO how to test the date since it's time dependent
         with Session(self.um.dbm.engine) as session:
-            res = session.execute(stmt).all()
+            [r0, r1] = session.execute(stmt).all()
+        self.assertEqual(r0[0].encode().decode('unicode_escape'), emoji)
+        self.assertEqual(r0[4], 'hm')
+        self.assertEqual(r0[5], '0700-0800 hm')
+        self.assertEqual(r0[6], 'fake training')
 
-        for r in res:
-            dt0 = datetime.fromtimestamp(r[1])
-            dt1 = datetime.fromtimestamp(r[2])
-            dt2 = datetime.fromtimestamp(r[3])
-            print(r[0], dt0, dt1, dt2, r[4])
+        self.assertEqual(r1[0].encode().decode('unicode_escape'), emoji)
+        self.assertEqual(r1[4], 'gloria')
+        self.assertEqual(r0[5], '0700-0800 hm')
+        self.assertIsNone(r1[6])
 
 
 if __name__ == '__main__':
