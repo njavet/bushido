@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 # project imports
 from ulib.db.models import Mind
-from .abs_unit_proc import AbsUnitProcessor
-from bushido.parsing import parse_time_string
+from ulib.processors import AbsUnitProcessor
+from ulib.parsing.parsing import parse_time_string
 
 
 class UnitProcessor(AbsUnitProcessor):
