@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 from sqlalchemy.orm import Session
 
 # project imports
-from bushido.db.models import Mind
-from bushido.procs.abs_unit_proc import AbsUnitProcessor
+from ulib.db.models import Mind
+from .abs_unit_proc import AbsUnitProcessor
 from bushido.parsing import parse_time_string
 
 

@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 import datetime
 
 # project imports
-from bushido.db.models import Gym
-from bushido.procs.abs_unit_proc import AbsUnitProcessor
+from .abs_unit_proc import AbsUnitProcessor
+from ulib.db.models import Gym
 from bushido.parsing import parse_start_end_time_string
 
 
