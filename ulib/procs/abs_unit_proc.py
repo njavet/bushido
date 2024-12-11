@@ -2,7 +2,7 @@ from abc import ABC
 from sqlalchemy.orm import Session
 
 # project imports
-from bushido.db.models import Unit, Message
+from ulib.db.models import Unit, Message
 
 
 class AbsUnitProcessor(ABC):

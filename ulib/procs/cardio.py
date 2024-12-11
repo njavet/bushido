@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from dataclasses import dataclass, field
 
 # project imports
-from bushido.procs.abs_unit_proc import AbsUnitProcessor
-from bushido.db.models import Cardio
+from .abs_unit_proc import AbsUnitProcessor
+from ulib.db.models import Cardio
 import bushido.parsing as parsing
 
 

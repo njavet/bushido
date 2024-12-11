@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from sqlalchemy.orm import Session
 
 # project imports
-from bushido.db.models import Log
-from bushido.procs.abs_unit_proc import AbsUnitProcessor
+from ulib.db.models import Log
+from .abs_unit_proc import AbsUnitProcessor
 
 
 class UnitProcessor(AbsUnitProcessor):
