@@ -5,7 +5,7 @@ from collections import defaultdict
 import os
 
 # project imports
-from bushido.utils.emojis import create_emoji_dix
+from ulib.utils.emojis import create_emoji_dix
 
 
 class UnitManager:
