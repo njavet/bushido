@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from sqlalchemy.orm import Session
 
 # project imports
-from .abs_unit_proc import AbsUnitProcessor
+from ulib.processors import AbsUnitProcessor
 from ulib.db.models import Chrono
-from bushido.parsing import parse_time_string
+from ulib.parsing.parsing import parse_time_string
 
 
 class UnitProcessor(AbsUnitProcessor):

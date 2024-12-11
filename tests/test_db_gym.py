@@ -13,9 +13,7 @@ class TestBaseDataIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         dbm = DatabaseManager('sqlite:///:memory:')
-        dbm.init_tables()
-        dbm.upload_category_data()
-        dbm.upload_emoji_data()
+        dbm.init_db()
         cls.um = UnitManager(dbm)
 
     def test_valid_gym_units(self):

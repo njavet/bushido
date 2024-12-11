@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from dataclasses import dataclass, field
 
 # project imports
-from .abs_unit_proc import AbsUnitProcessor
+from ulib.processors import AbsUnitProcessor
 from ulib.db.models import Cardio
-import bushido.parsing as parsing
+from ulib.parsing import parsing
 
 
 class UnitProcessor(AbsUnitProcessor):

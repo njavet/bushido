@@ -2,7 +2,6 @@ from pathlib import Path
 import importlib.util
 import inspect
 from collections import defaultdict
-import os
 
 # project imports
 from ulib.utils.emojis import create_emoji_dix
@@ -42,7 +41,7 @@ class UnitManager:
         for emoji, spec in self.emoji2spec.items():
             dix[spec.category].append(emoji)
 
-        proc_dir = Path('bushido/procs')
+        proc_dir = Path('ulib/processors')
         procs = [file for file in proc_dir.rglob('*.py') if '_' not in file.stem]
         for module_path in procs:
             module_name = module_path.stem

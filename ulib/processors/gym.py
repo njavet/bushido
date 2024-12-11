@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 import datetime
 
 # project imports
-from .abs_unit_proc import AbsUnitProcessor
+from ulib.processors import AbsUnitProcessor
 from ulib.db.models import Gym
-from bushido.parsing import parse_start_end_time_string
+from ulib.parsing.parsing import parse_start_end_time_string
 
 
 class UnitProcessor(AbsUnitProcessor):

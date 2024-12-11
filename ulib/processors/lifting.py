@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 # project imports
 from ulib.db.models import Lifting
-from .abs_unit_proc import AbsUnitProcessor
+from ulib.processors import AbsUnitProcessor
 
 
 class UnitProcessor(AbsUnitProcessor):

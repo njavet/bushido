@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 # project imports
 from ulib.db.models import Scale
-from .abs_unit_proc import AbsUnitProcessor
+from ulib.processors import AbsUnitProcessor
 
 
 class UnitProcessor(AbsUnitProcessor):
