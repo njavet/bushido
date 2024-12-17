@@ -15,7 +15,8 @@ class Category(Base):
     __tablename__ = 'category'
     name: Mapped[str] = mapped_column(unique=True)
 
-    emoji: Mapped['Emoji'] = relationship(back_populates='categories')
+    emoji: Mapped['Emoji'] = relationship(back_populates='categories',
+                                          cascade='all, delete-orphan')
 
 
 class Emoji(Base):
@@ -27,7 +28,8 @@ class Emoji(Base):
     category: Mapped[int] = mapped_column(ForeignKey(Category.key))
 
     categories: Mapped['Category'] = relationship(back_populates='emoji')
-    units: Mapped['Unit'] = relationship(back_populates='emojis')
+    units: Mapped['Unit'] = relationship(back_populates='emojis',
+                                         cascade='all, delete-orphan')
 
 
 class Unit(Base):
