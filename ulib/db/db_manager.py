@@ -15,11 +15,19 @@ class DatabaseManager:
         self.upload_category_data()
         self.upload_emoji_data()
 
-    def init_tables(self):
-        Base.metadata.create_all(self.engine)
+    def init_tables(self, tables=None):
+        if tables is not None:
+            tables = [table.__table__ for table in tables]
+            Base.metadata.create_all(self.engine, tables=tables)
+        else:
+            Base.metadata.create_all(self.engine)
 
-    def drop_tables(self):
-        Base.metadata.drop_all(self.engine)
+    def drop_tables(self, tables=None):
+        if tables is not None:
+            tables = [table.__table__ for table in tables]
+            Base.metadata.drop_all(self.engine, tables=tables)
+        else:
+            Base.metadata.drop_all(self.engine)
 
     def upload_category_data(self):
         categories = pd.read_csv('ulib/resources/categories.csv')
