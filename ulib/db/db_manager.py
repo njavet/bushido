@@ -23,7 +23,10 @@ class DatabaseManager:
 
     def upload_category_data(self):
         categories = pd.read_csv('ulib/resources/categories.csv')
-        categories.to_sql('category', self.engine, index=False, if_exists='append')
+        categories.to_sql('category',
+                          self.engine,
+                          index=False,
+                          if_exists='append')
 
     def upload_emoji_data(self):
         upload_lst = []
