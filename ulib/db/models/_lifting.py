@@ -2,7 +2,7 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
 # project imports
-from .base import Keiko
+from ._base import Keiko
 
 
 class Lifting(Keiko):
