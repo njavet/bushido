@@ -3,7 +3,7 @@ from sqlalchemy.orm import mapped_column
 from typing import Optional
 
 # project imports
-from .base import Keiko
+from ._base import Keiko
 
 
 class Gym(Keiko):
