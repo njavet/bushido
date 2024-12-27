@@ -2,11 +2,11 @@ from dataclasses import dataclass, field
 import datetime
 
 # project imports
-from .unit_processor_factory import UnitProcessorFactory
-from ulib.parsing import parse_start_end_time_string
+from ulib.parsers.parser_factory import ParserFactory
+from ulib.utils.parsing import parse_start_end_time_string
 
 
-class UnitProcessor(UnitProcessorFactory):
+class Parser(ParserFactory):
     def __init__(self):
         super().__init__()
 
