@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 import pandas as pd
 
 # project imports
-from .models import Emoji, Category
+from .models import Emoji, Category, Unit, Message
 
 
 class Uploader:
@@ -34,3 +34,22 @@ class Uploader:
                 upload_lst.append(emoji)
             session.add_all(upload_lst)
             session.commit()
+
+    def upload_unit(self, unix_timestamp, emoji_key):
+        unit = Unit(unix_timestamp=unix_timestamp,
+                    emoji=emoji_key)
+        with Session(self.engine) as session:
+            session.add(unit)
+            session.commit()
+        return unit.key
+
+    def upload_message(self, payload, comment, unit_key):
+        message = Message(payload=payload,
+                          comment=comment,
+                          unit=unit_key)
+        with Session(self.engine) as session:
+            session.add(message)
+            session.commit()
+
+    def upload_keiko(self, attrs, unit_key, tablename):
+        pass
