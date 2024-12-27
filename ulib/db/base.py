@@ -1,9 +1,11 @@
 from sqlalchemy import ForeignKey
+from abc import ABC
 from typing import Optional
 from sqlalchemy.orm import (DeclarativeBase,
                             Mapped,
                             mapped_column,
-                            relationship)
+                            relationship,
+                            Session)
 
 
 class Base(DeclarativeBase):
@@ -54,3 +56,33 @@ class Message(Base):
 class Keiko(Base):
     __abstract__ = True
     unit: Mapped[int] = mapped_column(ForeignKey(Unit.key))
+
+
+class UploaderFactory(ABC):
+    def __init__(self, engine):
+        self.engine = engine
+        self.unit = None
+
+    def upload_process(self, unix_timestamp, emoji_key, payload, comment, attrs):
+        self.upload_unit(unix_timestamp, emoji_key)
+        self.upload_message(payload, comment)
+        self.upload_keiko(attrs)
+
+
+    def upload_unit(self, unix_timestamp, emoji_key):
+        self.unit = Unit(unix_timestamp=unix_timestamp,
+                         emoji=emoji_key)
+        with Session(self.engine) as session:
+            session.add(self.unit)
+            session.commit()
+
+    def upload_message(self, payload, comment):
+        message = Message(payload=payload,
+                          comment=comment,
+                          unit=self.unit.key)
+        with Session(self.engine) as session:
+            session.add(message)
+            session.commit()
+
+    def upload_keiko(self, attrs):
+        raise NotImplementedError
