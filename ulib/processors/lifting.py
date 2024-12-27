@@ -1,14 +1,12 @@
 from dataclasses import dataclass
-from sqlalchemy.orm import Session
 
 # project imports
-from ulib.db.models import Lifting
-from ulib.processors import AbsUnitProcessor
+from .unit_processor_factory import UnitProcessorFactory
 
 
-class UnitProcessor(AbsUnitProcessor):
-    def __init__(self, engine):
-        super().__init__(engine)
+class UnitProcessor(UnitProcessorFactory):
+    def __init__(self):
+        super().__init__()
 
     @dataclass
     class Attrs:
@@ -20,7 +18,7 @@ class UnitProcessor(AbsUnitProcessor):
         def zipped(self):
             return zip(self.sets, self.weights, self.reps, self.pauses)
 
-    def _process_words(self, words) -> None:
+    def process_words(self, words) -> None:
         try:
             weights = [float(w) for w in words[::3]]
             reps = [float(r) for r in words[1::3]]
