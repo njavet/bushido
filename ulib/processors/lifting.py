@@ -40,16 +40,3 @@ class UnitProcessor(AbsUnitProcessor):
                                 weights=weights,
                                 reps=reps,
                                 pauses=pauses)
-
-    def _upload_keiko(self, unit_key):
-        upload_lst = []
-        for set_nr, w, r, p in self.attrs.zipped():
-            lifting = Lifting(set_nr=set_nr,
-                              weight=w,
-                              reps=r,
-                              pause=p,
-                              unit=unit_key)
-            upload_lst.append(lifting)
-        with Session(self.engine) as session:
-            session.add_all(upload_lst)
-            session.commit()

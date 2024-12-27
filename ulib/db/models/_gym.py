@@ -14,3 +14,10 @@ class Gym(Keiko):
     gym: Mapped[str] = mapped_column()
     training: Mapped[Optional[str]] = mapped_column()
 
+def create_keiko(attrs, unit_key) -> list:
+    keiko = Gym(start_t=attrs.start_t,
+                end_t=attrs.end_t,
+                gym=attrs.gym,
+                training=attrs.training,
+                unit=unit_key)
+    return [keiko]

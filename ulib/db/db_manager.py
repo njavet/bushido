@@ -1,9 +1,7 @@
-from sqlalchemy import create_engine, select
-from sqlalchemy.orm import Session
-import pandas as pd
+from sqlalchemy import create_engine
 
 # project imports
-from .models import Base, Emoji, Category
+from .models import Base
 from .retriever import Retriever
 from .uploader import Uploader
 
