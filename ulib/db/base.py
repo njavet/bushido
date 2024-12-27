@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, select
 from abc import ABC
 from typing import Optional
 from sqlalchemy.orm import (DeclarativeBase,
@@ -86,3 +86,19 @@ class UploaderFactory(ABC):
 
     def upload_keiko(self, attrs):
         raise NotImplementedError
+
+
+class RetrieverFactory(ABC):
+    def __init__(self, engine):
+        self.engine = engine
+
+    def get_emojis(self):
+        stmt = (select(Emoji.emoji_base,
+                       Emoji.emoji_ext,
+                       Category.name,
+                       Emoji.unit_name,
+                       Emoji.key)
+                .join(Emoji))
+        with Session(self.engine) as session:
+            emojis = session.execute(stmt).all()
+        return emojis

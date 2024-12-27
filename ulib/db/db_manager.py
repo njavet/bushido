@@ -3,21 +3,17 @@ from sqlalchemy.orm import Session
 import pandas as pd
 
 # project imports
-from .models import Base, Category, Emoji
-from .retriever import Retriever
-from .uploader import Uploader
+from .base import Base, Category, Emoji
 
 
 class DatabaseManager:
     def __init__(self, db_url):
         self.engine = create_engine(db_url)
-        self.retriever = Retriever(self.engine)
-        self.uploader = Uploader(self.engine)
 
     def init_db(self):
         self.init_tables()
-        self.uploader.upload_category_data()
-        self.uploader.upload_emoji_data()
+        self.upload_category_data()
+        self.upload_emoji_data()
 
     def init_tables(self, tables=None):
         if tables is not None:
@@ -32,6 +28,7 @@ class DatabaseManager:
             Base.metadata.drop_all(self.engine, tables=tables)
         else:
             Base.metadata.drop_all(self.engine)
+
     def upload_category_data(self):
         categories = pd.read_csv('ulib/resources/categories.csv')
         categories.to_sql('category',
