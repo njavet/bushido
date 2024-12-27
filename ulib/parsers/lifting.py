@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
 # project imports
-from .unit_processor_factory import UnitProcessorFactory
+from ulib.parsers.parser_factory import ParserFactory
 
 
-class UnitProcessor(UnitProcessorFactory):
+class Parser(ParserFactory):
     def __init__(self):
         super().__init__()
 
