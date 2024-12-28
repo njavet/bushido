@@ -7,7 +7,7 @@ from ulib import UnitManager
 class TestPreprocess(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.um = UnitManager()
+        cls.um = UnitManager('sqlite:///:memory:')
 
     def test_empty_input_string(self):
         input_string = ''
