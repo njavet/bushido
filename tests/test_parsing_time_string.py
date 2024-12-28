@@ -2,7 +2,7 @@ import unittest
 import datetime
 
 # project imports
-from ulib.parsing import parsing
+from ulib.utils import parsing
 
 
 class TestParsingTimeString(unittest.TestCase):
