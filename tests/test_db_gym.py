@@ -4,7 +4,6 @@ from sqlalchemy import select
 from datetime import datetime
 
 # project imports
-from ulib.db import DatabaseManager
 from ulib import UnitManager
 from ulib.db.base import Unit, Emoji, Message
 from ulib.db.gym import Gym
@@ -13,9 +12,10 @@ from ulib.db.gym import Gym
 class TestBaseDataIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        dbm = DatabaseManager('sqlite:///:memory:')
-        dbm.init_db()
-        cls.um = UnitManager()
+        um = UnitManager('sqlite:///:memory:')
+        um.dbm.init_db()
+        cls.um = um
+
 
     def test_valid_gym_units(self):
         d0 = datetime(2024, 12, 8, 8, 8)

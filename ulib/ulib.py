@@ -6,8 +6,8 @@ from ulib.parsers.lifting import LiftingParser
 
 
 class UnitManager:
-    def __init__(self) -> None:
-        self.dbm = DatabaseManager('sqlite.db')
+    def __init__(self, db_url) -> None:
+        self.dbm = DatabaseManager(db_url)
         self.parsers = self.load_parsers()
 
     @staticmethod
