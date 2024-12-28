@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project imports
-from .base import Keiko, UploaderFactory
+from ulib.db.base import Keiko, BaseUploader
 
 
 class Lifting(Keiko):
@@ -13,7 +13,7 @@ class Lifting(Keiko):
     pause: Mapped[int] = mapped_column(default=0)
 
 
-class Uploader(UploaderFactory):
+class LiftingUploader(BaseUploader):
     def __init__(self, engine):
         super().__init__(engine)
 

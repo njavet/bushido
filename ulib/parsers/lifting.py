@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
 # project imports
-from ulib.parsers.parser_factory import ParserFactory
+from ulib.parsers.base_parser import BaseParser
 
 
-class Parser(ParserFactory):
+class LiftingParser(BaseParser):
     def __init__(self):
         super().__init__()
 
@@ -18,7 +18,7 @@ class Parser(ParserFactory):
         def zipped(self):
             return zip(self.sets, self.weights, self.reps, self.pauses)
 
-    def process_words(self, words) -> None:
+    def parse_words(self, words) -> Attrs:
         try:
             weights = [float(w) for w in words[::3]]
             reps = [float(r) for r in words[1::3]]
@@ -34,7 +34,8 @@ class Parser(ParserFactory):
         if len(reps) < 1:
             raise ValueError('No set')
 
-        self.attrs = self.Attrs(sets=list(range(len(weights))),
-                                weights=weights,
-                                reps=reps,
-                                pauses=pauses)
+        attrs = self.Attrs(sets=list(range(len(weights))),
+                           weights=weights,
+                           reps=reps,
+                           pauses=pauses)
+        return attrs

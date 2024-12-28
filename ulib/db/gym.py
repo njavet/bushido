@@ -2,7 +2,7 @@ from sqlalchemy.orm import mapped_column, Mapped, Session
 from typing import Optional
 
 # project imports
-from .base import Keiko, UploaderFactory
+from ulib.db.base import Keiko, BaseUploader
 
 
 class Gym(Keiko):
@@ -14,7 +14,7 @@ class Gym(Keiko):
     training: Mapped[Optional[str]] = mapped_column()
 
 
-class Uploader(UploaderFactory):
+class GymUploader(BaseUploader):
     def __init__(self, engine):
         super().__init__(engine)
 

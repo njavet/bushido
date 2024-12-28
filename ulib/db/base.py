@@ -1,6 +1,6 @@
-from sqlalchemy import ForeignKey, select
 from abc import ABC
 from typing import Optional
+from sqlalchemy import ForeignKey, select
 from sqlalchemy.orm import (DeclarativeBase,
                             Mapped,
                             mapped_column,
@@ -58,25 +58,25 @@ class Keiko(Base):
     unit: Mapped[int] = mapped_column(ForeignKey(Unit.key))
 
 
-class UploaderFactory(ABC):
+class BaseUploader(ABC):
     def __init__(self, engine):
         self.engine = engine
         self.unit = None
 
-    def upload_process(self, unix_timestamp, emoji_key, payload, comment, attrs):
-        self.upload_unit(unix_timestamp, emoji_key)
-        self.upload_message(payload, comment)
-        self.upload_keiko(attrs)
+    def upload_unit(self, unix_timestamp, emoji_key, payload, comment, attrs):
+        self._upload_unit(unix_timestamp, emoji_key)
+        self._upload_message(payload, comment)
+        self._upload_keiko(attrs)
 
 
-    def upload_unit(self, unix_timestamp, emoji_key):
+    def _upload_unit(self, unix_timestamp, emoji_key):
         self.unit = Unit(unix_timestamp=unix_timestamp,
                          emoji=emoji_key)
         with Session(self.engine) as session:
             session.add(self.unit)
             session.commit()
 
-    def upload_message(self, payload, comment):
+    def _upload_message(self, payload, comment):
         message = Message(payload=payload,
                           comment=comment,
                           unit=self.unit.key)
@@ -84,21 +84,10 @@ class UploaderFactory(ABC):
             session.add(message)
             session.commit()
 
-    def upload_keiko(self, attrs):
+    def _upload_keiko(self, attrs):
         raise NotImplementedError
 
 
-class RetrieverFactory(ABC):
+class BaseRetriever(ABC):
     def __init__(self, engine):
         self.engine = engine
-
-    def get_emojis(self):
-        stmt = (select(Emoji.emoji_base,
-                       Emoji.emoji_ext,
-                       Category.name,
-                       Emoji.unit_name,
-                       Emoji.key)
-                .join(Emoji))
-        with Session(self.engine) as session:
-            emojis = session.execute(stmt).all()
-        return emojis
