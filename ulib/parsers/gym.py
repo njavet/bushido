@@ -2,11 +2,11 @@ from dataclasses import dataclass, field
 import datetime
 
 # project imports
-from ulib.parsers.parser_factory import ParserFactory
+from ulib.parsers.base_parser import BaseParser
 from ulib.utils.parsing import parse_start_end_time_string
 
 
-class Parser(ParserFactory):
+class GymParser(BaseParser):
     def __init__(self):
         super().__init__()
 
@@ -20,7 +20,7 @@ class Parser(ParserFactory):
         def set_optional_data(self, training):
             self.training = training
 
-    def process_words(self, words: list[str]) -> None:
+    def parse_words(self, words: list[str]) -> Attrs:
         today = datetime.date.today()
         start_t, end_t = parse_start_end_time_string(words[0])
         start_dt = datetime.datetime(today.year,
@@ -38,10 +38,11 @@ class Parser(ParserFactory):
         except IndexError:
             raise ValueError('no gym')
 
-        self.attrs = self.Attrs(start_dt.timestamp(), end_dt.timestamp(), gym)
+        attrs = self.Attrs(start_dt.timestamp(), end_dt.timestamp(), gym)
         try:
             training = words[2]
         except IndexError:
             training = None
 
-        self.attrs.set_optional_data(training)
+        attrs.set_optional_data(training)
+        return attrs

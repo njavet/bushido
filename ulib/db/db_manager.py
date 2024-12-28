@@ -3,12 +3,22 @@ from sqlalchemy.orm import Session
 import pandas as pd
 
 # project imports
-from .base import Base, Category, Emoji
+from ulib.db.base import Base, Category, Emoji
+from ulib.utils.emojis import create_emoji_dix
 
 
 class DatabaseManager:
     def __init__(self, db_url):
         self.engine = create_engine(db_url)
+        self.emoji_dix = create_emoji_dix(self.get_emojis())
+
+    @staticmethod
+    def load_retrievers():
+        pass
+
+    @staticmethod
+    def load_uploaders():
+        pass
 
     def init_db(self):
         self.init_tables()
@@ -53,3 +63,14 @@ class DatabaseManager:
                 upload_lst.append(emoji)
             session.add_all(upload_lst)
             session.commit()
+
+    def get_emojis(self):
+        stmt = (select(Emoji.emoji_base,
+                       Emoji.emoji_ext,
+                       Category.name,
+                       Emoji.unit_name,
+                       Emoji.key)
+                .join(Emoji))
+        with Session(self.engine) as session:
+            emojis = session.execute(stmt).all()
+        return emojis
