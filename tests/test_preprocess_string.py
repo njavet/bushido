@@ -1,15 +1,13 @@
 import unittest
-from unittest.mock import MagicMock
 
 # project imports
-from ulib.services import UnitManager
+from ulib import UnitManager
 
 
 class TestPreprocess(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        mock_dbm = MagicMock()
-        cls.um = UnitManager(mock_dbm)
+        cls.um = UnitManager()
 
     def test_empty_input_string(self):
         input_string = ''

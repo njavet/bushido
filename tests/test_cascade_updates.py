@@ -1,11 +1,11 @@
 import unittest
-from sqlalchemy import select, update, delete
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 
 # project imports
 from ulib.db import DatabaseManager
-from ulib.db.models import Category, Emoji, Unit
+from ulib.db.base import Category, Emoji, Unit
 
 
 class TestCategoryEmojiCascade(unittest.TestCase):
