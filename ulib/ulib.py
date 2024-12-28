@@ -33,8 +33,9 @@ class UnitManager:
         except ValueError:
             return 'parsing error'
 
-        res = processor.process_unit(unix_timestamp, words, comment, emoji_key)
-        return res
+        self.dbm.uploaders[emoji_spec.category].upload_unit(
+            unix_timestamp, emoji_spec.key, ' '.join(words), comment, attrs
+        )
 
     @staticmethod
     def _preprocess_string(input_str: str):
