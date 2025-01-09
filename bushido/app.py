@@ -6,7 +6,8 @@ import os
 import sys
 
 # project imports
-from bushido.keikolib import UnitManager
+from bushido.services import UnitManager
+from bushido.db import DatabaseManager
 from bushido.tgcom import TgCom
 from bushido.txscreens.helpscreen import HelpScreen
 from bushido.txscreens.login import LoginScreen
@@ -25,7 +26,9 @@ class Bushido(App):
 
     def __init__(self):
         super().__init__()
-        self.um = UnitManager()
+        self.dbm = DatabaseManager('sqlite:///bushido.db')
+        self.dbm.init_db()
+        self.um = UnitManager(self.dbm)
         self.tg_com = TgCom(self.um)
         self.unit_history = UnitHistory(self.um)
 
