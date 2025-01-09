@@ -1,6 +1,2 @@
-from .app import Bushido
-
-def run_app():
-    bushido = Bushido()
-    bushido.run()
-
+from . import run_app
+run_app()
