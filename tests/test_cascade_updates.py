@@ -4,18 +4,15 @@ from sqlalchemy.orm import Session
 
 
 # project imports
-from ulib.db import DatabaseManager
-from ulib.db.base import Category, Emoji, Unit
+from ulib.db import DatabaseManager, db_init
+from ulib.db.base import Category
 
 
 class TestCategoryEmojiCascade(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        dbm = DatabaseManager('sqlite:///bushido.db')
-        dbm.init_tables([Category, Emoji, Unit])
-        dbm.upload_category_data()
-        dbm.upload_emoji_data()
-        cls.dbm = dbm
+        db_init('sqlite:///bushido.db')
+        cls.dbm = DatabaseManager('sqlite:///bushido.db')
 
     def test_cascade_delete_category(self):
         stmt = select(Category).where(Category.name == 'lifting')

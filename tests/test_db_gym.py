@@ -5,6 +5,7 @@ from datetime import datetime
 
 # project imports
 from ulib import UnitManager
+from ulib.db import db_init
 from ulib.db.base import Unit, Emoji, Message
 from ulib.db.gym import Gym
 
@@ -12,9 +13,8 @@ from ulib.db.gym import Gym
 class TestBaseDataIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        um = UnitManager('sqlite:///:memory:')
-        um.dbm.init_db()
-        cls.um = um
+        db_init('sqlite:///:memory:')
+        cls.um = UnitManager('sqlite:///:memory:')
 
 
     def test_valid_gym_units(self):
