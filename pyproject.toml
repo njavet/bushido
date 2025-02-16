@@ -16,6 +16,8 @@ telethon = "^1.36.0"
 sqlalchemy = "^2.0.35"
 pandas = "^2.2.3"
 pydantic = "^2.10.3"
+fastapi = "^0.115.8"
+uvicorn = "^0.34.0"
 
 
 [build-system]
