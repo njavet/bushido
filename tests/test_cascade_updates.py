@@ -11,7 +11,7 @@ from ulib.db.tables import CategoryTable
 class TestCategoryEmojiCascade(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.dbm = DatabaseManager('sqlite:///bushido.db')
+        cls.dbm = DatabaseManager('sqlite:///:memory:')
 
     def test_cascade_delete_category(self):
         stmt = select(CategoryTable).where(CategoryTable.name == 'lifting')
