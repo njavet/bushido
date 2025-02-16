@@ -1,6 +1,6 @@
 from abc import ABC
 from typing import Optional
-from sqlalchemy import ForeignKey, select
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import (DeclarativeBase,
                             Mapped,
                             mapped_column,
@@ -17,9 +17,6 @@ class Category(Base):
     __tablename__ = 'category'
     name: Mapped[str] = mapped_column(unique=True)
 
-    emojis: Mapped[list['Emoji']] = relationship(back_populates='_category',
-                                                 cascade='all, delete-orphan')
-
 
 class Emoji(Base):
     __tablename__ = 'emoji'
@@ -29,19 +26,11 @@ class Emoji(Base):
     unit_name: Mapped[str] = mapped_column(unique=True)
     category: Mapped[int] = mapped_column(ForeignKey(Category.key))
 
-    _category: Mapped['Category'] = relationship(back_populates='emojis')
-    units: Mapped[list['Unit']] = relationship(back_populates='_emoji',
-                                               cascade='all, delete-orphan')
-
 
 class Unit(Base):
     __tablename__ = 'unit'
-    unix_timestamp: Mapped[float] = mapped_column()
+    timestamp: Mapped[float] = mapped_column()
     emoji: Mapped[int] = mapped_column(ForeignKey(Emoji.key))
-
-    _emoji: Mapped['Emoji'] = relationship(back_populates='units')
-    messages: Mapped['Message'] = relationship(back_populates='units',
-                                               cascade='all, delete-orphan')
 
 
 class Message(Base):
@@ -49,8 +38,6 @@ class Message(Base):
     payload: Mapped[str] = mapped_column()
     comment: Mapped[Optional[str]] = mapped_column()
     unit: Mapped[int] = mapped_column(ForeignKey(Unit.key))
-
-    units: Mapped['Unit'] = relationship(back_populates='messages')
 
 
 class Keiko(Base):

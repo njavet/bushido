@@ -34,7 +34,7 @@ class TestBaseDataIntegration(unittest.TestCase):
                        Message.payload,
                        Message.comment)
                 .join(Unit, Emoji.key == Unit.emoji)
-                .join(Gym, Unit.key == Gym.key)
+                .join(G/home/tosh/0x100/bushidoym, Unit.key == Gym.key)
                 .join(Message, Message.key == Unit.key))
 
         # TODO how to test the date since it's time dependent
