@@ -3,22 +3,27 @@ from sqlalchemy.orm import Session
 import pandas as pd
 
 # project imports
-from ulib.db.base import Base, Category, Emoji
+from ulib.db.tables import Base, CategoryTable, EmojiTable
+from ulib.schemas.base import Category, Emoji
 
 
 def db_init(db_url):
     engine = create_engine(db_url)
     Base.metadata.create_all(engine)
-    upload_category_data(engine)
-    upload_emoji_data(engine)
+    cats = upload_category_data(engine)
 
 
 def upload_category_data(engine):
-    categories = pd.read_csv('ulib/resources/categories.csv')
-    categories.to_sql('category',
-                      engine,
-                      index=False,
-                      if_exists='append')
+    categories = pd.read_csv('ulib/resources/categories.csv').to_dict(orient='list')
+    lst = []
+    for name in categories.values():
+        cat = CategoryTable(name=name)
+        lst.append(cat)
+    with Session(engine) as session:
+        session.add_all(lst)
+        session.commit()
+    return lst
+
 
 def upload_emoji_data(engine):
     upload_lst = []

@@ -54,18 +54,17 @@ class BaseUploader(ABC):
         self._upload_message(payload, comment)
         self._upload_keiko(attrs)
 
-
-    def _upload_unit(self, unix_timestamp, emoji_key):
-        self.unit = Unit(unix_timestamp=unix_timestamp,
-                         emoji=emoji_key)
+    def _upload_unit(self, timestamp, emoji_key):
+        self.unit = UnitTable(timestamp=timestamp,
+                              fk_emoji=emoji_key)
         with Session(self.engine) as session:
             session.add(self.unit)
             session.commit()
 
     def _upload_message(self, payload, comment):
-        message = Message(payload=payload,
-                          comment=comment,
-                          unit=self.unit.key)
+        message = MessageTable(payload=payload,
+                               comment=comment,
+                               fk_unit=self.unit.key)
         with Session(self.engine) as session:
             session.add(message)
             session.commit()
