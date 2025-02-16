@@ -6,11 +6,11 @@ class Category(BaseModel):
 
 
 class Emoji(BaseModel):
-    emoji_base: str
-    emoji_ext: str | None
-    emoji_name: str
+    base_emoji: str
+    emoji: str
     unit_name: str
-    fk_category: int
+    category_name: str
+    key: int
 
 
 class Unit(BaseModel):
