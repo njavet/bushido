@@ -5,17 +5,13 @@ from datetime import datetime
 
 # project imports
 from ulib import UnitManager
-from ulib.db import db_init
-from ulib.db.base import Unit, Emoji, Message
-from ulib.db.gym import Gym
+from ulib.db.tables import UnitTable, EmojiTable, MessageTable, GymTable
 
 
 class TestBaseDataIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        db_init('sqlite:///:memory:')
         cls.um = UnitManager('sqlite:///:memory:')
-
 
     def test_valid_gym_units(self):
         d0 = datetime(2024, 12, 8, 8, 8)
@@ -26,16 +22,16 @@ class TestBaseDataIntegration(unittest.TestCase):
         self.um.process_input(d0.timestamp(), t0)
         self.um.process_input(d1.timestamp(), t1)
 
-        stmt = (select(Emoji.emoji_base,
-                       Unit.unix_timestamp,
-                       Gym.start_t,
-                       Gym.end_t,
-                       Gym.gym,
-                       Message.payload,
-                       Message.comment)
-                .join(Unit, Emoji.key == Unit.emoji)
-                .join(G/home/tosh/0x100/bushidoym, Unit.key == Gym.key)
-                .join(Message, Message.key == Unit.key))
+        stmt = (select(EmojiTable.emoji_base,
+                       UnitTable.timestamp,
+                       GymTable.start_t,
+                       GymTable.end_t,
+                       GymTable.gym,
+                       MessageTable.payload,
+                       MessageTable.comment)
+                .join(UnitTable, EmojiTable.key == UnitTable.fk_emoji)
+                .join(GymTable, UnitTable.key == GymTable.key)
+                .join(MessageTable, MessageTable.key == UnitTable.key))
 
         # TODO how to test the date since it's time dependent
         with Session(self.um.dbm.engine) as session:
