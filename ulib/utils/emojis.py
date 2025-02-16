@@ -1,30 +1,24 @@
-from pydantic import BaseModel
 import pandas as pd
 
-
-class EmojiSpec(BaseModel):
-    base_emoji: str
-    emoji: str
-    unit_name: str
-    category: str
-    key: int
+# project imports
+from ulib.schemas.base import Emoji
 
 
-def create_emoji_specs(emojis: list) -> list[EmojiSpec]:
+def create_emoji_specs(emojis: list) -> list[Emoji]:
     lst = []
     for row in emojis:
-        if row[1]:
-            base_emoji = row[0].encode('utf-8').decode('unicode_escape')
-            emoji = (row[0] + row[1]).encode('utf-8').decode('unicode_escape')
-        else:
-            base_emoji = row[0].encode('utf-8').decode('unicode_escape')
+        if row.emoji_ext is None:
+            base_emoji = row.emoji_base.encode('utf-8').decode('unicode_escape')
             emoji = base_emoji
+        else:
+            base_emoji = row.emoji_base.encode('utf-8').decode('unicode_escape')
+            emoji = (row[0] + row[1]).encode('utf-8').decode('unicode_escape')
 
-        emoji_spec = EmojiSpec(base_emoji=base_emoji,
-                               emoji=emoji,
-                               category=row[2],
-                               unit_name=row[3],
-                               key=row[4])
+        emoji_spec = Emoji(base_emoji=base_emoji,
+                           emoji=emoji,
+                           category_name=row.category_name,
+                           unit_name=row.unit_name,
+                           key=row.key)
         lst.append(emoji_spec)
     return lst
 
