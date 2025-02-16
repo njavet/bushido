@@ -19,11 +19,11 @@ class GymUploader(BaseUploader):
         super().__init__(engine)
 
     def upload_keiko(self, attrs):
-        keiko = Gym(start_t=attrs.start_t,
-                    end_t=attrs.end_t,
-                    gym=attrs.gym,
-                    training=attrs.training,
-                    unit=self.unit.key)
+        keiko = GymTable(start_t=attrs.start_t,
+                         end_t=attrs.end_t,
+                         gym=attrs.gym,
+                         training=attrs.training,
+                         fk_unit=self.unit.key)
         with Session(self.engine) as session:
             session.add(keiko)
             session.commit()

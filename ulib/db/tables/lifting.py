@@ -20,11 +20,11 @@ class LiftingUploader(BaseUploader):
     def upload_keiko(self, attrs):
         keikos = []
         for set_nr, w, r, p in attrs.zipped():
-            lifting = Lifting(set_nr=set_nr,
-                              weight=w,
-                              reps=r,
-                              pause=p,
-                              unit=self.unit.key)
+            lifting = LiftingTable(set_nr=set_nr,
+                                   weight=w,
+                                   reps=r,
+                                   pause=p,
+                                   fk_unit=self.unit.key)
             keikos.append(lifting)
 
         with Session(self.engine) as session:

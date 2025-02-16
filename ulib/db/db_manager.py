@@ -2,10 +2,10 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 
 # project imports
-from ulib.db.base import Category, Emoji
+from ulib.db.tables import CategoryTable, EmojiTable
 from ulib.utils.emojis import create_emoji_dix
-from ulib.db.gym import GymUploader
-from ulib.db.lifting import LiftingUploader
+from ulib.db.tables.gym import GymUploader
+from ulib.db.tables.lifting import LiftingUploader
 
 
 class DatabaseManager:

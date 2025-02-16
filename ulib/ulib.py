@@ -1,6 +1,6 @@
 
 # project imports
-from ulib.db import DatabaseManager
+from ulib.db.db_manager import DatabaseManager
 from ulib.parsers.gym import GymParser
 from ulib.parsers.lifting import LiftingParser
 
@@ -15,7 +15,6 @@ class UnitManager:
         parsers = {'gym': GymParser(),
                    'lifting': LiftingParser()}
         return parsers
-
 
     def process_input(self, unix_timestamp, input_str):
         try:
