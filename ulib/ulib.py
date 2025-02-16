@@ -28,11 +28,11 @@ class UnitManager:
             return 'Unknown emoji'
 
         try:
-            attrs = self.parsers[emoji_spec.category].parse_words(words)
+            attrs = self.parsers[emoji_spec.category_name].parse_words(words)
         except ValueError:
             return 'parsing error'
 
-        self.dbm.uploaders[emoji_spec.category].upload_unit(
+        self.dbm.uploaders[emoji_spec.category_name].upload_unit(
             unix_timestamp, emoji_spec.key, ' '.join(words), comment, attrs
         )
 

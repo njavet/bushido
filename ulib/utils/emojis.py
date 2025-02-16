@@ -16,7 +16,7 @@ def create_emoji_specs(emojis: list) -> list[Emoji]:
 
         emoji_spec = Emoji(base_emoji=base_emoji,
                            emoji=emoji,
-                           category_name=row.category_name,
+                           category_name=row.name,
                            unit_name=row.unit_name,
                            key=row.key)
         lst.append(emoji_spec)
