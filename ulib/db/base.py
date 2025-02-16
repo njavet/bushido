@@ -4,7 +4,6 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import (DeclarativeBase,
                             Mapped,
                             mapped_column,
-                            relationship,
                             Session)
 
 
@@ -13,36 +12,36 @@ class Base(DeclarativeBase):
     key: Mapped[int] = mapped_column(primary_key=True)
 
 
-class Category(Base):
+class CategoryTable(Base):
     __tablename__ = 'category'
     name: Mapped[str] = mapped_column(unique=True)
 
 
-class Emoji(Base):
+class EmojiTable(Base):
     __tablename__ = 'emoji'
     emoji_base: Mapped[str] = mapped_column(unique=True)
     emoji_ext: Mapped[Optional[str]] = mapped_column()
     emoji_name: Mapped[str] = mapped_column(unique=True)
     unit_name: Mapped[str] = mapped_column(unique=True)
-    category: Mapped[int] = mapped_column(ForeignKey(Category.key))
+    fk_category: Mapped[int] = mapped_column(ForeignKey(CategoryTable.key))
 
 
-class Unit(Base):
+class UnitTable(Base):
     __tablename__ = 'unit'
     timestamp: Mapped[float] = mapped_column()
-    emoji: Mapped[int] = mapped_column(ForeignKey(Emoji.key))
+    fk_emoji: Mapped[int] = mapped_column(ForeignKey(EmojiTable.key))
 
 
-class Message(Base):
+class MessageTable(Base):
     __tablename__ = 'message'
     payload: Mapped[str] = mapped_column()
     comment: Mapped[Optional[str]] = mapped_column()
-    unit: Mapped[int] = mapped_column(ForeignKey(Unit.key))
+    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
 
 
-class Keiko(Base):
+class KeikoTable(Base):
     __abstract__ = True
-    unit: Mapped[int] = mapped_column(ForeignKey(Unit.key))
+    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
 
 
 class BaseUploader(ABC):
