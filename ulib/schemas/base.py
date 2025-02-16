@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 
 
-class MDCategory(BaseModel):
+class Category(BaseModel):
     name: str
 
 
-class MDEmoji(BaseModel):
+class Emoji(BaseModel):
     emoji_base: str
     emoji_ext: str | None
     emoji_name: str
@@ -13,4 +13,7 @@ class MDEmoji(BaseModel):
     fk_category: int
 
 
-class
+class Unit(BaseModel):
+    timestamp: float
+    fk_emoji: int
+
