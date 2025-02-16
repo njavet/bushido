@@ -2,10 +2,10 @@ from sqlalchemy.orm import mapped_column, Mapped, Session
 from typing import Optional
 
 # project imports
-from ulib.db.base import Keiko, BaseUploader
+from ulib.db.tables.base import KeikoTable, BaseUploader
 
 
-class Gym(Keiko):
+class GymTable(KeikoTable):
     __tablename__ = 'gym'
 
     start_t: Mapped[float] = mapped_column()

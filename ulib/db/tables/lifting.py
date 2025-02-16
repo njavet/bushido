@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project imports
-from ulib.db.base import Keiko, BaseUploader
+from ulib.db.tables.base import KeikoTable, BaseUploader
 
 
-class Lifting(Keiko):
+class LiftingTable(KeikoTable):
     __tablename__ = 'lifting'
 
     set_nr: Mapped[int] = mapped_column()
