@@ -1,7 +1,9 @@
 from abc import ABC
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
 
 # project import
-from ulib.db import UnitTable
+from ulib.db import Base, UnitTable
 
 
 class AbsCategory(ABC):
@@ -17,18 +19,20 @@ class AbsProcessor(ABC):
         self.attrs = None
 
     def process_unit(self, timestamp, words, comment, emoji_key):
-        self._process_words(words)
+        self.process_keiko(words)
         unit = UnitTable(timestamp=timestamp,
                          payload=' '.join(words),
                          comment=comment,
                          fk_emoji=emoji_key)
-        self._upload_unit(unit)
 
-    def _process_words(self, words):
+    def process_keiko(self, words):
         raise NotImplementedError
 
-    def _upload_unit(self, unit):
-        raise NotImplementedError
+
+class KeikoTable(Base):
+    __abstract__ = True
+    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
+
 
 
     def get_emojis(self):
