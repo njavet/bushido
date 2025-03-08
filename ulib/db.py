@@ -35,11 +35,6 @@ class UnitTable(Base):
     fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiTable.key))
 
 
-class KeikoTable(Base):
-    __abstract__ = True
-    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
-
-
 def init_db(engine):
     Base.metadata.create_all(engine)
     try:
