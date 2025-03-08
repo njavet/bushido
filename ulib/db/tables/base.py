@@ -1,4 +1,3 @@
-from abc import ABC
 from typing import Optional
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import (DeclarativeBase,
@@ -11,18 +10,18 @@ class Base(DeclarativeBase):
     key: Mapped[int] = mapped_column(primary_key=True)
 
 
-class CategoryTable(Base):
-    __tablename__ = 'category'
+class MDCategoryTable(Base):
+    __tablename__ = 'md_category'
     name: Mapped[str] = mapped_column(unique=True)
 
 
-class EmojiTable(Base):
-    __tablename__ = 'emoji'
+class MDEmojiTable(Base):
+    __tablename__ = 'md_emoji'
     base_emoji: Mapped[str] = mapped_column(unique=True)
     ext_emoji: Mapped[Optional[str]] = mapped_column()
     emoji_name: Mapped[str] = mapped_column(unique=True)
     unit_name: Mapped[str] = mapped_column(unique=True)
-    fk_category: Mapped[int] = mapped_column(ForeignKey(CategoryTable.key))
+    fk_category: Mapped[int] = mapped_column(ForeignKey(MDCategoryTable.key))
 
 
 class UnitTable(Base):
@@ -30,7 +29,7 @@ class UnitTable(Base):
     timestamp: Mapped[float] = mapped_column()
     payload: Mapped[str] = mapped_column()
     comment: Mapped[Optional[str]] = mapped_column()
-    fk_emoji: Mapped[int] = mapped_column(ForeignKey(EmojiTable.key))
+    fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiTable.key))
 
 
 class KeikoTable(Base):
