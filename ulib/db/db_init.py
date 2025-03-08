@@ -17,7 +17,9 @@ def db_init(engine):
 
 
 def upload_category_data(engine):
-    categories = pd.read_csv('ulib/resources/categories.csv').to_dict(orient='records')
+    categories = (pd
+                  .read_csv('ulib/resources/categories.csv')
+                  .to_dict(orient='records'))
     cat_lst = [CategoryTable(name=category['name']) for category in categories]
     with Session(engine) as session:
         session.add_all(cat_lst)
@@ -33,8 +35,8 @@ def upload_emoji_data(engine):
         emojis = emojis_df.to_dict(orient='records')
         for emoji_data in emojis:
             cat_key = cat_map[emoji_data['category_name']]
-            emoji = EmojiTable(emoji_base=emoji_data['emoji_base'],
-                               emoji_ext=emoji_data['emoji_ext'],
+            emoji = EmojiTable(base_emoji=emoji_data['base_emoji'],
+                               ext_emoji=emoji_data['ext_emoji'],
                                emoji_name=emoji_data['emoji_name'],
                                unit_name=emoji_data['unit_name'],
                                fk_category=cat_key)
