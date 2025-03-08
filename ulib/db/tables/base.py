@@ -19,8 +19,8 @@ class CategoryTable(Base):
 
 class EmojiTable(Base):
     __tablename__ = 'emoji'
-    emoji_base: Mapped[str] = mapped_column(unique=True)
-    emoji_ext: Mapped[Optional[str]] = mapped_column()
+    base_emoji: Mapped[str] = mapped_column(unique=True)
+    ext_emoji: Mapped[Optional[str]] = mapped_column()
     emoji_name: Mapped[str] = mapped_column(unique=True)
     unit_name: Mapped[str] = mapped_column(unique=True)
     fk_category: Mapped[int] = mapped_column(ForeignKey(CategoryTable.key))
@@ -29,14 +29,9 @@ class EmojiTable(Base):
 class UnitTable(Base):
     __tablename__ = 'unit'
     timestamp: Mapped[float] = mapped_column()
-    fk_emoji: Mapped[int] = mapped_column(ForeignKey(EmojiTable.key))
-
-
-class MessageTable(Base):
-    __tablename__ = 'message'
     payload: Mapped[str] = mapped_column()
     comment: Mapped[Optional[str]] = mapped_column()
-    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
+    fk_emoji: Mapped[int] = mapped_column(ForeignKey(EmojiTable.key))
 
 
 class KeikoTable(Base):
