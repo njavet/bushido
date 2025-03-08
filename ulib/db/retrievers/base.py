@@ -46,8 +46,3 @@ class BaseRetriever:
             dix[emoji_spec.emoji] = emoji_spec
         return dix
 
-    def get_units(self):
-        stmt = (select(UnitTable))
-        with Session(self.engine) as session:
-            units = session.scalars(stmt).all()
-        return units
