@@ -1,8 +1,5 @@
+# is it good practice to use the db key in the model ?
 from pydantic import BaseModel
-
-
-class Category(BaseModel):
-    name: str
 
 
 class Emoji(BaseModel):
@@ -15,5 +12,7 @@ class Emoji(BaseModel):
 
 class Unit(BaseModel):
     timestamp: float
+    payload: str
+    comment: str | None
     fk_emoji: int
 

@@ -44,27 +44,17 @@ class BaseUploader(ABC):
         self.engine = engine
         self.unit = None
 
-    def upload_unit(self, unix_timestamp, emoji_key, payload, comment, attrs):
-        self._upload_unit(unix_timestamp, emoji_key)
-        self._upload_message(payload, comment)
-        self._upload_keiko(attrs)
+    def upload_unit(self, timestamp, payload, comment, emoji_key, attrs):
+        self._create_unit(timestamp, payload, comment, emoji_key)
+        self._upload_unit(attrs)
 
-    def _upload_unit(self, timestamp, emoji_key):
+    def _create_unit(self, timestamp, payload, comment, emoji_key):
         self.unit = UnitTable(timestamp=timestamp,
+                              payload=payload,
+                              comment=comment,
                               fk_emoji=emoji_key)
-        with Session(self.engine) as session:
-            session.add(self.unit)
-            session.commit()
 
-    def _upload_message(self, payload, comment):
-        message = MessageTable(payload=payload,
-                               comment=comment,
-                               fk_unit=self.unit.key)
-        with Session(self.engine) as session:
-            session.add(message)
-            session.commit()
-
-    def _upload_keiko(self, attrs):
+    def _upload_unit(self, attrs):
         raise NotImplementedError
 
 
