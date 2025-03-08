@@ -25,13 +25,3 @@ class DatabaseManager:
                      'lifting': LiftingUploader(self.engine)}
         return uploaders
 
-    def get_emojis(self):
-        stmt = (select(EmojiTable.emoji_base,
-                       EmojiTable.emoji_ext,
-                       CategoryTable.name,
-                       EmojiTable.unit_name,
-                       EmojiTable.key)
-                .join(CategoryTable))
-        with Session(self.engine) as session:
-            emojis = session.execute(stmt).all()
-        return emojis
