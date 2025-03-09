@@ -3,7 +3,6 @@ import os
 import datetime
 import sys
 import json
-import pytz
 
 
 def convert_tg_export(json_data):
@@ -20,13 +19,11 @@ def convert_tg_export(json_data):
             dt_str = message['date']
             dt_format = '%Y-%m-%dT%H:%M:%S'
             dt_cet = datetime.datetime.strptime(dt_str, dt_format)
-            dt_utc = dt_cet.astimezone(pytz.utc)
-            unix_timestamp = dt_utc.timestamp()
+            timestamp = dt_cet.timestamp()
             dix = {'agent_id': from_id,
                    'text': msg_text,
-                   'utc_datetime': datetime.datetime.strftime(dt_utc, dt_format),
                    'local_datetime': dt_str,
-                   'unix_timestamp': unix_timestamp}
+                   'timestamp': timestamp}
             lst.append(dix)
     return lst
 
