@@ -43,15 +43,11 @@ class UnitManager:
             return 'Unknown emoji'
 
         try:
-            attrs = self.parsers[emoji_spec.category_name].parse_words(words)
+            self.cn2proc[emoji_spec.category_name].process_unit(
+                timestamp, words, comment, emoji_spec.key
+            )
         except ValueError:
             return 'parsing error'
-
-        self.dbm.uploaders[emoji_spec.category_name].upload_unit(
-            unix_timestamp, emoji_spec.key, ' '.join(words), comment, attrs
-        )
-
-
 
     @staticmethod
     def _preprocess_string(input_str: str):
