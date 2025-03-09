@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Noe Javet <np.javet@gmail.com>"]
 readme = "README.md"
-include = ["unitlib/resources/*.csv"]
+include = ["unitlib/resources/*.csv", "unitlib/categories/*.py"]
 
 [tool.poetry.dependencies]
 python = "^3.12"
