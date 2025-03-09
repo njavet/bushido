@@ -17,7 +17,7 @@ class UnitManager:
         init_db(self.engine)
         self.load_emojis()
 
-    def load_categories(self, cat_path=Path('ulib', 'categories')):
+    def load_categories(self, cat_path=Path('unitlib', 'categories')):
         for module_path in cat_path.rglob('[a-z]*.py'):
             module_name = module_path.stem
             import_path = '.'.join(cat_path.parts + (module_name,))
