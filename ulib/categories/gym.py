@@ -29,7 +29,7 @@ class Processor(AbsProcessor):
                                    end_t.hour,
                                    end_t.minute)
         try:
-            gym = words[1]
+            dojo = words[1]
         except IndexError:
             raise ValueError('no gym')
 
@@ -38,7 +38,7 @@ class Processor(AbsProcessor):
             session.commit()
             keiko = KeikoTable(start_t=start_dt.timestamp(),
                                end_t=end_dt.timestamp(),
-                               gym=gym,
+                               dojo=dojo,
                                fk_unit=unit.key)
             session.add(keiko)
             session.commit()
@@ -49,4 +49,4 @@ class KeikoTable(AbsKeikoTable):
 
     start_t: Mapped[float] = mapped_column()
     end_t: Mapped[float] = mapped_column()
-    gym: Mapped[str] = mapped_column()
+    dojo: Mapped[str] = mapped_column()

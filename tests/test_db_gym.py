@@ -5,13 +5,14 @@ from datetime import datetime
 
 # project imports
 from ulib import UnitManager
-from ulib.db.tables import UnitTable, EmojiTable, MessageTable, GymTable
+from ulib.db import UnitTable, MDEmojiTable
+from ulib.categories.gym import KeikoTable
 
 
 class TestBaseDataIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.um = UnitManager('sqlite:///:memory:')
+        cls.um = UnitManager('sqlite:///bus.db')
 
     def test_valid_gym_units(self):
         d0 = datetime(2024, 12, 8, 8, 8)
@@ -22,19 +23,18 @@ class TestBaseDataIntegration(unittest.TestCase):
         self.um.process_input(d0.timestamp(), t0)
         self.um.process_input(d1.timestamp(), t1)
 
-        stmt = (select(EmojiTable.emoji_base,
+        stmt = (select(MDEmojiTable.base_emoji,
                        UnitTable.timestamp,
-                       GymTable.start_t,
-                       GymTable.end_t,
-                       GymTable.gym,
-                       MessageTable.payload,
-                       MessageTable.comment)
-                .join(UnitTable, EmojiTable.key == UnitTable.fk_emoji)
-                .join(GymTable, UnitTable.key == GymTable.key)
-                .join(MessageTable, MessageTable.key == UnitTable.key))
+                       UnitTable.payload,
+                       UnitTable.comment,
+                       KeikoTable.start_t,
+                       KeikoTable.end_t,
+                       KeikoTable.dojo)
+                .join(UnitTable, MDEmojiTable.key == UnitTable.fk_emoji)
+                .join(KeikoTable, UnitTable.key == KeikoTable.fk_unit))
 
         # TODO how to test the date since it's time dependent
-        with Session(self.um.dbm.engine) as session:
+        with Session(self.um.engine) as session:
             [r0, r1] = session.execute(stmt).all()
         self.assertEqual(r0[0].encode().decode('unicode_escape'), emoji)
         self.assertEqual(r0[4], 'hm')
