@@ -9,7 +9,7 @@ from sqlalchemy.orm import (DeclarativeBase,
 
 # project imports
 from ulib.schemas.base import Emoji
-from utils.helpers import load_csv
+from ulib.utils.helpers import load_csv
 
 
 class Base(DeclarativeBase):
