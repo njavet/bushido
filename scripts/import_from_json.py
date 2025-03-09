@@ -1,15 +1,9 @@
 import collections
 import os
-
-from dotenv import load_dotenv
 import datetime
 import sys
 import json
 import pytz
-
-from unit_manager import UnitManager
-import config
-import db
 
 
 def convert_tg_export(json_data):
@@ -43,30 +37,6 @@ def convert_tg_export_to_file(json_data):
         json.dump(res, f, indent=2, ensure_ascii=False)
 
 
-def insert_json_in_db(unit_manager, json_data):
-    for msg in json_data:
-        pr = unit_manager.process_string(msg['text'])
-        if pr.success:
-            agent_id = msg['agent_id']
-            unix_timestamp = msg['unix_timestamp']
-            unit_manager.save_unit_data(agent_id, unix_timestamp)
-        else:
-            print(pr.msg)
-
-
-def init_database(unit_manager):
-    load_dotenv()
-    agent_id = int(os.getenv('AGENT_ID'))
-    models = [u.subunit_model for u in unit_manager.unit_modules.values()]
-    db.init_storage(models)
-    db.add_agent(agent_id, 'N300', True)
-
-
-def insert_from_tg_export(unit_manager, json_data):
-    res = convert_tg_export(json_data)
-    insert_json_in_db(unit_manager, res)
-
-
 def main():
     if len(sys.argv) != 2:
         print(f'usage: python {sys.argv[0]} <json_file>')
@@ -74,12 +44,8 @@ def main():
     with open(sys.argv[1], 'r') as f:
         data = json.load(f)
 
-    #convert_tg_export_to_file(data)
-    um = UnitManager(config.emojis)
-    init_database(um)
-    insert_json_in_db(um, data)
-    #insert_from_tg_export(um, data)
 
 
 if __name__ == '__main__':
     main()
+
