@@ -28,6 +28,38 @@ def convert_tg_export(json_data):
     return lst
 
 
+""" 
+data cleaning for past data
+
+for item in data:
+    dix = {'text': item['text']}
+    if 'unixtime' in item:
+        dix['timestamp'] = item['unixtime']
+    elif 'unix_timestamp' in item:
+        dix['timestamp'] = item['unix_timestamp']
+    elif 'timestamp' in item:
+        dix['timestamp'] = item['timestamp']
+    else:
+        print('error')
+    if 'datetime' in item:
+        dt0 = datetime.datetime.strptime(item['datetime'], form)
+        dtu = datetime.datetime.fromtimestamp(float(dix['timestamp']))
+        if dt0 != dtu:
+            if float(dix['timestamp']) == 0:
+                dix['timestamp'] = dt0.timestamp()
+        else:
+            print('unit0', item)
+            print('loc', dt0, 'st', dtu)
+    elif 'local_datetime' in item:
+        dt0 = datetime.datetime.strptime(item['local_datetime'], form)
+        dtu = datetime.datetime.fromtimestamp(float(dix['timestamp']))
+        if dt0 != dtu:
+            print('unit', item)
+            print('loc', dt0, 'st', dtu)
+    cleaned.append(dix)
+
+"""
+
 def convert_tg_export_to_file(json_data):
     res = convert_tg_export(json_data)
     with open('converted.json', 'w') as f:
