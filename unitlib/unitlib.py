@@ -20,7 +20,10 @@ class UnitManager:
     def load_categories(self):
         categories = importlib.resources.files('unitlib.categories')
         for module_path in categories.iterdir():
-            if module_path.suffix == '.py' and module_path.stem.islower():
+            # TODO find more elegant solution
+            cond0 = module_path.suffix == '.py'
+            cond1 = not module_path.name.startswith('__')
+            if cond0 and cond1:
                 module_name = module_path.stem
                 import_path = f'unitlib.categories.{module_name}'
                 module = importlib.import_module(import_path)
