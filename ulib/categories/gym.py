@@ -1,4 +1,5 @@
 import datetime
+from sqlalchemy import BigInteger
 from sqlalchemy.orm import mapped_column, Mapped, Session
 
 # project imports
@@ -36,8 +37,8 @@ class Processor(AbsProcessor):
         with Session(self.engine) as session:
             session.add(unit)
             session.commit()
-            keiko = KeikoTable(start_t=start_dt.timestamp(),
-                               end_t=end_dt.timestamp(),
+            keiko = KeikoTable(start_t=int(start_dt.timestamp()),
+                               end_t=int(end_dt.timestamp()),
                                dojo=dojo,
                                fk_unit=unit.key)
             session.add(keiko)
@@ -47,6 +48,6 @@ class Processor(AbsProcessor):
 class KeikoTable(AbsKeikoTable):
     __tablename__ = 'gym'
 
-    start_t: Mapped[float] = mapped_column()
-    end_t: Mapped[float] = mapped_column()
+    start_t: Mapped[int] = mapped_column(BigInteger)
+    end_t: Mapped[int] = mapped_column(BigInteger)
     dojo: Mapped[str] = mapped_column()

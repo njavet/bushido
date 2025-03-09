@@ -1,6 +1,6 @@
 from typing import Optional
 import pandas as pd
-from sqlalchemy import ForeignKey, select
+from sqlalchemy import BigInteger, ForeignKey, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import (DeclarativeBase,
                             Mapped,
@@ -32,7 +32,7 @@ class MDEmojiTable(Base):
 
 class UnitTable(Base):
     __tablename__ = 'unit'
-    timestamp: Mapped[float] = mapped_column()
+    timestamp: Mapped[int] = mapped_column(BigInteger)
     payload: Mapped[str] = mapped_column()
     comment: Mapped[Optional[str]] = mapped_column()
     fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiTable.key))
