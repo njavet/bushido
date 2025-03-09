@@ -9,6 +9,7 @@ from sqlalchemy.orm import (DeclarativeBase,
 
 # project imports
 from ulib.schemas.base import Emoji
+from utils.helpers import load_csv
 
 
 class Base(DeclarativeBase):
@@ -49,9 +50,7 @@ def init_db(engine):
 
 
 def upload_category_data(engine):
-    categories = (pd
-                  .read_csv('ulib/resources/categories.csv')
-                  .to_dict(orient='records'))
+    categories = load_csv('categories.csv').to_dict(orient='records')
     cat_lst = [MDCategoryTable(name=cat['name']) for cat in categories]
     with Session(engine) as session:
         session.add_all(cat_lst)
@@ -59,12 +58,11 @@ def upload_category_data(engine):
 
 
 def upload_emoji_data(engine):
+    emojis = load_csv('emojis.csv').to_dict(orient='records')
     upload_lst = []
     with Session(engine) as session:
         categories = session.scalars(select(MDCategoryTable)).all()
         cat_map = {cat.name: cat.key for cat in categories}
-        emojis_df = pd.read_csv('ulib/resources/emojis.csv')
-        emojis = emojis_df.to_dict(orient='records')
         for emoji_data in emojis:
             cat_key = cat_map[emoji_data['category_name']]
             emoji = MDEmojiTable(base_emoji=emoji_data['base_emoji'],
