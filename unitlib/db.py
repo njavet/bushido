@@ -40,7 +40,6 @@ class UnitTable(Base):
 
 
 def init_db(engine):
-    print('base', Base.metadata.tables.keys())
     Base.metadata.create_all(engine)
     try:
         upload_category_data(engine)
