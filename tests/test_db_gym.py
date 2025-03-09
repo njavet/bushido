@@ -12,7 +12,7 @@ from ulib.categories.gym import KeikoTable
 class TestBaseDataIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.um = UnitManager('sqlite:///bus.db')
+        cls.um = UnitManager('sqlite:///:memory:')
 
     def test_valid_gym_units(self):
         d0 = datetime(2024, 12, 8, 8, 8)
@@ -37,14 +37,14 @@ class TestBaseDataIntegration(unittest.TestCase):
         with Session(self.um.engine) as session:
             [r0, r1] = session.execute(stmt).all()
         self.assertEqual(r0[0].encode().decode('unicode_escape'), emoji)
-        self.assertEqual(r0[4], 'hm')
-        self.assertEqual(r0[5], '0700-0800 hm')
-        self.assertEqual(r0[6], 'fake training')
+        self.assertEqual(r0[6], 'hm')
+        self.assertEqual(r0[2], '0700-0800 hm')
+        self.assertEqual(r0[3], 'fake training')
 
         self.assertEqual(r1[0].encode().decode('unicode_escape'), emoji)
-        self.assertEqual(r1[4], 'gloria')
-        self.assertEqual(r1[5], '0830-0930 gloria')
-        self.assertIsNone(r1[6])
+        self.assertEqual(r1[6], 'gloria')
+        self.assertEqual(r1[2], '0830-0930 gloria')
+        self.assertIsNone(r1[3])
 
 
 if __name__ == '__main__':
