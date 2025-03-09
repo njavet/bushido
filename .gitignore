@@ -160,3 +160,6 @@ cython_debug/
 # TODO less nuclear options
 .idea/
 
+# database
+*.db
+units*.json
