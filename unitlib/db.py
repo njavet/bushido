@@ -8,8 +8,8 @@ from sqlalchemy.orm import (DeclarativeBase,
                             Session)
 
 # project imports
-from ulib.schemas.base import Emoji
-from ulib.utils.helpers import load_csv
+from unitlib.schemas.base import Emoji
+from unitlib.utils.helpers import load_csv
 
 
 class Base(DeclarativeBase):

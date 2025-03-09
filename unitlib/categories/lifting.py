@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project imports
-from ulib.abs_category import AbsCategory, AbsProcessor, AbsKeikoTable
+from unitlib.abs_category import AbsCategory, AbsProcessor, AbsKeikoTable
 
 
 class Category(AbsCategory):

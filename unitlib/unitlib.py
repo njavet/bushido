@@ -4,7 +4,7 @@ import importlib.util
 from sqlalchemy import create_engine
 
 # project imports
-from ulib.db import init_db, get_emojis
+from unitlib.db import init_db, get_emojis
 
 
 class UnitManager:

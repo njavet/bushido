@@ -3,8 +3,8 @@ from sqlalchemy import BigInteger
 from sqlalchemy.orm import mapped_column, Mapped, Session
 
 # project imports
-from ulib.abs_category import AbsCategory, AbsProcessor, AbsKeikoTable
-from ulib.utils.parsing import parse_start_end_time_string
+from unitlib.abs_category import AbsCategory, AbsProcessor, AbsKeikoTable
+from unitlib.utils.parsing import parse_start_end_time_string
 
 
 class Category(AbsCategory):
