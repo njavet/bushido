@@ -20,10 +20,11 @@ class UnitManager:
     def load_categories(self, cat_path=Path('ulib', 'categories')):
         for module_path in cat_path.rglob('[a-z]*.py'):
             module_name = module_path.stem
-            spec = importlib.util.spec_from_file_location(module_name, module_path)
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
-            self.cn2cat[module_name] = module.Category(self.engine)
+            module = importlib.import_module('ulib.categories.' + module_name)
+            #spec = importlib.util.spec_from_file_location(module_name, module_path)
+            #module = importlib.util.module_from_spec(spec)
+            #spec.loader.exec_module(module)
+            self.cn2cat[module_name] = module.Category(module_name, self.engine)
             self.cn2proc[module_name] = module.Processor(self.engine)
 
     def load_emojis(self):
