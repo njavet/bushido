@@ -2,7 +2,7 @@
 name = "bushido"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Noe Javet <np.javet@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -18,6 +18,7 @@ pandas = "^2.2.3"
 pydantic = "^2.10.3"
 fastapi = "^0.115.8"
 uvicorn = "^0.34.0"
+ulib = {git = "https://github.com/njavet/ulib.git"}
 
 
 [build-system]
