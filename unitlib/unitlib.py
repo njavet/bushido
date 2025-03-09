@@ -22,6 +22,7 @@ class UnitManager:
             module_name = module_path.stem
             import_path = '.'.join(cat_path.parts + (module_name,))
             module = importlib.import_module(import_path)
+            print('module', module.KeikoTable.__tablename__)
             self.cn2cat[module_name] = module.Category(module_name, self.engine)
             self.cn2proc[module_name] = module.Processor(self.engine)
 
