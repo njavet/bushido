@@ -32,14 +32,3 @@ class AbsProcessor(ABC):
 class AbsKeikoTable(Base):
     __abstract__ = True
     fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
-
-
-
-    def create_emoji_dict(self) -> dict:
-        emoji_specs = self.get_emojis()
-        dix = {}
-        for emoji_spec in emoji_specs:
-            dix[emoji_spec.base_emoji] = emoji_spec
-            dix[emoji_spec.emoji] = emoji_spec
-        return dix
-

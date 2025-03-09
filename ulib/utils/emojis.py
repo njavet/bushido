@@ -1,10 +1,5 @@
 import pandas as pd
 
-# project imports
-from ulib.schemas.base import Emoji
-
-
-
 
 def prepare_emojis():
     emojis = pd.read_csv('bushido/static/master_data/emojis.csv')
