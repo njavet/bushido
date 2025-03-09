@@ -1,6 +1,6 @@
-from pathlib import Path
 import importlib
 import importlib.util
+import importlib.resources
 from sqlalchemy import create_engine
 
 # project imports
@@ -17,14 +17,17 @@ class UnitManager:
         init_db(self.engine)
         self.load_emojis()
 
-    def load_categories(self, cat_path=Path('unitlib', 'categories')):
-        for module_path in cat_path.rglob('[a-z]*.py'):
-            module_name = module_path.stem
-            import_path = '.'.join(cat_path.parts + (module_name,))
-            module = importlib.import_module(import_path)
-            print('module', module.KeikoTable.__tablename__)
-            self.cn2cat[module_name] = module.Category(module_name, self.engine)
-            self.cn2proc[module_name] = module.Processor(self.engine)
+    def load_categories(self):
+        categories = importlib.resources.files('unitlib.categories')
+        for module_path in categories.iterdir():
+            module_path.
+            if module_path.suffix == '.py' and module_path.stem.islower():
+                module_name = module_path.stem
+                import_path = f'unitlib.categories.{module_name}'
+                module = importlib.import_module(import_path)
+                print('module', module.KeikoTable.__tablename__)
+                self.cn2cat[module_name] = module.Category(module_name, self.engine)
+                self.cn2proc[module_name] = module.Processor(self.engine)
 
     def load_emojis(self):
         for emoji_spec in get_emojis(self.engine):
