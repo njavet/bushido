@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "ulib"
+name = "unitlib"
 version = "0.1.0"
 description = ""
 authors = ["Noe Javet <np.javet@gmail.com>"]
 readme = "README.md"
-include = ["ulib/resources/*.csv"]
+include = ["unitlib/resources/*.csv"]
 
 [tool.poetry.dependencies]
 python = "^3.12"

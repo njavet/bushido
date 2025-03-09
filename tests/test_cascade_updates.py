@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 
 # project imports
-from ulib.db import MDCategoryTable, init_db
+from unitlib.db import MDCategoryTable, init_db
 
 
 class TestCategoryEmojiCascade(unittest.TestCase):

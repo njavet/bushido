@@ -4,9 +4,9 @@ from sqlalchemy import select
 from datetime import datetime
 
 # project imports
-from ulib import UnitManager
-from ulib.db import UnitTable, MDEmojiTable
-from ulib.categories.gym import KeikoTable
+from unitlib import UnitManager
+from unitlib.db import UnitTable, MDEmojiTable
+from unitlib.categories.gym import KeikoTable
 
 
 class TestBaseDataIntegration(unittest.TestCase):

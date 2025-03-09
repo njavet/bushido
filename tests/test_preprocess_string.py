@@ -1,7 +1,7 @@
 import unittest
 
 # project imports
-from ulib import UnitManager
+from unitlib import UnitManager
 
 
 class TestPreprocess(unittest.TestCase):
