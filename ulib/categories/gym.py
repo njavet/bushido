@@ -1,57 +1,44 @@
-from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy.orm import mapped_column, Mapped, Session
 
 # project imports
-from ulib.db.tables.base import KeikoTable
+from ulib.abs_category import AbsCategory, AbsProcessor, AbsKeikoTable
 
 
-class GymTable(KeikoTable):
+class Category(AbsCategory):
+    def __init__(self, name, engine):
+        super().__init__(name, engine)
+
+
+class Processor(AbsProcessor):
+    def __init__(self, engine):
+        super().__init__(engine)
+
+    def process_keiko(self, unit, words):
+        start_t, end_t = parse_start_end_time_string(words[0])
+        try:
+            gym = words[1]
+        except IndexError:
+            raise ValueError('no gym')
+
+        with Session(self.engine) as session:
+            session.add(unit)
+            session.commit()
+            keiko = KeikoTable(start_t=start_t,
+                               end_t=end_t,
+                               gym=gym,
+                               fk_unit=unit.key)
+            session.add(keiko)
+            session.commit()
+
+
+class KeikoTable(AbsKeikoTable):
     __tablename__ = 'gym'
 
     start_t: Mapped[float] = mapped_column()
     end_t: Mapped[float] = mapped_column()
     gym: Mapped[str] = mapped_column()
-from sqlalchemy.orm import Session
-
-# project imports
-from ulib.db.tables.gym import GymTable
-from ulib.db.uploaders.base import BaseUploader
 
 
-class GymUploader(BaseUploader):
-    def __init__(self, engine):
-        super().__init__(engine)
-
-    def _upload_unit(self, attrs):
-        with Session(self.engine) as session:
-            session.add(self.unit)
-            session.commit()
-            keiko = GymTable(start_t=attrs.start_t,
-                             end_t=attrs.end_t,
-                             gym=attrs.gym,
-                             fk_unit=self.unit.key)
-            session.add(keiko)
-            session.commit()
-from dataclasses import dataclass, field
-import datetime
-
-# project imports
-from ulib.parsers.base_parser import BaseParser
-from ulib.utils.parsing import parse_start_end_time_string
-
-
-class GymParser(BaseParser):
-    def __init__(self):
-        super().__init__()
-
-    @dataclass
-    class Attrs:
-        start_t: float
-        end_t: float
-        gym: str
-        training: str | None = field(init=False)
-
-        def set_optional_data(self, training):
-            self.training = training
 
     def parse_words(self, words: list[str]) -> Attrs:
         today = datetime.date.today()
