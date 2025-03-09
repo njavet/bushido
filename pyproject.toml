@@ -26,4 +26,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-bushido = "bushido:run_app"
+bushido = "bushido:create_fastapi_app"
