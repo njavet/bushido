@@ -29,7 +29,7 @@ class TestBaseDataIntegration(unittest.TestCase):
                        UnitTable.comment,
                        KeikoTable.start_t,
                        KeikoTable.end_t,
-                       KeikoTable.dojo)
+                       KeikoTable.gym)
                 .join(UnitTable, MDEmojiTable.key == UnitTable.fk_emoji)
                 .join(KeikoTable, UnitTable.key == KeikoTable.fk_unit))
 

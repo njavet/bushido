@@ -17,3 +17,5 @@ pydantic = "^2.10.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
