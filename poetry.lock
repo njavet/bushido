@@ -1583,7 +1583,7 @@ files = [
 test = ["coverage", "pytest", "pytest-cov"]
 
 [[package]]
-name = "ulib"
+name = "unitlib"
 version = "0.1.0"
 description = ""
 optional = false
@@ -1600,9 +1600,9 @@ sqlalchemy = "^2.0.36"
 
 [package.source]
 type = "git"
-url = "https://github.com/njavet/ulib.git"
+url = "https://github.com/njavet/unitlib.git"
 reference = "HEAD"
-resolved_reference = "e7bebef9222ed8ef09642d81dabb51db45f226bd"
+resolved_reference = "485eae1fc38d3ccfe4a8fb9f82160d62c2d92c79"
 
 [[package]]
 name = "uvicorn"
@@ -1723,4 +1723,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "827e1d62494022cb9ff8cb6ff18877556ca2bd928b8579e7da6e3645b7d5de92"
+content-hash = "e8d9f4b7d6373e5a12eaaee25764087fdac71a99531b8ac05b3100c026554425"
