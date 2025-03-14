@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from unitlib.unitlib import UnitManager
 
 # project imports
+from bushido.db.db_manager import DatabaseManager
 from bushido.api.endpoints import router
 
 
 def create_fastapi_app():
-    um = UnitManager('sqlite:///bushido.db')
+    dbm = DatabaseManager('sqlite:///bushido.db')
     app = FastAPI()
     app.mount('/bushido/static',
               StaticFiles(directory='bushido/static'), name='static')
