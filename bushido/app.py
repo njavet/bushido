@@ -9,6 +9,7 @@ from bushido.api.endpoints import router
 def create_fastapi_app():
     um = UnitManager('sqlite:///bushido.db')
     app = FastAPI()
-    app.mount('/static', StaticFiles(directory='static'), name='static')
+    app.mount('/bushido/static',
+              StaticFiles(directory='bushido/static'), name='static')
     app.include_router(router)
     return app

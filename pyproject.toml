@@ -7,6 +7,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+fastapi = {extras = ["standard"], version = "^0.115.11"}
+uvicorn = "^0.34.0"
+sqlalchemy = "^2.0.39"
+pandas = "^2.2.3"
+numpy = "^2.2.3"
 
 [build-system]
 requires = ["poetry-core"]
