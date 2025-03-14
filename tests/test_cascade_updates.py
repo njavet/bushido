@@ -4,14 +4,15 @@ from sqlalchemy.orm import Session
 
 
 # project imports
-from unitlib.db import MDCategoryTable, init_db
+from bushido.db.base_tables import MDCategoryTable
+from bushido.db.db_init import db_init
 
 
 class TestCategoryEmojiCascade(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         engine = create_engine('sqlite:///:memory:')
-        init_db(engine)
+        db_init(engine)
         cls.engine = engine
 
     def test_cascade_delete_category(self):

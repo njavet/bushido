@@ -1,13 +1,13 @@
 import unittest
 
 # project imports
-from unitlib import UnitManager
+from bushido.db.db_manager import DatabaseManager
 
 
 class TestPreprocess(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.um = UnitManager('sqlite:///:memory:')
+        cls.um = DatabaseManager('sqlite:///:memory:')
 
     def test_empty_input_string(self):
         input_string = ''
