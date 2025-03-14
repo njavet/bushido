@@ -163,3 +163,4 @@ cython_debug/
 # database
 *.db
 units*.json
+units*.csv
