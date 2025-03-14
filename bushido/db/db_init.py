@@ -1,43 +1,38 @@
 from typing import Optional
 import pandas as pd
-from sqlalchemy import BigInteger, ForeignKey, select
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import (DeclarativeBase,
-                            Mapped,
-                            mapped_column,
-                            Session)
+from sqlalchemy.orm import Session
 
 # project imports
 from bushido.db.base_tables import (MDCategoryTable,
                                     MDEmojiTable,
                                     Base)
 from bushido.schemas.base import Emoji
-from unitlib.utils.helpers import load_csv
-
-
-
 
 
 def init_db(engine):
     Base.metadata.create_all(engine)
     try:
-        upload_category_data(engine)
-        upload_emoji_data(engine)
+        upload_category_md_data(engine)
+        upload_emoji_md_data(engine)
     except IntegrityError:
         # TODO logging
         pass
 
 
-def upload_category_data(engine):
-    categories = load_csv('categories.csv').to_dict(orient='records')
+def upload_category_md_data(engine):
+    categories = pd.read_csv('bushido/static/csv_files/categories.csv')
+    categories = categories.to_dict(orient='records')
     cat_lst = [MDCategoryTable(name=cat['name']) for cat in categories]
     with Session(engine) as session:
         session.add_all(cat_lst)
         session.commit()
 
 
-def upload_emoji_data(engine):
-    emojis = load_csv('emojis.csv').to_dict(orient='records')
+def upload_emoji_md_data(engine):
+    emojis = pd.read_csv('bushido/static/csv_files/emojis.csv')
+    emojis = emojis.to_dict(orient='records')
     upload_lst = []
     with Session(engine) as session:
         categories = session.scalars(select(MDCategoryTable)).all()
@@ -66,18 +61,18 @@ def get_emojis(engine):
         # TODO investigate open session for retrieving keys
         #  -> not bound to a session error
         data = session.execute(stmt).all()
-        for item in data:
-            byte_seq = item.base_emoji.encode('utf-8')
-            base_emoji = byte_seq.decode('unicode_escape')
-            if item.ext_emoji is None:
-                emoji = base_emoji
-            else:
-                bs = (item.base_emoji + item.ext_emoji).encode('utf-8')
-                emoji = bs.decode('unicode_escape')
-            emoji_spec = Emoji(base_emoji=base_emoji,
-                               emoji=emoji,
-                               category_name=item.name,
-                               unit_name=item.unit_name,
-                               key=item.key)
-            emoji_lst.append(emoji_spec)
+    for item in data:
+        byte_seq = item.base_emoji.encode('utf-8')
+        base_emoji = byte_seq.decode('unicode_escape')
+        if item.ext_emoji is None:
+            emoji = base_emoji
+        else:
+            bs = (item.base_emoji + item.ext_emoji).encode('utf-8')
+            emoji = bs.decode('unicode_escape')
+        emoji_spec = Emoji(base_emoji=base_emoji,
+                           emoji=emoji,
+                           category_name=item.name,
+                           unit_name=item.unit_name,
+                           key=item.key)
+        emoji_lst.append(emoji_spec)
     return emoji_lst

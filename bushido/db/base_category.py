@@ -3,7 +3,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 # project import
-from unitlib.db import Base, UnitTable
+from bushido.db.base_tables import Base, UnitTable
 
 
 class AbsCategory(ABC):
