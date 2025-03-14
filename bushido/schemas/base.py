@@ -15,3 +15,4 @@ class Unit(BaseModel):
     payload: str
     comment: str | None
     fk_emoji: int
+

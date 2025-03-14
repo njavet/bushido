@@ -8,35 +8,14 @@ from sqlalchemy.orm import (DeclarativeBase,
                             Session)
 
 # project imports
-from unitlib.schemas.base import Emoji
+from bushido.db.base_tables import (MDCategoryTable,
+                                    MDEmojiTable,
+                                    Base)
+from bushido.schemas.base import Emoji
 from unitlib.utils.helpers import load_csv
 
 
-class Base(DeclarativeBase):
-    __abstract__ = True
-    key: Mapped[int] = mapped_column(primary_key=True)
 
-
-class MDCategoryTable(Base):
-    __tablename__ = 'md_category'
-    name: Mapped[str] = mapped_column(unique=True)
-
-
-class MDEmojiTable(Base):
-    __tablename__ = 'md_emoji'
-    base_emoji: Mapped[str] = mapped_column(unique=True)
-    ext_emoji: Mapped[Optional[str]] = mapped_column()
-    emoji_name: Mapped[str] = mapped_column(unique=True)
-    unit_name: Mapped[str] = mapped_column(unique=True)
-    fk_category: Mapped[int] = mapped_column(ForeignKey(MDCategoryTable.key))
-
-
-class UnitTable(Base):
-    __tablename__ = 'unit'
-    timestamp: Mapped[int] = mapped_column(BigInteger)
-    payload: Mapped[str] = mapped_column()
-    comment: Mapped[Optional[str]] = mapped_column()
-    fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiTable.key))
 
 
 def init_db(engine):
