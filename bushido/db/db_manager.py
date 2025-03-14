@@ -4,28 +4,29 @@ import importlib.resources
 from sqlalchemy import create_engine
 
 # project imports
-from unitlib.db import init_db, get_emojis
+from bushido.db.db_init import db_init, get_emojis
 
 
-class UnitManager:
+class DatabaseManager:
     def __init__(self, db_url) -> None:
         self.engine = create_engine(url=db_url)
         self.cn2proc = {}
         self.cn2cat = {}
         self.emoji2spec = {}
+        # sequence important because of Base table
         self.load_categories()
-        init_db(self.engine)
+        db_init(self.engine)
         self.load_emojis()
 
     def load_categories(self):
-        categories = importlib.resources.files('unitlib.categories')
+        categories = importlib.resources.files('bushido.db.categories')
         for module_path in categories.iterdir():
             # TODO find more elegant solution
             cond0 = module_path.suffix == '.py'
             cond1 = not module_path.name.startswith('__')
             if cond0 and cond1:
                 module_name = module_path.stem
-                import_path = f'unitlib.categories.{module_name}'
+                import_path = f'bushido.db.categories.{module_name}'
                 module = importlib.import_module(import_path)
                 self.cn2cat[module_name] = module.Category(module_name, self.engine)
                 self.cn2proc[module_name] = module.Processor(self.engine)

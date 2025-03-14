@@ -11,7 +11,7 @@ from bushido.db.base_tables import (MDCategoryTable,
 from bushido.schemas.base import Emoji
 
 
-def init_db(engine):
+def db_init(engine):
     Base.metadata.create_all(engine)
     try:
         upload_category_md_data(engine)
