@@ -5,8 +5,9 @@ from bushido.db.base_category import AbsCategory, AbsProcessor, AbsKeikoTable
 
 
 class Category(AbsCategory):
-    def __init__(self, name, engine):
-        super().__init__(name, engine)
+    def __init__(self, engine):
+        super().__init__(engine)
+        self.keiko = KeikoTable
 
 
 class Processor(AbsProcessor):

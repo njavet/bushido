@@ -1,5 +1,5 @@
 from abc import ABC
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, select
 from sqlalchemy.orm import Mapped, mapped_column
 
 # project import
@@ -7,10 +7,13 @@ from bushido.db.base_tables import Base, UnitTable
 
 
 class AbsCategory(ABC):
-    def __init__(self, name, engine):
-        self.name = name
+    def __init__(self, engine):
         self.engine = engine
         self.keiko = None
+
+    def receive_all(self, unit_name=None, start_t=None, end_t=None):
+        stmt = (select(UnitTable)
+                .join(self.keiko))
 
 
 class AbsProcessor(ABC):

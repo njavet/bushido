@@ -8,8 +8,9 @@ from bushido.utils.parsing import parse_start_end_time_string
 
 
 class Category(AbsCategory):
-    def __init__(self, name, engine):
-        super().__init__(name, engine)
+    def __init__(self, engine):
+        super().__init__(engine)
+        self.keiko = KeikoTable
 
 
 class Processor(AbsProcessor):

@@ -28,7 +28,7 @@ class DatabaseManager:
                 module_name = module_path.stem
                 import_path = f'bushido.db.categories.{module_name}'
                 module = importlib.import_module(import_path)
-                self.cn2cat[module_name] = module.Category(module_name, self.engine)
+                self.cn2cat[module_name] = module.Category(self.engine)
                 self.cn2proc[module_name] = module.Processor(self.engine)
 
     def load_emojis(self):
