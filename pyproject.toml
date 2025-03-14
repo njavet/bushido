@@ -7,22 +7,6 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-textual = "^0.76.0"
-blinker = "^1.8.2"
-pytz = "^2024.1"
-python-dotenv = "^1.0.1"
-textual-dev = "^1.5.1"
-telethon = "^1.36.0"
-sqlalchemy = "^2.0.35"
-pandas = "^2.2.3"
-pydantic = "^2.10.3"
-fastapi = "^0.115.8"
-uvicorn = "^0.34.0"
-seaborn = "^0.13.2"
-scikit-learn = "^1.6.1"
-mplcyberpunk = "^0.7.6"
-include = ["unitlib/resources/*.csv", "unitlib/categories/*.py"]
-
 
 [build-system]
 requires = ["poetry-core"]
