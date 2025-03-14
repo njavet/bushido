@@ -2,7 +2,7 @@ import unittest
 import datetime
 
 # project imports
-from unitlib.utils import parsing
+from bushido.utils import parsing
 
 
 class TestParsingTimeString(unittest.TestCase):
