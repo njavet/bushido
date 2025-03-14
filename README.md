@@ -21,3 +21,4 @@ python -m unittest discover -s tests/
 * unithistory weeks, collapsible
 * stats for every unit
 * unit delete function
+
