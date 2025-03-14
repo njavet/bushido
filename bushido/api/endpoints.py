@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 
 # TODO investigate globel variables
 router = APIRouter()
-templates = Jinja2Templates(directory='templates/')
+templates = Jinja2Templates(directory='bushido/templates/')
 
 
 @router.get('/', response_class=HTMLResponse)
