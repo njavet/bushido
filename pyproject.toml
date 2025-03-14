@@ -19,6 +19,9 @@ pydantic = "^2.10.3"
 fastapi = "^0.115.8"
 uvicorn = "^0.34.0"
 unitlib = {git = "https://github.com/njavet/unitlib.git"}
+seaborn = "^0.13.2"
+scikit-learn = "^1.6.1"
+mplcyberpunk = "^0.7.6"
 
 
 [build-system]
