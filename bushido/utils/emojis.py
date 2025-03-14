@@ -16,7 +16,10 @@ def extend_emoji_df(csv_path=Path('bushido/static/csv_files/emojis.csv')):
     return emojis
 
 
-def get_convert_dict(csv_path=Path('bushido/static/csv_files/emojis.csv')):
+def un2emoji(csv_path=Path('bushido/static/csv_files/emojis.csv')):
     emojis = extend_emoji_df(csv_path=csv_path)
     emojis = emojis.drop(columns=['ext_emoji', 'base_emoji'])
     dix = {}
+    for item in emojis.to_dict(orient='records'):
+        dix[item['unit_name']] = item['double']
+    return dix
