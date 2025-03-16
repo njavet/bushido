@@ -8,6 +8,11 @@
 </head>
 <body>
     <h1>Bushido</h1>
+    <h2>Units</h2>
+    {% for bdt, units in dix.items() %}
+    {% set date = bdt %}
+    {% set units = units %}
     {% include 'partials/day.html' %}
+    {% endfor %}
 </body>
 </html>

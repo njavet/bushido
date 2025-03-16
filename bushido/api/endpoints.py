@@ -16,11 +16,8 @@ dbm = DatabaseManager(db_url='sqlite:///bushido.db')
 
 @router.get('/', response_class=HTMLResponse)
 async def get_index(request: Request):
-    ds = DisplayService(dbm)
-    units = ds.get_units()
-    date = datetime.today()
+    dix = dbm.get_date2units()
     return templates.TemplateResponse('index.html',
                                       {'request': request,
-                                       'units': units,
-                                       'date': date})
+                                       'dix': dix})
 
