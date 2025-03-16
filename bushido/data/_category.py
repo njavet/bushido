@@ -3,14 +3,13 @@ from sqlalchemy import ForeignKey, select
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project import
-from bushido.db.base_tables import Base, UnitTable, MDEmojiTable
+from bushido.data.db import Base, UnitTable, MDEmojiTable
 
 
 class AbsCategory(ABC):
     def __init__(self, engine):
         self.engine = engine
         self.keiko = None
-        self.emojis = None
 
     def receive_all(self, unit_name=None, start_t=None, end_t=None):
         if unit_name:
