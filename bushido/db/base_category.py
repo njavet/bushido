@@ -3,27 +3,42 @@ from sqlalchemy import ForeignKey, select
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project import
-from bushido.db.base_tables import Base, UnitTable
+from bushido.db.base_tables import Base, UnitTable, MDEmojiTable
 
 
 class AbsCategory(ABC):
     def __init__(self, engine):
         self.engine = engine
         self.keiko = None
+        self.emojis = None
 
     def receive_all(self, unit_name=None, start_t=None, end_t=None):
-        stmt = (select(UnitTable, self.keiko)
-                .join(self.keiko))
         if unit_name:
-            stmt = stmt.where()
+            stmt = (select(MDEmojiTable.base_emoji,
+                           MDEmojiTable.ext_emoji,
+                           UnitTable,
+                           self.keiko)
+                    .join(MDEmojiTable)
+                    .join(UnitTable)
+                    .where(MDEmojiTable.unit_name == unit_name))
+        else:
+            stmt = (select(MDEmojiTable.base_emoji,
+                           MDEmojiTable.ext_emoji,
+                           UnitTable,
+                           self.keiko)
+                    .join(MDEmojiTable)
+                    .join(UnitTable))
+
         if start_t:
             start_timestamp = start_t.timestamp()
             stmt = stmt.where(start_timestamp <= UnitTable.timestamp)
         if end_t:
             end_timestamp = end_t.timestamp()
             stmt = stmt.where(UnitTable.timestamp <= end_timestamp)
+
         with Session(self.engine) as session:
             units = session.execute(stmt).all()
+        return units
 
 
 class AbsProcessor(ABC):

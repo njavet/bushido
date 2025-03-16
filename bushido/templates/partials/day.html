@@ -1,0 +1,5 @@
+{{ date }}
+------------------------------------------------------------------------------
+{% for unit in units %}
+    {{ unit.emoji }} {{ unit.payload }} {{ unit.timestamp }}
+{% endfor %}

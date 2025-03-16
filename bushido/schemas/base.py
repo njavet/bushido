@@ -1,8 +1,10 @@
+import datetime
+
 # is it good practice to use the db key in the model ?
 from pydantic import BaseModel
 
 
-class Emoji(BaseModel):
+class EmojiProcessor(BaseModel):
     base_emoji: str
     emoji: str
     unit_name: str
@@ -10,9 +12,8 @@ class Emoji(BaseModel):
     key: int
 
 
-class Unit(BaseModel):
-    timestamp: float
+class UnitDisplay(BaseModel):
+    dt: datetime.datetime
+    emoji: str
     payload: str
     comment: str | None
-    fk_emoji: int
-

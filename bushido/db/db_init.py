@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from bushido.db.base_tables import (MDCategoryTable,
                                     MDEmojiTable,
                                     Base)
-from bushido.schemas.base import Emoji
+from bushido.schemas.base import EmojiProcessor
 
 
 def db_init(engine):
@@ -69,10 +69,10 @@ def get_emojis(engine):
         else:
             bs = (item.base_emoji + item.ext_emoji).encode('utf-8')
             emoji = bs.decode('unicode_escape')
-        emoji_spec = Emoji(base_emoji=base_emoji,
-                           emoji=emoji,
-                           category_name=item.name,
-                           unit_name=item.unit_name,
-                           key=item.key)
+        emoji_spec = EmojiProcessor(base_emoji=base_emoji,
+                                    emoji=emoji,
+                                    category_name=item.name,
+                                    unit_name=item.unit_name,
+                                    key=item.key)
         emoji_lst.append(emoji_spec)
     return emoji_lst
