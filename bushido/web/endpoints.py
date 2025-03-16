@@ -9,7 +9,7 @@ from bushido.data.db_manager import DatabaseManager
 
 # TODO investigate global variables
 router = APIRouter()
-templates = Jinja2Templates(directory='bushido/templates/')
+templates = Jinja2Templates(directory='templates/')
 dbm = DatabaseManager(db_url='sqlite:///bushido.db')
 
 
