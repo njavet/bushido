@@ -4,8 +4,7 @@ from fastapi.responses import HTMLResponse
 from datetime import datetime
 
 # project imports
-from bushido.db.db_manager import DatabaseManager
-from bushido.services.display import DisplayService
+from bushido.data.db_manager import DatabaseManager
 
 
 # TODO investigate global variables
