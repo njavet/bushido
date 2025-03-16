@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bushido</title>
+    <link rel="stylesheet" href="/bushido/static/styles/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/xterm/css/xterm.css" />
+    <script src="https://unpkg.com/xterm/lib/xterm.js"></script>
+</head>
+<body>
+    <h1>Bushido</h1>
+    <h2>Units</h2>
+    <div id="terminal-container"></div>
+    {% for bdt, units in dix.items() %}
+    {% set date = bdt %}
+    {% set units = units %}
+    {% include 'partials/day.html' %}
+    {% endfor %}
+</body>
+</html>
+</head>
+<body>
+    <script>
+        const term = new Terminal();
+        term.open(document.getElementById('terminal-container'));
+        term.writeln('Welcome to the terminal!');
+        term.onData(e => {
+            term.write(e); // Echo user input
+        });
+    </script>
+</body>
+</html>
