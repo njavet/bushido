@@ -13,7 +13,8 @@ class EmojiProcessor(BaseModel):
 
 
 class UnitDisplay(BaseModel):
-    dt: datetime.datetime
+    bushido_date: datetime.date
+    day_time: datetime.time
     emoji: str
     payload: str
     comment: str | None
