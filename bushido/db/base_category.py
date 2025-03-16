@@ -1,6 +1,6 @@
 from abc import ABC
 from sqlalchemy import ForeignKey, select
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project import
 from bushido.db.base_tables import Base, UnitTable
@@ -12,8 +12,18 @@ class AbsCategory(ABC):
         self.keiko = None
 
     def receive_all(self, unit_name=None, start_t=None, end_t=None):
-        stmt = (select(UnitTable)
+        stmt = (select(UnitTable, self.keiko)
                 .join(self.keiko))
+        if unit_name:
+            stmt = stmt.where()
+        if start_t:
+            start_timestamp = start_t.timestamp()
+            stmt = stmt.where(start_timestamp <= UnitTable.timestamp)
+        if end_t:
+            end_timestamp = end_t.timestamp()
+            stmt = stmt.where(UnitTable.timestamp <= end_timestamp)
+        with Session(self.engine) as session:
+            units = session.execute(stmt).all()
 
 
 class AbsProcessor(ABC):
