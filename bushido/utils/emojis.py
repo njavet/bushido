@@ -23,3 +23,11 @@ def un2emoji(csv_path=Path('bushido/static/csv_files/emojis.csv')):
     for item in emojis.to_dict(orient='records'):
         dix[item['unit_name']] = item['double']
     return dix
+
+
+def combine_emoji(base_emoji, ext_emoji):
+    if ext_emoji is None:
+        return base_emoji.encode('utf-8').decode('unicode_escape')
+
+    emoji = base_emoji + ext_emoji
+    return emoji.encode('utf-8').decode('unicode_escape')
