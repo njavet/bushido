@@ -1,3 +1,4 @@
+from collections import defaultdict
 from datetime import datetime
 import importlib
 import importlib.util
@@ -11,6 +12,8 @@ from bushido.db.db_init import db_init, get_emojis
 from bushido.db.base_tables import MDEmojiTable, UnitTable
 from bushido.schemas.base import UnitDisplay
 from bushido.utils.emojis import combine_emoji
+from bushido.utils.dt_functions import (get_bushido_date_from_datetime,
+                                        get_datetime_from_timestamp)
 
 
 class DatabaseManager:
@@ -75,7 +78,7 @@ class DatabaseManager:
         words = all_words[1:]
         return emoji, words, comment
 
-    def get_units(self):
+    def get_date2units(self) -> dict:
         stmt = (select(MDEmojiTable.base_emoji,
                        MDEmojiTable.ext_emoji,
                        UnitTable.timestamp,
@@ -84,16 +87,16 @@ class DatabaseManager:
                 .join(UnitTable)
                 ).order_by(UnitTable.timestamp)
         with Session(self.engine) as session:
-            result = session.execute(stmt).all()
-        lst = []
-        zurich = pytz.timezone('Europe/Zurich')
-        for unit in result:
-            dt_utc = datetime.fromtimestamp(unit.timestamp, tz=pytz.utc)
-            ud = UnitDisplay(dt=dt_utc.astimezone(zurich),
-                             emoji=combine_emoji(unit.base_emoji, unit.ext_emoji),
-                             payload=unit.payload,
-                             comment=unit.comment)
-            lst.append(ud)
-
-        return lst
-
+            results = session.execute(stmt).all()
+        dix = defaultdict(list)
+        for result in results:
+            dt = get_datetime_from_timestamp(result.timestamp)
+            bushido_date = get_bushido_date_from_datetime(dt)
+            emoji = combine_emoji(result.base_emoji, result.ext_emoji)
+            ud = UnitDisplay(bushido_date=bushido_date,
+                             day_time=dt.time(),
+                             emoji=emoji,
+                             payload=result.payload,
+                             comment=result.comment)
+            dix[bushido_date].append(ud)
+        return dix

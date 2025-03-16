@@ -1,17 +1,13 @@
 import datetime
 import pytz
 
-from bushido.constants import day_start
+from bushido.conf import day_start
 
 
-def convert_local_dt_to_unix_timestamp(dt_str):
-    dt = datetime.datetime.strptime(dt_str, '%d%m%y-%H%M')
-    return dt.timestamp()
-
-
-def get_datetime_from_unix_timestamp(unix_timestamp: float) -> datetime.datetime:
-    cet_timezone = pytz.timezone('Europe/Zurich')
-    cet_dt = datetime.datetime.fromtimestamp(unix_timestamp, cet_timezone)
+def get_datetime_from_timestamp(timestamp: int,
+                                timezone='Europe/Zurich') -> datetime.datetime:
+    cet_timezone = pytz.timezone(timezone)
+    cet_dt = datetime.datetime.fromtimestamp(timestamp, cet_timezone)
     return cet_dt
 
 
