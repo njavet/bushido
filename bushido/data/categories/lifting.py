@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project imports
-from bushido.db.base_category import AbsCategory, AbsProcessor, AbsKeikoTable
+from bushido.data._category import AbsCategory, AbsProcessor, AbsKeikoTable
 
 
 class Category(AbsCategory):
