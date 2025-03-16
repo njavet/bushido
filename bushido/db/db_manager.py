@@ -83,7 +83,7 @@ class DatabaseManager:
                        UnitTable.payload,
                        UnitTable.comment)
                 .join(UnitTable)
-                ).order_by(UnitTable.timestamp)
+                ).order_by(UnitTable.timestamp.desc())
         with Session(self.engine) as session:
             results = session.execute(stmt).all()
         dix = defaultdict(list)
