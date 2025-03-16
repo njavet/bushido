@@ -5,10 +5,10 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 # project imports
-from bushido.db.base_tables import (MDCategoryTable,
+from bushido.data.db import (MDCategoryTable,
                                     MDEmojiTable,
                                     Base)
-from bushido.schemas.base import EmojiProcessor
+from bushido.model.base import EmojiProcessor
 
 
 def db_init(engine):

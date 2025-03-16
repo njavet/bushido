@@ -1,14 +1,13 @@
-from collections import defaultdict
 import importlib
-import importlib.util
-import importlib.resources
+from pathlib import Path
+from collections import defaultdict
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 
 # project imports
-from bushido.db.db_init import db_init, get_emojis
-from bushido.db.base_tables import MDEmojiTable, UnitTable
-from bushido.schemas.base import UnitDisplay
+from bushido.data.db_init import db_init, get_emojis
+from bushido.data.db import MDEmojiTable, UnitTable
+from bushido.model.base import UnitDisplay
 from bushido.utils.emojis import combine_emoji
 from bushido.utils.dt_functions import (get_bushido_date_from_datetime,
                                         get_datetime_from_timestamp)
@@ -22,21 +21,17 @@ class DatabaseManager:
         self.emoji2spec = {}
         # sequence important because of Base table
         self.load_categories()
-        db_init(self.engine)
+        #db_init(self.engine)
         self.load_emojis()
 
     def load_categories(self):
-        categories = importlib.resources.files('bushido.db.categories')
-        for module_path in categories.iterdir():
-            # TODO find more elegant solution
-            cond0 = module_path.suffix == '.py'
-            cond1 = not module_path.name.startswith('__')
-            if cond0 and cond1:
-                module_name = module_path.stem
-                import_path = f'bushido.db.categories.{module_name}'
-                module = importlib.import_module(import_path)
-                self.cn2cat[module_name] = module.Category(self.engine)
-                self.cn2proc[module_name] = module.Processor(self.engine)
+        categories = Path('bushido/data/categories')
+        for module_path in categories.rglob('[a-z]*.py'):
+            module_name = module_path.stem
+            import_path = '.'.join(module_path.parts[0:-1]) + '.' + module_name
+            module = importlib.import_module(import_path)
+            self.cn2cat[module_name] = module.Category(self.engine)
+            self.cn2proc[module_name] = module.Processor(self.engine)
 
     def load_emojis(self):
         for emoji_spec in get_emojis(self.engine):

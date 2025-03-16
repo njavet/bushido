@@ -1,7 +1,7 @@
 import uvicorn
 
 # project imports
-from .app import create_fastapi_app
+from .main import create_fastapi_app
 
 
 def run_app():
