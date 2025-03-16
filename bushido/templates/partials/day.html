@@ -1,8 +1,4 @@
-{{ date }}
-------------------------------------------------------------------------------
-<div>
+{{ date.strftime('%d.%m.%y') }}<br>
 {% for unit in units %}
-{{ unit.emoji }} {{ unit.payload }} {{ unit.dt.strftime('%H:%M:%S') }}</br>
+{{ unit.emoji }} {{ unit.payload }} {{ unit.dt.strftime('%H:%M:%S') }}<br>
 {% endfor %}
-</div>
-
