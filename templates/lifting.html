@@ -28,68 +28,33 @@
     </div>
 
     <div id="tab0" class="tab-content active">
-        <table id="table0" class="display">
-            <thead><tr>
-                <th>Date</th>
-                <th>Set</th>
-                <th>Weight [Kg]</th>
-                <th>Reps</th>
-                <th>Pause [s]</th>
-            </tr></thead>
-            <tbody></tbody>
-        </table>
+        {% with table_id="table0" %}
+            {% include "partials/lifting_table.html" %}
+        {% endwith %}
     </div>
 
     <div id="tab1" class="tab-content">
-        <table id="table1" class="display">
-            <thead><tr>
-                <th>Date</th>
-                <th>Set</th>
-                <th>Weight [Kg]</th>
-                <th>Reps</th>
-                <th>Pause [s]</th>
-            </tr></thead>
-            <tbody></tbody>
-        </table>
+        {% with table_id="table1" %}
+            {% include "partials/lifting_table.html" %}
+        {% endwith %}
     </div>
 
     <div id="tab2" class="tab-content">
-        <table id="table2" class="display">
-            <thead><tr>
-                <th>Date</th>
-                <th>Set</th>
-                <th>Weight [Kg]</th>
-                <th>Reps</th>
-                <th>Pause [s]</th>
-            </tr></thead>
-            <tbody></tbody>
-        </table>
+        {% with table_id="table2" %}
+            {% include "partials/lifting_table.html" %}
+        {% endwith %}
     </div>
 
     <div id="tab3" class="tab-content">
-        <table id="table3" class="display">
-            <thead><tr>
-                <th>Date</th>
-                <th>Set</th>
-                <th>Weight [Kg]</th>
-                <th>Reps</th>
-                <th>Pause [s]</th>
-            </tr></thead>
-            <tbody></tbody>
-        </table>
+        {% with table_id="table3" %}
+            {% include "partials/lifting_table.html" %}
+        {% endwith %}
     </div>
 
     <div id="tab4" class="tab-content">
-        <table id="table4" class="display">
-            <thead><tr>
-                <th>Date</th>
-                <th>Set</th>
-                <th>Weight [Kg]</th>
-                <th>Reps</th>
-                <th>Pause [s]</th>
-            </tr></thead>
-            <tbody></tbody>
-        </table>
+        {% with table_id="table4" %}
+            {% include "partials/lifting_table.html" %}
+        {% endwith %}
     </div>
 
     <script>
