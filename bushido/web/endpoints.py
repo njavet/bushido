@@ -20,3 +20,16 @@ async def get_index(request: Request):
                                       {'request': request,
                                        'dix': dix})
 
+
+@router.get('/lifting')
+async def get_lifting(request: Request):
+    dix = dbm.get_date2units()
+    return templates.TemplateResponse('lifting.html', {'request': request})
+
+    """
+    {{ date.strftime('%d.%m.%y %H:%M:%S) }} <br>
+    {% for s in sets %}
+    {{ s.set_nr }} {{ s.weight }}Kg {{ s.reps }} {{ s.pause }}sec <br>
+    {% endfor %}
+
+"""

@@ -1,0 +1,20 @@
+<table id="{{ table_id }}" class="display">
+    <thead>
+        <th>Date</th>
+        <th>Set</th>
+        <th>Weight [Kg]</th>
+        <th>Reps</th>
+        <th>Pause [s]</th>
+    </thead>
+    <tbody>
+        {% for unit in units %}
+        <tr>
+            <td> {{ unit.timestamp | timezone('Europe/Zurich') | format_datetime('%d.%m.%y') }} </td>
+            <td> {{ unit.KeikoTable.set_nr }} </td>
+            <td> {{ unit.KeikoTable.weight }} </td>
+            <td> {{ unit.KeikoTable.reps }} </td>
+            <td> {{ unit.KeikoTable.pause }} </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -12,22 +12,16 @@ class AbsCategory(ABC):
         self.keiko = None
 
     def receive_all(self, unit_name=None, start_t=None, end_t=None):
+        stmt = (select(MDEmojiTable.base_emoji,
+                       MDEmojiTable.ext_emoji,
+                       UnitTable.timestamp,
+                       UnitTable.payload,
+                       UnitTable.comment,
+                       self.keiko)
+                .join(UnitTable, MDEmojiTable.key == UnitTable.fk_emoji)
+                .join(self.keiko, UnitTable.key == self.keiko.fk_unit))
         if unit_name:
-            stmt = (select(MDEmojiTable.base_emoji,
-                           MDEmojiTable.ext_emoji,
-                           UnitTable,
-                           self.keiko)
-                    .join(MDEmojiTable)
-                    .join(UnitTable)
-                    .where(MDEmojiTable.unit_name == unit_name))
-        else:
-            stmt = (select(MDEmojiTable.base_emoji,
-                           MDEmojiTable.ext_emoji,
-                           UnitTable,
-                           self.keiko)
-                    .join(MDEmojiTable)
-                    .join(UnitTable))
-
+            stmt = stmt.where(MDEmojiTable.unit_name == unit_name)
         if start_t:
             start_timestamp = start_t.timestamp()
             stmt = stmt.where(start_timestamp <= UnitTable.timestamp)
