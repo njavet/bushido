@@ -1,0 +1,149 @@
+
+{{ date.strftime('%d.%m.%y %H:%M:%S) }} <br>
+{% for s in sets %}
+{{ s.set_nr }} {{ s.weight }}Kg {{ s.reps }} {{ s.pause }}sec <br>
+{% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Lifting</title>
+
+    <!-- DataTables & Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+
+    <link rel="stylesheet" href="/static/styles/main.css">
+    <link rel="stylesheet" href="/static/styles/lifting.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+
+</head>
+<body>
+
+    <!-- Tab Navigation -->
+    <div class="tabs">
+        <div class="tab active" data-tab="tab1">Dataset 1</div>
+        <div class="tab" data-tab="tab2">Dataset 2</div>
+        <div class="tab" data-tab="tab3">Dataset 3</div>
+        <div class="tab" data-tab="tab4">Dataset 4</div>
+        <div class="tab" data-tab="tab5">Dataset 5</div>
+    </div>
+
+    <!-- Tab Contents -->
+    <div id="tab1" class="tab-content active">
+        <button id="export1" class="export-btn">Export Dataset 1</button>
+        <table id="table1" class="display">
+            <thead><tr><th>ID</th><th>Name</th><th>Value</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <button id="export2" class="export-btn">Export Dataset 2</button>
+        <table id="table2" class="display">
+            <thead><tr><th>ID</th><th>Name</th><th>Value</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div id="tab3" class="tab-content">
+        <button id="export3" class="export-btn">Export Dataset 3</button>
+        <table id="table3" class="display">
+            <thead><tr><th>ID</th><th>Name</th><th>Value</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div id="tab4" class="tab-content">
+        <button id="export4" class="export-btn">Export Dataset 4</button>
+        <table id="table4" class="display">
+            <thead><tr><th>ID</th><th>Name</th><th>Value</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div id="tab5" class="tab-content">
+        <button id="export5" class="export-btn">Export Dataset 5</button>
+        <table id="table5" class="display">
+            <thead><tr><th>ID</th><th>Name</th><th>Value</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            let datasets = {
+                table1: [
+                    { id: 1, name: "Alice", value: 100 },
+                    { id: 2, name: "Bob", value: 200 }
+                ],
+                table2: [
+                    { id: 3, name: "Charlie", value: 300 },
+                    { id: 4, name: "David", value: 400 }
+                ],
+                table3: [
+                    { id: 5, name: "Eve", value: 500 },
+                    { id: 6, name: "Frank", value: 600 }
+                ],
+                table4: [
+                    { id: 7, name: "Grace", value: 700 },
+                    { id: 8, name: "Hank", value: 800 }
+                ],
+                table5: [
+                    { id: 9, name: "Ivy", value: 900 },
+                    { id: 10, name: "Jack", value: 1000 }
+                ]
+            };
+
+            function initializeTable(tableId, data, exportBtnId, filename) {
+                let table = $("#" + tableId).DataTable({
+                    dom: "Bfrtip",
+                    buttons: [
+                        {
+                            extend: "csv",
+                            text: "Export CSV",
+                            filename: filename
+                        }
+                    ]
+                });
+
+                // Populate table
+                table.clear();
+                data.forEach(row => {
+                    table.row.add([row.id, row.name, row.value]);
+                });
+                table.draw();
+
+                // Move export button
+                $(exportBtnId).on("click", function () {
+                    table.button(".buttons-csv").trigger();
+                });
+            }
+
+            // Initialize all tables
+            initializeTable("table1", datasets.table1, "#export1", "dataset_1");
+            initializeTable("table2", datasets.table2, "#export2", "dataset_2");
+            initializeTable("table3", datasets.table3, "#export3", "dataset_3");
+            initializeTable("table4", datasets.table4, "#export4", "dataset_4");
+            initializeTable("table5", datasets.table5, "#export5", "dataset_5");
+
+            // Tab switching logic
+            $(".tab").click(function () {
+                $(".tab").removeClass("active");
+                $(this).addClass("active");
+
+                let tabId = $(this).data("tab");
+                $(".tab-content").removeClass("active");
+                $("#" + tabId).addClass("active");
+            });
+        });
+    </script>
+
+</body>
+</html>
