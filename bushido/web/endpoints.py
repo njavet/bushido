@@ -28,13 +28,16 @@ async def get_index(request: Request):
 
 @router.get('/lifting')
 async def get_lifting(request: Request):
-    dix = dbm.get_date2units()
-    return templates.TemplateResponse('lifting.html', {'request': request})
-
-    """
-    {{ date.strftime('%d.%m.%y %H:%M:%S) }} <br>
-    {% for s in sets %}
-    {{ s.set_nr }} {{ s.weight }}Kg {{ s.reps }} {{ s.pause }}sec <br>
-    {% endfor %}
-
-"""
+    squats = dbm.cn2cat['lifting'].receive_all(unit_name='squat')
+    deads = dbm.cn2cat['lifting'].receive_all(unit_name='deadlift')
+    bench = dbm.cn2cat['lifting'].receive_all(unit_name='benchpress')
+    ohp = dbm.cn2cat['lifting'].receive_all(unit_name='overheadpress')
+    rows = dbm.cn2cat['lifting'].receive_all(unit_name='row')
+    return templates.TemplateResponse('lifting.html',
+                                      {'request': request,
+                                       'squats': squats,
+                                       'deads': deads,
+                                       'bench': bench,
+                                       'ohp': ohp,
+                                       'rows': rows,
+                                       })

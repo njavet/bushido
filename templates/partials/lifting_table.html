@@ -9,7 +9,7 @@
     <tbody>
         {% for unit in units %}
         <tr>
-            <td> {{ unit.timestamp | timezone('Europe/Zurich') | format_datetime('%d.%m.%y') }} </td>
+            <td> {{ (unit.timestamp | timezone('Europe/Zurich')).strftime('%d.%m.%y') }} </td>
             <td> {{ unit.KeikoTable.set_nr }} </td>
             <td> {{ unit.KeikoTable.weight }} </td>
             <td> {{ unit.KeikoTable.reps }} </td>
