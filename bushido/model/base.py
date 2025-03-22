@@ -12,9 +12,10 @@ class EmojiSpec(BaseModel):
     key: int
 
 
-class UnitDisplay(BaseModel):
-    bushido_date: datetime.date
-    day_time: datetime.time
+class UnitSpec(BaseModel):
+    timestamp: int
+    category_name: str
+    unit_name: str
     emoji: str
     payload: str
     comment: str | None
