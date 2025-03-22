@@ -1,4 +1,7 @@
-class UnitParser:
+from abc import ABC
+
+
+class InputParser:
     def __init__(self):
         self.emoji2parser = None
 
@@ -33,3 +36,10 @@ class UnitParser:
         words = all_words[1:]
         return emoji, words, comment
 
+
+class UnitParser(ABC):
+    def __init__(self):
+        pass
+
+    def parse_unit(self, emoji, words, comment):
+        raise NotImplementedError
