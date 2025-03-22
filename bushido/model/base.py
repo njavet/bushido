@@ -4,7 +4,7 @@ import datetime
 from pydantic import BaseModel
 
 
-class EmojiProcessor(BaseModel):
+class EmojiSpec(BaseModel):
     base_emoji: str
     emoji: str
     unit_name: str
