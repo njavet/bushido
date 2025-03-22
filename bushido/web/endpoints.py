@@ -1,3 +1,4 @@
+from collections import defaultdict
 from fastapi import Request, APIRouter
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -29,6 +30,10 @@ async def get_index(request: Request):
 @router.get('/lifting')
 async def get_lifting(request: Request):
     squats = dbm.cn2cat['lifting'].receive_all(unit_name='squat')
+    dix = defaultdict(list)
+    for squat in squats:
+        dix[squat.timestamp].append(squat)
+
     deads = dbm.cn2cat['lifting'].receive_all(unit_name='deadlift')
     bench = dbm.cn2cat['lifting'].receive_all(unit_name='benchpress')
     ohp = dbm.cn2cat['lifting'].receive_all(unit_name='overheadpress')

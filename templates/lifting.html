@@ -59,16 +59,21 @@
 
     <script>
         $.fn.dataTable.ext.type.order["date-eu-pre"] = function (data) {
-    if (!data) return 0; // Handle empty values
-
-    let parts = data.split(".");
-    return new Date(`20${parts[2]}`, parts[1] - 1, parts[0]).getTime(); // Convert to timestamp
-};
+            if (!data) return 0; // Handle empty values
+            let parts = data.split(".");
+            return new Date(`20${parts[2]}`, parts[1] - 1, parts[0]).getTime()
+        }
         $(document).ready(function () {
-;
             function initializeTable(tableId, exportBtnId, filename) {
                 let table = $("#" + tableId).DataTable({
                     dom: "Bfrtip",
+                    order: [[0, "desc"]],
+                    rowGroup: {
+                        dataSrc: "Date",
+                           startRender: function(rows, group) {
+                        return $('<tr class="group-header"><td colspan="4">Training Session: ' + group + '</td></tr>');
+                        }
+                    },
                     columnDefs: [
                         {
                             targets: 0,
