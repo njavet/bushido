@@ -1,55 +1,32 @@
-from abc import ABC
-from sqlalchemy import ForeignKey, select
-from sqlalchemy.orm import Mapped, mapped_column, Session
-
-# project import
-from bushido.data.db import Base, UnitTable, MDEmojiTable
-
-
-class AbsCategory(ABC):
-    def __init__(self, engine):
-        self.engine = engine
-        self.keiko = None
-
-    def receive_all(self, unit_name=None, start_t=None, end_t=None):
-        stmt = (select(MDEmojiTable.base_emoji,
-                       MDEmojiTable.ext_emoji,
-                       UnitTable.timestamp,
-                       UnitTable.payload,
-                       UnitTable.comment,
-                       self.keiko)
-                .join(UnitTable, MDEmojiTable.key == UnitTable.fk_emoji)
-                .join(self.keiko, UnitTable.key == self.keiko.fk_unit))
-        if unit_name:
-            stmt = stmt.where(MDEmojiTable.unit_name == unit_name)
-        if start_t:
-            start_timestamp = start_t.timestamp()
-            stmt = stmt.where(start_timestamp <= UnitTable.timestamp)
-        if end_t:
-            end_timestamp = end_t.timestamp()
-            stmt = stmt.where(UnitTable.timestamp <= end_timestamp)
-
-        with Session(self.engine) as session:
-            units = session.execute(stmt).all()
-        return units
+from typing import Optional
+from sqlalchemy import BigInteger, ForeignKey
+from sqlalchemy.orm import (DeclarativeBase,
+                            Mapped,
+                            mapped_column)
 
 
-class AbsProcessor(ABC):
-    def __init__(self, engine):
-        self.engine = engine
-        self.attrs = None
-
-    def process_unit(self, timestamp, words, comment, emoji_key):
-        unit = UnitTable(timestamp=timestamp,
-                         payload=' '.join(words),
-                         comment=comment,
-                         fk_emoji=emoji_key)
-        self.process_keiko(unit, words)
-
-    def process_keiko(self, unit, words):
-        raise NotImplementedError
-
-
-class AbsKeikoTable(Base):
+class Base(DeclarativeBase):
     __abstract__ = True
-    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
+    key: Mapped[int] = mapped_column(primary_key=True)
+
+
+class MDCategoryTable(Base):
+    __tablename__ = 'md_category'
+    name: Mapped[str] = mapped_column(unique=True)
+
+
+class MDEmojiTable(Base):
+    __tablename__ = 'md_emoji'
+    base_emoji: Mapped[str] = mapped_column(unique=True)
+    ext_emoji: Mapped[Optional[str]] = mapped_column()
+    emoji_name: Mapped[str] = mapped_column(unique=True)
+    unit_name: Mapped[str] = mapped_column(unique=True)
+    fk_category: Mapped[int] = mapped_column(ForeignKey(MDCategoryTable.key))
+
+
+class UnitTable(Base):
+    __tablename__ = 'unit'
+    timestamp: Mapped[int] = mapped_column()
+    payload: Mapped[str] = mapped_column()
+    comment: Mapped[Optional[str]] = mapped_column()
+    fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiTable.key))
