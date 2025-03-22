@@ -19,7 +19,12 @@ def convert_tg_export(json_data, local_timezone=ZoneInfo('Europe/Zurich')):
             dt_format = '%Y-%m-%dT%H:%M:%S'
             naive_dt = datetime.datetime.strptime(dt_str, dt_format)
             local_dt = naive_dt.replace(tzinfo=local_timezone)
-            timestamp = local_dt.timestamp()
+            # storage in seconds, precise enough for this use case
+            timestamp = int(local_dt.timestamp())
+            # nano seconds way:
+            # utc_dt = local_dt.replace(tzinfo=ZoneInfo('UTC'))
+            # import pandas as pd
+            # timestamp = pd.Timestamp(utc_dt)
             dix = {'agent_id': from_id,
                    'text': msg_text,
                    'local_datetime': dt_str,
