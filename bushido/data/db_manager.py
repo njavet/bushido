@@ -56,20 +56,7 @@ class DatabaseManager:
         except ValueError:
             return 'parsing error'
 
-    @staticmethod
-    def _preprocess_string(input_str: str):
-        parts = input_str.split('//', 1)
-        emoji_payload = parts[0]
-        if not emoji_payload:
-            raise ValueError('Empty payload')
-        if len(parts) > 1 and parts[1]:
-            comment = parts[1].strip()
-        else:
-            comment = None
-        all_words = emoji_payload.split()
-        emoji = all_words[0]
-        words = all_words[1:]
-        return emoji, words, comment
+
 
     def get_date2units(self) -> dict:
         stmt = (select(MDEmojiTable.base_emoji,

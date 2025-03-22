@@ -3,7 +3,7 @@ from sqlalchemy import BigInteger
 from sqlalchemy.orm import mapped_column, Mapped, Session
 
 # project imports
-from bushido.data.categories import AbsCategory, AbsProcessor, AbsKeikoTable
+from bushido.data.category import AbsCategory, AbsKeikoTable
 from bushido.utils.parsing import parse_start_end_time_string
 
 
