@@ -3,7 +3,7 @@ from sqlalchemy import ForeignKey, select
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project import
-from bushido.data.db import Base, UnitTable, MDEmojiTable
+from bushido.data.base import Base, UnitTable, MDEmojiTable
 
 
 class AbsCategory(ABC):
@@ -32,22 +32,6 @@ class AbsCategory(ABC):
         with Session(self.engine) as session:
             units = session.execute(stmt).all()
         return units
-
-
-class AbsProcessor(ABC):
-    def __init__(self, engine):
-        self.engine = engine
-        self.attrs = None
-
-    def process_unit(self, timestamp, words, comment, emoji_key):
-        unit = UnitTable(timestamp=timestamp,
-                         payload=' '.join(words),
-                         comment=comment,
-                         fk_emoji=emoji_key)
-        self.process_keiko(unit, words)
-
-    def process_keiko(self, unit, words):
-        raise NotImplementedError
 
 
 class AbsKeikoTable(Base):
