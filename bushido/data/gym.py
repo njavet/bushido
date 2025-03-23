@@ -4,7 +4,6 @@ from sqlalchemy.orm import mapped_column, Mapped, Session
 
 # project imports
 from bushido.data.category import AbsCategory, AbsKeikoTable
-from bushido.utils.parsing import parse_start_end_time_string
 
 
 class Category(AbsCategory):
@@ -18,23 +17,6 @@ class Processor(AbsProcessor):
         super().__init__(engine)
 
     def process_keiko(self, unit, words):
-        today = datetime.date.today()
-        start_t, end_t = parse_start_end_time_string(words[0])
-        start_dt = datetime.datetime(today.year,
-                                     today.month,
-                                     today.day,
-                                     start_t.hour,
-                                     start_t.minute)
-        end_dt = datetime.datetime(today.year,
-                                   today.month,
-                                   today.day,
-                                   end_t.hour,
-                                   end_t.minute)
-        try:
-            gym = words[1]
-        except IndexError:
-            raise ValueError('no gym')
-
         with Session(self.engine) as session:
             session.add(unit)
             session.commit()
