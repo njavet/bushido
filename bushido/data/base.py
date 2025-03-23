@@ -1,18 +1,17 @@
+import pandas as pd
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
-from collections import defaultdict
+from sqlalchemy.exc import IntegrityError
 
 # project imports
-from bushido.data.db import MDEmojiTable, MDCategoryTable, UnitTable
+from bushido.data.db import MDEmojiTable, MDCategoryTable, UnitTable, Base
 from bushido.model.base import EmojiSpec
-from bushido.utils.emojis import combine_emoji
-from bushido.utils.dt_functions import (get_bushido_date_from_datetime,
-                                        get_datetime_from_timestamp)
 
 
 class DatabaseManager:
     def __init__(self, db_url) -> None:
         self.engine = create_engine(url=db_url)
+        self.init_db()
 
     def load_emojis(self):
         stmt = (select(MDEmojiTable.unit_name,
@@ -37,32 +36,48 @@ class DatabaseManager:
             emoji_text2emoji[item.emoji_text] = item.emoji
         return emoji2emoji_spec, emoji_text2emoji
 
-
-    def load_emojis(self):
-        for emoji_spec in get_emojis(self.engine):
-            self.emoji2spec[emoji_spec.base_emoji] = emoji_spec
-            self.emoji2spec[emoji_spec.emoji] = emoji_spec
-
-
-    def get_date2units(self) -> dict:
-        stmt = (select(MDEmojiTable.base_emoji,
-                       MDEmojiTable.ext_emoji,
+    def retrieve_all_units(self):
+        stmt = (select(MDEmojiTable.emoji,
                        UnitTable.timestamp,
                        UnitTable.payload,
                        UnitTable.comment)
                 .join(UnitTable)
                 ).order_by(UnitTable.timestamp.desc())
         with Session(self.engine) as session:
-            results = session.execute(stmt).all()
-        dix = defaultdict(list)
-        for result in results:
-            dt = get_datetime_from_timestamp(result.timestamp)
-            bushido_date = get_bushido_date_from_datetime(dt)
-            emoji = combine_emoji(result.base_emoji, result.ext_emoji)
-            ud = UnitDisplay(bushido_date=bushido_date,
-                             day_time=dt.time(),
-                             emoji=emoji,
-                             payload=result.payload,
-                             comment=result.comment)
-            dix[bushido_date].append(ud)
-        return dix
+            units = session.execute(stmt).all()
+        return units
+
+    def init_db(self):
+        Base.metadata.create_all(self.engine)
+        try:
+            self.upload_category_md_data()
+            self.upload_emoji_md_data()
+        except IntegrityError:
+            # TODO logging
+            pass
+
+    def upload_category_md_data(self):
+        categories = pd.read_csv('bushido/static/csv_files/categories.csv')
+        categories = categories.to_dict(orient='records')
+        cat_lst = [MDCategoryTable(name=cat['name']) for cat in categories]
+        with Session(self.engine) as session:
+            session.add_all(cat_lst)
+            session.commit()
+
+    def upload_emoji_md_data(self):
+        emojis = pd.read_csv('bushido/static/csv_files/emojis.csv')
+        emojis = emojis.to_dict(orient='records')
+        upload_lst = []
+        with Session(self.engine) as session:
+            categories = session.scalars(select(MDCategoryTable)).all()
+            cat_map = {cat.name: cat.key for cat in categories}
+            for emoji_data in emojis:
+                cat_key = cat_map[emoji_data['category_name']]
+                emoji = MDEmojiTable(unit_name=emoji_data['unit_name'],
+                                     emoji_name=emoji_data['emoji_name'],
+                                     emoji_text=emoji_data['emoji_text'],
+                                     emoji=emoji_data['emoji'],
+                                     fk_category=cat_key)
+                upload_lst.append(emoji)
+        session.add_all(upload_lst)
+        session.commit()
