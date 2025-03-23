@@ -3,11 +3,13 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 
 # project imports
+from bushido.service.base import BaseService
 
 
 # TODO investigate global variables
 router = APIRouter()
 templates = Jinja2Templates(directory='templates/')
+base_service = BaseService()
 
 
 @router.get('/', response_class=HTMLResponse)
