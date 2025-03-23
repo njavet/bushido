@@ -48,10 +48,10 @@ class AbsUploader(ABC):
                          fk_emoji=result.key)
         return unit
 
-    def upload_unit(self, unit_spec):
-        unit = self.create_orm_unit(unit_spec)
+    def upload_unit(self, unit_spec, keiko_spec):
+        raise NotImplementedError
 
-    def create_orm_keiko(self):
+    def create_orm_keiko(self, keiko_spec):
         raise NotImplementedError
 
 

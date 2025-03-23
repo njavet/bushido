@@ -3,29 +3,36 @@ from sqlalchemy import BigInteger
 from sqlalchemy.orm import mapped_column, Mapped, Session
 
 # project imports
-from bushido.data.category import AbsCategory, AbsKeikoTable
+from bushido.data.categories.category import (AbsReceiver,
+                                              AbsUploader,
+                                              AbsKeikoTable)
 
 
-class Category(AbsCategory):
+class Receiver(AbsReceiver):
     def __init__(self, engine):
         super().__init__(engine)
         self.keiko = KeikoTable
 
 
-class Processor(AbsProcessor):
+class Uploader(AbsUploader):
     def __init__(self, engine):
         super().__init__(engine)
 
-    def process_keiko(self, unit, words):
+    def upload_unit(self, unit_spec, keiko_spec):
+        unit = self.create_orm_unit(unit_spec)
+        keiko = self.create_orm_unit(keiko_spec)
         with Session(self.engine) as session:
             session.add(unit)
             session.commit()
-            keiko = KeikoTable(start_t=int(start_dt.timestamp()),
-                               end_t=int(end_dt.timestamp()),
-                               gym=gym,
-                               fk_unit=unit.key)
+            keiko.fk_unit = unit.key
             session.add(keiko)
             session.commit()
+
+    def create_orm_keiko(self, keiko_spce):
+        keiko = KeikoTable(start_t=keiko_spce.start_t,
+                           end_t=keiko_spce.end_t,
+                           gym=keiko_spce.gym)
+        return keiko
 
 
 class KeikoTable(AbsKeikoTable):
