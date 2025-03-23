@@ -2,8 +2,11 @@ from abc import ABC
 
 
 class InputProcessor:
-    def __init__(self):
-        self.emoji2processor = None
+    def __init__(self, emoji2processor):
+        self.emoji2processor = emoji2processor
+
+    def load_processors(self):
+        pass
 
     def process_input(self, text):
         try:
@@ -39,8 +42,8 @@ class InputProcessor:
 
 
 class AbsUnitProcessor(ABC):
-    def __init__(self):
-        pass
+    def __init__(self, engine):
+        self.engine = engine
 
     def process_unit(self, emoji, words, comment):
         raise NotImplementedError
