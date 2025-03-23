@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 # project imports
-from bushido.web.endpoints import router
+from bushido.web.base import router
 
 
 def create_fastapi_app():

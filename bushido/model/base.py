@@ -18,4 +18,4 @@ class UnitSpec(BaseModel):
     unit_name: str
     emoji: str
     payload: str
-    comment: str | None
+    comment: str | None = None

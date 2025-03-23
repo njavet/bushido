@@ -17,7 +17,8 @@ class InputParser:
             return 'Unknown Emoji'
 
         try:
-            parser.parse_unit(emoji, words, comment)
+            unit = parser.parse_unit(emoji, words, comment)
+            return unit
         except ValueError as err:
             return str(err)
 
@@ -37,7 +38,7 @@ class InputParser:
         return emoji, words, comment
 
 
-class UnitParser(ABC):
+class AbsUnitParser(ABC):
     def __init__(self):
         pass
 
