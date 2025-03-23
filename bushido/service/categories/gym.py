@@ -1,17 +1,17 @@
 import datetime
 
 # project imports
-from bushido.service.base import AbsUnitParser, AbsUnitProcessor
+from bushido.service.categories.category import AbsUnitParser, AbsUnitProcessor
 from bushido.model.gym import GymUnit
 from bushido.utils.parsing import parse_start_end_time_string
 from bushido.data.categories.gym import Uploader
 
 
 class UnitProcessor(AbsUnitProcessor):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, engine):
+        super().__init__(engine)
         self.parser = UnitParser()
-        self.uploader = Uploader()
+        self.uploader = Uploader(engine)
 
     def process_unit(self, emoji, words, comment):
         gym_unit = self.parser.parse_unit(emoji, words, comment)

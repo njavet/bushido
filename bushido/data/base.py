@@ -20,8 +20,7 @@ class DatabaseManager:
                        MDCategoryTable.name,
                        MDEmojiTable.key)
                 .join(MDCategoryTable))
-        emoji2emoji_spec = {}
-        emoji_text2emoji = {}
+        emoji_specs = []
         with Session(self.engine) as session:
             # TODO investigate open session for retrieving keys
             #  -> not bound to a session error
@@ -30,11 +29,10 @@ class DatabaseManager:
             emoji_spec = EmojiSpec(emoji=item.emoji,
                                    emoji_text=item.emoji_text,
                                    unit_name=item.unit_name,
-                                   category_name=item.category_name,
+                                   category_name=item.name,
                                    key=item.key)
-            emoji2emoji_spec[item.emoji] = emoji_spec
-            emoji_text2emoji[item.emoji_text] = item.emoji
-        return emoji2emoji_spec, emoji_text2emoji
+            emoji_specs.append(emoji_spec)
+        return emoji_specs
 
     def retrieve_all_units(self):
         stmt = (select(MDEmojiTable.emoji,
@@ -57,7 +55,7 @@ class DatabaseManager:
             pass
 
     def upload_category_md_data(self):
-        categories = pd.read_csv('bushido/static/csv_files/categories.csv')
+        categories = pd.read_csv('static/csv_files/categories.csv')
         categories = categories.to_dict(orient='records')
         cat_lst = [MDCategoryTable(name=cat['name']) for cat in categories]
         with Session(self.engine) as session:
@@ -65,7 +63,7 @@ class DatabaseManager:
             session.commit()
 
     def upload_emoji_md_data(self):
-        emojis = pd.read_csv('bushido/static/csv_files/emojis.csv')
+        emojis = pd.read_csv('static/csv_files/emojis.csv')
         emojis = emojis.to_dict(orient='records')
         upload_lst = []
         with Session(self.engine) as session:
