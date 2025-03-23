@@ -17,10 +17,10 @@ class MDCategoryTable(Base):
 
 class MDEmojiTable(Base):
     __tablename__ = 'md_emoji'
-    base_emoji: Mapped[str] = mapped_column(unique=True)
-    ext_emoji: Mapped[Optional[str]] = mapped_column()
-    emoji_name: Mapped[str] = mapped_column(unique=True)
     unit_name: Mapped[str] = mapped_column(unique=True)
+    emoji_name: Mapped[str] = mapped_column(unique=True)
+    emoji: Mapped[str] = mapped_column()
+    emoji_ext: Mapped[str] = mapped_column(unique=True)
     fk_category: Mapped[int] = mapped_column(ForeignKey(MDCategoryTable.key))
 
 
