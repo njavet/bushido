@@ -6,14 +6,13 @@ from sqlalchemy.orm import Mapped, mapped_column, Session
 from bushido.data.base import Base, UnitTable, MDEmojiTable
 
 
-class AbsCategory(ABC):
+class AbsReceiver(ABC):
     def __init__(self, engine):
         self.engine = engine
         self.keiko = None
 
     def receive_all(self, unit_name=None, start_t=None, end_t=None):
-        stmt = (select(MDEmojiTable.base_emoji,
-                       MDEmojiTable.ext_emoji,
+        stmt = (select(MDEmojiTable.emoji,
                        UnitTable.timestamp,
                        UnitTable.payload,
                        UnitTable.comment,
@@ -32,6 +31,28 @@ class AbsCategory(ABC):
         with Session(self.engine) as session:
             units = session.execute(stmt).all()
         return units
+
+
+class AbsUploader(ABC):
+    def __init__(self, engine):
+        self.engine = engine
+
+    def create_orm_unit(self, unit_spec):
+        with (Session(self.engine) as session):
+            stmt = (select(MDEmojiTable.key)
+                    .where(MDEmojiTable.emoji == unit_spec.emoji))
+            result = session.scalar(stmt)
+        unit = UnitTable(timestamp=unit_spec.timestamp,
+                         payload=unit_spec.payload,
+                         comment=unit_spec.comment,
+                         fk_emoji=result.key)
+        return unit
+
+    def upload_unit(self, unit_spec):
+        unit = self.create_orm_unit(unit_spec)
+
+    def create_orm_keiko(self):
+        raise NotImplementedError
 
 
 class AbsKeikoTable(Base):
