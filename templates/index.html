@@ -15,8 +15,12 @@
     <input id="unit-input" type="text" placeholder=">>">
 <script>
     const tribute = new Tribute({
-
+        trigger: ":",
+        values: [
+        ],
+        selectTemplate: item => item.original.value
     })
+
     function logUnit() {
         fetch("/log_unit", {
             method: "POST",
