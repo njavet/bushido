@@ -9,6 +9,7 @@ from bushido.service.base import BaseService
 # TODO investigate global variables
 router = APIRouter()
 templates = Jinja2Templates(directory='templates/')
+print('create')
 base_service = BaseService()
 
 
