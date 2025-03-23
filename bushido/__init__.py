@@ -1,7 +1,16 @@
 import uvicorn
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
-# project imports
-from .main import create_fastapi_app
+
+def create_fastapi_app():
+    app = FastAPI()
+    app.mount('/static',
+              StaticFiles(directory='static'), name='static')
+    # project imports
+    from bushido.web.base import router
+    app.include_router(router)
+    return app
 
 
 def run_app():
@@ -10,4 +19,3 @@ def run_app():
                 reload=True,
                 factory=True,
                 log_level='debug')
-
