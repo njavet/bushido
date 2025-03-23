@@ -1,3 +1,4 @@
+from zoneinfo import ZoneInfo
 import datetime
 
 # project imports
@@ -30,19 +31,24 @@ class UnitParser(AbsUnitParser):
                                      today.day,
                                      start_t.hour,
                                      start_t.minute)
+        start_dt = start_dt.replace(tzinfo=ZoneInfo('Europe/Zurich'))
+        start_ts = int(start_dt.timestamp())
+
         end_dt = datetime.datetime(today.year,
                                    today.month,
                                    today.day,
                                    end_t.hour,
                                    end_t.minute)
+        end_dt = end_dt.replace(tzinfo=ZoneInfo('Europe/Zurich'))
+        end_ts = int(end_dt.timestamp())
         try:
             gym = words[1]
         except IndexError:
             raise ValueError('no gym')
 
         gym_unit = GymUnit(emoji=emoji,
-                           start_t=start_t,
-                           end_t=end_t,
+                           start_t=start_ts,
+                           end_t=end_ts,
                            gym=gym,
                            comment=comment)
         return gym_unit
