@@ -5,14 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bushido</title>
     <link rel="stylesheet" href="/static/styles/main.css">
-    <link rel="stylesheet" href="https://unpkg.com/xterm/css/xterm.css" />
-    <script src="https://unpkg.com/xterm/lib/xterm.js"></script>
 </head>
 <body>
     <h1>Bushido</h1>
-    <button onclick="location.href='/lifting'">Weight Lifting Interface</button>
-
     <h2>Units</h2>
-    <div id="terminal-container"></div>
+    <label>Log Unit</label>
+    <input></input>
+    <button class="bushido-button" id="log-unit" onclick="logUnit()">Submit</button>
+<script>
+    function logUnit() {
+        fetch("/log_unit", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ "yo": "sup"})
+        })
+
+    }
+
+</script>
 </body>
 </html>

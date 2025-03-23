@@ -1,7 +1,6 @@
 body {
     font-family: monospace;
-    font-size: 16px;
-    /*background-color: #1e2129;*/
+    font-size: 20px;
     background-color: #1e1e1e;
     color: #6312ff;
     display: flex;
@@ -9,10 +8,3 @@ body {
     align-items: center;
 }
 
-/*
-#00bfa5
-#64ffda
-#da78fa
-#e9a7ff
-
- */
