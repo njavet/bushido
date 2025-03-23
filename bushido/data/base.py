@@ -1,5 +1,5 @@
 from typing import Optional
-from sqlalchemy import BigInteger, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import (DeclarativeBase,
                             Mapped,
                             mapped_column)
