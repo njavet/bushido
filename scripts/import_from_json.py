@@ -75,9 +75,10 @@ def main():
     if len(sys.argv) != 2:
         print(f'usage: python {sys.argv[0]} <json_file>')
         sys.exit(1)
-    with open(sys.argv[1], 'r') as f:
+    with open(sys.argv[1]) as f:
         data = json.load(f)
 
+    convert_tg_export_to_file(data)
 
 
 if __name__ == '__main__':
