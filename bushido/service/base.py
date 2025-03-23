@@ -1,24 +1,24 @@
 from abc import ABC
 
 
-class InputParser:
+class InputProcessor:
     def __init__(self):
-        self.emoji2parser = None
+        self.emoji2processor = None
 
-    def parse_input(self, text):
+    def process_input(self, text):
         try:
             emoji, words, comment = self.preprocess_input(text)
         except ValueError as err:
             return str(err)
 
         try:
-            parser = self.emoji2parser[emoji]
+            processor = self.emoji2processor[emoji]
         except KeyError:
             return 'Unknown Emoji'
 
         try:
-            unit = parser.parse_unit(emoji, words, comment)
-            return unit
+            processor.process(emoji, words, comment)
+            return 'Unit Confirmed'
         except ValueError as err:
             return str(err)
 
@@ -38,9 +38,9 @@ class InputParser:
         return emoji, words, comment
 
 
-class AbsUnitParser(ABC):
+class AbsUnitProcessor(ABC):
     def __init__(self):
         pass
 
-    def parse_unit(self, emoji, words, comment):
+    def process_unit(self, emoji, words, comment):
         raise NotImplementedError

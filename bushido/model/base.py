@@ -5,8 +5,8 @@ from pydantic import BaseModel
 
 
 class EmojiSpec(BaseModel):
-    base_emoji: str
     emoji: str
+    emoji_text: str
     unit_name: str
     category_name: str
     key: int

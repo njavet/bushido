@@ -1,13 +1,10 @@
-import importlib
-from pathlib import Path
-from collections import defaultdict
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
+from collections import defaultdict
 
 # project imports
-from bushido.data.db_init import db_init, get_emojis
-from bushido.data.db import MDEmojiTable, UnitTable
-from bushido.model.base import UnitDisplay
+from bushido.data.db import MDEmojiTable, MDCategoryTable, UnitTable
+from bushido.model.base import EmojiSpec
 from bushido.utils.emojis import combine_emoji
 from bushido.utils.dt_functions import (get_bushido_date_from_datetime,
                                         get_datetime_from_timestamp)
@@ -16,46 +13,35 @@ from bushido.utils.dt_functions import (get_bushido_date_from_datetime,
 class DatabaseManager:
     def __init__(self, db_url) -> None:
         self.engine = create_engine(url=db_url)
-        self.cn2proc = {}
-        self.cn2cat = {}
-        self.emoji2spec = {}
-        # sequence important because of Base table
-        self.load_categories()
-        #db_init(self.engine)
-        self.load_emojis()
 
-    def load_categories(self):
-        categories = Path('bushido/data/categories')
-        for module_path in categories.rglob('[a-z]*.py'):
-            module_name = module_path.stem
-            import_path = '.'.join(module_path.parts[0:-1]) + '.' + module_name
-            module = importlib.import_module(import_path)
-            self.cn2cat[module_name] = module.Category(self.engine)
-            self.cn2proc[module_name] = module.Processor(self.engine)
+    def load_emojis(self):
+        stmt = (select(MDEmojiTable.unit_name,
+                       MDEmojiTable.emoji,
+                       MDEmojiTable.emoji_text,
+                       MDCategoryTable.name,
+                       MDEmojiTable.key)
+                .join(MDCategoryTable))
+        emoji2emoji_spec = {}
+        emoji_text2emoji = {}
+        with Session(self.engine) as session:
+            # TODO investigate open session for retrieving keys
+            #  -> not bound to a session error
+            data = session.execute(stmt).all()
+        for item in data:
+            emoji_spec = EmojiSpec(emoji=item.emoji,
+                                   emoji_text=item.emoji_text,
+                                   unit_name=item.unit_name,
+                                   category_name=item.category_name,
+                                   key=item.key)
+            emoji2emoji_spec[item.emoji] = emoji_spec
+            emoji_text2emoji[item.emoji_text] = item.emoji
+        return emoji2emoji_spec, emoji_text2emoji
+
 
     def load_emojis(self):
         for emoji_spec in get_emojis(self.engine):
             self.emoji2spec[emoji_spec.base_emoji] = emoji_spec
             self.emoji2spec[emoji_spec.emoji] = emoji_spec
-
-    def process_input(self, timestamp, input_str):
-        try:
-            emoji, words, comment = self._preprocess_string(input_str)
-        except ValueError as err:
-            return str(err)
-
-        try:
-            emoji_spec = self.emoji2spec[emoji]
-        except KeyError:
-            return 'Unknown emoji'
-
-        try:
-            self.cn2proc[emoji_spec.category_name].process_unit(
-                timestamp, words, comment, emoji_spec.key
-            )
-        except ValueError:
-            return 'parsing error'
-
 
 
     def get_date2units(self) -> dict:
