@@ -15,7 +15,7 @@ class UnitProcessor(AbsUnitProcessor):
         self.uploader = Uploader(engine)
 
     def process_unit(self, emoji, words, comment):
-        gym_unit = self.parser.parse_unit(emoji, words, comment)
+        keiko_spec = self.parser.parse_unit(emoji, words, comment)
         pass
 
 
