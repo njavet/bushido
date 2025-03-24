@@ -12,23 +12,40 @@
     <h1>Bushido</h1>
     <h2>Units</h2>
     <label>Log Unit</label>
-    <input id="unit-input" type="text" placeholder=">>">
+    <div class="terminal">
+        <span class="prompt">user@bushido:~$</span>
+        <input type="text" id="terminal-input" placeholder="Type :emoji and press Enter">
+    </div>
 <script>
-    const tribute = new Tribute({
-        trigger: ":",
-        values: [
-        ],
-        selectTemplate: item => item.original.value
-    })
+    async function initEmojiAutocomplete() {
+        const res = await fetch("/emojis")
+        const emojis = await res.json()
 
-    function logUnit() {
-        fetch("/log_unit", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ "text": "sup"})
+        const tribute = new Tribute({
+            trigger: ":",
+            values: emojis,
+            selectTemplate: item => item.original.value
         })
-
+        tribute.attach(document.getElementById("terminal-input"))
+        console.log(emojis)
     }
+
+    initEmojiAutocomplete()
+    document.getElementById("terminal-input").addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+            console.log("YO")
+            const value = e.target.value
+            fetch("/log_unit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: value})
+            }).then(res => res.json())
+              .then(data => {
+                    e.target.value = ""
+                    console.log("Sent:", data)
+                })
+        }
+    })
 
 </script>
 </body>

@@ -8,3 +8,26 @@ body {
     align-items: center;
 }
 
+.terminal {
+    background-color: #1e1e1e;
+    color: limegreen;
+    font-family: monospace;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    max-width: 600px;
+}
+.prompt {
+    margin-right: 10px;
+}
+input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: limegreen;
+    font-family: monospace;
+    font-size: 16px;
+}

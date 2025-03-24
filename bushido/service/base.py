@@ -13,11 +13,13 @@ class BaseService:
         self.emoji_specs = self.dbm.load_emojis()
         self.iproc = InputProcessor(self.load_processors())
 
-    def construct_autocomplete_dix(self):
-        dix = {}
+    def construct_autocomplete_list(self):
+        lst = []
         for emoji_spec in self.emoji_specs:
-            dix[emoji_spec.unit_name] = emoji_spec.emoji
-        return dix
+            dix = {'key': emoji_spec.unit_name,
+                   'value': emoji_spec.emoji}
+            lst.append(dix)
+        return lst
 
     def construct_processor_dix(self):
         dix = defaultdict(list)
