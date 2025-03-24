@@ -1,4 +1,9 @@
+import datetime
+from zoneinfo import ZoneInfo
 from abc import ABC
+
+# project imports
+from bushido.model.base import UnitSpec
 
 
 class InputProcessor:
@@ -43,16 +48,29 @@ class InputProcessor:
 
 class AbsUnitProcessor(ABC):
     def __init__(self, engine):
-        self.engine = engine
+        self.parser = None
+        self.uploader = None
 
     def process_unit(self, emoji, words, comment):
-        raise NotImplementedError
+        unit_spec = self.create_unit_spec(emoji, words, comment)
+        keiko_spec = self.parser.parse_unit(words)
+        self.uploader(unit_spec, keiko_spec)
+
+    @staticmethod
+    def create_unit_spec(emoji, words, comment):
+        now = datetime.datetime.now().replace(tzinfo=ZoneInfo('Europe/Zurich'))
+        timestamp = int(now.timestamp())
+        unit_spec = UnitSpec(timestamp=timestamp,
+                             emoji=emoji,
+                             payload=' '.join(words),
+                             comment=comment)
+        return unit_spec
 
 
 class AbsUnitParser(ABC):
     def __init__(self):
         pass
 
-    def parse_unit(self, emoji, words, comment):
+    def parse_unit(self, words):
         raise NotImplementedError
 
