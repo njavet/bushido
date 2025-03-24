@@ -1,6 +1,6 @@
 from fastapi import Request, APIRouter, Depends
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 
 # project imports
 from bushido.service.base import BaseService
@@ -14,12 +14,15 @@ bs = BaseService()
 ip = InputProcessor(bs.load_processors())
 
 
+@router.get('/emojis')
+async def fetch_emojis():
+    return bs.construct_autocomplete_list()
+
+
 @router.get('/', response_class=HTMLResponse)
 async def get_index(request: Request):
-    dix = bs.construct_autocomplete_dix()
     return templates.TemplateResponse('index.html',
-                                      {'request': request,
-                                       'autocomp': dix})
+                                      {'request': request})
 
 
 @router.post('/log_unit')
