@@ -8,7 +8,7 @@ from bushido.data.db import MDEmojiTable, MDCategoryTable, UnitTable, Base
 from bushido.model.base import EmojiSpec
 
 
-class DatabaseManager:
+class DataManager:
     def __init__(self, db_url) -> None:
         self.engine = create_engine(url=db_url)
         self.init_db()
