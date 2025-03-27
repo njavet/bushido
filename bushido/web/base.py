@@ -29,4 +29,6 @@ async def get_index(request: Request):
 async def log_unit(request: Request):
     data = await request.json()
     print('data', data)
-    ip.preprocess_input()
+    answer = ip.preprocess_input(data['text'])
+    print('answer', answer)
+    return {'answer': answer}
