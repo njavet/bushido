@@ -49,7 +49,14 @@ class AbsUploader(ABC):
         return unit
 
     def upload_unit(self, unit_spec, keiko_spec):
-        raise NotImplementedError
+        unit = self.create_orm_unit(unit_spec)
+        keiko = self.create_orm_unit(keiko_spec)
+        with Session(self.engine) as session:
+            session.add(unit)
+            session.commit()
+            keiko.fk_unit = unit.key
+            session.add(keiko)
+            session.commit()
 
     def create_orm_keiko(self, keiko_spec):
         raise NotImplementedError
