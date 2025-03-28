@@ -3,22 +3,20 @@ from sqlalchemy import ForeignKey, select
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project import
-from bushido.data.base import Base, UnitTable, MDEmojiTable
+from bushido.model.base import EmojiSpec
+from bushido.data.db import Base, UnitTable, MDEmojiTable, MDCategoryTable
 
 
-class AbsReceiver(ABC):
+class Receiver:
     def __init__(self, engine):
         self.engine = engine
-        self.keiko = None
 
-    def receive_all(self, unit_name=None, start_t=None, end_t=None):
+    def receive_all_units(self, unit_name=None, start_t=None, end_t=None):
         stmt = (select(MDEmojiTable.emoji,
                        UnitTable.timestamp,
                        UnitTable.payload,
-                       UnitTable.comment,
-                       self.keiko)
-                .join(UnitTable, MDEmojiTable.key == UnitTable.fk_emoji)
-                .join(self.keiko, UnitTable.key == self.keiko.fk_unit))
+                       UnitTable.comment)
+                .join(UnitTable, MDEmojiTable.key == UnitTable.fk_emoji))
         if unit_name:
             stmt = stmt.where(MDEmojiTable.unit_name == unit_name)
         if start_t:
@@ -32,8 +30,29 @@ class AbsReceiver(ABC):
             units = session.execute(stmt).all()
         return units
 
+    def load_emojis(self):
+        stmt = (select(MDEmojiTable.unit_name,
+                       MDEmojiTable.emoji,
+                       MDEmojiTable.emoji_text,
+                       MDCategoryTable.name,
+                       MDEmojiTable.key)
+                .join(MDCategoryTable))
+        emoji_specs = []
+        with Session(self.engine) as session:
+            # TODO investigate open session for retrieving keys
+            #  -> not bound to a session error
+            data = session.execute(stmt).all()
+        for item in data:
+            emoji_spec = EmojiSpec(emoji=item.emoji,
+                                   emoji_text=item.emoji_text,
+                                   unit_name=item.unit_name,
+                                   category_name=item.name,
+                                   key=item.key)
+            emoji_specs.append(emoji_spec)
+        return emoji_specs
 
-class AbsUploader(ABC):
+
+class Uploader:
     def __init__(self, engine):
         self.engine = engine
 
