@@ -4,7 +4,7 @@ from sqlalchemy import select
 from datetime import datetime
 
 # project imports
-from bushido.db.db_manager import DatabaseManager
+from bushido.data.manager import DataManager
 from bushido.db.base_tables import UnitTable, MDEmojiTable
 from bushido.db.categories.gym import KeikoTable
 
@@ -12,7 +12,7 @@ from bushido.db.categories.gym import KeikoTable
 class TestBaseDataIntegration(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.um = DatabaseManager('sqlite:///:memory:')
+        cls.dm = DataManager('sqlite:///:memory:')
 
     def test_valid_gym_units(self):
         d0 = datetime(2024, 12, 8, 8, 8)
