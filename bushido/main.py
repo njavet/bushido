@@ -13,6 +13,7 @@ def create_app():
 
     app.mount('/bushido/static',
               StaticFiles(directory='bushido/static'), name='static')
+    app.state.templates = Jinja2Templates(directory='bushido/templates')
     app.state.dm = None
 
     app.include_router(router)

@@ -1,2 +1,3 @@
+DEFAULT_PORT = 8080
 
-day_start = 4
+DAY_START_HOUR = 4
