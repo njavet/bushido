@@ -7,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from bushido.data.base_tables import MDEmojiTable, MDCategoryTable, Base
 
 
-def init_db(engine):
+def db_init(engine):
     Base.metadata.create_all(engine)
     try:
         upload_category_md_data(engine)
