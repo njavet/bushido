@@ -6,11 +6,11 @@ from sqlalchemy.orm import mapped_column, Mapped
 from bushido.data.base_tables import AbsKeikoTable
 
 
-def create_orm_keiko(keiko_spce):
-    keiko = KeikoTable(start_t=keiko_spce.start_t,
-                       end_t=keiko_spce.end_t,
-                       gym=keiko_spce.gym)
-    return keiko
+def create_keiko_orm(keiko_spce):
+    keiko_orm = KeikoTable(start_t=keiko_spce.start_t,
+                           end_t=keiko_spce.end_t,
+                           gym=keiko_spce.gym)
+    return keiko_orm
 
 
 class KeikoTable(AbsKeikoTable):

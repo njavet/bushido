@@ -50,7 +50,7 @@ class DataManager:
             emoji_specs.append(emoji_spec)
         return emoji_specs
 
-    def create_orm_unit(self, unit_spec):
+    def create_unit_orm(self, unit_spec):
         with (Session(self.engine) as session):
             stmt = (select(MDEmojiTable.key)
                     .where(MDEmojiTable.emoji == unit_spec.emoji))
@@ -62,7 +62,7 @@ class DataManager:
         return unit
 
     def upload_unit(self, unit_spec, keiko_orm):
-        unit = self.create_orm_unit(unit_spec)
+        unit = self.create_unit_orm(unit_spec)
         with Session(self.engine) as session:
             session.add(unit)
             session.commit()
