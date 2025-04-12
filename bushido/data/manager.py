@@ -51,6 +51,7 @@ class DataManager:
         return emoji_specs
 
     def create_unit_orm(self, unit_spec):
+        print(unit_spec.emoji)
         with (Session(self.engine) as session):
             stmt = (select(MDEmojiTable.key)
                     .where(MDEmojiTable.emoji == unit_spec.emoji))
