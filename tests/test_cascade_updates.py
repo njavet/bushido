@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 
 
 # project imports
-from bushido.db.base_tables import MDCategoryTable
-from bushido.db.db_init import db_init
+from bushido.data.base_tables import MDCategoryTable
+from bushido.data.db_init import db_init
 
 
 class TestCategoryEmojiCascade(unittest.TestCase):
