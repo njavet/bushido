@@ -1,9 +1,11 @@
+from pathlib import Path
 import pandas as pd
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
 # project imports
+from bushido.conf import MASTER_DATA_DIR
 from bushido.data.base_tables import MDEmojiTable, MDCategoryTable, Base
 
 
@@ -17,8 +19,9 @@ def db_init(engine):
         pass
 
 
-def upload_category_md_data(engine):
-    categories = pd.read_csv('static/csv_files/categories.csv')
+def upload_category_md_data(engine, categories_csv: str = 'categories.csv'):
+    categories_path = MASTER_DATA_DIR.joinpath(categories_csv)
+    categories = pd.read_csv(categories_path)
     categories = categories.to_dict(orient='records')
     cat_lst = [MDCategoryTable(name=cat['name']) for cat in categories]
     with Session(engine) as session:
@@ -26,8 +29,9 @@ def upload_category_md_data(engine):
         session.commit()
 
 
-def upload_emoji_md_data(engine):
-    emojis = pd.read_csv('static/csv_files/emojis.csv')
+def upload_emoji_md_data(engine, emojis_csv: str = 'emojis.csv'):
+    emojis_path = MASTER_DATA_DIR.joinpath(emojis_csv)
+    emojis = pd.read_csv(emojis_path)
     emojis = emojis.to_dict(orient='records')
     upload_lst = []
     with Session(engine) as session:
@@ -38,7 +42,7 @@ def upload_emoji_md_data(engine):
             emoji = MDEmojiTable(unit_name=emoji_data['unit_name'],
                                  emoji_name=emoji_data['emoji_name'],
                                  emoji_text=emoji_data['emoji_text'],
-                                 emoji=emoji_data['emoji'],
+                                 emoji=emoji_data['emoji_unicode'].encode().decode(),
                                  fk_category=cat_key)
             upload_lst.append(emoji)
     session.add_all(upload_lst)
