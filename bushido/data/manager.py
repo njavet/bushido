@@ -1,12 +1,9 @@
-from sqlalchemy import create_engine, select, ForeignKey
-from sqlalchemy.orm import Session, mapped_column, Mapped
+from sqlalchemy import create_engine, select
+from sqlalchemy.orm import Session
 
 # project imports
 from bushido.schema.base import EmojiSpec
-from bushido.data.base_tables import (Base,
-                                      MDCategoryTable,
-                                      MDEmojiTable,
-                                      UnitTable)
+from bushido.data.base_tables import MDCategoryTable, MDEmojiTable, UnitTable
 
 
 class DataManager:
@@ -72,8 +69,3 @@ class DataManager:
             keiko_orm.fk_unit = unit.key
             session.add(keiko_orm)
             session.commit()
-
-
-class AbsKeikoTable(Base):
-    __abstract__ = True
-    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))

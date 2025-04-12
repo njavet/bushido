@@ -30,3 +30,8 @@ class UnitTable(Base):
     payload: Mapped[str] = mapped_column()
     comment: Mapped[Optional[str]] = mapped_column()
     fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiTable.key))
+
+
+class AbsKeikoTable(Base):
+    __abstract__ = True
+    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
