@@ -1,2 +1,3 @@
-from . import run_app
+from .main import run_app
+
 run_app()
