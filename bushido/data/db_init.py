@@ -41,8 +41,8 @@ def upload_emoji_md_data(engine, emojis_csv: str = 'emojis.csv'):
             cat_key = cat_map[emoji_data['category_name']]
             emoji = MDEmojiTable(unit_name=emoji_data['unit_name'],
                                  emoji_name=emoji_data['emoji_name'],
-                                 emoji_text=emoji_data['emoji_text'],
-                                 emoji=emoji_data['emoji_unicode'].encode().decode(),
+                                 emoji_base=emoji_data['emoji_base'],
+                                 emoji_ext=emoji_data['emoji_ext'],
                                  fk_category=cat_key)
             upload_lst.append(emoji)
     session.add_all(upload_lst)

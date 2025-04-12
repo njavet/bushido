@@ -19,8 +19,8 @@ class MDEmojiTable(Base):
     __tablename__ = 'md_emoji'
     unit_name: Mapped[str] = mapped_column(unique=True)
     emoji_name: Mapped[str] = mapped_column(unique=True)
-    emoji_text: Mapped[str] = mapped_column(unique=True)
-    emoji: Mapped[str] = mapped_column(unique=True)
+    emoji_base: Mapped[str] = mapped_column(unique=True)
+    emoji_ext: Mapped[Optional[str]] = mapped_column()
     fk_category: Mapped[int] = mapped_column(ForeignKey(MDCategoryTable.key))
 
 

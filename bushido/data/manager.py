@@ -11,7 +11,8 @@ class DataManager:
         self.engine = create_engine(url=db_url)
 
     def receive_all_units(self, unit_name=None, start_t=None, end_t=None):
-        stmt = (select(MDEmojiTable.emoji,
+        stmt = (select(MDEmojiTable.emoji_base,
+                       MDEmojiTable.emoji_ext,
                        UnitTable.timestamp,
                        UnitTable.payload,
                        UnitTable.comment)
@@ -31,8 +32,8 @@ class DataManager:
 
     def load_emojis(self):
         stmt = (select(MDEmojiTable.unit_name,
-                       MDEmojiTable.emoji,
-                       MDEmojiTable.emoji_text,
+                       MDEmojiTable.emoji_base,
+                       MDEmojiTable.emoji_ext,
                        MDCategoryTable.name,
                        MDEmojiTable.key)
                 .join(MDCategoryTable))
@@ -42,19 +43,18 @@ class DataManager:
             #  -> not bound to a session error
             data = session.execute(stmt).all()
         for item in data:
-            emoji_spec = EmojiSpec(emoji=item.emoji,
-                                   emoji_text=item.emoji_text,
-                                   unit_name=item.unit_name,
+            emoji_spec = EmojiSpec(unit_name=item.unit_name,
+                                   emoji_base=item.emoji_base,
+                                   emoji_ext=item.emoji_ext,
                                    category_name=item.name,
                                    key=item.key)
             emoji_specs.append(emoji_spec)
         return emoji_specs
 
     def create_unit_orm(self, unit_spec):
-        print(unit_spec.emoji)
         with (Session(self.engine) as session):
             stmt = (select(MDEmojiTable.key)
-                    .where(MDEmojiTable.emoji == unit_spec.emoji))
+                    .where(MDEmojiTable.unit_name == unit_spec.unit_name))
             result = session.scalar(stmt)
         unit = UnitTable(timestamp=unit_spec.timestamp,
                          payload=unit_spec.payload,
