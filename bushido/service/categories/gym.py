@@ -4,7 +4,6 @@ import datetime
 # project imports
 from bushido.exceptions import ValidationError
 from bushido.utils.parsing import parse_start_end_time_string
-from bushido.data.categories.gym import KeikoTable
 
 
 class KeikoProcessor:

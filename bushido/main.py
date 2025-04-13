@@ -5,7 +5,6 @@ import uvicorn
 
 # project imports
 from bushido.conf import DEFAULT_PORT
-from bushido.service.setup import setup_dm, setup_up
 from bushido.web import router
 
 
@@ -14,8 +13,6 @@ def create_app():
 
     app.mount('/bushido/static',
               StaticFiles(directory='bushido/static'), name='static')
-    app.state.dm = setup_dm()
-    app.state.up = setup_up(app.state.dm)
     app.add_middleware(CORSMiddleware,
                        allow_origins=['http://localhost:5173'],
                        allow_methods=["*"],
