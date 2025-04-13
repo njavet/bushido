@@ -1,6 +1,6 @@
 from sqlalchemy import select, or_
 from sqlalchemy.orm import Session
-from bushido.data.base_tables import UnitTable, MDEmojiTable
+from bushido.data.models import UnitTable, MDEmojiTable
 
 
 class UnitRepository:
