@@ -28,3 +28,16 @@ class UnitRepository:
                 .where(or_(MDEmojiTable.emoji == emoji,
                            MDEmojiTable.emoticon == emoji)))
         return self.session.scalar(stmt)
+
+    def save_unit_and_keiko(self, unit, keiko):
+        self.session.add(unit)
+        self.session.commit()
+
+        if isinstance(keiko, list):
+            for k in keiko:
+                k.fk_unit = unit.key
+                self.session.add(k)
+        else:
+            keiko.fk_unit = unit.key
+            self.session.add(keiko)
+        self.session.commit()
