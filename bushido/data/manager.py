@@ -22,16 +22,3 @@ class DataManager:
                          fk_emoji=emoji_key)
         return unit
 
-    def upload_unit(self, unit_spec, keiko):
-        unit = self.create_unit_orm(unit_spec)
-        with Session(self.engine) as session:
-            session.add(unit)
-            session.commit()
-            if isinstance(keiko, list):
-                for keiko_orm in keiko:
-                    keiko_orm.fk_unit = unit.key
-                    session.add(keiko_orm)
-            else:
-                keiko.fk_unit = unit.key
-                session.add(keiko)
-            session.commit()
