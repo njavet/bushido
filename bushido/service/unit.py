@@ -1,4 +1,4 @@
-from bushido.data.base_tables import UnitTable
+from bushido.data.models import UnitTable
 
 
 class UnitService:

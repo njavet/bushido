@@ -6,8 +6,7 @@ from sqlalchemy.exc import IntegrityError
 # project imports
 from bushido.conf import MASTER_DATA_DIR
 from bushido.utils.emojis import decode
-from bushido.data.categories import gym, lifting, scale, wimhof
-from bushido.data.base_tables import MDEmojiTable, MDCategoryTable, Base
+from bushido.data.models import MDEmojiTable, MDCategoryTable, Base
 
 
 def db_init(engine):

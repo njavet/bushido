@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from bushido.data.base_tables import MDEmojiTable
+from bushido.data.models import MDEmojiTable
 
 
 class EmojiRepository:
