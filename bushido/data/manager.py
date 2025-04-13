@@ -10,33 +10,6 @@ class DataManager:
     def __init__(self, db_url) -> None:
         self.engine = create_engine(url=db_url)
 
-    def receive_all_units(self, unit_name=None, start_t=None, end_t=None):
-        stmt = (select(MDEmojiTable.emoji,
-                       UnitTable.timestamp,
-                       UnitTable.payload,
-                       UnitTable.comment)
-                .join(UnitTable, MDEmojiTable.key == UnitTable.fk_emoji))
-        if unit_name:
-            stmt = stmt.where(MDEmojiTable.unit_name == unit_name)
-        if start_t:
-            start_timestamp = start_t.timestamp()
-            stmt = stmt.where(start_timestamp <= UnitTable.timestamp)
-        if end_t:
-            end_timestamp = end_t.timestamp()
-            stmt = stmt.where(UnitTable.timestamp <= end_timestamp)
-
-        with Session(self.engine) as session:
-            units = session.execute(stmt).all()
-        return units
-
-
-    def emoji_to_unit_name(self, emoji):
-        stmt = (select(MDEmojiTable.unit_name)
-                .where(or_(MDEmojiTable.emoji == emoji,
-                           MDEmojiTable.emoticon == emoji)))
-        with Session(self.engine) as session:
-            unit_name = session.scalar(stmt)
-        return unit_name
 
     def create_unit_orm(self, unit_spec):
         with (Session(self.engine) as session):
