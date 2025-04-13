@@ -3,7 +3,7 @@ from zoneinfo import ZoneInfo
 from fastapi import Request, APIRouter
 
 # project imports
-from bushido.exceptions import ValidationError
+from bushido.exceptions import ValidationError, UploadError
 from bushido.schema.base import UnitSpec
 
 
@@ -25,14 +25,25 @@ async def log_unit(request: Request):
     data = await request.json()
     up = request.app.state.up
     try:
-        unit_name, words, comment = up.preprocess_input(data)
+        unit_name, words, comment = up.preprocess_input(data['text'])
     except ValidationError as e:
         return {'status': 'error', 'message': str(e)}
 
-    unit_spec = create_unit_spec(unit_name, words, comment)
-    res = up.process_unit(unit_spec)
-    return {'status': 'success', 'res': res}
+    try:
+        unit_spec = create_unit_spec(unit_name, words, comment)
+        up.process_input(unit_spec)
+    except ValidationError as e:
+        return {'status': 'error', 'message': str(e)}
+    except UploadError as e:
+        return {'status': 'success', 'message': str(e)}
 
 
 @router.get('/emojis')
 async def get_emojis(request: Request):
+    emoji_specs = request.app.state.dm.load_emojis()
+    lst = []
+    for emoji_spec in emoji_specs:
+        dix = {'key': emoji_spec.unit_name,
+               'value': emoji_spec.emoji}
+        lst.append(dix)
+    return lst

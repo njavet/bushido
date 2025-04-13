@@ -13,19 +13,10 @@ class UnitProcessor:
         self.dm = dm
         self.processors = self.load_keiko_processors_from_package()
 
-    def process_input(self, unit_spec: UnitSpec) -> str:
+    def process_input(self, unit_spec: UnitSpec) -> None:
         category = self.dm.unit_name_to_category(unit_spec.unit_name)
-
-        try:
-            keiko = self.processors[category].process_keiko(unit_spec)
-        except ValidationError as err:
-            return err.message
-
-        try:
-            self.dm.upload_unit(unit_spec, keiko)
-            return 'Unit Confirmed'
-        except UploadError as err:
-            return err.message
+        keiko = self.processors[category].process_keiko(unit_spec)
+        self.dm.upload_unit(unit_spec, keiko)
 
     def preprocess_input(self, text: str):
         parts = text.split('#', 1)
