@@ -1,6 +1,6 @@
 from sqlalchemy import select, or_
 from sqlalchemy.orm import Session
-from bushido.data.models import UnitTable, MDEmojiTable
+from bushido.data.models import UnitTable, MDEmojiTable, MDCategoryTable
 
 
 class UnitRepository:
@@ -22,6 +22,12 @@ class UnitRepository:
             stmt = stmt.where(UnitTable.timestamp <= end_t.timestamp())
 
         return self.session.execute(stmt).all()
+
+    def get_category_for_unit(self, unit_name):
+        stmt = (select(MDCategoryTable.name)
+                .join(MDEmojiTable)
+                .where(MDEmojiTable.unit_name == unit_name))
+        return self.session.execute(stmt).scalar()
 
     def get_unit_name_for_emoji(self, emoji: str):
         stmt = (select(MDEmojiTable.unit_name)
