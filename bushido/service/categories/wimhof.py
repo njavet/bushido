@@ -1,9 +1,15 @@
 
 # project imports
 from bushido.exceptions import ValidationError
+from bushido.schema.wimhof import KeikoSpec
+from bushido.data.categories.wimhof import create_keiko_orm
 
 
 class KeikoProcessor:
+
+    def process_keiko(self, unit_spec):
+        keiko_spec = self.parse_keiko(unit_spec.words)
+        return create_keiko_orm(keiko_spec)
 
     @staticmethod
     def parse_keiko(words):
@@ -19,4 +25,5 @@ class KeikoProcessor:
         if len(retentions) < 1:
             raise ValidationError('No round')
 
-        keiko_spep =
+        keiko_spec = KeikoSpec(breaths=breaths, retentions=retentions)
+        return keiko_spec
