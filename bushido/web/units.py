@@ -48,3 +48,9 @@ async def get_emojis(request: Request):
                'value': emoji_spec.emoji}
         lst.append(dix)
     return lst
+
+
+@router.get('/units')
+async def get_units(request: Request):
+    dm = request.app.state.dm
+    units = dm.retrieve_all_units()
