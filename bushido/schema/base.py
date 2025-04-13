@@ -14,6 +14,7 @@ class EmojiSpec(BaseModel):
 
 class UnitSpec(BaseModel):
     timestamp: int
+    unit_name: str
     emoji: str
     payload: str
     comment: str | None = None

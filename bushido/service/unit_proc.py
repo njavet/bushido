@@ -48,10 +48,10 @@ class UnitProcessor:
         words = all_words[1:]
         return emoji, words, comment
 
-    @staticmethod
-    def create_unit_spec(emoji, words, comment):
+    def create_unit_spec(self, emoji, words, comment):
         now = datetime.datetime.now().replace(tzinfo=ZoneInfo('Europe/Zurich'))
         timestamp = int(now.timestamp())
+        unit_name = self.dm.unit_name_from_emoji(emoji)
         unit_spec = UnitSpec(timestamp=timestamp,
                              emoji=emoji,
                              payload=' '.join(words),
