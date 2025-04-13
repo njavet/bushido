@@ -2,58 +2,30 @@
 # project imports
 from bushido.exceptions import ValidationError
 from bushido.schema.scale import KeikoSpec
-from bushido.utils.parsing import parse_start_end_time_string
-from bushido.data.categories.gym import create_keiko_orm
-from bushido.data.categories import AbsCategory, AbsProcessor, AbsKeikoTable
+from bushido.data.categories.scale import create_keiko_orm
 
 
-class Category(AbsCategory):
-    def __init__(self, engine):
-        super().__init__(engine)
-        self.keiko = KeikoTable
 
+class KeikoProcessor:
 
-class Processor(AbsProcessor):
-    def __init__(self, engine):
-        super().__init__(engine)
+    def process_keiko(self, unit_spec):
+        keiko_spec = self.parse_keiko(unit_spec.words)
+        return create_keiko_orm(keiko_spec)
 
-    def process_keiko(self, unit, words):
+    @staticmethod
+    def parse_keiko(words):
         try:
             weight = float(words[0])
         except (IndexError, ValueError):
-            raise ValueError('wrong format')
+            raise ValidationError('wrong format')
 
         try:
-            fat = float(words[1])
+            belly = float(words[1])
+        except ValueError:
+            raise ValidationError('wrong belly format')
         except IndexError:
-            fat = None
+            belly = None
 
-        try:
-            water = float(words[2])
-        except IndexError:
-            water = None
+        keiko_spec = KeikoSpec(weight=weight, belly=belly)
+        return keiko_spec
 
-        try:
-            muscles = float(words[3])
-        except IndexError:
-            muscles = None
-
-        with Session(self.engine) as session:
-            session.add(unit)
-            session.commit()
-            keiko = KeikoTable(weight=weight,
-                               fat=fat,
-                               water=water,
-                               muscles=muscles,
-                               fk_unit=unit.key)
-            session.add(keiko)
-            session.commit()
-
-
-class KeikoTable(AbsKeikoTable):
-    __tablename__ = 'scale'
-
-    weight: Mapped[float] = mapped_column()
-    fat: Mapped[float] = mapped_column()
-    water: Mapped[float] = mapped_column()
-    muscles: Mapped[float] = mapped_column()
