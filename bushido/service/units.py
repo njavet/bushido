@@ -20,10 +20,9 @@ class UnitProcessor:
         except ValidationError as err:
             return err.message
 
-        try:
-            unit_name = self.dm.emoji_to_unit_name(emoji)
-        except ValidationError as err:
-            return err.message
+        unit_name = self.dm.emoji_to_unit_name(emoji)
+        if unit_name is None:
+            return 'Invalid emoji'
 
         try:
             unit_spec = self.create_unit_spec(unit_name, words, comment)

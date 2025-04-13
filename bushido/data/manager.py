@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, select
+from sqlalchemy import create_engine, select, or_
 from sqlalchemy.orm import Session
 
 # project imports
@@ -10,8 +10,7 @@ class DataManager:
         self.engine = create_engine(url=db_url)
 
     def receive_all_units(self, unit_name=None, start_t=None, end_t=None):
-        stmt = (select(MDEmojiTable.emoji_base,
-                       MDEmojiTable.emoji_ext,
+        stmt = (select(MDEmojiTable.emoji,
                        UnitTable.timestamp,
                        UnitTable.payload,
                        UnitTable.comment)
@@ -33,37 +32,22 @@ class DataManager:
         pass
 
     def emoji_to_unit_name(self, emoji):
-        pass
-
-    def load_emojis(self):
-        stmt = (select(MDEmojiTable.unit_name,
-                       MDEmojiTable.emoji_base,
-                       MDEmojiTable.emoji_ext,
-                       MDCategoryTable.name,
-                       MDEmojiTable.key)
-                .join(MDCategoryTable))
-        emoji_specs = []
+        stmt = (select(MDEmojiTable.unit_name)
+                .where(or_(MDEmojiTable.emoji == emoji,
+                           MDEmojiTable.emoticon == emoji)))
         with Session(self.engine) as session:
-            # TODO investigate open session for retrieving keys
-            #  -> not bound to a session error
-            data = session.execute(stmt).all()
-        for item in data:
-            emoji_spec = EmojiSpec(unit_name=item.unit_name,
-                                   emoji=construct_emoji(item.emoji_base, item.emoji_ext),
-                                   category_name=item.name,
-                                   key=item.key)
-            emoji_specs.append(emoji_spec)
-        return emoji_specs
+            unit_name = session.execute(stmt).scalar()
+        return unit_name
 
     def create_unit_orm(self, unit_spec):
         with (Session(self.engine) as session):
             stmt = (select(MDEmojiTable.key)
                     .where(MDEmojiTable.unit_name == unit_spec.unit_name))
-            result = session.scalar(stmt)
+            emoji_key = session.scalar(stmt)
         unit = UnitTable(timestamp=unit_spec.timestamp,
                          payload=unit_spec.payload,
                          comment=unit_spec.comment,
-                         fk_emoji=result.key)
+                         fk_emoji=emoji_key)
         return unit
 
     def upload_unit(self, unit_spec, keiko_orm):
