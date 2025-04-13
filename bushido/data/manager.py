@@ -32,7 +32,7 @@ class DataManager:
         stmt = (select(MDEmojiTable.emoji)
                 .where(MDEmojiTable.unit_name == unit_name))
         with Session(self.engine) as session:
-            emoji = session.execute(stmt).scalar()
+            emoji = session.scalar(stmt)
         return emoji
 
     def unit_name_to_category(self, unit_name):
@@ -40,15 +40,15 @@ class DataManager:
                 .join(MDEmojiTable)
                 .where(MDEmojiTable.unit_name == unit_name))
         with Session(self.engine) as session:
-            category = session.execute(stmt).scalar()
-        return category
+            category = session.execute(stmt).one()
+        return category.name
 
     def emoji_to_unit_name(self, emoji):
         stmt = (select(MDEmojiTable.unit_name)
                 .where(or_(MDEmojiTable.emoji == emoji,
                            MDEmojiTable.emoticon == emoji)))
         with Session(self.engine) as session:
-            unit_name = session.execute(stmt).scalar()
+            unit_name = session.scalar(stmt)
         return unit_name
 
     def create_unit_orm(self, unit_spec):
@@ -57,7 +57,7 @@ class DataManager:
                     .where(MDEmojiTable.unit_name == unit_spec.unit_name))
             emoji_key = session.scalar(stmt)
         unit = UnitTable(timestamp=unit_spec.timestamp,
-                         payload=unit_spec.payload,
+                         payload=' '.join(unit_spec.words),
                          comment=unit_spec.comment,
                          fk_emoji=emoji_key)
         return unit
