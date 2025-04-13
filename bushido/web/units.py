@@ -32,3 +32,7 @@ async def log_unit(request: Request):
     unit_spec = create_unit_spec(unit_name, words, comment)
     res = up.process_unit(unit_spec)
     return {'status': 'success', 'res': res}
+
+
+@router.get('/emojis')
+async def get_emojis(request: Request):
