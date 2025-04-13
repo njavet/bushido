@@ -20,16 +20,15 @@ class KeikoProcessor:
         except ValueError:
             raise ValidationError('invalid input')
 
+        if len(reps) < 1:
+            raise ValidationError('No set')
         if len(reps) != len(weights):
             raise ValidationError(
                 'Not the same number of reps and weights')
         if len(pauses) != len(reps):
             raise ValidationError('break error')
-        if len(reps) < 1:
-            raise ValidationError('No set')
 
         keiko_spec = KeikoSpec(weights=weights,
                                reps=reps,
                                pauses=pauses)
         return keiko_spec
-
