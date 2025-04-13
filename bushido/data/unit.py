@@ -36,7 +36,7 @@ class UnitRepository:
         if isinstance(keiko, list):
             for k in keiko:
                 k.fk_unit = unit.key
-                self.session.add(k)
+            self.session.add_all(keiko)
         else:
             keiko.fk_unit = unit.key
             self.session.add(keiko)
