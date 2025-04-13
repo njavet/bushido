@@ -14,3 +14,9 @@ class EmojiRepository:
     def get_emoji_for_unit(self, unit_name: str):
         stmt = select(MDEmojiTable.emoji).where(MDEmojiTable.unit_name == unit_name)
         return self.session.scalar(stmt)
+
+    def get_emoji_key_by_unit(self, unit_name: str):
+        stmt = (select(MDEmojiTable.key)
+                .where(MDEmojiTable.unit_name == unit_name))
+        emoji_key = self.session.scalar(stmt)
+        return emoji_key
