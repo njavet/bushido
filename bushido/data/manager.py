@@ -35,6 +35,14 @@ class DataManager:
             emoji = session.execute(stmt).scalar()
         return emoji
 
+    def unit_name_to_category(self, unit_name):
+        stmt = (select(MDCategoryTable.name)
+                .join(MDEmojiTable)
+                .where(MDEmojiTable.unit_name == unit_name))
+        with Session(self.engine) as session:
+            category = session.execute(stmt).scalar()
+        return category
+
     def emoji_to_unit_name(self, emoji):
         stmt = (select(MDEmojiTable.unit_name)
                 .where(or_(MDEmojiTable.emoji == emoji,
