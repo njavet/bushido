@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -11,8 +10,6 @@ from bushido.web import router
 def create_app():
     app = FastAPI()
 
-    app.mount('/bushido/static',
-              StaticFiles(directory='bushido/static'), name='static')
     app.add_middleware(CORSMiddleware,
                        allow_origins=['http://localhost:5173'],
                        allow_methods=["*"],
