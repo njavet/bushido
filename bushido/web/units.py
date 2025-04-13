@@ -3,6 +3,7 @@ from zoneinfo import ZoneInfo
 from fastapi import Request, APIRouter
 
 # project imports
+from bushido.conf import LOCAL_TIME_ZONE
 from bushido.exceptions import ValidationError, UploadError
 from bushido.schema.base import UnitSpec
 
@@ -11,7 +12,7 @@ router = APIRouter()
 
 
 def create_unit_spec(unit_name, words, comment):
-    now = datetime.datetime.now().replace(tzinfo=ZoneInfo('Europe/Zurich'))
+    now = datetime.datetime.now().replace(tzinfo=LOCAL_TIME_ZONE)
     timestamp = int(now.timestamp())
     unit_spec = UnitSpec(timestamp=timestamp,
                          unit_name=unit_name,

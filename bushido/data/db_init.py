@@ -1,4 +1,3 @@
-from pathlib import Path
 import pandas as pd
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -7,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 # project imports
 from bushido.conf import MASTER_DATA_DIR
 from bushido.utils.emojis import decode
+from bushido.data.categories import gym, lifting, scale, wimhof
 from bushido.data.base_tables import MDEmojiTable, MDCategoryTable, Base
 
 
