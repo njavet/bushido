@@ -17,12 +17,12 @@ class UnitProcessor:
         category = self.dm.unit_name_to_category(unit_spec.unit_name)
 
         try:
-            keiko_orm = self.processors[category].process_keiko(unit_spec)
+            keiko = self.processors[category].process_keiko(unit_spec)
         except ValidationError as err:
             return err.message
 
         try:
-            self.dm.upload_unit(unit_spec, keiko_orm)
+            self.dm.upload_unit(unit_spec, keiko)
             return 'Unit Confirmed'
         except UploadError as err:
             return err.message
