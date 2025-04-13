@@ -21,7 +21,7 @@ class TestBaseDataIntegration(unittest.TestCase):
 
     def test_valid_gym_units(self):
         emoji = '\U0001F98D'.encode().decode()
-        t0 = ' '.join([emoji, '0700-0800', 'hm', '//', 'fake training'])
+        t0 = ' '.join([emoji, '0700-0800', 'hm', '#', 'fake training'])
         t1 = ' '.join([emoji, '0830-0930', 'gloria'])
         self.up.process_input(t0, parse_unit, create_keiko_orm)
         self.up.process_input(t1, parse_unit, create_keiko_orm)

@@ -37,9 +37,8 @@ class UnitProcessor:
         except UploadError as err:
             return err.message
 
-    @staticmethod
-    def preprocess_input(text: str):
-        parts = text.split('//', 1)
+    def preprocess_input(self, text: str):
+        parts = text.split('#', 1)
         emoji_payload = parts[0]
         if not emoji_payload:
             raise ValidationError('Empty payload')
