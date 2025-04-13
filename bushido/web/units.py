@@ -5,7 +5,6 @@ from fastapi import Request, APIRouter
 # project imports
 from bushido.exceptions import ValidationError
 from bushido.schema.base import UnitSpec
-from bushido.service.setup import load_keiko_processors_from_package
 
 
 router = APIRouter()

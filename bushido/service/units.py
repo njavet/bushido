@@ -14,10 +14,10 @@ class UnitProcessor:
         self.processors = self.load_keiko_processors_from_package()
 
     def process_input(self, unit_spec: UnitSpec) -> str:
-        category = self.dm.unit_name_to_category(unit_spec.name)
+        category = self.dm.unit_name_to_category(unit_spec.unit_name)
 
         try:
-            keiko_orm = self.processors[category].process_input(unit_spec)
+            keiko_orm = self.processors[category].process_keiko(unit_spec)
         except ValidationError as err:
             return err.message
 

@@ -12,8 +12,8 @@ class KeikoProcessor:
     def __init__(self):
         pass
 
-    def process_keiko(self, words):
-        keiko_spec = self.parse_keiko(words)
+    def process_keiko(self, unit_spec):
+        keiko_spec = self.parse_keiko(unit_spec.words)
         return create_keiko_orm(keiko_spec)
 
     @staticmethod
