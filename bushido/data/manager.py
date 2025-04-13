@@ -2,8 +2,6 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 
 # project imports
-from bushido.schema.base import EmojiSpec
-from bushido.utils.emojis import construct_emoji
 from bushido.data.base_tables import MDCategoryTable, MDEmojiTable, UnitTable
 
 

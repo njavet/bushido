@@ -21,7 +21,12 @@ class UnitProcessor:
             return err.message
 
         try:
-            unit_spec = self.create_unit_spec(emoji, words, comment)
+            unit_name = self.dm.emoji_to_unit_name(emoji)
+        except ValidationError as err:
+            return err.message
+
+        try:
+            unit_spec = self.create_unit_spec(unit_name, words, comment)
             keiko_spec = parse_unit(words)
         except ValidationError as err:
             return err.message
@@ -48,13 +53,12 @@ class UnitProcessor:
         words = all_words[1:]
         return emoji, words, comment
 
-    def create_unit_spec(self, emoji, words, comment):
+    @staticmethod
+    def create_unit_spec(unit_name, words, comment):
         now = datetime.datetime.now().replace(tzinfo=ZoneInfo('Europe/Zurich'))
         timestamp = int(now.timestamp())
-        unit_name = self.dm.unit_name_from_emoji(emoji)
         unit_spec = UnitSpec(timestamp=timestamp,
-                             emoji=emoji,
+                             unit_name=unit_name,
                              payload=' '.join(words),
                              comment=comment)
         return unit_spec
-

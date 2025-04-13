@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 
 # project imports
 from bushido.conf import MASTER_DATA_DIR
+from bushido.utils.emojis import decode
 from bushido.data.base_tables import MDEmojiTable, MDCategoryTable, Base
 
 
@@ -31,19 +32,20 @@ def upload_category_md_data(engine, categories_csv: str = 'categories.csv'):
 
 def upload_emoji_md_data(engine, emojis_csv: str = 'emojis.csv'):
     emojis_path = MASTER_DATA_DIR.joinpath(emojis_csv)
-    emojis = pd.read_csv(emojis_path)
-    emojis = emojis.to_dict(orient='records')
+    df = pd.read_csv(emojis_path)
+    df = decode(df)
+    emojis = df.to_dict(orient='records')
     upload_lst = []
     with Session(engine) as session:
         categories = session.scalars(select(MDCategoryTable)).all()
         cat_map = {cat.name: cat.key for cat in categories}
         for emoji_data in emojis:
             cat_key = cat_map[emoji_data['category_name']]
-            emoji = MDEmojiTable(unit_name=emoji_data['unit_name'],
-                                 emoji_name=emoji_data['emoji_name'],
-                                 emoji_base=emoji_data['emoji_base'],
-                                 emoji_ext=emoji_data['emoji_ext'],
-                                 fk_category=cat_key)
-            upload_lst.append(emoji)
+            emoji_orm = MDEmojiTable(unit_name=emoji_data['unit_name'],
+                                     emoji_name=emoji_data['emoji_name'],
+                                     emoticon=emoji_data['emoticon'],
+                                     emoji=emoji_data['emoji'],
+                                     fk_category=cat_key)
+            upload_lst.append(emoji_orm)
     session.add_all(upload_lst)
     session.commit()

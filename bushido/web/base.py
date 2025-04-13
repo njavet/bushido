@@ -8,8 +8,8 @@ from bushido.service.setup import setup_dm
 router = APIRouter()
 
 
-@router.post('/log_unit')
-async def log_unit(request: Request):
-    data = await request.json()
+@router.get('/', response_class=HTMLResponse)
+async def index(request: Request):
+    templates = request.app.state.templates
     return templates.TemplateResponse('index.html', {'request': request})
 
