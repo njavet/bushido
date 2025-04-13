@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 # project imports
 from bushido.schema.base import EmojiSpec
+from bushido.utils.emojis import construct_emoji
 from bushido.data.base_tables import MDCategoryTable, MDEmojiTable, UnitTable
 
 
@@ -30,6 +31,12 @@ class DataManager:
             units = session.execute(stmt).all()
         return units
 
+    def unit_name_to_emoji(self, unit_name):
+        pass
+
+    def emoji_to_unit_name(self, emoji):
+        pass
+
     def load_emojis(self):
         stmt = (select(MDEmojiTable.unit_name,
                        MDEmojiTable.emoji_base,
@@ -44,8 +51,7 @@ class DataManager:
             data = session.execute(stmt).all()
         for item in data:
             emoji_spec = EmojiSpec(unit_name=item.unit_name,
-                                   emoji_base=item.emoji_base,
-                                   emoji_ext=item.emoji_ext,
+                                   emoji=construct_emoji(item.emoji_base, item.emoji_ext),
                                    category_name=item.name,
                                    key=item.key)
             emoji_specs.append(emoji_spec)
