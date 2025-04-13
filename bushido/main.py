@@ -1,12 +1,11 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import uvicorn
 from starlette.middleware.cors import CORSMiddleware
+import uvicorn
 
 # project imports
 from bushido.conf import DEFAULT_PORT
-from bushido.data.db_init import db_init
 from bushido.service.setup import setup_dm, setup_up
 from bushido.web import router
 
@@ -16,7 +15,6 @@ def create_app():
 
     app.mount('/bushido/static',
               StaticFiles(directory='bushido/static'), name='static')
-    app.state.templates = Jinja2Templates(directory='bushido/templates')
     app.state.dm = setup_dm()
     app.state.up = setup_up(app.state.dm)
     app.add_middleware(CORSMiddleware,

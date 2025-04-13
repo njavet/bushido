@@ -29,26 +29,6 @@ class DataManager:
             units = session.execute(stmt).all()
         return units
 
-    def load_emojis(self):
-        stmt = select(MDEmojiTable.emoji, MDEmojiTable.unit_name)
-        with Session(self.engine) as session:
-            emojis = session.execute(stmt).all()
-        return [EmojiSpec(emoji=e.emoji, unit_name=e.unit_name) for e in emojis]
-
-    def unit_name_to_emoji(self, unit_name):
-        stmt = (select(MDEmojiTable.emoji)
-                .where(MDEmojiTable.unit_name == unit_name))
-        with Session(self.engine) as session:
-            emoji = session.scalar(stmt)
-        return emoji
-
-    def unit_name_to_category(self, unit_name):
-        stmt = (select(MDCategoryTable.name)
-                .join(MDEmojiTable)
-                .where(MDEmojiTable.unit_name == unit_name))
-        with Session(self.engine) as session:
-            category = session.execute(stmt).one()
-        return category.name
 
     def emoji_to_unit_name(self, emoji):
         stmt = (select(MDEmojiTable.unit_name)
