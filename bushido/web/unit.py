@@ -37,17 +37,6 @@ async def log_unit(request: Request, unit_spec: UnitSpec):
         return {'status': 'success', 'message': str(e)}
 
 
-@router.get('/api/emojis')
-async def get_emojis(request: Request):
-    emoji_specs = request.app.state.dm.load_emojis()
-    lst = []
-    for emoji_spec in emoji_specs:
-        dix = {'key': emoji_spec.unit_name,
-               'value': emoji_spec.emoji}
-        lst.append(dix)
-    return lst
-
-
 @router.get('/api/units')
 async def get_units(request: Request):
     dm = request.app.state.dm
