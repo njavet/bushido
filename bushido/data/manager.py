@@ -29,7 +29,11 @@ class DataManager:
         return units
 
     def unit_name_to_emoji(self, unit_name):
-        pass
+        stmt = (select(MDEmojiTable.emoji)
+                .where(MDEmojiTable.unit_name == unit_name))
+        with Session(self.engine) as session:
+            emoji = session.execute(stmt).scalar()
+        return emoji
 
     def emoji_to_unit_name(self, emoji):
         stmt = (select(MDEmojiTable.unit_name)

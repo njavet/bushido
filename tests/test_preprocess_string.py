@@ -17,12 +17,12 @@ class TestPreprocess(unittest.TestCase):
             self.up.preprocess_input(input_string)
 
     def test_comment_symbol_only(self):
-        input_string = '//'
+        input_string = '#'
         with self.assertRaises(ValidationError):
             self.up.preprocess_input(input_string)
 
     def test_empty_payload(self):
-        input_string = '// this is a comment'
+        input_string = '# this is a comment'
         with self.assertRaises(ValidationError):
             self.up.preprocess_input(input_string)
 
@@ -34,21 +34,21 @@ class TestPreprocess(unittest.TestCase):
         self.assertIsNone(comment)
 
     def test_correct_input_without_emoji_no_comment_but_symbol(self):
-        input_string = '<emoji> 101 5 //'
+        input_string = '<emoji> 101 5 #'
         emoji, words, comment = self.up.preprocess_input(input_string)
         self.assertEqual(emoji, '<emoji>')
         self.assertEqual(words, ['101', '5'])
         self.assertIsNone(comment)
 
     def test_correct_input_without_emoji_full(self):
-        input_string = '<emoji> some nupbers eg 5 // this is a comment'
+        input_string = '<emoji> some numbers eg 5 # this is a comment'
         emoji, words, comment = self.up.preprocess_input(input_string)
         self.assertEqual(emoji, '<emoji>')
-        self.assertEqual(words, ['some', 'nupbers', 'eg', '5'])
+        self.assertEqual(words, ['some', 'numbers', 'eg', '5'])
         self.assertEqual(comment, 'this is a comment')
 
     def test_correct_input_without_emoji_no_payload(self):
-        input_string = '<emoji> // this is a comment'
+        input_string = '<emoji> # this is a comment'
         emoji, words, comment = self.up.preprocess_input(input_string)
         self.assertEqual(emoji, '<emoji>')
         self.assertEqual(words, [])
