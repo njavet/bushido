@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, select, or_
 from sqlalchemy.orm import Session
 
 # project imports
+from bushido.schema.base import EmojiSpec
 from bushido.data.base_tables import MDCategoryTable, MDEmojiTable, UnitTable
 
 
@@ -27,6 +28,12 @@ class DataManager:
         with Session(self.engine) as session:
             units = session.execute(stmt).all()
         return units
+
+    def load_emojis(self):
+        stmt = select(MDEmojiTable.emoji, MDEmojiTable.unit_name)
+        with Session(self.engine) as session:
+            emojis = session.scalars(stmt).all()
+        return [EmojiSpec(emoji=e.emoji, unit_name=e.unit_name) for e in emojis]
 
     def unit_name_to_emoji(self, unit_name):
         stmt = (select(MDEmojiTable.emoji)
