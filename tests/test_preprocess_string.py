@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 # project imports
 from bushido.exceptions import ValidationError
-from bushido.service.unit_proc import UnitProcessor
+from bushido.service.units import UnitProcessor
 
 
 class TestPreprocess(unittest.TestCase):
