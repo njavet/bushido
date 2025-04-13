@@ -1,5 +1,5 @@
-from typing import Optional
 from sqlalchemy import ForeignKey
+from typing import Optional
 from sqlalchemy.orm import (DeclarativeBase,
                             Mapped,
                             mapped_column)
@@ -35,3 +35,35 @@ class UnitTable(Base):
 class AbsKeikoTable(Base):
     __abstract__ = True
     fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
+
+
+class GymModel(AbsKeikoTable):
+    __tablename__ = 'gym'
+
+    start_t: Mapped[int] = mapped_column()
+    end_t: Mapped[int] = mapped_column()
+    gym: Mapped[str] = mapped_column()
+
+
+class WimhofModel(AbsKeikoTable):
+    __tablename__ = 'wimhof'
+
+    round_nr: Mapped[int] = mapped_column()
+    breaths: Mapped[int] = mapped_column()
+    retention: Mapped[int] = mapped_column()
+
+
+class LiftingModel(AbsKeikoTable):
+    __tablename__ = 'lifting'
+
+    set_nr: Mapped[int] = mapped_column()
+    weight: Mapped[float] = mapped_column()
+    reps: Mapped[float] = mapped_column()
+    pause: Mapped[int] = mapped_column(default=0)
+
+
+class ScaleModel(AbsKeikoTable):
+    __tablename__ = 'scale'
+
+    weight: Mapped[float] = mapped_column()
+    belly: Mapped[Optional[float]] = mapped_column()

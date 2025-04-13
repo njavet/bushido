@@ -3,9 +3,8 @@ import datetime
 
 # project imports
 from bushido.exceptions import ValidationError
-from bushido.schema.gym import KeikoSpec
 from bushido.utils.parsing import parse_start_end_time_string
-from bushido.data.categories.gym import create_keiko_orm
+from bushido.data.categories.gym import KeikoTable
 
 
 class KeikoProcessor:
@@ -14,7 +13,6 @@ class KeikoProcessor:
 
     def process_keiko(self, unit_spec):
         keiko_spec = self.parse_keiko(unit_spec.words)
-        return create_keiko_orm(keiko_spec)
 
     @staticmethod
     def parse_keiko(words):
@@ -40,7 +38,7 @@ class KeikoProcessor:
         except IndexError:
             raise ValidationError('no gym')
 
-        keiko_spec = KeikoSpec(start_t=start_ts,
-                               end_t=end_ts,
-                               gym=gym)
-        return keiko_spec
+        keiko = KeikoTable(start_t=start_ts,
+                           end_t=end_ts,
+                           gym=gym)
+        return keiko
