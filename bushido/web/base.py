@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from bushido.service.base_service import BaseService
+from bushido.service.base import BaseService
 from bushido.data.conn import get_session
 
 

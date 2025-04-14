@@ -1,6 +1,6 @@
 from bushido.exceptions import ValidationError
 from bushido.data.categories.lifting import LiftingModel, LiftingRepository
-from bushido.service.unit import AbsLogService
+from bushido.service.log import AbsLogService
 
 
 class LogService(AbsLogService):
