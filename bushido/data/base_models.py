@@ -10,52 +10,28 @@ class Base(DeclarativeBase):
     key: Mapped[int] = mapped_column(primary_key=True)
 
 
-class MDCategoryTable(Base):
+class MDCategoryModel(Base):
     __tablename__ = 'md_category'
     name: Mapped[str] = mapped_column(unique=True)
 
 
-class MDEmojiTable(Base):
+class MDEmojiModel(Base):
     __tablename__ = 'md_emoji'
     unit_name: Mapped[str] = mapped_column(unique=True)
     emoji_name: Mapped[str] = mapped_column(unique=True)
     emoticon: Mapped[str] = mapped_column(unique=True)
     emoji: Mapped[str] = mapped_column(unique=True)
-    fk_category: Mapped[int] = mapped_column(ForeignKey(MDCategoryTable.key))
+    fk_category: Mapped[int] = mapped_column(ForeignKey(MDCategoryModel.key))
 
 
-class UnitTable(Base):
+class UnitModel(Base):
     __tablename__ = 'unit'
     timestamp: Mapped[int] = mapped_column()
     payload: Mapped[str] = mapped_column()
     comment: Mapped[Optional[str]] = mapped_column()
-    fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiTable.key))
+    fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiModel.key))
 
 
-class AbsKeikoTable(Base):
+class AbsKeikoModel(Base):
     __abstract__ = True
-    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
-
-
-class WimhofModel(AbsKeikoTable):
-    __tablename__ = 'wimhof'
-
-    round_nr: Mapped[int] = mapped_column()
-    breaths: Mapped[int] = mapped_column()
-    retention: Mapped[int] = mapped_column()
-
-
-class LiftingModel(AbsKeikoTable):
-    __tablename__ = 'lifting'
-
-    set_nr: Mapped[int] = mapped_column()
-    weight: Mapped[float] = mapped_column()
-    reps: Mapped[float] = mapped_column()
-    pause: Mapped[int] = mapped_column(default=0)
-
-
-class ScaleModel(AbsKeikoTable):
-    __tablename__ = 'scale'
-
-    weight: Mapped[float] = mapped_column()
-    belly: Mapped[Optional[float]] = mapped_column()
+    fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitModel.key))
