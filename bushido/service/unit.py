@@ -13,7 +13,7 @@ class UnitService:
         return cls(UnitRepository(session))
 
     def get_all_emojis(self):
-        rows = self.unit_repo.get_all()
+        rows = self.unit_repo.get_all_emojis()
         return [dict(key=r.unit_name, value=r.emoji) for r in rows]
 
     def emoji_for_unit(self, unit_name: str):

@@ -23,10 +23,11 @@ import 'tributejs/dist/tribute.css'
 
 let inputValue = ref("")
 let terminalInput = ref(null)
+let emojis = ref(null)
 
 onMounted(async () => {
   const res = await fetch('/api/emojis')
-  const emojis = await res.json()
+  emojis = await res.json()
 
   const tribute = new Tribute({
     trigger: ":",
@@ -37,6 +38,13 @@ onMounted(async () => {
 })
 
 async function handleEnter() {
+  const raw = inputValue.value.trim()
+  if (!raw) return
+  const [emoji, ...words] = raw.split(/\s+/)
+
+
+  let unit_payload = inputValue.value
+  console.log(unit_payload)
   const res = await fetch('/api/log_unit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
