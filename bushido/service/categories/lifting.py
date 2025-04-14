@@ -1,9 +1,9 @@
 from bushido.exceptions import ValidationError
 from bushido.data.categories.lifting import LiftingModel, LiftingRepository
-from bushido.service.unit import UnitService
+from bushido.service.unit import AbsLogService
 
 
-class LogService(UnitService):
+class LogService(AbsLogService):
     def __init__(self, repo: LiftingRepository):
         super().__init__(repo)
 
