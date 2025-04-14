@@ -1,37 +1,23 @@
-import datetime
 from fastapi import Request, APIRouter, Depends
 from sqlalchemy.orm import Session
 
 
 # project imports
-from bushido.conf import LOCAL_TIME_ZONE
 from bushido.exceptions import ValidationError, UploadError
 from bushido.schema.base import UnitSpec
 from bushido.data import get_session
+from bushido.data.unit import UnitRepository
+from bushido.service.unit import UnitService
 
 
 router = APIRouter()
 
 
-def create_unit_spec(unit_name, words, comment):
-    now = datetime.datetime.now().replace(tzinfo=LOCAL_TIME_ZONE)
-    timestamp = int(now.timestamp())
-    unit_spec = UnitSpec(timestamp=timestamp,
-                         unit_name=unit_name,
-                         words=words,
-                         comment=comment)
-    return unit_spec
-
-
 @router.get('/api/emojis')
 async def get_emojis(session: Session = Depends(get_session)):
-    emoji_specs = request.app.state.dm.load_emojis()
-    lst = []
-    for emoji_spec in emoji_specs:
-        dix = {'key': emoji_spec.unit_name,
-               'value': emoji_spec.emoji}
-        lst.append(dix)
-    return lst
+    repo = UnitRepository(session)
+    service = UnitService(repo)
+    return service.get_all_emojis()
 
 
 @router.post('/api/log_unit/{unit_name}')
@@ -48,9 +34,3 @@ async def log_unit(request: Request, unit_spec: UnitSpec):
         return {'status': 'error', 'message': str(e)}
     except UploadError as e:
         return {'status': 'success', 'message': str(e)}
-
-
-@router.get('/api/units')
-async def get_units(request: Request):
-    dm = request.app.state.dm
-    units = dm.retrieve_all_units()

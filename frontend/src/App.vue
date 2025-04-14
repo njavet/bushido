@@ -27,6 +27,7 @@ let terminalInput = ref(null)
 onMounted(async () => {
   const res = await fetch('/api/emojis')
   const emojis = await res.json()
+  console.log('emojis', emojis)
 
   const tribute = new Tribute({
     trigger: ":",
