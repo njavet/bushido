@@ -10,6 +10,7 @@ from bushido.data.base_models import Base, MDCategoryModel, MDEmojiModel
 
 
 def db_init(engine):
+    from bushido.data.categories.lifting import LiftingModel
     Base.metadata.create_all(engine)
     try:
         upload_category_md_data(engine)

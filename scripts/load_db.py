@@ -3,6 +3,10 @@ import json
 from bushido.conf import DB_URL
 from bushido.exceptions import ValidationError, UploadError
 from bushido.data.db_init import db_init
+from bushido.data.conn import engine, get_session_context
+from bushido.data.categories.lifting import LiftingRepository
+from bushido.service.categories.lifting import LogService
+from bushido.utils.parsing import preprocess_input
 
 
 def main():
@@ -10,25 +14,25 @@ def main():
         data = json.load(f)
 
     units = ['squat', 'deadlift', 'benchpress', 'overheadpress', 'rows', 'curls']
-    db_init(dm.engine)
+    db_init(engine)
+    with get_session_context() as session:
+        ur = LiftingRepository(session=session)
+        service = LogService(ur)
 
     for unit in data:
         if unit['unit_name'] in units:
-            emoji = dm.unit_name_to_emoji(unit['unit_name'])
+            emoji = ur.get_emoji_for_unit(unit['unit_name'])
+            text = ' '.join([emoji, '-dt', str(unit['timestamp']), unit['payload']])
             try:
-                unit_name, words, comment = up.preprocess_input(emoji + ' ' + unit['payload'])
+                emoji, words, comment = preprocess_input(text)
             except ValidationError as e:
-                print('error', e.message)
+                print('pre error', e.message)
                 print(unit['payload'])
                 continue
             try:
-                unit_spec = create_unit_spec(unit['timestamp'],
-                                             unit['unit_name'],
-                                             words,
-                                             comment)
-                up.process_input(unit_spec)
+                service.process_unit(unit['unit_name'], words, comment)
             except ValidationError as e:
-                print('error', e.message)
+                print('process error', e.message)
                 print(unit['payload'])
             except UploadError as e:
                 print('error', e.message)
