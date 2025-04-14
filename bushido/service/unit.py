@@ -44,5 +44,6 @@ class AbsLogService(ABC):
                          fk_emoji=emoji_key)
         return unit
 
+    @abstractmethod
     def create_keiko(self, words):
         raise NotImplementedError
