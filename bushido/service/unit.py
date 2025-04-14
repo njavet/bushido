@@ -1,5 +1,6 @@
 import datetime
 from bushido.conf import LOCAL_TIME_ZONE
+from bushido.utils.parsing import parse_option
 from bushido.data.base_models import UnitModel
 from bushido.data.unit import UnitRepository
 
@@ -34,14 +35,18 @@ class UnitService:
         keiko = self.create_keiko(words)
         self.unit_repo.save_keiko(unit_key, keiko)
 
-    def set_timestamp(self):
-        now = datetime.datetime.now().replace(tzinfo=LOCAL_TIME_ZONE)
-        timestamp = int(now.timestamp())
+    def parse_timestamp(self, words):
+        dt = parse_option(words, '-dt')
+        if dt is None:
+            now = datetime.datetime.now().replace(tzinfo=LOCAL_TIME_ZONE)
+            timestamp = int(now.timestamp())
+        else:
+            timestamp = int(dt)
         return timestamp
 
     def create_unit(self, unit_name, words, comment=None):
         emoji_key = self.unit_repo.get_emoji_key_by_unit(unit_name)
-        timestamp = self.set_timestamp()
+        timestamp = self.parse_timestamp(words)
         unit = UnitModel(timestamp=timestamp,
                          payload=' '.join(words),
                          comment=comment,

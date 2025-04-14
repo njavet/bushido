@@ -1,7 +1,7 @@
 import datetime
 import pytz
 
-from bushido.conf import day_start
+from bushido.conf import DAY_START_HOUR
 
 
 def get_datetime_from_timestamp(timestamp: int,
@@ -12,7 +12,7 @@ def get_datetime_from_timestamp(timestamp: int,
 
 
 def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
-    if 0 <= dt.hour < day_start:
+    if 0 <= dt.hour < DAY_START_HOUR:
         return dt.date() - datetime.timedelta(days=1)
     else:
         return dt.date()
