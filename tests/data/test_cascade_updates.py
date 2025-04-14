@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 
 # project imports
-from bushido.data.base_tables import MDCategoryTable
+from bushido.data.base_models import MDCategoryModel
 from bushido.data.db_init import db_init
 
 
@@ -16,7 +16,7 @@ class TestCategoryEmojiCascade(unittest.TestCase):
         cls.engine = engine
 
     def test_cascade_delete_category(self):
-        stmt = select(MDCategoryTable).where(MDCategoryTable.name == 'lifting')
+        stmt = select(MDCategoryModel).where(MDCategoryModel.name == 'lifting')
         with Session(self.engine) as session:
             category = session.scalar(stmt)
             session.delete(category)
