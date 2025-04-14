@@ -41,6 +41,9 @@ class UnitService:
             now = datetime.datetime.now().replace(tzinfo=LOCAL_TIME_ZONE)
             timestamp = int(now.timestamp())
         else:
+            ind = words.index('-dt')
+            del words[ind]
+            del words[ind]
             timestamp = int(dt)
         return timestamp
 

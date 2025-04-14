@@ -35,6 +35,7 @@ async def log_unit(request: Request,
     category = service.get_category_for_unit(unit_name)
     log_service = load_log_service(category).from_session(session)
     log_service.process_unit(unit_name, words, comment)
+    return {'res': 'ok'}
 
 
 def load_log_service(category: str, package: str = KEIKO_PROCESSORS) -> UnitService:
