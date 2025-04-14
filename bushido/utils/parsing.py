@@ -3,7 +3,7 @@ import re
 from bushido.exceptions import ValidationError
 
 
-def preprocess_input(text: str):
+def preprocess_input(text: str) -> tuple[str, list[str], str | None] | None:
     parts = text.split('#', 1)
     emoji_payload = parts[0]
     if not emoji_payload:
@@ -18,7 +18,7 @@ def preprocess_input(text: str):
     return emoji, words, comment
 
 
-def parse_time_string(time_string: str) -> float:
+def parse_time_string(time_string: str) -> float | None:
     """
     input string can be of the form:
     MM:SS, HH:MM:SS, <num>h, <num>s, <num> (-> default is minutes)
