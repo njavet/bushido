@@ -19,16 +19,19 @@ class UnitService:
     def emoji_for_unit(self, unit_name: str):
         return self.unit_repo.get_emoji_for_unit(unit_name)
 
+    def unit_name_for_emoji(self, emoji: str):
+        return self.unit_repo.get_unit_name_for_emoji(emoji)
+
     def get_units(self, unit_name=None, start_t=None, end_t=None):
         return self.unit_repo.get_units(unit_name, start_t, end_t)
 
     def get_category_for_unit(self, unit_name):
         return self.unit_repo.get_category_for_unit(unit_name)
 
-    def process_unit(self, spec):
-        unit = self.create_unit(spec)
+    def process_unit(self, unit_name, words, comment=None):
+        unit = self.create_unit(unit_name, words, comment)
         unit_key = self.unit_repo.save_unit(unit)
-        keiko = self.create_keiko(spec.words)
+        keiko = self.create_keiko(words)
         self.unit_repo.save_keiko(unit_key, keiko)
 
     def set_timestamp(self):
@@ -36,12 +39,12 @@ class UnitService:
         timestamp = int(now.timestamp())
         return timestamp
 
-    def create_unit(self, spec):
-        emoji_key = self.unit_repo.get_emoji_key_by_unit(spec.unit_name)
+    def create_unit(self, unit_name, words, comment=None):
+        emoji_key = self.unit_repo.get_emoji_key_by_unit(unit_name)
         timestamp = self.set_timestamp()
         unit = UnitModel(timestamp=timestamp,
-                         payload=' '.join(spec.words),
-                         comment=spec.comment,
+                         payload=' '.join(words),
+                         comment=comment,
                          fk_emoji=emoji_key)
         return unit
 
