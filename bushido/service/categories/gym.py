@@ -4,9 +4,10 @@ import datetime
 # project imports
 from bushido.exceptions import ValidationError
 from bushido.utils.parsing import parse_start_end_time_string
+from bushido.data.models import GymModel
 
 
-class KeikoProcessor:
+class GymLogService:
     def __init__(self):
         pass
 
@@ -37,7 +38,7 @@ class KeikoProcessor:
         except IndexError:
             raise ValidationError('no gym')
 
-        keiko = KeikoTable(start_t=start_ts,
-                           end_t=end_ts,
-                           gym=gym)
+        keiko = GymModel(start_t=start_ts,
+                         end_t=end_ts,
+                         gym=gym)
         return keiko

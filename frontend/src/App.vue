@@ -27,7 +27,6 @@ let terminalInput = ref(null)
 onMounted(async () => {
   const res = await fetch('/api/emojis')
   const emojis = await res.json()
-  console.log('emojis', emojis)
 
   const tribute = new Tribute({
     trigger: ":",
@@ -44,7 +43,7 @@ async function handleEnter() {
     body: JSON.stringify({ text: inputValue.value })
   })
   const data = await res.json()
-  console.log("Sent:", data.res)
+  console.log("res:", data.res)
   inputValue.value = ""
 }
 </script>

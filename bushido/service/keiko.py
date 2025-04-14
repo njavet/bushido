@@ -1,14 +1,8 @@
-from bushido.data.models import UnitTable
-from bushido.data.unit import UnitRepository
 
 
-class UnitService:
+class KeikoService:
     def __init__(self, unit_repo):
         self.unit_repo = unit_repo
-
-    @classmethod
-    def from_session(cls, session):
-        return cls(UnitRepository(session))
 
     def get_all_emojis(self):
         rows = self.unit_repo.get_all()
