@@ -1,18 +1,13 @@
-
-# project imports
 from bushido.exceptions import ValidationError
-from bushido.schema.lifting import KeikoSpec
-from bushido.data.categories.lifting import create_keiko_orm
+from bushido.data.categories.lifting import LiftingModel, LiftingRepository
+from bushido.service.unit import UnitService
 
 
-class KeikoProcessor:
+class LogService(UnitService):
+    def __init__(self, repo: LiftingRepository):
+        super().__init__(repo)
 
-    def process_keiko(self, unit_spec):
-        keiko_spec = self.parse_keiko(unit_spec.words)
-        return create_keiko_orm(keiko_spec)
-
-    @staticmethod
-    def parse_keiko(words):
+    def create_keiko(self, words):
         try:
             weights = [float(w) for w in words[::3]]
             reps = [float(r) for r in words[1::3]]
@@ -28,7 +23,12 @@ class KeikoProcessor:
         if len(pauses) != len(reps):
             raise ValidationError('break error')
 
-        keiko_spec = KeikoSpec(weights=weights,
-                               reps=reps,
-                               pauses=pauses)
-        return keiko_spec
+        keikos = []
+        for i, (w, r, p) in enumerate(zip(weights, reps, pauses)):
+            keiko = LiftingModel(set_nr=i,
+                                 weight=w,
+                                 reps=r,
+                                 pause=p)
+            keikos.append(keiko)
+
+        return keikos
