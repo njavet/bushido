@@ -37,14 +37,6 @@ class AbsKeikoTable(Base):
     fk_unit: Mapped[int] = mapped_column(ForeignKey(UnitTable.key))
 
 
-class GymModel(AbsKeikoTable):
-    __tablename__ = 'gym'
-
-    start_t: Mapped[int] = mapped_column()
-    end_t: Mapped[int] = mapped_column()
-    gym: Mapped[str] = mapped_column()
-
-
 class WimhofModel(AbsKeikoTable):
     __tablename__ = 'wimhof'
 

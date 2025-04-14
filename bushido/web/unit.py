@@ -1,13 +1,11 @@
 from fastapi import Request, APIRouter, Depends
 from sqlalchemy.orm import Session
 
-
 # project imports
 from bushido.exceptions import ValidationError, UploadError
 from bushido.schema.base import UnitSpec
-from bushido.data import get_session
-from bushido.data.unit import UnitRepository
 from bushido.service.unit import UnitService
+from bushido.data.conn import get_session
 
 
 router = APIRouter()
@@ -15,8 +13,7 @@ router = APIRouter()
 
 @router.get('/api/emojis')
 async def get_emojis(session: Session = Depends(get_session)):
-    repo = UnitRepository(session)
-    service = UnitService(repo)
+    service = UnitService.from_session(session)
     return service.get_all_emojis()
 
 
