@@ -4,18 +4,15 @@ import datetime
 # project imports
 from bushido.exceptions import ValidationError
 from bushido.utils.parsing import parse_start_end_time_string
-from bushido.data.models import GymModel
+from bushido.data.categories.gym import GymModel, GymRepository
+from bushido.service.unit import UnitService
 
 
-class GymLogService:
-    def __init__(self):
-        pass
+class LogService(UnitService):
+    def __init__(self, repo: GymRepository):
+        super().__init__(repo)
 
-    def process_keiko(self, unit_spec):
-        keiko_spec = self.parse_keiko(unit_spec.words)
-
-    @staticmethod
-    def parse_keiko(words):
+    def create_keiko(self, words):
         today = datetime.date.today()
         start_t, end_t = parse_start_end_time_string(words[0])
         start_dt = datetime.datetime(today.year,
