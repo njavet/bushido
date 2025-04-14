@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column, Session
 from bushido.data.base_models import AbsKeikoModel
-from bushido.data.unit import UnitRepository
+from bushido.data.base_repo import BaseRepository
 
 
 class LiftingModel(AbsKeikoModel):
@@ -12,6 +12,6 @@ class LiftingModel(AbsKeikoModel):
     pause: Mapped[int] = mapped_column(default=0)
 
 
-class LiftingRepository(UnitRepository):
+class LiftingRepository(BaseRepository):
     def __init__(self, session: Session):
         super().__init__(session)
