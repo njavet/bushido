@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column, Session
 from bushido.data.base_models import AbsKeikoModel
-from bushido.data.base_repo import BaseRepository
+from bushido.data.unit import UnitRepository
 
 
 class GymModel(AbsKeikoModel):
@@ -11,6 +11,6 @@ class GymModel(AbsKeikoModel):
     gym: Mapped[str] = mapped_column()
 
 
-class GymRepository(BaseRepository):
+class GymRepository(UnitRepository):
     def __init__(self, session: Session):
         super().__init__(session)
