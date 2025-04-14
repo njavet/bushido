@@ -7,7 +7,7 @@ class UnitService:
 
     def get_all_emojis(self):
         rows = self.unit_repo.get_all()
-        return [dict(emoji=r.emoji, unit_name=r.unit_name) for r in rows]
+        return [dict(key=r.unit_name, value=r.emoji) for r in rows]
 
     def emoji_for_unit(self, unit_name: str):
         return self.unit_repo.get_emoji_for_unit(unit_name)
