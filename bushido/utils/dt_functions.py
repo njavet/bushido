@@ -1,7 +1,7 @@
 import datetime
 import pytz
 
-from bushido.conf import DAY_START_HOUR
+from bushido.conf import DAY_START_HOUR, LOCAL_TIME_ZONE
 
 
 def get_datetime_from_timestamp(timestamp: int,
@@ -9,6 +9,11 @@ def get_datetime_from_timestamp(timestamp: int,
     cet_timezone = pytz.timezone(timezone)
     cet_dt = datetime.datetime.fromtimestamp(timestamp, cet_timezone)
     return cet_dt
+
+
+def get_bushido_date_from_timestamp(timestamp: int)
+    local_dt = datetime.datetime.fromtimestamp(timestamp, tz=LOCAL_TIME_ZONE)
+    return get_bushido_date_from_datetime(local_dt)
 
 
 def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:

@@ -37,7 +37,7 @@ def load_log_service(category: str, package: str = KEIKO_PROCESSORS):
     if spec is None or not spec.submodule_search_locations:
         raise ImportError(f'Could not find package {package}')
 
-    package_path = Path(spec.submodule_search_locations[0])
+    # package_path = Path(spec.submodule_search_locations[0])
     module_name = f'{package}.{category}'
     module = importlib.import_module(module_name)
 
