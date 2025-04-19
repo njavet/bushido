@@ -71,14 +71,6 @@ onMounted(async () => {
   })
   tribute.attach(terminalInput.value)
 })
-
-function submit() {
-  if (input.value.trim()) {
-    history.value.push(`> ${input.value}`)
-    input.value = ''
-  }
-}
-
 </script>
 
 <style>
@@ -119,11 +111,6 @@ function submit() {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 10px;
-}
-
-.history-text {
-  white-space: pre-wrap;
-  font-family: monospace;
 }
 
 .input-area input {
