@@ -1,10 +1,8 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 import uvicorn
-
-# project imports
 from bushido.conf import DEFAULT_PORT
-from bushido.web import router
+from bushido.web.api import router
 
 
 def create_app():
