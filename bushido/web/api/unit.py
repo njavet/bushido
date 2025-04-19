@@ -1,4 +1,3 @@
-from collections import defaultdict
 from fastapi import Request, APIRouter
 from bushido.service.unit import UnitService
 

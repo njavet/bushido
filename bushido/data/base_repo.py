@@ -38,7 +38,8 @@ class BaseRepository:
                        UnitModel.timestamp,
                        UnitModel.payload,
                        UnitModel.comment)
-                .join(UnitModel, MDEmojiModel.key == UnitModel.fk_emoji))
+                .join(UnitModel, MDEmojiModel.key == UnitModel.fk_emoji)
+                .order_by(UnitModel.timestamp))
 
         if unit_name:
             stmt = stmt.where(MDEmojiModel.unit_name == unit_name)
