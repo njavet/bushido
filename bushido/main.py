@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 import uvicorn
 from bushido.conf import DEFAULT_PORT
+from bushido.data.conn import SessionFactory
 from bushido.web.api import router
 
 
@@ -12,8 +13,8 @@ def create_app():
                        allow_origins=['http://localhost:5173'],
                        allow_methods=["*"],
                        allow_headers=["*"],)
-
     app.include_router(router)
+    app.state.sf = SessionFactory()
 
     return app
 
