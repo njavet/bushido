@@ -1,19 +1,19 @@
 from collections import defaultdict
 from fastapi import Request, APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from bushido.service.base import BaseService
-from bushido.data.conn import get_session
 from bushido.utils.dt_functions import get_bushido_date_from_timestamp
+from bushido.data.conn import get_session
+from bushido.service.unit import UnitService
 
 
 router = APIRouter()
 
 
 
-@router.post('/api/get_units')
+@router.get('/api/get_units')
 async def log_unit(request: Request,
                    session: Session = Depends(get_session)):
-    base_service = BaseService.from_session(session)
+    base_service = UnitService.from_session(session)
     units = base_service.get_units()
 
     dix = defaultdict(list)
