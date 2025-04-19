@@ -1,16 +1,14 @@
 <template>
   <div class="dashboard">
-    <!-- Left: Graphics -->
     <div class="left-panel">
       <h2>Graphics</h2>
       <div class="graphic-box">[Chart Placeholder]</div>
       <div class="graphic-box">[Another Graphic]</div>
     </div>
 
-    <!-- Right: Input + History -->
     <div class="right-panel">
       <div class="history">
-        <h2>History</h2>
+        <h2>Unit History</h2>
         <pre class="history-text">{{ history.join('\n') }}</pre>
       </div>
       <div class="input-area">
@@ -56,6 +54,7 @@ onMounted(() => {
 .dashboard {
   display: flex;
   height: 100vh;
+  width: 100vw;
   font-family: sans-serif;
 }
 
