@@ -11,7 +11,7 @@ def get_datetime_from_timestamp(timestamp: int,
     return cet_dt
 
 
-def get_bushido_date_from_timestamp(timestamp: int)
+def get_bushido_date_from_timestamp(timestamp: int):
     local_dt = datetime.datetime.fromtimestamp(timestamp, tz=LOCAL_TIME_ZONE)
     return get_bushido_date_from_datetime(local_dt)
 
