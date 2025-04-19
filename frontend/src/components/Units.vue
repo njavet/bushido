@@ -21,10 +21,10 @@
       <div class="input-area">
         <input
           type="text"
-          v-model="input"
-          ref="inputField"
-          @keydown.enter="submit"
-          placeholder="Type something..."
+          v-model="inputValue"
+          ref="terminalInput"
+          @keydown.enter="handleEnter"
+          placeholder="Log unit..."
         />
       </div>
     </div>
@@ -38,9 +38,15 @@ import 'tributejs/dist/tribute.css'
 
 const inputValue = ref("")
 const terminalInput = ref(null)
-const unitsByDay = ref(null)
+const unitsByDay = ref({})
 const history = ref([])
 
+async function fetchUnits() {
+  const res = await fetch('/api/get_units')
+  const data = await res.json()
+  console.log(data)
+  unitsByDay.value = data
+}
 
 async function handleEnter() {
   const res = await fetch('/api/log_unit', {
@@ -54,6 +60,7 @@ async function handleEnter() {
 }
 
 onMounted(async () => {
+  await fetchUnits()
   const res = await fetch('/api/emojis')
   const emojis = await res.json()
 
@@ -65,8 +72,6 @@ onMounted(async () => {
   tribute.attach(terminalInput.value)
 })
 
-
-
 function submit() {
   if (input.value.trim()) {
     history.value.push(`> ${input.value}`)
@@ -74,16 +79,6 @@ function submit() {
   }
 }
 
-onMounted(() => {
-  const tribute = new Tribute({
-    values: [
-      { key: 'run', value: ':run' },
-      { key: 'reset', value: ':reset' },
-      { key: 'help', value: ':help' },
-    ],
-  })
-  tribute.attach(document.querySelector('input'))
-})
 </script>
 
 <style>
