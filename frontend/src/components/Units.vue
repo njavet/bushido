@@ -7,13 +7,13 @@
     </div>
 
     <div class="right-panel">
-      <div class="history">
+      <div class="history" ref="historyContainer">
         <h2>Unit History</h2>
           <section v-for="(entries, date) in unitsByDay" :key="date" class="panel">
           <h3><span class="text-cyan-200">{{ date }}</span></h3>
           <ul>
             <li v-for="(entry, i) in entries" :key="i">
-              <span class="text-cyan-100">{{ entry[0] }} {{ entry[1] }}</span>
+              <span class="text-cyan-100">{{ entry[0] }} {{ entry[1] }} {{ entry[2] }}</span>
             </li>
           </ul>
           </section>
@@ -32,20 +32,26 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import Tribute from "tributejs";
 import 'tributejs/dist/tribute.css'
 
 const inputValue = ref("")
 const terminalInput = ref(null)
 const unitsByDay = ref({})
-const history = ref([])
+const historyContainer = ref(null)
 
 async function fetchUnits() {
   const res = await fetch('/api/get_units')
   const data = await res.json()
   console.log(data)
   unitsByDay.value = data
+}
+
+function scrollToBottom() {
+  if (historyContainer.value) {
+    historyContainer.value.scrollTop = historyContainer.value.scrollHeight
+  }
 }
 
 async function handleEnter() {
@@ -55,12 +61,13 @@ async function handleEnter() {
     body: JSON.stringify({ text: inputValue.value })
   })
   const data = await res.json()
-  history.value.push(inputValue.value)
+  unitsByDay.value.push(inputValue.value)
   inputValue.value = ""
 }
 
 onMounted(async () => {
   await fetchUnits()
+  scrollToBottom()
   const res = await fetch('/api/emojis')
   const emojis = await res.json()
 
@@ -71,6 +78,9 @@ onMounted(async () => {
   })
   tribute.attach(terminalInput.value)
 })
+
+watch(unitsByDay, scrollToBottom)
+
 </script>
 
 <style>
