@@ -9,7 +9,14 @@
     <div class="right-panel">
       <div class="history">
         <h2>Unit History</h2>
-        <pre class="history-text">{{ history.join('\n') }}</pre>
+          <section v-for="(entries, date) in unitsByDay" :key="date" class="panel">
+          <h3><span class="text-cyan-200">{{ date }}</span></h3>
+          <ul>
+            <li v-for="(entry, i) in entries" :key="i">
+              <span class="text-cyan-100">{{ entry[0] }} {{ entry[1] }}</span>
+            </li>
+          </ul>
+          </section>
       </div>
       <div class="input-area">
         <input
@@ -25,11 +32,40 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import Tribute from 'tributejs'
+import { ref, reactive, onMounted } from 'vue'
+import Tribute from "tributejs";
+import 'tributejs/dist/tribute.css'
 
-const input = ref('')
+const inputValue = ref("")
+const terminalInput = ref(null)
+const unitsByDay = ref(null)
 const history = ref([])
+
+
+async function handleEnter() {
+  const res = await fetch('/api/log_unit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: inputValue.value })
+  })
+  const data = await res.json()
+  history.value.push(inputValue.value)
+  inputValue.value = ""
+}
+
+onMounted(async () => {
+  const res = await fetch('/api/emojis')
+  const emojis = await res.json()
+
+  const tribute = new Tribute({
+    trigger: ":",
+    values: emojis,
+    selectTemplate: (item) => item.original.value,
+  })
+  tribute.attach(terminalInput.value)
+})
+
+
 
 function submit() {
   if (input.value.trim()) {
@@ -54,7 +90,6 @@ onMounted(() => {
 .dashboard {
   display: flex;
   height: 100vh;
-  width: 100vw;
   font-family: sans-serif;
 }
 
