@@ -9,43 +9,6 @@
         </ul>
       </nav>
     </aside>
-
-    <main class="chat">
-      <div class="history">
-        <section v-for="(entries, date) in unitsByDay" :key="date" class="panel">
-          <h3><span class="text-cyan-200">{{ date }}</span></h3>
-          <ul>
-            <li v-for="(entry, i) in entries" :key="i">
-              <span class="text-cyan-100">{{ entry[0] }} {{ entry[1] }}</span>
-            </li>
-          </ul>
-        </section>
-        <section v-if="show.day" class="panel">
-          <h3>Today</h3>
-          <ul>
-            <li v-for="(entry, i) in todayEntries" :key="i">{{ entry }}</li>
-          </ul>
-        </section>
-
-        <section v-if="show.week" class="panel">
-          <h3>This Week</h3>
-          <ul>
-            <li v-for="(entry, i) in weekEntries" :key="i">{{ entry }}</li>
-          </ul>
-        </section>
-      </div>
-
-      <div class="input">
-        <span class="prompt">user@bushido:~$</span>
-        <input
-          type="text"
-          v-model="inputValue"
-          ref="terminalInput"
-          @keydown.enter="handleEnter"
-          placeholder=":emoji command..."
-        />
-      </div>
-    </main>
   </div>
 </template>
 
