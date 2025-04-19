@@ -77,3 +77,9 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.text-cyan-100 { color: #00FFFF; }
+.text-cyan-200 { color: #22D3EE; }
+.text-cyan-300 { color: #06B6D4; }
+.text-cyan-400 { color: #0891B2; }
+.text-cyan-500 { color: #0E7490; }
