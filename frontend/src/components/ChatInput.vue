@@ -60,6 +60,7 @@ function emitSend() {
   border-radius: 8px;
   outline: none;
 }
+
 .tribute-container {
   display: block;
   background: #1f1f1f;

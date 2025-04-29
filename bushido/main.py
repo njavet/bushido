@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 import uvicorn
+
+# project imports
 from bushido.conf import DEFAULT_PORT
-from bushido.data.conn import SessionFactory
+from bushido.service.bot import Bot
 from bushido.web.api import router
 
 
@@ -14,7 +16,7 @@ def create_app():
                        allow_methods=["*"],
                        allow_headers=["*"],)
     app.include_router(router)
-    app.state.sf = SessionFactory()
+    app.state.bot = Bot()
 
     return app
 
