@@ -57,11 +57,11 @@ watch(() => props.messages.length, () => {
   max-width: 70%;
   padding: 0.75rem 1rem;
   border-radius: 18px;
-  background: #d1e7dd;
+  background: #444;
   word-break: break-word;
 }
 
 .message.user .bubble {
-  background: #cfe2ff;
+  background: #6312ff;
 }
 </style>
