@@ -1,13 +1,9 @@
-export async function sendMessage({ query, props, tab }) {
-  const res = await fetch('/api/chat', {
+export async function sendMessage({ text }) {
+  const res = await fetch('/api/log-unit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      base_url: props.base_url,
-      lm_name: props.lm_name,
-      agent_type: tab,
-      system_message: props.system_message,
-      query
+        text: text
     })
   })
   const data = await res.json()

@@ -1,11 +1,5 @@
 <template>
   <div class="dashboard">
-    <div class="left-panel">
-      <h2>Graphics</h2>
-      <div class="graphic-box">[Chart Placeholder]</div>
-      <div class="graphic-box">[Another Graphic]</div>
-    </div>
-
     <div class="right-panel">
       <div class="history" ref="historyContainer">
         <h2>Unit History</h2>
@@ -17,24 +11,13 @@
             </li>
           </ul>
           </section>
-      </div>
-      <div class="input-area">
-        <input
-          type="text"
-          v-model="inputValue"
-          ref="terminalInput"
-          @keydown.enter="handleEnter"
-          placeholder="Log unit..."
-        />
-      </div>
     </div>
+  </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import Tribute from "tributejs";
-import 'tributejs/dist/tribute.css'
 
 const inputValue = ref("")
 const terminalInput = ref(null)
@@ -48,11 +31,7 @@ async function fetchUnits() {
   unitsByDay.value = data
 }
 
-function scrollToBottom() {
-  if (historyContainer.value) {
-    historyContainer.value.scrollTop = historyContainer.value.scrollHeight
-  }
-}
+
 
 async function handleEnter() {
   const res = await fetch('/api/log_unit', {
@@ -65,19 +44,6 @@ async function handleEnter() {
   inputValue.value = ""
 }
 
-onMounted(async () => {
-  await fetchUnits()
-  scrollToBottom()
-  const res = await fetch('/api/emojis')
-  const emojis = await res.json()
-
-  const tribute = new Tribute({
-    trigger: ":",
-    values: emojis,
-    selectTemplate: (item) => item.original.value,
-  })
-  tribute.attach(terminalInput.value)
-})
 
 watch(unitsByDay, scrollToBottom)
 
