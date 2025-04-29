@@ -23,9 +23,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import ChatInput from './ChatInput.vue'
-import { tabs, normalizeText, sendMessage, sendFile } from '../js/chatUtils'
 import ChatContainer from "./ChatContainer.vue";
+import ChatInput from './ChatInput.vue'
+import { tabs, sendMessage } from '../js/chatUtils'
 
 const messages = ref([])
 const currentTab = ref('base')
@@ -73,3 +73,35 @@ function handleFileUpload(file) {
   })
 }
 </script>
+<style scoped>
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+.tab-bar {
+  display: flex;
+  justify-content: center;
+  background: #e9ecef;
+  padding: 0.5rem;
+}
+
+.tab-bar button {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tab-bar button.active {
+  background: #dee2e6;
+  border-radius: 8px;
+}
+</style>
