@@ -3,14 +3,14 @@
   <div class="app-container">
     <Sidebar/>
     <div class="main-content">
-      <Chat />
+      <Units />
     </div>
   </div>
 </template>
 
 <script setup>
 import Sidebar from "./components/Sidebar.vue"
-import Chat from "./components/Chat.vue";
+import Units from "./components/Units.vue";
 </script>
 
 <style scoped>
