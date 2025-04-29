@@ -2,18 +2,36 @@
   <div class="input-area horizontal">
     <input
       type="text"
+      ref="inputRef"
       v-model="inputValue"
       @keydown.enter="emitSend"
-      placeholder="Type your message..."
+      placeholder="Log unit..."
       autofocus
     />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
+import Tribute from "tributejs";
+import 'tributejs/dist/tribute.css'
 const inputValue = ref('')
+const inputRef = ref(null)
 const emit = defineEmits(['send'])
+
+onMounted(async () => {
+  const res = await fetch('/api/emojis')
+  const emojis = await res.json()
+
+  const tribute = new Tribute({
+    trigger: ":",
+    values: emojis,
+    selectTemplate: (item) => item.original.value,
+  })
+  if (inputRef.value) {
+    tribute.attach(inputRef.value)
+  }
+})
 
 function emitSend() {
   if (inputValue.value) {
