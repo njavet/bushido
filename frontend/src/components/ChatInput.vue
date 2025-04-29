@@ -14,7 +14,6 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import Tribute from "tributejs";
-import 'tributejs/dist/tribute.css'
 const inputValue = ref('')
 const inputRef = ref(null)
 const emit = defineEmits(['send'])
@@ -26,7 +25,12 @@ onMounted(async () => {
   const tribute = new Tribute({
     trigger: ":",
     values: emojis,
+    menuItemTemplate: (item) => {
+      return `<span>${item.original.value}  </span>${item.original.key}`
+    },
+    menuShowMinLength: 1,
     selectTemplate: (item) => item.original.value,
+    menuContainer: inputRef.value.parentNode
   })
   if (inputRef.value) {
     tribute.attach(inputRef.value)
@@ -41,7 +45,7 @@ function emitSend() {
 }
 
 </script>
-<style scoped>
+<style>
 .input-area {
   display: flex;
   align-items: center;
@@ -56,4 +60,37 @@ function emitSend() {
   border-radius: 8px;
   outline: none;
 }
+.tribute-container {
+  position: absolute;
+  bottom: 0;
+  left: 300px;
+  background: #1f1f1f;
+  color: #f0f0f0;
+  border: 1px solid #444;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 14px;
+  text-align: left;
+  z-index: 9999;
+  width: 200px;
+  max-width: 90vw;
+}
+
+.tribute-container ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tribute-container li {
+  padding: 8px 12px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.tribute-container li.highlight {
+  background: #333;
+  color: #fff;
+}
+
 </style>

@@ -11,6 +11,7 @@
 <script setup>
 import Sidebar from "./components/Sidebar.vue"
 import Units from "./components/Units.vue";
+
 </script>
 
 <style scoped>
