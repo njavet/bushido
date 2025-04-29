@@ -18,6 +18,6 @@ class UnitService:
         for unit in units:
             dt = get_datetime_from_timestamp(unit.timestamp)
             bushido_dt = get_bushido_date_from_datetime(dt)
-            hms = dt.strftime('%H:%M:%S')
+            hms = dt.strftime('%H:%M')
             dix[bushido_dt].append((hms, unit.emoji, unit.payload))
         return dix
