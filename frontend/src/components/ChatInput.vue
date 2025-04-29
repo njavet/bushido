@@ -4,31 +4,15 @@
       type="text"
       v-model="inputValue"
       @keydown.enter="emitSend"
-      :disabled="disabled"
-      :title="disabled ? 'Select a model first' : ''"
       placeholder="Type your message..."
       autofocus
     />
-    <div class="upload-area">
-      <label for="upload" class="upload-button">@</label>
-      <input
-        id="upload"
-        type="file"
-        accept=".docx"
-        @change="emitUpload"
-        :disabled="disabled"
-        hidden
-      />
-    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-
 const inputValue = ref('')
-const props = defineProps({ disabled: Boolean })
-
 const emit = defineEmits(['send', 'upload'])
 
 function emitSend() {
@@ -38,8 +22,20 @@ function emitSend() {
   }
 }
 
-function emitUpload(event) {
-  const file = event.target.files[0]
-  if (file) emit('upload', file)
-}
 </script>
+<style scoped>
+.input-area {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  background: #e9ecef;
+}
+
+.input-area input[type="text"] {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+}
+</style>

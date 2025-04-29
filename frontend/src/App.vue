@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
 import Sidebar from "./components/Sidebar.vue"
 import Chat from "./components/Chat.vue";
 </script>
