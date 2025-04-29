@@ -1,20 +1,8 @@
 <template>
   <div class="chat">
-    <div class="tab-bar">
-      <button
-        v-for="tab in tabs"
-        :key="tab.key"
-        :class="{ active: currentTab === tab.key }"
-        @click="currentTab = tab.key"
-      >
-        {{ tab.label }}
-      </button>
-    </div>
-
     <ChatContainer
       :messages="filteredMessages"
     />
-
     <ChatInput
       @send="handleUserMessage"
     />
@@ -54,21 +42,7 @@ function handleUserMessage(text) {
     props,
     tab: currentTab.value
   }).then(response => {
-    messages.value.push({ role: 'Bot', text: normalizeText(response), tab: currentTab.value })
-    loading.value = false
-  })
-}
-
-function handleFileUpload(file) {
-  loading.value = true
-  messages.value.push({ role: 'User', text: `[Sent DOCX: ${file.name}]`, tab: currentTab.value })
-
-  sendFile({
-    file,
-    props,
-    tab: currentTab.value
-  }).then(response => {
-    messages.value.push({ role: 'Bot', text: normalizeText(response), tab: currentTab.value })
+    messages.value.push({ role: 'Bot', text: response, tab: currentTab.value })
     loading.value = false
   })
 }
@@ -81,27 +55,5 @@ function handleFileUpload(file) {
   width: 100%;
   background: #f8f9fa;
   font-family: Arial, sans-serif;
-}
-
-.tab-bar {
-  display: flex;
-  justify-content: center;
-  background: #e9ecef;
-  padding: 0.5rem;
-}
-
-.tab-bar button {
-  background: none;
-  border: none;
-  padding: 0.5rem 1rem;
-  margin: 0 0.25rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.tab-bar button.active {
-  background: #dee2e6;
-  border-radius: 8px;
 }
 </style>
