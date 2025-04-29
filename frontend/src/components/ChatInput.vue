@@ -28,7 +28,7 @@ onMounted(async () => {
     menuItemTemplate: (item) => {
       return `<span>${item.original.value}  </span>${item.original.key}`
     },
-    menuShowMinLength: 1,
+    menuShowMinLength: 0,
     selectTemplate: (item) => item.original.value,
     menuContainer: inputRef.value.parentNode
   })
@@ -61,9 +61,7 @@ function emitSend() {
   outline: none;
 }
 .tribute-container {
-  position: absolute;
-  bottom: 0;
-  left: 300px;
+  display: block;
   background: #1f1f1f;
   color: #f0f0f0;
   border: 1px solid #444;
