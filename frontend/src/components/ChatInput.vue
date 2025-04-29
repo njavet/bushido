@@ -13,10 +13,10 @@
 <script setup>
 import { ref } from 'vue'
 const inputValue = ref('')
-const emit = defineEmits(['send', 'upload'])
+const emit = defineEmits(['send'])
 
 function emitSend() {
-  if (inputValue.value.trim()) {
+  if (inputValue.value) {
     emit('send', inputValue.value)
     inputValue.value = ''
   }
@@ -28,7 +28,7 @@ function emitSend() {
   display: flex;
   align-items: center;
   padding: 0.75rem;
-  background: #e9ecef;
+  background: #333;
 }
 
 .input-area input[type="text"] {

@@ -1,9 +1,3 @@
-export const tabs = [
-  { key: 'base', label: 'Base' },
-  { key: 'rag', label: 'RAG' },
-  { key: 'agentic_rag', label: 'Agentic RAG' }
-]
-
 export async function sendMessage({ query, props, tab }) {
   const res = await fetch('/api/chat', {
     method: 'POST',

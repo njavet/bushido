@@ -1,7 +1,7 @@
 <template>
   <div class="chat">
     <ChatContainer
-      :messages="filteredMessages"
+      :messages="messages"
     />
     <ChatInput
       @send="handleUserMessage"
@@ -10,15 +10,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import ChatContainer from "./ChatContainer.vue";
 import ChatInput from './ChatInput.vue'
-import { tabs, sendMessage } from '../js/chatUtils'
+import { sendMessage } from '../js/chatUtils'
 
 const messages = ref([])
-const currentTab = ref('base')
-const inputValue = ref('')
-const loading = ref(false)
 
 const props = defineProps({
   base_url: String,
@@ -26,24 +23,15 @@ const props = defineProps({
   system_message: String
 })
 
-const filteredMessages = computed(() =>
-  messages.value.filter(msg => msg.tab === currentTab.value)
-)
-
 function handleUserMessage(text) {
-  const query = text.trim()
-  if (!query) return
-
-  loading.value = true
-  messages.value.push({ role: 'User', text: query, tab: currentTab.value })
+  if (!text) return
+  messages.value.push({ role: 'User', text: text })
 
   sendMessage({
-    query,
+    text,
     props,
-    tab: currentTab.value
   }).then(response => {
-    messages.value.push({ role: 'Bot', text: response, tab: currentTab.value })
-    loading.value = false
+    messages.value.push({ role: 'Bot', text: response })
   })
 }
 </script>
@@ -53,7 +41,6 @@ function handleUserMessage(text) {
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  background: #f8f9fa;
-  font-family: Arial, sans-serif;
+  font-family: monospace;
 }
 </style>
