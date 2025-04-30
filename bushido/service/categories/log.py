@@ -1,10 +1,10 @@
 # project imports
-from bushido.data.categories.log import LogModel, LogRepository
-from bushido.service.log import AbsLogService
+from bushido.data.categories.log import KeikoModel, Repository
+from bushido.service.unit import AbsUnitService
 
 
-class LogService(AbsLogService):
-    def __init__(self, repo: LogRepository):
+class UnitService(AbsUnitService):
+    def __init__(self, repo: Repository):
         super().__init__(repo)
 
     def create_keiko(self, words):
@@ -13,5 +13,5 @@ class LogService(AbsLogService):
         except IndexError:
             log = None
 
-        keiko = LogModel(log=log)
+        keiko = KeikoModel(log=log)
         return keiko

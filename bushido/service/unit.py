@@ -5,7 +5,7 @@ from bushido.data.base_models import UnitModel
 from bushido.data.base_repo import BaseRepository
 
 
-class AbsLogService(ABC):
+class AbsUnitService(ABC):
     def __init__(self, base_repo: BaseRepository):
         self.repo = base_repo
 

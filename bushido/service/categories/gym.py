@@ -1,12 +1,12 @@
 # project imports
 from bushido.exceptions import ValidationError
 from bushido.utils.parsing import parse_start_end_time_string
-from bushido.data.categories.gym import GymModel, GymRepository
-from bushido.service.log import AbsLogService
+from bushido.data.categories.gym import KeikoModel, Repository
+from bushido.service.unit import AbsUnitService
 
 
-class LogService(AbsLogService):
-    def __init__(self, repo: GymRepository):
+class UnitService(AbsUnitService):
+    def __init__(self, repo: Repository):
         super().__init__(repo)
 
     def create_keiko(self, words):
@@ -16,7 +16,7 @@ class LogService(AbsLogService):
         except IndexError:
             raise ValidationError('no gym')
 
-        keiko = GymModel(start_t=start_t,
-                         end_t=end_t,
-                         gym=gym)
+        keiko = KeikoModel(start_t=start_t,
+                           end_t=end_t,
+                           gym=gym)
         return keiko

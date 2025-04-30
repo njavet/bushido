@@ -1,10 +1,10 @@
 from bushido.exceptions import ValidationError
-from bushido.data.categories.lifting import LiftingModel, LiftingRepository
-from bushido.service.log import AbsLogService
+from bushido.data.categories.lifting import KeikoModel, Repository
+from bushido.service.unit import AbsUnitService
 
 
-class LogService(AbsLogService):
-    def __init__(self, repo: LiftingRepository):
+class UnitService(AbsUnitService):
+    def __init__(self, repo: Repository):
         super().__init__(repo)
 
     def create_keiko(self, words):
@@ -25,10 +25,10 @@ class LogService(AbsLogService):
 
         keikos = []
         for i, (w, r, p) in enumerate(zip(weights, reps, pauses)):
-            keiko = LiftingModel(set_nr=i,
-                                 weight=w,
-                                 reps=r,
-                                 pause=p)
+            keiko = KeikoModel(set_nr=i,
+                               weight=w,
+                               reps=r,
+                               pause=p)
             keikos.append(keiko)
 
         return keikos
