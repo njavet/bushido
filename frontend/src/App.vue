@@ -17,7 +17,6 @@
 import {ref, onMounted} from "vue";
 import { useRouter } from "vue-router";
 import Sidebar from "./components/Sidebar.vue"
-import Units from "./components/Units.vue";
 
 const router = useRouter()
 const emojis = ref([])
@@ -38,7 +37,6 @@ function handleSelect(key) {
   selectedOption.value = key
   router.push(`/${key}`)
 }
-
 </script>
 
 <style scoped>
