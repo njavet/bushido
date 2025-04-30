@@ -26,7 +26,7 @@ async def get_emojis(session: Session = Depends(get_session)):
 @router.get('/api/get-units')
 async def get_units(session: Session = Depends(get_session)):
     service = BaseUnitService.from_session(session)
-    return service.get_units()
+    return service.get_all_units()
 
 
 @router.post('/api/log-unit')

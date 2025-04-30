@@ -31,8 +31,12 @@ class BaseUnitService:
         emoji = self.repo.get_emoji_for_unit(unit_name)
         return emoji
 
-    def get_units(self, unit_name=None, start_t=None, end_t=None):
-        units = self.repo.get_units(unit_name, start_t, end_t)
+    def get_all_units(self,
+                  unit_name=None,
+                  start_t=None,
+                  end_t=None,
+                  keiko_mode=None):
+        units = self.repo.get_units(unit_name, start_t, end_t, keiko_mode)
         dix = defaultdict(list)
         for unit in units:
             bushido_date, hms = create_unit_response_dt(unit.timestamp)
@@ -42,7 +46,7 @@ class BaseUnitService:
                                   unit_name=unit.unit_name,
                                   payload=unit.payload)
             dix[bushido_date].append(ulr)
-            return dix
+        return dix
 
     def log_unit(self, text):
         emoji, words, comment = preprocess_input(text)
