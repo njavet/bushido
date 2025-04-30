@@ -1,30 +1,11 @@
-import importlib
-import importlib.util
-import pkgutil
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 import uvicorn
 
 # project imports
-from bushido.conf import DEFAULT_PORT, KEIKO_PROCESSORS
+from bushido.conf import DEFAULT_PORT
 from bushido.service.bot import Bot
 from bushido.web import router
-
-
-def load_unit_services(package: str = KEIKO_PROCESSORS):
-    spec = importlib.util.find_spec(package)
-    if spec is None or not spec.submodule_search_locations:
-        raise ImportError(f'Could not find package {package}')
-
-    log_services = {}
-    for finder, category, ispkg in pkgutil.iter_modules(spec.submodule_search_locations):
-        module_name = f'{package}.{category}'
-        module = importlib.import_module(module_name)
-
-        if hasattr(module, 'UnitService'):
-            cls = getattr(module, 'UnitService')
-            log_services[category] = cls
-    return log_services
 
 
 def create_app():
@@ -35,8 +16,7 @@ def create_app():
                        allow_methods=["*"],
                        allow_headers=["*"],)
     app.include_router(router)
-    log_services = load_unit_services()
-    app.state.bot = Bot(log_services=log_services)
+    app.state.bot = Bot()
 
     return app
 

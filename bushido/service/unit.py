@@ -16,18 +16,23 @@ class BaseUnitService:
         return cls(Repository(session))
 
     def get_all_categories(self):
-        categories = self.repo.get_all_categories()
+        with self.repo as repo:
+            categories = repo.get_all_categories()
         return [dict(key=r.name, value=r.name) for r in categories]
 
     def get_all_emojis(self):
-        rows = self.repo.get_all_emojis()
+        with self.repo as repo:
+            rows = repo.get_all_emojis()
         return [dict(key=r.unit_name, value=r.emoji) for r in rows]
 
     def get_emoji_for_unit(self, unit_name):
-        return self.repo.get_emoji_for_unit(unit_name)
+        with self.repo as repo:
+            emoji = repo.get_emoji_for_unit(unit_name)
+        return emoji
 
     def get_units(self, unit_name=None, start_t=None, end_t=None):
-        units = self.repo.get_units(unit_name, start_t, end_t)
+        with self.repo as repo:
+            units = repo.get_units(unit_name, start_t, end_t)
         dix = defaultdict(list)
         for unit in units:
             bushido_date, hms = create_unit_response_dt(unit.timestamp)

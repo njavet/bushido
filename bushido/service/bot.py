@@ -2,6 +2,7 @@ from contextlib import contextmanager
 
 # project imports
 from bushido.schema.res import UnitLogResponse
+from bushido.utils.helpers import load_unit_services
 from bushido.utils.dt_functions import create_unit_response_dt
 from bushido.utils.parsing import (preprocess_input,
                                    parse_datetime_to_timestamp)
@@ -12,7 +13,7 @@ from bushido.data.repo import Repository
 class Bot:
     def __init__(self):
         self.sf =  SessionFactory()
-        self.unit_services = unit_services
+        self.unit_services = load_unit_services()
 
     @contextmanager
     def get_repo(self):
