@@ -34,7 +34,7 @@ class Bot:
             for unit in units:
                 dt = get_datetime_from_timestamp(unit.timestamp)
                 bushido_dt = get_bushido_date_from_datetime(dt)
-                hms = dt.strftime('%H:%M')
+                hms = dt.strftime('%H%M')
                 dix[bushido_dt].append({'hms': hms,
                                         'emoji': unit.emoji,
                                         'payload': unit.payload})
@@ -44,7 +44,7 @@ class Bot:
         emoji, words, comment = preprocess_input(text)
         timestamp, words = parse_datetime_to_timestamp(words)
         dt = get_datetime_from_timestamp(timestamp)
-        hms = dt.strftime('%H:%M')
+        hms = dt.strftime('%H%M')
         bushido_date = get_bushido_date_from_datetime(dt)
         with self.get_repo() as repo:
             unit_name = repo.get_unit_name_for_emoji(emoji)
