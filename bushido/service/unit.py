@@ -1,17 +1,43 @@
-from abc import ABC, abstractmethod
+from collections import defaultdict
 
 # project imports
+from bushido.schema.res import UnitLogResponse
+from bushido.utils.dt_functions import create_unit_response_dt
 from bushido.data.base_models import UnitModel
-from bushido.data.base_repo import BaseRepository
+from bushido.data.repo import Repository
 
 
-class AbsUnitService(ABC):
-    def __init__(self, base_repo: BaseRepository):
-        self.repo = base_repo
+class BaseUnitService:
+    def __init__(self, repo: Repository):
+        self.repo = repo
 
     @classmethod
     def from_session(cls, session):
-        return cls(BaseRepository(session))
+        return cls(Repository(session))
+
+    def get_all_categories(self):
+        categories = self.repo.get_all_categories()
+        return [dict(key=r.name, value=r.name) for r in categories]
+
+    def get_all_emojis(self):
+        rows = self.repo.get_all_emojis()
+        return [dict(key=r.unit_name, value=r.emoji) for r in rows]
+
+    def get_emoji_for_unit(self, unit_name):
+        return self.repo.get_emoji_for_unit(unit_name)
+
+    def get_units(self, unit_name=None, start_t=None, end_t=None):
+        units = self.repo.get_units(unit_name, start_t, end_t)
+        dix = defaultdict(list)
+        for unit in units:
+            bushido_date, hms = create_unit_response_dt(unit.timestamp)
+            ulr = UnitLogResponse(date=bushido_date,
+                                  hms=hms,
+                                  emoji=unit.emoji,
+                                  unit_name=unit.unit_name,
+                                  payload=unit.payload)
+            dix[bushido_date].append(ulr)
+            return dix
 
     def process_unit(self, unit_name, words, timestamp, comment=None):
         unit = self.create_unit(unit_name, words, timestamp, comment)
@@ -27,6 +53,5 @@ class AbsUnitService(ABC):
                          fk_emoji=emoji_key)
         return unit
 
-    @abstractmethod
     def create_keiko(self, words):
         raise NotImplementedError
