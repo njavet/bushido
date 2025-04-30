@@ -1,7 +1,7 @@
 <template>
   <h1>Bushido</h1>
   <div class="app-container">
-    <Sidebar :categories="categories"/>
+    <Sidebar :navOptions="navOptions"/>
     <div class="main-content">
       <Units :emojis="emojis" />
     </div>
@@ -10,19 +10,28 @@
 
 <script setup>
 import {ref, onMounted} from "vue";
+import { useRouter } from "vue-router";
 import Sidebar from "./components/Sidebar.vue"
 import Units from "./components/Units.vue";
 
+const router = useRouter()
 const emojis = ref([])
-const categories = ref([])
+const navOptions = ref([
+    {key: 'unit_history', value: 'Unit History'}
+])
 
 onMounted(async() => {
   const category_res = await fetch('/api/get-categories')
-  categories.value = await category_res.json()
-
+  const newOptions = await category_res.json()
+  navOptions.value.push(...newOptions)
   const emoji_res = await fetch('/api/get-emojis')
   emojis.value = await emoji_res.json()
 })
+
+function handleSelect(key) {
+  router.push(`/${key}`)
+}
+
 </script>
 
 <style scoped>

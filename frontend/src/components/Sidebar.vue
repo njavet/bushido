@@ -1,14 +1,15 @@
 <template>
   <div class="sidebar">
     <h3>Navigation</h3>
-    <form class="category-options">
-      <label v-for="(category, idx) in categories" :key="idx">
+    <form class="nav-options">
+      <label v-for="(option, idx) in props.navOptions" :key="idx">
         <input
           type="radio"
-          :value="category.value"
-          v-model="selected"
+          :value="option.key"
+          v-model="selectedOption"
+          @change="selectOption(option.key)"
         />
-        {{ category.value }}
+        {{ option.value }}
       </label>
     </form>
   </div>
@@ -16,8 +17,14 @@
 
 <script setup>
 import { ref } from 'vue'
-const props = defineProps(['categories'])
-const selected = ref('home')
+const props = defineProps(['navOptions'])
+const emit = defineEmits(['select'])
+const selectedOption = ref('unit_history')
+
+function selectOption(key) {
+  emit('select', key)
+}
+
 </script>
 
 <style scoped>
@@ -31,14 +38,14 @@ const selected = ref('home')
   border-right: 1px solid #444;
   text-align: left;
 }
-.category-options {
+.nav-options {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   font-size: 1rem;
 }
 
-.category-options input[type="radio"] {
+.nav-options input[type="radio"] {
   margin-right: 0.5rem;
 }
 </style>

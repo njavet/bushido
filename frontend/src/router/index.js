@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Units from '../components/Units.vue';
+import Wimhof from '../components/Wimhof.vue';
 import App from  '../App.vue'
 
 const routes = [
   { path: '/', component: App },
-  { path: '/units', component: Units },
+  { path: '/wimhof', component: Wimhof },
 ]
 
 const router = createRouter({
