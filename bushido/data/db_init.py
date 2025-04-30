@@ -15,6 +15,9 @@ def db_init():
     from bushido.data.categories.wimhof import WimhofModel
     from bushido.data.categories.gym import GymModel
     from bushido.data.categories.scale import ScaleModel
+    from bushido.data.categories.cardio import CardioModel
+    from bushido.data.categories.chrono import ChronoModel
+    from bushido.data.categories.log import LogModel
     engine = create_engine(DB_URL)
     Base.metadata.create_all(engine)
     try:
