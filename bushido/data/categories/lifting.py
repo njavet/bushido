@@ -1,6 +1,5 @@
-from sqlalchemy.orm import Mapped, mapped_column, Session
+from sqlalchemy.orm import Mapped, mapped_column
 from bushido.data.base_models import AbsKeikoModel
-from bushido.data.base_repo import BaseRepository
 
 
 class KeikoModel(AbsKeikoModel):
@@ -10,8 +9,3 @@ class KeikoModel(AbsKeikoModel):
     weight: Mapped[float] = mapped_column()
     reps: Mapped[float] = mapped_column()
     pause: Mapped[int] = mapped_column(default=0)
-
-
-class Repository(BaseRepository):
-    def __init__(self, session: Session):
-        super().__init__(session)
