@@ -2,12 +2,12 @@
 from bushido.exceptions import ValidationError
 from bushido.utils.parsing import (parse_military_time_string,
                                    parse_time_string)
-from bushido.data.categories.cardio import CardioModel, CardioRepository
-from bushido.service.log import AbsLogService
+from bushido.data.categories.cardio import KeikoModel, Repository
+from bushido.service.unit import AbsUnitService
 
 
-class LogService(AbsLogService):
-    def __init__(self, repo: CardioRepository):
+class UnitService(AbsUnitService):
+    def __init__(self, repo: Repository):
         super().__init__(repo)
 
     def create_keiko(self, words):
@@ -23,8 +23,8 @@ class LogService(AbsLogService):
         except (ValueError, IndexError):
             distance = None
 
-        keiko = CardioModel(start_t=start_t,
-                            seconds=seconds,
-                            gym=gym,
-                            distance=distance)
+        keiko = KeikoModel(start_t=start_t,
+                           seconds=seconds,
+                           gym=gym,
+                           distance=distance)
         return keiko

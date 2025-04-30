@@ -1,11 +1,11 @@
 # project imports
 from bushido.exceptions import ValidationError
-from bushido.data.categories.scale import ScaleModel, ScaleRepository
-from bushido.service.log import AbsLogService
+from bushido.data.categories.scale import KeikoModel, Repository
+from bushido.service.unit import AbsUnitService
 
 
-class LogService(AbsLogService):
-    def __init__(self, repo: ScaleRepository):
+class UnitService(AbsUnitService):
+    def __init__(self, repo: Repository):
         super().__init__(repo)
 
     def create_keiko(self, words):
@@ -21,5 +21,5 @@ class LogService(AbsLogService):
         except IndexError:
             belly = None
 
-        keiko = ScaleModel(weight=weight, belly=belly)
+        keiko = KeikoModel(weight=weight, belly=belly)
         return keiko

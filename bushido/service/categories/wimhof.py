@@ -1,11 +1,11 @@
 # project imports
 from bushido.exceptions import ValidationError
-from bushido.data.categories.wimhof import WimhofModel, WimhofRepository
-from bushido.service.log import AbsLogService
+from bushido.data.categories.wimhof import KeikoModel, Repository
+from bushido.service.unit import AbsUnitService
 
 
-class LogService(AbsLogService):
-    def __init__(self, repo: WimhofRepository):
+class UnitService(AbsUnitService):
+    def __init__(self, repo: Repository):
         super().__init__(repo)
 
     def create_keiko(self, words):
@@ -24,9 +24,9 @@ class LogService(AbsLogService):
 
         keikos = []
         for i, (b, r) in enumerate(zip(breaths, retentions)):
-            keiko = WimhofModel(round_nr=i,
-                                breaths=b,
-                                retention=r)
+            keiko = KeikoModel(round_nr=i,
+                               breaths=b,
+                               retention=r)
             keikos.append(keiko)
 
         return keikos
