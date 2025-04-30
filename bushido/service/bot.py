@@ -1,3 +1,4 @@
+import datetime
 import importlib
 import importlib.util
 from collections import defaultdict
@@ -6,7 +7,8 @@ from contextlib import contextmanager
 # project imports
 from bushido.conf import KEIKO_PROCESSORS
 from bushido.schema.res import UnitLogResponse
-from bushido.utils.parsing import preprocess_input
+from bushido.utils.parsing import (preprocess_input,
+                                   parse_datetime_to_timestamp)
 from bushido.utils.dt_functions import (get_datetime_from_timestamp,
                                         get_bushido_date_from_datetime)
 from bushido.data.conn import SessionFactory
@@ -43,11 +45,20 @@ class Bot:
 
     def log_unit(self, text):
         emoji, words, comment = preprocess_input(text)
+        timestamp, words = parse_datetime_to_timestamp(words)
+        dt = get_datetime_from_timestamp(timestamp)
+        hms = dt.strftime('%H:%M')
+        bushido_date = get_bushido_date_from_datetime(dt)
         with self.get_repo() as repo:
             unit_name = repo.get_unit_name_for_emoji(emoji)
             category = repo.get_category_for_unit(unit_name)
             log_service = self.load_log_service(category)(repo)
-            log_service.process_unit(unit_name, words, comment)
+            log_service.process_unit(unit_name, words, timestamp, comment)
+        return UnitLogResponse(date=bushido_date,
+                               hms=hms,
+                               emoji=emoji,
+                               unit_name=unit_name,
+                               payload=' '.join(words))
 
     @staticmethod
     def load_log_service(category: str, package: str = KEIKO_PROCESSORS):
