@@ -32,20 +32,19 @@ class Bot:
             units = repo.get_units(unit_name, start_t, end_t)
             dix = defaultdict(list)
             for unit in units:
-                dt = get_datetime_from_timestamp(unit.timestamp)
-                bushido_dt = get_bushido_date_from_datetime(dt)
-                hms = dt.strftime('%H%M')
-                dix[bushido_dt].append({'hms': hms,
-                                        'emoji': unit.emoji,
-                                        'payload': unit.payload})
+                bushido_date, hms = self.create_unit_response_dt(unit.timestamp)
+                ulr = UnitLogResponse(date=bushido_date,
+                                      hms=hms,
+                                      emoji=unit.emoji,
+                                      unit_name=unit.unit_name,
+                                      payload=unit.payload)
+                dix[bushido_date].append(ulr)
             return dix
 
     def log_unit(self, text):
         emoji, words, comment = preprocess_input(text)
         timestamp, words = parse_datetime_to_timestamp(words)
-        dt = get_datetime_from_timestamp(timestamp)
-        hms = dt.strftime('%H%M')
-        bushido_date = get_bushido_date_from_datetime(dt)
+        bushido_date, hms = self.create_unit_response_dt(timestamp)
         with self.get_repo() as repo:
             unit_name = repo.get_unit_name_for_emoji(emoji)
             category = repo.get_category_for_unit(unit_name)
@@ -56,3 +55,9 @@ class Bot:
                                emoji=emoji,
                                unit_name=unit_name,
                                payload=' '.join(words))
+
+    def create_unit_response_dt(self, timestamp):
+        dt = get_datetime_from_timestamp(timestamp)
+        bushido_date = get_bushido_date_from_datetime(dt)
+        hms = dt.strftime('%H%M')
+        return bushido_date, hms

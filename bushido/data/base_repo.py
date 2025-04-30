@@ -35,6 +35,7 @@ class BaseRepository:
 
     def get_units(self, unit_name=None, start_t=None, end_t=None):
         stmt = (select(MDEmojiModel.emoji,
+                       MDEmojiModel.unit_name,
                        UnitModel.timestamp,
                        UnitModel.payload,
                        UnitModel.comment)
