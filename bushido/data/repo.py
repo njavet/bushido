@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from bushido.data.base_models import MDEmojiModel, MDCategoryModel, UnitModel
 
 
-class BaseRepository:
+class Repository:
     def __init__(self, session: Session):
         self.session = session
 
@@ -37,21 +37,34 @@ class BaseRepository:
                 .where(MDEmojiModel.unit_name == unit_name))
         return self.session.execute(stmt).scalar()
 
-    def get_units(self, unit_name=None, start_t=None, end_t=None):
-        stmt = (select(MDEmojiModel.emoji,
-                       MDEmojiModel.unit_name,
-                       UnitModel.timestamp,
-                       UnitModel.payload,
-                       UnitModel.comment)
-                .join(UnitModel, MDEmojiModel.key == UnitModel.fk_emoji)
-                .order_by(UnitModel.timestamp.desc()))
-
+    def get_units(self,
+                  unit_name=None,
+                  start_dt=None,
+                  end_dt=None,
+                  KeikoModel=None):
+        if KeikoModel is None:
+            stmt = (select(MDEmojiModel.emoji,
+                           MDEmojiModel.unit_name,
+                           UnitModel.timestamp,
+                           UnitModel.payload,
+                           UnitModel.comment)
+                    .join(UnitModel, MDEmojiModel.key == UnitModel.fk_emoji)
+                    .order_by(UnitModel.timestamp.desc()))
+        else:
+            stmt = (select(MDEmojiModel.emoji,
+                           MDEmojiModel.unit_name,
+                           UnitModel.timestamp,
+                           UnitModel.payload,
+                           UnitModel.comment)
+                    .join(UnitModel, MDEmojiModel.key == UnitModel.fk_emoji)
+                    .join(KeikoModel, KeikoModel.key == UnitModel.fk_emoji)
+                    .order_by(UnitModel.timestamp.desc()))
         if unit_name:
             stmt = stmt.where(MDEmojiModel.unit_name == unit_name)
-        if start_t:
-            stmt = stmt.where(start_t.timestamp() <= UnitModel.timestamp)
-        if end_t:
-            stmt = stmt.where(UnitModel.timestamp <= end_t.timestamp())
+        if start_dt:
+            stmt = stmt.where(start_dt.timestamp() <= UnitModel.timestamp)
+        if end_dt:
+            stmt = stmt.where(UnitModel.timestamp <= end_dt.timestamp())
 
         return self.session.execute(stmt).all()
 
