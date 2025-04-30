@@ -116,10 +116,10 @@ def parse_datetime_to_timestamp(words, option='--dt') -> tuple[int, list[str]]:
     try:
         dt_str = words[ind + 1]
     except IndexError:
-        raise ValidationError('wrong time format')
+        raise ValidationError('no datetime')
 
     try:
-        dt = datetime.datetime.strptime(dt_str, '%Y.%m.%d-%H:%M')
+        dt = datetime.datetime.strptime(dt_str, '%Y.%m.%d-%H%M')
     except ValueError:
         raise ValidationError('wrong time format')
 
