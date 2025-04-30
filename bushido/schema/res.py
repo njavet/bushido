@@ -6,4 +6,5 @@ class UnitLogResponse(BaseModel):
     date: date
     hms: str
     emoji: str
+    unit_name: str
     payload: str

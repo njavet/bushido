@@ -1,6 +1,9 @@
 import datetime
 import re
+
+# project imports
 from bushido.exceptions import ValidationError
+from bushido.conf import LOCAL_TIME_ZONE
 
 
 def preprocess_input(text: str) -> tuple[str, list[str], str | None] | None:
@@ -100,15 +103,26 @@ def parse_start_end_time_string(time_string: str) -> tuple[datetime.time, dateti
     return start_t, end_t
 
 
-def parse_option(words, option) -> str | None:
+def parse_datetime_to_timestamp(words, option='--dt') -> tuple[int, list[str]]:
+    """
+    dt format: %Y.%m.%d-%H:%M
+    """
     try:
         ind = words.index(option)
     except ValueError:
-        return None
+        now = datetime.datetime.now().replace(tzinfo=LOCAL_TIME_ZONE)
+        timestamp = int(now.timestamp())
+        return timestamp, words
+    try:
+        dt_str = words[ind + 1]
+    except IndexError:
+        raise ValidationError('wrong time format')
 
     try:
-        res = words[ind + 1]
-    except IndexError:
-        return None
-    else:
-        return res
+        dt = datetime.datetime.strptime(dt_str, '%Y.%m.%d-%H:%M')
+    except ValueError:
+        raise ValidationError('wrong time format')
+
+    dt = dt.replace(tzinfo=LOCAL_TIME_ZONE)
+    words = words[:ind] + words[ind + 2:]
+    return int(dt.timestamp()), words
