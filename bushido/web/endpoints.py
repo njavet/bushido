@@ -1,13 +1,21 @@
-import importlib
-import importlib.util
 from fastapi import Request, APIRouter, HTTPException
-from bushido.exceptions import ValidationError, UploadError
-from bushido.conf import KEIKO_PROCESSORS
+
+# project imports
+from bushido.exceptions import ValidationError
 from bushido.utils.parsing import preprocess_input
-from bushido.service.base import BaseService
 
 
 router = APIRouter()
+
+
+@router.get('/api/emojis')
+async def get_emojis(request: Request):
+    return request.app.state.bot.get_all_emojis()
+
+
+@router.get('/api/get_units')
+async def get_units(request: Request):
+    return request.app.state.bot.get_all_units()
 
 
 @router.post('/api/log_unit')
@@ -27,17 +35,3 @@ async def log_unit(request: Request):
         return {'res': 'ok'}
 
 
-def load_log_service(category: str, package: str = KEIKO_PROCESSORS):
-    spec = importlib.util.find_spec(package)
-    if spec is None or not spec.submodule_search_locations:
-        raise ImportError(f'Could not find package {package}')
-
-    # package_path = Path(spec.submodule_search_locations[0])
-    module_name = f'{package}.{category}'
-    module = importlib.import_module(module_name)
-
-    if not hasattr(module, 'LogService'):
-        raise ImportError(f'{module_name} does not define LogService')
-
-    cls = getattr(module, 'LogService')
-    return cls

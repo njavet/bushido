@@ -5,7 +5,7 @@ import uvicorn
 # project imports
 from bushido.conf import DEFAULT_PORT
 from bushido.service.bot import Bot
-from bushido.web.api import router
+from bushido.web import router
 
 
 def create_app():
