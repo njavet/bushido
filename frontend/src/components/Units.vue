@@ -36,15 +36,13 @@ const inputRef = ref(null)
 const unitsByDay = ref([])
 const container = ref(null)
 
-onMounted(async () => {
-  const res0 = await fetch('/api/emojis')
-  const emojis = await res0.json()
-  const res1 = await fetch('/api/get-units')
-  unitsByDay.value = await res1.json()
+const props = defineProps(['emojis'])
 
+watch(() => props.emojis, (newVal) => {
+  if (!newVal?.length || !inputRef.value) return
   const tribute = new Tribute({
     trigger: ":",
-    values: emojis,
+    values: props.emojis,
     menuItemTemplate: (item) => {
       return `<span>${item.original.value}  </span>${item.original.key}`
     },
@@ -52,9 +50,12 @@ onMounted(async () => {
     selectTemplate: (item) => item.original.value,
     menuContainer: inputRef.value.parentNode
   })
-  if (inputRef.value) {
-    tribute.attach(inputRef.value)
-  }
+  tribute.attach(inputRef.value)
+}, { immediate: true })
+
+onMounted(async () => {
+  const res1 = await fetch('/api/get-units')
+  unitsByDay.value = await res1.json()
 })
 
 watch(() => unitsByDay.length, () => {
