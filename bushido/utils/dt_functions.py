@@ -23,6 +23,13 @@ def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
         return dt.date()
 
 
+def create_unit_response_dt(timestamp):
+    dt = get_datetime_from_timestamp(timestamp)
+    bushido_date = get_bushido_date_from_datetime(dt)
+    hms = dt.strftime('%H%M')
+    return bushido_date, hms
+
+
 def find_previous_sunday(dt):
     """
     Finds the previous sunday of the given date

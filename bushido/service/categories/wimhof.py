@@ -1,6 +1,6 @@
 # project imports
 from bushido.exceptions import ValidationError
-from bushido.data.categories.wimhof import KeikoModel, Repository
+from bushido.data.categories.wimhof import KeikoModel
 from bushido.service.unit import AbsUnitService
 
 
