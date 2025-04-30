@@ -1,9 +1,10 @@
 # project imports
-from bushido.data.categories.log import KeikoModel, Repository
-from bushido.service.unit import AbsUnitService
+from bushido.data.repo import Repository
+from bushido.data.categories.log import KeikoModel
+from bushido.service.unit import BaseUnitService
 
 
-class UnitService(AbsUnitService):
+class UnitService(BaseUnitService):
     def __init__(self, repo: Repository):
         super().__init__(repo)
 

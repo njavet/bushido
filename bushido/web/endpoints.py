@@ -3,6 +3,7 @@ from fastapi import Request, APIRouter, HTTPException
 # project imports
 from bushido.exceptions import ValidationError
 from bushido.schema.req import UnitLogRequest
+from bushido.service.unit import BaseUnitService
 
 
 router = APIRouter()
@@ -10,18 +11,23 @@ router = APIRouter()
 
 @router.get('/api/get-categories')
 async def get_emojis(request: Request):
-    return request.app.state.bot.get_all_categories()
+    repo = request.app.state.bot.get_repo()
+    service = BaseUnitService(repo)
+    return service.get_all_categories()
 
 
 @router.get('/api/get-emojis')
 async def get_emojis(request: Request):
-    return request.app.state.bot.get_all_emojis()
+    repo = request.app.state.bot.get_repo()
+    service = BaseUnitService(repo)
+    return service.get_all_emojis()
 
 
 @router.get('/api/get-units')
 async def get_units(request: Request):
-    units = request.app.state.bot.get_units()
-    return units
+    repo = request.app.state.bot.get_repo()
+    service = BaseUnitService(repo)
+    return service.get_units()
 
 
 @router.post('/api/log-unit')
