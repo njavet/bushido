@@ -6,7 +6,7 @@ import re
 from bushido.exceptions import ValidationError, UploadError
 from bushido.data.db_init import db_init
 from bushido.service.bot import Bot
-from bushido.main import load_log_services
+from bushido.main import load_unit_services
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
         data = json.load(f)
     db_init()
 
-    log_services = load_log_services()
+    log_services = load_unit_services()
     bot = Bot(log_services)
 
     errors = defaultdict(list)

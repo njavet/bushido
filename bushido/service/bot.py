@@ -12,9 +12,9 @@ from bushido.data.base_repo import BaseRepository
 
 
 class Bot:
-    def __init__(self, log_services: dict):
+    def __init__(self, unit_services: dict):
         self.sf =  SessionFactory()
-        self.log_services = log_services
+        self.unit_services = unit_services
 
     @contextmanager
     def get_repo(self):
@@ -57,8 +57,8 @@ class Bot:
         with self.get_repo() as repo:
             unit_name = repo.get_unit_name_for_emoji(emoji)
             category = repo.get_category_for_unit(unit_name)
-            log_service = self.log_services[category](repo)
-            log_service.process_unit(unit_name, words, timestamp, comment)
+            unit_service = self.unit_services[category](repo)
+            unit_service.process_unit(unit_name, words, timestamp, comment)
         return UnitLogResponse(date=bushido_date,
                                hms=hms,
                                emoji=emoji,
