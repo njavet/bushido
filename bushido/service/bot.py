@@ -5,6 +5,7 @@ from contextlib import contextmanager
 
 # project imports
 from bushido.conf import KEIKO_PROCESSORS
+from bushido.schema.res import UnitLogResponse
 from bushido.utils.parsing import preprocess_input
 from bushido.utils.dt_functions import (get_datetime_from_timestamp,
                                         get_bushido_date_from_datetime)

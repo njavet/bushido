@@ -2,6 +2,7 @@ from fastapi import Request, APIRouter, HTTPException
 
 # project imports
 from bushido.exceptions import ValidationError
+from bushido.schema.req import UnitLogRequest
 
 
 router = APIRouter()
@@ -19,10 +20,9 @@ async def get_units(request: Request):
 
 
 @router.post('/api/log-unit')
-async def log_unit(request: Request):
-    data = await request.json()
+async def log_unit(request: Request, unit_log_request: UnitLogRequest):
     try:
-        request.app.state.bot.log_unit(data['text'])
+        unit_log_res = request.app.state.bot.log_unit(unit_log_request)
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    return {'res': 'ok'}
+    return unit_log_res
