@@ -10,15 +10,8 @@ class SessionFactory:
         self._sessionmaker = sessionmaker(bind=self._engine,
                                           expire_on_commit=False)
 
-    def get_session(self):
-        db = self._sessionmaker()
-        try:
-            yield db
-        finally:
-            db.close()
-
     @contextmanager
-    def get_session_context(self):
+    def get_session(self):
         db = self._sessionmaker()
         try:
             yield db

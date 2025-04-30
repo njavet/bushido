@@ -12,12 +12,12 @@ async def get_emojis(request: Request):
     return request.app.state.bot.get_all_emojis()
 
 
-@router.get('/api/get_units')
+@router.get('/api/get-units')
 async def get_units(request: Request):
-    return request.app.state.bot.get_all_units()
+    return request.app.state.bot.get_units()
 
 
-@router.post('/api/log_unit')
+@router.post('/api/log-unit')
 async def log_unit(request: Request):
     data = await request.json()
     try:
