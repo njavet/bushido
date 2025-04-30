@@ -6,7 +6,7 @@ import re
 from bushido.exceptions import ValidationError, UploadError
 from bushido.data.db_init import db_init
 from bushido.service.bot import Bot
-from bushido.main import load_unit_services
+from bushido.service.unit import BaseUnitService
 
 
 def main():
@@ -14,12 +14,13 @@ def main():
         data = json.load(f)
     db_init()
 
-    log_services = load_unit_services()
-    bot = Bot(log_services)
+    bot = Bot()
+    repo = bot.get_repo()
+    service = BaseUnitService(repo)
 
     errors = defaultdict(list)
     for unit in data:
-        emoji = bot.get_emoji_for_unit(unit['unit_name'])
+        emoji = service.get_emoji_for_unit(unit['unit_name'])
         local_dt = re.sub(r'(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})',
                r'\1.\2.\3-\4\5',
                unit['local_datetime'])
