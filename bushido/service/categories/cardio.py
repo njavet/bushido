@@ -1,0 +1,27 @@
+# project imports
+from bushido.exceptions import ValidationError
+from bushido.utils.parsing import (parse_military_time_string,
+                                   parse_time_string)
+from bushido.data.categories.cardio import CardioModel, CardioRepository
+from bushido.service.log import AbsLogService
+
+
+class LogService(AbsLogService):
+    def __init__(self, repo: CardioRepository):
+        super().__init__(repo)
+
+    def create_keiko(self, words):
+        start_t = parse_military_time_string(words[0])
+        seconds = parse_time_string(words[1])
+        try:
+            gym = words[2]
+        except IndexError:
+            raise ValidationError('no gym')
+
+        try:
+            distance = float(words[3])
+        except (ValueError, IndexError):
+            distance = None
+
+        keiko = CardioModel(start_t, seconds, gym, distance)
+        return keiko
