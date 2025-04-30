@@ -1,9 +1,14 @@
 <template>
   <h1>Bushido</h1>
   <div class="app-container">
-    <Sidebar :navOptions="navOptions"/>
+    <Sidebar
+        :navOptions="navOptions"
+        :selected="selectedOption"
+        @select="handleSelect"/>
     <div class="main-content">
-      <Units :emojis="emojis" />
+      <router-view
+          :key="selectedOption"
+          :emojis="emojis"/>
     </div>
   </div>
 </template>
@@ -17,8 +22,9 @@ import Units from "./components/Units.vue";
 const router = useRouter()
 const emojis = ref([])
 const navOptions = ref([
-    {key: 'unit_history', value: 'Unit History'}
+    {key: 'units', value: 'Units'}
 ])
+const selectedOption = ref('units')
 
 onMounted(async() => {
   const category_res = await fetch('/api/get-categories')
@@ -29,6 +35,7 @@ onMounted(async() => {
 })
 
 function handleSelect(key) {
+  selectedOption.value = key
   router.push(`/${key}`)
 }
 
