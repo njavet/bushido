@@ -6,7 +6,7 @@
         <input
           type="radio"
           :value="option.key"
-          v-model="selectedOption"
+          v-model="selected"
           @change="selectOption(option.key)"
         />
         {{ option.value }}
@@ -16,10 +16,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-const props = defineProps(['navOptions'])
+const props = defineProps(
+    ['navOptions']
+)
 const emit = defineEmits(['select'])
-const selectedOption = ref('unit_history')
+const selected = defineModel('selected')
 
 function selectOption(key) {
   emit('select', key)

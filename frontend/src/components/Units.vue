@@ -36,7 +36,7 @@ const inputRef = ref(null)
 const unitsByDay = ref([])
 const container = ref(null)
 
-const props = defineProps(['emojis'])
+const props = defineProps(['emojis',])
 
 watch(() => props.emojis, (newVal) => {
   if (!newVal?.length || !inputRef.value) return
