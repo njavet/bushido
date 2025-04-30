@@ -4,8 +4,8 @@ import re
 
 # project imports
 from bushido.exceptions import ValidationError, UploadError
+from bushido.data.conn import session_factory
 from bushido.data.db_init import db_init
-from bushido.service.bot import Bot
 from bushido.service.unit import BaseUnitService
 
 
@@ -13,10 +13,8 @@ def main():
     with open('units_2023-01-01_2025-03-22.json') as f:
         data = json.load(f)
     db_init()
-
-    bot = Bot()
-    repo = bot.get_repo()
-    service = BaseUnitService(repo)
+    with session_factory.get_session_context() as session:
+        service = BaseUnitService.from_session(session)
 
     errors = defaultdict(list)
     for unit in data:
@@ -31,7 +29,7 @@ def main():
             continue
 
         try:
-            bot.log_unit(text)
+            service.log_unit(text)
         except ValidationError as e:
             errors[unit['unit_name']].append(unit['payload'])
             continue
