@@ -6,13 +6,13 @@ from bushido.data.base_models import AbsKeikoModel
 from bushido.data.base_repo import BaseRepository
 
 
-class ScaleModel(AbsKeikoModel):
+class KeikoModel(AbsKeikoModel):
     __tablename__ = 'scale'
 
     weight: Mapped[float] = mapped_column()
     belly: Mapped[Optional[float]] = mapped_column()
 
 
-class ScaleRepository(BaseRepository):
+class Repository(BaseRepository):
     def __init__(self, session: Session):
         super().__init__(session)

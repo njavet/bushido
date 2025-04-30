@@ -7,7 +7,7 @@ from bushido.data.base_models import AbsKeikoModel
 from bushido.data.base_repo import BaseRepository
 
 
-class GymModel(AbsKeikoModel):
+class KeikoModel(AbsKeikoModel):
     __tablename__ = 'gym'
 
     start_t: Mapped[time] = mapped_column()
@@ -15,6 +15,6 @@ class GymModel(AbsKeikoModel):
     gym: Mapped[Optional[str]] = mapped_column()
 
 
-class GymRepository(BaseRepository):
+class Repository(BaseRepository):
     def __init__(self, session: Session):
         super().__init__(session)

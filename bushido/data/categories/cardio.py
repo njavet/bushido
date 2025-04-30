@@ -7,7 +7,7 @@ from bushido.data.base_models import AbsKeikoModel
 from bushido.data.base_repo import BaseRepository
 
 
-class CardioModel(AbsKeikoModel):
+class KeikoModel(AbsKeikoModel):
     __tablename__ = 'cardio'
 
     start_t: Mapped[time] = mapped_column()
@@ -16,6 +16,6 @@ class CardioModel(AbsKeikoModel):
     distance: Mapped[Optional[float]] = mapped_column()
 
 
-class CardioRepository(BaseRepository):
+class Repository(BaseRepository):
     def __init__(self, session: Session):
         super().__init__(session)

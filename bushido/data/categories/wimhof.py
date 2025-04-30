@@ -3,7 +3,7 @@ from bushido.data.base_models import AbsKeikoModel
 from bushido.data.base_repo import BaseRepository
 
 
-class WimhofModel(AbsKeikoModel):
+class KeikoModel(AbsKeikoModel):
     __tablename__ = 'wimhof'
 
     round_nr: Mapped[int] = mapped_column()
@@ -11,6 +11,6 @@ class WimhofModel(AbsKeikoModel):
     retention: Mapped[int] = mapped_column()
 
 
-class WimhofRepository(BaseRepository):
+class Repository(BaseRepository):
     def __init__(self, session: Session):
         super().__init__(session)
