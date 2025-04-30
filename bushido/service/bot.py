@@ -27,6 +27,10 @@ class Bot:
             rows = repo.get_all_emojis()
             return [dict(key=r.unit_name, value=r.emoji) for r in rows]
 
+    def get_emoji_for_unit(self, unit_name):
+        with self.get_repo() as repo:
+            return repo.get_emoji_for_unit(unit_name)
+
     def get_units(self, unit_name=None, start_t=None, end_t=None):
         with self.get_repo() as repo:
             units = repo.get_units(unit_name, start_t, end_t)
