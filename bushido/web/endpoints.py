@@ -8,7 +8,12 @@ from bushido.schema.req import UnitLogRequest
 router = APIRouter()
 
 
-@router.get('/api/emojis')
+@router.get('/api/get-categories')
+async def get_emojis(request: Request):
+    return request.app.state.bot.get_all_categories()
+
+
+@router.get('/api/get-emojis')
 async def get_emojis(request: Request):
     return request.app.state.bot.get_all_emojis()
 
