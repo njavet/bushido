@@ -1,11 +1,12 @@
 # project imports
 from bushido.exceptions import ValidationError
 from bushido.utils.parsing import parse_start_end_time_string
-from bushido.data.categories.gym import KeikoModel, Repository
-from bushido.service.unit import AbsUnitService
+from bushido.data.repo import Repository
+from bushido.data.categories.gym import KeikoModel
+from bushido.service.unit import BaseUnitService
 
 
-class UnitService(AbsUnitService):
+class UnitService(BaseUnitService):
     def __init__(self, repo: Repository):
         super().__init__(repo)
 
