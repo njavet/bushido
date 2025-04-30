@@ -14,7 +14,8 @@ async def get_emojis(request: Request):
 
 @router.get('/api/get-units')
 async def get_units(request: Request):
-    return request.app.state.bot.get_units()
+    units = request.app.state.bot.get_units()
+    return units
 
 
 @router.post('/api/log-unit')
