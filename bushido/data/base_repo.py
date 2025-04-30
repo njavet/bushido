@@ -7,6 +7,10 @@ class BaseRepository:
     def __init__(self, session: Session):
         self.session = session
 
+    def get_all_categories(self):
+        stmt = select(MDCategoryModel.name)
+        return self.session.execute(stmt).all()
+
     def get_all_emojis(self):
         stmt = select(MDEmojiModel.emoji, MDEmojiModel.unit_name)
         return self.session.execute(stmt).all()

@@ -1,7 +1,7 @@
 <template>
   <h1>Bushido</h1>
   <div class="app-container">
-    <Sidebar :emojis="emojis"/>
+    <Sidebar :categories="categories"/>
     <div class="main-content">
       <Units :emojis="emojis" />
     </div>
@@ -14,10 +14,14 @@ import Sidebar from "./components/Sidebar.vue"
 import Units from "./components/Units.vue";
 
 const emojis = ref([])
+const categories = ref([])
 
 onMounted(async() => {
-  const res = await fetch('/api/emojis')
-  emojis.value = await res.json()
+  const category_res = await fetch('/api/get-categories')
+  categories.value = await category_res.json()
+
+  const emoji_res = await fetch('/api/get-emojis')
+  emojis.value = await emoji_res.json()
 })
 </script>
 

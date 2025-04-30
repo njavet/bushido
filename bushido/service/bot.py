@@ -22,6 +22,11 @@ class Bot:
             repo = BaseRepository(session)
             yield repo
 
+    def get_all_categories(self):
+        with self.get_repo() as repo:
+            categories = repo.get_all_categories()
+            return [dict(key=r.name, value=r.name) for r in categories]
+
     def get_all_emojis(self):
         with self.get_repo() as repo:
             rows = repo.get_all_emojis()

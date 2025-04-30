@@ -48,7 +48,7 @@ watch(() => props.emojis, (newVal) => {
     },
     menuShowMinLength: 0,
     selectTemplate: (item) => item.original.value,
-    menuContainer: inputRef.value.parentNode
+    menuContainer: inputRef.value.parentNode,
   })
   tribute.attach(inputRef.value)
 }, { immediate: true })
