@@ -79,6 +79,20 @@ async function sendMessage() {
 }
 </script>
 <style scoped>
+  .input-area {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    background: #333;
+  }
+  .input-area input[type="text"] {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+  }
+
   .unit-history {
     display: flex;
     flex-direction: column;
@@ -89,11 +103,9 @@ async function sendMessage() {
     border-radius: 8px;
     background-color: #333;
   }
-
   .date-block {
     margin-bottom: 2rem;
   }
-
   .date-bubble {
     display: inline-block;
     background-color: #d0e7ff;
@@ -103,33 +115,34 @@ async function sendMessage() {
     font-weight: bold;
     margin-bottom: 0.5rem;
   }
-
   .unit-list {
     list-style: none;
     padding-left: 1.5rem;
     margin-top: 0.3rem;
   }
-
   .unit-entry {
+    display: flex;
     background-color: #222;
     color: #fff;
     padding: 0.5rem 0.75rem;
     border-radius: 6px;
     margin-bottom: 0.5rem;
-  }
-
-  .input-area {
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 0.75rem;
-    background: #333;
   }
-
-  .input-area input[type="text"] {
-    flex-grow: 1;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 8px;
-    outline: none;
+  .emoji {
+    flex: 0 0 auto;
+    margin-right: 1rem;
+  }
+  .payload {
+    flex: 1 1 auto;
+    text-align: left;
+    padding: 0 1rem;
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+  .time {
+    flex: 0 0 auto;
+    margin-left: 1rem;
   }
 </style>
