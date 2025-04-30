@@ -1,16 +1,21 @@
 import pandas as pd
 from sqlalchemy import select
+from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
 # project imports
-from bushido.conf import MASTER_DATA_DIR
+from bushido.conf import MASTER_DATA_DIR, DB_URL
 from bushido.utils.emojis import decode
 from bushido.data.base_models import Base, MDCategoryModel, MDEmojiModel
 
 
-def db_init(engine):
+def db_init():
     from bushido.data.categories.lifting import LiftingModel
+    from bushido.data.categories.wimhof import WimhofModel
+    from bushido.data.categories.gym import GymModel
+    from bushido.data.categories.scale import ScaleModel
+    engine = create_engine(DB_URL)
     Base.metadata.create_all(engine)
     try:
         upload_category_md_data(engine)

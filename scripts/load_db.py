@@ -1,42 +1,42 @@
 import json
+import re
 
-from bushido.conf import DB_URL
+# project imports
 from bushido.exceptions import ValidationError, UploadError
 from bushido.data.db_init import db_init
-from bushido.data.conn import engine, get_session_context
-from bushido.data.categories.lifting import LiftingRepository
-from bushido.service.categories.lifting import LogService
-from bushido.utils.parsing import preprocess_input
+from bushido.service.bot import Bot
+from bushido.main import load_log_services
 
 
 def main():
     with open('units_2023-01-01_2025-03-22.json') as f:
         data = json.load(f)
+    db_init()
 
-    units = ['squat', 'deadlift', 'benchpress', 'overheadpress', 'rows', 'curls']
-    db_init(engine)
-    with get_session_context() as session:
-        ur = LiftingRepository(session=session)
-        service = LogService(ur)
+    log_services = load_log_services()
+    bot = Bot(log_services)
 
     for unit in data:
-        if unit['unit_name'] in units:
-            emoji = ur.get_emoji_for_unit(unit['unit_name'])
-            text = ' '.join([emoji, '-dt', str(unit['timestamp']), unit['payload']])
-            try:
-                emoji, words, comment = preprocess_input(text)
-            except ValidationError as e:
-                print('pre error', e.message)
-                print(unit['payload'])
-                continue
-            try:
-                service.process_unit(unit['unit_name'], words, comment)
-            except ValidationError as e:
-                print('process error', e.message)
-                print(unit['payload'])
-            except UploadError as e:
-                print('error', e.message)
-                print(unit['payload'])
+        emoji = bot.get_emoji_for_unit(unit['unit_name'])
+        local_dt = re.sub(r'(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})',
+               r'\1.\2.\3-\4\5',
+               unit['local_datetime'])
+        try:
+            text = ' '.join([emoji, '--dt', local_dt, unit['payload']])
+        except:
+            print('emoji', emoji, 'unit', unit['unit_name'])
+            continue
+
+        try:
+            bot.log_unit(text)
+        except ValidationError as e:
+            print('error', e.message)
+            print(unit['payload'])
+            continue
+        except KeyError as e:
+            print('error', e)
+            print(unit['payload'])
+            continue
 
 
 if __name__ == '__main__':
