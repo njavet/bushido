@@ -11,7 +11,7 @@ from bushido.service.bot import Bot
 from bushido.web import router
 
 
-def load_log_services(package: str = KEIKO_PROCESSORS):
+def load_unit_services(package: str = KEIKO_PROCESSORS):
     spec = importlib.util.find_spec(package)
     if spec is None or not spec.submodule_search_locations:
         raise ImportError(f'Could not find package {package}')
@@ -21,8 +21,8 @@ def load_log_services(package: str = KEIKO_PROCESSORS):
         module_name = f'{package}.{category}'
         module = importlib.import_module(module_name)
 
-        if hasattr(module, 'LogService'):
-            cls = getattr(module, 'LogService')
+        if hasattr(module, 'UnitService'):
+            cls = getattr(module, 'UnitService')
             log_services[category] = cls
     return log_services
 
@@ -35,7 +35,7 @@ def create_app():
                        allow_methods=["*"],
                        allow_headers=["*"],)
     app.include_router(router)
-    log_services = load_log_services()
+    log_services = load_unit_services()
     app.state.bot = Bot(log_services=log_services)
 
     return app
