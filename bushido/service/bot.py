@@ -1,11 +1,7 @@
-import datetime
-import importlib
-import importlib.util
 from collections import defaultdict
 from contextlib import contextmanager
 
 # project imports
-from bushido.conf import KEIKO_PROCESSORS
 from bushido.schema.res import UnitLogResponse
 from bushido.utils.parsing import (preprocess_input,
                                    parse_datetime_to_timestamp)
@@ -16,8 +12,9 @@ from bushido.data.base_repo import BaseRepository
 
 
 class Bot:
-    def __init__(self):
+    def __init__(self, log_services: dict):
         self.sf =  SessionFactory()
+        self.log_services = log_services
 
     @contextmanager
     def get_repo(self):
@@ -52,26 +49,10 @@ class Bot:
         with self.get_repo() as repo:
             unit_name = repo.get_unit_name_for_emoji(emoji)
             category = repo.get_category_for_unit(unit_name)
-            log_service = self.load_log_service(category)(repo)
+            log_service = self.log_services[category](repo)
             log_service.process_unit(unit_name, words, timestamp, comment)
         return UnitLogResponse(date=bushido_date,
                                hms=hms,
                                emoji=emoji,
                                unit_name=unit_name,
                                payload=' '.join(words))
-
-    @staticmethod
-    def load_log_service(category: str, package: str = KEIKO_PROCESSORS):
-        spec = importlib.util.find_spec(package)
-        if spec is None or not spec.submodule_search_locations:
-            raise ImportError(f'Could not find package {package}')
-
-        # package_path = Path(spec.submodule_search_locations[0])
-        module_name = f'{package}.{category}'
-        module = importlib.import_module(module_name)
-
-        if not hasattr(module, 'LogService'):
-            raise ImportError(f'{module_name} does not define LogService')
-
-        cls = getattr(module, 'LogService')
-        return cls
