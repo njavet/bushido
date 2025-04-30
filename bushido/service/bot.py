@@ -35,7 +35,9 @@ class Bot:
                 dt = get_datetime_from_timestamp(unit.timestamp)
                 bushido_dt = get_bushido_date_from_datetime(dt)
                 hms = dt.strftime('%H:%M')
-                dix[bushido_dt].append((hms, unit.emoji, unit.payload))
+                dix[bushido_dt].append({'hms': hms,
+                                        'emoji': unit.emoji,
+                                        'payload': unit.payload})
             return dix
 
     def log_unit(self, text):

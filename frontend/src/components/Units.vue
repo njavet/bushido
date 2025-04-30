@@ -1,24 +1,31 @@
 <template>
-  <div class="unit-history" ref="container">
-    <div
-        v-for="(msg, index) in units"
-        :key="index"
-        class="message">
-      <div class="bubble">{{ msg.text }}</div>
-    </div>
-  </div>
-
   <div class="input-area">
     <input
-      type="text"
-      ref="inputRef"
-      v-model="inputValue"
-      @keydown.enter="sendMessage"
-      placeholder="Log unit..."
-      autofocus
+        type="text"
+        ref="inputRef"
+        v-model="inputValue"
+        @keydown.enter="sendMessage"
+        placeholder="Log unit..."
+        autofocus
     />
   </div>
-
+  <div class="unit-history" ref="container">
+    <div
+        v-for="(units, date) in unitsByDay"
+        :key="date"
+        class="date-block">
+      <div class="date-bubble">{{ date }}</div>
+      <ul class="unit-list">
+        <li v-for="(unit, idx) in units"
+            :key="idx"
+            class="unit-entry">
+          <span class="emoji">{{ unit.emoji }}</span>
+          <span class="payload">{{ unit.payload }}</span>
+          <span class="time">{{ unit.hms }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -26,14 +33,14 @@ import {nextTick, onMounted, ref, watch} from 'vue'
 import Tribute from "tributejs";
 const inputValue = ref('')
 const inputRef = ref(null)
-const units = ref([])
+const unitsByDay = ref([])
 const container = ref(null)
 
 onMounted(async () => {
   const res0 = await fetch('/api/emojis')
   const emojis = await res0.json()
   const res1 = await fetch('/api/get-units')
-  const units = await res1.json()
+  unitsByDay.value = await res1.json()
 
   const tribute = new Tribute({
     trigger: ":",
@@ -50,7 +57,7 @@ onMounted(async () => {
   }
 })
 
-watch(() => units.length, () => {
+watch(() => unitsByDay.length, () => {
   nextTick(() => {
     if (container.value) {
       container.value.scrollTop = container.value.scrollHeight
@@ -83,12 +90,32 @@ async function sendMessage() {
     background-color: #333;
   }
 
-  .bubble {
-    max-width: 70%;
-    padding: 0.75rem 1rem;
-    border-radius: 18px;
-    background: #444;
-    word-break: break-word;
+  .date-block {
+    margin-bottom: 2rem;
+  }
+
+  .date-bubble {
+    display: inline-block;
+    background-color: #d0e7ff;
+    color: #004080;
+    padding: 0.4em 1em;
+    border-radius: 999px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .unit-list {
+    list-style: none;
+    padding-left: 1.5rem;
+    margin-top: 0.3rem;
+  }
+
+  .unit-entry {
+    background-color: #222;
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
   }
 
   .input-area {
@@ -105,36 +132,4 @@ async function sendMessage() {
     border-radius: 8px;
     outline: none;
   }
-
-  .tribute-container {
-    display: block;
-    background: #1f1f1f;
-    color: #f0f0f0;
-    border: 1px solid #444;
-    border-radius: 8px;
-    overflow: hidden;
-    font-size: 14px;
-    text-align: left;
-    z-index: 9999;
-    width: 200px;
-    max-width: 90vw;
-  }
-
-  .tribute-container ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .tribute-container li {
-    padding: 8px 12px;
-    cursor: pointer;
-    width: 100%;
-  }
-
-  .tribute-container li.highlight {
-    background: #333;
-    color: #fff;
-  }
-
 </style>
