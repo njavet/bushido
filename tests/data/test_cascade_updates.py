@@ -11,9 +11,7 @@ from bushido.data.db_init import db_init
 class TestCategoryEmojiCascade(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        engine = create_engine('sqlite:///:memory:')
-        db_init(engine)
-        cls.engine = engine
+        cls.engine = db_init('sqlite:///:memory:')
 
     def test_cascade_delete_category(self):
         stmt = select(MDCategoryModel).where(MDCategoryModel.name == 'lifting')

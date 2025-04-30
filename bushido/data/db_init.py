@@ -10,7 +10,7 @@ from bushido.utils.emojis import decode
 from bushido.data.base_models import Base, MDCategoryModel, MDEmojiModel
 
 
-def db_init():
+def db_init(db_url=DB_URL):
     from bushido.data.categories.lifting import LiftingModel
     from bushido.data.categories.wimhof import WimhofModel
     from bushido.data.categories.gym import GymModel
@@ -18,7 +18,7 @@ def db_init():
     from bushido.data.categories.cardio import CardioModel
     from bushido.data.categories.chrono import ChronoModel
     from bushido.data.categories.log import LogModel
-    engine = create_engine(DB_URL)
+    engine = create_engine(db_url)
     Base.metadata.create_all(engine)
     try:
         upload_category_md_data(engine)
@@ -26,6 +26,7 @@ def db_init():
     except IntegrityError:
         # TODO logging
         pass
+    return engine
 
 
 def upload_category_md_data(engine, categories_csv: str = 'categories.csv'):
