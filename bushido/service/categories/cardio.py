@@ -23,5 +23,8 @@ class LogService(AbsLogService):
         except (ValueError, IndexError):
             distance = None
 
-        keiko = CardioModel(start_t, seconds, gym, distance)
+        keiko = CardioModel(start_t=start_t,
+                            seconds=seconds,
+                            gym=gym,
+                            distance=distance)
         return keiko

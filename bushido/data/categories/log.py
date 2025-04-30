@@ -7,7 +7,7 @@ from bushido.data.base_repo import BaseRepository
 
 
 class LogModel(AbsKeikoModel):
-    __tablename__ = 'gym'
+    __tablename__ = 'log'
 
     log: Mapped[Optional[str]] = mapped_column()
 

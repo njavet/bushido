@@ -1,3 +1,4 @@
+from collections import defaultdict
 import json
 import re
 
@@ -16,6 +17,7 @@ def main():
     log_services = load_log_services()
     bot = Bot(log_services)
 
+    errors = defaultdict(list)
     for unit in data:
         emoji = bot.get_emoji_for_unit(unit['unit_name'])
         local_dt = re.sub(r'(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})',
@@ -24,20 +26,21 @@ def main():
         try:
             text = ' '.join([emoji, '--dt', local_dt, unit['payload']])
         except:
-            print('emoji', emoji, 'unit', unit['unit_name'])
+            errors[unit['unit_name']].append(unit['payload'])
             continue
 
         try:
             bot.log_unit(text)
         except ValidationError as e:
-            print('error', e.message)
-            print(unit['payload'])
+            errors[unit['unit_name']].append(unit['payload'])
             continue
         except KeyError as e:
-            print('error', e)
-            print(unit['payload'])
+            errors[unit['unit_name']].append(unit['payload'])
             continue
 
+    for k, v in errors.items():
+        print(k)
+        print('------')
 
 if __name__ == '__main__':
     main()
