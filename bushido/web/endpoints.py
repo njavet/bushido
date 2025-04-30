@@ -22,7 +22,7 @@ async def get_units(request: Request):
 @router.post('/api/log-unit')
 async def log_unit(request: Request, unit_log_request: UnitLogRequest):
     try:
-        unit_log_res = request.app.state.bot.log_unit(unit_log_request)
+        unit_log_res = request.app.state.bot.log_unit(unit_log_request.text)
     except ValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
     return unit_log_res
