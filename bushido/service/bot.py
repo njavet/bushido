@@ -1,8 +1,10 @@
 import importlib
+import importlib.util
 from collections import defaultdict
 from contextlib import contextmanager
 
 # project imports
+from bushido.conf import KEIKO_PROCESSORS
 from bushido.utils.parsing import preprocess_input
 from bushido.utils.dt_functions import (get_datetime_from_timestamp,
                                         get_bushido_date_from_datetime)
@@ -41,21 +43,21 @@ class Bot:
         with self.get_repo() as repo:
             unit_name = repo.get_unit_name_for_emoji(emoji)
             category = repo.get_category_for_unit(unit_name)
+            log_service = self.load_log_service(category)(repo)
+            log_service.process_unit(unit_name, words, comment)
 
-        log_service = load_log_service(category).from_session(session)
-        log_service.process_unit(unit_name, words, comment)
+    @staticmethod
+    def load_log_service(category: str, package: str = KEIKO_PROCESSORS):
+        spec = importlib.util.find_spec(package)
+        if spec is None or not spec.submodule_search_locations:
+            raise ImportError(f'Could not find package {package}')
 
-def load_log_service(category: str, package: str = KEIKO_PROCESSORS):
-    spec = importlib.util.find_spec(package)
-    if spec is None or not spec.submodule_search_locations:
-        raise ImportError(f'Could not find package {package}')
+        # package_path = Path(spec.submodule_search_locations[0])
+        module_name = f'{package}.{category}'
+        module = importlib.import_module(module_name)
 
-    # package_path = Path(spec.submodule_search_locations[0])
-    module_name = f'{package}.{category}'
-    module = importlib.import_module(module_name)
+        if not hasattr(module, 'LogService'):
+            raise ImportError(f'{module_name} does not define LogService')
 
-    if not hasattr(module, 'LogService'):
-        raise ImportError(f'{module_name} does not define LogService')
-
-    cls = getattr(module, 'LogService')
-    return cls
+        cls = getattr(module, 'LogService')
+        return cls
