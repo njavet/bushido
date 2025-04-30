@@ -4,7 +4,6 @@ import uvicorn
 
 # project imports
 from bushido.conf import DEFAULT_PORT
-from bushido.service.bot import Bot
 from bushido.web import router
 
 
@@ -16,8 +15,6 @@ def create_app():
                        allow_methods=["*"],
                        allow_headers=["*"],)
     app.include_router(router)
-    app.state.bot = Bot()
-
     return app
 
 
