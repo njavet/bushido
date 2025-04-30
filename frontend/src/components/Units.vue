@@ -144,5 +144,6 @@ async function sendMessage() {
   .time {
     flex: 0 0 auto;
     margin-left: 1rem;
+    font-size: 8px;
   }
 </style>
