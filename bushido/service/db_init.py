@@ -8,10 +8,11 @@ from sqlalchemy.exc import IntegrityError
 from bushido.conf import MASTER_DATA_DIR, DB_URL
 from bushido.utils.emojis import decode
 from bushido.data.base_models import Base, MDCategoryModel, MDEmojiModel
+from bushido.service.loader import load_orm_models
 
 
 def db_init(db_url=DB_URL):
-    load_models()
+    load_orm_models()
     engine = create_engine(db_url)
     Base.metadata.create_all(engine)
     try:

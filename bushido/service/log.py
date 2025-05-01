@@ -1,5 +1,5 @@
 # project imports
-from bushido.schema.res import UnitLogResponse
+from bushido.schema.res import UnitResponse
 from bushido.utils.dt_functions import create_unit_response_dt
 from bushido.utils.parsing import (preprocess_input,
                                    parse_datetime_to_timestamp)
@@ -28,11 +28,11 @@ class LogService:
                           timestamp,
                           create_keiko,
                           comment)
-        return UnitLogResponse(date=bushido_date,
-                               hms=hms,
-                               emoji=emoji,
-                               unit_name=unit_name,
-                               payload=' '.join(words))
+        return UnitResponse(date=bushido_date,
+                            hms=hms,
+                            emoji=emoji,
+                            unit_name=unit_name,
+                            payload=' '.join(words))
 
     def process_unit(self,
                      unit_name,
