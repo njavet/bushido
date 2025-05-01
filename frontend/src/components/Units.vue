@@ -100,7 +100,7 @@ onMounted(async () => {
   unitsByWeek.value = groupByWeek(unitsByDay)
 
   expandedDays.value = Object.fromEntries(
-      Object.keys(unitsByDay.value).map(date => [date, false])
+      Object.keys(unitsByDay).map(date => [date, false])
   )
 })
 

@@ -30,6 +30,13 @@ class BaseUnitService:
     def get_units(self,
                   unit_name=None,
                   start_t=None,
+                  end_t=None) -> list[UnitResponse]:
+
+        return self._get_units(unit_name, start_t, end_t)
+
+    def _get_units(self,
+                  unit_name=None,
+                  start_t=None,
                   end_t=None,
                   keiko_model=None) -> list[UnitResponse]:
         units = self.repo.get_units(unit_name, start_t, end_t, keiko_model)
@@ -47,19 +54,9 @@ class BaseUnitService:
     def get_units_by_day(self,
                          unit_name=None,
                          start_t=None,
-                         end_t=None,
-                         keiko_model=None) -> dict:
-        units = self.get_units(unit_name, start_t, end_t, keiko_model)
+                         end_t=None) -> dict:
+        units = self.get_units(unit_name, start_t, end_t)
         dix = defaultdict(list)
         for unit in units:
             dix[unit.date].append(unit)
         return dix
-
-    def get_units_by_week(self,
-                          unit_name=None,
-                          start_t=None,
-                          end_t=None,
-                          keiko_model=None):
-        units = self.get_units(unit_name, start_t, end_t, keiko_model)
-        start = datetime.date(2023, 1, 1)
-        end = datetime.date.today()
