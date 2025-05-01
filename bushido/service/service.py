@@ -21,3 +21,5 @@ def log_unit(text, session):
                            emoji=emoji,
                            unit_name=unit_name,
                            payload=' '.join(words))
+
+
