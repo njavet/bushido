@@ -1,4 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column
+
+# project imports
 from bushido.data.base_models import AbsKeikoModel
 
 
