@@ -18,7 +18,8 @@ class UnitService:
         units = self.repo.get_units()
         lst = []
         for unit in units:
-            dix = {'date': get_bushido_date_from_timestamp(unit.timestamp),
+            dix = {'unit_name': unit.unit_name,
+                   'date': get_bushido_date_from_timestamp(unit.timestamp),
                    'set': unit.set_nr,
                    'weight': unit.weight,
                    'reps': unit.reps,
