@@ -2,18 +2,14 @@
 from bushido.exceptions import ValidationError
 from bushido.data.categories.wimhof import KeikoModel
 from bushido.schema.res import UnitResponse
-from bushido.service.unit import BaseUnitService
 
 
-class UnitService(BaseUnitService):
+class UnitService:
     def __init__(self, repo):
-        super().__init__(repo)
+        self.repo = repo
 
-    def get_units(self,
-                  unit_name=None,
-                  start_t=None,
-                  end_t=None) -> list[UnitResponse]:
-        return self._get_units(unit_name, start_t, end_t, KeikoModel)
+    def get_units(self, start_t=None, end_t=None) -> list[UnitResponse]:
+        pass
 
 
 def create_keiko(words):
