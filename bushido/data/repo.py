@@ -17,14 +17,6 @@ class Repository:
                       MDCategoryModel.key == MDEmojiModel.fk_category))
         return self.session.execute(stmt).all()
 
-    def get_all_categories(self):
-        stmt = select(MDCategoryModel.name)
-        return self.session.execute(stmt).all()
-
-    def get_all_emojis(self):
-        stmt = select(MDEmojiModel.emoji, MDEmojiModel.unit_name)
-        return self.session.execute(stmt).all()
-
     def get_emoji_for_unit(self, unit_name: str):
         stmt = select(MDEmojiModel.emoji).where(MDEmojiModel.unit_name == unit_name)
         return self.session.scalar(stmt)

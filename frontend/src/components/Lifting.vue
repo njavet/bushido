@@ -26,6 +26,7 @@ const columns = [
 ]
 
 onMounted(async () => {
+  const tabRes = await fetch('/api/lifting/get-units')
   const res = await fetch('/api/get-lifting-units')
   liftingUnits.value = await res.json()
 })
