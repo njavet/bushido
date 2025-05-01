@@ -43,3 +43,17 @@ def load_all_log_services(package: str = KEIKO_PROCESSORS):
             fn = getattr(module, 'create_keiko')
             log_services[category] = fn
     return log_services
+
+
+def load_unit_service(category: str, package: str = KEIKO_PROCESSORS):
+    spec = importlib.util.find_spec(package)
+    if spec is None or not spec.submodule_search_locations:
+        raise ImportError(f'Could not find package {package}')
+
+    module_name = f'{package}.{category}'
+    module = importlib.import_module(module_name)
+
+    if not hasattr(module, 'UnitService'):
+        raise ValueError(f'Could not find package {package}')
+    cls = getattr(module, 'UnitService')
+    return cls
