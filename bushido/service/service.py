@@ -19,7 +19,7 @@ def get_units(session, category=None):
         service = BaseUnitService.from_session(session)
     else:
         cls = load_unit_service(category)
-        service = cls(session)
+        service = cls.from_session(session)
     return service.get_units_by_day()
 
 
