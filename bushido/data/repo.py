@@ -1,5 +1,7 @@
 from sqlalchemy import select, or_
 from sqlalchemy.orm import Session
+
+# project imports
 from bushido.data.base_models import MDEmojiModel, MDCategoryModel, UnitModel
 
 

@@ -1,6 +1,8 @@
 from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+# project imports
 from bushido.conf import DB_URL
 
 
