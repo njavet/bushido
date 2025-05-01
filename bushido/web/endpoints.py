@@ -30,8 +30,8 @@ async def get_units(session: Session = Depends(get_session)):
 
 
 @router.post('/api/log-unit')
-async def log_unit(unit_log_request: UnitLogRequest,
-                   session: Session = Depends(get_session)):
+async def log_unit_service(unit_log_request: UnitLogRequest,
+                           session: Session = Depends(get_session)):
     try:
         service = BaseUnitService.from_session(session)
         unit_log_res = service.log_unit(unit_log_request.text)

@@ -1,5 +1,3 @@
-from fastapi import Request
-
 # project imports
 from bushido.data.conn import session_factory
 

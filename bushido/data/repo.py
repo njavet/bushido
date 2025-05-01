@@ -41,8 +41,8 @@ class Repository:
                   unit_name=None,
                   start_dt=None,
                   end_dt=None,
-                  KeikoModel=None):
-        if KeikoModel is None:
+                  keiko_mode=None):
+        if keiko_mode is None:
             stmt = (select(MDEmojiModel.emoji,
                            MDEmojiModel.unit_name,
                            UnitModel.timestamp,
@@ -57,7 +57,7 @@ class Repository:
                            UnitModel.payload,
                            UnitModel.comment)
                     .join(UnitModel, MDEmojiModel.key == UnitModel.fk_emoji)
-                    .join(KeikoModel, KeikoModel.key == UnitModel.fk_emoji)
+                    .join(keiko_mode, keiko_mode.key == UnitModel.fk_emoji)
                     .order_by(UnitModel.timestamp.desc()))
         if unit_name:
             stmt = stmt.where(MDEmojiModel.unit_name == unit_name)
