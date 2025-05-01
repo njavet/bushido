@@ -2,18 +2,13 @@ from collections import defaultdict
 
 # project imports
 from bushido.schema.res import UnitLogResponse
-from bushido.utils.helpers import load_unit_services
 from bushido.utils.dt_functions import create_unit_response_dt
-from bushido.utils.parsing import (preprocess_input,
-                                   parse_datetime_to_timestamp)
-from bushido.data.base_models import UnitModel
 from bushido.data.repo import Repository
 
 
 class BaseUnitService:
     def __init__(self, repo: Repository):
         self.repo = repo
-        self.unit_services = load_unit_services()
 
     @classmethod
     def from_session(cls, session):

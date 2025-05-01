@@ -1,6 +1,3 @@
-import importlib
-import importlib.util
-import pkgutil
 import pandas as pd
 from sqlalchemy import select
 from sqlalchemy import create_engine
@@ -11,15 +8,6 @@ from sqlalchemy.exc import IntegrityError
 from bushido.conf import MASTER_DATA_DIR, DB_URL
 from bushido.utils.emojis import decode
 from bushido.data.base_models import Base, MDCategoryModel, MDEmojiModel
-
-
-def load_models(package: str = 'bushido.data.categories'):
-    spec = importlib.util.find_spec(package)
-    if spec is None or not spec.submodule_search_locations:
-        raise ImportError(f'Could not find package {package}')
-    for finder, category, ispkg in pkgutil.iter_modules(spec.submodule_search_locations):
-        module_name = f'{package}.{category}'
-        module = importlib.import_module(module_name)
 
 
 def db_init(db_url=DB_URL):
