@@ -19,9 +19,9 @@
         <li v-for="(unit, idx) in units"
             :key="idx"
             class="unit-entry">
+          <span class="time">{{ unit.hms }}</span>
           <span class="emoji">{{ unit.emoji }}</span>
           <span class="payload">{{ unit.payload }}</span>
-          <span class="time">{{ unit.hms }}</span>
         </li>
       </ul>
     </div>
@@ -118,22 +118,22 @@ async function sendMessage() {
   }
   .unit-list {
     list-style: none;
-    padding-left: 1.5rem;
+    padding-left: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     margin-top: 0.3rem;
+    background-color: #222;
+    border-radius: 16px;
   }
   .unit-entry {
     display: flex;
-    background-color: #222;
     color: #fff;
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
+    padding: 0.3rem;
     justify-content: space-between;
     align-items: center;
   }
   .emoji {
     flex: 0 0 auto;
-    margin-right: 1rem;
   }
   .payload {
     flex: 1 1 auto;
@@ -144,7 +144,8 @@ async function sendMessage() {
   }
   .time {
     flex: 0 0 auto;
-    margin-left: 1rem;
+    margin-top: 1rem;
+    margin-right: 1rem;
     font-size: 8px;
   }
 </style>
