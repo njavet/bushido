@@ -5,6 +5,7 @@
         v-for="tab in tabs"
         :key="tab.key"
         :class="{ active: currentTab === tab.key}"
+        :title="tab.unit_name"
         @click="currentTab = tab.key">
         {{ tab.label }}
       </button>
@@ -28,7 +29,8 @@ import 'vue-good-table-next/dist/vue-good-table-next.css'
 const props = defineProps(['emojis'])
 const tabs = props.emojis.map(({key, value}) => ({
   key,
-  label: key,
+  label: value,
+  unit_name: key
 }))
 const currentTab = ref(tabs.length ? tabs[0].key : null)
 const liftingUnits = ref([])
@@ -47,7 +49,6 @@ const columns = [
 onMounted(async () => {
   const res = await fetch('/api/get-lifting-units')
   liftingUnits.value = await res.json()
-  console.log(tabs)
 })
 </script>
 
@@ -57,6 +58,7 @@ onMounted(async () => {
   background: #1f1f1f;
   color: white;
   border-radius: 8px;
+  border: 2px solid darkcyan;
 }
 .tab-bar {
   display: flex;
