@@ -1,15 +1,29 @@
+from sqlalchemy.orm import Session
+
 # project imports
 from bushido.exceptions import ValidationError
-from bushido.data.categories.wimhof import KeikoModel
-from bushido.schema.res import UnitResponse
+from bushido.utils.dtf import get_bushido_date_from_timestamp
+from bushido.data.categories.wimhof import KeikoModel, Repository
 
 
 class UnitService:
     def __init__(self, repo):
         self.repo = repo
 
-    def get_units(self, start_t=None, end_t=None) -> list[UnitResponse]:
-        pass
+    @classmethod
+    def from_session(cls, session: Session):
+        return cls(Repository(session))
+
+    def get_units(self) -> list:
+        units = self.repo.get_units()
+        lst = []
+        for unit in units:
+            dix = {'date': get_bushido_date_from_timestamp(unit.timestamp),
+                   'round': unit.round_nr,
+                   'breaths': unit.breaths,
+                   'retention': unit.retention}
+            lst.append(dix)
+        return lst
 
 
 def create_keiko(words):

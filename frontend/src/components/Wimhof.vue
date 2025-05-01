@@ -20,10 +20,10 @@ onMounted(async() => {
     layout: "fitColumns",
     height: "auto",
     columns: [
-      { title: "Date", field: "date", width: 90 },
-      { title: "Round", field: "round", width: 90 },
-      { title: "Breaths", field: "breaths" },
-      { title: "Retention", field: "retention" }
+      { title: "Date", field: "date", width: 100 },
+      { title: "Round", field: "round", width: 64 },
+      { title: "Breaths", field: "breaths" , width: 64},
+      { title: "Retention", field: "retention", width: 100}
     ]
   })
 })
