@@ -97,6 +97,7 @@ button:focus-visible {
   z-index: 9999;
   width: 200px;
   max-width: 90vw;
+  font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
 }
 
 .tribute-container ul {
@@ -114,4 +115,8 @@ button:focus-visible {
 .tribute-container li.highlight {
   background: #333;
   color: #fff;
+}
+.emoji {
+  font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", monospace;
+  font-size: 1.2rem;
 }
