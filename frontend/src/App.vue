@@ -28,9 +28,10 @@ const selectedOption = ref('units')
 onMounted(async() => {
   const res = await fetch('/api/get-master-data')
   const md = await res.json()
-  const newOptions = md.map(cat => ({
-    key: cat.name,
-    value: cat.name.charAt(0).toUpperCase() + cat.name.slice(1)
+  const newOptions = Object.keys(md.categories)
+      .map(cat => ({
+        key: cat,
+        value: cat.charAt(0).toUpperCase() + cat.slice(1)
   }))
   navOptions.value.push(...newOptions)
   emojis.value = md
