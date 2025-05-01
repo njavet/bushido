@@ -12,16 +12,10 @@ from bushido.web.deps import get_session
 router = APIRouter()
 
 
-@router.get('/api/get-categories')
-async def get_categories_service(session: Session = Depends(get_session)):
+@router.get('/api/get-master-data')
+async def get_master_data(session: Session = Depends(get_session)):
     service = BaseUnitService.from_session(session)
-    return service.get_all_categories()
-
-
-@router.get('/api/get-emojis')
-async def get_emojis_service(session: Session = Depends(get_session)):
-    service = BaseUnitService.from_session(session)
-    return service.get_all_emojis()
+    return service.get_master_data()
 
 
 @router.get('/api/get-units')

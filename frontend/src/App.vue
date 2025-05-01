@@ -26,11 +26,19 @@ const navOptions = ref([
 const selectedOption = ref('units')
 
 onMounted(async() => {
-  const category_res = await fetch('/api/get-categories')
-  const newOptions = await category_res.json()
+  const res = await fetch('/api/get-master-data')
+  const md = await res.json()
+  const newOptions = md.map(cat => ({
+    key: cat.name,
+    value: cat.name.charAt(0).toUpperCase() + cat.name.slice(1)
+  }))
   navOptions.value.push(...newOptions)
-  const emoji_res = await fetch('/api/get-emojis')
-  emojis.value = await emoji_res.json()
+  emojis.value = md
+      .flatMap(cat => cat.emojis)
+      .map(item => ({
+        key: item.unit_name,
+        value: item.emoji
+      }))
 })
 
 function handleSelect(key) {

@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project imports
-from bushido.data.base_models import AbsKeikoModel, UnitModel
+from bushido.data.base_models import AbsKeikoModel, UnitModel, MDEmojiModel
 
 
 class KeikoModel(AbsKeikoModel):
@@ -19,11 +19,13 @@ class Repository:
         self.session = session
 
     def get_units(self):
-        stmt = (select(UnitModel.timestamp,
+        stmt = (select(MDEmojiModel.unit_name,
+                       UnitModel.timestamp,
                        KeikoModel.set_nr,
                        KeikoModel.weight,
                        KeikoModel.reps,
                        KeikoModel.pause)
+                .join(MDEmojiModel, MDEmojiModel.key == UnitModel.fk_emoji)
                 .join(KeikoModel, UnitModel.key == KeikoModel.fk_unit)
                 .order_by(UnitModel.timestamp.desc()))
         return self.session.execute(stmt).all()

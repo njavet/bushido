@@ -15,6 +15,7 @@ import { VueGoodTable } from 'vue-good-table-next'
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 
 const liftingUnits = ref([])
+const tabs = []
 
 const columns = [
   { label: 'Date', field: 'date', sortable: true },
