@@ -132,9 +132,6 @@ async function sendMessage() {
     justify-content: space-between;
     align-items: center;
   }
-  .emoji {
-    flex: 0 0 auto;
-  }
   .payload {
     flex: 1 1 auto;
     text-align: left;
