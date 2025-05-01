@@ -14,10 +14,10 @@ def load_log_service(category: str, package: str = KEIKO_PROCESSORS):
     module_name = f'{package}.{category}'
     module = importlib.import_module(module_name)
 
-    if not hasattr(module, 'LogService'):
+    if not hasattr(module, 'create_keiko'):
         raise ValueError(f'Could not find package {package}')
-    cls = getattr(module, 'LogService')
-    return cls
+    fn = getattr(module, 'create_keiko')
+    return fn
 
 
 def load_log_services(package: str = KEIKO_PROCESSORS):
@@ -30,8 +30,7 @@ def load_log_services(package: str = KEIKO_PROCESSORS):
         module_name = f'{package}.{category}'
         module = importlib.import_module(module_name)
 
-        if hasattr(module, 'UnitService'):
-            cls = getattr(module, 'UnitService')
-            log_services[category] = cls
+        if hasattr(module, 'create_keiko'):
+            fn = getattr(module, 'create_keiko')
+            log_services[category] = fn
     return log_services
-
