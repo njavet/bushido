@@ -1,9 +1,8 @@
 <template>
   <div class="container">
-    <h3>Wimhof Stats</h3>
     <vue-good-table
       :columns="columns"
-      :rows="wimhofUnits"
+      :rows="liftingUnits"
       :search-options="{ enabled: true }"
       :pagination-options="{ enabled: false }"
     />
@@ -15,18 +14,19 @@ import { ref, onMounted } from 'vue'
 import { VueGoodTable } from 'vue-good-table-next'
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 
-const wimhofUnits = ref([])
+const liftingUnits = ref([])
 
 const columns = [
   { label: 'Date', field: 'date', sortable: true },
-  { label: 'Round', field: 'round', sortable: true },
-  { label: 'Breaths', field: 'breaths', sortable: true },
-  { label: 'Retention', field: 'retention', sortable: true }
+  { label: 'Set', field: 'set', sortable: true },
+  { label: 'Weight', field: 'weight', sortable: true },
+  { label: 'Reps', field: 'reps', sortable: true },
+  { label: 'Pause', field: 'pause', sortable: true }
 ]
 
 onMounted(async () => {
-  const res = await fetch('/api/get-wimhof-units')
-  wimhofUnits.value = await res.json()
+  const res = await fetch('/api/get-lifting-units')
+  liftingUnits.value = await res.json()
 })
 </script>
 
