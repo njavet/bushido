@@ -46,7 +46,7 @@
 
 <script setup>
 import {nextTick, onMounted, ref, watch} from 'vue'
-import { getISOWeek } from 'date-fns'
+import { startOfWeek, format } from 'date-fns'
 import Tribute from "tributejs";
 const inputValue = ref('')
 const inputRef = ref(null)
@@ -54,7 +54,6 @@ const container = ref(null)
 const unitsByWeek = ref({})
 const expandedWeeks = ref({})
 const expandedDays = ref({})
-const unitsByDay = ref([])
 
 const props = defineProps(['emojis'])
 
@@ -70,9 +69,8 @@ function groupByWeek(unitsByDay) {
   const weeks = {}
 
   for (const [date, units] of Object.entries(unitsByDay)) {
-    const week = getISOWeek(new Date(date)) // e.g. 17
-    const year = new Date(date).getFullYear()
-    const weekKey = `${year}-W${week}`
+    const sunday = startOfWeek(new Date(date), { weekStartsOn: 0})
+    const weekKey = format(sunday, 'yyyy-MM-dd')
 
     if (!weeks[weekKey]) weeks[weekKey] = {}
     weeks[weekKey][date] = units
@@ -97,12 +95,13 @@ watch(() => props.emojis, (newVal) => {
 }, { immediate: true })
 
 onMounted(async () => {
-  const res1 = await fetch('/api/get-units')
-  unitsByDay.value = await res1.json()
+  const res = await fetch('/api/get-units')
+  const unitsByDay = await res.json()
+  unitsByWeek.value = groupByWeek(unitsByDay)
+
   expandedDays.value = Object.fromEntries(
       Object.keys(unitsByDay.value).map(date => [date, false])
   )
-  unitsByWeek.value = groupByWeek(unitsByDay.value)
 })
 
 watch(() => unitsByWeek.length, () => {
@@ -147,7 +146,7 @@ async function sendMessage() {
     flex: 1;
     overflow-y: auto;
     padding: 1rem;
-    border: 2px solid cyan;
+    border: 2px solid darkcyan;
     border-radius: 8px;
     background-color: #333;
   }
@@ -171,7 +170,7 @@ async function sendMessage() {
   .week-header {
     display: inline-block;
     background-color: #444;
-    color: cyan;
+    color: mediumpurple;
     padding: 0.4em 1em;
     border-radius: 999px;
     font-weight: bold;
