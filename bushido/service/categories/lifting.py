@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 
 # project imports
 from bushido.exceptions import ValidationError
+from bushido.utils.dtf import get_bushido_date_from_timestamp
 from bushido.data.categories.lifting import KeikoModel, Repository
 
 
@@ -17,13 +18,13 @@ class UnitService:
         units = self.repo.get_units()
         lst = []
         for unit in units:
-            t = T(date=get_bushido_date_from_timestamp(unit.timestamp),
-                  round=unit.round_nr,
-                  breaths=unit.breaths,
-                  retention=unit.retention)
-            lst.append(t)
+            dix = {'date': get_bushido_date_from_timestamp(unit.timestamp),
+                   'set': unit.set_nr,
+                   'weight': unit.weight,
+                   'reps': unit.reps,
+                   'pause': unit.pause}
+            lst.append(dix)
         return lst
-
 
 
 def create_keiko(words):

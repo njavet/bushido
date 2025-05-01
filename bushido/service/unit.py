@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 # project imports
-from bushido.schema.res import UnitResponse
+from bushido.schema.res import UnitResponse, MDEmoji, MDCategory
 from bushido.utils.dtf import create_unit_response_dt
 from bushido.data.repo import Repository
 
@@ -13,6 +13,16 @@ class BaseUnitService:
     @classmethod
     def from_session(cls, session):
         return cls(Repository(session))
+
+    def get_master_data(self):
+        data = self.repo.get_master_data()
+        dix = defaultdict(list)
+        for c, e, un in data:
+            dix[c].append(MDEmoji(emoji=e,
+                                  unit_name=un))
+        return [MDCategory(name=name,
+                           emojis=emojis)
+                for name, emojis in dix.items()]
 
     def get_all_categories(self):
         categories = self.repo.get_all_categories()
