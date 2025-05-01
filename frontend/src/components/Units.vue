@@ -122,7 +122,6 @@ async function sendMessage() {
     background-color: #333;
   }
   .date-block {
-    margin-bottom: 2rem;
     text-align: left;
   }
   .date-bubble {
@@ -139,7 +138,8 @@ async function sendMessage() {
     padding-left: 0.5rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    margin-top: 0.3rem;
+    margin-top: 0;
+    margin-bottom: 0.4rem;
     background-color: #222;
     border-radius: 16px;
   }
