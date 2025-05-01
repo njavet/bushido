@@ -15,7 +15,7 @@ def get_emojis(session):
 
 def get_units(session):
     service = BaseUnitService.from_session(session)
-    return service.get_units_by_weeks()
+    return service.get_units_by_week()
 
 
 def log_unit(text, session):

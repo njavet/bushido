@@ -9,32 +9,36 @@
         autofocus
     />
   </div>
-  <div class="unit-history" ref="container">
-    <div
-        v-for="(units, date) in unitsByDay"
-        :key="date"
-        class="date-block"
-    >
-      <ul class="unit-list">
-        <li class="date-bubble" @click="toggle(date)">
-          {{ expanded[date] ? '▼' : '▶'}} {{ date }}</li>
-        <transition name="collapse">
-          <li v-if="expanded[date]">
-            <ul>
-              <li v-for="(unit, idx) in units"
-                  :key="idx"
-                  class="unit-entry"
-              >
-                <span class="time">{{ unit.hms }}</span>
-                <span class="emoji">{{ unit.emoji }}</span>
-                <span class="payload">{{ unit.payload }}</span>
-              </li>
-            </ul>
-          </li>
-        </transition>
-      </ul>
+  <div v-for="(days, week) in unitsByWeek" :key="week">
+    <div class="week-header" @click="toggleWeek(week)">
+      {{ expandedWeeks[week] ? '▼' : '▶' }} Week {{ week }}
     </div>
+
+  <transition name="collapse">
+    <div v-if="expandedWeeks[week]" class="week-content">
+      <div
+        v-for="(units, date) in days"
+        :key="date"
+        class="day-block"
+      >
+        <div class="date-header" @click="toggleDay(date)">
+          {{ expandedDays[date] ? '▼' : '▶' }} {{ date }}
+        </div>
+
+        <transition name="collapse">
+          <ul v-if="expandedDays[date]" class="unit-list">
+            <li v-for="(unit, idx) in units" :key="idx" class="unit-entry">
+              <span class="time">{{ unit.hms }}</span>
+              <span class="emoji">{{ unit.emoji }}</span>
+              <span class="payload">{{ unit.payload }}</span>
+            </li>
+          </ul>
+        </transition>
+      </div>
+    </div>
+  </transition>
   </div>
+
 </template>
 
 <script setup>
@@ -42,11 +46,20 @@ import {nextTick, onMounted, ref, watch} from 'vue'
 import Tribute from "tributejs";
 const inputValue = ref('')
 const inputRef = ref(null)
-const unitsByDay = ref([])
 const container = ref(null)
-const expanded = ref({})
+const unitsByWeek = ref({})
+const expandedWeeks = ref({})
+const expandedDays = ref({})
 
 const props = defineProps(['emojis'])
+
+function toggleWeek(week) {
+  expandedWeeks.value[week] = !expandedWeeks.value[week]
+}
+
+function toggleDay(date) {
+  expandedDays.value[date] = !expandedDays.value[date]
+}
 
 watch(() => props.emojis, (newVal) => {
   if (!newVal?.length || !inputRef.value) return
@@ -65,9 +78,9 @@ watch(() => props.emojis, (newVal) => {
 
 onMounted(async () => {
   const res1 = await fetch('/api/get-units')
-  unitsByDay.value = await res1.json()
-  expanded.value = Object.fromEntries(
-      Object.keys(unitsByDay.value).map(date => [date, false])
+  unitsByWeek.value = await res1.json()
+  expandedWeeks.value = Object.fromEntries(
+      Object.keys(unitsByWeek.value).map(date => [date, false])
   )
 })
 
@@ -75,7 +88,7 @@ function toggle(date) {
   expanded.value[date] = !expanded.value[date]
 }
 
-watch(() => unitsByDay.length, () => {
+watch(() => unitsByWeek.length, () => {
   nextTick(() => {
     if (container.value) {
       container.value.scrollTop = container.value.scrollHeight
