@@ -9,6 +9,7 @@ from bushido.service import service
 router = APIRouter()
 
 
-@router.get('/api/wimhof-units')
+@router.get('/api/get-wimhof-units')
 async def get_wimhof_units(session: Session = Depends(get_session)):
-    return service.get_units(session)
+    return service.get_units(session, 'wimhof')
+
