@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 # project imports
 from bushido.data.base_models import MDCategoryModel
-from bushido.data.db_init import db_init
+from bushido.service.db_init import db_init
 
 
 class TestCategoryEmojiCascade(unittest.TestCase):
