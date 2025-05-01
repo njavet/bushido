@@ -1,7 +1,8 @@
+from sqlalchemy import select
 from sqlalchemy.orm import Mapped, mapped_column, Session
 
 # project imports
-from bushido.data.base_models import AbsKeikoModel
+from bushido.data.base_models import AbsKeikoModel, UnitModel
 
 
 class KeikoModel(AbsKeikoModel):
@@ -15,3 +16,12 @@ class KeikoModel(AbsKeikoModel):
 class Repository:
     def __init__(self, session: Session):
         self.session = session
+
+    def get_units(self):
+        stmt = (select(UnitModel.timestamp,
+                       KeikoModel.round_nr,
+                       KeikoModel.breaths,
+                       KeikoModel.retention)
+                .join(KeikoModel, UnitModel.key == KeikoModel.fk_unit)
+                .order_by(UnitModel.timestamp.desc()))
+        return self.session.execute(stmt).all()
