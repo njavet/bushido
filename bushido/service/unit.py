@@ -1,8 +1,9 @@
 from collections import defaultdict
+import datetime
 
 # project imports
 from bushido.schema.res import UnitResponse
-from bushido.utils.dt_functions import create_unit_response_dt
+from bushido.utils.dt_functions import create_unit_response_dt, get_weeks, get_days
 from bushido.data.repo import Repository
 
 
@@ -60,3 +61,8 @@ class BaseUnitService:
                           end_t=None,
                           keiko_model=None):
         units = self.get_units(unit_name, start_t, end_t, keiko_model)
+        days = get_days()
+        for unit in units:
+            days[unit.date].append(unit)
+
+        return get_weeks(days)
