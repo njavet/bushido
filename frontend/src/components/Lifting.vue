@@ -38,18 +38,20 @@ const filteredUnits = computed(() =>
     liftingUnits.value.filter(unit => unit.unit_name === currentTab.value)
 )
 
+const numericSort = (a, b) => Number(b) - Number(a)
 const columns = [
   { label: 'Date', field: 'date', sortable: true },
-  { label: 'Set', field: 'set', sortable: true },
-  { label: 'Weight', field: 'weight', sortable: true },
-  { label: 'Reps', field: 'reps', sortable: true },
-  { label: 'Pause', field: 'pause', sortable: true }
+  { label: 'Set', field: 'set', sortable: true, sortFn: numericSort },
+  { label: 'Weight', field: 'weight', sortable: true, sortFn: numericSort},
+  { label: 'Reps', field: 'reps', sortable: true, sortFn: numericSort},
+  { label: 'Pause', field: 'pause', sortable: true, sortFn: numericSort }
 ]
 
 onMounted(async () => {
   const res = await fetch('/api/get-lifting-units')
   liftingUnits.value = await res.json()
 })
+
 </script>
 
 <style scoped>
