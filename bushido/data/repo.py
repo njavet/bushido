@@ -40,34 +40,25 @@ class Repository:
         return self.session.execute(stmt).scalar()
 
     def get_units(self,
+                  category=None,
                   unit_name=None,
                   start_dt=None,
-                  end_dt=None,
-                  keiko_mode=None):
-        if keiko_mode is None:
-            stmt = (select(MDEmojiModel.emoji,
-                           MDEmojiModel.unit_name,
-                           UnitModel.timestamp,
-                           UnitModel.payload,
-                           UnitModel.comment)
-                    .join(UnitModel, MDEmojiModel.key == UnitModel.fk_emoji)
-                    .order_by(UnitModel.timestamp.desc()))
-        else:
-            stmt = (select(MDEmojiModel.emoji,
-                           MDEmojiModel.unit_name,
-                           UnitModel.timestamp,
-                           UnitModel.payload,
-                           UnitModel.comment)
-                    .join(UnitModel, MDEmojiModel.key == UnitModel.fk_emoji)
-                    .join(keiko_mode, keiko_mode.key == UnitModel.fk_emoji)
-                    .order_by(UnitModel.timestamp.desc()))
+                  end_dt=None):
+        stmt = (select(MDEmojiModel.emoji,
+                       MDEmojiModel.unit_name,
+                       UnitModel.timestamp,
+                       UnitModel.payload,
+                       UnitModel.comment)
+                .join(UnitModel, MDEmojiModel.key == UnitModel.fk_emoji)
+                .order_by(UnitModel.timestamp.desc()))
+        if category:
+            stmt = stmt.where(MDCategoryModel.name == category)
         if unit_name:
             stmt = stmt.where(MDEmojiModel.unit_name == unit_name)
         if start_dt:
             stmt = stmt.where(start_dt.timestamp() <= UnitModel.timestamp)
         if end_dt:
             stmt = stmt.where(UnitModel.timestamp <= end_dt.timestamp())
-
         return self.session.execute(stmt).all()
 
     def save_unit(self, unit):

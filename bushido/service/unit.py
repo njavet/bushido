@@ -1,4 +1,3 @@
-import datetime
 from collections import defaultdict
 
 # project imports
@@ -28,18 +27,14 @@ class BaseUnitService:
         return emoji
 
     def get_units(self,
+                  category=None,
                   unit_name=None,
                   start_t=None,
                   end_t=None) -> list[UnitResponse]:
-
-        return self._get_units(unit_name, start_t, end_t)
-
-    def _get_units(self,
-                  unit_name=None,
-                  start_t=None,
-                  end_t=None,
-                  keiko_model=None) -> list[UnitResponse]:
-        units = self.repo.get_units(unit_name, start_t, end_t, keiko_model)
+        units = self.repo.get_units(category,
+                                    unit_name,
+                                    start_t,
+                                    end_t)
         unit_lst = []
         for unit in units:
             bushido_date, hms = create_unit_response_dt(unit.timestamp)
@@ -52,10 +47,11 @@ class BaseUnitService:
         return unit_lst
 
     def get_units_by_day(self,
+                         category=None,
                          unit_name=None,
                          start_t=None,
                          end_t=None) -> dict:
-        units = self.get_units(unit_name, start_t, end_t)
+        units = self.get_units(category, unit_name, start_t, end_t)
         dix = defaultdict(list)
         for unit in units:
             dix[unit.date].append(unit)
