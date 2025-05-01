@@ -13,16 +13,25 @@
     <div
         v-for="(units, date) in unitsByDay"
         :key="date"
-        class="date-block">
-      <div class="date-bubble">{{ date }}</div>
+        class="date-block"
+    >
       <ul class="unit-list">
-        <li v-for="(unit, idx) in units"
-            :key="idx"
-            class="unit-entry">
-          <span class="time">{{ unit.hms }}</span>
-          <span class="emoji">{{ unit.emoji }}</span>
-          <span class="payload">{{ unit.payload }}</span>
-        </li>
+        <li class="date-bubble" @click="toggle(date)">
+          {{ expanded[date] ? '▼' : '▶'}} {{ date }}</li>
+        <transition name="collapse">
+          <li v-if="expanded[date]">
+            <ul>
+              <li v-for="(unit, idx) in units"
+                  :key="idx"
+                  class="unit-entry"
+              >
+                <span class="time">{{ unit.hms }}</span>
+                <span class="emoji">{{ unit.emoji }}</span>
+                <span class="payload">{{ unit.payload }}</span>
+              </li>
+            </ul>
+          </li>
+        </transition>
       </ul>
     </div>
   </div>
@@ -35,6 +44,7 @@ const inputValue = ref('')
 const inputRef = ref(null)
 const unitsByDay = ref([])
 const container = ref(null)
+const expanded = ref({})
 
 const props = defineProps(['emojis'])
 
@@ -56,7 +66,14 @@ watch(() => props.emojis, (newVal) => {
 onMounted(async () => {
   const res1 = await fetch('/api/get-units')
   unitsByDay.value = await res1.json()
+  expanded.value = Object.fromEntries(
+      Object.keys(unitsByDay.value).map(date => [date, false])
+  )
 })
+
+function toggle(date) {
+  expanded.value[date] = !expanded.value[date]
+}
 
 watch(() => unitsByDay.length, () => {
   nextTick(() => {
@@ -106,11 +123,12 @@ async function sendMessage() {
   }
   .date-block {
     margin-bottom: 2rem;
+    text-align: left;
   }
   .date-bubble {
     display: inline-block;
-    background-color: #d0e7ff;
-    color: #004080;
+    background-color: #444;
+    color: darkcyan;
     padding: 0.4em 1em;
     border-radius: 999px;
     font-weight: bold;
@@ -144,5 +162,20 @@ async function sendMessage() {
     margin-top: 1rem;
     margin-right: 1rem;
     font-size: 8px;
+  }
+  .collapse-enter-active,
+  .collapse-leave-active {
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  .collapse-enter-from,
+  .collapse-leave-to {
+    max-height: 0;
+    opacity: 0;
+  }
+  .collapse-enter-to,
+  .collapse-leave-from {
+    max-height: 500px; /* max expected height */
+    opacity: 1;
   }
 </style>
