@@ -1,31 +1,8 @@
-from collections import defaultdict
 import datetime
 import pytz
 
 # project imports
 from bushido.conf import DAY_START_HOUR, LOCAL_TIME_ZONE
-
-def get_days() -> dict:
-    days = {}
-    start = datetime.date(2023, 1, 1)
-    while start <= datetime.date.today():
-        days[start] = []
-        start = start + datetime.timedelta(days=1)
-    return days
-
-
-def get_weeks(days) -> dict:
-    week = 0
-    weeks = defaultdict(dict)
-    start = datetime.date(2023, 1, 1)
-    day = 1
-    while start <= datetime.date.today():
-        weeks[week][start] = days[start]
-        if day % 7 == 0:
-            week += 1
-        day += 1
-        start = start + datetime.timedelta(days=1)
-    return weeks
 
 
 def get_datetime_from_timestamp(timestamp: int,

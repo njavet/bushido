@@ -2,7 +2,7 @@ import unittest
 
 # project imports
 from bushido.exceptions import ValidationError
-from bushido.utils.dt_functions import get_datetime_from_timestamp
+from bushido.utils.dtf import get_datetime_from_timestamp
 from bushido.utils import parsing
 
 

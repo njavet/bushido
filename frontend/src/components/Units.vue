@@ -9,15 +9,9 @@
         autofocus
     />
   </div>
-  <div v-for="(days, week) in unitsByWeek" :key="week">
-    <div class="week-header" @click="toggleWeek(week)">
-      {{ expandedWeeks[week] ? '▼' : '▶' }} Week {{ week }}
-    </div>
-
-  <transition name="collapse">
-    <div v-if="expandedWeeks[week]" class="week-content">
+  <div class="unit-history">
       <div
-        v-for="(units, date) in days"
+        v-for="(units, date) in unitsByDay"
         :key="date"
         class="day-block"
       >
@@ -34,15 +28,13 @@
             </li>
           </ul>
         </transition>
-      </div>
     </div>
-  </transition>
   </div>
 
 </template>
 
 <script setup>
-import {nextTick, onMounted, ref, watch} from 'vue'
+import {computed, nextTick, onMounted, ref, watch} from 'vue'
 import Tribute from "tributejs";
 const inputValue = ref('')
 const inputRef = ref(null)
@@ -50,9 +42,9 @@ const container = ref(null)
 const unitsByWeek = ref({})
 const expandedWeeks = ref({})
 const expandedDays = ref({})
+const unitsByDay = ref([])
 
 const props = defineProps(['emojis'])
-
 function toggleWeek(week) {
   expandedWeeks.value[week] = !expandedWeeks.value[week]
 }
@@ -78,15 +70,11 @@ watch(() => props.emojis, (newVal) => {
 
 onMounted(async () => {
   const res1 = await fetch('/api/get-units')
-  unitsByWeek.value = await res1.json()
-  expandedWeeks.value = Object.fromEntries(
-      Object.keys(unitsByWeek.value).map(date => [date, false])
+  unitsByDay.value = await res1.json()
+  expandedDays.value = Object.fromEntries(
+      Object.keys(unitsByDay.value).map(date => [date, false])
   )
 })
-
-function toggle(date) {
-  expanded.value[date] = !expanded.value[date]
-}
 
 watch(() => unitsByWeek.length, () => {
   nextTick(() => {
@@ -134,10 +122,11 @@ async function sendMessage() {
     border-radius: 8px;
     background-color: #333;
   }
-  .date-block {
+
+  .day-block {
     text-align: left;
   }
-  .date-bubble {
+  .date-header {
     display: inline-block;
     background-color: #444;
     color: darkcyan;

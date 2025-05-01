@@ -1,6 +1,6 @@
 # project imports
 from bushido.schema.res import UnitResponse
-from bushido.utils.dt_functions import create_unit_response_dt
+from bushido.utils.dtf import create_unit_response_dt
 from bushido.utils.parsing import (preprocess_input,
                                    parse_datetime_to_timestamp)
 from bushido.data.base_models import UnitModel
