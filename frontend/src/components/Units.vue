@@ -10,31 +10,43 @@
     />
   </div>
   <div class="unit-history">
-      <div
-        v-for="(units, date) in unitsByDay"
-        :key="date"
-        class="day-block"
-      >
-        <div class="date-header" @click="toggleDay(date)">
-          {{ expandedDays[date] ? '▼' : '▶' }} {{ date }}
+    <div
+        v-for="(days, week) in unitsByWeek"
+        :key="week"
+        class="week-block"
+    >
+      <div class="week-header" @click="toggleWeek(week)">
+        {{ expandedWeeks[week] ? '▼' : '▶' }} Week {{ week }}
+      </div>
+      <transition name="collapse">
+        <div v-if="expandedWeeks[week]" class="week-content">
+          <div
+            v-for="(units, date) in days"
+            :key="date"
+            class="day-block"
+          >
+            <div class="day-header" @click="toggleDay(date)">
+              {{ expandedDays[date] ? '▼' : '▶' }} {{ date }}
+            </div>
+            <transition name="collapse">
+              <ul v-if="expandedDays[date]" class="unit-list">
+                <li v-for="(unit, idx) in units" :key="idx" class="unit-entry">
+                  <span class="time">{{ unit.hms }}</span>
+                  <span class="emoji">{{ unit.emoji }}</span>
+                  <span class="payload">{{ unit.payload }}</span>
+                </li>
+              </ul>
+            </transition>
+          </div>
         </div>
-
-        <transition name="collapse">
-          <ul v-if="expandedDays[date]" class="unit-list">
-            <li v-for="(unit, idx) in units" :key="idx" class="unit-entry">
-              <span class="time">{{ unit.hms }}</span>
-              <span class="emoji">{{ unit.emoji }}</span>
-              <span class="payload">{{ unit.payload }}</span>
-            </li>
-          </ul>
-        </transition>
+      </transition>
     </div>
   </div>
-
 </template>
 
 <script setup>
-import {computed, nextTick, onMounted, ref, watch} from 'vue'
+import {nextTick, onMounted, ref, watch} from 'vue'
+import { getISOWeek } from 'date-fns'
 import Tribute from "tributejs";
 const inputValue = ref('')
 const inputRef = ref(null)
@@ -45,12 +57,28 @@ const expandedDays = ref({})
 const unitsByDay = ref([])
 
 const props = defineProps(['emojis'])
+
 function toggleWeek(week) {
   expandedWeeks.value[week] = !expandedWeeks.value[week]
 }
 
 function toggleDay(date) {
   expandedDays.value[date] = !expandedDays.value[date]
+}
+
+function groupByWeek(unitsByDay) {
+  const weeks = {}
+
+  for (const [date, units] of Object.entries(unitsByDay)) {
+    const week = getISOWeek(new Date(date)) // e.g. 17
+    const year = new Date(date).getFullYear()
+    const weekKey = `${year}-W${week}`
+
+    if (!weeks[weekKey]) weeks[weekKey] = {}
+    weeks[weekKey][date] = units
+  }
+
+  return weeks
 }
 
 watch(() => props.emojis, (newVal) => {
@@ -74,6 +102,7 @@ onMounted(async () => {
   expandedDays.value = Object.fromEntries(
       Object.keys(unitsByDay.value).map(date => [date, false])
   )
+  unitsByWeek.value = groupByWeek(unitsByDay.value)
 })
 
 watch(() => unitsByWeek.length, () => {
@@ -123,13 +152,26 @@ async function sendMessage() {
     background-color: #333;
   }
 
-  .day-block {
+  .week-block {
     text-align: left;
   }
-  .date-header {
+  .day-block {
+    text-align: left;
+    padding-left: 1rem;
+  }
+  .day-header {
     display: inline-block;
     background-color: #444;
     color: darkcyan;
+    padding: 0.4em 1em;
+    border-radius: 999px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  .week-header {
+    display: inline-block;
+    background-color: #444;
+    color: cyan;
     padding: 0.4em 1em;
     border-radius: 999px;
     font-weight: bold;
