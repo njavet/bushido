@@ -18,7 +18,7 @@ class Repository:
     def __init__(self, session: Session):
         self.session = session
 
-    def get_units(self):
+    def get_sets(self):
         stmt = (select(MDEmojiModel.unit_name,
                        UnitModel.timestamp,
                        KeikoModel.set_nr,
@@ -27,5 +27,17 @@ class Repository:
                        KeikoModel.pause)
                 .join(MDEmojiModel, MDEmojiModel.key == UnitModel.fk_emoji)
                 .join(KeikoModel, UnitModel.key == KeikoModel.fk_unit)
+                .order_by(UnitModel.timestamp.desc()))
+        return self.session.execute(stmt).all()
+
+    def get_sets_from_unit_name(self, unit_name):
+        stmt = (select(UnitModel.timestamp,
+                       KeikoModel.set_nr,
+                       KeikoModel.weight,
+                       KeikoModel.reps,
+                       KeikoModel.pause)
+                .join(MDEmojiModel, MDEmojiModel.key == UnitModel.fk_emoji)
+                .join(KeikoModel, UnitModel.key == KeikoModel.fk_unit)
+                .where(MDEmojiModel.unit_name == unit_name)
                 .order_by(UnitModel.timestamp.desc()))
         return self.session.execute(stmt).all()

@@ -28,14 +28,6 @@ class MDEmojiModel(Base):
     fk_category: Mapped[int] = mapped_column(ForeignKey(MDCategoryModel.key))
 
 
-class UnitModel(Base):
-    __tablename__ = 'unit'
-    timestamp: Mapped[int] = mapped_column()
-    payload: Mapped[str] = mapped_column()
-    comment: Mapped[Optional[str]] = mapped_column()
-    fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiModel.key))
-
-
 class DayModel(Base):
     __tablename__ = 'day'
 
@@ -45,6 +37,14 @@ class DayModel(Base):
     status: Mapped[Optional[int]] = mapped_column()
     mood: Mapped[Optional[str]] = mapped_column()
     comment: Mapped[Optional[str]] = mapped_column()
+
+
+class UnitModel(Base):
+    __tablename__ = 'unit'
+    timestamp: Mapped[int] = mapped_column()
+    payload: Mapped[str] = mapped_column()
+    comment: Mapped[Optional[str]] = mapped_column()
+    fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiModel.key))
 
 
 class AbsKeikoModel(Base):
