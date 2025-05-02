@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from bushido.data.base_models import MDEmojiModel, UnitModel
 
 
-class UnitRepository:
+class BaseRepository:
     def __init__(self, session: Session):
         self.session = session
 

@@ -11,7 +11,7 @@ class TrainingModel(Base):
     __tablename__ = 'training'
 
     training_type: Mapped[str] = mapped_column()
-    start_ts: Mapped[time] = mapped_column()
+    start_ts: Mapped[int] = mapped_column()
     end_ts: Mapped[int] = mapped_column()
     gym: Mapped[str] = mapped_column()
 
@@ -35,6 +35,7 @@ class LiftingModel(Base):
     avg_weight: Mapped[float] = mapped_column()
     avg_reps: Mapped[float] = mapped_column()
     avg_pause: Mapped[float] = mapped_column()
+    is_stronglift: Mapped[bool] = mapped_column(default=False)
 
     fk_training: Mapped[int] = mapped_column(ForeignKey(TrainingModel.key))
 
@@ -56,3 +57,10 @@ class StretchingModel(Base):
     seconds: Mapped[float] = mapped_column()
     topic: Mapped[str] = mapped_column()
     fk_training: Mapped[int] = mapped_column(ForeignKey(TrainingModel.key))
+
+
+class BodyStats(Base):
+    __tablename__ = 'body_stats'
+
+    timestamp: Mapped[int] = mapped_column()
+    weight: Mapped[float] = mapped_column()
