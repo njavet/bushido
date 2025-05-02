@@ -21,12 +21,9 @@ class LogService:
         timestamp, words = parse_datetime_to_timestamp(words)
         bushido_date, hms = create_unit_response_dt(timestamp)
         unit_name = self.repo.get_unit_name_for_emoji(emoji)
-        category = self.repo.get_category_for_unit(unit_name)
-        create_keiko = load_log_service(category)
         self.process_unit(unit_name,
                           words,
                           timestamp,
-                          create_keiko,
                           comment)
         return UnitResponse(date=bushido_date,
                             hms=hms,
@@ -38,12 +35,9 @@ class LogService:
                      unit_name,
                      words,
                      timestamp,
-                     create_keiko,
                      comment=None):
         unit = self.create_unit(unit_name, words, timestamp, comment)
-        unit_key = self.repo.save_unit(unit)
-        keiko = create_keiko(words)
-        self.repo.save_keiko(unit_key, keiko)
+        self.repo.save_unit(unit)
 
     def create_unit(self, unit_name, words, timestamp, comment=None):
         emoji_key = self.repo.get_emoji_key_by_unit(unit_name)

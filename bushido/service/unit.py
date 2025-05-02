@@ -3,16 +3,16 @@ from collections import defaultdict
 # project imports
 from bushido.schema.res import UnitResponse, MDResponse
 from bushido.utils.dtf import create_unit_response_dt
-from bushido.data.repo import Repository
+from bushido.data.base_repo import BaseRepository
 
 
-class BaseUnitService:
-    def __init__(self, repo: Repository):
+class UnitService:
+    def __init__(self, repo: BaseRepository):
         self.repo = repo
 
     @classmethod
     def from_session(cls, session):
-        return cls(Repository(session))
+        return cls(BaseRepository(session))
 
     def get_master_data(self):
         data = self.repo.get_master_data()
