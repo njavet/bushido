@@ -5,20 +5,24 @@ import re
 # project imports
 from bushido.exceptions import ValidationError, UploadError
 from bushido.data.conn import session_factory
-from bushido.data.db_init import db_init
+from bushido.service.db_init import db_init
+from bushido.service.log import LogService
 from bushido.service.unit import BaseUnitService
 
 
 def main():
-    with open('units_2023-01-01_2025-03-22.json') as f:
+    with open('units_2023-01-01_2025-05-02.json') as f:
         data = json.load(f)
     db_init()
     with session_factory.get_session_context() as session:
-        service = BaseUnitService.from_session(session)
+        service = LogService.from_session(session)
+        us = BaseUnitService.from_session(session)
 
     errors = defaultdict(list)
     for unit in data:
-        emoji = service.get_emoji_for_unit(unit['unit_name'])
+        if unit['unit_name'] in ['study', 'work', 'reading']:
+            continue
+        emoji = us.get_emoji_for_unit(unit['unit_name'])
         local_dt = re.sub(r'(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})',
                r'\1.\2.\3-\4\5',
                unit['local_datetime'])
