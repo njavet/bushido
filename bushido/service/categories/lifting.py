@@ -1,3 +1,4 @@
+from collections import defaultdict
 from sqlalchemy.orm import Session
 
 # project imports
@@ -14,8 +15,8 @@ class UnitService:
     def from_session(cls, session: Session):
         return cls(Repository(session))
 
-    def get_units(self) -> list:
-        units = self.repo.get_units()
+    def get_sets(self) -> list:
+        units = self.repo.get_sets()
         lst = []
         for unit in units:
             dix = {'unit_name': unit.unit_name,
@@ -26,6 +27,46 @@ class UnitService:
                    'pause': unit.pause}
             lst.append(dix)
         return lst
+
+    def get_unit_name_sets(self):
+        units = self.repo.get_sets()
+        dix = defaultdict(list)
+        for unit in units:
+            dix[unit.unit_name].append(unit)
+        return dix
+
+    def get_lifting_sessions(self):
+        dix = self.get_unit_name_sets()
+        res = {}
+        for unit_name, sets in dix.items():
+            res[unit_name] = defaultdict(list)
+            for s in sets:
+                res[unit_name][s.timestamp].append(s)
+        return res
+
+    def completed_5x5(self, sets):
+        if len(sets) != 5:
+            return False
+
+        for s in sets:
+            if s.reps != 5:
+                return False
+        return True
+
+    def get_avg_weight_reps(self, sets):
+        w = sum([s.weight for s in sets]) / len(sets)
+        r = sum([s.reps for s in sets]) / len(sets)
+        return w, r
+
+    def get_completed_5x5(self):
+        dix = self.get_lifting_sessions()
+        res = defaultdict(list)
+        for unit_name, sessions in dix.items():
+            for ts, sets in sessions.items():
+                if self.completed_5x5(sets):
+                    w, r = self.get_avg_weight_reps(sets)
+                    res[unit_name].append((get_bushido_date_from_timestamp(ts), w, r))
+        return res
 
 
 def create_keiko(words):

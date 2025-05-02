@@ -50,6 +50,8 @@ const columns = [
 onMounted(async () => {
   const res = await fetch('/api/get-lifting-units')
   liftingUnits.value = await res.json()
+  const res2 = await fetch('/api/get-5x5')
+  const raw = await res2.json()
 })
 
 </script>
