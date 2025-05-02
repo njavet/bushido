@@ -1,8 +1,12 @@
-from sqlalchemy import ForeignKey
+import datetime
 from typing import Optional
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import (DeclarativeBase,
                             Mapped,
                             mapped_column)
+
+# project imports
+from bushido.conf import DAY_START_HOUR
 
 
 class Base(DeclarativeBase):
@@ -30,6 +34,17 @@ class UnitModel(Base):
     payload: Mapped[str] = mapped_column()
     comment: Mapped[Optional[str]] = mapped_column()
     fk_emoji: Mapped[int] = mapped_column(ForeignKey(MDEmojiModel.key))
+
+
+class DayModel(Base):
+    __tablename__ = 'day'
+
+    date: Mapped[datetime.date] = mapped_column(unique=True)
+    start_time: Mapped[datetime.time] = mapped_column()
+    end_time: Mapped[datetime.time] = mapped_column()
+    status: Mapped[Optional[int]] = mapped_column()
+    mood: Mapped[Optional[str]] = mapped_column()
+    comment: Mapped[Optional[str]] = mapped_column()
 
 
 class AbsKeikoModel(Base):
