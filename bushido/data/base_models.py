@@ -36,5 +36,3 @@ class DayModel(Base):
     end_t: Mapped[datetime.time] = mapped_column()
 
     body_weight: Mapped[float] = mapped_column()
-
-
