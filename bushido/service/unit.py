@@ -14,12 +14,10 @@ class UnitService:
     def from_session(cls, session):
         return cls(BaseRepository(session))
 
-    def get_master_data(self):
-        data = self.repo.get_master_data()
-        dix = defaultdict(list)
-        for cat, emoji, unit_name in data:
-            dix[cat].append((emoji, unit_name))
-        return MDResponse(categories=dix)
+    def get_emojis(self):
+        data = self.repo.get_emojis()
+
+        return dict('key': e.unit_name, 'value': e.emoji for e in data)
 
     def get_emoji_for_unit(self, unit_name):
         emoji = self.repo.get_emoji_for_unit(unit_name)

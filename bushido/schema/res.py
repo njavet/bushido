@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class MDResponse(BaseModel):
-    categories: dict[str, list[tuple[str, str]]]
+    emojis: list[tuple[str, str]]
 
 
 class UnitResponse(BaseModel):

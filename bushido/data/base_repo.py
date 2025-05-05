@@ -48,4 +48,3 @@ class BaseRepository:
     def save_unit(self, unit):
         self.session.add(unit)
         self.session.commit()
-        return unit.key
