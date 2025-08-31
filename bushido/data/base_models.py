@@ -56,6 +56,7 @@ class Training(Base):
     location: Mapped[Optional[Location]] = relationship()
     entries: Mapped[list[Entry]] = relationship(back_populates='workout', cascade='all, delete-orphan')
 
+
 class Entry(Base):
     """
     Aggregate root for a single logged item (weights set group, a run, a sparring block, a bodystat, a study block).
