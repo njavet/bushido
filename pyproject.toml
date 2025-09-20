@@ -1,3 +1,15 @@
+[tool.ruff]
+line-length = 79
+indent-with = 4
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+
+
 [project]
 name = "bushido"
 version = "0.1.0"
