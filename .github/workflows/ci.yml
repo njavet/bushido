@@ -2,37 +2,42 @@
 # .github/workflows/ci.yml
 name: CI
 
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
+on: [push, pull_request]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checokut code
+      - uses: actions/checkout@v4
 
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
 
-    - name: Install poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 - 
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Install poetry
+        run: pip install poetry
 
-    - name: Configure poetry
-      run: |
-        poetry config virtualenvs.create false
+      - name: Install dependencies
+        run: poetry install --no-interaction --without=DEV
 
-    - name: Install dependencies
-      run: poetry install --no-interaction --no-root
+      - name: Run Ruff
+        run: |
+          poetry run ruff format .
+          poetry run ruff check --fix .
+      - name: Commit
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add .
+          git commit -m "Ruff Format" || true
+          git push
 
-    - name: Run tests
-      run: |
-        poetry run python -m unittest discover -s tests
+      - name: Run Ruff Check
+        run: poetry run ruff check .
+
+      - name: Run tests
+        run: poetry run pytest tests
+
