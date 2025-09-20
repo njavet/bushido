@@ -2,7 +2,7 @@ import datetime
 import pytz
 
 # project imports
-from bushido.conf import DAY_START_HOUR, LOCAL_TIME_ZONE
+from bushido.core.conf import DAY_START_HOUR, LOCAL_TIME_ZONE
 
 
 def get_datetime_from_timestamp(
