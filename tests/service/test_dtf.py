@@ -12,5 +12,5 @@ class TestDTF(unittest.TestCase):
         self.assertEqual(prev_sunday, datetime.date(2025, 4, 27))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
