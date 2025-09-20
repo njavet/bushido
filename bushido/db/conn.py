@@ -8,9 +8,12 @@ from bushido.core.conf import DB_URL
 
 class SessionFactory:
     def __init__(self, db_url=DB_URL):
+        self._fronzen = False
+        self.db_url = db_url
         self._engine = create_engine(db_url)
         self._sessionmaker = sessionmaker(bind=self._engine,
                                           expire_on_commit=False)
+        self._fronzen = True
 
     def get_session(self):
         db = self._sessionmaker()
@@ -26,6 +29,3 @@ class SessionFactory:
             yield db
         finally:
             db.close()
-
-
-session_factory = SessionFactory()
