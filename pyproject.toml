@@ -6,16 +6,7 @@ authors = ["Noe Javet <np.javet@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
-fastapi = {extras = ["standard"], version = "^0.115.11"}
-uvicorn = "^0.34.0"
-sqlalchemy = "^2.0.39"
-pandas = "^2.2.3"
-numpy = "^2.2.3"
-babel = "^2.17.0"
-ipython = "^9.0.2"
-coverage = "^7.8.0"
-halo = "^0.0.31"
+python = "^3.13"
 
 [build-system]
 requires = ["poetry-core"]
