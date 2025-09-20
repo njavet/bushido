@@ -15,14 +15,6 @@ class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True)
 
 
-class MDEmojiModel(Base):
-    __tablename__ = 'md_emoji'
-    unit_name: Mapped[str] = mapped_column(unique=True)
-    emoji_name: Mapped[str] = mapped_column(unique=True)
-    emoticon: Mapped[str] = mapped_column(unique=True)
-    emoji: Mapped[str] = mapped_column(unique=True)
-
-
 class UnitModel(Base):
     __tablename__ = 'unit'
     ts_utc: Mapped[datetime] = mapped_column(
