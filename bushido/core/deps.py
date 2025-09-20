@@ -1,12 +1,12 @@
 from importlib.resources import files
+
 from fastapi import Query
 from fastapi.templating import Jinja2Templates
 
 # project imports
 from bushido.core.app_context import app_context
 
-
-templates_dir = files("bushido").joinpath("templates")
+templates_dir = files('bushido').joinpath('templates')
 templates = Jinja2Templates(directory=str(templates_dir))
 
 
