@@ -1,7 +1,6 @@
 import unittest
 
 # project imports
-from bushido.exceptions import ValidationError
 from bushido.utils.dtf import get_datetime_from_timestamp
 from bushido.utils import parsing
 
@@ -17,7 +16,7 @@ class TestParsingTimeString(unittest.TestCase):
 
     def test_parse_manual_datetime_set_no_datetime(self):
         words = ["32", "zarathustra", "--dt"]
-        with self.assertRaises(ValidationError) as context:
+        with self.assertRaises(ValueError) as context:
             timestamp, words = parsing.parse_datetime_to_timestamp(words)
         self.assertIn("no datetime", str(context.exception))
 
