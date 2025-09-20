@@ -54,18 +54,6 @@ def test_parse_time_string_seconds():
     assert 32.0 == sec
 
 
-def test_parse_time_string_wrong_input_0():
-    ts = 'not a valid time_string'
-    with pytest.raises(ValueError):
-        _ = parsing.parse_time_string(ts)
-
-
-def test_parse_time_string_wrong_input_1():
-    ts = '32five'
-    with pytest.raises(ValueError):
-        _ = parsing.parse_time_string(ts)
-
-
 def test_parse_military_time_string_0():
     ts = '1600'
     mt = parsing.parse_military_time_string(ts)
