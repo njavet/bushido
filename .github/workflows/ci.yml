@@ -4,6 +4,9 @@ name: CI
 
 on: [push, pull_request]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,6 +33,7 @@ jobs:
         run: |
           poetry run ruff format .
           poetry run ruff check --fix .
+
       - name: Commit
         run: |
           git config --global user.name "github-actions"
