@@ -1,7 +1,7 @@
 from bushido.db.conn import SessionFactory
 
 
-class  AppContext:
+class AppContext:
     dbs = dict[str, SessionFactory] | None
 
 

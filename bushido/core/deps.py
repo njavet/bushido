@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 from bushido.core.app_context import app_context
 
 
-templates_dir = files('bushido').joinpath('templates')
+templates_dir = files("bushido").joinpath("templates")
 templates = Jinja2Templates(directory=str(templates_dir))
 
 
