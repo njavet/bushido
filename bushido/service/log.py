@@ -1,11 +1,9 @@
 # project imports
 from bushido.schema.res import UnitResponse
 from bushido.utils.dtf import create_unit_response_dt
-from bushido.utils.parsing import (preprocess_input,
-                                   parse_datetime_to_timestamp)
+from bushido.utils.parsing import preprocess_input, parse_datetime_to_timestamp
 from bushido.data.base_models import UnitModel
 from bushido.data.repo import Repository
-from bushido.service.loader import load_log_service
 
 
 class LogService:
@@ -21,28 +19,25 @@ class LogService:
         timestamp, words = parse_datetime_to_timestamp(words)
         bushido_date, hms = create_unit_response_dt(timestamp)
         unit_name = self.repo.get_unit_name_for_emoji(emoji)
-        self.process_unit(unit_name,
-                          words,
-                          timestamp,
-                          comment)
-        return UnitResponse(date=bushido_date,
-                            hms=hms,
-                            emoji=emoji,
-                            unit_name=unit_name,
-                            payload=' '.join(words))
+        self.process_unit(unit_name, words, timestamp, comment)
+        return UnitResponse(
+            date=bushido_date,
+            hms=hms,
+            emoji=emoji,
+            unit_name=unit_name,
+            payload=" ".join(words),
+        )
 
-    def process_unit(self,
-                     unit_name,
-                     words,
-                     timestamp,
-                     comment=None):
+    def process_unit(self, unit_name, words, timestamp, comment=None):
         unit = self.create_unit(unit_name, words, timestamp, comment)
         self.repo.save_unit(unit)
 
     def create_unit(self, unit_name, words, timestamp, comment=None):
         emoji_key = self.repo.get_emoji_key_by_unit(unit_name)
-        unit = UnitModel(timestamp=timestamp,
-                         payload=' '.join(words),
-                         comment=comment,
-                         fk_emoji=emoji_key)
+        unit = UnitModel(
+            timestamp=timestamp,
+            payload=" ".join(words),
+            comment=comment,
+            fk_emoji=emoji_key,
+        )
         return unit

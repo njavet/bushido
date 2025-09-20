@@ -5,8 +5,9 @@ import pytz
 from bushido.conf import DAY_START_HOUR, LOCAL_TIME_ZONE
 
 
-def get_datetime_from_timestamp(timestamp: int,
-                                timezone='Europe/Zurich') -> datetime.datetime:
+def get_datetime_from_timestamp(
+    timestamp: int, timezone="Europe/Zurich"
+) -> datetime.datetime:
     cet_timezone = pytz.timezone(timezone)
     cet_dt = datetime.datetime.fromtimestamp(timestamp, cet_timezone)
     return cet_dt
@@ -27,7 +28,7 @@ def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
 def create_unit_response_dt(timestamp):
     dt = get_datetime_from_timestamp(timestamp)
     bushido_date = get_bushido_date_from_datetime(dt)
-    hms = dt.strftime('%H%M')
+    hms = dt.strftime("%H%M")
     return bushido_date, hms
 
 

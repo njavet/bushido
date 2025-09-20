@@ -11,8 +11,7 @@ class SessionFactory:
         self._fronzen = False
         self.db_url = db_url
         self._engine = create_engine(db_url)
-        self._sessionmaker = sessionmaker(bind=self._engine,
-                                          expire_on_commit=False)
+        self._sessionmaker = sessionmaker(bind=self._engine, expire_on_commit=False)
         self._fronzen = True
 
     def get_session(self):

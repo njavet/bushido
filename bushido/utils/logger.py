@@ -15,4 +15,3 @@ class LoggerFactory:
         handler.setLevel(logging.DEBUG)
         logger.addHandler(handler)
         return logger
-

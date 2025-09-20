@@ -4,19 +4,19 @@ import sys
 import json
 
 
-def convert_tg_export(json_data, local_timezone=ZoneInfo('Europe/Zurich')):
+def convert_tg_export(json_data, local_timezone=ZoneInfo("Europe/Zurich")):
     """
     this converts jsondata that was exported by telegram
     """
     lst = []
-    for message in json_data['messages']:
-        msg_text = message['text']
-        reply = 'reply_to_message_id' in message
+    for message in json_data["messages"]:
+        msg_text = message["text"]
+        reply = "reply_to_message_id" in message
         if msg_text and not reply:
-            from_id = int(message['from_id'][4:])
+            from_id = int(message["from_id"][4:])
             # this is CET time when I export it from telegram
-            dt_str = message['date']
-            dt_format = '%Y-%m-%dT%H:%M:%S'
+            dt_str = message["date"]
+            dt_format = "%Y-%m-%dT%H:%M:%S"
             naive_dt = datetime.datetime.strptime(dt_str, dt_format)
             local_dt = naive_dt.replace(tzinfo=local_timezone)
             # storage in seconds, precise enough for this use case
@@ -24,9 +24,7 @@ def convert_tg_export(json_data, local_timezone=ZoneInfo('Europe/Zurich')):
             # utc_dt = local_dt.replace(tzinfo=ZoneInfo('UTC'))
             # import pandas as pd
             # timestamp = pd.Timestamp(utc_dt)
-            dix = {'agent_id': from_id,
-                   'text': msg_text,
-                   'local_datetime': dt_str}
+            dix = {"agent_id": from_id, "text": msg_text, "local_datetime": dt_str}
             lst.append(dix)
     return lst
 
@@ -63,15 +61,16 @@ for item in data:
 
 """
 
+
 def convert_tg_export_to_file(json_data):
     res = convert_tg_export(json_data)
-    with open('converted.json', 'w') as f:
+    with open("converted.json", "w") as f:
         json.dump(res, f, indent=2, ensure_ascii=False)
 
 
 def main():
     if len(sys.argv) != 2:
-        print(f'usage: python {sys.argv[0]} <json_file>')
+        print(f"usage: python {sys.argv[0]} <json_file>")
         sys.exit(1)
     with open(sys.argv[1]) as f:
         data = json.load(f)
@@ -79,6 +78,5 @@ def main():
     convert_tg_export_to_file(data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
