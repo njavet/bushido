@@ -2,15 +2,14 @@ import datetime
 import re
 
 # project imports
-from bushido.exceptions import ValidationError
-from bushido.conf import LOCAL_TIME_ZONE
+from bushido.core.conf import LOCAL_TIME_ZONE
 
 
 def preprocess_input(text: str) -> tuple[str, list[str], str | None] | None:
     parts = text.split("#", 1)
     emoji_payload = parts[0]
     if not emoji_payload:
-        raise ValidationError("Empty payload")
+        raise ValueError("Empty payload")
     if len(parts) > 1 and parts[1]:
         comment = parts[1].strip()
     else:
@@ -118,12 +117,12 @@ def parse_datetime_to_timestamp(words, option="--dt") -> tuple[int, list[str]]:
     try:
         dt_str = words[ind + 1]
     except IndexError:
-        raise ValidationError("no datetime")
+        raise ValueError("no datetime")
 
     try:
         dt = datetime.datetime.strptime(dt_str, "%Y.%m.%d-%H%M")
     except ValueError:
-        raise ValidationError("wrong time format")
+        raise ValueError("wrong time format")
 
     dt = dt.replace(tzinfo=LOCAL_TIME_ZONE)
     words = words[:ind] + words[ind + 2 :]
