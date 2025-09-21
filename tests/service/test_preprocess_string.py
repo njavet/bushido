@@ -1,4 +1,5 @@
 import pytest
+from unittest.mock import MagicMock
 
 # project imports
 from bushido.core.result import Ok, Err
@@ -7,7 +8,9 @@ from bushido.service.log_unit import LogUnitService
 
 @pytest.fixture
 def service():
-    return LogUnitService()
+    return LogUnitService(parser=MagicMock(),
+                          mapper=MagicMock(),
+                          storer=MagicMock())
 
 
 def test_empty_input_string(service):
