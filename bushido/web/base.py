@@ -9,6 +9,7 @@ from bushido.service.log_unit import LogUnitService
 from bushido.service.mapper.base import UnitMapper
 from bushido.service.parser.base import UnitParser
 
+
 router = APIRouter()
 
 

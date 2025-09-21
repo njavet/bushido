@@ -7,7 +7,7 @@ from bushido.service.parser.base import UnitParser
 
 
 class LiftingParser(UnitParser):
-    def parse(self, unit_spec: UnitSpec) -> Result[ParsedUnit]:
+    def parse(self, unit_spec: UnitSpec) -> Result[ParsedUnit[Exercise]]:
         weights = [float(w) for w in unit_spec.words[::3]]
         reps = [float(r) for r in unit_spec.words[1::3]]
         rests = [float(r) for r in unit_spec.words[2::3]] + [0]

@@ -1,8 +1,7 @@
-from typing import TypeVar
-
 from sqlalchemy.orm import Session
 
-T = TypeVar('T')
+# project imports
+from bushido.core.types import ORM_T
 
 
 class UnitRepo:
@@ -10,7 +9,7 @@ class UnitRepo:
         self.session = session
 
     # TODO handle exceptions
-    def add(self, orm_lst: list[T]) -> bool:
+    def add(self, orm_lst: list[ORM_T]) -> bool:
         self.session.add_all(orm_lst)
         self.session.commit()
         return True

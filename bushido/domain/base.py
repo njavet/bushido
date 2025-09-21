@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Generic
 
 # project imports
+from bushido.core.types import UNIT_T
 from bushido.core.unit import UnitName
 
 
@@ -12,11 +13,8 @@ class UnitSpec:
     comment: str | None = None
 
 
-T = TypeVar('T')
-
-
 @dataclass
-class ParsedUnit(Generic[T]):
+class ParsedUnit(Generic[UNIT_T]):
     unit_name: UnitName
-    data: T
+    data: UNIT_T
     comment: str | None = None
