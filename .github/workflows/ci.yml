@@ -1,104 +1,87 @@
-
-# .github/workflows/ci.yml
 name: CI
 
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches: [ main ]
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  CI:
+  lint:
+    name: Ruff (format & lint)
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
 
-      - name: Install poetry
-        run: pip install poetry
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.8.3
 
-      - name: Install dependencies
-        run: poetry install --no-interaction --without=DEV
+      - name: Cache venv
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
 
-      - name: Run Ruff
-        run: |
-          poetry run ruff format .
-          poetry run ruff check --fix .
+      - name: Install deps (with dev)
+        run: poetry install --no-interaction --with dev
 
-      - name: Commit
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add .
-          git commit -m "Ruff Format" || true
-          git push
+      - name: Check formatting (ruff)
+        run: poetry run ruff format --check .
 
-      - name: Run Ruff Check
+      - name: Lint (ruff)
         run: poetry run ruff check .
 
-      - name: Run Type Checker
-        run: poetry run mypy
-
-      - name: Run tests
-        run: poetry run pytest tests
-
-  build:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  typecheck:
+    name: mypy
     runs-on: ubuntu-latest
-
+    needs: [lint]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-
-      - name: Install poetry
-        run: pip install poetry
-
-      - name: Build Package
-        run: poetry build
-
-      - name: Get version from pyproject.toml
-        id: get_version
-        run: | 
-          VERSION=$(poetry version -s)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - uses: snok/install-poetry@v1
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
-          release_name: Release ${{ steps.get_version.outputs.version }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
+          version: 1.8.3
+      - uses: actions/cache@v4
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/bushido-${{ steps.get_version.outputs.version }}.tar.gz
-          asset_name: bushido-${{ steps.get_version.outputs.version }}.tar.gz
-          asset_content_type:  application/gzip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+      - run: poetry install --no-interaction --with dev
+      - run: poetry run mypy
 
-
-
+  test:
+    name: pytest (${{ matrix.python }})
+    runs-on: ubuntu-latest
+    needs: [typecheck]
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: 'pip'
+      - uses: snok/install-poetry@v1
+        with:
+          version: 1.8.3
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-${{ matrix.python }}-poetry-${{ hashFiles('**/poetry.lock') }}
+      - run: poetry install --no-interaction --with dev
+      - run: poetry run pytest -q
