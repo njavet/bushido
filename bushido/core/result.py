@@ -4,6 +4,7 @@ from typing import Generic, TypeVar, Literal, Union
 
 T = TypeVar('T')
 
+
 @dataclass
 class Ok(Generic[T]):
     value: T
