@@ -2,7 +2,7 @@ from typing import Protocol
 
 # project imports
 from bushido.core.result import Result
-from bushido.domain.unit import UnitSpec, ParsedUnit
+from bushido.domain.base import UnitSpec, ParsedUnit
 
 
 class UnitParser(Protocol):

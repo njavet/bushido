@@ -1,24 +1,36 @@
-# project imports
+
+from bushido.repo.base import UnitRepo
 from bushido.core.result import Result, Err, Ok
-from bushido.domain.unit import UnitSpec
+from bushido.domain.base import UnitSpec
 from bushido.service.parser.base import UnitParser
 from bushido.service.mapper.base import UnitMapper
-from bushido.service.storer.base import UnitStorer
 
 
 class LogUnitService:
-    def __init__(self, parser: UnitParser, mapper: UnitMapper, storer: UnitStorer) -> None:
+    def __init__(self,
+                 repo: UnitRepo,
+                 parser: UnitParser,
+                 mapper: UnitMapper) -> None:
+        self._repo = repo
         self._parser = parser
         self._mapper = mapper
-        self._storer = storer
 
     def log_unit(self, line: str) -> Result[str]:
         pre_result = self.preprocess_input(line)
-        if isinstance(pre_result, Ok):
-            unit_spec = pre_result.value
+        if isinstance(pre_result, Err):
+            return pre_result
 
+        unit_spec = pre_result.value
+        parse_result = self._parser.parse(unit_spec)
+        if isinstance(parse_result, Err):
+            return parse_result
+
+        parsed_unit = parse_result.value
+        orm_lst = self._mapper.to_orm(parsed_unit)
+        if self._repo.add(orm_lst):
+            return Ok('Unit confirmed')
         else:
-            result = Err(pre_result.message)
+            return Err('db error')
 
     @staticmethod
     def preprocess_input(line: str) -> Result[UnitSpec]:
