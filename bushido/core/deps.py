@@ -1,13 +1,13 @@
 from collections.abc import Generator
 from importlib.resources import files
 
-from sqlalchemy.orm import Session
 from fastapi import HTTPException, Path, Request
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
 
+from bushido.core.types import ORM_ST, ORM_T, UNIT_T
 from bushido.service.mapper.base import UnitMapper
 from bushido.service.parser.base import UnitParser
-from bushido.core.types import UNIT_T, ORM_T, ORM_ST
 
 templates_dir = files('bushido').joinpath('templates')
 templates = Jinja2Templates(directory=str(templates_dir))

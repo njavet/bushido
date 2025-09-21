@@ -1,6 +1,6 @@
 # project imports
+from bushido.db import LiftingSet, LiftingUnit
 from bushido.domain.base import ParsedUnit
-from bushido.db import LiftingUnit, LiftingSet
 from bushido.domain.lifting import ExerciseSpec, SetSpec
 from bushido.service.mapper.base import UnitMapper
 

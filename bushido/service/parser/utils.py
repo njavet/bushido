@@ -1,11 +1,10 @@
 import datetime
 import re
 
-import pytz
+from bushido.core.conf import DAY_START_HOUR
 
 # project imports
-from bushido.core.result import Ok, Err, Result
-from bushido.core.conf import DAY_START_HOUR, LOCAL_TIME_ZONE
+from bushido.core.result import Err, Ok, Result
 
 
 def time_string_to_seconds(time_string: str) -> Result[float]:

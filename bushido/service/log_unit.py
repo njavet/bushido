@@ -1,5 +1,5 @@
 from bushido.core.result import Err, Ok, Result
-from bushido.core.types import UNIT_T, ORM_T, ORM_ST
+from bushido.core.types import ORM_ST, ORM_T, UNIT_T
 from bushido.domain.base import UnitSpec
 from bushido.repo.base import UnitRepo
 from bushido.service.mapper.base import UnitMapper
