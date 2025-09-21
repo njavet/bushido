@@ -1,3 +1,4 @@
+from typing import Any, cast, Mapping, Generator, Optional
 from collections.abc import Generator
 from importlib.resources import files
 
@@ -24,17 +25,19 @@ def get_session(request: Request) -> Generator[Session, None, None]:
 
 def get_parser(
     request: Request, unit_name: str = Path(...)
-) -> UnitParser[UNIT_T]:
+) -> UnitParser[Any]:
+    parsers = cast(Mapping[str, UnitParser[Any]], request.app.state.parsers)
     try:
-        return request.app.state.parser[unit_name]
+        return parsers[unit_name]
     except KeyError:
         raise HTTPException(status_code=404, detail='Unit not found')
 
 
 def get_mapper(
     request: Request, unit_name: str = Path(...)
-) -> UnitMapper[UNIT_T, ORM_T, ORM_ST]:
+) -> UnitMapper[Any, Any, Any]:
+    mappers = cast(Mapping[str, UnitMapper[Any, Any, Any]], request.app.state.mappers)
     try:
-        return request.app.state.mapper[unit_name]
+        return mappers[unit_name]
     except KeyError:
         raise HTTPException(status_code=404, detail='Unit not found')
