@@ -20,11 +20,11 @@ async def log_unit(
     parser: UnitParser[UNIT_T] = Depends(get_parser),
     mapper: UnitMapper[UNIT_T, ORM_T, ORM_ST] = Depends(get_mapper),
     session: Session = Depends(get_session),
-) -> str:
+) -> str | None:
     unit_repo = UnitRepo(session)
     service = LogUnitService(unit_repo, parser, mapper)
     result = service.log_unit(ulr.line)
     if isinstance(result, Ok):
         return result.value
-
+    # TODO check return type
     raise HTTPException(status_code=400, detail=result.message)

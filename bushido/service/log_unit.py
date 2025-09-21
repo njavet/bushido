@@ -8,7 +8,10 @@ from bushido.service.parser.base import UnitParser
 
 class LogUnitService:
     def __init__(
-        self, repo: UnitRepo, parser: UnitParser[UNIT_T], mapper: UnitMapper[UNIT_T, ORM_T, ORM_ST]
+        self,
+        repo: UnitRepo,
+        parser: UnitParser[UNIT_T],
+        mapper: UnitMapper[UNIT_T, ORM_T, ORM_ST],
     ) -> None:
         self._repo = repo
         self._parser = parser

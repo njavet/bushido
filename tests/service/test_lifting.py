@@ -32,7 +32,9 @@ def parser():
             UnitSpec(unit_name='squat', words=['120', '5']),
             ParsedUnit(
                 unit_name='squat',
-                data=ExerciseSpec(sets=[SetSpec(weight=120.0, reps=5, rest=0.0)]),
+                data=ExerciseSpec(
+                    sets=[SetSpec(weight=120.0, reps=5, rest=0.0)]
+                ),
                 comment=None,
             ),
         ),
