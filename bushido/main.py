@@ -1,3 +1,4 @@
+from collections.abc import AsyncIterator
 import logging
 from contextlib import asynccontextmanager
 
@@ -17,12 +18,12 @@ logging.basicConfig(
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.sf = SessionFactory()
     yield
 
 
-def create_app():
+def create_app() -> FastAPI:
     app = FastAPI(lifespan=lifespan)
 
     app.add_middleware(
