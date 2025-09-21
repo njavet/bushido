@@ -1,8 +1,7 @@
-from typing import Sequence
+from typing import Any
 from sqlalchemy.orm import Session
 
 # project imports
-from bushido.core.types import ORM_T, ORM_ST
 
 
 class UnitRepo:
@@ -10,7 +9,7 @@ class UnitRepo:
         self.session = session
 
     # TODO handle exceptions
-    def add_unit(self, unit: ORM_T, subunits: Sequence[ORM_ST]) -> bool:
+    def add_unit(self, unit: Any, subunits: Any) -> bool:
         self.session.add(unit)
         self.session.commit()
         for subunit in subunits:

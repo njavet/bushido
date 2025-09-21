@@ -6,10 +6,10 @@ from bushido.db.model.base import Base, Unit
 
 
 class LiftingUnit(Unit):
-    __tablename__ = 'unit_lifting'
+    __tablename__ = 'lifting'
 
-    sets = relationship(
-        back_populates='session',
+    sets: Mapped[list['LiftingSet']] = relationship(
+        back_populates='exercise',
         cascade='all, delete-orphan',
     )
 
@@ -21,6 +21,8 @@ class LiftingSet(Base):
     reps: Mapped[float] = mapped_column()
     rest: Mapped[float] = mapped_column(default=0)
 
-    session = relationship(
+    fk_unit: Mapped[int] = mapped_column(ForeignKey(LiftingUnit.id))
+
+    exercise: Mapped[LiftingUnit] = relationship(
         back_populates='sets',
     )
