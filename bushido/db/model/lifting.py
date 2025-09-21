@@ -2,10 +2,10 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 # project imports
-from bushido.db.model.base import Base
+from bushido.db.model.base import Unit, Subunit
 
 
-class Exercise(Base):
+class Exercise(Unit):
     __tablename__ = 'exercise'
 
     name: Mapped[str] = mapped_column()
@@ -16,7 +16,7 @@ class Exercise(Base):
     )
 
 
-class LiftingSet(Base):
+class LiftingSet(Subunit):
     __tablename__ = 'lifting_set'
 
     weight: Mapped[float] = mapped_column()

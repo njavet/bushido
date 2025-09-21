@@ -3,7 +3,7 @@ import pytest
 # project imports
 from bushido.core.result import Ok
 from bushido.domain.base import ParsedUnit, UnitSpec
-from bushido.domain.lifting import Exercise, SetSpec
+from bushido.domain.lifting import ExerciseSpec, SetSpec
 from bushido.service.parser.lifting import LiftingParser
 
 
@@ -19,7 +19,7 @@ def parser():
             UnitSpec(unit_name='squat', words=['100', '5', '180', '100', '5']),
             ParsedUnit(
                 unit_name='squat',
-                data=Exercise(
+                data=ExerciseSpec(
                     sets=[
                         SetSpec(weight=100.0, reps=5, rest=180.0),
                         SetSpec(weight=100.0, reps=5, rest=0.0),
@@ -32,7 +32,7 @@ def parser():
             UnitSpec(unit_name='squat', words=['120', '5']),
             ParsedUnit(
                 unit_name='squat',
-                data=Exercise(sets=[SetSpec(weight=120.0, reps=5, rest=0.0)]),
+                data=ExerciseSpec(sets=[SetSpec(weight=120.0, reps=5, rest=0.0)]),
                 comment=None,
             ),
         ),
@@ -44,7 +44,7 @@ def parser():
             ),
             ParsedUnit(
                 unit_name='squat',
-                data=Exercise(
+                data=ExerciseSpec(
                     sets=[
                         SetSpec(weight=150.0, reps=3, rest=300.0),
                         SetSpec(weight=160.0, reps=2.0, rest=90.0),
@@ -62,7 +62,7 @@ def parser():
             ),
             ParsedUnit(
                 unit_name='deadlift',
-                data=Exercise(
+                data=ExerciseSpec(
                     sets=[SetSpec(weight=150.0, reps=5.0, rest=0.0)]
                 ),
                 comment='just a single set',
