@@ -11,6 +11,9 @@ class LogUnitService:
         pre_result = self.preprocess_input(line)
         if isinstance(pre_result, Err):
             result = Err(pre_result.message)
+        else:
+            unit_spec = pre_result.value
+
 
     @staticmethod
     def preprocess_input(line: str) -> Result[UnitSpec]:
