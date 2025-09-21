@@ -1,3 +1,4 @@
+from typing import Generic, TypeVar
 from dataclasses import dataclass
 
 # project imports
@@ -11,8 +12,11 @@ class UnitSpec:
     comment: str | None = None
 
 
+T = TypeVar('T')
+
+
 @dataclass
-class ParsedUnit:
+class ParsedUnit(Generic[T]):
     unit_name: UnitName
-    data: dict
+    data: T
     comment: str | None = None

@@ -20,7 +20,6 @@ class LogUnitService:
         else:
             result = Err(pre_result.message)
 
-
     @staticmethod
     def preprocess_input(line: str) -> Result[UnitSpec]:
         parts = line.split('#', 1)
