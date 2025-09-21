@@ -36,17 +36,16 @@ class LogUnitService:
         parts = line.split('#', 1)
         payload = parts[0]
 
-        if payload:
-            if len(parts) > 1 and parts[1]:
-                comment = parts[1].strip()
-            else:
-                comment = None
-            all_words = payload.split()
-            unit_name = all_words[0]
-            words = all_words[1:]
-            result = Ok(
-                UnitSpec(unit_name=unit_name, words=words, comment=comment)
-            )
+        if not payload:
+            return Err('empty payload')
+        if len(parts) > 1 and parts[1]:
+            comment = parts[1].strip()
         else:
-            result = Err('empty payload')
+            comment = None
+        all_words = payload.split()
+        unit_name = all_words[0]
+        words = all_words[1:]
+        result = Ok(
+            UnitSpec(unit_name=unit_name, words=words, comment=comment)
+        )
         return result
