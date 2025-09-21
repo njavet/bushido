@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from bushido.core.deps import get_mapper, get_parser, get_session
 from bushido.core.result import Ok
+from bushido.core.types import UNIT_T, ORM_T, ORM_ST
 from bushido.repo.base import UnitRepo
 from bushido.schema.req import UnitLogRequest
 from bushido.service.log_unit import LogUnitService
@@ -16,10 +17,10 @@ router = APIRouter()
 @router.post('/{unit_name}/log-unit')
 async def log_unit(
     ulr: UnitLogRequest,
-    parser: UnitParser = Depends(get_parser),
-    mapper: UnitMapper = Depends(get_mapper),
+    parser: UnitParser[UNIT_T] = Depends(get_parser),
+    mapper: UnitMapper[UNIT_T, ORM_T, ORM_ST] = Depends(get_mapper),
     session: Session = Depends(get_session),
-):
+) -> str:
     unit_repo = UnitRepo(session)
     service = LogUnitService(unit_repo, parser, mapper)
     result = service.log_unit(ulr.line)
