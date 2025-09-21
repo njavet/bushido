@@ -1,6 +1,6 @@
 # project imports
-from bushido.core.types import ORM_T
 from bushido.domain.base import ParsedUnit
+from bushido.db import Exercise, LiftingSet
 from bushido.service.mapper.base import UnitMapper
 
 

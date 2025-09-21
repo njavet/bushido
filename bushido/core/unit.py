@@ -1,8 +1,7 @@
 from enum import StrEnum
 
 
-class UnitName(StrEnum):
-    # lifting
+class LiftingUnitName(StrEnum):
     squat = 'squat'
     deadlift = 'deadlift'
     benchpress = 'benchpress'
