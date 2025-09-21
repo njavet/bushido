@@ -1,12 +1,10 @@
-from typing import Any, cast, Mapping, Generator, Optional
-from collections.abc import Generator
 from importlib.resources import files
+from typing import Any, Generator, Mapping, cast
 
 from fastapi import HTTPException, Path, Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from bushido.core.types import ORM_ST, ORM_T, UNIT_T
 from bushido.service.mapper.base import UnitMapper
 from bushido.service.parser.base import UnitParser
 
@@ -36,7 +34,9 @@ def get_parser(
 def get_mapper(
     request: Request, unit_name: str = Path(...)
 ) -> UnitMapper[Any, Any, Any]:
-    mappers = cast(Mapping[str, UnitMapper[Any, Any, Any]], request.app.state.mappers)
+    mappers = cast(
+        Mapping[str, UnitMapper[Any, Any, Any]], request.app.state.mappers
+    )
     try:
         return mappers[unit_name]
     except KeyError:

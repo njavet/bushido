@@ -6,9 +6,10 @@ from fastapi import FastAPI
 from rich.logging import RichHandler
 from starlette.middleware.cors import CORSMiddleware
 
+from bushido.bootstrap.loader import load_mappers, load_parsers
+
 # project imports
 from bushido.db.conn import SessionFactory
-from bushido.bootstrap.loader import load_parsers, load_mappers
 from bushido.web import router
 
 logging.basicConfig(
