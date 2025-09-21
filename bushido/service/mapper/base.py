@@ -1,6 +1,6 @@
 from typing import Protocol, TypeVar
 
-from bushido.domain.unit import ParsedUnit
+from bushido.domain.base import ParsedUnit
 
 
 T = TypeVar('T')

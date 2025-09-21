@@ -3,7 +3,6 @@ from contextlib import contextmanager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# project imports
 from bushido.core.conf import DB_URL
 from bushido.db.model.base import Base
 
@@ -52,4 +51,3 @@ class SessionFactory:
         engine = create_engine(self.db_url)
         Base.metadata.create_all(bind=engine)
         return engine
-

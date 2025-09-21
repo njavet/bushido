@@ -1,6 +1,6 @@
 # project imports
 from bushido.core.result import Result
-from bushido.domain.unit import ParsedUnit
+from bushido.domain.base import ParsedUnit
 from bushido.service.parser.base import UnitParser
 
 

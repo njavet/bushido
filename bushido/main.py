@@ -6,9 +6,9 @@ from rich.logging import RichHandler
 from starlette.middleware.cors import CORSMiddleware
 
 # project imports
-from bushido.core.app_context import app_context
 from bushido.db.conn import SessionFactory
 from bushido.web import router
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,10 +19,8 @@ logging.basicConfig(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    sql_db = SessionFactory('sqlite')
-    app.state.sql_db = sql_db
+    app.state.sf = SessionFactory()
     yield
-    app_context.dbs = None
 
 
 def create_app():
