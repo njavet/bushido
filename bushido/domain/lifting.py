@@ -8,11 +8,9 @@ from dataclasses import dataclass
 class SetSpec:
     weight: float
     reps: float
-    rest: Optional[float]
+    rest: float
 
 
 @dataclass
 class Exercise:
-    name: str
     sets: list[SetSpec]
-
