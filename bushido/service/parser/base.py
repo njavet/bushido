@@ -1,8 +1,9 @@
 from typing import Protocol
 
+from bushido.core.result import Result
+
 # project imports
 from bushido.core.types import UNIT_T
-from bushido.core.result import Result
 from bushido.domain.base import ParsedUnit, UnitSpec
 
 

@@ -3,9 +3,9 @@ import datetime
 # project imports
 from bushido.core.result import Ok
 from bushido.service.parser.utils import (
-    time_string_to_seconds,
-    parse_military_time_string,
     find_previous_sunday,
+    parse_military_time_string,
+    time_string_to_seconds,
 )
 
 

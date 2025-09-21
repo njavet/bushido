@@ -1,5 +1,5 @@
-from collections.abc import AsyncIterator
 import logging
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
