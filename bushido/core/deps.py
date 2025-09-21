@@ -24,6 +24,7 @@ def get_session(request: Request) -> Generator[Session, None, None]:
 def get_parser(
     request: Request, unit_name: str = Path(...)
 ) -> UnitParser[Any]:
+    # TODO remove quick mypy fix
     parsers = cast(Mapping[str, UnitParser[Any]], request.app.state.parsers)
     try:
         return parsers[unit_name]
@@ -34,6 +35,7 @@ def get_parser(
 def get_mapper(
     request: Request, unit_name: str = Path(...)
 ) -> UnitMapper[Any, Any, Any]:
+    # TODO remove quick mypy fix
     mappers = cast(
         Mapping[str, UnitMapper[Any, Any, Any]], request.app.state.mappers
     )
