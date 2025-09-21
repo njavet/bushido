@@ -1,13 +1,10 @@
 import datetime
-import pytest
 
 # project imports
 from bushido.service.parser.utils import (
-    parse_time_string,
-    parse_military_time_string,
     find_previous_sunday,
-    get_datetime_from_timestamp,
-    parse_datetime_to_timestamp,
+    parse_military_time_string,
+    parse_time_string,
 )
 
 

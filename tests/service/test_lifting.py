@@ -1,10 +1,10 @@
 import pytest
 
 # project imports
-from bushido.core.result import Ok, Err
+from bushido.core.result import Ok
 from bushido.core.unit import UnitName
-from bushido.domain.base import UnitSpec, ParsedUnit
-from bushido.domain.lifting import SetSpec, Exercise
+from bushido.domain.base import ParsedUnit, UnitSpec
+from bushido.domain.lifting import Exercise, SetSpec
 from bushido.service.parser.lifting import LiftingParser
 
 

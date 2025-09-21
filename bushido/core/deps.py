@@ -1,11 +1,10 @@
 from importlib.resources import files
 
-from fastapi import Request, Path, HTTPException
+from fastapi import HTTPException, Path, Request
 from fastapi.templating import Jinja2Templates
 
 from bushido.service.mapper.base import UnitMapper
 from bushido.service.parser.base import UnitParser
-
 
 templates_dir = files('bushido').joinpath('templates')
 templates = Jinja2Templates(directory=str(templates_dir))
