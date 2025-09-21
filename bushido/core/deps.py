@@ -1,5 +1,7 @@
+from collections.abc import Generator
 from importlib.resources import files
 
+from sqlalchemy.orm import Session
 from fastapi import HTTPException, Path, Request
 from fastapi.templating import Jinja2Templates
 
@@ -10,11 +12,11 @@ templates_dir = files('bushido').joinpath('templates')
 templates = Jinja2Templates(directory=str(templates_dir))
 
 
-def get_templates():
+def get_templates() -> Jinja2Templates:
     return templates
 
 
-def get_session(request: Request):
+def get_session(request: Request) -> Generator[Session, None, None]:
     sf = request.app.state.sf
     yield from sf.get_session()
 

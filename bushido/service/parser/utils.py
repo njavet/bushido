@@ -108,7 +108,7 @@ def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
         return dt.date()
 
 
-def find_previous_sunday(dt: datetime.datetime) -> datetime.datetime:
+def find_previous_sunday(dt: datetime.date) -> datetime.date:
     """
     Finds the previous sunday of the given date
     e.g. input: 01.01.2020
@@ -122,7 +122,7 @@ def find_previous_sunday(dt: datetime.datetime) -> datetime.datetime:
         return dt
 
 
-def find_next_saturday(dt: datetime.datetime) -> datetime.datetime:
+def find_next_saturday(dt: datetime.date) -> datetime.date:
     if dt.weekday() != 6:
         days = 5 - dt.weekday()
         return dt + datetime.timedelta(days=days)
