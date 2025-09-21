@@ -3,10 +3,10 @@ from typing import Any, Mapping
 
 # project imports
 from bushido.core.unit import LiftingUnitName
-from bushido.service.parser.base import UnitParser
 from bushido.service.mapper.base import UnitMapper
-from bushido.service.parser.lifting import LiftingParser
 from bushido.service.mapper.lifting import LiftingMapper
+from bushido.service.parser.base import UnitParser
+from bushido.service.parser.lifting import LiftingParser
 
 
 # TODO check return type (any vs UNIT_T)
