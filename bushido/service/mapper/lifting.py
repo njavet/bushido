@@ -1,10 +1,11 @@
 # project imports
-from bushido.core.result import Result
+from bushido.core.types import ORM_T
 from bushido.domain.base import ParsedUnit
-from bushido.service.parser.base import UnitParser
+from bushido.service.mapper.base import UnitMapper
 
 
-class LiftingParser(UnitParser):
-    def parse(
-        self, words: list[str], comment: str | None
-    ) -> Result[ParsedUnit]: ...
+class LiftingMapper(UnitMapper):
+    def to_orm(self, parsed_unit: ParsedUnit
+    ) -> list[ORM_T]: ...
+
+    def from_orm(self, orm_lst: list[ORM_T]) -> ParsedUnit: ...

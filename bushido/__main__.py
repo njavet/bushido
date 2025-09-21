@@ -1,4 +1,4 @@
-import argparse
+from argparse import ArgumentParser
 import sys
 
 import uvicorn
@@ -9,8 +9,8 @@ from bushido import __version__
 from bushido.core.conf import DEFAULT_PORT
 
 
-def create_argparser():
-    parser = argparse.ArgumentParser(description='bushido server')
+def create_parser() -> ArgumentParser:
+    parser = ArgumentParser(description='bushido server')
     parser.add_argument('--version', action='store_true', help='show version')
     parser.add_argument(
         '--devel', action='store_true', help='run development server'
@@ -18,8 +18,8 @@ def create_argparser():
     return parser
 
 
-def main():
-    parser = create_argparser()
+def main() -> None:
+    parser = create_parser()
     args = parser.parse_args()
     if args.version:
         print(f'bushido v{__version__}')
