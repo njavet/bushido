@@ -19,8 +19,8 @@ logging.basicConfig(
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    dbs = {'sqlite': SessionFactory('sqlite')}
-    app_context.dbs = dbs
+    sql_db = SessionFactory('sqlite')
+    app.state.sql_db = sql_db
     yield
     app_context.dbs = None
 
