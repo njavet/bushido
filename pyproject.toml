@@ -9,7 +9,6 @@ select = ["E", "F", "I"]
 quote-style = "single"
 indent-style = "space"
 
-
 [project]
 name = "bushido"
 version = "0.1.0"
@@ -68,7 +67,6 @@ dependencies = [
     "pathspec (>=0.12.1,<0.13.0)"
 ]
 
-
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -80,7 +78,6 @@ ruff = "^0.13.1"
 coverage = "^7.10.6"
 mypy = "^1.18.2"
 mypy-extensions = "^1.1.0"
-
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^9.5.0"
