@@ -1,3 +1,3 @@
-__all__ = ['Exercise', 'LiftingSet']
+__all__ = ['LiftingUnit', 'LiftingSet']
 
-from .model.lifting import Exercise, LiftingSet
+from .model.lifting import LiftingUnit, LiftingSet
