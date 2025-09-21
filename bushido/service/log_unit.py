@@ -1,18 +1,24 @@
 # project imports
 from bushido.core.result import Result, Err, Ok
 from bushido.domain.unit import UnitSpec
+from bushido.service.parser.base import UnitParser
+from bushido.service.mapper.base import UnitMapper
+from bushido.service.storer.base import UnitStorer
 
 
 class LogUnitService:
-    def __init__(self):
-        pass
+    def __init__(self, parser: UnitParser, mapper: UnitMapper, storer: UnitStorer) -> None:
+        self._parser = parser
+        self._mapper = mapper
+        self._storer = storer
 
     def log_unit(self, line: str) -> Result[str]:
         pre_result = self.preprocess_input(line)
-        if isinstance(pre_result, Err):
-            result = Err(pre_result.message)
-        else:
+        if isinstance(pre_result, Ok):
             unit_spec = pre_result.value
+
+        else:
+            result = Err(pre_result.message)
 
 
     @staticmethod
