@@ -7,7 +7,7 @@ from bushido.service.parser.utils import (
     parse_military_time_string,
     find_previous_sunday,
     get_datetime_from_timestamp,
-    parse_datetime_to_timestamp
+    parse_datetime_to_timestamp,
 )
 
 

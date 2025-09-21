@@ -8,9 +8,9 @@ from bushido.service.log_unit import LogUnitService
 
 @pytest.fixture
 def service():
-    return LogUnitService(parser=MagicMock(),
-                          mapper=MagicMock(),
-                          storer=MagicMock())
+    return LogUnitService(
+        repo=MagicMock(), parser=MagicMock(), mapper=MagicMock()
+    )
 
 
 def test_empty_input_string(service):
@@ -77,4 +77,3 @@ def test_correct_input_syntax_no_payload_no_comment(service):
     assert result.value.unit_name == 'wittgenstein'
     assert result.value.words == []
     assert result.value.comment is None
-

@@ -2,7 +2,7 @@ from typing import TypeVar
 from sqlalchemy.orm import Session
 
 
-T = TypeVar("T")
+T = TypeVar('T')
 
 
 class UnitRepo:

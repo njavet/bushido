@@ -1,4 +1,3 @@
-
 from bushido.repo.base import UnitRepo
 from bushido.core.result import Result, Err, Ok
 from bushido.domain.base import UnitSpec
@@ -7,10 +6,9 @@ from bushido.service.mapper.base import UnitMapper
 
 
 class LogUnitService:
-    def __init__(self,
-                 repo: UnitRepo,
-                 parser: UnitParser,
-                 mapper: UnitMapper) -> None:
+    def __init__(
+        self, repo: UnitRepo, parser: UnitParser, mapper: UnitMapper
+    ) -> None:
         self._repo = repo
         self._parser = parser
         self._mapper = mapper
@@ -45,9 +43,9 @@ class LogUnitService:
             all_words = payload.split()
             unit_name = all_words[0]
             words = all_words[1:]
-            result = Ok(UnitSpec(unit_name=unit_name,
-                                 words=words,
-                                 comment=comment))
+            result = Ok(
+                UnitSpec(unit_name=unit_name, words=words, comment=comment)
+            )
         else:
             result = Err('empty payload')
         return result

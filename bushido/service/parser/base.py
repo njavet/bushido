@@ -6,6 +6,4 @@ from bushido.domain.base import UnitSpec, ParsedUnit
 
 
 class UnitParser(Protocol):
-    def parse(self, unit_spec: UnitSpec) -> Result[ParsedUnit]:
-        ...
-
+    def parse(self, unit_spec: UnitSpec) -> Result[ParsedUnit]: ...
