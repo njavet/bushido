@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checokut code
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -44,6 +44,9 @@ jobs:
 
       - name: Run Ruff Check
         run: poetry run ruff check .
+
+      - name: Run Type Checker
+        run:
 
       - name: Run tests
         run: poetry run pytest tests
