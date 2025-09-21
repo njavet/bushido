@@ -8,4 +8,3 @@ class UnitName(StrEnum):
     benchpress = 'benchpress'
     overheadpress = 'overheadpress'
     rows = 'rows'
-
