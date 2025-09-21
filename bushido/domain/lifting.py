@@ -11,5 +11,5 @@ class SetSpec:
 
 
 @dataclass
-class Exercise:
+class ExerciseSpec:
     sets: list[SetSpec]

@@ -2,7 +2,6 @@ import pytest
 
 # project imports
 from bushido.core.result import Ok
-from bushido.core.unit import UnitName
 from bushido.domain.base import ParsedUnit, UnitSpec
 from bushido.domain.lifting import Exercise, SetSpec
 from bushido.service.parser.lifting import LiftingParser
@@ -19,7 +18,7 @@ def parser():
         (
             UnitSpec(unit_name='squat', words=['100', '5', '180', '100', '5']),
             ParsedUnit(
-                unit_name=UnitName.squat,
+                unit_name='squat',
                 data=Exercise(
                     sets=[
                         SetSpec(weight=100.0, reps=5, rest=180.0),
@@ -32,7 +31,7 @@ def parser():
         (
             UnitSpec(unit_name='squat', words=['120', '5']),
             ParsedUnit(
-                unit_name=UnitName.squat,
+                unit_name='squat',
                 data=Exercise(sets=[SetSpec(weight=120.0, reps=5, rest=0.0)]),
                 comment=None,
             ),
@@ -44,7 +43,7 @@ def parser():
                 comment='heavy day, 20reps at the end',
             ),
             ParsedUnit(
-                unit_name=UnitName.squat,
+                unit_name='squat',
                 data=Exercise(
                     sets=[
                         SetSpec(weight=150.0, reps=3, rest=300.0),
@@ -62,7 +61,7 @@ def parser():
                 comment='just a single set',
             ),
             ParsedUnit(
-                unit_name=UnitName.deadlift,
+                unit_name='deadlift',
                 data=Exercise(
                     sets=[SetSpec(weight=150.0, reps=5.0, rest=0.0)]
                 ),
@@ -75,5 +74,4 @@ def test_correct_lifting_units(parser, unit_spec, expected):
     result = parser.parse(unit_spec)
     assert isinstance(result, Ok)
     parsed_unit = result.value
-    print('parsed_unit', parsed_unit)
     assert parsed_unit == expected

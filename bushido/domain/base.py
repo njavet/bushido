@@ -3,7 +3,6 @@ from typing import Generic
 
 # project imports
 from bushido.core.types import UNIT_T
-from bushido.core.unit import UnitName
 
 
 @dataclass
@@ -13,8 +12,8 @@ class UnitSpec:
     comment: str | None = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class ParsedUnit(Generic[UNIT_T]):
-    unit_name: UnitName
+    unit_name: str
     data: UNIT_T
     comment: str | None = None
