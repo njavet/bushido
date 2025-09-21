@@ -9,6 +9,7 @@ class Exercise(Base):
     __tablename__ = 'exercise'
 
     name: Mapped[str] = mapped_column()
+    comment: Mapped[str] = mapped_column()
     sets = relationship(
         back_populates='session',
         cascade='all, delete-orphan',

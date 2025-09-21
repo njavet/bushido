@@ -1,4 +1,5 @@
 from bushido.core.result import Err, Ok, Result
+from bushido.core.types import UNIT_T, ORM_T, ORM_ST
 from bushido.domain.base import UnitSpec
 from bushido.repo.base import UnitRepo
 from bushido.service.mapper.base import UnitMapper
@@ -7,7 +8,7 @@ from bushido.service.parser.base import UnitParser
 
 class LogUnitService:
     def __init__(
-        self, repo: UnitRepo, parser: UnitParser, mapper: UnitMapper
+        self, repo: UnitRepo, parser: UnitParser[UNIT_T], mapper: UnitMapper[UNIT_T, ORM_T, ORM_ST]
     ) -> None:
         self._repo = repo
         self._parser = parser
@@ -24,8 +25,8 @@ class LogUnitService:
             return parse_result
 
         parsed_unit = parse_result.value
-        orm_lst = self._mapper.to_orm(parsed_unit)
-        if self._repo.add(orm_lst):
+        unit, subunits = self._mapper.to_orm(parsed_unit)
+        if self._repo.add_unit(unit, subunits):
             return Ok('Unit confirmed')
         else:
             return Err('db error')

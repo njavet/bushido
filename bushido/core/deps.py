@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, Path, Request
 from fastapi.templating import Jinja2Templates
 
+from bushido.repo.base import UnitRepo
 from bushido.service.mapper.base import UnitMapper
 from bushido.service.parser.base import UnitParser
 
@@ -31,5 +32,12 @@ def get_parser(request: Request, unit_name: str = Path(...)) -> UnitParser:
 def get_mapper(request: Request, unit_name: str = Path(...)) -> UnitMapper:
     try:
         return request.app.state.mapper[unit_name]
+    except KeyError:
+        raise HTTPException(status_code=404, detail='Unit not found')
+
+
+def get_repo(request: Request, unit_name: str = Path(...)) -> UnitRepo:
+    try:
+        return request.app.state.repo[unit_name]
     except KeyError:
         raise HTTPException(status_code=404, detail='Unit not found')
