@@ -1,3 +1,3 @@
-__all__ = ["LiftingParser"]
+__all__ = ['LiftingParser']
 
 from bushido.service.parser.lifting import LiftingParser
