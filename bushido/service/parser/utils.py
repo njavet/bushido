@@ -1,6 +1,7 @@
 import datetime
-import pytz
 import re
+
+import pytz
 
 # project imports
 from bushido.core.conf import DAY_START_HOUR, LOCAL_TIME_ZONE

@@ -1,8 +1,8 @@
-from bushido.repo.base import UnitRepo
-from bushido.core.result import Result, Err, Ok
+from bushido.core.result import Err, Ok, Result
 from bushido.domain.base import UnitSpec
-from bushido.service.parser.base import UnitParser
+from bushido.repo.base import UnitRepo
 from bushido.service.mapper.base import UnitMapper
+from bushido.service.parser.base import UnitParser
 
 
 class LogUnitService:

@@ -1,5 +1,5 @@
-from typing import Generic, TypeVar
 from dataclasses import dataclass
+from typing import Generic, TypeVar
 
 # project imports
 from bushido.core.unit import UnitName

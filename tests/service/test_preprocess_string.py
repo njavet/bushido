@@ -1,8 +1,9 @@
-import pytest
 from unittest.mock import MagicMock
 
+import pytest
+
 # project imports
-from bushido.core.result import Ok, Err
+from bushido.core.result import Err, Ok
 from bushido.service.log_unit import LogUnitService
 
 
