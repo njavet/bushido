@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Publish GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - uses: snok/install-poetry@v1
+        with:
+          version: 1.8.3
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Build
+        run: poetry build
+
+      - name: Read version
+        id: ver
+        run: echo "version=$(poetry version -s)" >> "$GITHUB_OUTPUT"
+
+      - name: Create Release
+        id: rel
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ steps.ver.outputs.version }}
+          draft: false
+          prerelease: false
+
+      - name: Upload artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*-${{ steps.ver.outputs.version }}.tar.gz
+            dist/*-${{ steps.ver.outputs.version }}-py3-none-any.whl
