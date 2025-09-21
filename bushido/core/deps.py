@@ -20,18 +20,15 @@ def get_session(request: Request):
     yield from sf.get_session()
 
 
-def get_parser(request: Request,
-               unit_name: str = Path(...)) -> UnitParser:
+def get_parser(request: Request, unit_name: str = Path(...)) -> UnitParser:
     try:
         return request.app.state.parser[unit_name]
     except KeyError:
-        raise HTTPException(status_code=404, detail="Unit not found")
+        raise HTTPException(status_code=404, detail='Unit not found')
 
 
-def get_mapper(request: Request,
-               unit_name: str = Path(...)) -> UnitMapper:
+def get_mapper(request: Request, unit_name: str = Path(...)) -> UnitMapper:
     try:
         return request.app.state.mapper[unit_name]
     except KeyError:
-        raise HTTPException(status_code=404, detail="Unit not found")
-
+        raise HTTPException(status_code=404, detail='Unit not found')

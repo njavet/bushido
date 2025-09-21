@@ -14,10 +14,12 @@ router = APIRouter()
 
 
 @router.post('/{unit_name}/log-unit')
-async def log_unit(ulr: UnitLogRequest,
-                   parser: UnitParser = Depends(get_parser),
-                   mapper: UnitMapper = Depends(get_mapper),
-                   session: Session = Depends(get_session)):
+async def log_unit(
+    ulr: UnitLogRequest,
+    parser: UnitParser = Depends(get_parser),
+    mapper: UnitMapper = Depends(get_mapper),
+    session: Session = Depends(get_session),
+):
     unit_repo = UnitRepo(session=session)
     service = LogUnitService(unit_repo, parser, mapper)
     result = service.log_unit(ulr.line)
