@@ -1,4 +1,4 @@
-# bushido
+# bushido (武士道)
 python fastapi app to track progress in various activities like training and study time
 
 ## Setup Backend
