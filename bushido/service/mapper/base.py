@@ -1,15 +1,15 @@
-from typing import Protocol
+from typing import Protocol, TypeVar
 
-from annotated_types import Unit
-
-# project imports
-from bushido.core.result import Result
 from bushido.domain.unit import ParsedUnit
 
 
-class UnitMapper(Protocol):
-    def to_orm(self, parsed_unit: ParsedUnit) -> Unit:
+T = TypeVar('T')
+
+
+class UnitMapper(Protocol[T]):
+    def to_orm(self, parsed_unit: ParsedUnit) -> list[T]:
         ...
-    def from_orm(self):
+
+    def from_orm(self, orm_lst: list[T]) -> ParsedUnit:
         ...
 
