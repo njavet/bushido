@@ -56,6 +56,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install poetry
+        run: pip install poetry
+
       - name: Build Package
         run: poetry build
 
