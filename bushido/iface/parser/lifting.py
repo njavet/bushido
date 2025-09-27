@@ -1,4 +1,5 @@
 from bushido.core.result import Err, Ok, Result
+from bushido.core.unit import LiftingUnitName
 from bushido.domain.lifting import ExerciseSpec, SetSpec
 from bushido.domain.unit import ParsedUnit, UnitSpec
 from bushido.iface.parser.base import UnitParser
@@ -6,6 +7,9 @@ from bushido.iface.parser.base import UnitParser
 
 class LiftingParser(UnitParser[ExerciseSpec]):
     def parse(self, unit_spec: UnitSpec) -> Result[ParsedUnit[ExerciseSpec]]:
+        if not unit_spec.name in [u.name for u in LiftingUnitName]:
+            return Err('invalid unit name')
+
         weights = [float(w) for w in unit_spec.words[::3]]
         reps = [float(r) for r in unit_spec.words[1::3]]
         rests = [float(r) for r in unit_spec.words[2::3]] + [0]
@@ -13,11 +17,11 @@ class LiftingParser(UnitParser[ExerciseSpec]):
             return Err('at least one set')
         if len(weights) != len(reps):
             return Err('weights and reps must have same length')
-        if any(filter(lambda x: x < 0, reps)):
+        if any(x < 0 for x in reps):
             return Err('reps must all be positive')
-        if any(filter(lambda x: x < 0, weights)):
+        if any(x < 0 for x in weights):
             return Err('weights must all be positive')
-        if any(filter(lambda x: x < 0, rests)):
+        if any(x < 0 for x in rests):
             return Err('rests must all be positive')
 
         ex = ExerciseSpec(
