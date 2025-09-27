@@ -1,7 +1,6 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-# project imports
 from bushido.db.model.base import Subunit, Unit
 
 

@@ -5,7 +5,6 @@ import uvicorn
 
 from bushido import __version__
 
-# project imports
 from bushido.core.conf import DEFAULT_PORT
 
 

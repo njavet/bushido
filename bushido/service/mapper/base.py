@@ -1,6 +1,5 @@
 from typing import Protocol
 
-# project imports
 from bushido.core.types import ORM_ST, ORM_T, UNIT_T
 from bushido.domain.unit import ParsedUnit
 

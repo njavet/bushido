@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-# project imports
-
 
 @dataclass
 class SetSpec:

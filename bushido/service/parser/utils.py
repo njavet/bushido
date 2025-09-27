@@ -3,7 +3,6 @@ import re
 
 from bushido.core.conf import DAY_START_HOUR
 
-# project imports
 from bushido.core.result import Err, Ok, Result
 
 

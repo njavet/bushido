@@ -1,6 +1,5 @@
 import datetime
 
-# project imports
 from bushido.core.result import Ok
 from bushido.service.parser.utils import (
     find_previous_sunday,

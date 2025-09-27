@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from typing import Generic, Literal, Union
 
-# project imports
 from bushido.core.types import RT
 
 

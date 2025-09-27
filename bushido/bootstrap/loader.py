@@ -1,7 +1,6 @@
 from types import MappingProxyType
 from typing import Any, Mapping
 
-# project imports
 from bushido.core.unit import LiftingUnitName
 from bushido.service.mapper.base import UnitMapper
 from bushido.service.mapper.lifting import LiftingMapper
