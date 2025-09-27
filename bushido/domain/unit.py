@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from typing import Generic
 
-# project imports
 from bushido.core.types import UNIT_T
 
 

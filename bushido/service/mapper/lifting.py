@@ -1,4 +1,3 @@
-# project imports
 from bushido.db import LiftingSet, LiftingUnit
 from bushido.domain.lifting import ExerciseSpec, SetSpec
 from bushido.domain.unit import ParsedUnit
