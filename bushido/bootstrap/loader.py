@@ -2,10 +2,10 @@ from types import MappingProxyType
 from typing import Any, Mapping
 
 from bushido.core.unit import LiftingUnitName
-from bushido.service.mapper.base import UnitMapper
-from bushido.service.mapper.lifting import LiftingMapper
-from bushido.service.parser.base import UnitParser
-from bushido.service.parser.lifting import LiftingParser
+from bushido.iface.mapper.base import UnitMapper
+from bushido.iface.mapper import LiftingMapper
+from bushido.iface.parser.base import UnitParser
+from bushido.iface.parser.lifting import LiftingParser
 
 
 # TODO check return type (any vs UNIT_T)

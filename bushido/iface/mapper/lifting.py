@@ -1,7 +1,7 @@
-from bushido.db import LiftingSet, LiftingUnit
+from bushido.infra.db import LiftingSet, LiftingUnit
 from bushido.domain.lifting import ExerciseSpec, SetSpec
 from bushido.domain.unit import ParsedUnit
-from bushido.service.mapper.base import UnitMapper
+from bushido.iface.mapper.base import UnitMapper
 
 
 class LiftingMapper(UnitMapper[ExerciseSpec, LiftingUnit, LiftingSet]):
