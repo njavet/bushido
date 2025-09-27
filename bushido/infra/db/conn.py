@@ -1,4 +1,4 @@
-from collections.abc import Generator, Iterator
+from collections.abc import Iterator
 from contextlib import contextmanager
 
 from sqlalchemy import create_engine
@@ -10,14 +10,15 @@ from bushido.infra.db.model.base import Base
 
 
 class SessionFactory:
-    def __init__(self, db_url: str = DB_URL) -> None:
-        self._frozen = False
-        self.db_url = db_url
+    def __init__(self, db_url: str = DB_URL, create_schema: bool = False) -> None:
+        self._db_url = db_url
         self._engine = create_engine(db_url)
+        if create_schema:
+            Base.metadata.create_all(bind=self._engine)
+
         self._sessionmaker = sessionmaker(
             bind=self._engine, expire_on_commit=False
         )
-        self._frozen = True
 
     @property
     def engine(self) -> Engine:
@@ -27,29 +28,15 @@ class SessionFactory:
     def db_url(self) -> str:
         return self._db_url
 
-    @db_url.setter
-    def db_url(self, db_url: str) -> None:
-        if getattr(self, '_frozen', True):
-            raise AttributeError('db_url is read only after init...')
-        else:
-            self._db_url = db_url
-
-    def get_session(self) -> Generator[Session, None, None]:
-        db = self._sessionmaker()
-        try:
-            yield db
-        finally:
-            db.close()
-
     @contextmanager
-    def get_session_context(self) -> Iterator[Session]:
-        db = self._sessionmaker()
+    def session(self) -> Iterator[Session]:
+        s = self._sessionmaker()
         try:
-            yield db
+            yield s
+            s.commit()
+        except Exception:
+            s.rollback()
+            raise
         finally:
-            db.close()
+            s.close()
 
-    def _setup_engine(self) -> Engine:
-        engine = create_engine(self.db_url)
-        Base.metadata.create_all(bind=engine)
-        return engine
