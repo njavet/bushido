@@ -7,13 +7,13 @@ from bushido.core.types import UNIT_T
 
 @dataclass
 class UnitSpec:
-    unit_name: str
+    name: str
     words: list[str]
     comment: str | None = None
 
 
 @dataclass(frozen=True)
 class ParsedUnit(Generic[UNIT_T]):
-    unit_name: str
+    name: str
     data: UNIT_T
     comment: str | None = None

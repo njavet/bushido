@@ -4,7 +4,7 @@ from bushido.core.result import Result
 
 # project imports
 from bushido.core.types import UNIT_T
-from bushido.domain.base import ParsedUnit, UnitSpec
+from bushido.domain.unit import ParsedUnit, UnitSpec
 
 
 class UnitParser(Protocol[UNIT_T]):
