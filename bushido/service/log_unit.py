@@ -49,6 +49,6 @@ class LogUnitService:
         unit_name = all_words[0]
         words = all_words[1:]
         result = Ok(
-            UnitSpec(unit_name=unit_name, words=words, comment=comment)
+            UnitSpec(name=unit_name, words=words, comment=comment)
         )
         return result
