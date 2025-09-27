@@ -10,7 +10,7 @@ class Unit(Base):
     __abstract__ = True
 
     name: Mapped[str] = mapped_column()
-    comment: Mapped[str] = mapped_column()
+    comment: Mapped[str | None] = mapped_column()
 
 
 class Subunit(Base):
