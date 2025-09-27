@@ -1,6 +1,6 @@
 # project imports
 from bushido.db import LiftingSet, LiftingUnit
-from bushido.domain.base import ParsedUnit
+from bushido.domain.unit import ParsedUnit
 from bushido.domain.lifting import ExerciseSpec, SetSpec
 from bushido.service.mapper.base import UnitMapper
 
@@ -10,7 +10,7 @@ class LiftingMapper(UnitMapper[ExerciseSpec, LiftingUnit, LiftingSet]):
         self, parsed_unit: ParsedUnit[ExerciseSpec]
     ) -> tuple[LiftingUnit, list[LiftingSet]]:
         unit = LiftingUnit(
-            name=parsed_unit.unit_name, comment=parsed_unit.comment
+            name=parsed_unit.name, comment=parsed_unit.comment
         )
         lst = []
         for s in parsed_unit.data.sets:
@@ -27,7 +27,7 @@ class LiftingMapper(UnitMapper[ExerciseSpec, LiftingUnit, LiftingSet]):
             sp = SetSpec(weight=s.weight, reps=s.reps, rest=s.rest)
             lst.append(sp)
         pu = ParsedUnit(
-            unit_name=unit.name,
+            name=unit.name,
             data=ExerciseSpec(sets=lst),
             comment=unit.comment,
         )

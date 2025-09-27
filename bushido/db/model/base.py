@@ -11,3 +11,8 @@ class Unit(Base):
 
     name: Mapped[str] = mapped_column()
     comment: Mapped[str] = mapped_column()
+
+
+class Subunit(Base):
+    __abstract__ = True
+    fk_unit: Mapped[int] = mapped_column()
