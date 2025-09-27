@@ -34,7 +34,7 @@ jobs:
         id: get_version
         run: |
           VERSION=$(poetry version -s)
-          echo "version=VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
