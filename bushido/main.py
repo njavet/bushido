@@ -7,7 +7,6 @@ from rich.logging import RichHandler
 from starlette.middleware.cors import CORSMiddleware
 
 from bushido.bootstrap.loader import load_mappers, load_parsers
-
 from bushido.db.conn import SessionFactory
 from bushido.web import router
 

@@ -4,7 +4,6 @@ from argparse import ArgumentParser
 import uvicorn
 
 from bushido import __version__
-
 from bushido.core.conf import DEFAULT_PORT
 
 
