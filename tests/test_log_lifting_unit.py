@@ -1,16 +1,15 @@
 from collections.abc import Iterator
 
 import pytest
-from sqlalchemy.orm import Session
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 
-from bushido.core.result import Result, Err, Ok
-from bushido.domain.unit import ParsedUnit
-from bushido.infra.db.conn import SessionFactory
-from bushido.infra.db.model.lifting import LiftingUnit, LiftingSet
-from bushido.infra.repo.base import UnitRepo
+from bushido.core.result import Err, Ok
 from bushido.iface.mapper.lifting import LiftingMapper
 from bushido.iface.parser.lifting import LiftingParser
+from bushido.infra.db.conn import SessionFactory
+from bushido.infra.db.model.lifting import LiftingSet, LiftingUnit
+from bushido.infra.repo.base import UnitRepo
 from bushido.service.log_unit import LogUnitService
 
 
