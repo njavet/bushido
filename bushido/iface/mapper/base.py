@@ -4,6 +4,7 @@ from bushido.core.types import ORM_ST, ORM_T, UNIT_T
 from bushido.domain.unit import ParsedUnit
 
 
+# TODO check types
 class UnitMapper(Protocol[UNIT_T, ORM_T, ORM_ST]):
     def to_orm(
         self, parsed_unit: ParsedUnit[UNIT_T]

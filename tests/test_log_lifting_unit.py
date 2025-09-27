@@ -43,13 +43,13 @@ def service(session: Session) -> LogUnitService:
 def test_log_lifting_unit_success(
     service: LogUnitService, session: Session
 ) -> None:
-    line = 'bench_press 100 5 180 100 5'
+    line = 'benchpress 100 5 180 100 5'
     res = service.log_unit(line)
     assert isinstance(res, Ok)
     assert res.value == 'Unit confirmed'
     units = session.scalars(select(LiftingUnit)).all()
     assert len(units) == 1
-    assert units[0].name == 'bench_press'
+    assert units[0].name == 'benchpress'
     subs = session.scalars(select(LiftingSet)).all()
     assert len(subs) == 2
     assert subs[0].weight == 100
@@ -61,4 +61,9 @@ def test_log_lifting_unit_success(
 
 def test_log_unit_without_without_sets(service: LogUnitService) -> None:
     res = service.log_unit('squat')
+    assert isinstance(res, Err)
+
+
+def test_log_unit_with_invalid_name(service: LogUnitService) -> None:
+    res = service.log_unit('socrates')
     assert isinstance(res, Err)
