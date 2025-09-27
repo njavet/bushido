@@ -48,7 +48,5 @@ class LogUnitService:
         all_words = payload.split()
         unit_name = all_words[0]
         words = all_words[1:]
-        result = Ok(
-            UnitSpec(name=unit_name, words=words, comment=comment)
-        )
+        result = Ok(UnitSpec(name=unit_name, words=words, comment=comment))
         return result
