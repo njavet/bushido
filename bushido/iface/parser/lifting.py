@@ -7,7 +7,7 @@ from bushido.iface.parser.base import UnitParser
 
 class LiftingParser(UnitParser[ExerciseSpec]):
     def parse(self, unit_spec: UnitSpec) -> Result[ParsedUnit[ExerciseSpec]]:
-        if not unit_spec.name in [u.name for u in LiftingUnitName]:
+        if unit_spec.name not in [u.name for u in LiftingUnitName]:
             return Err('invalid unit name')
 
         weights = [float(w) for w in unit_spec.words[::3]]
