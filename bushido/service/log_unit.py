@@ -3,7 +3,7 @@ from bushido.core.types import ORM_ST, ORM_T, UNIT_T
 from bushido.domain.unit import UnitSpec
 from bushido.iface.mapper.base import UnitMapper
 from bushido.iface.parser.base import UnitParser
-from bushido.infra.repo import UnitRepo
+from bushido.infra.repo.base import UnitRepo
 
 
 class LogUnitService:
