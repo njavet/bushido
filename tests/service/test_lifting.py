@@ -16,9 +16,9 @@ def parser():
     'unit_spec, expected',
     [
         (
-            UnitSpec(unit_name='squat', words=['100', '5', '180', '100', '5']),
+            UnitSpec(name='squat', words=['100', '5', '180', '100', '5']),
             ParsedUnit(
-                unit_name='squat',
+                name='squat',
                 data=ExerciseSpec(
                     sets=[
                         SetSpec(weight=100.0, reps=5, rest=180.0),
@@ -29,9 +29,9 @@ def parser():
             ),
         ),
         (
-            UnitSpec(unit_name='squat', words=['120', '5']),
+            UnitSpec(name='squat', words=['120', '5']),
             ParsedUnit(
-                unit_name='squat',
+                name='squat',
                 data=ExerciseSpec(
                     sets=[SetSpec(weight=120.0, reps=5, rest=0.0)]
                 ),
@@ -40,12 +40,12 @@ def parser():
         ),
         (
             UnitSpec(
-                unit_name='squat',
+                name='squat',
                 words=['150', '3', '300', '160', '2', '90', '100', '20'],
                 comment='heavy day, 20reps at the end',
             ),
             ParsedUnit(
-                unit_name='squat',
+                name='squat',
                 data=ExerciseSpec(
                     sets=[
                         SetSpec(weight=150.0, reps=3, rest=300.0),
@@ -58,12 +58,12 @@ def parser():
         ),
         (
             UnitSpec(
-                unit_name='deadlift',
+                name='deadlift',
                 words=['150', '5'],
                 comment='just a single set',
             ),
             ParsedUnit(
-                unit_name='deadlift',
+                name='deadlift',
                 data=ExerciseSpec(
                     sets=[SetSpec(weight=150.0, reps=5.0, rest=0.0)]
                 ),

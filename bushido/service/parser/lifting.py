@@ -19,7 +19,7 @@ class LiftingParser(UnitParser[ExerciseSpec]):
         )
 
         pu = ParsedUnit(
-            unit_name=unit_spec.unit_name,
+            name=unit_spec.name,
             data=ex,
             comment=unit_spec.comment,
         )
