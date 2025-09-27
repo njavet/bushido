@@ -2,51 +2,55 @@ name: Release
 
 on:
   push:
-    tags:
-      - 'v*'
-
-permissions:
-  contents: write
+    branches:
+      - main
 
 jobs:
   release:
-    name: Build & Publish GitHub Release
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.13'
 
-      - uses: snok/install-poetry@v1
-        with:
-          version: 1.8.3
+      - name: Install Poetry
+        run: pip install poetry
 
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+      - name: Install Dependencies
+        run: poetry install --no-interactions --without=DEV
 
-      - name: Build
+      - name: Build Package
         run: poetry build
 
-      - name: Read version
-        id: ver
-        run: echo "version=$(poetry version -s)" >> "$GITHUB_OUTPUT"
+      - name: Get version from pyproject.toml
+        id: get_version
+        run: |
+          VERSION=$(poetry version -s)
+          echo "version=VERSION" >> $GITHUB_OUTPUT
 
       - name: Create Release
-        id: rel
-        uses: softprops/action-gh-release@v2
+        id: create_release
+        uses: actions/create-release@v1
         with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ steps.ver.outputs.version }}
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload artifacts
-        uses: softprops/action-gh-release@v2
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
         with:
-          files: |
-            dist/*-${{ steps.ver.outputs.version }}.tar.gz
-            dist/*-${{ steps.ver.outputs.version }}-py3-none-any.whl
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/bushido-${{ steps.get_version.outputs.version }}.tar.gz
+          asset_name: bushido-${{ steps.get_version.outputs.version }}.tar.gz
+          asset_content_type: application/gzip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
