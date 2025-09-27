@@ -3,7 +3,6 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 
-
 class UnitRepo:
     def __init__(self, session: Session):
         self.session = session
