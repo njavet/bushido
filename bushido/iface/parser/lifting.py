@@ -13,6 +13,12 @@ class LiftingParser(UnitParser[ExerciseSpec]):
             return Err('at least one set')
         if len(weights) != len(reps):
             return Err('weights and reps must have same length')
+        if any(filter(lambda x: x < 0, reps)):
+            return Err('reps must all be positive')
+        if any(filter(lambda x: x < 0, weights)):
+            return Err('weights must all be positive')
+        if any(filter(lambda x: x < 0, rests)):
+            return Err('rests must all be positive')
 
         ex = ExerciseSpec(
             sets=[
