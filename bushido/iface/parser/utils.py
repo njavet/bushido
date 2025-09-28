@@ -3,6 +3,24 @@ import re
 
 from bushido.core.conf import DAY_START_HOUR
 from bushido.core.result import Err, Ok, Result
+from bushido.domain.unit import UnitSpec
+
+
+def preprocess_input(line: str) -> Result[UnitSpec]:
+    parts = line.split('#', 1)
+    payload = parts[0]
+
+    if not payload:
+        return Err('empty payload')
+    if len(parts) > 1 and parts[1]:
+        comment = parts[1].strip()
+    else:
+        comment = None
+    all_words = payload.split()
+    unit_name = all_words[0]
+    words = all_words[1:]
+    result = Ok(UnitSpec(name=unit_name, words=words, comment=comment))
+    return result
 
 
 def time_string_to_seconds(time_string: str) -> Result[float]:
