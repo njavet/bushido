@@ -27,7 +27,7 @@ class ServiceFactory:
             case UnitCategory.gym:
                 parser = GymParser()
                 mapper = GymMapper()
-                repo = UnitRepo[GymUnit, Any](session, GymUnit, Any)
+                repo = UnitRepo[GymUnit, Any](session, GymUnit, list[Any])
                 return Ok(LogUnitService(parser, mapper, repo))
             case _:
                 return Err('no such unit category')
