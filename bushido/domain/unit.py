@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from typing import Generic
+from typing import Generic, TypeVar
 
-from bushido.core.types import UNIT_T
+
+UNIT_T = TypeVar('UNIT_T')
 
 
 @dataclass

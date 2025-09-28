@@ -1,6 +1,6 @@
 from typing import Sequence, Generic, TypeVar, Protocol
 
-from sqlalchemy.orm import Session, Mapped
+from sqlalchemy.orm import Session
 
 
 class Unit(Protocol):
@@ -36,6 +36,7 @@ class CompoundUnitRepo(Generic[CUT_ORM, SUT_ORM]):
     def __init__(self, session: Session) -> None:
         self.session = session
 
+    # TODO handle exceptions
     def add_compound_unit(
         self, unit: CUT_ORM, subunits: Sequence[SUT_ORM]
     ) -> bool:
