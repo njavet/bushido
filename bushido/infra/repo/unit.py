@@ -3,8 +3,6 @@ from typing import Sequence, Generic, TypeVar, Protocol
 from sqlalchemy.orm import Session, Mapped
 
 
-
-
 class Unit(Protocol):
     id: int
 
@@ -21,7 +19,6 @@ class Subunit(Protocol):
 UT_ORM = TypeVar('UT_ORM', bound=Unit)
 CUT_ORM = TypeVar('CUT_ORM', bound=CompoundUnit)
 SUT_ORM = TypeVar('SUT_ORM', bound=Subunit)
-
 
 
 class UnitRepo(Generic[UT_ORM]):
