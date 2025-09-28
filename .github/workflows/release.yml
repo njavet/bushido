@@ -2,8 +2,8 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 permissions:
   contents: write
@@ -13,11 +13,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
 
@@ -27,20 +26,18 @@ jobs:
       - name: Install Dependencies
         run: poetry install --no-interaction --without=dev
 
-      - name: Build Package
+      - name: Build
         run: poetry build
 
       - name: Get version from pyproject.toml
-        id: get_version
-        run: |
-          VERSION=$(poetry version -s)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        id: ver
+        run: echo "version=${poetry version -s)" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          name: Release ${{ steps.get_version.outputs.version }}
+          tag_name: v${{ steps.ver.outputs.version }}
+          name: Release ${{ steps.ver.outputs.version }}
           draft: false
           prerelease: false
           files: |
