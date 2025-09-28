@@ -4,9 +4,9 @@ from sqlalchemy.orm import Session
 
 from bushido.core.conf import UnitCategory
 from bushido.core.result import Err, Ok, Result
-from bushido.iface.mapper import LiftingMapper, GymMapper
-from bushido.iface.parser import LiftingParser, GymParser
-from bushido.infra.db import LiftingSet, LiftingUnit, GymUnit
+from bushido.iface.mapper import GymMapper, LiftingMapper
+from bushido.iface.parser import GymParser, LiftingParser
+from bushido.infra.db import GymUnit, LiftingSet, LiftingUnit
 from bushido.infra.repo.unit import UnitRepo
 from bushido.service.base import LogUnitService
 
