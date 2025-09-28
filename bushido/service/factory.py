@@ -15,6 +15,3 @@ class ServiceFactory:
             mapper = LiftingMapper()
             repo = UnitRepo[LiftingUnit, LiftingSet](session)
             return LogUnitService(parser, mapper, repo)
-
-
-

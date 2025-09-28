@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Path, Request
 from sqlalchemy.orm import Session
 
+from bushido.core.conf import UnitCategory
 from bushido.web.deps import get_session
 from bushido.core.result import Err
 from bushido.schema.req import UnitLogRequest
@@ -8,11 +9,11 @@ from bushido.schema.req import UnitLogRequest
 router = APIRouter()
 
 
-@router.post('/{unit_name}/log-unit')
+@router.post('/{unit_category}/log-unit')
 async def log_unit(
     request: Request,
     ulr: UnitLogRequest,
-    unit_name: str = Path(...),
+    unit_category: UnitCategory,
     session: Session = Depends(get_session),
 ) -> str | None:
     try:
