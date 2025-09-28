@@ -1,6 +1,5 @@
 from bushido.core.result import Err, Ok, Result
-from bushido.core.types import ORM_T, UNIT_T
-from bushido.domain.unit import UnitSpec
+from bushido.domain.unit import UnitSpec, UNIT_T
 from bushido.iface.mapper.unit import UnitMapper
 from bushido.iface.parser.unit import UnitParser
 from bushido.infra.repo.unit import UnitRepo
@@ -10,8 +9,8 @@ class LogUnitService:
     def __init__(
         self,
         repo: UnitRepo,
-        parser: UnitParser[UNIT_T],
-        mapper: UnitMapper[UNIT_T, ORM_T],
+        parser: UnitParser,
+        mapper: UnitMapper
     ) -> None:
         self._repo = repo
         self._parser = parser
@@ -34,19 +33,3 @@ class LogUnitService:
         else:
             return Err('db error')
 
-    @staticmethod
-    def preprocess_input(line: str) -> Result[UnitSpec]:
-        parts = line.split('#', 1)
-        payload = parts[0]
-
-        if not payload:
-            return Err('empty payload')
-        if len(parts) > 1 and parts[1]:
-            comment = parts[1].strip()
-        else:
-            comment = None
-        all_words = payload.split()
-        unit_name = all_words[0]
-        words = all_words[1:]
-        result = Ok(UnitSpec(name=unit_name, words=words, comment=comment))
-        return result

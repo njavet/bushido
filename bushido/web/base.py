@@ -14,7 +14,6 @@ router = APIRouter()
 async def log_unit(
     request: Request,
     ulr: UnitLogRequest,
-    unit_name: str = Path(...),
     session: Session = Depends(get_session),
 ) -> str | None:
     try:

@@ -20,8 +20,8 @@ def parser():
                 name='squat',
                 data=ExerciseSpec(
                     sets=[
-                        SetSpec(weight=100.0, reps=5, rest=180.0),
-                        SetSpec(weight=100.0, reps=5, rest=0.0),
+                        SetSpec(set_nr=0, weight=100.0, reps=5, rest=180.0),
+                        SetSpec(set_nr=1, weight=100.0, reps=5, rest=0.0),
                     ]
                 ),
                 comment=None,
@@ -32,7 +32,7 @@ def parser():
             ParsedUnit(
                 name='squat',
                 data=ExerciseSpec(
-                    sets=[SetSpec(weight=120.0, reps=5, rest=0.0)]
+                    sets=[SetSpec(set_nr=0, weight=120.0, reps=5, rest=0.0)]
                 ),
                 comment=None,
             ),
@@ -47,9 +47,9 @@ def parser():
                 name='squat',
                 data=ExerciseSpec(
                     sets=[
-                        SetSpec(weight=150.0, reps=3, rest=300.0),
-                        SetSpec(weight=160.0, reps=2.0, rest=90.0),
-                        SetSpec(weight=100.0, reps=20.0, rest=0.0),
+                        SetSpec(set_nr=0, weight=150.0, reps=3, rest=300.0),
+                        SetSpec(set_nr=1, weight=160.0, reps=2.0, rest=90.0),
+                        SetSpec(set_nr=2, weight=100.0, reps=20.0, rest=0.0),
                     ]
                 ),
                 comment='heavy day, 20reps at the end',
@@ -64,7 +64,7 @@ def parser():
             ParsedUnit(
                 name='deadlift',
                 data=ExerciseSpec(
-                    sets=[SetSpec(weight=150.0, reps=5.0, rest=0.0)]
+                    sets=[SetSpec(set_nr=0, weight=150.0, reps=5.0, rest=0.0)]
                 ),
                 comment='just a single set',
             ),
