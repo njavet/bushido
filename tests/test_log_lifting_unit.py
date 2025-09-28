@@ -8,8 +8,8 @@ from bushido.core.result import Err, Ok
 from bushido.iface.mapper.lifting import LiftingMapper
 from bushido.iface.parser.lifting import LiftingParser
 from bushido.infra.db.conn import SessionFactory
-from bushido.infra.db.model.lifting import LiftingSet, LiftingUnit
-from bushido.infra.repo.base import UnitRepo
+from bushido.infra.db import LiftingSet, Unit
+from bushido.infra.repo.unit import UnitRepo
 from bushido.service.log_unit import LogUnitService
 
 
@@ -33,7 +33,7 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 @pytest.fixture
 def service(session: Session) -> LogUnitService:
-    repo = UnitRepo(session)
+    repo = UnitRepo(session, LiftingSet)
     parser = LiftingParser()
     mapper = LiftingMapper()
     svc = LogUnitService(repo, parser, mapper)
@@ -47,7 +47,7 @@ def test_log_lifting_unit_success(
     res = service.log_unit(line)
     assert isinstance(res, Ok)
     assert res.value == 'Unit confirmed'
-    units = session.scalars(select(LiftingUnit)).all()
+    units = session.scalars(select(Unit)).all()
     assert len(units) == 1
     assert units[0].name == 'benchpress'
     subs = session.scalars(select(LiftingSet)).all()
