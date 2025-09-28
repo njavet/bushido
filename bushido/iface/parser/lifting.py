@@ -33,6 +33,7 @@ class LiftingParser:
         pu = ParsedUnit(
             name=unit_spec.name,
             data=ex,
+            compound=True,
             comment=unit_spec.comment,
         )
         return Ok(pu)
