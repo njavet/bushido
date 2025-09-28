@@ -1,10 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, Path
+from fastapi import APIRouter, Depends, HTTPException, Path, Request
 from sqlalchemy.orm import Session
 
 from bushido.core.deps import get_session
-from bushido.core.result import Err, Ok
-from bushido.iface.parser.utils import preprocess_input
-from bushido.infra.repo.unit import CompoundUnitRepo, UnitRepo
+from bushido.core.result import Err
 from bushido.schema.req import UnitLogRequest
 
 router = APIRouter()
@@ -17,7 +15,6 @@ async def log_unit(
     unit_name: str = Path(...),
     session: Session = Depends(get_session),
 ) -> str | None:
-
     try:
         service = request.app.state.services[unit_name]
     except KeyError:

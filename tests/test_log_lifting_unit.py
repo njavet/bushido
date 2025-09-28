@@ -4,10 +4,10 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido.core.result import Err, Ok
+from bushido.core.result import Ok
 from bushido.iface.mapper.lifting import LiftingMapper
 from bushido.iface.parser.lifting import LiftingParser
-from bushido.infra.db import LiftingSet, LiftingUnit
+from bushido.infra.db import LiftingSet
 from bushido.infra.db.conn import SessionFactory
 from bushido.infra.repo.unit import UnitRepo
 
@@ -30,9 +30,7 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
             s.close()
 
 
-def test_log_lifting_unit_success(
-    session: Session
-) -> None:
+def test_log_lifting_unit_success(session: Session) -> None:
     repo = UnitRepo(session)
     parser = LiftingParser()
     mapper = LiftingMapper()

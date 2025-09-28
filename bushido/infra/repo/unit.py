@@ -38,7 +38,7 @@ class CompoundUnitRepo(Generic[CUT_ORM, SUT_ORM]):
 
     # TODO handle exceptions
     def add_compound_unit(
-        self, unit: CUT_ORM, subunits: Sequence[SUT_ORM]
+        self, unit: CUT_ORM, subunits: list[SUT_ORM]
     ) -> bool:
         self.session.add(unit)
         self.session.commit()

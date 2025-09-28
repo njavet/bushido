@@ -2,16 +2,25 @@ from typing import Generic
 
 from sqlalchemy.orm import Session
 
-from bushido.core.result import Result, Err, Ok
+from bushido.core.result import Err, Ok, Result
 from bushido.domain.unit import UNIT_T
+from bushido.iface.mapper.unit import CompoundUnitMapper, UnitMapper
 from bushido.iface.parser.unit import UnitParser
 from bushido.iface.parser.utils import preprocess_input
-from bushido.iface.mapper.unit import UnitMapper, CompoundUnitMapper
-from bushido.infra.repo.unit import UT_ORM, CUT_ORM, SUT_ORM, UnitRepo, CompoundUnitRepo
+from bushido.infra.repo.unit import (
+    CUT_ORM,
+    SUT_ORM,
+    UT_ORM,
+    CompoundUnitRepo,
+    UnitRepo,
+)
 
 
+# TODO duplicated code
 class LogUnitService(Generic[UNIT_T, UT_ORM]):
-    def __init__(self, parser: UnitParser[UNIT_T], mapper: UnitMapper[UNIT_T, UT_ORM]):
+    def __init__(
+        self, parser: UnitParser[UNIT_T], mapper: UnitMapper[UNIT_T, UT_ORM]
+    ):
         self._parser = parser
         self._mapper = mapper
 
@@ -35,7 +44,11 @@ class LogUnitService(Generic[UNIT_T, UT_ORM]):
 
 
 class LogCompoundUnitService(Generic[UNIT_T, CUT_ORM, SUT_ORM]):
-    def __init__(self, parser: UnitParser[UNIT_T], mapper: CompoundUnitMapper[UNIT_T, CUT_ORM, SUT_ORM]):
+    def __init__(
+        self,
+        parser: UnitParser[UNIT_T],
+        mapper: CompoundUnitMapper[UNIT_T, CUT_ORM, SUT_ORM],
+    ):
         self._parser = parser
         self._mapper = mapper
 
