@@ -25,7 +25,7 @@ class UnitParser(ABC, Generic[UNIT_T]):
     def _parse_log_dt(self, tokens: list[str]) -> Result[list[str]]:
         try:
             index = tokens.index('--dt')
-        except IndexError:
+        except ValueError:
             return Ok(tokens)
         try:
             dt = tokens[index + 1].strip()
