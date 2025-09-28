@@ -1,17 +1,23 @@
 from bushido.core.conf import LiftingUnitName
 from bushido.core.result import Err, Ok, Result
 from bushido.domain.lifting import ExerciseSpec, SetSpec
-from bushido.domain.unit import ParsedUnit, UnitSpec
+from bushido.domain.unit import ParsedUnit
+from bushido.iface.parser.unit import UnitParser
 
 
-class LiftingParser:
-    def parse(self, unit_spec: UnitSpec) -> Result[ParsedUnit[ExerciseSpec]]:
-        if unit_spec.name not in [u.name for u in LiftingUnitName]:
+class LiftingParser(UnitParser[ExerciseSpec]):
+    def _parse_unit_name(self, tokens: list[str]) -> Result[list[str]]:
+        if len(tokens) == 0:
+            return Err('no unit name')
+        if tokens[0] not in [u.name for u in LiftingUnitName]:
             return Err('invalid unit name')
+        self.unit_name = tokens[0]
+        return Ok(tokens[1:])
 
-        weights = [float(w) for w in unit_spec.words[::3]]
-        reps = [float(r) for r in unit_spec.words[1::3]]
-        rests = [float(r) for r in unit_spec.words[2::3]] + [0]
+    def _parse_unit(self) -> Result[ParsedUnit[ExerciseSpec]]:
+        weights = [float(w) for w in self.tokens[::3]]
+        reps = [float(r) for r in self.tokens[1::3]]
+        rests = [float(r) for r in self.tokens[2::3]] + [0]
         if len(weights) == 0:
             return Err('at least one set')
         if len(weights) != len(reps):
@@ -33,8 +39,9 @@ class LiftingParser:
         )
 
         pu = ParsedUnit(
-            name=unit_spec.name,
+            name=self.unit_name,
             data=ex,
-            comment=unit_spec.comment,
+            comment=self.comment,
+            log_dt=self.log_dt,
         )
         return Ok(pu)

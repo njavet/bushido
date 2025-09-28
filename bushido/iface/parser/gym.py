@@ -1,33 +1,44 @@
 from bushido.core.conf import GymUnitName
 from bushido.core.result import Err, Ok, Result
 from bushido.domain.gym import GymSpec
-from bushido.domain.unit import ParsedUnit, UnitSpec
+from bushido.domain.unit import ParsedUnit
+from bushido.iface.parser.unit import UnitParser
 from bushido.iface.parser.utils import parse_start_end_time_string
 
 
-class GymParser:
-    def parse(self, unit_spec: UnitSpec) -> Result[ParsedUnit[GymSpec]]:
-        if unit_spec.name not in [u.name for u in GymUnitName]:
+class GymParser(UnitParser[GymSpec]):
+    def _parse_unit_name(self, tokens: list[str]) -> Result[list[str]]:
+        if len(tokens) == 0:
+            return Err('no unit name')
+        if tokens[0] not in [u.name for u in GymUnitName]:
             return Err('invalid unit name')
+        self.unit_name = tokens[0]
+        return Ok(tokens[1:])
 
-        res_t = parse_start_end_time_string(unit_spec.words[0])
+    def _parse_unit(self) -> Result[ParsedUnit[GymSpec]]:
+        res_t = parse_start_end_time_string(self.tokens[0])
         if isinstance(res_t, Err):
             return res_t
 
         start_t, end_t = res_t.value
         try:
-            focus = unit_spec.words[2]
+            location = self.tokens[1]
+        except IndexError:
+            return Err('invalid unit location')
+        try:
+            focus = self.tokens[2]
         except IndexError:
             focus = None
 
         pu = ParsedUnit(
-            name=unit_spec.name,
+            name=self.unit_name,
             data=GymSpec(
                 start_t=start_t,
                 end_t=end_t,
-                location=unit_spec.words[1],
+                location=location,
                 focus=focus,
             ),
-            comment=unit_spec.comment,
+            comment=self.comment,
+            log_dt=self.log_dt,
         )
         return Ok(pu)
