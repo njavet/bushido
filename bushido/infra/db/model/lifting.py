@@ -22,6 +22,6 @@ class LiftingSet(Base):
     rest: Mapped[float] = mapped_column(default=0)
     fk_unit: Mapped[int] = mapped_column(ForeignKey(LiftingUnit.id))
 
-    unit: Mapped[Unit] = relationship(
+    unit: Mapped[LiftingUnit] = relationship(
         back_populates='subunits',
     )

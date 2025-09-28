@@ -25,11 +25,11 @@ class LogUnitService:
         unit_spec = pre_result.value
         parse_result = self._parser.parse(unit_spec)
         if isinstance(parse_result, Err):
-            return Err('parse error')
+            return Err(parse_result.message)
 
         parsed_unit = parse_result.value
         unit, subunits = self._mapper.to_orm(parsed_unit)
         if self._repo.add_unit(unit, subunits):
-            return Ok('success')
+            return Ok('Unit confirmed')
         else:
             return Err('error')
