@@ -14,7 +14,7 @@ class ServiceFactory:
         self, unit_category: UnitCategory, session: Session
     ) -> Result[LogUnitService]:
         match unit_category:
-            case UnitCategory.LIFTING:
+            case UnitCategory.lifting:
                 parser = LiftingParser()
                 mapper = LiftingMapper()
                 repo = UnitRepo[LiftingUnit, LiftingSet](session)

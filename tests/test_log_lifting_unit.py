@@ -5,12 +5,12 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from bushido.core.result import Ok
-from bushido.infra.db import LiftingSet, LiftingUnit
-from bushido.infra.repo.unit import UnitRepo
-from bushido.infra.db.conn import SessionFactory
-from bushido.service.base import LogUnitService
 from bushido.iface.mapper.lifting import LiftingMapper
 from bushido.iface.parser.lifting import LiftingParser
+from bushido.infra.db import LiftingSet, LiftingUnit
+from bushido.infra.db.conn import SessionFactory
+from bushido.infra.repo.unit import UnitRepo
+from bushido.service.base import LogUnitService
 
 
 @pytest.fixture(scope='session')
@@ -39,7 +39,9 @@ def service(session: Session) -> LogUnitService:
     return LogUnitService(parser, mapper, repo)
 
 
-def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:
+def test_log_lifting_unit_success(
+    service: LogUnitService, session: Session
+) -> None:
     line = 'benchpress 100 5 180 100 5'
     res = service.log_unit(line)
     assert isinstance(res, Ok)

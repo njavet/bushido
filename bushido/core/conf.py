@@ -11,19 +11,19 @@ DB_URL = 'sqlite:///bushido.db'
 
 
 class UnitCategory(StrEnum):
-    LIFTING = 'lifting'
-    GYM = 'gym'
+    lifting = 'lifting'
+    gym = 'gym'
 
 
 class LiftingUnitName(StrEnum):
-    SQUAT = 'squat'
-    DEADLIFT = 'deadlift'
-    BENCHPRESS = 'benchpress'
-    OVERHEADPRESS = 'overheadpress'
-    ROWS = 'rows'
+    squat = 'squat'
+    deadlift = 'deadlift'
+    benchpress = 'benchpress'
+    overheadpress = 'overheadpress'
+    rows = 'rows'
 
 
 class GymUnitName(StrEnum):
-    WEIGHTS = 'weights'
-    MARTIAL_ARTS = 'martial_arts'
-    YOGA = 'yoga'
+    weights = 'weights'
+    martial_arts = 'martial_arts'
+    yoga = 'yoga'
