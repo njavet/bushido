@@ -1,10 +1,12 @@
+from typing import Any
+
 from sqlalchemy.orm import Session
 
 from bushido.core.conf import UnitCategory
 from bushido.core.result import Err, Ok, Result
-from bushido.iface.mapper.lifting import LiftingMapper
-from bushido.iface.parser.lifting import LiftingParser
-from bushido.infra.db import LiftingSet, LiftingUnit
+from bushido.iface.mapper import LiftingMapper, GymMapper
+from bushido.iface.parser import LiftingParser, GymParser
+from bushido.infra.db import LiftingSet, LiftingUnit, GymUnit
 from bushido.infra.repo.unit import UnitRepo
 from bushido.service.base import LogUnitService
 
@@ -21,6 +23,11 @@ class ServiceFactory:
                     session, LiftingUnit, LiftingUnit.subunits
                 )
                 # TODO mypy is fine, pycharm not
+                return Ok(LogUnitService(parser, mapper, repo))
+            case UnitCategory.gym:
+                parser = GymParser()
+                mapper = GymMapper()
+                repo = UnitRepo[GymUnit, Any](session, GymUnit, Any)
                 return Ok(LogUnitService(parser, mapper, repo))
             case _:
                 return Err('no such unit category')
