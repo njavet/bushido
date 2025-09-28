@@ -12,8 +12,3 @@ class Unit(Base):
     name: Mapped[str] = mapped_column()
     comment: Mapped[str | None] = mapped_column()
 
-
-class Subunit(Base):
-    __abstract__ = True
-
-    id: Mapped[int] = mapped_column(primary_key=True)

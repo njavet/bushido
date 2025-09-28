@@ -1,31 +1,51 @@
-from typing import Sequence, Protocol, TypeVar
+from typing import Sequence, Generic, TypeVar, Protocol
 
-from sqlalchemy.orm import Session
-
-
-UNIT_ORM_T = TypeVar("UNIT_ORM_T")
-SUB_ORM_T = TypeVar("SUB_ORM_T")
+from sqlalchemy.orm import Session, Mapped
 
 
-class UnitRepo(Protocol[UNIT_ORM_T]):
+
+
+class Unit(Protocol):
+    id: int
+
+
+class CompoundUnit(Protocol):
+    id: int
+
+
+class Subunit(Protocol):
+    id: int
+    fk_unit: int
+
+
+UT_ORM = TypeVar('UT_ORM', bound=Unit)
+CUT_ORM = TypeVar('CUT_ORM', bound=CompoundUnit)
+SUT_ORM = TypeVar('SUT_ORM', bound=Subunit)
+
+
+
+class UnitRepo(Generic[UT_ORM]):
     def __init__(self, session: Session) -> None:
         self.session = session
 
     # TODO handle exceptions
-    def add_unit(self, unit: UNIT_ORM_T) -> bool:
+    def add_unit(self, unit: UT_ORM) -> bool:
         self.session.add(unit)
         self.session.commit()
         return True
 
 
-class CompoundUnitRepo(Protocol[UNIT_ORM_T, SUB_ORM_T]):
+class CompoundUnitRepo(Generic[CUT_ORM, SUT_ORM]):
     def __init__(self, session: Session) -> None:
         self.session = session
 
     def add_compound_unit(
-        self, unit: UNIT_ORM_T, subunits: Sequence[SUB_ORM_T]
+        self, unit: CUT_ORM, subunits: Sequence[SUT_ORM]
     ) -> bool:
-        unit.subunits.extend(subunits)
         self.session.add(unit)
+        self.session.commit()
+        for subunit in subunits:
+            subunit.fk_unit = unit.id
+        self.session.add_all(subunits)
         self.session.commit()
         return True
