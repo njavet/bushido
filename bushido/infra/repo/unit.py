@@ -1,26 +1,31 @@
-from typing import Sequence
+from typing import Sequence, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 
-from bushido.infra.db import Unit, Subunit
+
+UNIT_ORM_T = TypeVar("UNIT_ORM_T")
+SUB_ORM_T = TypeVar("SUB_ORM_T")
 
 
-class UnitRepo:
+class UnitRepo(Protocol[UNIT_ORM_T]):
     def __init__(self, session: Session) -> None:
         self.session = session
 
     # TODO handle exceptions
-    def add_unit(self, unit: Unit) -> bool:
+    def add_unit(self, unit: UNIT_ORM_T) -> bool:
         self.session.add(unit)
         self.session.commit()
         return True
 
-    def add_compound_unit(self, unit: Unit, subunits: Sequence[Subunit]) -> bool:
+
+class CompoundUnitRepo(Protocol[UNIT_ORM_T, SUB_ORM_T]):
+    def __init__(self, session: Session) -> None:
+        self.session = session
+
+    def add_compound_unit(
+        self, unit: UNIT_ORM_T, subunits: Sequence[SUB_ORM_T]
+    ) -> bool:
         unit.subunits.extend(subunits)
         self.session.add(unit)
-        self.session.commit()
-        for subunit in subunits:
-            subunit.fk_unit = unit.id
-        self.session.add_all(subunits)
         self.session.commit()
         return True

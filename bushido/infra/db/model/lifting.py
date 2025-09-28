@@ -7,7 +7,7 @@ from bushido.infra.db.model.base import Unit, Subunit
 class LiftingUnit(Unit):
     __tablename__ = 'lifting_unit'
 
-    sets: Mapped[list['LiftingSet']] = relationship(
+    subunits: Mapped[list['LiftingSet']] = relationship(
         cascade='all, delete-orphan',
         back_populates='unit',
     )
@@ -22,5 +22,5 @@ class LiftingSet(Subunit):
     fk_unit: Mapped[int] = mapped_column(ForeignKey(LiftingUnit.id))
 
     unit: Mapped[Unit] = relationship(
-        back_populates='sets',
+        back_populates='subunits',
     )
