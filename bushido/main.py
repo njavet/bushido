@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from rich.logging import RichHandler
 from starlette.middleware.cors import CORSMiddleware
 
-from bushido.bootstrap.loader import load_mappers, load_parsers
+from bushido.bootstrap.loader import load_log_services
 from bushido.infra.db.conn import SessionFactory
 from bushido.web import router
 
@@ -20,8 +20,7 @@ logging.basicConfig(
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.sf = SessionFactory()
-    app.state.parsers = load_parsers()
-    app.state.mappers = load_mappers()
+    app.state.log_services = load_log_services()
     yield
 
 
