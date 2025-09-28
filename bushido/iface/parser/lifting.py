@@ -1,5 +1,5 @@
 from bushido.core.result import Err, Ok, Result
-from bushido.core.unit import LiftingUnitName
+from bushido.core.conf import LiftingUnitName
 from bushido.domain.lifting import ExerciseSpec, SetSpec
 from bushido.domain.unit import ParsedUnit, UnitSpec
 

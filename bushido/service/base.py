@@ -3,7 +3,7 @@ from bushido.domain.unit import UNIT_T
 from bushido.iface.mapper.unit import UnitMapper
 from bushido.iface.parser.unit import UnitParser
 from bushido.iface.parser.utils import preprocess_input
-from bushido.infra.repo.unit import U, S, UnitRepo
+from bushido.infra.repo.unit import S, U, UnitRepo
 
 
 class LogUnitService:
@@ -33,4 +33,3 @@ class LogUnitService:
             return Ok('success')
         else:
             return Err('error')
-
