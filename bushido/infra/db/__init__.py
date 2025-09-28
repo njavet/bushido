@@ -1,4 +1,3 @@
-__all__ = ['Unit', 'LiftingSet']
+__all__ = ['LiftingUnit', 'LiftingSet']
 
-from .model.base import Unit
-from .model.lifting import LiftingSet
+from .model.lifting import LiftingSet, LiftingUnit

@@ -9,7 +9,7 @@ from bushido.infra.repo.unit import UnitRepo
 class LogUnitService:
     def __init__(
         self,
-        repo: UnitRepo[ORM_T],
+        repo: UnitRepo,
         parser: UnitParser[UNIT_T],
         mapper: UnitMapper[UNIT_T, ORM_T],
     ) -> None:

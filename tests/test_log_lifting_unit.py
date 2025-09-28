@@ -7,8 +7,8 @@ from sqlalchemy.orm import Session
 from bushido.core.result import Err, Ok
 from bushido.iface.mapper.lifting import LiftingMapper
 from bushido.iface.parser.lifting import LiftingParser
-from bushido.infra.db.conn import SessionFactory
 from bushido.infra.db import LiftingSet, Unit
+from bushido.infra.db.conn import SessionFactory
 from bushido.infra.repo.unit import UnitRepo
 from bushido.service.log_unit import LogUnitService
 
@@ -33,7 +33,7 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 @pytest.fixture
 def service(session: Session) -> LogUnitService:
-    repo = UnitRepo(session, LiftingSet)
+    repo = UnitRepo(session)
     parser = LiftingParser()
     mapper = LiftingMapper()
     svc = LogUnitService(repo, parser, mapper)
