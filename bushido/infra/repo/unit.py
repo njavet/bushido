@@ -10,7 +10,13 @@ class UnitRepo:
         self.session = session
 
     # TODO handle exceptions
-    def add_unit(self, unit: Unit, subunits: Sequence[Subunit]) -> bool:
+    def add_unit(self, unit: Unit) -> bool:
+        self.session.add(unit)
+        self.session.commit()
+        return True
+
+    def add_compound_unit(self, unit: Unit, subunits: Sequence[Subunit]) -> bool:
+        unit.subunits.extend(subunits)
         self.session.add(unit)
         self.session.commit()
         for subunit in subunits:
