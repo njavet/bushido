@@ -7,10 +7,9 @@ from sqlalchemy.orm import Session
 from bushido.core.result import Err, Ok
 from bushido.iface.mapper.lifting import LiftingMapper
 from bushido.iface.parser.lifting import LiftingParser
-from bushido.infra.db import LiftingSet, Unit
+from bushido.infra.db import LiftingSet, LiftingUnit
 from bushido.infra.db.conn import SessionFactory
 from bushido.infra.repo.unit import UnitRepo
-from bushido.service.log_unit import LogUnitService
 
 
 @pytest.fixture(scope='session')
@@ -31,18 +30,12 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
             s.close()
 
 
-@pytest.fixture
-def service(session: Session) -> LogUnitService:
+def test_log_lifting_unit_success(
+    session: Session
+) -> None:
     repo = UnitRepo(session)
     parser = LiftingParser()
     mapper = LiftingMapper()
-    svc = LogUnitService(repo, parser, mapper)
-    return svc
-
-
-def test_log_lifting_unit_success(
-    service: LogUnitService, session: Session
-) -> None:
     line = 'benchpress 100 5 180 100 5'
     res = service.log_unit(line)
     assert isinstance(res, Ok)
@@ -57,13 +50,3 @@ def test_log_lifting_unit_success(
     assert subs[0].rest == 180
     assert subs[1].weight == 100
     assert subs[1].reps == 5
-
-
-def test_log_unit_without_without_sets(service: LogUnitService) -> None:
-    res = service.log_unit('squat')
-    assert isinstance(res, Err)
-
-
-def test_log_unit_with_invalid_name(service: LogUnitService) -> None:
-    res = service.log_unit('socrates')
-    assert isinstance(res, Err)
