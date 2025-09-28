@@ -1,16 +1,24 @@
 from typing import Protocol
 
-from bushido.core.types import ORM_T, UNIT_T
-from bushido.domain.unit import ParsedUnit
-from bushido.infra.db import Unit
+from bushido.domain.unit import ParsedUnit, UNIT_T
+from bushido.infra.repo.unit import UT_ORM, CUT_ORM, SUT_ORM
 
 
-# TODO check types
-class UnitMapper(Protocol[UNIT_T, ORM_T]):
+class UnitMapper(Protocol[UNIT_T, UT_ORM]):
     def to_orm(
         self, parsed_unit: ParsedUnit[UNIT_T]
-    ) -> tuple[Unit, list[ORM_T]]: ...
+    ) -> UT_ORM: ...
 
     def from_orm(
-        self, orms: tuple[Unit, list[ORM_T]]
+        self, orm: UT_ORM
+    ) -> ParsedUnit[UNIT_T]: ...
+
+
+class CompoundUnitMapper(Protocol[UNIT_T, CUT_ORM, SUT_ORM]):
+    def to_orm(
+            self, parsed_unit: ParsedUnit[UNIT_T]
+    ) -> tuple[CUT_ORM, SUT_ORM]: ...
+
+    def from_orm(
+            self, orm: tuple[CUT_ORM, SUT_ORM]
     ) -> ParsedUnit[UNIT_T]: ...
