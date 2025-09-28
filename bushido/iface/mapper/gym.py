@@ -5,7 +5,7 @@ from bushido.domain.unit import ParsedUnit
 from bushido.infra.db import GymUnit
 
 
-class LiftingMapper:
+class GymMapper:
     def to_orm(
         self, parsed_unit: ParsedUnit[GymSpec]
     ) -> tuple[GymUnit, list[Any]]:

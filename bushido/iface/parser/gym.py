@@ -5,7 +5,7 @@ from bushido.domain.unit import ParsedUnit, UnitSpec
 from bushido.iface.parser.utils import parse_start_end_time_string
 
 
-class LiftingParser:
+class GymParser:
     def parse(self, unit_spec: UnitSpec) -> Result[ParsedUnit[GymSpec]]:
         if unit_spec.name not in [u.name for u in GymUnitName]:
             return Err('invalid unit name')
