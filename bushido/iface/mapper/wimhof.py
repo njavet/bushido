@@ -1,5 +1,5 @@
 from bushido.domain.unit import ParsedUnit
-from bushido.domain.wimhof import WimhofSpec, RoundSpec
+from bushido.domain.wimhof import RoundSpec, WimhofSpec
 from bushido.infra.db import WimhofRound, WimhofUnit
 
 
