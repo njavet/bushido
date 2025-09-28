@@ -1,29 +1,26 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from bushido.core.deps import get_mapper, get_parser, get_session
-from bushido.core.result import Ok
-from bushido.core.types import ORM_ST, ORM_T, UNIT_T
-from bushido.repo.base import UnitRepo
+from bushido.core.conf import UnitCategory
+from bushido.core.result import Err
 from bushido.schema.req import UnitLogRequest
-from bushido.service.log_unit import LogUnitService
-from bushido.service.mapper.base import UnitMapper
-from bushido.service.parser.base import UnitParser
+from bushido.service.factory import ServiceFactory
+from bushido.web.deps import get_session
 
 router = APIRouter()
 
 
-@router.post('/{unit_name}/log-unit')
+@router.post('/{unit_category}/log-unit')
 async def log_unit(
     ulr: UnitLogRequest,
-    parser: UnitParser[UNIT_T] = Depends(get_parser),
-    mapper: UnitMapper[UNIT_T, ORM_T, ORM_ST] = Depends(get_mapper),
+    unit_category: UnitCategory,
     session: Session = Depends(get_session),
 ) -> str | None:
-    unit_repo = UnitRepo(session)
-    service = LogUnitService(unit_repo, parser, mapper)
+    svc_res = ServiceFactory().get_service(unit_category, session)
+    if isinstance(svc_res, Err):
+        raise HTTPException(status_code=404, detail=Err.message)
+    service = svc_res.value
     result = service.log_unit(ulr.line)
-    if isinstance(result, Ok):
-        return result.value
-    # TODO check return type
-    raise HTTPException(status_code=400, detail=result.message)
+    if isinstance(result, Err):
+        raise HTTPException(status_code=400, detail=Err.message)
+    return result.value

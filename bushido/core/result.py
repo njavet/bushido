@@ -1,14 +1,19 @@
 from dataclasses import dataclass
-from typing import Generic, Literal, Union
+from typing import Generic, Literal, TypeVar, Union
 
-# project imports
-from bushido.core.types import RT
+T = TypeVar('T')
 
 
 @dataclass(frozen=True)
-class Ok(Generic[RT]):
-    value: RT
+class Ok(Generic[T]):
+    value: T
     kind: Literal['ok'] = 'ok'
+
+
+@dataclass(frozen=True)
+class Warn:
+    message: str
+    kind: Literal['warning'] = 'warning'
 
 
 @dataclass(frozen=True)
@@ -17,4 +22,4 @@ class Err:
     kind: Literal['err'] = 'err'
 
 
-Result = Union[Ok[RT], Err]
+Result = Union[Ok[T], Err]

@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 
-# project imports
-
 
 @dataclass
 class SetSpec:
+    set_nr: int
     weight: float
     reps: float
     rest: float
