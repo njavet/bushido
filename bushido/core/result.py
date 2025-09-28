@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from typing import Generic, Literal, Union
+from typing import Generic, Literal, Union, TypeVar
 
-from bushido.core.types import RT
+
+RT = TypeVar('RT')
 
 
 @dataclass(frozen=True)
