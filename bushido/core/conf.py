@@ -13,6 +13,7 @@ DB_URL = 'sqlite:///bushido.db'
 class UnitCategory(StrEnum):
     lifting = 'lifting'
     gym = 'gym'
+    wimhof = 'wimhof'
 
 
 class LiftingUnitName(StrEnum):
