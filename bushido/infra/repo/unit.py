@@ -2,9 +2,7 @@ from typing import Generic, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 
-
-class Unit(Protocol):
-    id: int
+from bushido.infra.db.model.base import Unit
 
 
 class Subunit(Protocol):
