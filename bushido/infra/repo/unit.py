@@ -15,6 +15,21 @@ U = TypeVar('U', bound=Unit)
 S = TypeVar('S', bound=Subunit)
 
 
+# TODO add stricter typing
+"""
+from typing import Protocol
+
+class HasSubunits(Generic[S], Protocol):
+    subunits: Mapped[list[S]]
+
+class RepoWithSubs(Generic[U, S]):
+    def __init__(self, s: Session, unit_cls: type[U], rel: InstrumentedAttribute[list[S]]): ...
+    # add_unit and fetch_units eager-load rel
+
+class FlatRepo(Generic[U]):
+    def __init__(self, s: Session, unit_cls: type[U]): ...
+    # add_unit (no subs) and fetch_units (no eager-load)
+"""
 class UnitRepo(Generic[U, S]):
     def __init__(
         self,
