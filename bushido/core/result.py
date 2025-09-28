@@ -11,6 +11,12 @@ class Ok(Generic[T]):
 
 
 @dataclass(frozen=True)
+class Warn:
+    message: str
+    kind: Literal['warning'] = 'warning'
+
+
+@dataclass(frozen=True)
 class Err:
     message: str
     kind: Literal['err'] = 'err'
