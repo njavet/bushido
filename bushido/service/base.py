@@ -2,7 +2,6 @@ from bushido.core.result import Err, Ok, Result
 from bushido.domain.unit import UNIT_T
 from bushido.iface.mapper.unit import UnitMapper
 from bushido.iface.parser.unit import UnitParser
-from bushido.iface.parser.utils import preprocess_input
 from bushido.infra.repo.unit import S, U, UnitRepo
 
 
@@ -18,12 +17,7 @@ class LogUnitService:
         self._repo = repo
 
     def log_unit(self, line: str) -> Result[str]:
-        pre_result = preprocess_input(line)
-        if isinstance(pre_result, Err):
-            return Err('preprocess error')
-
-        unit_spec = pre_result.value
-        parse_result = self._parser.parse(unit_spec)
+        parse_result = self._parser.parse(line)
         if isinstance(parse_result, Err):
             return Err(parse_result.message)
 

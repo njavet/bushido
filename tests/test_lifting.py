@@ -2,7 +2,7 @@ import pytest
 
 from bushido.core.result import Ok
 from bushido.domain.lifting import ExerciseSpec, SetSpec
-from bushido.domain.unit import ParsedUnit, UnitSpec
+from bushido.domain.unit import ParsedUnit
 from bushido.iface.parser.lifting import LiftingParser
 
 
@@ -12,10 +12,10 @@ def parser():
 
 
 @pytest.mark.parametrize(
-    'unit_spec, expected',
+    'line, expected',
     [
         (
-            UnitSpec(name='squat', words=['100', '5', '180', '100', '5']),
+            'squat 100 5 180 100 5',
             ParsedUnit(
                 name='squat',
                 data=ExerciseSpec(
@@ -28,7 +28,7 @@ def parser():
             ),
         ),
         (
-            UnitSpec(name='squat', words=['120', '5']),
+            'squat 120 5',
             ParsedUnit(
                 name='squat',
                 data=ExerciseSpec(
@@ -38,11 +38,7 @@ def parser():
             ),
         ),
         (
-            UnitSpec(
-                name='squat',
-                words=['150', '3', '300', '160', '2', '90', '100', '20'],
-                comment='heavy day, 20reps at the end',
-            ),
+            'squat 150 3 300 160 2 90 100 20 # heavy day, 20reps at the end',
             ParsedUnit(
                 name='squat',
                 data=ExerciseSpec(
@@ -56,11 +52,7 @@ def parser():
             ),
         ),
         (
-            UnitSpec(
-                name='deadlift',
-                words=['150', '5'],
-                comment='just a single set',
-            ),
+            'deadlift 150 5 # just a single set',
             ParsedUnit(
                 name='deadlift',
                 data=ExerciseSpec(
@@ -71,8 +63,8 @@ def parser():
         ),
     ],
 )
-def test_correct_lifting_units(parser, unit_spec, expected):
-    result = parser.parse(unit_spec)
+def test_correct_lifting_units(parser, line, expected):
+    result = parser.parse(line)
     assert isinstance(result, Ok)
     parsed_unit = result.value
     assert parsed_unit == expected
