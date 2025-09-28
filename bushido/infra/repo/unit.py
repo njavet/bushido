@@ -1,6 +1,7 @@
 from typing import Generic, Protocol, TypeVar
 
-from sqlalchemy.orm import InstrumentedAttribute, Session
+from sqlalchemy import select
+from sqlalchemy.orm import InstrumentedAttribute, Session, selectinload
 
 from bushido.infra.db.model.base import Unit
 
@@ -26,9 +27,17 @@ class UnitRepo(Generic[U, S]):
         self.subrels = subrels
 
     # TODO handle exceptions
-    def add_unit(self, unit: U, subs: list[S] = []) -> bool:
+    def add_unit(self, unit: U, subs: list[S] | None = None) -> bool:
         if self.subrels is not None:
             getattr(unit, self.subrels.key).extend(subs)
         self.session.add(unit)
         self.session.commit()
         return True
+
+    def fetch_units(self, unit_name: str | None = None) -> list[U]:
+        stmt = select(self.unit_cls)
+        if unit_name is not None:
+            stmt = stmt.where(getattr(self.unit_cls, 'name') == unit_name)
+        if self.subrels is not None:
+            stmt = stmt.options(selectinload(self.subrels))
+        return list(self.session.scalars(stmt))

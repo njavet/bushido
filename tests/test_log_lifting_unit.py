@@ -35,7 +35,9 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 def service(session: Session) -> LogUnitService:
     parser = LiftingParser()
     mapper = LiftingMapper()
-    repo = UnitRepo[LiftingUnit, LiftingSet](session, LiftingUnit, LiftingUnit.subunits)
+    repo = UnitRepo[LiftingUnit, LiftingSet](
+        session, LiftingUnit, LiftingUnit.subunits
+    )
     return LogUnitService(parser, mapper, repo)
 
 
