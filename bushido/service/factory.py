@@ -17,7 +17,9 @@ class ServiceFactory:
             case UnitCategory.lifting:
                 parser = LiftingParser()
                 mapper = LiftingMapper()
-                repo = UnitRepo[LiftingUnit, LiftingSet](session)
+                repo = UnitRepo[LiftingUnit, LiftingSet](
+                    session, LiftingUnit, LiftingUnit.subunits
+                )
                 # TODO mypy is fine, pycharm not
                 return Ok(LogUnitService(parser, mapper, repo))
             case _:
