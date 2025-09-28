@@ -1,7 +1,7 @@
 from typing import Protocol
 
 from bushido.core.result import Result
-from bushido.domain.unit import ParsedUnit, UnitSpec, UNIT_T
+from bushido.domain.unit import UNIT_T, ParsedUnit, UnitSpec
 
 
 class UnitParser(Protocol[UNIT_T]):

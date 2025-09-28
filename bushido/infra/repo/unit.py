@@ -1,4 +1,4 @@
-from typing import Sequence, Generic, TypeVar, Protocol
+from typing import Generic, Protocol, Sequence, TypeVar
 
 from sqlalchemy.orm import Session
 

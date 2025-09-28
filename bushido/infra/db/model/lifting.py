@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from bushido.infra.db.model.base import Unit, Base
+from bushido.infra.db.model.base import Base, Unit
 
 
 class LiftingUnit(Unit):
