@@ -17,17 +17,17 @@ class ServiceFactory:
     ) -> Result[LogUnitService]:
         match unit_category:
             case UnitCategory.lifting:
-                parser = LiftingParser()
-                mapper = LiftingMapper()
-                repo = UnitRepo[LiftingUnit, LiftingSet](
+                lifting_parser = LiftingParser()
+                lifting_mapper = LiftingMapper()
+                lifting_repo = UnitRepo[LiftingUnit, LiftingSet](
                     session, LiftingUnit, LiftingUnit.subunits
                 )
                 # TODO mypy is fine, pycharm not
-                return Ok(LogUnitService(parser, mapper, repo))
+                return Ok(LogUnitService(lifting_parser, lifting_mapper, lifting_repo))
             case UnitCategory.gym:
-                parser = GymParser()
-                mapper = GymMapper()
-                repo = UnitRepo[GymUnit, Any](session, GymUnit, list[Any])
-                return Ok(LogUnitService(parser, mapper, repo))
+                gym_parser = GymParser()
+                gym_mapper = GymMapper()
+                gym_repo = UnitRepo[GymUnit, Any](session, GymUnit, None)
+                return Ok(LogUnitService(gym_parser, gym_mapper, gym_repo))
             case _:
                 return Err('no such unit category')
