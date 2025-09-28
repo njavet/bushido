@@ -21,6 +21,7 @@ class GymMapper:
                 start_t=unit.start_t,
                 end_t=unit.end_t,
                 location=unit.location,
+                training=unit.training,
                 focus=unit.focus,
             ),
             comment=unit.comment,

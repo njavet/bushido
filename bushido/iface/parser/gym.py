@@ -26,7 +26,11 @@ class GymParser(UnitParser[GymSpec]):
         except IndexError:
             return Err('invalid unit location')
         try:
-            focus = self.tokens[2]
+            training = self.tokens[2]
+        except IndexError:
+            training = None
+        try:
+            focus = self.tokens[3]
         except IndexError:
             focus = None
 
@@ -36,6 +40,7 @@ class GymParser(UnitParser[GymSpec]):
                 start_t=start_t,
                 end_t=end_t,
                 location=location,
+                training=training,
                 focus=focus,
             ),
             comment=self.comment,
