@@ -9,8 +9,10 @@ class LiftingMapper:
     ) -> tuple[LiftingUnit, list[LiftingSet]]:
         unit = LiftingUnit(name=parsed_unit.name, comment=parsed_unit.comment)
         lst = []
-        for s in parsed_unit.data.sets:
-            ls = LiftingSet(weight=s.weight, reps=s.reps, rest=s.rest)
+        for i, s in enumerate(parsed_unit.data.sets):
+            ls = LiftingSet(
+                set_nr=i, weight=s.weight, reps=s.reps, rest=s.rest
+            )
             lst.append(ls)
         return unit, lst
 

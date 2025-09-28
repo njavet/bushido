@@ -17,6 +17,7 @@ class LiftingSet(Base):
     __tablename__ = 'lifting_set'
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    set_nr: Mapped[int] = mapped_column()
     weight: Mapped[float] = mapped_column()
     reps: Mapped[float] = mapped_column()
     rest: Mapped[float] = mapped_column(default=0)
