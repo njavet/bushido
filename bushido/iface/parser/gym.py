@@ -23,7 +23,10 @@ class LiftingParser:
         pu = ParsedUnit(
             name=unit_spec.name,
             data=GymSpec(
-                start_t=start_t, end_t=end_t, location=unit_spec.words[1], focus=focus,
+                start_t=start_t,
+                end_t=end_t,
+                location=unit_spec.words[1],
+                focus=focus,
             ),
             comment=unit_spec.comment,
         )
