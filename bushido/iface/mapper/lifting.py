@@ -1,14 +1,14 @@
 from bushido.domain.lifting import ExerciseSpec, SetSpec
 from bushido.domain.unit import ParsedUnit
-from bushido.iface.mapper.base import UnitMapper
-from bushido.infra.db import LiftingSet, LiftingUnit
+from bushido.iface.mapper.unit import UnitMapper
+from bushido.infra.db import LiftingSet, Unit
 
 
-class LiftingMapper(UnitMapper[ExerciseSpec, LiftingUnit, LiftingSet]):
+class LiftingMapper(UnitMapper[ExerciseSpec, LiftingSet]):
     def to_orm(
         self, parsed_unit: ParsedUnit[ExerciseSpec]
-    ) -> tuple[LiftingUnit, list[LiftingSet]]:
-        unit = LiftingUnit(name=parsed_unit.name, comment=parsed_unit.comment)
+    ) -> tuple[Unit, list[LiftingSet]]:
+        unit = Unit(name=parsed_unit.name, comment=parsed_unit.comment)
         lst = []
         for s in parsed_unit.data.sets:
             ls = LiftingSet(weight=s.weight, reps=s.reps, rest=s.rest)
@@ -16,7 +16,7 @@ class LiftingMapper(UnitMapper[ExerciseSpec, LiftingUnit, LiftingSet]):
         return unit, lst
 
     def from_orm(
-        self, orms: tuple[LiftingUnit, list[LiftingSet]]
+        self, orms: tuple[Unit, list[LiftingSet]]
     ) -> ParsedUnit[ExerciseSpec]:
         unit, sets = orms
         lst = []

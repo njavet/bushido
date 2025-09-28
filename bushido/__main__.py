@@ -11,7 +11,7 @@ def create_parser() -> ArgumentParser:
     parser = ArgumentParser(description='bushido server')
     parser.add_argument('--version', action='store_true', help='show version')
     parser.add_argument(
-        '--devel', action='store_true', help='run development server'
+        '--dev', action='store_true', help='run development server'
     )
     return parser
 
@@ -23,7 +23,7 @@ def main() -> None:
         print(f'bushido v{__version__}')
         sys.exit(0)
 
-    if args.devel:
+    if args.dev:
         uvicorn.run(
             'bushido.main:create_app',
             port=DEFAULT_PORT,

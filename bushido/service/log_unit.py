@@ -1,17 +1,17 @@
 from bushido.core.result import Err, Ok, Result
-from bushido.core.types import ORM_ST, ORM_T, UNIT_T
+from bushido.core.types import ORM_T, UNIT_T
 from bushido.domain.unit import UnitSpec
-from bushido.iface.mapper.base import UnitMapper
-from bushido.iface.parser.base import UnitParser
-from bushido.infra.repo.base import UnitRepo
+from bushido.iface.mapper.unit import UnitMapper
+from bushido.iface.parser.unit import UnitParser
+from bushido.infra.repo.unit import UnitRepo
 
 
 class LogUnitService:
     def __init__(
         self,
-        repo: UnitRepo,
+        repo: UnitRepo[ORM_T],
         parser: UnitParser[UNIT_T],
-        mapper: UnitMapper[UNIT_T, ORM_T, ORM_ST],
+        mapper: UnitMapper[UNIT_T, ORM_T],
     ) -> None:
         self._repo = repo
         self._parser = parser
