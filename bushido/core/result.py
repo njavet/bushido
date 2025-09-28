@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from typing import Generic, Literal, TypeVar, Union
 
-RT = TypeVar('RT')
+T = TypeVar('T')
 
 
 @dataclass(frozen=True)
-class Ok(Generic[RT]):
-    value: RT
+class Ok(Generic[T]):
+    value: T
     kind: Literal['ok'] = 'ok'
 
 
@@ -16,4 +16,4 @@ class Err:
     kind: Literal['err'] = 'err'
 
 
-Result = Union[Ok[RT], Err]
+Result = Union[Ok[T], Err]

@@ -15,9 +15,9 @@ class LiftingMapper:
         return unit, lst
 
     def from_orm(
-        self, orm: tuple[LiftingUnit, list[LiftingSet]]
+        self, orms: tuple[LiftingUnit, list[LiftingSet]]
     ) -> ParsedUnit[ExerciseSpec]:
-        unit, sets = orm
+        unit, sets = orms
         lst = []
         for i, s in enumerate(sets):
             sp = SetSpec(set_nr=i, weight=s.weight, reps=s.reps, rest=s.rest)
