@@ -7,4 +7,5 @@ class GymSpec:
     start_t: datetime.time
     end_t: datetime.time
     location: str
-    focus: str | None
+    training: str | None = None
+    focus: str | None = None

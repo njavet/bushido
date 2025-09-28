@@ -11,4 +11,5 @@ class GymUnit(Unit):
     start_t: Mapped[datetime.time] = mapped_column()
     end_t: Mapped[datetime.time] = mapped_column()
     location: Mapped[str] = mapped_column()
+    training: Mapped[str | None] = mapped_column()
     focus: Mapped[str | None] = mapped_column()
