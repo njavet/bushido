@@ -7,3 +7,9 @@ class LiftingUnitName(StrEnum):
     benchpress = 'benchpress'
     overheadpress = 'overheadpress'
     rows = 'rows'
+
+
+class GymUnitName(StrEnum):
+    weights = 'weights'
+    martial_arts = 'martial_arts'
+    yoga = 'yoga'
