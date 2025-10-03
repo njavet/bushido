@@ -1,4 +1,4 @@
-from bushido.core.result import Err, Ok, Result
+from bushido.domain.result import Err, Ok, Result
 from bushido.domain.unit import UNIT_T
 from bushido.iface.mapper.unit import UnitMapper
 from bushido.iface.parser.unit import UnitParser

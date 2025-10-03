@@ -2,7 +2,7 @@ import datetime
 import re
 
 from bushido.core.conf import DAY_START_HOUR
-from bushido.core.result import Err, Ok, Result
+from bushido.domain.result import Err, Ok, Warn, Result
 
 
 def time_string_to_seconds(time_string: str) -> Result[float]:
@@ -89,11 +89,11 @@ def parse_start_end_time_string(
     end_t_res = parse_military_time_string(e)
     if isinstance(start_t_res, Ok):
         start_t = start_t_res.value
-    else:
+    elif isinstance(start_t_res, Err):
         return start_t_res
     if isinstance(end_t_res, Ok):
         end_t = end_t_res.value
-    else:
+    elif isinstance(end_t_res, Err):
         return end_t_res
     return Ok(value=(start_t, end_t))
 
