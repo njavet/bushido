@@ -23,15 +23,11 @@ class ServiceFactory:
                     session, LiftingUnit, LiftingUnit.subunits
                 )
                 # TODO mypy is fine, pycharm not
-                return Ok(
-                    LogUnitService(
-                        lifting_parser, lifting_mapper, lifting_repo
-                    )
-                )
+                return Ok(LogUnitService(lifting_parser, lifting_mapper, lifting_repo))
             case UnitCategory.gym:
                 gym_parser = GymParser()
                 gym_mapper = GymMapper()
                 gym_repo = UnitRepo[GymUnit, Any](session, GymUnit, None)
                 return Ok(LogUnitService(gym_parser, gym_mapper, gym_repo))
             case _:
-                return Err('no such unit category')
+                return Err("no such unit category")

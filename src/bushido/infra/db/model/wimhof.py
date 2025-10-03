@@ -5,16 +5,16 @@ from bushido.infra.db.model.base import Base, Unit
 
 
 class WimhofUnit(Unit):
-    __tablename__ = 'wimhof_unit'
+    __tablename__ = "wimhof_unit"
 
-    subunits: Mapped[list['WimhofRound']] = relationship(
-        cascade='all, delete-orphan',
-        back_populates='unit',
+    subunits: Mapped[list["WimhofRound"]] = relationship(
+        cascade="all, delete-orphan",
+        back_populates="unit",
     )
 
 
 class WimhofRound(Base):
-    __tablename__ = 'wimhof_round'
+    __tablename__ = "wimhof_round"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     round_nr: Mapped[int] = mapped_column()
@@ -23,5 +23,5 @@ class WimhofRound(Base):
     fk_unit: Mapped[int] = mapped_column(ForeignKey(WimhofUnit.id))
 
     unit: Mapped[WimhofUnit] = relationship(
-        back_populates='subunits',
+        back_populates="subunits",
     )

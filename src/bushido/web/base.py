@@ -10,7 +10,7 @@ from bushido.web.deps import get_session
 router = APIRouter()
 
 
-@router.post('/{unit_category}/log-unit')
+@router.post("/{unit_category}/log-unit")
 async def log_unit(
     ulr: UnitLogRequest,
     unit_category: UnitCategory,

@@ -11,8 +11,8 @@ class Subunit(Protocol):
     fk_unit: int
 
 
-U = TypeVar('U', bound=Unit)
-S = TypeVar('S', bound=Subunit)
+U = TypeVar("U", bound=Unit)
+S = TypeVar("S", bound=Subunit)
 
 
 # TODO add stricter typing
@@ -55,7 +55,7 @@ class UnitRepo(Generic[U, S]):
     def fetch_units(self, unit_name: str | None = None) -> list[U]:
         stmt = select(self.unit_cls)
         if unit_name is not None:
-            stmt = stmt.where(getattr(self.unit_cls, 'name') == unit_name)
+            stmt = stmt.where(getattr(self.unit_cls, "name") == unit_name)
         if self.subrels is not None:
             stmt = stmt.options(selectinload(self.subrels))
         return list(self.session.scalars(stmt))
