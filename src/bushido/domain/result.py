@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Generic, Literal, TypeVar, Union
+from typing import Generic, Literal, TypeVar
 
 T = TypeVar("T")
 
@@ -11,7 +11,8 @@ class Ok(Generic[T]):
 
 
 @dataclass(frozen=True)
-class Warn:
+class Warn(Generic[T]):
+    value: T
     message: str
     kind: Literal["warning"] = "warning"
 
@@ -22,4 +23,4 @@ class Err:
     kind: Literal["err"] = "err"
 
 
-Result = Union[Ok[T], Err]
+Result = Ok[T] | Warn[T] | Err
