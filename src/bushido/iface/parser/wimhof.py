@@ -1,7 +1,6 @@
-from bushido.core.conf import LiftingUnitName
 from bushido.domain.lifting import ExerciseSpec, SetSpec
 from bushido.domain.result import Err, Ok, Result
-from bushido.domain.unit import ParsedUnit
+from bushido.domain.unit import LiftingUnitName, ParsedUnit
 from bushido.iface.parser.unit import UnitParser
 
 
