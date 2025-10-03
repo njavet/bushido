@@ -2,8 +2,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.domain.result import Err, Ok, Result
-from bushido.domain.unit import UnitCategory
+from bushido.domain.base import Err, Ok, Result, UnitCategory
 from bushido.iface.mapper import GymMapper, LiftingMapper
 from bushido.iface.parser import GymParser, LiftingParser
 from bushido.infra.db import GymUnit, LiftingSet, LiftingUnit

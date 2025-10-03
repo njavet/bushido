@@ -1,7 +1,24 @@
+import datetime
 from dataclasses import dataclass
+from enum import StrEnum
 from typing import Generic, Literal, TypeVar
 
 T = TypeVar("T")
+UNIT_T = TypeVar("UNIT_T")
+
+
+class UnitCategory(StrEnum):
+    lifting = "lifting"
+    gym = "gym"
+    wimhof = "wimhof"
+
+
+@dataclass(frozen=True)
+class ParsedUnit(Generic[UNIT_T]):
+    name: str
+    data: UNIT_T
+    comment: str | None = None
+    log_dt: datetime.datetime | None = None
 
 
 @dataclass(frozen=True)

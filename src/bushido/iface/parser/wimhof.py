@@ -1,7 +1,5 @@
-
-from bushido.domain.result import Err, Ok, Result
-from bushido.domain.unit import ParsedUnit, WimhofUnitName
-from bushido.domain.wimhof import RoundSpec, WimhofSpec
+from bushido.domain.base import Err, Ok, ParsedUnit, Result
+from bushido.domain.wimhof import RoundSpec, WimhofSpec, WimhofUnitName
 from bushido.iface.parser.unit import UnitParser
 
 

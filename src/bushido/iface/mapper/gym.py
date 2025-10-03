@@ -1,7 +1,7 @@
 from typing import Any
 
+from bushido.domain.base import ParsedUnit
 from bushido.domain.gym import GymSpec
-from bushido.domain.unit import ParsedUnit
 from bushido.infra.db import GymUnit
 
 
