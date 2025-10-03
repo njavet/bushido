@@ -26,6 +26,10 @@ class GymUnitName(StrEnum):
     yoga = "yoga"
 
 
+class WimhofUnitName(StrEnum):
+    wimhof = "wimhof"
+
+
 @dataclass(frozen=True)
 class ParsedUnit(Generic[UNIT_T]):
     name: str
