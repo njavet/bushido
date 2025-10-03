@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from bushido.core.conf import UnitCategory
 from bushido.domain.result import Err
+from bushido.domain.unit import UnitCategory
 from bushido.schema.req import UnitLogRequest
 from bushido.service.factory import ServiceFactory
 from bushido.web.deps import get_session
