@@ -12,12 +12,12 @@ def parser():
 
 
 @pytest.mark.parametrize(
-    'line, expected',
+    "line, expected",
     [
         (
-            'squat 100 5 180 100 5',
+            "squat 100 5 180 100 5",
             ParsedUnit(
-                name='squat',
+                name="squat",
                 data=ExerciseSpec(
                     sets=[
                         SetSpec(set_nr=0, weight=100.0, reps=5, rest=180.0),
@@ -28,9 +28,9 @@ def parser():
             ),
         ),
         (
-            'squat 120 5',
+            "squat 120 5",
             ParsedUnit(
-                name='squat',
+                name="squat",
                 data=ExerciseSpec(
                     sets=[SetSpec(set_nr=0, weight=120.0, reps=5, rest=0.0)]
                 ),
@@ -38,9 +38,9 @@ def parser():
             ),
         ),
         (
-            'squat 150 3 300 160 2 90 100 20 # heavy day, 20reps at the end',
+            "squat 150 3 300 160 2 90 100 20 # heavy day, 20reps at the end",
             ParsedUnit(
-                name='squat',
+                name="squat",
                 data=ExerciseSpec(
                     sets=[
                         SetSpec(set_nr=0, weight=150.0, reps=3, rest=300.0),
@@ -48,17 +48,17 @@ def parser():
                         SetSpec(set_nr=2, weight=100.0, reps=20.0, rest=0.0),
                     ]
                 ),
-                comment='heavy day, 20reps at the end',
+                comment="heavy day, 20reps at the end",
             ),
         ),
         (
-            'deadlift 150 5 # just a single set',
+            "deadlift 150 5 # just a single set",
             ParsedUnit(
-                name='deadlift',
+                name="deadlift",
                 data=ExerciseSpec(
                     sets=[SetSpec(set_nr=0, weight=150.0, reps=5.0, rest=0.0)]
                 ),
-                comment='just a single set',
+                comment="just a single set",
             ),
         ),
     ],

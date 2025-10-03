@@ -5,7 +5,7 @@ from fastapi import Request
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-templates_dir = files('bushido').joinpath('templates')
+templates_dir = files("bushido").joinpath("templates")
 templates = Jinja2Templates(directory=str(templates_dir))
 
 

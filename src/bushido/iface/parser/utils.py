@@ -14,9 +14,9 @@ def time_string_to_seconds(time_string: str) -> Result[float]:
 
     """
     if time_string is None:
-        return Err('time_string is None')
+        return Err("time_string is None")
 
-    values = time_string.split(':')
+    values = time_string.split(":")
     if len(values) > 1:
         return colon_separated_time_string_to_seconds(values)
 
@@ -24,12 +24,12 @@ def time_string_to_seconds(time_string: str) -> Result[float]:
         m = float(values[0])
         return Ok(60 * m)
     except ValueError:
-        if re.search(r'\d+h', values[0]):
+        if re.search(r"\d+h", values[0]):
             return Ok(60 * 60 * float(values[0][:-1]))
-        elif re.search(r'\d+s', values[0]):
+        elif re.search(r"\d+s", values[0]):
             return Ok(float(values[0][:-1]))
         else:
-            return Err('colon time format error')
+            return Err("colon time format error")
 
 
 def colon_separated_time_string_to_seconds(values: list[str]) -> Result[float]:
@@ -40,7 +40,7 @@ def colon_separated_time_string_to_seconds(values: list[str]) -> Result[float]:
             m = float(values[1])
             s = float(values[2])
         except ValueError:
-            return Err('colon time format error')
+            return Err("colon time format error")
         else:
             return Ok(h * 60 * 60 + m * 60 + s)
     # format MM:SS
@@ -49,22 +49,22 @@ def colon_separated_time_string_to_seconds(values: list[str]) -> Result[float]:
             m = float(values[0])
             s = float(values[1])
         except ValueError:
-            return Err('colon time format error')
+            return Err("colon time format error")
         else:
             return Ok(m * 60 + s)
     else:
-        return Err('colon time format error')
+        return Err("colon time format error")
 
 
 def parse_military_time_string(time_string: str) -> Result[datetime.time]:
     # e.g. 1600 for 16:00
     if len(time_string) != 4:
-        return Err('incorrect military time')
+        return Err("incorrect military time")
     try:
         hour = int(time_string[0:2])
         minutes = int(time_string[2:])
     except ValueError:
-        return Err('incorrect military time')
+        return Err("incorrect military time")
     else:
         return Ok(datetime.time(hour, minutes))
 
@@ -80,10 +80,10 @@ def parse_start_end_time_string(
     :param time_string:
     :return:
     """
-    reg = re.search('[0-2][0-9][0-5][0-9]-[0-2][0-9][0-5][0-9]', time_string)
+    reg = re.search("[0-2][0-9][0-5][0-9]-[0-2][0-9][0-5][0-9]", time_string)
     if reg is None:
-        return Err('wrong time format')
-    s, e = reg.group().split('-')
+        return Err("wrong time format")
+    s, e = reg.group().split("-")
 
     start_t_res = parse_military_time_string(s)
     end_t_res = parse_military_time_string(e)
