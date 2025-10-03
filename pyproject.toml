@@ -23,6 +23,10 @@ test = [
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.poetry]
+name = "bushido"
+packages = [{ include = "bushido", from = "src"}]
+
 [tool.poetry.scripts]
 bushido = "bushido.__main__:main"
 
