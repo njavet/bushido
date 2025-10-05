@@ -6,7 +6,7 @@ indent-width = 4
 select = ["E", "F", "I"]
 
 [tool.ruff.format]
-quote-style = "single"
+quote-style = "double"
 indent-style = "space"
 
 [tool.mypy]

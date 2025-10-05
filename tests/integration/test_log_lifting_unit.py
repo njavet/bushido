@@ -35,15 +35,11 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 def service(session: Session) -> LogUnitService:
     parser = LiftingParser()
     mapper = LiftingMapper()
-    repo = UnitRepo[LiftingUnit, LiftingSet](
-        session, LiftingUnit, LiftingUnit.subunits
-    )
+    repo = UnitRepo[LiftingUnit, LiftingSet](session, LiftingUnit, LiftingUnit.subunits)
     return LogUnitService(parser, mapper, repo)
 
 
-def test_log_lifting_unit_success(
-    service: LogUnitService, session: Session
-) -> None:
+def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:
     line = 'benchpress 100 5 180 100 5'
     res = service.log_unit(line)
     assert isinstance(res, Ok)

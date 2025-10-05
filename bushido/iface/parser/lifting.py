@@ -32,9 +32,7 @@ class LiftingParser(UnitParser[ExerciseSpec]):
         ex = ExerciseSpec(
             sets=[
                 SetSpec(set_nr=i, weight=weight, reps=rep, rest=rest)
-                for i, (weight, rep, rest) in enumerate(
-                    zip(weights, reps, rests)
-                )
+                for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests))
             ]
         )
 

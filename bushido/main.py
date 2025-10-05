@@ -25,9 +25,7 @@ def create_parser() -> ArgumentParser:
     parser = ArgumentParser(description='bushido server')
     parser.add_argument('--version', action='store_true', help='show version')
     parser.add_argument('--tui', action='store_true', help='run Textual App ')
-    parser.add_argument(
-        '--dev', action='store_true', help='run development server'
-    )
+    parser.add_argument('--dev', action='store_true', help='run development server')
     return parser
 
 

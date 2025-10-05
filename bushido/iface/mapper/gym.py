@@ -6,9 +6,7 @@ from bushido.infra.db import GymUnit
 
 
 class GymMapper:
-    def to_orm(
-        self, parsed_unit: ParsedUnit[GymSpec]
-    ) -> tuple[GymUnit, list[Any]]:
+    def to_orm(self, parsed_unit: ParsedUnit[GymSpec]) -> tuple[GymUnit, list[Any]]:
         unit = GymUnit(name=parsed_unit.name, comment=parsed_unit.comment)
         return unit, []
 
