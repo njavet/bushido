@@ -2,7 +2,7 @@ from textual.app import App, ComposeResult
 from textual.widgets import Footer, Header, Static
 
 
-class BushidoApp(App):
+class BushidoApp(App[None]):
     CSS_PATH = None
     TITLE = "Bushido"
 
