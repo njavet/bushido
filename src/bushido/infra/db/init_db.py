@@ -17,6 +17,7 @@ def get_db_path() -> Path:
 def init_db() -> Path:
     db_path = get_db_path()
     if not db_path.exists():
-        sf = SessionFactory(db_path, create_schema=True)
+        sf = SessionFactory(db_path)
+        sf.init_db()
         db_path.chmod(0o600)
     return db_path

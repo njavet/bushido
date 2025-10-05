@@ -11,12 +11,9 @@ from bushido.infra.db.model.base import Base
 
 
 class SessionFactory:
-    def __init__(self, db_url: Path = DB_URL, create_schema: bool = False) -> None:
+    def __init__(self, db_url: Path = DB_URL) -> None:
         self._db_url = db_url
         self._engine = create_engine(db_url.name)
-        if create_schema:
-            Base.metadata.create_all(bind=self._engine)
-
         self._sessionmaker = sessionmaker(bind=self._engine, expire_on_commit=False)
 
     @property
@@ -24,8 +21,11 @@ class SessionFactory:
         return self._engine
 
     @property
-    def db_url(self) -> str:
-        return self._db_url.name
+    def db_url(self) -> Path:
+        return self._db_url
+
+    def init_db(self) -> None:
+        Base.metadata.create_all(bind=self._engine)
 
     @contextmanager
     def session(self) -> Iterator[Session]:
