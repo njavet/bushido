@@ -7,6 +7,12 @@ class Base(DeclarativeBase):
     pass
 
 
+class Spartan(Base):
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(unique=True)
+    birth_date: Mapped[datetime.datetime | None] = mapped_column()
+
+
 class Unit(Base):
     __abstract__ = True
 
