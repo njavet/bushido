@@ -1,5 +1,6 @@
 from collections.abc import Iterator
 from contextlib import contextmanager
+from pathlib import Path
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
@@ -10,9 +11,9 @@ from bushido.infra.db.model.base import Base
 
 
 class SessionFactory:
-    def __init__(self, db_url: str = DB_URL, create_schema: bool = False) -> None:
+    def __init__(self, db_url: Path = DB_URL, create_schema: bool = False) -> None:
         self._db_url = db_url
-        self._engine = create_engine(db_url)
+        self._engine = create_engine(db_url.name)
         if create_schema:
             Base.metadata.create_all(bind=self._engine)
 
@@ -24,7 +25,7 @@ class SessionFactory:
 
     @property
     def db_url(self) -> str:
-        return self._db_url
+        return self._db_url.name
 
     @contextmanager
     def session(self) -> Iterator[Session]:
