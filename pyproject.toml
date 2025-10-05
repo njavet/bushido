@@ -14,16 +14,6 @@ dependencies = [
     "textual[syntax] (>=6.2.1,<7.0.0)"
 ]
 
-[dependency-groups]
-test = [
-    "pytest (>=8.4.2,<9.0.0)",
-    "ruff (>=0.13.3,<0.14.0)",
-    "mypy (>=1.18.2,<2.0.0)"
-]
-dev = [
-    "ipython (>=9.6.0,<10.0.0)"
-]
-
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -34,6 +24,17 @@ packages = [{ include = "bushido", from = "src"}]
 
 [tool.poetry.scripts]
 bushido = "bushido.__main__:main"
+
+[tool.poetry.group.test.dependencies]
+ruff = "^0.13.3"
+coverage = "^7.10.7"
+mypy = "^1.18.2"
+pytest = "^8.4.2"
+pytest-mock = "^3.15.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^9.6.0"
 
 [tool.ruff]
 line-length = 88

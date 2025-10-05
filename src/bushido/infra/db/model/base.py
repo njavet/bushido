@@ -8,6 +8,8 @@ class Base(DeclarativeBase):
 
 
 class Spartan(Base):
+    __tablename__ = "spartan"
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(unique=True)
     birth_date: Mapped[datetime.datetime | None] = mapped_column()
