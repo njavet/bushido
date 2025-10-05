@@ -1,7 +1,5 @@
-from bushido.core.conf import GymUnitName
-from bushido.core.result import Err, Ok, Result
-from bushido.domain.gym import GymSpec
-from bushido.domain.unit import ParsedUnit
+from bushido.domain.base import Err, Ok, ParsedUnit, Result
+from bushido.domain.gym import GymSpec, GymUnitName
 from bushido.iface.parser.unit import UnitParser
 from bushido.iface.parser.utils import parse_start_end_time_string
 

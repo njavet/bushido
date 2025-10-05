@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido.core.result import Ok
+from bushido.domain.base import Ok
 from bushido.iface.mapper.lifting import LiftingMapper
 from bushido.iface.parser.lifting import LiftingParser
 from bushido.infra.db import LiftingSet, LiftingUnit

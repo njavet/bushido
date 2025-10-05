@@ -1,5 +1,12 @@
 import datetime
 from dataclasses import dataclass
+from enum import StrEnum
+
+
+class GymUnitName(StrEnum):
+    weights = "weights"
+    martial_arts = "martial_arts"
+    yoga = "yoga"
 
 
 @dataclass
