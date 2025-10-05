@@ -5,13 +5,13 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from bushido.infra.db.conn import SessionFactory
-from bushido.infra.db.init_db import get_db_path
+from bushido.infra.db.init_db import init_db
 from bushido.web import router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    app.state.sf = SessionFactory(get_db_path())
+    app.state.sf = SessionFactory(init_db())
     yield
 
 

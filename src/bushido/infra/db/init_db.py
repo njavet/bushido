@@ -16,6 +16,7 @@ def get_db_path() -> Path:
 
 def init_db() -> Path:
     db_path = get_db_path()
+    print("Creating database at {}".format(db_path))
     if not db_path.exists():
         sf = SessionFactory(db_path)
         sf.init_db()
