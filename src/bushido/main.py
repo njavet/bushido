@@ -7,6 +7,7 @@ from rich.logging import RichHandler
 
 from bushido import __version__
 from bushido.core.conf import DEFAULT_PORT
+from bushido.tui.tui import BushidoApp
 
 logging.basicConfig(
     level=logging.INFO,
@@ -31,7 +32,7 @@ def main() -> None:
         sys.exit(0)
 
     elif args.tui:
-        pass
+        BushidoApp().run()
 
     elif args.dev:
         uvicorn.run(
