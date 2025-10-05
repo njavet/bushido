@@ -2,7 +2,7 @@ import datetime
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
-UNIT_T = TypeVar('UNIT_T')
+UNIT_T = TypeVar("UNIT_T")
 
 
 @dataclass(frozen=True)

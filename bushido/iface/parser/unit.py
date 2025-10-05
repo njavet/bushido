@@ -14,7 +14,7 @@ class UnitParser(ABC, Generic[UNIT_T]):
         self.log_dt: datetime.datetime | None = None
 
     def _parse_comment(self, line: str) -> list[str]:
-        parts = line.split('#', 1)
+        parts = line.split("#", 1)
         if len(parts) > 1 and parts[1]:
             self.comment = parts[1].strip()
         return parts[0].split()
@@ -24,17 +24,17 @@ class UnitParser(ABC, Generic[UNIT_T]):
 
     def _parse_log_dt(self, tokens: list[str]) -> Result[list[str]]:
         try:
-            index = tokens.index('--dt')
+            index = tokens.index("--dt")
         except ValueError:
             return Ok(tokens)
         try:
             dt = tokens[index + 1].strip()
         except IndexError:
-            return Err('no dt')
+            return Err("no dt")
         try:
-            self.log_dt = datetime.datetime.strptime(dt, '%Y%m%d-%H%M')
+            self.log_dt = datetime.datetime.strptime(dt, "%Y%m%d-%H%M")
         except ValueError:
-            return Err('invalid dt')
+            return Err("invalid dt")
 
         return Ok(tokens[:index] + tokens[index + 2 :])
 

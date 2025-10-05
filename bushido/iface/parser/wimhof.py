@@ -8,9 +8,9 @@ from bushido.iface.parser.unit import UnitParser
 class LiftingParser(UnitParser[ExerciseSpec]):
     def _parse_unit_name(self, tokens: list[str]) -> Result[list[str]]:
         if len(tokens) == 0:
-            return Err('no unit name')
+            return Err("no unit name")
         if tokens[0] not in [u.name for u in LiftingUnitName]:
-            return Err('invalid unit name')
+            return Err("invalid unit name")
         self.unit_name = tokens[0]
         return Ok(tokens[1:])
 
@@ -19,15 +19,15 @@ class LiftingParser(UnitParser[ExerciseSpec]):
         reps = [float(r) for r in self.tokens[1::3]]
         rests = [float(r) for r in self.tokens[2::3]] + [0]
         if len(weights) == 0:
-            return Err('at least one set')
+            return Err("at least one set")
         if len(weights) != len(reps):
-            return Err('weights and reps must have same length')
+            return Err("weights and reps must have same length")
         if any(x < 0 for x in reps):
-            return Err('reps must all be positive')
+            return Err("reps must all be positive")
         if any(x < 0 for x in weights):
-            return Err('weights must all be positive')
+            return Err("weights must all be positive")
         if any(x < 0 for x in rests):
-            return Err('rests must all be positive')
+            return Err("rests must all be positive")
 
         ex = ExerciseSpec(
             sets=[

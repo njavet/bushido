@@ -9,9 +9,9 @@ from bushido.iface.parser.utils import parse_start_end_time_string
 class GymParser(UnitParser[GymSpec]):
     def _parse_unit_name(self, tokens: list[str]) -> Result[list[str]]:
         if len(tokens) == 0:
-            return Err('no unit name')
+            return Err("no unit name")
         if tokens[0] not in [u.name for u in GymUnitName]:
-            return Err('invalid unit name')
+            return Err("invalid unit name")
         self.unit_name = tokens[0]
         return Ok(tokens[1:])
 
@@ -24,7 +24,7 @@ class GymParser(UnitParser[GymSpec]):
         try:
             location = self.tokens[1]
         except IndexError:
-            return Err('invalid unit location')
+            return Err("invalid unit location")
         try:
             training = self.tokens[2]
         except IndexError:

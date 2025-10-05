@@ -24,6 +24,6 @@ class LogUnitService:
         parsed_unit = parse_result.value
         unit, subunits = self._mapper.to_orm(parsed_unit)
         if self._repo.add_unit(unit, subunits):
-            return Ok('Unit confirmed')
+            return Ok("Unit confirmed")
         else:
-            return Err('error')
+            return Err("error")

@@ -13,10 +13,10 @@ from bushido.infra.repo.unit import UnitRepo
 from bushido.service.base import LogUnitService
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def session_factory() -> SessionFactory:
     sf = SessionFactory(
-        'sqlite+pysqlite:///:memory:',
+        "sqlite+pysqlite:///:memory:",
         create_schema=True,
     )
     return sf
@@ -40,13 +40,13 @@ def service(session: Session) -> LogUnitService:
 
 
 def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:
-    line = 'benchpress 100 5 180 100 5'
+    line = "benchpress 100 5 180 100 5"
     res = service.log_unit(line)
     assert isinstance(res, Ok)
-    assert res.value == 'Unit confirmed'
+    assert res.value == "Unit confirmed"
     units = session.scalars(select(LiftingUnit)).all()
     assert len(units) == 1
-    assert units[0].name == 'benchpress'
+    assert units[0].name == "benchpress"
     subs = session.scalars(select(LiftingSet)).all()
     assert len(subs) == 2
     assert subs[0].weight == 100

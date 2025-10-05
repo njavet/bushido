@@ -30,4 +30,4 @@ class ServiceFactory:
                 gym_repo = UnitRepo[GymUnit, Any](session, GymUnit, None)
                 return Ok(LogUnitService(gym_parser, gym_mapper, gym_repo))
             case _:
-                return Err('no such unit category')
+                return Err("no such unit category")

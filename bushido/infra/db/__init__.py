@@ -1,4 +1,4 @@
-__all__ = ['GymUnit', 'LiftingUnit', 'LiftingSet', 'WimhofUnit', 'WimhofRound']
+__all__ = ["GymUnit", "LiftingUnit", "LiftingSet", "WimhofUnit", "WimhofRound"]
 
 from .model.gym import GymUnit
 from .model.lifting import LiftingSet, LiftingUnit
