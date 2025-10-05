@@ -10,7 +10,7 @@ from bushido.infra.db.model.base import Base
 
 
 class SessionFactory:
-    def __init__(self, db_url) -> None:
+    def __init__(self, db_url: Path) -> None:
         self._db_url = db_url
         self._engine = create_engine(db_url.name)
         self._sessionmaker = sessionmaker(bind=self._engine, expire_on_commit=False)
