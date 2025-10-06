@@ -10,6 +10,11 @@ def parser():
     return LiftingParser()
 
 
+@pytest.fixture
+def sets():
+    df = {"time": ["20251015"]}
+
+
 @pytest.mark.parametrize(
     "line, expected",
     [

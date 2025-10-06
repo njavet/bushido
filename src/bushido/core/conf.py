@@ -5,3 +5,5 @@ DEFAULT_PORT = 8080
 LOCAL_TIME_ZONE = ZoneInfo("Europe/Zurich")
 
 DAY_START_HOUR = 4
+
+DB_URL = "bushido.db"

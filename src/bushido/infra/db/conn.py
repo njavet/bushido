@@ -1,18 +1,18 @@
 from collections.abc import Iterator
 from contextlib import contextmanager
-from pathlib import Path
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
+from bushido.core.conf import DB_URL
 from bushido.infra.db.model.base import Base
 
 
 class SessionFactory:
-    def __init__(self, db_url: Path) -> None:
+    def __init__(self, db_url: str = DB_URL) -> None:
         self._db_url = db_url
-        self._engine = create_engine(db_url.name)
+        self._engine = create_engine(db_url)
         self._sessionmaker = sessionmaker(bind=self._engine, expire_on_commit=False)
 
     @property
@@ -20,7 +20,7 @@ class SessionFactory:
         return self._engine
 
     @property
-    def db_url(self) -> Path:
+    def db_url(self) -> str:
         return self._db_url
 
     def init_db(self) -> None:
