@@ -1,5 +1,4 @@
 from collections.abc import Iterator
-from pathlib import Path
 
 import pytest
 from sqlalchemy import select
@@ -16,7 +15,7 @@ from bushido.service.base import LogUnitService
 
 @pytest.fixture(scope="session")
 def session_factory() -> SessionFactory:
-    sf = SessionFactory(Path("sqlite+pysqlite:///:memory:"))
+    sf = SessionFactory("sqlite+pysqlite:///:memory:")
     sf.init_db()
     return sf
 
