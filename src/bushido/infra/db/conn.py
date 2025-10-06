@@ -1,12 +1,23 @@
 from collections.abc import Iterator
 from contextlib import contextmanager
+from pathlib import Path
 
+from platformdirs import PlatformDirs
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from bushido.core.conf import DB_URL
 from bushido.infra.db.model.base import Base
+
+APP_NAME = "bushido"
+dirs = PlatformDirs(APP_NAME, appauthor=False)
+
+
+def get_db_path() -> Path:
+    state_dir = Path(dirs.user_state_dir)
+    state_dir.mkdir(parents=True, exist_ok=True)
+    return state_dir / "bushido.sqlite3"
 
 
 class SessionFactory:
