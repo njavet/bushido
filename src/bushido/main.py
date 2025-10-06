@@ -7,7 +7,6 @@ from rich.logging import RichHandler
 
 from bushido import __version__
 from bushido.core.conf import DEFAULT_PORT
-from bushido.infra.db.init_db import init_db
 from bushido.tui.tui import BushidoApp
 
 logging.basicConfig(
@@ -33,7 +32,6 @@ def main() -> None:
         sys.exit(0)
 
     elif args.tui:
-        init_db()
         BushidoApp().run()
 
     elif args.dev:
