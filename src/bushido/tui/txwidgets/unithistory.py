@@ -2,16 +2,17 @@ import collections
 import datetime
 from dataclasses import dataclass
 
-from bushido.dt_functions import (
-    get_bushido_date_from_datetime,
-    get_datetime_from_unix_timestamp,
-)
 from rich.panel import Panel
 from rich.text import Text
 from textual.app import ComposeResult
 from textual.containers import ScrollableContainer
 from textual.reactive import Reactive
 from textual.widgets import Static
+
+from bushido.dt_functions import (
+    get_bushido_date_from_datetime,
+    get_datetime_from_unix_timestamp,
+)
 
 
 class DayWidget(Static):
