@@ -1,8 +1,8 @@
 from typing import Any
 
 from bushido.domain.base import ParsedUnit
-from bushido.domain.gym import GymSpec
 from bushido.infra.db import GymUnit
+from bushido.modules.gym.domain import GymSpec
 
 
 class GymMapper:

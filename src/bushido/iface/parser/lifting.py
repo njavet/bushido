@@ -1,6 +1,6 @@
 from bushido.domain.base import Err, Ok, ParsedUnit, Result
-from bushido.domain.lifting import ExerciseSpec, LiftingUnitName, SetSpec
 from bushido.iface.parser.unit import UnitParser
+from bushido.modules.lifting.domain import ExerciseSpec, LiftingUnitName, SetSpec
 
 
 class LiftingParser(UnitParser[ExerciseSpec]):
