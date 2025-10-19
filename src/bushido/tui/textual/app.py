@@ -1,7 +1,5 @@
 import asyncio
 
-from bushido.db import DatabaseManager
-
 # project imports
 from bushido.services import UnitManager
 from bushido.tgcom import TgCom
@@ -14,19 +12,8 @@ from textual.widgets import Footer, LoadingIndicator
 
 
 class Bushido(App):
-    BINDINGS = [
-        ("q", "quit", "Quit"),
-        ("h", "help", "Help"),
-        ("m", "manage_units", "Unit"),
-    ]
-
-    # TODO clean config
-    CSS_PATH = "assets/main.tcss"
-
     def __init__(self):
         super().__init__()
-        self.dbm = DatabaseManager("sqlite:///bushido.db")
-        self.dbm.init_db()
         self.um = UnitManager(self.dbm)
         self.tg_com = TgCom(self.um)
         self.unit_history = UnitHistory(self.um)
