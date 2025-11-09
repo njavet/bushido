@@ -4,7 +4,7 @@ from enum import StrEnum
 from typing import Generic, Literal, TypeVar
 
 T = TypeVar("T")
-UNIT_T = TypeVar("UNIT_T")
+UnitData = TypeVar("UnitData")
 
 
 class UnitCategory(StrEnum):
@@ -13,28 +13,28 @@ class UnitCategory(StrEnum):
     wimhof = "wimhof"
 
 
-@dataclass(frozen=True)
-class ParsedUnit(Generic[UNIT_T]):
+@dataclass(frozen=True, slots=True)
+class ParsedUnit(Generic[UnitData]):
     name: str
-    data: UNIT_T
+    data: UnitData
     comment: str | None = None
     log_dt: datetime.datetime | None = None
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Ok(Generic[T]):
     value: T
     kind: Literal["ok"] = "ok"
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Warn(Generic[T]):
     value: T
     message: str
     kind: Literal["warning"] = "warning"
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Err:
     message: str
     kind: Literal["err"] = "err"

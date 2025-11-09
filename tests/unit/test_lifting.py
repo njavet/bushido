@@ -1,8 +1,8 @@
 import pytest
 
 from bushido.domain.base import Ok, ParsedUnit
-from bushido.iface.parser.lifting import LiftingParser
 from bushido.modules.lifting.domain import ExerciseSpec, SetSpec
+from bushido.modules.lifting.parser import LiftingParser
 
 
 @pytest.fixture
