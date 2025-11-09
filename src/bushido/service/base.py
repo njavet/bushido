@@ -1,7 +1,7 @@
 from bushido.domain.base import UNIT_T, Err, Ok, Result
 from bushido.domain.parser import UnitParser
-from bushido.iface.mapper.unit import UnitMapper
 from bushido.infra.repo.unit import S, U, UnitRepo
+from bushido.infra.unit import UnitMapper
 
 
 class LogUnitService:
