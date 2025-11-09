@@ -1,7 +1,7 @@
 import datetime
 import re
 
-from bushido.core.conf import DAY_START_HOUR
+from bushido.conf import DAY_START_HOUR
 from bushido.modules.domain import Err, Ok, Result
 
 

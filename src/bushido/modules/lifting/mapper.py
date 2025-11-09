@@ -18,13 +18,13 @@ class LiftingMapper:
         self, orms: tuple[LiftingUnit, list[LiftingSet]]
     ) -> ParsedUnit[list[SetSpec]]:
         unit, sets = orms
-        sets = []
+        lst = []
         for i, s in enumerate(sets):
             sp = SetSpec(set_nr=i, weight=s.weight, reps=s.reps, rest=s.rest)
-            sets.append(sp)
+            lst.append(sp)
         pu = ParsedUnit(
             name=unit.name,
-            data=sets,
+            data=lst,
             comment=unit.comment,
         )
         return pu
