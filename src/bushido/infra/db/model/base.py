@@ -7,23 +7,6 @@ class Base(DeclarativeBase):
     pass
 
 
-class Spartan(Base):
-    __tablename__ = "spartan"
-
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(unique=True)
-    birth_date: Mapped[datetime.datetime | None] = mapped_column()
-
-
-class BushidoDay(Base):
-    __tablename__ = "bushido_day"
-
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    date: Mapped[datetime.date] = mapped_column()
-    start_t: Mapped[datetime.time] = mapped_column(default=datetime.time(4, 0))
-    end_t: Mapped[datetime.time] = mapped_column(default=datetime.time(3, 59))
-
-
 class Unit(Base):
     __abstract__ = True
 

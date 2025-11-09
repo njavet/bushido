@@ -8,16 +8,12 @@ class LiftingUnitName(StrEnum):
     benchpress = "benchpress"
     overheadpress = "overheadpress"
     rows = "rows"
+    curls = "curls"
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)
 class SetSpec:
     set_nr: int
     weight: float
     reps: float
     rest: float
-
-
-@dataclass
-class ExerciseSpec:
-    sets: list[SetSpec]
