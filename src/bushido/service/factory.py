@@ -2,11 +2,11 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.domain.base import Err, Ok, Result, UnitCategory
 from bushido.iface.mapper import GymMapper, LiftingMapper
 from bushido.iface.parser import GymParser, LiftingParser
 from bushido.infra.db import GymUnit, LiftingSet, LiftingUnit, WimhofUnit
-from bushido.infra.repo.unit import UnitRepo
+from bushido.modules.domain import Err, Ok, Result, UnitCategory
+from bushido.modules.repo import UnitRepo
 from bushido.modules.wimhof.mapper import WimhofMapper
 from bushido.modules.wimhof.parser import WimhofParser
 from bushido.service.base import LogUnitService

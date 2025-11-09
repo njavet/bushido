@@ -3,7 +3,7 @@ from typing import Generic, Protocol, TypeVar
 from sqlalchemy import select
 from sqlalchemy.orm import InstrumentedAttribute, Session, selectinload
 
-from bushido.infra.db.model.base import Unit
+from bushido.modules.orm import Unit
 
 
 class Subunit(Protocol):

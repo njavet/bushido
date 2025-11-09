@@ -1,6 +1,6 @@
 import pytest
 
-from bushido.domain.base import Ok, ParsedUnit
+from bushido.modules.domain import Ok, ParsedUnit
 from bushido.modules.lifting.domain import ExerciseSpec, SetSpec
 from bushido.modules.lifting.parser import LiftingParser
 

@@ -2,7 +2,7 @@ import datetime
 from abc import ABC, abstractmethod
 from typing import Generic
 
-from bushido.domain.base import Err, Ok, ParsedUnit, Result, UnitData
+from bushido.modules.domain import Err, Ok, ParsedUnit, Result, UnitData
 
 
 class UnitParser(ABC, Generic[UnitData]):

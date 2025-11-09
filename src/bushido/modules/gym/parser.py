@@ -1,7 +1,7 @@
-from bushido.domain.base import Err, Ok, ParsedUnit, Result
-from bushido.domain.parser import UnitParser
-from bushido.domain.parsing_utils import parse_start_end_time_string
+from bushido.modules.domain import Err, Ok, ParsedUnit, Result
 from bushido.modules.gym.domain import GymSpec, GymUnitName
+from bushido.modules.orm import UnitParser
+from bushido.modules.parsing_utils import parse_start_end_time_string
 
 
 class GymParser(UnitParser[GymSpec]):

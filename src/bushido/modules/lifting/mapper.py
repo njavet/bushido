@@ -1,5 +1,5 @@
-from bushido.domain.base import ParsedUnit
 from bushido.infra.db import LiftingSet, LiftingUnit
+from bushido.modules.domain import ParsedUnit
 from bushido.modules.lifting.domain import SetSpec
 
 
