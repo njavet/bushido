@@ -5,10 +5,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from bushido.domain.base import Ok
-from bushido.iface.mapper.lifting import LiftingMapper
 from bushido.infra.db import LiftingSet, LiftingUnit
 from bushido.infra.db.conn import SessionFactory
 from bushido.infra.repo.unit import UnitRepo
+from bushido.modules.lifting.mapper import LiftingMapper
 from bushido.modules.lifting.parser import LiftingParser
 from bushido.service.base import LogUnitService
 

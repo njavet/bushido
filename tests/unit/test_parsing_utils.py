@@ -1,7 +1,7 @@
 import datetime
 
 from bushido.domain.base import Ok
-from bushido.iface.parser.utils import (
+from bushido.domain.parsing_utils import (
     find_previous_sunday,
     parse_military_time_string,
     time_string_to_seconds,

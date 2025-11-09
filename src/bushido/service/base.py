@@ -1,6 +1,6 @@
 from bushido.domain.base import UNIT_T, Err, Ok, Result
+from bushido.domain.parser import UnitParser
 from bushido.iface.mapper.unit import UnitMapper
-from bushido.iface.parser.unit import UnitParser
 from bushido.infra.repo.unit import S, U, UnitRepo
 
 
