@@ -1,6 +1,6 @@
-from bushido.infra.db import WimhofRound, WimhofUnit
 from bushido.modules.domain import ParsedUnit
 from bushido.modules.wimhof.domain import RoundSpec, WimhofSpec
+from bushido.modules.wimhof.orm import WimhofRound, WimhofUnit
 
 
 class WimhofMapper:

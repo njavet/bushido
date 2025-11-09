@@ -1,6 +1,6 @@
-from bushido.infra.db import LiftingSet, LiftingUnit
 from bushido.modules.domain import ParsedUnit
 from bushido.modules.lifting.domain import SetSpec
+from bushido.modules.lifting.orm import LiftingSet, LiftingUnit
 
 
 class LiftingMapper:
