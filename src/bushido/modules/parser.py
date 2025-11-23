@@ -7,18 +7,11 @@ from bushido.modules.dtypes import Err, Ok, ParsedUnit, Result, TUData
 
 class UnitParser(ABC, Generic[TUData]):
     def __init__(self) -> None:
-        self._unit_name: str | None = None
+        # TODO how to solve str | None here
+        self.unit_name: str = ""
         self.tokens: list[str] = []
         self.comment: str | None = None
         self.log_dt: datetime.datetime | None = None
-
-    @property
-    def unit_name(self) -> str | None:
-        return self._unit_name
-
-    @unit_name.setter
-    def unit_name(self, unit_name: str) -> None:
-        self._unit_name = unit_name
 
     def _parse_comment(self, line: str) -> list[str]:
         """parses comment if present and returns list of tokens"""
@@ -46,7 +39,8 @@ class UnitParser(ABC, Generic[TUData]):
     @abstractmethod
     def _parse_unit(self) -> Result[ParsedUnit[TUData]]: ...
 
-    def parse(self, line: str) -> Result[ParsedUnit[TUData]]:
+    def parse(self, unit_name: str, line: str) -> Result[ParsedUnit[TUData]]:
+        self.unit_name = unit_name
         tokens = self._parse_comment(line)
 
         dt_res = self._parse_log_dt(tokens)

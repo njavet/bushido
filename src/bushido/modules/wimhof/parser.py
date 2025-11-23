@@ -24,7 +24,6 @@ class WimhofParser(UnitParser[WimhofSpec]):
             ]
         )
 
-        assert self.unit_name
         pu = ParsedUnit(
             name=self.unit_name,
             data=ex,
