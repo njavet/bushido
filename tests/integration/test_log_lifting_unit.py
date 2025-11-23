@@ -9,8 +9,8 @@ from bushido.modules.domain import Ok
 from bushido.modules.lifting.mapper import LiftingMapper
 from bushido.modules.lifting.orm import LiftingSet, LiftingUnit
 from bushido.modules.lifting.parser import LiftingParser
+from bushido.modules.log_unit import LogUnitService
 from bushido.modules.repo import UnitRepo
-from bushido.service.log_unit import LogUnitService
 
 
 @pytest.fixture(scope="session")

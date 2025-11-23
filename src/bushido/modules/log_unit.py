@@ -4,8 +4,8 @@ from bushido.modules.orm import UnitParser
 from bushido.modules.repo import S, U, UnitRepo
 
 
-def log_unit(line: str, repo: UnitRepo[U, S]) -> Result[str]:
-    pass
+def log_unit(line: str) -> Result[str]:
+    unit_name, payload = line.split(" ", 1)
 
 
 class LogUnitService:

@@ -1,17 +1,9 @@
 from bushido.modules.domain import Err, Ok, ParsedUnit, Result
-from bushido.modules.lifting.domain import LiftingUnitName, SetSpec
+from bushido.modules.lifting.domain import SetSpec
 from bushido.modules.parser import UnitParser
 
 
 class LiftingParser(UnitParser[list[SetSpec]]):
-    def _parse_unit_name(self, tokens: list[str]) -> Result[list[str]]:
-        if len(tokens) == 0:
-            return Err("no unit name")
-        if tokens[0] not in [u.name for u in LiftingUnitName]:
-            return Err("invalid unit name")
-        self.unit_name = tokens[0]
-        return Ok(tokens[1:])
-
     def _parse_unit(self) -> Result[ParsedUnit[list[SetSpec]]]:
         weights = [float(w) for w in self.tokens[::3]]
         reps = [float(r) for r in self.tokens[1::3]]
