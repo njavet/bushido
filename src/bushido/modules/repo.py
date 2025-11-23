@@ -3,6 +3,8 @@ from typing import Generic
 from sqlalchemy import select
 from sqlalchemy.orm import InstrumentedAttribute, Session, selectinload
 
+from .dtypes import TS, TU
+
 # TODO add stricter typing
 """
 from typing import Protocol
@@ -21,26 +23,26 @@ class FlatRepo(Generic[U]):
 """
 
 
-class UnitRepo(Generic[U, S]):
+class UnitRepo(Generic[TU, TS]):
     def __init__(
         self,
         session: Session,
-        unit_cls: type[U],
-        subrels: InstrumentedAttribute[list[S]] | None = None,
+        unit_cls: type[TU],
+        subrels: InstrumentedAttribute[list[TS]] | None = None,
     ) -> None:
         self.session = session
         self.unit_cls = unit_cls
         self.subrels = subrels
 
     # TODO handle exceptions
-    def add_unit(self, unit: U, subs: list[S] | None = None) -> bool:
+    def add_unit(self, unit: TU, subs: list[TS] | None = None) -> bool:
         if self.subrels is not None:
             getattr(unit, self.subrels.key).extend(subs)
         self.session.add(unit)
         self.session.commit()
         return True
 
-    def fetch_units(self, unit_name: str | None = None) -> list[U]:
+    def fetch_units(self, unit_name: str | None = None) -> list[TU]:
         stmt = select(self.unit_cls)
         if unit_name is not None:
             stmt = stmt.where(getattr(self.unit_cls, "name") == unit_name)
