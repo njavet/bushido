@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from bushido.modules.orm import Base, Unit
+from bushido.modules.orm import Subunit, Unit
 
 
 class LiftingUnit(Unit):
@@ -13,7 +13,7 @@ class LiftingUnit(Unit):
     )
 
 
-class LiftingSet(Base):
+class LiftingSet(Subunit):
     __tablename__ = "lifting_set"
 
     id: Mapped[int] = mapped_column(primary_key=True)

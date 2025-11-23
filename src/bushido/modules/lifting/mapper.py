@@ -1,30 +1,31 @@
-from bushido.modules.dtypes import ParsedUnit
-from bushido.modules.lifting.dtypes import SetSpec
-from bushido.modules.lifting.orm import LiftingSet, LiftingUnit
+from bushido.modules.dtypes import ParsedUnit, UnitMapper
+
+from .dtypes import LiftingSpec, SetSpec
+from .orm import LiftingSet, LiftingUnit
 
 
-class LiftingMapper:
+class LiftingMapper(UnitMapper[LiftingSpec, LiftingUnit, LiftingSet]):
+    @staticmethod
     def to_orm(
-        self, parsed_unit: ParsedUnit[list[SetSpec]]
+        parsed_unit: ParsedUnit[LiftingSpec],
     ) -> tuple[LiftingUnit, list[LiftingSet]]:
         unit = LiftingUnit(name=parsed_unit.name, comment=parsed_unit.comment)
         lst = []
-        for i, s in enumerate(parsed_unit.data):
-            ls = LiftingSet(set_nr=i, weight=s.weight, reps=s.reps, rest=s.rest)
+        for s in parsed_unit.data.sets:
+            ls = LiftingSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             lst.append(ls)
         return unit, lst
 
-    def from_orm(
-        self, orms: tuple[LiftingUnit, list[LiftingSet]]
-    ) -> ParsedUnit[list[SetSpec]]:
+    @staticmethod
+    def from_orm(orms: tuple[LiftingUnit, list[LiftingSet]]) -> ParsedUnit[LiftingSpec]:
         unit, sets = orms
         lst = []
-        for i, s in enumerate(sets):
-            sp = SetSpec(set_nr=i, weight=s.weight, reps=s.reps, rest=s.rest)
+        for s in sets:
+            sp = SetSpec(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             lst.append(sp)
         pu = ParsedUnit(
             name=unit.name,
-            data=lst,
+            data=LiftingSpec(sets=lst),
             comment=unit.comment,
         )
         return pu

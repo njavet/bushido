@@ -2,22 +2,16 @@ import datetime
 from dataclasses import dataclass
 from typing import Generic, Literal, Protocol, TypeAlias, TypeVar
 
-from bushido.modules.orm import Unit
+from bushido.modules.orm import Subunit, Unit
 
 
 class UnitData(Protocol): ...
 
 
-class Subunit(Protocol):
-    # TODO vs abstract orm class
-    id: int
-    fk_unit: int
-
-
 T = TypeVar("T")
-TUData = TypeVar("TUData", bound=UnitData, covariant=True)
-TU = TypeVar("TU", bound=Unit, covariant=True)
-TS = TypeVar("TS", bound=Subunit, covariant=True)
+TUData = TypeVar("TUData", bound=UnitData)
+TU = TypeVar("TU", bound=Unit)
+TS = TypeVar("TS", bound=Subunit)
 
 
 @dataclass(frozen=True, slots=True)

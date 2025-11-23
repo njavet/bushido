@@ -16,3 +16,9 @@ class Unit(Base):
     log_time: Mapped[datetime.datetime] = mapped_column(
         default=datetime.datetime.now(datetime.timezone.utc)
     )
+
+
+class Subunit(Base):
+    __abstract__ = True
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)

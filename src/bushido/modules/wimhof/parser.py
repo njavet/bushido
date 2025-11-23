@@ -1,6 +1,7 @@
 from bushido.modules.dtypes import Err, Ok, ParsedUnit, Result
 from bushido.modules.parser import UnitParser
-from bushido.modules.wimhof.domain import RoundSpec, WimhofSpec
+
+from .dtypes import RoundSpec, WimhofSpec
 
 
 class WimhofParser(UnitParser[WimhofSpec]):
@@ -23,6 +24,7 @@ class WimhofParser(UnitParser[WimhofSpec]):
             ]
         )
 
+        assert self.unit_name
         pu = ParsedUnit(
             name=self.unit_name,
             data=ex,

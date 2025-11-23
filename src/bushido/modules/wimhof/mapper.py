@@ -1,11 +1,13 @@
-from bushido.modules.dtypes import ParsedUnit
-from bushido.modules.wimhof.domain import RoundSpec, WimhofSpec
-from bushido.modules.wimhof.orm import WimhofRound, WimhofUnit
+from bushido.modules.dtypes import ParsedUnit, UnitMapper
+
+from .dtypes import RoundSpec, WimhofSpec
+from .orm import WimhofRound, WimhofUnit
 
 
-class WimhofMapper:
+class WimhofMapper(UnitMapper[WimhofSpec, WimhofUnit, WimhofRound]):
+    @staticmethod
     def to_orm(
-        self, parsed_unit: ParsedUnit[WimhofSpec]
+        parsed_unit: ParsedUnit[WimhofSpec],
     ) -> tuple[WimhofUnit, list[WimhofRound]]:
         unit = WimhofUnit(name=parsed_unit.name, comment=parsed_unit.comment)
         lst = []
@@ -14,8 +16,8 @@ class WimhofMapper:
             lst.append(wr)
         return unit, lst
 
+    @staticmethod
     def from_orm(
-        self,
         orms: tuple[WimhofUnit, list[WimhofRound]],
     ) -> ParsedUnit[WimhofSpec]:
         unit, rounds = orms

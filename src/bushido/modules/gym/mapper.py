@@ -6,7 +6,7 @@ from .dtypes import GymSpec
 from .orm import GymUnit
 
 
-class GymMapper(UnitMapper[GymSpec, GymUnit, None]):
+class GymMapper(UnitMapper[GymSpec, GymUnit, Any]):
     @staticmethod
     def to_orm(parsed_unit: ParsedUnit[GymSpec]) -> tuple[GymUnit, list[Any]]:
         unit = GymUnit(name=parsed_unit.name, comment=parsed_unit.comment)

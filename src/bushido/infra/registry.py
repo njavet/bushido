@@ -14,7 +14,7 @@ from bushido.modules.lifting.parser import LiftingParser
 from bushido.modules.parser import UnitParser
 from bushido.modules.protocols import UnitMapper
 from bushido.modules.repo import UnitRepo
-from bushido.modules.wimhof.domain import WimhofUnitName
+from bushido.modules.wimhof.dtypes import WimhofUnitName
 from bushido.modules.wimhof.mapper import WimhofMapper
 from bushido.modules.wimhof.orm import WimhofRound, WimhofUnit
 from bushido.modules.wimhof.parser import WimhofParser
