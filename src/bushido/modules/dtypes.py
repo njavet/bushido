@@ -1,32 +1,41 @@
 import datetime
 from dataclasses import dataclass
-from typing import Generic, Literal, TypeVar
+from typing import Generic, Literal, Protocol, TypeVar
+
+from .orm import Unit
 
 
-class UnitData:
+class UnitData(Protocol):
     pass
 
 
-TUnitData = TypeVar("TUnitData", bound=UnitData, covariant=True)
+class Subunit(Protocol):
+    id: int
+    fk_unit: int
+
+
+TUData = TypeVar("TUData", bound=UnitData, covariant=True)
+TU = TypeVar("TU", bound=Unit, covariant=True)
+TS = TypeVar("TS", bound=Subunit, covariant=True)
 
 
 @dataclass(frozen=True, slots=True)
-class ParsedUnit(Generic[TUnitData]):
+class ParsedUnit(Generic[TUData]):
     name: str
-    data: TUnitData
+    data: TUData
     comment: str | None = None
     log_dt: datetime.datetime | None = None
 
 
 @dataclass(frozen=True, slots=True)
-class Ok(Generic[TUnitData]):
-    value: ParsedUnit[TUnitData]
+class Ok(Generic[TUData]):
+    value: ParsedUnit[TUData]
     kind: Literal["ok"] = "ok"
 
 
 @dataclass(frozen=True, slots=True)
-class Warn(Generic[TUnitData]):
-    value: ParsedUnit[TUnitData]
+class Warn(Generic[TUData]):
+    value: ParsedUnit[TUData]
     message: str
     kind: Literal["warning"] = "warning"
 
@@ -37,4 +46,4 @@ class Err:
     kind: Literal["err"] = "err"
 
 
-Result = Ok[TUnitData] | Warn[TUnitData] | Err
+Result = Ok[TUData] | Warn[TUData] | Err

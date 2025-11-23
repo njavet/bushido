@@ -1,19 +1,7 @@
-from typing import Generic, Protocol, TypeVar
+from typing import Generic
 
 from sqlalchemy import select
 from sqlalchemy.orm import InstrumentedAttribute, Session, selectinload
-
-from bushido.modules.orm import Unit
-
-
-class Subunit(Protocol):
-    id: int
-    fk_unit: int
-
-
-U = TypeVar("U", bound=Unit)
-S = TypeVar("S", bound=Subunit)
-
 
 # TODO add stricter typing
 """

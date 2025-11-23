@@ -3,7 +3,7 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from bushido.modules.dtypes import Err, Ok, Result, UnitData
-from bushido.modules.gym.domain import GymUnitName
+from bushido.modules.gym.dtypes import GymUnitName
 from bushido.modules.gym.mapper import GymMapper
 from bushido.modules.gym.orm import GymUnit
 from bushido.modules.gym.parser import GymParser
