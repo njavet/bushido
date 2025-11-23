@@ -1,4 +1,4 @@
-from bushido.modules.base import Err, Ok, ParsedUnit, Result
+from bushido.modules.domain import Err, Ok, ParsedUnit, Result
 from bushido.modules.lifting.domain import LiftingUnitName, SetSpec
 from bushido.modules.parser import UnitParser
 
