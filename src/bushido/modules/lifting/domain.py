@@ -23,4 +23,4 @@ class SetSpec:
 
 @dataclass(frozen=True, slots=True)
 class LiftingSpec(UnitData):
-    sets = list[SetSpec]
+    sets: list[SetSpec]
