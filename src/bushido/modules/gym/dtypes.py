@@ -2,7 +2,7 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.modules.dtypes import UnitData
+from ..dtypes import UnitData
 
 
 class GymUnitName(StrEnum):

@@ -1,17 +1,19 @@
 from typing import Any
 
-from bushido.modules.dtypes import ParsedUnit
-from bushido.modules.gym.dtypes import GymSpec
-from bushido.modules.gym.orm import GymUnit
+from ..dtypes import ParsedUnit, UnitMapper
+from .dtypes import GymSpec
+from .orm import GymUnit
 
 
-class GymMapper:
-    def to_orm(self, parsed_unit: ParsedUnit[GymSpec]) -> tuple[GymUnit, list[Any]]:
+class GymMapper(UnitMapper[GymSpec, GymUnit, None]):
+    @staticmethod
+    def to_orm(parsed_unit: ParsedUnit[GymSpec]) -> tuple[GymUnit, list[Any]]:
         unit = GymUnit(name=parsed_unit.name, comment=parsed_unit.comment)
         return unit, []
 
     # TODO fix Any / None / []
-    def from_orm(self, orms: tuple[GymUnit, list[Any]]) -> ParsedUnit[GymSpec]:
+    @staticmethod
+    def from_orm(orms: tuple[GymUnit, list[Any]]) -> ParsedUnit[GymSpec]:
         unit, _ = orms
         pu = ParsedUnit(
             name=unit.name,
