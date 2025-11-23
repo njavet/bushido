@@ -1,8 +1,6 @@
 from textual.app import App, ComposeResult
 from textual.widgets import Footer, Header, Static
 
-from bushido.infra.db import SessionFactory
-
 
 class BushidoApp(App[None]):
     BINDINGS = [
@@ -17,6 +15,3 @@ class BushidoApp(App[None]):
         yield Header()
         yield Static("Bushido TUI is running. Press Q to quit.")
         yield Footer()
-
-    def on_mount(self) -> None:
-        sf = SessionFactory()
