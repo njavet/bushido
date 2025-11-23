@@ -2,10 +2,10 @@ import datetime
 from abc import ABC, abstractmethod
 from typing import Generic
 
-from bushido.modules.domain import Err, Ok, ParsedUnit, Result, UnitData
+from bushido.modules.domain import Err, Ok, ParsedUnit, Result, TUnitData
 
 
-class UnitParser(ABC, Generic[UnitData]):
+class UnitParser(ABC, Generic[TUnitData]):
     def __init__(self, unit_name: str) -> None:
         self.unit_name = unit_name
         self.tokens: list[str] = []
@@ -36,9 +36,9 @@ class UnitParser(ABC, Generic[UnitData]):
         return Ok(tokens[:index] + tokens[index + 2 :])
 
     @abstractmethod
-    def _parse_unit(self) -> Result[ParsedUnit[UnitData]]: ...
+    def _parse_unit(self) -> Result[ParsedUnit[TUnitData]]: ...
 
-    def parse(self, line: str) -> Result[ParsedUnit[UnitData]]:
+    def parse(self, line: str) -> Result[ParsedUnit[TUnitData]]:
         tokens = self._parse_comment(line)
 
         dt_res = self._parse_log_dt(tokens)

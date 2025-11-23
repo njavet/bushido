@@ -22,7 +22,7 @@ class UnitCategory(StrEnum):
 @dataclass(frozen=True, slots=True)
 class ParsedUnit(Generic[TUnitData]):
     name: str
-    data: UnitData
+    data: TUnitData
     comment: str | None = None
     log_dt: datetime.datetime | None = None
 

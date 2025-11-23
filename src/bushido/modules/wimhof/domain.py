@@ -8,13 +8,13 @@ class WimhofUnitName(StrEnum):
     wimhof = "wimhof"
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)
 class RoundSpec:
     round_nr: int
     breaths: int
     retention: int
 
 
-@dataclass
+@dataclass(frozen=True, slots=True)
 class WimhofSpec(UnitData):
     rounds: list[RoundSpec]

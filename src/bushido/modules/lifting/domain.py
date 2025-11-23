@@ -14,8 +14,13 @@ class LiftingUnitName(StrEnum):
 
 
 @dataclass(frozen=True, slots=True)
-class SetSpec(UnitData):
+class SetSpec:
     set_nr: int
     weight: float
     reps: float
     rest: float
+
+
+@dataclass(frozen=True, slots=True)
+class LiftingSpec(UnitData):
+    sets = list[SetSpec]
