@@ -2,7 +2,6 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.modules.dtypes import TS, TU, TUData, UnitData, UnitMapper
 from bushido.modules.gym import GymMapper, GymParser, GymUnit, GymUnitName
 from bushido.modules.lifting import (
     LiftingMapper,
@@ -11,7 +10,6 @@ from bushido.modules.lifting import (
     LiftingUnit,
     LiftingUnitName,
 )
-from bushido.modules.parser import UnitParser
 from bushido.modules.repo import UnitRepo
 from bushido.modules.wimhof import (
     WimhofMapper,
@@ -28,8 +26,8 @@ class Factory:
         self.mappers = self.get_mappers()
 
     @staticmethod
-    def get_parsers() -> dict[str, UnitParser[UnitData]]:
-        result = {}
+    def get_parsers() -> dict[str, Any]:
+        result: dict[str, Any] = {}
         for unit_name in GymUnitName.__members__:
             result[unit_name] = GymParser(unit_name=unit_name)
         for unit_name in LiftingUnitName.__members__:
@@ -39,8 +37,8 @@ class Factory:
         return result
 
     @staticmethod
-    def get_mappers() -> dict[str, UnitMapper[TUData, TU, TS]]:
-        result = {}
+    def get_mappers() -> dict[str, Any]:
+        result: dict[str, Any] = {}
         for unit_name in GymUnitName.__members__:
             result[unit_name] = GymMapper()
         for unit_name in LiftingUnitName.__members__:
@@ -50,7 +48,7 @@ class Factory:
         return result
 
     @staticmethod
-    def get_repo(unit_name: str, session: Session) -> UnitRepo[TU, TS] | None:
+    def get_repo(unit_name: str, session: Session) -> Any:
         if unit_name in [un.name for un in GymUnitName]:
             return UnitRepo[GymUnit, Any](session=session, unit_cls=GymUnit)
         elif unit_name in [un.name for un in LiftingUnitName]:
