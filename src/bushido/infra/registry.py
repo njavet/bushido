@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from bushido.modules.domain import Err, Ok, Result
+from bushido.modules.domain import Err, Ok, Result, UnitData
 from bushido.modules.gym.domain import GymUnitName
 from bushido.modules.gym.mapper import GymMapper
 from bushido.modules.gym.orm import GymUnit
@@ -18,7 +18,7 @@ from bushido.modules.wimhof.orm import WimhofUnit
 from bushido.modules.wimhof.parser import WimhofParser
 
 
-def get_parser(unit_name: str) -> Result[UnitParser]:
+def get_parser(unit_name: str) -> Result[UnitParser[UnitData]]:
     if unit_name in [un.name for un in GymUnitName]:
         return Ok(GymParser(unit_name=unit_name))
     elif unit_name in [un.name for un in LiftingUnitName]:

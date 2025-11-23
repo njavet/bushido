@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
+from bushido.modules.domain import UnitData
+
 
 class LiftingUnitName(StrEnum):
     squat = "squat"
@@ -12,7 +14,7 @@ class LiftingUnitName(StrEnum):
 
 
 @dataclass(frozen=True, slots=True)
-class SetSpec:
+class SetSpec(UnitData):
     set_nr: int
     weight: float
     reps: float

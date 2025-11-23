@@ -4,7 +4,13 @@ from enum import StrEnum
 from typing import Generic, Literal, TypeVar
 
 T = TypeVar("T")
-UnitData = TypeVar("UnitData")
+
+
+class UnitData:
+    pass
+
+
+TUnitData = TypeVar("TUnitData", bound=UnitData, covariant=True)
 
 
 class UnitCategory(StrEnum):
@@ -14,7 +20,7 @@ class UnitCategory(StrEnum):
 
 
 @dataclass(frozen=True, slots=True)
-class ParsedUnit(Generic[UnitData]):
+class ParsedUnit(Generic[TUnitData]):
     name: str
     data: UnitData
     comment: str | None = None
