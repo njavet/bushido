@@ -20,7 +20,7 @@ from bushido.modules.wimhof.orm import WimhofRound, WimhofUnit
 from bushido.modules.wimhof.parser import WimhofParser
 
 
-def get_parser(unit_name: str) -> Result[UnitParser[UnitData]]:
+def get_parsers() -> dict[str, UnitParser[UnitData]]:
     if unit_name in [un.name for un in GymUnitName]:
         return Ok(GymParser(unit_name=unit_name))
     elif unit_name in [un.name for un in LiftingUnitName]:
