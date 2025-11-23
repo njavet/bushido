@@ -1,16 +1,16 @@
 from collections.abc import Iterator
 
 import pytest
-from bushido.infra.db.conn import SessionFactory
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido.infra.db import LiftingSet, LiftingUnit
-from bushido.modules.domain import Ok
+from bushido.infra.db import SessionFactory
+from bushido.modules.base import Ok
 from bushido.modules.lifting.mapper import LiftingMapper
+from bushido.modules.lifting.orm import LiftingSet, LiftingUnit
 from bushido.modules.lifting.parser import LiftingParser
 from bushido.modules.repo import UnitRepo
-from bushido.service.base import LogUnitService
+from bushido.service.log_unit import LogUnitService
 
 
 @pytest.fixture(scope="session")

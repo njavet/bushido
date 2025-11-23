@@ -1,7 +1,11 @@
 from bushido.infra.unit import UnitMapper
-from bushido.modules.domain import UNIT_T, Err, Ok, Result
+from bushido.modules.base import UNIT_T, Err, Ok, Result
 from bushido.modules.orm import UnitParser
 from bushido.modules.repo import S, U, UnitRepo
+
+
+def log_unit(line: str):
+    pass
 
 
 class LogUnitService:

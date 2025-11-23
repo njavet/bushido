@@ -2,7 +2,7 @@ import datetime
 import re
 
 from bushido.conf import DAY_START_HOUR
-from bushido.modules.domain import Err, Ok, Result
+from bushido.modules.base import Err, Ok, Result
 
 
 def time_string_to_seconds(time_string: str) -> Result[float]:

@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from bushido.modules.domain import ParsedUnit, UnitData
+from bushido.modules.base import ParsedUnit, UnitData
 from bushido.modules.repo import S, U
 
 
