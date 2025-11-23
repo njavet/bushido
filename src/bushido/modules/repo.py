@@ -3,7 +3,7 @@ from typing import Generic
 from sqlalchemy import select
 from sqlalchemy.orm import InstrumentedAttribute, Session, selectinload
 
-from .dtypes import TS, TU
+from bushido.modules.dtypes import TS, TU
 
 # TODO add stricter typing
 """

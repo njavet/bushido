@@ -1,7 +1,7 @@
 import pytest
 
 from bushido.modules.dtypes import Ok, ParsedUnit
-from bushido.modules.lifting.domain import SetSpec
+from bushido.modules.lifting.dtypes import SetSpec
 from bushido.modules.lifting.parser import LiftingParser
 
 

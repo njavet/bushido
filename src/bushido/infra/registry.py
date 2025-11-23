@@ -7,7 +7,7 @@ from bushido.modules.gym.dtypes import GymUnitName
 from bushido.modules.gym.mapper import GymMapper
 from bushido.modules.gym.orm import GymUnit
 from bushido.modules.gym.parser import GymParser
-from bushido.modules.lifting.domain import LiftingUnitName
+from bushido.modules.lifting.dtypes import LiftingUnitName
 from bushido.modules.lifting.mapper import LiftingMapper
 from bushido.modules.lifting.orm import LiftingSet, LiftingUnit
 from bushido.modules.lifting.parser import LiftingParser

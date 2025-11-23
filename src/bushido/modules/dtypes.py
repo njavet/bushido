@@ -2,7 +2,7 @@ import datetime
 from dataclasses import dataclass
 from typing import Generic, Literal, Protocol, TypeAlias, TypeVar
 
-from .orm import Unit
+from bushido.modules.orm import Unit
 
 
 class UnitData(Protocol): ...
