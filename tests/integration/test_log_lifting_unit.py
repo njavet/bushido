@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from bushido.infra.db import SessionFactory
-from bushido.modules.domain import Ok
+from bushido.modules.dtypes import Ok
 from bushido.modules.lifting.mapper import LiftingMapper
 from bushido.modules.lifting.orm import LiftingSet, LiftingUnit
 from bushido.modules.lifting.parser import LiftingParser

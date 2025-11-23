@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.modules.domain import UnitData
+from bushido.modules.dtypes import UnitData
 
 
 class LiftingUnitName(StrEnum):

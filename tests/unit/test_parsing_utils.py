@@ -1,6 +1,6 @@
 import datetime
 
-from bushido.modules.domain import Ok
+from bushido.modules.dtypes import Ok
 from bushido.modules.parsing_utils import (
     find_previous_sunday,
     parse_military_time_string,

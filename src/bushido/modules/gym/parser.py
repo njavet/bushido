@@ -1,4 +1,4 @@
-from bushido.modules.domain import Err, Ok, ParsedUnit, Result
+from bushido.modules.dtypes import Err, Ok, ParsedUnit, Result
 from bushido.modules.gym.domain import GymSpec
 from bushido.modules.parser import UnitParser
 from bushido.modules.parsing_utils import parse_start_end_time_string

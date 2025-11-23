@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from bushido.infra.registry import get_mapper, get_parser, get_repo
-from bushido.modules.domain import Err, Ok, Result
+from bushido.modules.dtypes import Err, Ok, Result
 
 
 def log_unit(line: str, session: Session) -> Result[str]:

@@ -1,9 +1,6 @@
 import datetime
 from dataclasses import dataclass
-from enum import StrEnum
 from typing import Generic, Literal, TypeVar
-
-T = TypeVar("T")
 
 
 class UnitData:
@@ -11,12 +8,6 @@ class UnitData:
 
 
 TUnitData = TypeVar("TUnitData", bound=UnitData, covariant=True)
-
-
-class UnitCategory(StrEnum):
-    lifting = "lifting"
-    gym = "gym"
-    wimhof = "wimhof"
 
 
 @dataclass(frozen=True, slots=True)
@@ -28,14 +19,14 @@ class ParsedUnit(Generic[TUnitData]):
 
 
 @dataclass(frozen=True, slots=True)
-class Ok(Generic[T]):
-    value: T
+class Ok(Generic[TUnitData]):
+    value: ParsedUnit[TUnitData]
     kind: Literal["ok"] = "ok"
 
 
 @dataclass(frozen=True, slots=True)
-class Warn(Generic[T]):
-    value: T
+class Warn(Generic[TUnitData]):
+    value: ParsedUnit[TUnitData]
     message: str
     kind: Literal["warning"] = "warning"
 
@@ -46,4 +37,4 @@ class Err:
     kind: Literal["err"] = "err"
 
 
-Result = Ok[T] | Warn[T] | Err
+Result = Ok[TUnitData] | Warn[TUnitData] | Err

@@ -1,4 +1,4 @@
-from bushido.modules.domain import ParsedUnit
+from bushido.modules.dtypes import ParsedUnit
 from bushido.modules.lifting.domain import SetSpec
 from bushido.modules.lifting.orm import LiftingSet, LiftingUnit
 

@@ -1,6 +1,6 @@
 from typing import Any
 
-from bushido.modules.domain import ParsedUnit
+from bushido.modules.dtypes import ParsedUnit
 from bushido.modules.gym.domain import GymSpec
 from bushido.modules.gym.orm import GymUnit
 
