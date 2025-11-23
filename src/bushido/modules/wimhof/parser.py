@@ -1,17 +1,9 @@
 from bushido.modules.domain import Err, Ok, ParsedUnit, Result
 from bushido.modules.parser import UnitParser
-from bushido.modules.wimhof.domain import RoundSpec, WimhofSpec, WimhofUnitName
+from bushido.modules.wimhof.domain import RoundSpec, WimhofSpec
 
 
 class WimhofParser(UnitParser[WimhofSpec]):
-    def _parse_unit_name(self, tokens: list[str]) -> Result[list[str]]:
-        if len(tokens) == 0:
-            return Err("no unit name")
-        if tokens[0] not in [u.name for u in WimhofUnitName]:
-            return Err("invalid unit name")
-        self.unit_name = tokens[0]
-        return Ok(tokens[1:])
-
     def _parse_unit(self) -> Result[ParsedUnit[WimhofSpec]]:
         breaths = [int(b) for b in self.tokens[::2]]
         retentions = [int(r) for r in self.tokens[1::2]]

@@ -1,18 +1,10 @@
 from bushido.modules.domain import Err, Ok, ParsedUnit, Result
-from bushido.modules.gym.domain import GymSpec, GymUnitName
+from bushido.modules.gym.domain import GymSpec
 from bushido.modules.parser import UnitParser
 from bushido.modules.parsing_utils import parse_start_end_time_string
 
 
 class GymParser(UnitParser[GymSpec]):
-    def _parse_unit_name(self, tokens: list[str]) -> Result[list[str]]:
-        if len(tokens) == 0:
-            return Err("no unit name")
-        if tokens[0] not in [u.name for u in GymUnitName]:
-            return Err("invalid unit name")
-        self.unit_name = tokens[0]
-        return Ok(tokens[1:])
-
     def _parse_unit(self) -> Result[ParsedUnit[GymSpec]]:
         res_t = parse_start_end_time_string(self.tokens[0])
         if isinstance(res_t, Err):
