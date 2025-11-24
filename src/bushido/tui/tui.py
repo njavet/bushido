@@ -56,4 +56,7 @@ class BushidoApp(App[None]):
     def handle_command(self, line: str) -> str:
         with self.sf.session() as session:
             res = log_unit(line, self.factory, session)
-        return res.value
+        if isinstance(res, Ok):
+            return "Unit confirmed"
+        else:
+            return res.message
