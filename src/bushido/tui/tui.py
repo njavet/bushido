@@ -3,6 +3,7 @@ from textual.widgets import Footer, Header, Input, Log
 
 from bushido.infra.db import SessionFactory
 from bushido.modules.dtypes import Err, Ok, Result, UnitData, Warn
+from bushido.modules.factory import Factory
 
 
 class BushidoApp(App[None]):
@@ -11,9 +12,10 @@ class BushidoApp(App[None]):
     ]
     TITLE = "Bushido"
 
-    def __init__(self, session_factory: SessionFactory) -> None:
+    def __init__(self, session_factory: SessionFactory, factory: Factory) -> None:
         super().__init__()
-        self.sf = SessionFactory
+        self.sf = session_factory
+        self.factory = factory
         self.text_log: Log | None = None
         self.input: Input | None = None
 
@@ -58,20 +60,25 @@ class BushidoApp(App[None]):
         unit_name = parts[0]
         payload = parts[1] if len(parts) > 1 else ""
 
-        parser = self.factory.parsers.get(unit_name)
-        if parser is None:
-            return Err(message=f"Unknown unit: {unit_name}")
+        parser_res = self.factory.get_parser(unit_name)
+        if isinstance(parser_res, Err):
+            return parser_res
 
+        parser = parser_res.value
         parsed = parser.parse(payload)
         if isinstance(parsed, Err):
             return parsed
 
-        # persist to DB
-        from bushido.modules.repo import make_unit_repo_for  # whatever you have
-
-        with get_session() as session:
-            repo = make_unit_repo_for(session, parsed.value.name)  # map name → UnitRepo
-            orm_unit, sub_rows = self.factory.mappers[unit_name].to_orm(parsed.value)
+        with self.sf.session() as session:
+            repo_res = self.factory.get_repo(unit_name, session)
+            if isinstance(repo_res, Err):
+                return repo_res
+            repo = repo_res.value
+            mapper_res = self.factory.get_mapper(unit_name)
+            if isinstance(mapper_res, Err):
+                return mapper_res
+            mapper = mapper_res.value
+            orm_unit, sub_rows = mapper.to_orm(parsed.value)
             repo.add_unit(orm_unit, sub_rows)
 
         return parsed
