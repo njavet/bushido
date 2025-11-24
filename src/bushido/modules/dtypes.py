@@ -26,7 +26,7 @@ class ParsedUnit(Generic[TUData]):
 @dataclass(frozen=True, slots=True)
 class DisplayUnit:
     name: str
-    log_dt: datetime.datetime
+    log_time: datetime.datetime
     payload: str | None
 
 
