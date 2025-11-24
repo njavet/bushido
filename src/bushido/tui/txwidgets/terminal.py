@@ -33,7 +33,7 @@ class Terminal(Static):
         self.factory = factory
         self.scroll_container = ScrollableContainer()
         self.bdate2umsg = self.get_bdate2umsg()
-        self.bdate2dw = {}
+        self.bdate2dw: dict[datetime.date, DayWidget] = {}
 
     def compose(self) -> ComposeResult:
         yield self.scroll_container
