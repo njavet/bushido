@@ -60,7 +60,10 @@ class Terminal(Static):
             dunits = fetch_display_units(session)
             for d in dunits:
                 bd = get_bushido_date_from_datetime(d.log_time)
-                dix[bd].append(d.payload)
+                if d.payload:
+                    dix[bd].append(d.payload)
+                else:
+                    dix[bd].append("")
         return dix
 
 
