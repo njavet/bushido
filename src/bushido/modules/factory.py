@@ -2,7 +2,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.modules.dtypes import Err, Result
+from bushido.modules.dtypes import Err, Ok, Result
 from bushido.modules.gym import GymMapper, GymParser, GymUnit, GymUnitName
 from bushido.modules.lifting import (
     LiftingMapper,
@@ -22,61 +22,41 @@ from bushido.modules.wimhof import (
 
 
 class Factory:
-    # TODO redesign
-    def __init__(self):
-        self.gym_parsers = {
-            unit_name: GymParser(unit_name=unit_name)
-            for unit_name in GymUnitName.__members__
+    def __init__(self) -> None:
+        self.parsers = {
+            **{u.name: GymParser(u.name) for u in GymUnitName},
+            **{u.name: LiftingParser(u.name) for u in LiftingUnitName},
+            **{u.name: WimhofParser(u.name) for u in WimhofUnitName},
         }
-        self.lifting_parsers = {
-            unit_name: LiftingParser(unit_name=unit_name)
-            for unit_name in LiftingUnitName.__members__
-        }
-        self.wimhof_parsers = {
-            unit_name: WimhofParser(unit_name=unit_name)
-            for unit_name in WimhofUnitName.__members__
-        }
-        self.gym_mappers = {
-            unit_name: GymMapper() for unit_name in GymUnitName.__members__
-        }
-        self.lifting_mappers = {
-            unit_name: LiftingMapper() for unit_name in LiftingUnitName.__members__
-        }
-        self.wimhof_mappers = {
-            unit_name: WimhofMapper() for unit_name in WimhofUnitName.__members__
+        self.mappers = {
+            **{u.name: GymMapper() for u in GymUnitName},
+            **{u.name: LiftingMapper() for u in LiftingUnitName},
+            **{u.name: WimhofMapper() for u in WimhofUnitName},
         }
 
-    def get_parser(self, unit_name: str) -> Result[Any]:
-        if unit_name in self.gym_parsers:
-            return Result(self.gym_parsers[unit_name])
-        elif unit_name in self.lifting_parsers:
-            return Result(self.lifting_parsers[unit_name])
-        elif unit_name in self.wimhof_parsers:
-            return Result(self.wimhof_parsers[unit_name])
-        else:
+    def get_parser(self, unit_name: str) -> Result[object]:
+        parser = self.parsers.get(unit_name)
+        if parser is None:
             return Err(message=f"Unknown unit: {unit_name}")
+        return Ok(parser)
 
-    def get_mapper(self, unit_name: str) -> Result[Any]:
-        if unit_name in self.gym_mappers:
-            return Result(self.gym_mappers[unit_name])
-        elif unit_name in self.lifting_mappers:
-            return Result(self.lifting_parsers[unit_name])
-        elif unit_name in self.wimhof_mappers:
-            return Result(self.wimhof_mappers[unit_name])
-        else:
+    def get_mapper(self, unit_name: str) -> Result[object]:
+        mapper = self.mappers.get(unit_name)
+        if mapper is None:
             return Err(message=f"Unknown unit: {unit_name}")
+        return Ok(mapper)
 
-    def get_repo(self, unit_name: str, session: Session) -> Result[Any]:
-        if unit_name in self.gym_parsers:
-            return Result(UnitRepo[GymUnit, Any](session=session, unit_cls=GymUnit))
-        elif unit_name in self.lifting_parsers:
-            return Result(
+    def get_repo(self, unit_name: str, session: Session) -> Result[UnitRepo[Any, Any]]:
+        if unit_name in GymUnitName.__members__:
+            return Ok(UnitRepo[GymUnit, Any](session=session, unit_cls=GymUnit))
+        elif unit_name in LiftingUnitName.__members__:
+            return Ok(
                 UnitRepo[LiftingUnit, LiftingSet](
                     session=session, unit_cls=LiftingUnit, subrels=LiftingUnit.subunits
                 )
             )
-        elif unit_name in self.wimhof_parsers:
-            return Result(
+        elif unit_name in WimhofUnitName.__members__:
+            return Ok(
                 UnitRepo[WimhofUnit, WimhofRound](
                     session=session, unit_cls=WimhofUnit, subrels=WimhofUnit.subunits
                 )

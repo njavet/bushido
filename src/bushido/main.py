@@ -7,6 +7,8 @@ from rich.logging import RichHandler
 
 from bushido import __version__
 from bushido.conf import DEFAULT_PORT
+from bushido.infra.db import SessionFactory
+from bushido.modules.factory import Factory
 from bushido.tui.tui import BushidoApp
 
 logging.basicConfig(
@@ -32,7 +34,9 @@ def main() -> None:
         sys.exit(0)
 
     elif args.tui:
-        BushidoApp().run()
+        sf = SessionFactory()
+        factory = Factory()
+        BushidoApp(sf, factory).run()
 
     elif args.dev:
         uvicorn.run(
