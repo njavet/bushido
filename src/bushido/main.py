@@ -1,4 +1,3 @@
-"""
 import logging
 import sys
 from argparse import ArgumentParser
@@ -7,7 +6,7 @@ import uvicorn
 from rich.logging import RichHandler
 
 from bushido import __version__
-from bushido.core.conf import DEFAULT_PORT
+from bushido.conf import DEFAULT_PORT
 from bushido.tui.tui import BushidoApp
 
 logging.basicConfig(
@@ -50,67 +49,3 @@ def main() -> None:
             factory=True,
             log_level="info",
         )
-
-"""
-
-from pathlib import Path
-
-from textual.app import App, ComposeResult
-from textual.containers import Horizontal, Vertical
-from textual.widgets import Footer, Static
-from textual_image.widget import Image as ImageWidget  # from textual-image
-
-
-class BeltCard(Vertical):
-    def __init__(self, belt_name: str, image_path: Path) -> None:
-        super().__init__()
-        self.belt_name = belt_name
-        self.image_path = image_path
-
-    def compose(self) -> ComposeResult:
-        yield ImageWidget(str(self.image_path))
-        yield Static(self.belt_name, classes="belt-name")
-
-
-class BushidoApp(App[None]):
-    CSS = """
-    Screen {
-        layout: vertical;
-    }
-
-    #header {
-        padding: 1 2;
-        height: 3;
-        content-align: left middle;
-    }
-
-    #belt-row {
-        height: auto;
-        padding: 1 2;
-    }
-
-    BeltCard {
-        width: 20;
-        height: auto;
-        border: round $accent;
-        padding: 1;
-        align: center middle;
-    }
-
-    .belt-name {
-        content-align: center middle;
-        margin-top: 1;
-    }
-    """
-
-    def compose(self) -> ComposeResult:
-        yield Static("Bushido Admin Panel", id="header")
-        yield Horizontal(
-            BeltCard("White Belt", Path("black_belt.png")),
-            id="belt-row",
-        )
-        yield Footer()
-
-
-if __name__ == "__main__":
-    BushidoApp().run()
