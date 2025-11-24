@@ -22,23 +22,18 @@ class BushidoApp(App[None]):
         self.sf = session_factory
         self.factory = factory
         self.text_log = Log(highlight=False)
-        self.input = Input(placeholder="$ ")
 
     def compose(self) -> ComposeResult:
         yield Header()
         self.text_log.write("Bushido TUI ready. Type commands like\n:")
         yield self.text_log
-        yield self.input
         yield Grid(
             Label("Unit Log"),
-            TextInput(suggester=UnitSuggester(emojis)),
+            TextInput(placeholder="$", suggester=UnitSuggester(emojis)),
             RichLog(id="response"),
             id="unit_log",
         )
         yield Footer()
-
-    def on_mount(self) -> None:
-        self.input.focus()
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
         line = event.value.strip()
@@ -100,8 +95,8 @@ class UnitSuggester(Suggester):
 
 
 class TextInput(Input):
-    def __init__(self, suggester: UnitSuggester) -> None:
-        super().__init__(suggester=suggester, id="text_input")
+    def __init__(self, placeholder: str, suggester: UnitSuggester) -> None:
+        super().__init__(placeholder=placeholder, suggester=suggester, id="text_input")
 
     def on_suggestion_ready(self, event: SuggestionReady) -> None:
         self.action_delete_left_all()
