@@ -78,10 +78,10 @@ class BushidoApp(App[None]):
 
 
 class TextInput(Input):
-    def __init__(self, suggester):
+    def __init__(self, suggester) -> None:
         super().__init__(suggester=suggester, id="text_input")
 
-    def on_suggestion_ready(self, event) -> None:
+    def on_suggestion_ready(self, event: events.Event) -> None:
         self.action_delete_left_all()
         self.insert_text_at_cursor(event.suggestion)
 
