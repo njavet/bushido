@@ -77,20 +77,6 @@ class BushidoApp(App[None]):
 """
 
 
-class TextInput(Input):
-    def __init__(self, suggester) -> None:
-        super().__init__(suggester=suggester, id="text_input")
-
-    def on_suggestion_ready(self, event: events.Event) -> None:
-        self.action_delete_left_all()
-        self.insert_text_at_cursor(event.suggestion)
-
-    def on_key(self, event: events.Key) -> None:
-        # workaround for accepting autocompletion
-        if event.key == "space":
-            self.action_cursor_right()
-
-
 class UnitSuggester(Suggester):
     def __init__(self, emojis: dict[str, str]) -> None:
         super().__init__()
@@ -110,3 +96,17 @@ class UnitSuggester(Suggester):
         if len(es) == 1:
             # TODO different emoji length
             return es[0] + "  "
+
+
+class TextInput(Input):
+    def __init__(self, suggester: UnitSuggester) -> None:
+        super().__init__(suggester=suggester, id="text_input")
+
+    def on_suggestion_ready(self, event: events.Event) -> None:
+        self.action_delete_left_all()
+        self.insert_text_at_cursor(event.suggestion)
+
+    def on_key(self, event: events.Key) -> None:
+        # workaround for accepting autocompletion
+        if event.key == "space":
+            self.action_cursor_right()
