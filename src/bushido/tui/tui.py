@@ -8,6 +8,7 @@ from bushido.infra.db import SessionFactory
 from bushido.modules.dtypes import Err, Ok, Result, Warn
 from bushido.modules.factory import Factory
 from bushido.service.log_unit import log_unit
+from bushido.tui.emojis import emojis
 
 
 class BushidoApp(App[None]):
@@ -30,7 +31,7 @@ class BushidoApp(App[None]):
         yield self.input
         yield Grid(
             Label("Unit Log"),
-            TextInput(suggester=UnitSuggester(self.um)),
+            TextInput(suggester=UnitSuggester(emojis)),
             RichLog(id="response"),
             id="unit_log",
         )
@@ -91,22 +92,20 @@ class TextInput(Input):
 
 
 class UnitSuggester(Suggester):
-    def __init__(self, un2emoji):
+    def __init__(self, emojis: dict[str, str]) -> None:
         super().__init__()
-        self.un2emoji = un2emoji
-        self.uname2umoji = self.construct_dict()
+        self.emojis = emojis
+        self.un2emoji = self.construct_dict()
 
-    def construct_dict(self):
-        dix = {}
-        for umoji, proc in self.um.umoji2proc.items():
-            dix[proc.uname] = umoji
+    def construct_dict(self) -> dict[str, str]:
+        dix: dict[str, str] = {}
+        for e, n in self.emojis.items():
+            dix[n] = e
         return dix
 
     async def get_suggestion(self, value: str) -> str | None:
         es = [
-            umoji
-            for uname, umoji in self.uname2umoji.items()
-            if uname.startswith(value)
+            umoji for uname, umoji in self.un2emoji.items() if uname.startswith(value)
         ]
         if len(es) == 1:
             # TODO different emoji length
