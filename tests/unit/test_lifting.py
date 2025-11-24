@@ -23,6 +23,7 @@ def parser():
                         SetSpec(set_nr=1, weight=100.0, reps=5, rest=0.0),
                     ]
                 ),
+                payload="100 5 180 100 5",
                 comment=None,
             ),
         ),
@@ -31,6 +32,7 @@ def parser():
             ParsedUnit(
                 name="squat",
                 data=LiftingSpec([SetSpec(set_nr=0, weight=120.0, reps=5, rest=0.0)]),
+                payload="120 5",
                 comment=None,
             ),
         ),
@@ -45,6 +47,7 @@ def parser():
                         SetSpec(set_nr=2, weight=100.0, reps=20.0, rest=0.0),
                     ]
                 ),
+                payload="150 3 300 160 2 90 100 20",
                 comment="heavy day, 20reps at the end",
             ),
         ),
@@ -55,6 +58,7 @@ def parser():
                 data=LiftingSpec(
                     sets=[SetSpec(set_nr=0, weight=150.0, reps=5.0, rest=0.0)]
                 ),
+                payload="150 5",
                 comment="just a single set",
             ),
         ),

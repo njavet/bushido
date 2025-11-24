@@ -15,10 +15,10 @@ class UnitParser(ABC, Generic[TUData]):
 
     def _parse_comment(self, line: str) -> list[str]:
         """parses comment if present and returns list of tokens"""
-        self.payload = line
         parts = line.split("#", 1)
         if len(parts) > 1 and parts[1]:
             self.comment = parts[1].strip()
+        self.payload = parts[0].strip()
         return parts[0].split()
 
     def _parse_log_dt(self, tokens: list[str]) -> Result[list[str]]:
