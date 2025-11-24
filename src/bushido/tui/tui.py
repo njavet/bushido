@@ -45,10 +45,9 @@ class BushidoApp(App[None]):
         # display result
         if isinstance(res, Ok):
             pu = res.value
-            self.text_log.write(f"logged {pu.name}: {pu.data}")
+            self.text_log.write(f"logged {pu}")
         elif isinstance(res, Warn):
-            pu = res.value
-            self.text_log.write(f"{res.message} → {pu.name}: {pu.data}")
+            self.text_log.write(f"{res.message}")
         elif isinstance(res, Err):
             self.text_log.write(f"ERROR: {res.message}")
 
