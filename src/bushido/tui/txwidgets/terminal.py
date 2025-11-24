@@ -63,6 +63,8 @@ class Terminal(Static):
                 dix[bd].append(d.payload)
         return dix
 
+
+"""
     def update_view(self, sender):
         unit_message = self.create_unit_message(sender)
         day = unit_message.bushido_date
@@ -74,3 +76,5 @@ class Terminal(Static):
         except KeyError:
             dw = self.create_day_widget(day)
             self.scroll_container.mount(dw)
+
+"""
