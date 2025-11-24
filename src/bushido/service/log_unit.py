@@ -1,29 +1,18 @@
 from sqlalchemy.orm import Session
 
 from bushido.modules.dtypes import Err, Ok, Result
-from bushido.modules.factory import get_mapper, get_parser, get_repo
+from bushido.modules.factory import get_mappers, get_parsers, get_repo
 
 
 def log_unit(line: str, session: Session) -> Result[str]:
+    # TODO redesign / validation
     unit_name, payload = line.split(" ", 1)
-    parser_res = get_parser(unit_name)
-    if isinstance(parser_res, Err):
-        return parser_res
-    else:
-        parser = parser_res.value
+    parsers = get_parsers()
+    mappers = get_mappers()
+    parser = parsers.get(unit_name)
+    mapper = mappers.get(unit_name)
 
-    mapper_res = get_mapper(unit_name)
-    if isinstance(mapper_res, Err):
-        return mapper_res
-    else:
-        mapper = mapper_res.value
-
-    repo_res = get_repo(unit_name, session)
-    if isinstance(repo_res, Err):
-        return repo_res
-    else:
-        repo = repo_res.value
-
+    repo = get_repo(unit_name, session)
     parse_res = parser.parse(payload)
     if isinstance(parse_res, Err):
         return parse_res
