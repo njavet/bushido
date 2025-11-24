@@ -5,7 +5,10 @@ from bushido.modules.factory import Factory
 
 
 def log_unit(line: str, factory: Factory, session: Session) -> Result[str]:
-    unit_name, payload = line.split(" ", 1)
+    try:
+        unit_name, payload = line.split(" ", 1)
+    except ValueError:
+        unit_name, payload = line, ""
 
     parser_res = factory.get_parser(unit_name)
     if isinstance(parser_res, Err):

@@ -29,6 +29,7 @@ packages = [{ include = "bushido", from = "src"}]
 
 [tool.poetry.scripts]
 bushido = "bushido.__main__:main"
+d = "textual run --dev bushido.__main__:main"
 
 [tool.poetry.group.test.dependencies]
 ruff = "^0.13.3"
@@ -41,6 +42,7 @@ poethepoet = "^0.37.0"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^9.6.0"
+textual-dev = "^1.8.0"
 
 [tool.ruff]
 line-length = 88

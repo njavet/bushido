@@ -2,7 +2,7 @@ from textual.app import App, ComposeResult
 from textual.widgets import Footer, Header, Input, Log
 
 from bushido.infra.db import SessionFactory
-from bushido.modules.dtypes import Err, Ok, Warn
+from bushido.modules.dtypes import Err, Ok, Result, Warn
 from bushido.modules.factory import Factory
 from bushido.service.log_unit import log_unit
 
@@ -22,8 +22,7 @@ class BushidoApp(App[None]):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        self.text_log.write("Bushido TUI ready. Type commands like:")
-        self.text_log.write("$ squat 100 5 180 100 5 # this is a test")
+        self.text_log.write("Bushido TUI ready. Type commands like\n:")
         yield self.text_log
         yield self.input
         yield Footer()
@@ -51,12 +50,9 @@ class BushidoApp(App[None]):
             pu = res.value
             self.text_log.write(f"{res.message} → {pu.name}: {pu.data}")
         elif isinstance(res, Err):
-            self.text_log.write(f"{res.message}")
+            self.text_log.write(f"ERROR: {res.message}")
 
-    def handle_command(self, line: str) -> str:
+    def handle_command(self, line: str) -> Result[str]:
         with self.sf.session() as session:
             res = log_unit(line, self.factory, session)
-        if isinstance(res, Ok):
-            return "Unit confirmed"
-        else:
-            return res.message
+        return res
