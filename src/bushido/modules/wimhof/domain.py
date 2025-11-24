@@ -3,6 +3,8 @@ from enum import StrEnum
 
 from bushido.modules.dtypes import UnitData
 
+from .orm import WimhofUnit
+
 
 class WimhofUnitName(StrEnum):
     wimhof = "wimhof"
@@ -18,3 +20,7 @@ class RoundSpec:
 @dataclass(frozen=True, slots=True)
 class WimhofSpec(UnitData):
     rounds: list[RoundSpec]
+
+
+def format_wimhof_unit(unit: WimhofUnit) -> str:
+    return unit.name
