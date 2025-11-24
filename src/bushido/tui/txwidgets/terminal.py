@@ -10,6 +10,7 @@ from textual.widgets import Static
 
 from bushido.infra.db import SessionFactory
 from bushido.modules.factory import Factory
+from bushido.modules.timeline import fetch_display_units
 from bushido.parsing.utils import get_bushido_date_from_datetime
 
 
@@ -46,19 +47,6 @@ class Terminal(Static):
             await self.scroll_container.mount(dw)
             day += datetime.timedelta(days=1)
 
-    def create_unit_message(self, umsg):
-        cet_dt = get_datetime_from_unix_timestamp(umsg.unit.unix_timestamp)
-        bushido_date = get_bushido_date_from_datetime()
-        local_time = datetime.datetime.strftime(cet_dt, "%H:%M")
-        if len(umsg.unit.umoji) == 2:
-            text = " ".join([local_time, umsg.unit.umoji + " ", umsg.payload])
-        else:
-            text = " ".join([local_time, umsg.unit.umoji, umsg.payload])
-
-        return self.UnitMessage(
-            text=text, comment=umsg.comment, bushido_date=bushido_date
-        )
-
     def create_day_widget(self, day: datetime.date) -> DayWidget:
         title = datetime.date.strftime(day, "%d.%m.%y")
         text = "\n".join(self.bdate2umsg[day])
@@ -66,17 +54,13 @@ class Terminal(Static):
         self.bdate2dw[day] = dw
         return dw
 
-    def get_bdate2umsg(self):
+    def get_bdate2umsg(self) -> dict[datetime.date, list[str]]:
         dix = collections.defaultdict(list)
         with self.sf.session() as session:
-            repo_res = factory.get_repo(unit_name, session)
-            if isinstance(repo_res, Err):
-                return repo_res
-            repo = repo_res.value
-
-        for umsg in self.um.retrieve_unit_messages():
-            unit_message = self.create_unit_message(umsg)
-            dix[unit_message.bushido_date].append(unit_message.text)
+            dunits = fetch_display_units(session)
+            for d in dunits:
+                bd = get_bushido_date_from_datetime(d.log_time)
+                dix[bd].append(d.payload)
         return dix
 
     def update_view(self, sender):
