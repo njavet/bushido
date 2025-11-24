@@ -55,7 +55,7 @@ class Terminal(Static):
         return dw
 
     def get_bdate2umsg(self) -> dict[datetime.date, list[str]]:
-        dix = collections.defaultdict(list)
+        dix: dict[datetime.date, list[str]] = collections.defaultdict(list)
         with self.sf.session() as session:
             dunits = fetch_display_units(session)
             for d in dunits:
