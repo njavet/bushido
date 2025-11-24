@@ -35,6 +35,7 @@ def main() -> None:
 
     elif args.tui:
         sf = SessionFactory()
+        # TODO all orm tables must have been imported already
         sf.init_db()
         factory = Factory()
         BushidoApp(sf, factory).run()
