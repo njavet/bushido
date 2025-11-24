@@ -2,8 +2,9 @@ from textual.app import App, ComposeResult
 from textual.widgets import Footer, Header, Input, Log
 
 from bushido.infra.db import SessionFactory
-from bushido.modules.dtypes import Err, Ok, Result, UnitData, Warn
+from bushido.modules.dtypes import Err, Ok, Warn
 from bushido.modules.factory import Factory
+from bushido.service.log_unit import log_unit
 
 
 class BushidoApp(App[None]):
@@ -54,31 +55,7 @@ class BushidoApp(App[None]):
         elif isinstance(res, Err):
             self.text_log.write(f"{res.message}")
 
-    def handle_command(self, line: str) -> Result[UnitData]:
-        # very simple: first token = unit_name, rest = data
-        parts = line.split(maxsplit=1)
-        unit_name = parts[0]
-        payload = parts[1] if len(parts) > 1 else ""
-
-        parser_res = self.factory.get_parser(unit_name)
-        if isinstance(parser_res, Err):
-            return parser_res
-
-        parser = parser_res.value
-        parsed = parser.parse(payload)
-        if isinstance(parsed, Err):
-            return parsed
-
+    def handle_command(self, line: str) -> str:
         with self.sf.session() as session:
-            repo_res = self.factory.get_repo(unit_name, session)
-            if isinstance(repo_res, Err):
-                return repo_res
-            repo = repo_res.value
-            mapper_res = self.factory.get_mapper(unit_name)
-            if isinstance(mapper_res, Err):
-                return mapper_res
-            mapper = mapper_res.value
-            orm_unit, sub_rows = mapper.to_orm(parsed.value)
-            repo.add_unit(orm_unit, sub_rows)
-
-        return parsed
+            res = log_unit(line, self.factory, session)
+        return res.value
