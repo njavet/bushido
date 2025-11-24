@@ -1,6 +1,6 @@
 from bushido.modules.dtypes import Err, Ok, ParsedUnit, Result
 from bushido.modules.parser import UnitParser
-from bushido.parsing.parsing_utils import parse_start_end_time_string
+from bushido.parsing.utils import parse_start_end_time_string
 
 from .dtypes import GymSpec
 

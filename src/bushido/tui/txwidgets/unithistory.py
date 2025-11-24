@@ -9,10 +9,7 @@ from textual.containers import ScrollableContainer
 from textual.reactive import Reactive
 from textual.widgets import Static
 
-from bushido.dt_functions import (
-    get_bushido_date_from_datetime,
-    get_datetime_from_unix_timestamp,
-)
+from bushido.parsing.utils import get_bushido_date_from_datetime
 
 
 class DayWidget(Static):

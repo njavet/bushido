@@ -1,7 +1,7 @@
 import datetime
 import re
 
-from bushido.conf import DAY_START_HOUR
+from bushido.conf import DAY_START_HOUR, LOCAL_TIME_ZONE
 from bushido.modules.dtypes import Err, Ok, Result
 
 
@@ -99,10 +99,11 @@ def parse_start_end_time_string(
 
 
 def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
-    if 0 <= dt.hour < DAY_START_HOUR:
-        return dt.date() - datetime.timedelta(days=1)
+    local_dt = dt.astimezone(LOCAL_TIME_ZONE)
+    if 0 <= local_dt.hour < DAY_START_HOUR:
+        return local_dt.date() - datetime.timedelta(days=1)
     else:
-        return dt.date()
+        return local_dt.date()
 
 
 def find_previous_sunday(dt: datetime.date) -> datetime.date:
