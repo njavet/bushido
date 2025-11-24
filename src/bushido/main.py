@@ -35,6 +35,7 @@ def main() -> None:
 
     elif args.tui:
         sf = SessionFactory()
+        sf.init_db()
         factory = Factory()
         BushidoApp(sf, factory).run()
 
