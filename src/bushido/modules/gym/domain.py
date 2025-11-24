@@ -4,6 +4,8 @@ from enum import StrEnum
 
 from bushido.modules.dtypes import UnitData
 
+from .orm import GymUnit
+
 
 class GymUnitName(StrEnum):
     weights = "weights"
@@ -18,3 +20,7 @@ class GymSpec(UnitData):
     location: str
     training: str | None = None
     focus: str | None = None
+
+
+def format_gym_unit(unit: GymUnit) -> str:
+    return unit.name

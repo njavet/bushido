@@ -3,6 +3,8 @@ from enum import StrEnum
 
 from bushido.modules.dtypes import UnitData
 
+from .orm import LiftingUnit
+
 
 class LiftingUnitName(StrEnum):
     squat = "squat"
@@ -24,3 +26,7 @@ class SetSpec:
 @dataclass(frozen=True, slots=True)
 class LiftingSpec(UnitData):
     sets: list[SetSpec]
+
+
+def format_lifting_unit(unit: LiftingUnit) -> str:
+    return unit.name
