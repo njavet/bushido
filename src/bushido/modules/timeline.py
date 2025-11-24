@@ -2,10 +2,10 @@ from typing import Any
 
 from bushido.infra.db import SessionFactory
 from bushido.modules.dtypes import DisplayUnit
-from bushido.modules.gym import GymUnit
-from bushido.modules.lifting import LiftingSet, LiftingUnit
+from bushido.modules.gym import GymUnit, format_gym_unit
+from bushido.modules.lifting import LiftingSet, LiftingUnit, format_lifting_unit
 from bushido.modules.repo import UnitRepo
-from bushido.modules.wimhof import WimhofRound, WimhofUnit
+from bushido.modules.wimhof import WimhofRound, WimhofUnit, format_wimhof_unit
 
 
 def fetch_display_units(sf: SessionFactory) -> list[DisplayUnit]:
