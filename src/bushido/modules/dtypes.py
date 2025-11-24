@@ -19,6 +19,7 @@ class ParsedUnit(Generic[TUData]):
     name: str
     data: TUData
     comment: str | None = None
+    payload: str | None = None
     log_dt: datetime.datetime | None = None
 
 

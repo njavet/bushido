@@ -34,6 +34,7 @@ class GymParser(UnitParser[GymSpec]):
                 training=training,
                 focus=focus,
             ),
+            payload=self.payload,
             comment=self.comment,
             log_dt=self.log_dt,
         )
