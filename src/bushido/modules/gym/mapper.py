@@ -2,7 +2,7 @@ from typing import Any
 
 from bushido.modules.dtypes import ParsedUnit, UnitMapper
 
-from .dtypes import GymSpec
+from .domain import GymSpec
 from .orm import GymUnit
 
 

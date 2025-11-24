@@ -1,3 +1,4 @@
+import datetime
 from typing import Generic
 
 from sqlalchemy import select
@@ -42,7 +43,12 @@ class UnitRepo(Generic[TU, TS]):
         self.session.commit()
         return True
 
-    def fetch_units(self, unit_name: str | None = None) -> list[TU]:
+    def fetch_units(
+        self,
+        unit_name: str | None = None,
+        start_t: datetime.datetime | None = None,
+        end_t: datetime.datetime | None = None,
+    ) -> list[TU]:
         stmt = select(self.unit_cls)
         if unit_name is not None:
             stmt = stmt.where(self.unit_cls.name == unit_name)

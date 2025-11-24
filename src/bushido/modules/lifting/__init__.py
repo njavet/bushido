@@ -1,4 +1,4 @@
-from .dtypes import LiftingSpec, LiftingUnitName, SetSpec
+from .domain import LiftingSpec, LiftingUnitName, SetSpec
 from .mapper import LiftingMapper
 from .orm import LiftingSet, LiftingUnit
 from .parser import LiftingParser

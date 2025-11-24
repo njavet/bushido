@@ -1,7 +1,7 @@
 from bushido.modules.dtypes import Err, Ok, ParsedUnit, Result
 from bushido.modules.parser import UnitParser
 
-from .dtypes import RoundSpec, WimhofSpec
+from .domain import RoundSpec, WimhofSpec
 
 
 class WimhofParser(UnitParser[WimhofSpec]):

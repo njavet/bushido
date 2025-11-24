@@ -1,6 +1,6 @@
 from bushido.modules.dtypes import ParsedUnit, UnitMapper
 
-from .dtypes import LiftingSpec, SetSpec
+from .domain import LiftingSpec, SetSpec
 from .orm import LiftingSet, LiftingUnit
 
 

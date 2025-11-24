@@ -1,4 +1,4 @@
-from .dtypes import GymSpec, GymUnitName
+from .domain import GymSpec, GymUnitName
 from .mapper import GymMapper
 from .orm import GymUnit
 from .parser import GymParser

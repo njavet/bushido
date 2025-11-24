@@ -1,4 +1,4 @@
-from .dtypes import RoundSpec, WimhofSpec, WimhofUnitName
+from .domain import RoundSpec, WimhofSpec, WimhofUnitName
 from .mapper import WimhofMapper
 from .orm import WimhofRound, WimhofUnit
 from .parser import WimhofParser

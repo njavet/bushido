@@ -1,6 +1,6 @@
 from bushido.modules.dtypes import ParsedUnit, UnitMapper
 
-from .dtypes import RoundSpec, WimhofSpec
+from .domain import RoundSpec, WimhofSpec
 from .orm import WimhofRound, WimhofUnit
 
 
