@@ -96,6 +96,7 @@ class UnitSuggester(Suggester):
         if len(es) == 1:
             # TODO different emoji length
             return es[0] + "  "
+        return None
 
 
 class TextInput(Input):
