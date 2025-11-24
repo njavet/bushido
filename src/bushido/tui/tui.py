@@ -17,16 +17,14 @@ class BushidoApp(App[None]):
         super().__init__()
         self.sf = session_factory
         self.factory = factory
-        self.text_log: Log | None = None
-        self.input: Input | None = None
+        self.text_log = Log(highlight=False)
+        self.input = Input(placeholder="$ ")
 
     def compose(self) -> ComposeResult:
         yield Header()
-        self.text_log = Log(highlight=False)
         self.text_log.write("Bushido TUI ready. Type commands like:")
         self.text_log.write("$ squat 100 5 180 100 5 # this is a test")
         yield self.text_log
-        self.input = Input(placeholder="$ ")
         yield self.input
         yield Footer()
 
