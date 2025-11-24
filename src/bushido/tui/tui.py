@@ -25,8 +25,6 @@ class BushidoApp(App[None]):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        self.text_log.write("Bushido TUI ready. Type commands like\n:")
-        yield self.text_log
         yield Grid(
             Label("Unit Log"),
             TextInput(placeholder="$", suggester=UnitSuggester(emojis)),

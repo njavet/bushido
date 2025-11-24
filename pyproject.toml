@@ -29,7 +29,6 @@ packages = [{ include = "bushido", from = "src"}]
 
 [tool.poetry.scripts]
 bushido = "bushido.__main__:main"
-d = "textual run --dev bushido.__main__:main"
 
 [tool.poetry.group.test.dependencies]
 ruff = "^0.13.3"
