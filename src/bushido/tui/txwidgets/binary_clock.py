@@ -14,6 +14,8 @@ class BinaryClock(Widget):
         now = datetime.datetime.now()
         # HHMMSS as 6 decimal digits
         digits = f"{now.hour:02d}{now.minute:02d}{now.second:02d}"
+        on_char = "\u25a0"
+        off_char = "\u25a1"
 
         table = Table(
             show_header=False,
@@ -33,7 +35,7 @@ class BinaryClock(Widget):
             for ch in digits:
                 d = int(ch)
                 bit_on = (d >> bit_row) & 1
-                cells.append("[green]●[/]" if bit_on else "[dim]·[/]")
+                cells.append(f"[cyan]{on_char}[/]" if bit_on else f"[dim]{off_char}[/]")
             table.add_row(*cells)
 
         return table

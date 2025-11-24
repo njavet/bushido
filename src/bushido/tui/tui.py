@@ -9,6 +9,7 @@ from bushido.modules.dtypes import Err, Ok, Result, Warn
 from bushido.modules.factory import Factory
 from bushido.service.log_unit import log_unit
 from bushido.tui.emojis import emojis
+from bushido.tui.txwidgets.binary_clock import BinaryClock
 
 
 class BushidoApp(App[None]):
@@ -25,6 +26,7 @@ class BushidoApp(App[None]):
 
     def compose(self) -> ComposeResult:
         yield Header()
+        yield BinaryClock()
         yield Grid(
             Label("Unit Log"),
             TextInput(placeholder="$", suggester=UnitSuggester(emojis)),
