@@ -1,0 +1,61 @@
+# general imports
+# project imports
+import secconf
+import txscreens
+from textual.app import App, ComposeResult
+from textual.widgets import *
+from txwidgets.unithistory import UnitHistory
+
+import umanager
+
+
+class Skynet(App):
+    BINDINGS = [
+        ("q", "quit", "Quit"),
+        ("h", "help", "Help"),
+        ("g", "timetable", "TimeTable"),
+        ("r", "lifting", "Res"),
+        ("w", "wimhof", "Wimhof"),
+        ("s", "study", "Study"),
+        ("l", "log_unit", "Log"),
+    ]
+
+    CSS_PATH = "../../src/bushido/skynet.tcss"
+
+    def __init__(self):
+        super().__init__()
+        self.um = umanager.UManager()
+
+    def compose(self) -> ComposeResult:
+        # yield Header()
+        yield bushido.binclock.Binclock()
+        yield UnitHistory(secconf.user_id)
+        yield Footer()
+
+    def action_help(self):
+        self.app.push_screen(txscreens.helpscreen.HelpScreen())
+
+    def action_log_unit(self):
+        self.app.push_screen(txscreens.unitlog.UnitLog(secconf.user_id, self.um))
+
+    def action_timetable(self):
+        self.app.push_screen(
+            bushido.timetable.TimeTable(secconf.user_id, self.um.modname2stats)
+        )
+
+    def action_lifting(self):
+        self.app.push_screen(
+            bushido.lifting.LiftingScreen(secconf.user_id, self.um.modname2stats)
+        )
+
+    def action_wimhof(self):
+        self.app.push_screen(
+            bushido.wimhof.WimhofScreen(
+                secconf.user_id, self.um.modname2stats["wimhof"]
+            )
+        )
+
+
+if __name__ == "__main__":
+    app = Skynet()
+    app.run()
