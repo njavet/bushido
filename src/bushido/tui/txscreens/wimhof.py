@@ -1,3 +1,4 @@
+"""
 import pygame
 from textual.containers import Container
 from textual.screen import Screen
@@ -25,11 +26,10 @@ class WimhofScreen(Screen):
             self.wimhof_practice()
 
     def wimhof_practice(self):
-        print("start")
         self.current_round += 1
 
-        screen = pygame.display.set_mode([800, 600])
-        b = pygame.mixer.music.load("audio/wimhof_breathing_30.mp3")
+        # screen = pygame.display.set_mode([800, 600])
+        # b = pygame.mixer.music.load("audio/wimhof_breathing_30.mp3")
         # r = pyglet.media.load('audio/wimhof_retention_sound.mp3')
         pygame.mixer.music.play()
         running = True
@@ -57,3 +57,4 @@ class WimhofScreen(Screen):
 
     def on_mount(self):
         pass
+"""
