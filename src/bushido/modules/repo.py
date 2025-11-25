@@ -54,5 +54,5 @@ class UnitRepo(Generic[TU, TS]):
             stmt = stmt.where(self.unit_cls.name == unit_name)
         if self.subrels is not None:
             stmt = stmt.options(selectinload(self.subrels))
-        stmt = stmt.order_by(self.unit_cls.log_time, desc=True)
+        stmt = stmt.order_by(self.unit_cls.log_time.desc())
         return list(self.session.scalars(stmt))
