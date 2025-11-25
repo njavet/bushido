@@ -5,7 +5,6 @@ from textual.containers import Horizontal
 from textual.events import Key
 from textual.suggester import Suggester, SuggestionReady
 from textual.widgets import Footer, Input, Rule, TextArea, Tree
-from textual_image.widget import Image as ImageWidget
 
 from bushido.infra.db import SessionFactory
 from bushido.modules.dtypes import Err, Ok, Warn
