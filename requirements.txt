@@ -1,7 +1,0 @@
-peewee
-python-telegram-bot
-jinja2
-textual
-pylint
-pytest
-wheel
