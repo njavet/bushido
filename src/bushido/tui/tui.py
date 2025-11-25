@@ -18,6 +18,10 @@ from bushido.tui.txwidgets.unit_log import UnitLog
 class BushidoApp(App[None]):
     BINDINGS = [
         ("q", "quit", "quit"),
+        ("h", "help", "help"),
+        ("t", "toggle_tree", "toggle tree"),
+        ("g", "unit_timeline", "timeLine"),
+        ("l", "log_unit", "log"),
     ]
     TITLE = "bushido"
     CSS_PATH = "main.tcss"
@@ -35,7 +39,10 @@ class BushidoApp(App[None]):
             yield ImageWidget("src/bushido/static/belts/black_belt.png", id="belt")
             yield ImageWidget("src/bushido/static/belts/rank.png", id="rank")
             yield BinaryClock(id="clock")
+        yield Tree("", data=0, id="unit-tree")
+        yield TextArea()
         yield TextInput(suggester=UnitSuggester(un2emoji))
+        yield Rule()
         yield self.unit_log
         yield Footer()
 
@@ -57,6 +64,80 @@ class BushidoApp(App[None]):
         elif isinstance(res, Err):
             print(res.message)
             pass
+
+    def watch_show_tree(self, show_tree):
+        self.set_class(show_tree, "-show-tree")
+
+    def on_mount(self):
+        self.build_tree()
+
+    def build_tree(self):
+        def add_node(name, node, data):
+            """Adds a node to the tree.
+
+            Args:
+                name (str): Name of the node.
+                node (TreeNode): Parent node.
+                data (object): Data associated with the node.
+            """
+            if isinstance(data, dict):
+                if isinstance(name, str):
+                    node.label = Text(name, style="cyan")
+                if node.data < 2:
+                    node.expand()
+                for key, value in data.items():
+                    new_node = node.add("", data=(node.data + 1))
+                    add_node(key, new_node, value)
+            elif isinstance(data, list):
+                if isinstance(name, datetime.datetime):
+                    node.label = Text(
+                        datetime.datetime.strftime(name, "%d.%m.%y %H:%M")
+                    )
+                else:
+                    node.label = name
+
+                for index, value in enumerate(data):
+                    new_node = node.add("", data=(node.data + 1))
+                    add_node(str(index), new_node, value)
+
+            else:
+                node.allow_expand = False
+                if name:
+                    try:
+                        data_str = str(data.liftsset)
+                    except:
+                        data_str = str(data)
+
+                    label = Text.assemble(
+                        str(len(str(data))),
+                        Text.from_markup(f"[b]{name}[/b] = ", style="blue"),
+                        data_str,
+                        style="cyan",
+                    )
+                else:
+                    label = Text(repr(data))
+                node.label = label
+
+        tree = self.query_one(Tree)
+        tree.root.expand()
+        add_node("Units", tree.root, {})
+
+    def action_log_unit(self):
+        # TODO update other widgets after saving a unit
+        self.app.push_screen(unitlog.UnitLog(self.string_processor))
+
+    def action_help(self):
+        self.app.push_screen(helpscreen.HelpScreen(emojis))
+
+    def action_toggle_tree(self):
+        self.show_tree = not self.show_tree
+
+    def action_unit_timeline(self):
+        self.app.push_screen(timeline.TimeLine())
+
+    def on_button_pressed(self, event):
+        if event.button.id == "weights":
+            self.app.push_screen(weights.Weights())
 
 
 """
