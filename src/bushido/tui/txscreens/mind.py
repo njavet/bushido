@@ -1,7 +1,7 @@
+"""
 import datetime
 import time
 
-# project imports
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.reactive import reactive
@@ -177,3 +177,4 @@ class Stopwatch(Container):
         yield Button("Resume", id="resume")
         yield Button("End", id="end")
         yield StopwatchTimeDisplay()
+"""
