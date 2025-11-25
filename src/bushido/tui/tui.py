@@ -49,12 +49,14 @@ class BushidoApp(App[None]):
             res = log_unit(line, self.factory, session)
 
         if isinstance(res, Ok):
-            pu = res.value
-            self.unit_log.write(f"logged {pu}")
+            unit = res.value
+            self.unit_log.update_view(unit)
         elif isinstance(res, Warn):
-            self.text_log.write(f"{res.message}")
+            print(res.message)
+            pass
         elif isinstance(res, Err):
-            self.text_log.write(f"ERROR: {res.message}")
+            print(res.message)
+            pass
 
 
 """
@@ -73,10 +75,9 @@ class UnitSuggester(Suggester):
         self.emojis = emojis
 
     async def get_suggestion(self, value: str) -> str | None:
-        es = [emoji for uname, emoji in self.emojis.items() if uname.startswith(value)]
+        es = [uname for uname, emoji in self.emojis.items() if uname.startswith(value)]
         if len(es) == 1:
-            # TODO different emoji length
-            return es[0] + "  "
+            return es[0] + " "
         return None
 
 
