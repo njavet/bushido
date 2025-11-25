@@ -1,4 +1,3 @@
-
 import pygame
 from textual.containers import Container
 from textual.screen import Screen

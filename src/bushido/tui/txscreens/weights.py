@@ -1,8 +1,6 @@
-# general import*s
 import datetime
 
 import core
-import secconf
 from rich.text import Text
 from textual.screen import Screen
 from textual.widgets import *

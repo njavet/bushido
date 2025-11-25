@@ -1,4 +1,3 @@
-
 from rich.text import Text
 from textual.containers import Horizontal
 from textual.screen import ModalScreen

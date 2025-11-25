@@ -1,15 +1,12 @@
-# general imports
 import datetime
 import time
 
 # project imports
-import secconf
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.reactive import reactive
 from textual.screen import Screen
 from textual.widgets import Button, Static
-from units import mind
 
 
 class Mind(Screen):
