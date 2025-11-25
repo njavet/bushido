@@ -17,7 +17,7 @@ from bushido.tui.txwidgets.unit_log import UnitLog
 
 class BushidoApp(App[None]):
     BINDINGS = [
-        ("q", "quit", "Quit"),
+        ("q", "quit", "quit"),
     ]
     TITLE = "bushido"
     CSS_PATH = "main.tcss"
