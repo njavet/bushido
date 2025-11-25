@@ -1,8 +1,11 @@
+import datetime
+
+from rich.text import Text
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal
 from textual.events import Key
 from textual.suggester import Suggester, SuggestionReady
-from textual.widgets import Footer, Input
+from textual.widgets import Footer, Input, Rule, TextArea, Tree
 from textual_image.widget import Image as ImageWidget
 
 from bushido.infra.db import SessionFactory
@@ -122,6 +125,7 @@ class BushidoApp(App[None]):
         tree.root.expand()
         add_node("Units", tree.root, {})
 
+    """
     def action_log_unit(self):
         # TODO update other widgets after saving a unit
         self.app.push_screen(unitlog.UnitLog(self.string_processor))
@@ -139,8 +143,6 @@ class BushidoApp(App[None]):
         if event.button.id == "weights":
             self.app.push_screen(weights.Weights())
 
-
-"""
     async def on_input_submitted(self, event: Input.Submitted) -> None:
         rl = self.query_one("#response", RichLog)
         rl.clear()
