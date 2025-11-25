@@ -1,8 +1,8 @@
 import datetime
 import re
 
-from bushido.conf import DAY_START_HOUR, LOCAL_TIME_ZONE
 from bushido.modules.dtypes import Err, Ok, Result
+from bushido.settings import DAY_START_HOUR, LOCAL_TIME_ZONE
 
 
 def time_string_to_seconds(time_string: str) -> Result[float]:
