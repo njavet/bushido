@@ -28,41 +28,7 @@ class UnitRepo(Generic[TU, TS]):
     def __init__(
         self,
         session: Session,
-        unit_cls: type[TU]class UnitSuggester(Suggester):
-    def __init__(self, emojis: dict[str, str]) -> None:
-        super().__init__()
-        self.emojis = emojis
-        self.un2emoji = self.construct_dict()
-
-    def construct_dict(self) -> dict[str, str]:
-        dix: dict[str, str] = {}
-        for e, n in self.emojis.items():
-            dix[n] = e
-        return dix
-
-    async def get_suggestion(self, value: str) -> str | None:
-        es = [
-            umoji for uname, umoji in self.un2emoji.items() if uname.startswith(value)
-        ]
-        if len(es) == 1:
-            # TODO different emoji length
-            return es[0] + "  "
-        return None
-
-
-class TextInput(Input):
-    def __init__(self, placeholder: str, suggester: UnitSuggester) -> None:
-        super().__init__(placeholder=placeholder, suggester=suggester, id="text_input")
-
-    def on_suggestion_ready(self, event: SuggestionReady) -> None:
-        self.action_delete_left_all()
-        self.insert_text_at_cursor(event.suggestion)
-
-    def on_key(self, event: Key) -> None:
-        # workaround for accepting autocompletion
-        if event.key == "space":
-            self.action_cursor_right()
-,
+        unit_cls: type[TU],
         subrels: InstrumentedAttribute[list[TS]] | None = None,
     ) -> None:
         self.session = session
