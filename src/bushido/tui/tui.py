@@ -25,7 +25,6 @@ class BushidoApp(App[None]):
         ("g", "unit_timeline", "timeLine"),
         ("l", "log_unit", "log"),
     ]
-    TITLE = "bushido"
     CSS_PATH = "main.tcss"
 
     def __init__(self, session_factory: SessionFactory, factory: Factory) -> None:
