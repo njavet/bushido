@@ -1,4 +1,3 @@
-# general imports
 import time
 
 from textual.app import ComposeResult
@@ -22,7 +21,7 @@ class StopwatchTimeDisplay(Static):
         """Method to update time to current."""
         self.seconds = self.total + (time.monotonic() - self.start_time)
 
-    def watch_total(self, total):
+    def watch_total(self, total: None) -> None:
         print(self.total)
 
     def watch_seconds(self, seconds: float) -> None:
@@ -36,13 +35,13 @@ class StopwatchTimeDisplay(Static):
         self.start_time = time.monotonic()
         self.update_timer.resume()
 
-    def pause(self):
+    def pause(self) -> None:
         """Method to stop the time display updating."""
         self.update_timer.pause()
         self.total += time.monotonic() - self.start_time
         self.seconds = self.total
 
-    def end(self):
+    def end(self) -> None:
         self.seconds = 0
         self.total = 0
 

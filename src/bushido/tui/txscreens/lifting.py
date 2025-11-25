@@ -1,18 +1,21 @@
+from typing import Any
+
 from rich.text import Text
+from textual.app import ComposeResult
 from textual.containers import Horizontal
 from textual.screen import ModalScreen
 from textual.widgets import Collapsible, DataTable, ProgressBar
 
 
-class LiftingScreen(ModalScreen):
+class LiftingScreen(ModalScreen[Any]):
     BINDINGS = [("q", "app.pop_screen", "Back")]
 
-    def __init__(self, user_id, umodules):
+    def __init__(self, user_id: Any, umodules: Any) -> None:
         super().__init__()
         self.user_id = user_id
         self.umodules = umodules
 
-    def compose(self):
+    def compose(self) -> ComposeResult:
         with Collapsible(title="Squat"):
             with Horizontal():
                 yield DataTable(id="squat")
@@ -26,7 +29,7 @@ class LiftingScreen(ModalScreen):
                 yield DataTable(id="benchpress")
                 yield ProgressBar(total=1.2, show_eta=False)
 
-    def on_mount(self):
+    def on_mount(self) -> None:
         dix = self.umodules["lifting"].unit_name2unit_list(self.user_id)
 
         table = self.query_one("#squat", DataTable)
@@ -39,7 +42,7 @@ class LiftingScreen(ModalScreen):
                 label = Text(str(cc))
                 cc += 1
             else:
-                label = ""
+                label = Text("")
                 same[row[0], row[1]] = 0
             table.add_row(*row, label=label)
 
