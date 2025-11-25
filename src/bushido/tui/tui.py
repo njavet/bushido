@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Any
 
 from textual.app import App, ComposeResult
@@ -13,6 +14,7 @@ from bushido.modules.timeline import fetch_display_units
 from bushido.service.log_unit import log_unit
 from bushido.tui.emojis import un2emoji
 from bushido.tui.widgets.binary_clock import BinaryClock
+from bushido.tui.widgets.rank import RankWidget
 from bushido.tui.widgets.unit_log import UnitLog
 
 
@@ -36,8 +38,12 @@ class BushidoApp(App[None]):
 
     def compose(self) -> ComposeResult:
         with Horizontal(id="status_bar"):
-            yield ImageWidget("src/bushido/static/belts/black_belt.png", id="belt")
-            yield ImageWidget("src/bushido/static/belts/rank.png", id="rank")
+            yield RankWidget(
+                "belt:", "white", Path("src/bushido/static/belts/white_belt.png")
+            )
+            yield RankWidget(
+                "rank:", "renegade", Path("src/bushido/static/belts/rank.png")
+            )
             yield BinaryClock(id="clock")
         yield Tree("", data=0, id="unit-tree")
         yield TextArea()
