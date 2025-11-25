@@ -8,10 +8,10 @@ from bushido.modules.dtypes import Err, Ok, ParsedUnit, Result, TUData
 class UnitParser(ABC, Generic[TUData]):
     def __init__(self, unit_name: str) -> None:
         self.unit_name = unit_name
+        self.log_time: datetime.datetime
         self.tokens: list[str] = []
         self.comment: str | None = None
         self.payload: str | None = None
-        self.log_time: datetime.datetime | None = None
 
     def _parse_comment(self, line: str) -> list[str]:
         """parses comment if present and returns list of tokens"""
