@@ -25,6 +25,7 @@ class UnitParser(ABC, Generic[TUData]):
         try:
             index = tokens.index("--dt")
         except ValueError:
+            self.log_time = datetime.datetime.now(datetime.timezone.utc)
             return Ok(tokens)
         try:
             dt = tokens[index + 1].strip()

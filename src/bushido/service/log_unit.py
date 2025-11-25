@@ -32,7 +32,7 @@ def log_unit(line: str, factory: Factory, session: Session) -> Result[DisplayUni
     unit, subunits = mapper.to_orm(parsed_unit)
     if repo.add_unit(unit, subunits):
         return Ok(
-            DisplayUnit(name=unit_name, log_time=parsed_unit.log_dt, payload=payload)
+            DisplayUnit(name=unit_name, log_time=parsed_unit.log_time, payload=payload)
         )
     else:
         return Err("error")
