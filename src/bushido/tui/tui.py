@@ -29,8 +29,8 @@ class BushidoApp(App[None]):
 
     def compose(self) -> ComposeResult:
         with Horizontal(id="status_bar"):
-            yield ImageWidget("black_belt.png", id="belt")
-            yield ImageWidget("rank.png", id="rank")
+            yield ImageWidget("src/bushido/static/belts/black_belt.png", id="belt")
+            yield ImageWidget("src/bushido/static/belts/rank.png", id="rank")
             yield BinaryClock(id="clock")
         yield self.terminal
         yield Grid(
