@@ -1,7 +1,21 @@
+Screen {
+    overflow-y: hidden;
+}
+
+Title {
+    background: $boost;
+    color: $secondary;
+    padding: 2 4;
+    border-right: $background;
+    dock: top;
+    text-align: center;
+    text-style: bold;
+}
+
 #status_bar {
+    dock: top;
     layout: horizontal;
     height: 6;
-
     padding: 0 2;
     background: $surface;
 }
@@ -17,13 +31,13 @@
     height: auto;
     padding: 0 0;
     border: green;
-    content-align: center middle;
 }
 
 #clock {
-    width: 1fr;
+    width: 16;
     border: green;
     content-align: right middle;
+    dock: right;
 }
 
 /* Main area: sidebar + terminal */
@@ -62,3 +76,34 @@
 .hidden {
     display: none;
 }
+
+
+RichLog {
+    border: white;
+    scrollbar-size: 1 1;
+}
+
+#tree-view {
+    display: none;
+    scrollbar-gutter: stable;
+    scrollbar-size: 1 1;
+    overflow: auto;
+    height: 100%;
+    dock: left;
+}
+
+TimeTable.-show-tree #tree-view {
+    display: block;
+    max-width: 50%;
+}
+
+
+
+.box {
+    background: $surface-lighten-2;
+}
+
+.box-light {
+    background: $accent-lighten-2;
+}
+
