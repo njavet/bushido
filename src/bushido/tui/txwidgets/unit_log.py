@@ -72,7 +72,7 @@ class UnitLog(Static):
     def update_view(self, unit: DisplayUnit) -> None:
         display_str = self.create_display_str(unit)
         day = get_bushido_date_from_datetime(unit.log_time)
-        self.bdate2units[day].append(display_str)
+        self.bdate2units[day].insert(0, display_str)
         try:
             dw = self.bdate2dw[day]
             text = "\n".join(self.bdate2units[day])
