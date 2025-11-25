@@ -26,6 +26,7 @@ class LiftingMapper(UnitMapper[LiftingSpec, LiftingUnit, LiftingSet]):
         pu = ParsedUnit(
             name=unit.name,
             data=LiftingSpec(sets=lst),
+            log_time=unit.log_time,
             comment=unit.comment,
         )
         return pu

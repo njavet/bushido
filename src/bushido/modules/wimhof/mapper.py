@@ -28,6 +28,7 @@ class WimhofMapper(UnitMapper[WimhofSpec, WimhofUnit, WimhofRound]):
         pu = ParsedUnit(
             name=unit.name,
             data=WimhofSpec(rounds=lst),
+            log_time=unit.log_time,
             comment=unit.comment,
         )
         return pu
