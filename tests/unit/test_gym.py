@@ -1,0 +1,39 @@
+import datetime
+
+import pytest
+from freezegun import freeze_time
+
+from bushido.modules.dtypes import Ok, ParsedUnit
+from bushido.modules.gym import GymParser, GymSpec
+
+
+@pytest.fixture
+def parser():
+    return GymParser(unit_name="weights")
+
+
+@pytest.mark.parametrize(
+    "line, expected",
+    [
+        (
+            "1800-1900 nautilus",
+            ParsedUnit(
+                name="weights",
+                data=GymSpec(
+                    start_t=datetime.time(18, 0),
+                    end_t=datetime.time(19, 0),
+                    location="nautilus",
+                ),
+                log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
+                payload="1800-1900 nautilus",
+                comment=None,
+            ),
+        ),
+    ],
+)
+@freeze_time("2020-01-01")
+def test_correct_gym_unit(parser, line, expected):
+    result = parser.parse(line)
+    assert isinstance(result, Ok)
+    parsed_unit = result.value
+    assert parsed_unit == expected

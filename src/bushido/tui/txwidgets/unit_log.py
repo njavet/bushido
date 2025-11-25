@@ -73,9 +73,11 @@ class UnitLog(Static):
         display_str = self.create_display_str(unit)
         day = get_bushido_date_from_datetime(unit.log_time)
         self.bdate2units[day].insert(0, display_str)
+        print("before", self.bdate2units[day])
         try:
             dw = self.bdate2dw[day]
             text = "\n".join(self.bdate2units[day])
+            print("text", text)
             dw.content = text
         except KeyError:
             dw = self.create_day_widget(day)

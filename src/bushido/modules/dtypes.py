@@ -18,9 +18,9 @@ TS = TypeVar("TS", bound=Subunit)
 class ParsedUnit(Generic[TUData]):
     name: str
     data: TUData
+    log_time: datetime.datetime
     comment: str | None = None
     payload: str | None = None
-    log_time: datetime.datetime | None = None
 
 
 @dataclass(frozen=True, slots=True)

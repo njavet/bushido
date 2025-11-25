@@ -8,35 +8,35 @@ from bushido.parsing.utils import (
 )
 
 
-def test_time_string_to_seconds_HH_MM_SS_0():
+def test_time_string_to_seconds_0():
     ts = "02:24:59"
     result = time_string_to_seconds(ts)
     assert isinstance(result, Ok)
     assert 8699.0 == result.value
 
 
-def test_time_string_to_seconds_HH_MM_SS_1():
+def test_time_string_to_seconds_1():
     ts = "1:02:03"
     result = time_string_to_seconds(ts)
     assert isinstance(result, Ok)
     assert 3723.0 == result.value
 
 
-def test_time_string_to_seconds_HH_MM_SS_2():
+def test_time_string_to_seconds_2():
     ts = "2:4:1"
     result = time_string_to_seconds(ts)
     assert isinstance(result, Ok)
     assert 7441.0 == result.value
 
 
-def test_time_string_to_seconds_MM_SS_0():
+def test_time_string_to_seconds_3():
     ts = "32:29"
     result = time_string_to_seconds(ts)
     assert isinstance(result, Ok)
     assert 1949.0 == result.value
 
 
-def test_time_string_to_seconds_MM_SS_2():
+def test_time_string_to_seconds_4():
     ts = "1:20"
     result = time_string_to_seconds(ts)
     assert isinstance(result, Ok)

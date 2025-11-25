@@ -1,4 +1,7 @@
+import datetime
+
 import pytest
+from freezegun import freeze_time
 
 from bushido.modules.dtypes import Ok, ParsedUnit
 from bushido.modules.lifting.domain import LiftingSpec, SetSpec
@@ -23,6 +26,7 @@ def parser():
                         SetSpec(set_nr=1, weight=100.0, reps=5, rest=0.0),
                     ]
                 ),
+                log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
                 payload="100 5 180 100 5",
                 comment=None,
             ),
@@ -32,6 +36,7 @@ def parser():
             ParsedUnit(
                 name="squat",
                 data=LiftingSpec([SetSpec(set_nr=0, weight=120.0, reps=5, rest=0.0)]),
+                log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
                 payload="120 5",
                 comment=None,
             ),
@@ -47,6 +52,7 @@ def parser():
                         SetSpec(set_nr=2, weight=100.0, reps=20.0, rest=0.0),
                     ]
                 ),
+                log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
                 payload="150 3 300 160 2 90 100 20",
                 comment="heavy day, 20reps at the end",
             ),
@@ -58,14 +64,29 @@ def parser():
                 data=LiftingSpec(
                     sets=[SetSpec(set_nr=0, weight=150.0, reps=5.0, rest=0.0)]
                 ),
+                log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
                 payload="150 5",
                 comment="just a single set",
             ),
         ),
     ],
 )
+@freeze_time("2020-01-01")
 def test_correct_lifting_units(parser, line, expected):
     result = parser.parse(line)
     assert isinstance(result, Ok)
     parsed_unit = result.value
     assert parsed_unit == expected
+
+
+# TODO move to clock injection
+"""
+class UnitParser(ABC, Generic[TUData]):
+    def __init__(
+        self,
+        unit_name: str,
+        clock: Callable[[], datetime] = datetime.datetime.now
+    ) -> None:
+        self.unit_name = unit_name
+        self.clock = clock
+"""
