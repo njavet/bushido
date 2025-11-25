@@ -12,10 +12,15 @@ Title {
     text-style: bold;
 }
 
+RankWidget {
+    width: 1fr;
+    border: green;
+}
+
 #status_bar {
     dock: top;
     layout: horizontal;
-    height: 6;
+    height: 40;
     padding: 0 2;
     background: $surface;
 }

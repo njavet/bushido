@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from textual.app import ComposeResult
+from textual.containers import Vertical
 from textual.widgets import Label, Static
 from textual_image.widget import Image as ImageWidget
 
@@ -13,6 +14,7 @@ class RankWidget(Static):
         self.image_path = image_path
 
     def compose(self) -> ComposeResult:
-        yield Label(self.title)
-        yield ImageWidget(str(self.image_path))
-        yield Label(self.content)
+        with Vertical():
+            yield Label(self.title)
+            yield ImageWidget(str(self.image_path))
+            yield Label(self.content)
