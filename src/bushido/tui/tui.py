@@ -8,7 +8,7 @@ from bushido.modules.dtypes import Err, Ok, Result, Warn
 from bushido.modules.factory import Factory
 from bushido.service.log_unit import log_unit
 from bushido.tui.txwidgets.binary_clock import BinaryClock
-from bushido.tui.txwidgets.terminal import Terminal
+from bushido.tui.txwidgets.unit_log import Terminal
 
 
 class BushidoApp(App[None]):
@@ -31,6 +31,7 @@ class BushidoApp(App[None]):
             yield BinaryClock(id="clock")
         yield self.terminal
         yield Footer()
+        ti = TextInput(placeholder="$", suggester=UnitSuggester(emojis))
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
         line = event.value.strip()
@@ -67,3 +68,39 @@ class BushidoApp(App[None]):
         self.query_one(Input).action_delete_left_all()
         self.query_one(Input).action_delete_right_all()
 """
+
+
+class UnitSuggester(Suggester):
+    def __init__(self, emojis: dict[str, str]) -> None:
+        super().__init__()
+        self.emojis = emojis
+        self.un2emoji = self.construct_dict()
+
+    def construct_dict(self) -> dict[str, str]:
+        dix: dict[str, str] = {}
+        for e, n in self.emojis.items():
+            dix[n] = e
+        return dix
+
+    async def get_suggestion(self, value: str) -> str | None:
+        es = [
+            umoji for uname, umoji in self.un2emoji.items() if uname.startswith(value)
+        ]
+        if len(es) == 1:
+            # TODO different emoji length
+            return es[0] + "  "
+        return None
+
+
+class TextInput(Input):
+    def __init__(self, placeholder: str, suggester: UnitSuggester) -> None:
+        super().__init__(placeholder=placeholder, suggester=suggester, id="text_input")
+
+    def on_suggestion_ready(self, event: SuggestionReady) -> None:
+        self.action_delete_left_all()
+        self.insert_text_at_cursor(event.suggestion)
+
+    def on_key(self, event: Key) -> None:
+        # workaround for accepting autocompletion
+        if event.key == "space":
+            self.action_cursor_right()
