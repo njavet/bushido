@@ -13,8 +13,8 @@ from bushido.modules.factory import Factory
 from bushido.modules.timeline import fetch_display_units
 from bushido.service.log_unit import log_unit
 from bushido.tui.emojis import un2emoji
-from bushido.tui.txwidgets.binary_clock import BinaryClock
-from bushido.tui.txwidgets.unit_log import UnitLog
+from bushido.tui.widgets.binary_clock import BinaryClock
+from bushido.tui.widgets.unit_log import UnitLog
 
 
 class BushidoApp(App[None]):
