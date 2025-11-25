@@ -11,7 +11,7 @@ class UnitParser(ABC, Generic[TUData]):
         self.tokens: list[str] = []
         self.comment: str | None = None
         self.payload: str | None = None
-        self.log_dt: datetime.datetime | None = None
+        self.log_time: datetime.datetime | None = None
 
     def _parse_comment(self, line: str) -> list[str]:
         """parses comment if present and returns list of tokens"""
@@ -31,7 +31,7 @@ class UnitParser(ABC, Generic[TUData]):
         except IndexError:
             return Err("no dt")
         try:
-            self.log_dt = datetime.datetime.strptime(dt, "%Y%m%d-%H%M")
+            self.log_time = datetime.datetime.strptime(dt, "%Y%m%d-%H%M")
         except ValueError:
             return Err("invalid dt")
 

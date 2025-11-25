@@ -27,8 +27,9 @@ class DayWidget(Static):
 class UnitLog(Static):
     def __init__(self, units: list[DisplayUnit], emojis: dict[str, str]) -> None:
         super().__init__()
+        self.emojis = emojis
         self.scroll_container = ScrollableContainer()
-        self.bdate2units = self.get_bdate2units(units, emojis)
+        self.bdate2units = self.get_bdate2units(units)
         self.bdate2dw: dict[datetime.date, DayWidget] = {}
 
     def compose(self) -> ComposeResult:
@@ -52,29 +53,30 @@ class UnitLog(Static):
         return dw
 
     def get_bdate2units(
-        self, units: list[DisplayUnit], emojis: dict[str, str]
+        self,
+        units: list[DisplayUnit],
     ) -> dict[datetime.date, list[str]]:
         dix: dict[datetime.date, list[str]] = collections.defaultdict(list)
         for d in units:
             bd = get_bushido_date_from_datetime(d.log_time)
-            if d.payload:
-                dix[bd].append(emojis[d.name] + " " + d.payload)
-            else:
-                dix[bd].append(emojis[d.name])
+            dix[bd].append(self.create_display_str(d))
         return dix
 
+    def create_display_str(self, unit: DisplayUnit) -> str:
+        if unit.payload:
+            res = self.emojis[unit.name] + " " + unit.payload
+        else:
+            res = self.emojis[unit.name]
+        return res
 
-"""
-    def update_view(self, sender):
-        unit_message = self.create_unit_message(sender)
-        day = unit_message.bushido_date
-        self.bdate2umsg[day].append(unit_message.text)
+    def update_view(self, unit: DisplayUnit) -> None:
+        display_str = self.create_display_str(unit)
+        day = get_bushido_date_from_datetime(unit.log_time)
+        self.bdate2units[day].append(display_str)
         try:
             dw = self.bdate2dw[day]
-            text = "\n".join(self.bdate2umsg[day])
+            text = "\n".join(self.bdate2units[day])
             dw.content = text
         except KeyError:
             dw = self.create_day_widget(day)
             self.scroll_container.mount(dw)
-
-"""

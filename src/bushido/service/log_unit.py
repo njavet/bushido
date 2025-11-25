@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
 
-from bushido.modules.dtypes import Err, Ok, Result
+from bushido.modules.dtypes import DisplayUnit, Err, Ok, Result
 from bushido.modules.factory import Factory
 
 
-def log_unit(line: str, factory: Factory, session: Session) -> Result[str]:
+def log_unit(line: str, factory: Factory, session: Session) -> Result[DisplayUnit]:
     try:
         unit_name, payload = line.split(" ", 1)
     except ValueError:
@@ -31,6 +31,8 @@ def log_unit(line: str, factory: Factory, session: Session) -> Result[str]:
 
     unit, subunits = mapper.to_orm(parsed_unit)
     if repo.add_unit(unit, subunits):
-        return Ok("Unit confirmed")
+        return Ok(
+            DisplayUnit(name=unit_name, log_time=parsed_unit.log_dt, payload=payload)
+        )
     else:
         return Err("error")

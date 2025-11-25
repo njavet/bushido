@@ -29,6 +29,6 @@ class WimhofParser(UnitParser[WimhofSpec]):
             data=ex,
             comment=self.comment,
             payload=self.payload,
-            log_dt=self.log_dt,
+            log_time=self.log_time,
         )
         return Ok(pu)
