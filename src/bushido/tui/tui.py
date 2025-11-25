@@ -1,8 +1,9 @@
 from textual.app import App, ComposeResult
-from textual.containers import Grid
+from textual.containers import Grid, Horizontal
 from textual.events import Key
 from textual.suggester import Suggester, SuggestionReady
-from textual.widgets import Footer, Header, Input, Label, Log, RichLog
+from textual.widgets import Footer, Input, Label, RichLog
+from textual_image.widget import Image as ImageWidget
 
 from bushido.infra.db import SessionFactory
 from bushido.modules.dtypes import Err, Ok, Result, Warn
@@ -10,23 +11,28 @@ from bushido.modules.factory import Factory
 from bushido.service.log_unit import log_unit
 from bushido.tui.emojis import emojis
 from bushido.tui.txwidgets.binary_clock import BinaryClock
+from bushido.tui.txwidgets.terminal import Terminal
 
 
 class BushidoApp(App[None]):
     BINDINGS = [
         ("q", "quit", "Quit"),
     ]
-    TITLE = "Bushido"
+    TITLE = "bushido"
+    CSS_PATH = "main.tcss"
 
     def __init__(self, session_factory: SessionFactory, factory: Factory) -> None:
         super().__init__()
         self.sf = session_factory
         self.factory = factory
-        self.text_log = Log(highlight=False)
+        self.terminal = Terminal(session_factory, factory)
 
     def compose(self) -> ComposeResult:
-        yield Header()
-        yield BinaryClock()
+        with Horizontal(id="status_bar"):
+            yield ImageWidget("black_belt.png", id="belt")
+            yield ImageWidget("rank.png", id="rank")
+            yield BinaryClock(id="clock")
+        yield self.terminal
         yield Grid(
             Label("Unit Log"),
             TextInput(placeholder="$", suggester=UnitSuggester(emojis)),

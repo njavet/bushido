@@ -1,0 +1,68 @@
+screen {
+    scrollable: false;
+}
+
+#status_bar {
+    layout: horizontal;
+    height: 6;
+
+    padding: 0 2;
+    background: $surface;
+}
+
+#belt {
+    width: 20;
+    height: 5;
+    border: green;
+}
+
+#rank {
+    width: 16;
+    height: auto;
+    padding: 0 0;
+    border: green;
+    content-align: center middle;
+}
+
+#clock {
+    width: 1fr;
+    border: green;
+    content-align: right middle;
+}
+
+/* Main area: sidebar + terminal */
+#main_area {
+    layout: horizontal;
+    height: 1fr;
+}
+
+/* Sidebar */
+#sidebar {
+    width: 30%;
+    min-width: 24;
+    border: tall $primary;
+}
+
+#unit_tree {
+    height: 1fr;
+}
+
+/* Terminal area */
+#terminal {
+    width: 70%;
+    border: tall $secondary;
+}
+
+#log {
+    height: 1fr;
+}
+
+#input {
+    height: 3;
+    border-top: heavy $secondary;
+}
+
+/* Toggle sidebar visibility */
+.hidden {
+    display: none;
+}
