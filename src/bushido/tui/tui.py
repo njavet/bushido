@@ -1,4 +1,3 @@
-
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal
 from textual.events import Key
@@ -66,7 +65,7 @@ class BushidoApp(App[None]):
             print(res.message)
             pass
 
-    def watch_show_tree(self, show_tree):
+    def watch_show_tree(self, show_tree) -> None:
         self.set_class(show_tree, "-show-tree")
 
     """

@@ -1,9 +1,10 @@
 import datetime
+from typing import Any
 
 from rich.text import Text
 
 
-def add_tree_node(name, node, data):
+def add_tree_node(name: Any, node: Any, data: Any) -> None:
     if isinstance(name, datetime.datetime):
         name = name.strftime("%d.%m.%y %H:%M")
     else:
