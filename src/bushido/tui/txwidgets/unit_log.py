@@ -8,7 +8,7 @@ from textual.containers import ScrollableContainer
 from textual.reactive import Reactive
 from textual.widgets import Static
 
-from bushido.modules.timeline import fetch_display_units
+from bushido.modules.dtypes import DisplayUnit
 from bushido.parsing.utils import get_bushido_date_from_datetime
 
 
@@ -25,10 +25,10 @@ class DayWidget(Static):
 
 
 class UnitLog(Static):
-    def __init__(self) -> None:
+    def __init__(self, units: list[DisplayUnit]) -> None:
         super().__init__()
         self.scroll_container = ScrollableContainer()
-        self.bdate2umsg = self.get_bdate2umsg()
+        self.bdate2units = self.get_bdate2units(units)
         self.bdate2dw: dict[datetime.date, DayWidget] = {}
 
     def compose(self) -> ComposeResult:
@@ -46,21 +46,21 @@ class UnitLog(Static):
 
     def create_day_widget(self, day: datetime.date) -> DayWidget:
         title = datetime.date.strftime(day, "%d.%m.%y")
-        text = "\n".join(self.bdate2umsg[day])
+        text = "\n".join(self.bdate2units[day])
         dw = DayWidget(text, title)
         self.bdate2dw[day] = dw
         return dw
 
-    def get_bdate2umsg(self) -> dict[datetime.date, list[str]]:
+    def get_bdate2units(
+        self, units: list[DisplayUnit]
+    ) -> dict[datetime.date, list[str]]:
         dix: dict[datetime.date, list[str]] = collections.defaultdict(list)
-        with self.sf.session() as session:
-            dunits = fetch_display_units(session)
-            for d in dunits:
-                bd = get_bushido_date_from_datetime(d.log_time)
-                if d.payload:
-                    dix[bd].append(d.payload)
-                else:
-                    dix[bd].append("")
+        for d in units:
+            bd = get_bushido_date_from_datetime(d.log_time)
+            if d.payload:
+                dix[bd].append(d.payload)
+            else:
+                dix[bd].append("")
         return dix
 
 
