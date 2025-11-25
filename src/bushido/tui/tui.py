@@ -1,6 +1,4 @@
-import datetime
 
-from rich.text import Text
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal
 from textual.events import Key
@@ -71,18 +69,9 @@ class BushidoApp(App[None]):
     def watch_show_tree(self, show_tree):
         self.set_class(show_tree, "-show-tree")
 
-    def on_mount(self):
-        self.build_tree()
-
+    """
     def build_tree(self):
         def add_node(name, node, data):
-            """Adds a node to the tree.
-
-            Args:
-                name (str): Name of the node.
-                node (TreeNode): Parent node.
-                data (object): Data associated with the node.
-            """
             if isinstance(data, dict):
                 if isinstance(name, str):
                     node.label = Text(name, style="cyan")
@@ -125,7 +114,6 @@ class BushidoApp(App[None]):
         tree.root.expand()
         add_node("Units", tree.root, {})
 
-    """
     def action_log_unit(self):
         # TODO update other widgets after saving a unit
         self.app.push_screen(unitlog.UnitLog(self.string_processor))
