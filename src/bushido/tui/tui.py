@@ -6,7 +6,7 @@ from textual.widgets import Footer, Input
 from textual_image.widget import Image as ImageWidget
 
 from bushido.infra.db import SessionFactory
-from bushido.modules.dtypes import Err, Ok, Result, Warn
+from bushido.modules.dtypes import Err, Ok, Warn
 from bushido.modules.factory import Factory
 from bushido.modules.timeline import fetch_display_units
 from bushido.service.log_unit import log_unit
@@ -28,7 +28,7 @@ class BushidoApp(App[None]):
         self.factory = factory
         with self.sf.session() as session:
             units = fetch_display_units(session)
-        self.unit_log = UnitLog(units)
+        self.unit_log = UnitLog(units, un2emoji)
 
     def compose(self) -> ComposeResult:
         with Horizontal(id="status_bar"):
@@ -45,25 +45,16 @@ class BushidoApp(App[None]):
         if not line:
             return
 
-        # echo the command
-        self.text_log.write(f"$ {line}")
+        with self.sf.session() as session:
+            res = log_unit(line, self.factory, session)
 
-        # process
-        res = self.handle_command(line)
-
-        # display result
         if isinstance(res, Ok):
             pu = res.value
-            self.text_log.write(f"logged {pu}")
+            self.unit_log.write(f"logged {pu}")
         elif isinstance(res, Warn):
             self.text_log.write(f"{res.message}")
         elif isinstance(res, Err):
             self.text_log.write(f"ERROR: {res.message}")
-
-    def handle_command(self, line: str) -> Result[str]:
-        with self.sf.session() as session:
-            res = log_unit(line, self.factory, session)
-        return res
 
 
 """

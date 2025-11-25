@@ -25,10 +25,10 @@ class DayWidget(Static):
 
 
 class UnitLog(Static):
-    def __init__(self, units: list[DisplayUnit]) -> None:
+    def __init__(self, units: list[DisplayUnit], emojis: dict[str, str]) -> None:
         super().__init__()
         self.scroll_container = ScrollableContainer()
-        self.bdate2units = self.get_bdate2units(units)
+        self.bdate2units = self.get_bdate2units(units, emojis)
         self.bdate2dw: dict[datetime.date, DayWidget] = {}
 
     def compose(self) -> ComposeResult:
@@ -52,15 +52,15 @@ class UnitLog(Static):
         return dw
 
     def get_bdate2units(
-        self, units: list[DisplayUnit]
+        self, units: list[DisplayUnit], emojis: dict[str, str]
     ) -> dict[datetime.date, list[str]]:
         dix: dict[datetime.date, list[str]] = collections.defaultdict(list)
         for d in units:
             bd = get_bushido_date_from_datetime(d.log_time)
             if d.payload:
-                dix[bd].append(d.payload)
+                dix[bd].append(emojis[d.name] + " " + d.payload)
             else:
-                dix[bd].append("")
+                dix[bd].append(emojis[d.name])
         return dix
 
 
