@@ -9,7 +9,15 @@ from .orm import GymUnit
 class GymMapper(UnitMapper[GymSpec, GymUnit, Any]):
     @staticmethod
     def to_orm(parsed_unit: ParsedUnit[GymSpec]) -> tuple[GymUnit, list[Any]]:
-        unit = GymUnit(name=parsed_unit.name, comment=parsed_unit.comment)
+        unit = GymUnit(
+            name=parsed_unit.name,
+            start_t=parsed_unit.data.start_t,
+            end_t=parsed_unit.data.end_t,
+            location=parsed_unit.data.location,
+            training=parsed_unit.data.training,
+            focus=parsed_unit.data.focus,
+            comment=parsed_unit.comment,
+        )
         return unit, []
 
     # TODO fix Any / None / []
@@ -25,6 +33,7 @@ class GymMapper(UnitMapper[GymSpec, GymUnit, Any]):
                 training=unit.training,
                 focus=unit.focus,
             ),
+            log_time=unit.log_time,
             comment=unit.comment,
         )
         return pu
