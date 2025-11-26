@@ -19,6 +19,7 @@ class HeaderContainer(Container):
         self.belt_path = belt_path
         self.rank_path = rank_path
 
+    # TODO proper alignment
     def compose(self) -> ComposeResult:
         with Horizontal():
             yield ImageWidget("src/bushido/static/bushido.png", id="bushido_img")

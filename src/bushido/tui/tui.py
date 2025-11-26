@@ -42,7 +42,6 @@ class BushidoApp(App[None]):
             Path("src/bushido/static/belts/rank.png"),
             id_="header",
         )
-
         yield Rule()
         # yield TextArea()
         # yield Tree("", data=0, id="unit-tree")
