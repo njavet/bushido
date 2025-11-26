@@ -16,13 +16,13 @@ Title {
     dock: top;
     layout: horizontal;
     height: 4;
-    padding: 0 1;
     background: $surface;
 }
 
-#b {
-    width: 6;
-    padding: 0 1;
+#bushido_img {
+    width: 8;
+    height: 4;
+    padding: 0 2;
 }
 
 #belt {
@@ -33,6 +33,17 @@ Title {
 #rank {
     width: 8;
     height: 2;
+}
+
+#bin_clock {
+    width: 16;
+
+}
+
+#kyokushin_img {
+    width: 8;
+    height: 4;
+    padding: 0 2;
 }
 
 /* Main area: sidebar + terminal */

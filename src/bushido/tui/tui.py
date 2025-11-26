@@ -12,7 +12,7 @@ from bushido.modules.factory import Factory
 from bushido.modules.timeline import fetch_display_units
 from bushido.service.log_unit import log_unit
 from bushido.tui.emojis import un2emoji
-from bushido.tui.widgets.header import HeaderWidget
+from bushido.tui.widgets.header import HeaderContainer
 from bushido.tui.widgets.unit_log import UnitLog
 
 
@@ -35,7 +35,7 @@ class BushidoApp(App[None]):
         self.unit_log = UnitLog(units, un2emoji)
 
     def compose(self) -> ComposeResult:
-        yield HeaderWidget(
+        yield HeaderContainer(
             "white",
             "renegade",
             Path("src/bushido/static/belts/white_belt.png"),
