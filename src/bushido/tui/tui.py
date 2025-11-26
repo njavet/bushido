@@ -2,10 +2,9 @@ from pathlib import Path
 from typing import Any
 
 from textual.app import App, ComposeResult
-from textual.containers import Horizontal
 from textual.events import Key
 from textual.suggester import Suggester, SuggestionReady
-from textual.widgets import Footer, Input, Rule, TextArea, Tree
+from textual.widgets import Footer, Input, Rule
 
 from bushido.infra.db import SessionFactory
 from bushido.modules.dtypes import Err, Ok, Warn
@@ -13,8 +12,7 @@ from bushido.modules.factory import Factory
 from bushido.modules.timeline import fetch_display_units
 from bushido.service.log_unit import log_unit
 from bushido.tui.emojis import un2emoji
-from bushido.tui.widgets.binary_clock import BinaryClock
-from bushido.tui.widgets.rank import RankWidget
+from bushido.tui.widgets.header import HeaderWidget
 from bushido.tui.widgets.unit_log import UnitLog
 
 
@@ -37,19 +35,19 @@ class BushidoApp(App[None]):
         self.unit_log = UnitLog(units, un2emoji)
 
     def compose(self) -> ComposeResult:
-        with Horizontal(id="status_bar"):
-            yield RankWidget(
-                "belt:", "white", Path("src/bushido/static/belts/white_belt.png")
-            )
-            yield RankWidget(
-                "rank:", "renegade", Path("src/bushido/static/belts/rank.png")
-            )
-            yield BinaryClock(id="clock")
-        yield Tree("", data=0, id="unit-tree")
-        yield TextArea()
-        yield TextInput(suggester=UnitSuggester(un2emoji))
+        yield HeaderWidget(
+            "white",
+            "renegade",
+            Path("src/bushido/static/belts/white_belt.png"),
+            Path("src/bushido/static/belts/rank.png"),
+            id_="header",
+        )
+
         yield Rule()
-        yield self.unit_log
+        # yield TextArea()
+        # yield Tree("", data=0, id="unit-tree")
+        # yield TextInput(suggester=UnitSuggester(un2emoji))
+        # yield self.unit_log
         yield Footer()
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:

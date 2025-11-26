@@ -12,37 +12,27 @@ Title {
     text-style: bold;
 }
 
-RankWidget {
-    width: 1fr;
-    border: green;
-}
-
-#status_bar {
+#header {
     dock: top;
     layout: horizontal;
-    height: 40;
-    padding: 0 2;
+    height: 4;
+    padding: 0 1;
     background: $surface;
 }
 
+#b {
+    width: 6;
+    padding: 0 1;
+}
+
 #belt {
-    width: 20;
-    height: 5;
-    border: green;
+    width: 16;
+    height: 2;
 }
 
 #rank {
     width: 8;
-    height: auto;
-    padding: 0 0;
-    border: green;
-}
-
-#clock {
-    width: 16;
-    border: green;
-    content-align: right middle;
-    dock: right;
+    height: 2;
 }
 
 /* Main area: sidebar + terminal */
