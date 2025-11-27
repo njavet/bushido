@@ -8,7 +8,7 @@ from rich.logging import RichHandler
 from bushido import __version__
 from bushido.conf import DEFAULT_PORT
 from bushido.infra.db import SessionFactory
-from bushido.modules.factory import Factory
+from bushido.service.log_unit import LogUnitService
 from bushido.tui.tui import BushidoApp
 
 logging.basicConfig(
@@ -39,8 +39,8 @@ def main() -> None:
         sf = SessionFactory()
         # TODO all orm tables must have been imported already
         sf.init_db()
-        factory = Factory()
-        BushidoApp(sf, factory).run()
+        log_unit_service = LogUnitService()
+        BushidoApp(sf, log_unit_service).run()
 
     elif args.dev:
         uvicorn.run(
