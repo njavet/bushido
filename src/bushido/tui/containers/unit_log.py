@@ -1,5 +1,6 @@
 import collections
 import datetime
+from typing import Any
 
 from rich.panel import Panel
 from rich.text import Text
@@ -25,7 +26,7 @@ class DayWidget(Static):
 
 
 class UnitLog(Static):
-    def __init__(self, units: list[ParsedUnit], emojis: dict[str, str]) -> None:
+    def __init__(self, units: list[ParsedUnit[Any]], emojis: dict[str, str]) -> None:
         super().__init__()
         self.emojis = emojis
         self.scroll_container = ScrollableContainer()
@@ -54,7 +55,7 @@ class UnitLog(Static):
 
     def get_bdate2units(
         self,
-        units: list[ParsedUnit],
+        units: list[ParsedUnit[Any]],
     ) -> dict[datetime.date, list[str]]:
         dix: dict[datetime.date, list[str]] = collections.defaultdict(list)
         for d in units:
@@ -62,14 +63,11 @@ class UnitLog(Static):
             dix[bd].append(self.create_display_str(d))
         return dix
 
-    def create_display_str(self, unit: ParsedUnit) -> str:
-        if unit.payload:
-            res = self.emojis[unit.name] + " " + unit.payload
-        else:
-            res = self.emojis[unit.name]
+    def create_display_str(self, unit: ParsedUnit[Any]) -> str:
+        res = self.emojis[unit.name]
         return res
 
-    def update_view(self, unit: ParsedUnit) -> None:
+    def update_view(self, unit: ParsedUnit[Any]) -> None:
         display_str = self.create_display_str(unit)
         day = get_bushido_date_from_datetime(unit.log_time)
         self.bdate2units[day].insert(0, display_str)
