@@ -6,7 +6,7 @@ from zoneinfo import ZoneInfo
 
 
 def convert_tg_export(
-    json_data: dict[str, Any], local_timezone=ZoneInfo("Europe/Zurich")
+    json_data: dict[str, Any], local_timezone: ZoneInfo = ZoneInfo("Europe/Zurich")
 ) -> list[Any]:
     """
     this converts jsondata that was exported from telegram
