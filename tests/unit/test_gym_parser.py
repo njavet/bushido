@@ -29,10 +29,52 @@ def parser():
                 comment=None,
             ),
         ),
+        (
+            "1800-1900 nautilus # test training",
+            ParsedUnit(
+                name="weights",
+                data=GymSpec(
+                    start_t=datetime.time(18, 0),
+                    end_t=datetime.time(19, 0),
+                    location="nautilus",
+                ),
+                log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
+                comment="test training",
+            ),
+        ),
+        (
+            "1800-1900 nautilus legs # test training",
+            ParsedUnit(
+                name="weights",
+                data=GymSpec(
+                    start_t=datetime.time(18, 0),
+                    end_t=datetime.time(19, 0),
+                    location="nautilus",
+                    training="legs",
+                ),
+                log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
+                comment="test training",
+            ),
+        ),
+        (
+            "1800-1900 nautilus legs slow # test training",
+            ParsedUnit(
+                name="weights",
+                data=GymSpec(
+                    start_t=datetime.time(18, 0),
+                    end_t=datetime.time(19, 0),
+                    location="nautilus",
+                    training="legs",
+                    focus="slow",
+                ),
+                log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
+                comment="test training",
+            ),
+        ),
     ],
 )
 @freeze_time("2020-01-01")
-def test_correct_gym_unit(parser, line, expected):
+def test_correct_gym_units(parser, line, expected):
     result = parser.parse(line)
     assert isinstance(result, Ok)
     parsed_unit = result.value
