@@ -4,7 +4,6 @@ from typing import Any
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
-    Digits,
     Footer,
     Markdown,
     Rule,
@@ -46,30 +45,34 @@ class BushidoApp(App[None]):
         )
         yield Rule()
         with TabbedContent():
-            with TabPane("|-"):
-                yield Markdown("00")
-            with TabPane("🥋"):
-                yield Markdown("00")
-            with TabPane("ℵ₀"):
+            with TabPane("training"):
+                yield Markdown("TODO")
+            with TabPane("lifting"):
                 with TabbedContent():
+                    with TabPane("stats"):
+                        yield Markdown("TODO")
                     with TabPane("squat"):
-                        yield Markdown("11")
+                        yield Markdown("TODO")
                     with TabPane("deadlift"):
-                        yield Markdown("22")
-                    with TabPane("deadlift"):
-                        yield Markdown("33")
+                        yield Markdown("TODO")
                     with TabPane("benchpress"):
-                        yield Markdown("44")
+                        yield Markdown("TODO")
                     with TabPane("overheadpress"):
-                        yield Markdown("55")
-            with TabPane("🤿"):
+                        yield Markdown("TODO")
+                    with TabPane("rows"):
+                        yield Markdown("TODO")
+            with TabPane("cardio"):
                 with TabbedContent():
+                    with TabPane("stats"):
+                        yield Markdown("TODO")
                     with TabPane("running"):
-                        yield Markdown("66")
+                        yield Markdown("TODO")
                     with TabPane("skipping"):
-                        yield Digits("0x101")
+                        yield Markdown("TODO")
             with TabPane("wimhof"):
-                yield Markdown("77")
+                yield Markdown("TODO")
+            with TabPane("unitlog"):
+                yield Markdown("TODO")
         yield Footer()
 
     def action_log_unit(self) -> None:
