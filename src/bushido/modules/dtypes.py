@@ -1,6 +1,6 @@
 import datetime
 from dataclasses import dataclass
-from typing import Generic, Literal, Protocol, TypeAlias, TypeVar
+from typing import Generic, Protocol, TypeVar
 
 from bushido.modules.orm import Subunit, Unit
 
@@ -8,7 +8,6 @@ from bushido.modules.orm import Subunit, Unit
 class UnitData(Protocol): ...
 
 
-T = TypeVar("T")
 TUData = TypeVar("TUData", bound=UnitData)
 TU = TypeVar("TU", bound=Unit)
 TS = TypeVar("TS", bound=Subunit)
@@ -20,28 +19,6 @@ class ParsedUnit(Generic[TUData]):
     data: TUData
     log_time: datetime.datetime
     comment: str | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class Ok(Generic[T]):
-    value: T
-    kind: Literal["ok"] = "ok"
-
-
-@dataclass(frozen=True, slots=True)
-class Warn(Generic[T]):
-    value: T
-    message: str
-    kind: Literal["warning"] = "warning"
-
-
-@dataclass(frozen=True, slots=True)
-class Err:
-    message: str
-    kind: Literal["err"] = "err"
-
-
-Result: TypeAlias = Ok[T] | Warn[T] | Err
 
 
 class UnitMapper(Protocol[TUData, TU, TS]):
