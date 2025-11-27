@@ -2,7 +2,6 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.core.dtypes import UnitMapper
 from bushido.modules.gym import GymMapper, GymParser, GymUnit, GymUnitName
 from bushido.modules.lifting import (
     LiftingMapper,
@@ -11,6 +10,7 @@ from bushido.modules.lifting import (
     LiftingUnit,
     LiftingUnitName,
 )
+from bushido.modules.mapper import UnitMapper
 from bushido.modules.parser import UnitParser
 from bushido.modules.repo import UnitRepo
 from bushido.modules.wimhof import (
