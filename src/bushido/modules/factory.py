@@ -2,7 +2,8 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.modules.dtypes import Err, Ok, Result, UnitMapper
+from bushido.core.result import Err, Ok, Result
+from bushido.modules.dtypes import UnitMapper
 from bushido.modules.gym import GymMapper, GymParser, GymUnit, GymUnitName
 from bushido.modules.lifting import (
     LiftingMapper,
