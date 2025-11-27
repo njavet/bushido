@@ -9,7 +9,7 @@ from textual.screen import ModalScreen
 from textual.suggester import Suggester, SuggestionReady
 from textual.widgets import Input, RichLog
 
-from bushido.core.result import Result
+from bushido.core.result import Err, Result, Warn
 from bushido.modules import ParsedUnit
 from bushido.service.log_unit import LogUnitService
 
@@ -58,9 +58,15 @@ class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
         )
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
-        msg = event.value
         rl = self.query_one("#log_result", RichLog)
         rl.clear()
-        rl.write(msg)
+        result = self.log_unit_service.log_unit(event.value, self.session)
+        if isinstance(result, Err):
+            rl.write(result.message)
+        elif isinstance(result, Warn):
+            # TODO implement warning
+            pass
+        else:
+            rl.write("Unit confirmed")
         self.query_one(Input).action_delete_left_all()
         self.query_one(Input).action_delete_right_all()

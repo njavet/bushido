@@ -73,11 +73,6 @@ class BushidoApp(App[None]):
                 yield Markdown("77")
         yield Footer()
 
-        # yield TextArea()
-        # yield Tree("", data=0, id="unit-tree")
-        # yield TextInput(suggester=UnitSuggester(un2emoji))
-        # yield self.unit_log
-
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a unit
         with self.sf.session() as session:
