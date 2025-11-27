@@ -1,4 +1,5 @@
-from bushido.modules.dtypes import Err, Ok, ParsedUnit, Result
+from bushido.core.result import Err, Ok, Result
+from bushido.modules.dtypes import ParsedUnit
 from bushido.modules.parser import UnitParser
 
 from .domain import RoundSpec, WimhofSpec
