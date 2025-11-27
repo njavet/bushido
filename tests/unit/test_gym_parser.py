@@ -4,7 +4,7 @@ import pytest
 from freezegun import freeze_time
 
 from bushido.core.dtypes import ParsedUnit
-from bushido.core.result import Ok
+from bushido.core.result import Err, Ok
 from bushido.modules.gym import GymParser, GymSpec
 
 
@@ -79,3 +79,14 @@ def test_correct_gym_units(parser, line, expected):
     assert isinstance(result, Ok)
     parsed_unit = result.value
     assert parsed_unit == expected
+
+
+@pytest.mark.parametrize(
+    "line",
+    [
+        "",
+    ],
+)
+def test_invalid_gym_units(parser, line):
+    result = parser.parse(line)
+    assert isinstance(result, Err)

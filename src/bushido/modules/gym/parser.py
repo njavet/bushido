@@ -8,6 +8,9 @@ from .domain import GymSpec
 
 class GymParser(UnitParser[GymSpec]):
     def _parse_unit(self) -> Result[ParsedUnit[GymSpec]]:
+        if not self.tokens:
+            return Err("empty payload")
+
         res_t = parse_start_end_time_string(self.tokens[0])
         if isinstance(res_t, Err):
             return res_t
@@ -16,7 +19,7 @@ class GymParser(UnitParser[GymSpec]):
         try:
             location = self.tokens[1]
         except IndexError:
-            return Err("invalid unit location")
+            return Err("no unit location")
         try:
             training = self.tokens[2]
         except IndexError:
