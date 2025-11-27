@@ -1,0 +1,90 @@
+[
+  {
+    "name": "balance",
+    "code": "\u2696\ufe0f"
+  },
+  {
+    "name": "saturn",
+    "code": "\ud83e\ude90"
+  },
+  {
+    "name": "gorilla",
+    "code": "\ud83e\udd8d"
+  },
+  {
+    "name": "martial_arts_uniform",
+    "code": "\ud83e\udd4b"
+  },
+  {
+    "name": "anchor",
+    "code": "\u2693"
+  },
+  {
+    "name": "shinto_shrine",
+    "code": "\u26e9\ufe0f"
+  },
+  {
+    "name": "construction_site",
+    "code": "\ud83c\udfd7\ufe0f"
+  },
+  {
+    "name": "helicopter",
+    "code": "\ud83d\ude81"
+  },
+  {
+    "name": "seal",
+    "code": "\ud83e\uddad"
+  },
+  {
+    "name": "turtle",
+    "code": "\ud83d\udc22"
+  },
+  {
+    "name": "eagle",
+    "code": "\ud83e\udd85"
+  },
+  {
+    "name": "globe",
+    "code": "\ud83c\udf10"
+  },
+  {
+    "name": "helmet",
+    "code": "\ud83e\ude96"
+  },
+  {
+    "name": "shark",
+    "code": "\ud83e\udd88"
+  },
+  {
+    "name": "crossed_swords",
+    "code": "\u2694\ufe0f"
+  },
+  {
+    "name": "bow",
+    "code": "\ud83c\udff9"
+  },
+  {
+    "name": "fire",
+    "code": "\ud83d\udd25"
+  },
+  {
+    "name": "penguin",
+    "code": "\ud83d\udc27"
+  },
+  {
+    "name": "antenna",
+    "code": "\ud83d\udce1"
+  },
+  {
+    "name": "owl",
+    "code": "\ud83e\udd89"
+  },
+  {
+    "name": "boxing_glove",
+    "code": "\ud83e\udd4a"
+  },
+  {
+    "name": "satellite",
+    "code": "\ud83d\udef0\ufe0f"
+  }
+]

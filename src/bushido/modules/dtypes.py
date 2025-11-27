@@ -18,7 +18,7 @@ TS = TypeVar("TS", bound=Subunit)
 class Emoji:
     name: str
     unit_name: str
-    code: bytes
+    unicode: str
 
 
 @dataclass(frozen=True, slots=True)

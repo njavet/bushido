@@ -20,8 +20,6 @@ from bushido.modules.factory import Factory
 from bushido.modules.timeline import fetch_display_units
 from bushido.service.log_unit import log_unit
 from bushido.tui.containers.header import HeaderContainer
-from bushido.tui.emojis import un2emoji
-from bushido.tui.widgets.unit_log import UnitLog
 
 
 class BushidoApp(App[None]):
@@ -40,7 +38,6 @@ class BushidoApp(App[None]):
         self.factory = factory
         with self.sf.session() as session:
             units = fetch_display_units(session)
-        self.unit_log = UnitLog(units, un2emoji)
 
     def compose(self) -> ComposeResult:
         yield Rule()
