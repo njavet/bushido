@@ -13,7 +13,6 @@ Title {
 }
 
 #header {
-    dock: top;
     layout: horizontal;
     height: 4;
     background: $surface;

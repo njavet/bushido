@@ -8,23 +8,22 @@ from textual.widgets import Collapsible, DataTable, ProgressBar
 
 
 class LiftingScreen(ModalScreen[Any]):
-    BINDINGS = [("q", "app.pop_screen", "Back")]
+    BINDINGS = [("q", "app.pop_screen", "back")]
 
-    def __init__(self, user_id: Any, umodules: Any) -> None:
+    def __init__(self, umodules: Any) -> None:
         super().__init__()
-        self.user_id = user_id
         self.umodules = umodules
 
     def compose(self) -> ComposeResult:
-        with Collapsible(title="Squat"):
+        with Collapsible(title="squat"):
             with Horizontal():
                 yield DataTable(id="squat")
                 yield ProgressBar(total=1.75, show_eta=False)
-        with Collapsible(title="Deadlift"):
+        with Collapsible(title="deadlift"):
             with Horizontal():
                 yield DataTable(id="deadlift")
                 yield ProgressBar(total=2, show_eta=False)
-        with Collapsible(title="Benchpress"):
+        with Collapsible(title="benchpress"):
             with Horizontal():
                 yield DataTable(id="benchpress")
                 yield ProgressBar(total=1.2, show_eta=False)

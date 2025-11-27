@@ -1,18 +1,26 @@
 from pathlib import Path
 from typing import Any
 
+from IPython.core.display import Markdown
 from textual.app import App, ComposeResult
 from textual.events import Key
 from textual.suggester import Suggester, SuggestionReady
-from textual.widgets import Footer, Input, Rule
+from textual.widgets import (
+    Digits,
+    Input,
+    Markdown,
+    Rule,
+    TabbedContent,
+    TabPane,
+)
 
 from bushido.infra.db import SessionFactory
 from bushido.modules.dtypes import Err, Ok, Warn
 from bushido.modules.factory import Factory
 from bushido.modules.timeline import fetch_display_units
 from bushido.service.log_unit import log_unit
+from bushido.tui.containers.header import HeaderContainer
 from bushido.tui.emojis import un2emoji
-from bushido.tui.widgets.header import HeaderContainer
 from bushido.tui.widgets.unit_log import UnitLog
 
 
@@ -35,6 +43,7 @@ class BushidoApp(App[None]):
         self.unit_log = UnitLog(units, un2emoji)
 
     def compose(self) -> ComposeResult:
+        yield Rule()
         yield HeaderContainer(
             "white",
             "renegade",
@@ -43,11 +52,36 @@ class BushidoApp(App[None]):
             id_="header",
         )
         yield Rule()
+        with TabbedContent():
+            with TabPane("|-"):
+                yield Markdown("00")
+            with TabPane("🥋"):
+                yield Markdown("00")
+            with TabPane("ℵ₀"):
+                with TabbedContent():
+                    with TabPane("squat"):
+                        yield Markdown("11")
+                    with TabPane("deadlift"):
+                        yield Markdown("22")
+                    with TabPane("deadlift"):
+                        yield Markdown("33")
+                    with TabPane("benchpress"):
+                        yield Markdown("44")
+                    with TabPane("overheadpress"):
+                        yield Markdown("55")
+            with TabPane("🤿"):
+                with TabbedContent():
+                    with TabPane("running"):
+                        yield Markdown("66")
+                    with TabPane("skipping"):
+                        yield Digits("0x101")
+            with TabPane("wimhof"):
+                yield Markdown("77")
+
         # yield TextArea()
         # yield Tree("", data=0, id="unit-tree")
         # yield TextInput(suggester=UnitSuggester(un2emoji))
         # yield self.unit_log
-        yield Footer()
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
         line = event.value.strip()
