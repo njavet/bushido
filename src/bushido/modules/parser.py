@@ -18,7 +18,11 @@ class UnitParser(ABC, Generic[TUData]):
         parts = line.split("#", 1)
         if len(parts) > 1 and parts[1]:
             self.comment = parts[1].strip()
-        return parts[0].split()
+        if parts:
+            tokens = parts[0].split()
+        else:
+            tokens = []
+        return tokens
 
     def _parse_log_dt(self, tokens: list[str]) -> Result[list[str]]:
         try:
