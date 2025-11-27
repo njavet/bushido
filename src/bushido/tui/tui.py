@@ -74,11 +74,11 @@ class BushidoApp(App[None]):
         # yield TextInput(suggester=UnitSuggester(un2emoji))
         # yield self.unit_log
 
-    def action_log_unit(self):
+    def action_log_unit(self) -> None:
         # TODO update other widgets after saving a unit
         self.app.push_screen(LogUnitScreen(["yo"]))
 
-    def action_help(self):
+    def action_help(self) -> None:
         self.app.push_screen(HelpScreen())
 
     def watch_show_tree(self, show_tree: Any) -> None:
