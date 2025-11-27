@@ -10,9 +10,6 @@ from bushido.modules.factory import get_mapper, get_parser, get_repo, get_unit_n
 
 
 class LogUnitService:
-    def __init__(self):
-        pass
-
     @staticmethod
     def log_unit(line: str, session: Session) -> Result[ParsedUnit[Any]]:
         try:
