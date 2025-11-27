@@ -1,19 +1,21 @@
 from sqlalchemy.orm import Session
 
-from bushido.modules.dtypes import DisplayUnit, Err, Ok, Result
+from bushido.modules.dtypes import Err, Ok, ParsedUnit, Result
 from bushido.modules.factory import Factory
 
 
-def log_unit(line: str, factory: Factory, session: Session) -> Result[DisplayUnit]:
+def log_unit(line: str, factory: Factory, session: Session) -> Result[ParsedUnit]:
     try:
         unit_name, payload = line.split(" ", 1)
     except ValueError:
         unit_name, payload = line, ""
 
+    # fetch log classes
     parser_res = factory.get_parser(unit_name)
     if isinstance(parser_res, Err):
         return parser_res
     parser = parser_res.value
+
     mapper_res = factory.get_mapper(unit_name)
     if isinstance(mapper_res, Err):
         return mapper_res
@@ -23,6 +25,8 @@ def log_unit(line: str, factory: Factory, session: Session) -> Result[DisplayUni
     if isinstance(repo_res, Err):
         return repo_res
     repo = repo_res.value
+
+    # parse and store
     parse_res = parser.parse(payload)
     if isinstance(parse_res, Err):
         return parse_res
@@ -31,8 +35,6 @@ def log_unit(line: str, factory: Factory, session: Session) -> Result[DisplayUni
 
     unit, subunits = mapper.to_orm(parsed_unit)
     if repo.add_unit(unit, subunits):
-        return Ok(
-            DisplayUnit(name=unit_name, log_time=parsed_unit.log_time, payload=payload)
-        )
+        return Ok(parsed_unit)
     else:
         return Err("error")

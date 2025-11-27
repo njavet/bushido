@@ -9,7 +9,11 @@ class LiftingMapper(UnitMapper[LiftingSpec, LiftingUnit, LiftingSet]):
     def to_orm(
         parsed_unit: ParsedUnit[LiftingSpec],
     ) -> tuple[LiftingUnit, list[LiftingSet]]:
-        unit = LiftingUnit(name=parsed_unit.name, comment=parsed_unit.comment)
+        unit = LiftingUnit(
+            name=parsed_unit.name,
+            comment=parsed_unit.comment,
+            log_time=parsed_unit.log_time,
+        )
         lst = []
         for s in parsed_unit.data.sets:
             ls = LiftingSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
