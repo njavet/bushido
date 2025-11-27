@@ -15,9 +15,7 @@ from textual.widgets import (
 )
 
 from bushido.infra.db import SessionFactory
-from bushido.modules.dtypes import Err, Ok, Warn
 from bushido.modules.factory import Factory
-from bushido.service.log_unit import log_unit
 from bushido.tui.containers.header import HeaderContainer
 
 
@@ -76,25 +74,6 @@ class BushidoApp(App[None]):
         # yield Tree("", data=0, id="unit-tree")
         # yield TextInput(suggester=UnitSuggester(un2emoji))
         # yield self.unit_log
-
-    async def on_input_submitted(self, event: Input.Submitted) -> None:
-        line = event.value.strip()
-        event.input.value = ""
-        if not line:
-            return
-
-        with self.sf.session() as session:
-            res = log_unit(line, self.factory, session)
-
-        if isinstance(res, Ok):
-            unit = res.value
-            self.unit_log.update_view(unit)
-        elif isinstance(res, Warn):
-            print(res.message)
-            pass
-        elif isinstance(res, Err):
-            print(res.message)
-            pass
 
     def watch_show_tree(self, show_tree: Any) -> None:
         self.set_class(show_tree, "-show-tree")
