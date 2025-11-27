@@ -16,6 +16,7 @@ from bushido.service.log_unit import LogUnitService
 from bushido.tui.containers.cardio import CardioContainer
 from bushido.tui.containers.header import HeaderContainer
 from bushido.tui.containers.lifting import LiftingContainer
+from bushido.tui.containers.wimhof import WimhofContainer
 from bushido.tui.screens.helpscreen import HelpScreen
 from bushido.tui.screens.log_unit import LogUnitScreen
 
@@ -54,7 +55,7 @@ class BushidoApp(App[None]):
             with TabPane("cardio"):
                 yield CardioContainer()
             with TabPane("wimhof"):
-                yield Markdown("TODO")
+                yield WimhofContainer()
             with TabPane("unitlog"):
                 yield Markdown("TODO")
         yield Footer()
