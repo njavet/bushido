@@ -4,9 +4,9 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Ok
 from bushido.infra.db import SessionFactory
-from bushido.modules.dtypes import ParsedUnit
 from bushido.modules.factory import Factory
 from bushido.modules.lifting import LiftingSet, LiftingUnit
 from bushido.service.log_unit import LogUnitService

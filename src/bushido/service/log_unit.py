@@ -2,8 +2,8 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
+from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Ok, Result
-from bushido.modules.dtypes import ParsedUnit
 from bushido.modules.factory import Factory
 
 

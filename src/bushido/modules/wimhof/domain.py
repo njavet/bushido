@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.modules.dtypes import UnitData
+from bushido.core.dtypes import UnitData
 
 from .orm import WimhofUnit
 

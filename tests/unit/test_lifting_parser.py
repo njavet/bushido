@@ -3,8 +3,8 @@ import datetime
 import pytest
 from freezegun import freeze_time
 
+from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Ok
-from bushido.modules.dtypes import ParsedUnit
 from bushido.modules.lifting.domain import LiftingSpec, SetSpec
 from bushido.modules.lifting.parser import LiftingParser
 

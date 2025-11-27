@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from bushido.modules.dtypes import ParsedUnit
+from bushido.core.dtypes import ParsedUnit
 from bushido.modules.lifting import (
     LiftingMapper,
     LiftingSet,

@@ -9,7 +9,7 @@ from textual.containers import ScrollableContainer
 from textual.reactive import Reactive
 from textual.widgets import Static
 
-from bushido.modules.dtypes import ParsedUnit
+from bushido.core.dtypes import ParsedUnit
 from bushido.parsing.utils import get_bushido_date_from_datetime
 
 

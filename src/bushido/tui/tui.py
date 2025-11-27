@@ -5,6 +5,7 @@ from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
     Digits,
+    Footer,
     Markdown,
     Rule,
     TabbedContent,
@@ -12,7 +13,7 @@ from textual.widgets import (
 )
 
 from bushido.infra.db import SessionFactory
-from bushido.modules.factory import Factory
+from bushido.service.log_unit import LogUnitService
 from bushido.tui.containers.header import HeaderContainer
 from bushido.tui.screens.helpscreen import HelpScreen
 from bushido.tui.screens.log_unit import LogUnitScreen
@@ -28,10 +29,12 @@ class BushidoApp(App[None]):
     ]
     CSS_PATH = "main.tcss"
 
-    def __init__(self, session_factory: SessionFactory, factory: Factory) -> None:
+    def __init__(
+        self, session_factory: SessionFactory, log_unit_service: LogUnitService
+    ) -> None:
         super().__init__()
         self.sf = session_factory
-        self.factory = factory
+        self.log_unit_service = log_unit_service
 
     def compose(self) -> ComposeResult:
         yield Rule()
@@ -68,6 +71,7 @@ class BushidoApp(App[None]):
                         yield Digits("0x101")
             with TabPane("wimhof"):
                 yield Markdown("77")
+        yield Footer()
 
         # yield TextArea()
         # yield Tree("", data=0, id="unit-tree")
@@ -76,7 +80,8 @@ class BushidoApp(App[None]):
 
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a unit
-        self.app.push_screen(LogUnitScreen(["yo"]))
+        with self.sf.session() as session:
+            self.app.push_screen(LogUnitScreen(["yo"]))
 
     def action_help(self) -> None:
         self.app.push_screen(HelpScreen())
