@@ -14,14 +14,14 @@ class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
 
 
 class UnitSuggester(Suggester):
-    def __init__(self, emojis: dict[str, str]) -> None:
+    def __init__(self, unit_names: list[str]) -> None:
         super().__init__()
-        self.emojis = emojis
+        self.unit_names = unit_names
 
     async def get_suggestion(self, value: str) -> str | None:
-        es = [uname for uname, emoji in self.emojis.items() if uname.startswith(value)]
-        if len(es) == 1:
-            return es[0] + " "
+        names = [name for name in self.unit_names if name.startswith(value)]
+        if len(names) == 1:
+            return names[0] + " "
         return None
 
 
