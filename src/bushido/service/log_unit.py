@@ -1,3 +1,5 @@
+from typing import Any
+
 from sqlalchemy.orm import Session
 
 from bushido.core.result import Err, Ok, Result
@@ -9,7 +11,7 @@ class LogUnit:
     def __init__(self, factory: Factory):
         self.factory = factory
 
-    def log_unit(self, line: str, session: Session) -> Result[ParsedUnit]:
+    def log_unit(self, line: str, session: Session) -> Result[ParsedUnit[Any]]:
         try:
             unit_name, payload = line.split(" ", 1)
         except ValueError:
