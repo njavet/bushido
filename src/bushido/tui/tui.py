@@ -37,7 +37,6 @@ class BushidoApp(App[None]):
         self.log_unit_service = log_unit_service
 
     def compose(self) -> ComposeResult:
-        yield Rule()
         yield HeaderContainer(
             "white",
             "renegade",

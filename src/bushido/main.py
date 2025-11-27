@@ -6,7 +6,7 @@ import uvicorn
 from rich.logging import RichHandler
 
 from bushido import __version__
-from bushido.conf import DEFAULT_PORT
+from bushido.core.conf import DEFAULT_PORT
 from bushido.infra.db import SessionFactory
 from bushido.service.log_unit import LogUnitService
 from bushido.tui.tui import BushidoApp

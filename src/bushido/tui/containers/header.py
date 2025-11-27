@@ -5,6 +5,7 @@ from textual.containers import Container, Horizontal, Vertical
 from textual.widgets import Label
 from textual_image.widget import Image as ImageWidget
 
+from bushido.core.conf import BUSHIDO_IMG, KYOKUSHIN_IMG
 from bushido.tui.widgets.binary_clock import BinaryClock
 from bushido.tui.widgets.binary_date import BinaryDate
 
@@ -22,7 +23,7 @@ class HeaderContainer(Container):
     # TODO proper alignment
     def compose(self) -> ComposeResult:
         with Horizontal():
-            yield ImageWidget("src/bushido/assets/bushido.png", id="bushido_img")
+            yield ImageWidget(BUSHIDO_IMG, id="bushido_img")
             yield BinaryDate(id="bin_date")
         with Vertical():
             yield Label("belt:")
@@ -34,4 +35,4 @@ class HeaderContainer(Container):
             yield Label(self.rank)
         with Horizontal():
             yield BinaryClock(id="bin_clock")
-            yield ImageWidget("src/bushido/assets/kyokushin.png", id="kyokushin_img")
+            yield ImageWidget(KYOKUSHIN_IMG, id="kyokushin_img")
