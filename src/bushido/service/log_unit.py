@@ -7,7 +7,7 @@ from bushido.modules.dtypes import ParsedUnit
 from bushido.modules.factory import Factory
 
 
-class LogUnit:
+class LogUnitService:
     def __init__(self, factory: Factory):
         self.factory = factory
 

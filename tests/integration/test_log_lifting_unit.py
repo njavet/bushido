@@ -4,12 +4,11 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from bushido.core.result import Ok
 from bushido.infra.db import SessionFactory
-from bushido.modules.dtypes import Ok
-from bushido.modules.lifting.mapper import LiftingMapper
-from bushido.modules.lifting.orm import LiftingSet, LiftingUnit
-from bushido.modules.lifting.parser import LiftingParser
-from bushido.modules.repo import UnitRepo
+from bushido.modules.dtypes import ParsedUnit
+from bushido.modules.factory import Factory
+from bushido.modules.lifting import LiftingSet, LiftingUnit
 from bushido.service.log_unit import LogUnitService
 
 
@@ -30,18 +29,15 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 
 @pytest.fixture
-def service(session: Session) -> LogUnitService:
-    parser = LiftingParser()
-    mapper = LiftingMapper()
-    repo = UnitRepo[LiftingUnit, LiftingSet](session, LiftingUnit, LiftingUnit.subunits)
-    return LogUnitService(parser, mapper, repo)
+def service() -> LogUnitService:
+    return LogUnitService(factory=Factory())
 
 
 def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:
     line = "benchpress 100 5 180 100 5"
-    res = service.log_unit(line)
+    res = service.log_unit(line, session)
     assert isinstance(res, Ok)
-    assert res.value == "Unit confirmed"
+    assert isinstance(res.value, ParsedUnit)
     units = session.scalars(select(LiftingUnit)).all()
     assert len(units) == 1
     assert units[0].name == "benchpress"
