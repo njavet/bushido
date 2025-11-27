@@ -17,7 +17,6 @@ from textual.widgets import (
 from bushido.infra.db import SessionFactory
 from bushido.modules.dtypes import Err, Ok, Warn
 from bushido.modules.factory import Factory
-from bushido.modules.timeline import fetch_display_units
 from bushido.service.log_unit import log_unit
 from bushido.tui.containers.header import HeaderContainer
 
@@ -36,8 +35,6 @@ class BushidoApp(App[None]):
         super().__init__()
         self.sf = session_factory
         self.factory = factory
-        with self.sf.session() as session:
-            units = fetch_display_units(session)
 
     def compose(self) -> ComposeResult:
         yield Rule()
