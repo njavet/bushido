@@ -11,13 +11,9 @@ from bushido.tui.widgets.binary_date import BinaryDate
 
 
 class HeaderContainer(Container):
-    def __init__(
-        self, belt: str, rank: str, belt_path: Path, rank_path: Path, id_: str
-    ):
+    def __init__(self, rank: str, rank_path: Path, id_: str):
         super().__init__(id=id_)
-        self.belt = belt
         self.rank = rank
-        self.belt_path = belt_path
         self.rank_path = rank_path
 
     # TODO proper alignment
@@ -25,10 +21,6 @@ class HeaderContainer(Container):
         with Horizontal():
             yield ImageWidget(BUSHIDO_IMG, id="bushido_img")
             yield BinaryDate(id="bin_date")
-        with Vertical():
-            yield Label("belt:")
-            yield ImageWidget(str(self.belt_path), id="belt")
-            yield Label(self.belt)
         with Vertical():
             yield Label("rank:")
             yield ImageWidget(str(self.rank_path), id="rank")

@@ -42,10 +42,8 @@ class BushidoApp(App[None]):
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer(
-            "white",
             "renegade",
-            Path("src/bushido/assets/belts/white_belt.png"),
-            Path("src/bushido/assets/belts/rank.png"),
+            Path("src/bushido/assets/images/ranks/rank.png"),
             id_="header",
         )
         yield Rule()
