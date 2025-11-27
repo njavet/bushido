@@ -25,7 +25,6 @@ def parser():
                     location="nautilus",
                 ),
                 log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-                payload="1800-1900 nautilus",
                 comment=None,
             ),
         ),

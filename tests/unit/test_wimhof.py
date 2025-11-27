@@ -27,7 +27,6 @@ def parser():
                     ]
                 ),
                 log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-                payload="30 90 30 120 30 150",
                 comment=None,
             ),
         ),

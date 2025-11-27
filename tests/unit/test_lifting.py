@@ -27,7 +27,6 @@ def parser():
                     ]
                 ),
                 log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-                payload="100 5 180 100 5",
                 comment=None,
             ),
         ),
@@ -37,7 +36,6 @@ def parser():
                 name="squat",
                 data=LiftingSpec([SetSpec(set_nr=0, weight=120.0, reps=5, rest=0.0)]),
                 log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-                payload="120 5",
                 comment=None,
             ),
         ),
@@ -53,7 +51,6 @@ def parser():
                     ]
                 ),
                 log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-                payload="150 3 300 160 2 90 100 20",
                 comment="heavy day, 20reps at the end",
             ),
         ),
@@ -65,7 +62,6 @@ def parser():
                     sets=[SetSpec(set_nr=0, weight=150.0, reps=5.0, rest=0.0)]
                 ),
                 log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-                payload="150 5",
                 comment="just a single set",
             ),
         ),
