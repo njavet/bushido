@@ -13,12 +13,10 @@ from textual.widgets import (
 
 from bushido.infra.db import SessionFactory
 from bushido.service.log_unit import LogUnitService
-from bushido.tui.containers.cardio import CardioContainer
 from bushido.tui.containers.header import HeaderContainer
-from bushido.tui.containers.lifting import LiftingContainer
-from bushido.tui.containers.training import TrainingContainer
-from bushido.tui.containers.wimhof import WimhofContainer
-from bushido.tui.containers.work import WorkContainer
+from bushido.tui.containers.mind.wimhof import WimhofContainer
+from bushido.tui.containers.training.training import TrainingContainer
+from bushido.tui.containers.work.work import WorkContainer
 from bushido.tui.screens.helpscreen import HelpScreen
 from bushido.tui.screens.log_unit import LogUnitScreen
 
@@ -52,11 +50,7 @@ class BushidoApp(App[None]):
                 yield TrainingContainer()
             with TabPane("work"):
                 yield WorkContainer()
-            with TabPane("lifting"):
-                yield LiftingContainer()
-            with TabPane("cardio"):
-                yield CardioContainer()
-            with TabPane("wimhof"):
+            with TabPane("mind"):
                 yield WimhofContainer()
             with TabPane("unitlog"):
                 yield Markdown("TODO")
