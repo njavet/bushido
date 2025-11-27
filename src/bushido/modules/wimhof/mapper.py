@@ -15,8 +15,10 @@ class WimhofMapper(UnitMapper[WimhofSpec, WimhofUnit, WimhofRound]):
             comment=parsed_unit.comment,
         )
         lst = []
-        for i, s in enumerate(parsed_unit.data.rounds):
-            wr = WimhofRound(round_nr=i, breaths=s.breaths, retention=s.retention)
+        for r in parsed_unit.data.rounds:
+            wr = WimhofRound(
+                round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
+            )
             lst.append(wr)
         return unit, lst
 
@@ -26,8 +28,10 @@ class WimhofMapper(UnitMapper[WimhofSpec, WimhofUnit, WimhofRound]):
     ) -> ParsedUnit[WimhofSpec]:
         unit, rounds = orms
         lst = []
-        for i, s in enumerate(rounds):
-            ws = RoundSpec(round_nr=i, breaths=s.breaths, retention=s.retention)
+        for r in rounds:
+            ws = RoundSpec(
+                round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
+            )
             lst.append(ws)
         pu = ParsedUnit(
             name=unit.name,

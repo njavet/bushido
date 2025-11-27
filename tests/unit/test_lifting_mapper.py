@@ -71,7 +71,7 @@ def test_correct_to_orm_mapping(mapper, parsed_unit, unit, sets):
     assert u.name == unit.name
     assert u.comment == unit.comment
     assert u.log_time == unit.log_time
-    for i, ls in enumerate(sets):
+    for i, ls in enumerate(s):
         assert isinstance(ls, LiftingSet)
         assert ls.set_nr == sets[i].set_nr
         assert ls.weight == sets[i].weight

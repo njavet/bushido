@@ -16,7 +16,6 @@ class WimhofUnit(Unit):
 class WimhofRound(Subunit):
     __tablename__ = "wimhof_round"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
     round_nr: Mapped[int] = mapped_column()
     breaths: Mapped[int] = mapped_column()
     retention: Mapped[int] = mapped_column()

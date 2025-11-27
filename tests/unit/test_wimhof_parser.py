@@ -33,7 +33,7 @@ def parser():
     ],
 )
 @freeze_time("2020-01-01")
-def test_correct_gym_unit(parser, line, expected):
+def test_correct_wimhof_unit(parser, line, expected):
     result = parser.parse(line)
     assert isinstance(result, Ok)
     parsed_unit = result.value
