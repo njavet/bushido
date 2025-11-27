@@ -10,14 +10,16 @@ from bushido.modules.factory import get_mapper, get_parser, get_repo, get_unit_n
 
 
 class LogUnitService:
-    @staticmethod
-    def log_unit(line: str, session: Session) -> Result[ParsedUnit[Any]]:
+    def __init__(self) -> None:
+        self.unit_names = get_unit_names()
+
+    def log_unit(self, line: str, session: Session) -> Result[ParsedUnit[Any]]:
         try:
             unit_name, payload = line.split(" ", 1)
         except ValueError:
             unit_name, payload = line, ""
 
-        if unit_name not in get_unit_names():
+        if unit_name not in self.unit_names:
             return Err(f"unit {unit_name} not found")
 
         # fetch log classes

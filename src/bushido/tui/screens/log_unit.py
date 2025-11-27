@@ -15,10 +15,9 @@ from bushido.service.log_unit import LogUnitService
 
 
 class UnitSuggester(Suggester):
-    def __init__(self, log_unit_service: LogUnitService, session: Session) -> None:
+    def __init__(self, unit_names: list[str]) -> None:
         super().__init__()
-        self.log_unit_service = log_unit_service
-        self.session = session
+        self.unit_names = unit_names
 
     async def get_suggestion(self, value: str) -> str | None:
         names = [name for name in self.unit_names if name.startswith(value)]
@@ -47,12 +46,13 @@ class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
         Binding("l", "app.pop_screen", "back"),
     ]
 
-    def __init__(self, unit_names: list[str]) -> None:
+    def __init__(self, log_unit_service: LogUnitService, session: Session) -> None:
         super().__init__()
-        self.unit_names = unit_names
+        self.log_unit_service = log_unit_service
+        self.session = session
 
     def compose(self) -> ComposeResult:
         yield Grid(
-            LogUnitInput(suggester=UnitSuggester(self.unit_names)),
+            LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names)),
             RichLog(id="log_result"),
         )
