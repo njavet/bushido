@@ -20,7 +20,6 @@ class ParsedUnit(Generic[TUData]):
     data: TUData
     log_time: datetime.datetime
     comment: str | None = None
-    payload: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

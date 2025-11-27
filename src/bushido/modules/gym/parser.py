@@ -35,7 +35,6 @@ class GymParser(UnitParser[GymSpec]):
                 focus=focus,
             ),
             log_time=self.log_time,
-            payload=self.payload,
             comment=self.comment,
         )
         return Ok(pu)

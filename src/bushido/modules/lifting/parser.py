@@ -30,7 +30,6 @@ class LiftingParser(UnitParser[LiftingSpec]):
             name=self.unit_name,
             data=data,
             comment=self.comment,
-            payload=self.payload,
             log_time=self.log_time,
         )
         return Ok(pu)
