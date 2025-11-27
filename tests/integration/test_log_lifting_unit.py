@@ -7,7 +7,6 @@ from sqlalchemy.orm import Session
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Ok
 from bushido.infra.db import SessionFactory
-from bushido.modules.factory import Factory
 from bushido.modules.lifting import LiftingSet, LiftingUnit
 from bushido.service.log_unit import LogUnitService
 
@@ -30,7 +29,7 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 @pytest.fixture
 def service() -> LogUnitService:
-    return LogUnitService(factory=Factory())
+    return LogUnitService()
 
 
 def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:

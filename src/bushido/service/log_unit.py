@@ -4,34 +4,29 @@ from sqlalchemy.orm import Session
 
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Ok, Result
-from bushido.modules.factory import Factory
+
+# TODO rethink design
+from bushido.modules.factory import get_mapper, get_parser, get_repo, get_unit_names
 
 
 class LogUnitService:
-    def __init__(self, factory: Factory):
-        self.factory = factory
+    def __init__(self):
+        pass
 
-    def log_unit(self, line: str, session: Session) -> Result[ParsedUnit[Any]]:
+    @staticmethod
+    def log_unit(line: str, session: Session) -> Result[ParsedUnit[Any]]:
         try:
             unit_name, payload = line.split(" ", 1)
         except ValueError:
             unit_name, payload = line, ""
 
+        if unit_name not in get_unit_names():
+            return Err(f"unit {unit_name} not found")
+
         # fetch log classes
-        parser_res = self.factory.get_parser(unit_name)
-        if isinstance(parser_res, Err):
-            return parser_res
-        parser = parser_res.value
-
-        mapper_res = self.factory.get_mapper(unit_name)
-        if isinstance(mapper_res, Err):
-            return mapper_res
-        mapper = mapper_res.value
-
-        repo_res = self.factory.get_repo(unit_name, session)
-        if isinstance(repo_res, Err):
-            return repo_res
-        repo = repo_res.value
+        parser = get_parser(unit_name)
+        mapper = get_mapper(unit_name)
+        repo = get_repo(unit_name, session)
 
         # parse and store
         parse_res = parser.parse(payload)
