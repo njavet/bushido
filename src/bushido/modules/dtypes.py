@@ -15,13 +15,6 @@ TS = TypeVar("TS", bound=Subunit)
 
 
 @dataclass(frozen=True, slots=True)
-class Emoji:
-    name: str
-    unit_name: str
-    unicode: str
-
-
-@dataclass(frozen=True, slots=True)
 class ParsedUnit(Generic[TUData]):
     name: str
     data: TUData

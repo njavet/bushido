@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Any
 
-from IPython.core.display import Markdown
 from textual.app import App, ComposeResult
+from textual.binding import Binding
 from textual.events import Key
 from textual.suggester import Suggester, SuggestionReady
 from textual.widgets import (
@@ -24,11 +24,11 @@ from bushido.tui.containers.header import HeaderContainer
 
 class BushidoApp(App[None]):
     BINDINGS = [
-        ("q", "quit", "quit"),
-        ("h", "help", "help"),
-        ("t", "toggle_tree", "toggle tree"),
-        ("g", "unit_timeline", "timeLine"),
-        ("l", "log_unit", "log"),
+        Binding("q", "quit", "quit"),
+        Binding("h", "help", "help"),
+        Binding("t", "toggle_tree", "toggle tree"),
+        Binding("g", "unit_timeline", "timeLine"),
+        Binding("l", "log_unit", "log"),
     ]
     CSS_PATH = "main.tcss"
 
