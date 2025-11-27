@@ -8,7 +8,7 @@ from textual.containers import ScrollableContainer
 from textual.reactive import Reactive
 from textual.widgets import Static
 
-from bushido.modules.dtypes import DisplayUnit
+from bushido.modules.dtypes import ParsedUnit
 from bushido.parsing.utils import get_bushido_date_from_datetime
 
 
@@ -25,7 +25,7 @@ class DayWidget(Static):
 
 
 class UnitLog(Static):
-    def __init__(self, units: list[DisplayUnit], emojis: dict[str, str]) -> None:
+    def __init__(self, units: list[ParsedUnit], emojis: dict[str, str]) -> None:
         super().__init__()
         self.emojis = emojis
         self.scroll_container = ScrollableContainer()
@@ -54,7 +54,7 @@ class UnitLog(Static):
 
     def get_bdate2units(
         self,
-        units: list[DisplayUnit],
+        units: list[ParsedUnit],
     ) -> dict[datetime.date, list[str]]:
         dix: dict[datetime.date, list[str]] = collections.defaultdict(list)
         for d in units:
@@ -62,14 +62,14 @@ class UnitLog(Static):
             dix[bd].append(self.create_display_str(d))
         return dix
 
-    def create_display_str(self, unit: DisplayUnit) -> str:
+    def create_display_str(self, unit: ParsedUnit) -> str:
         if unit.payload:
             res = self.emojis[unit.name] + " " + unit.payload
         else:
             res = self.emojis[unit.name]
         return res
 
-    def update_view(self, unit: DisplayUnit) -> None:
+    def update_view(self, unit: ParsedUnit) -> None:
         display_str = self.create_display_str(unit)
         day = get_bushido_date_from_datetime(unit.log_time)
         self.bdate2units[day].insert(0, display_str)
