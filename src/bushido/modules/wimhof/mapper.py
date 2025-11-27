@@ -9,7 +9,11 @@ class WimhofMapper(UnitMapper[WimhofSpec, WimhofUnit, WimhofRound]):
     def to_orm(
         parsed_unit: ParsedUnit[WimhofSpec],
     ) -> tuple[WimhofUnit, list[WimhofRound]]:
-        unit = WimhofUnit(name=parsed_unit.name, comment=parsed_unit.comment)
+        unit = WimhofUnit(
+            name=parsed_unit.name,
+            log_time=parsed_unit.log_time,
+            comment=parsed_unit.comment,
+        )
         lst = []
         for i, s in enumerate(parsed_unit.data.rounds):
             wr = WimhofRound(round_nr=i, breaths=s.breaths, retention=s.retention)

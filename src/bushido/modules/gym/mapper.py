@@ -11,6 +11,7 @@ class GymMapper(UnitMapper[GymSpec, GymUnit, Any]):
     def to_orm(parsed_unit: ParsedUnit[GymSpec]) -> tuple[GymUnit, list[Any]]:
         unit = GymUnit(
             name=parsed_unit.name,
+            log_time=parsed_unit.log_time,
             start_t=parsed_unit.data.start_t,
             end_t=parsed_unit.data.end_t,
             location=parsed_unit.data.location,
