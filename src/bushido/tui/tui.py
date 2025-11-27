@@ -14,6 +14,7 @@ from textual.widgets import (
 from bushido.infra.db import SessionFactory
 from bushido.service.log_unit import LogUnitService
 from bushido.tui.containers.header import HeaderContainer
+from bushido.tui.containers.lifting import LiftingContainer
 from bushido.tui.screens.helpscreen import HelpScreen
 from bushido.tui.screens.log_unit import LogUnitScreen
 
@@ -48,19 +49,7 @@ class BushidoApp(App[None]):
             with TabPane("training"):
                 yield Markdown("TODO")
             with TabPane("lifting"):
-                with TabbedContent():
-                    with TabPane("stats"):
-                        yield Markdown("TODO")
-                    with TabPane("squat"):
-                        yield Markdown("TODO")
-                    with TabPane("deadlift"):
-                        yield Markdown("TODO")
-                    with TabPane("benchpress"):
-                        yield Markdown("TODO")
-                    with TabPane("overheadpress"):
-                        yield Markdown("TODO")
-                    with TabPane("rows"):
-                        yield Markdown("TODO")
+                yield LiftingContainer()
             with TabPane("cardio"):
                 with TabbedContent():
                     with TabPane("stats"):
