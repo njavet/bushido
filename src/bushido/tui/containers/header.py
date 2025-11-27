@@ -22,7 +22,7 @@ class HeaderContainer(Container):
     # TODO proper alignment
     def compose(self) -> ComposeResult:
         with Horizontal():
-            yield ImageWidget("src/bushido/static/bushido.png", id="bushido_img")
+            yield ImageWidget("src/bushido/assets/bushido.png", id="bushido_img")
             yield BinaryDate(id="bin_date")
         with Vertical():
             yield Label("belt:")
@@ -34,4 +34,4 @@ class HeaderContainer(Container):
             yield Label(self.rank)
         with Horizontal():
             yield BinaryClock(id="bin_clock")
-            yield ImageWidget("src/bushido/static/kyokushin.png", id="kyokushin_img")
+            yield ImageWidget("src/bushido/assets/kyokushin.png", id="kyokushin_img")

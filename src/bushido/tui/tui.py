@@ -47,8 +47,8 @@ class BushidoApp(App[None]):
         yield HeaderContainer(
             "white",
             "renegade",
-            Path("src/bushido/static/belts/white_belt.png"),
-            Path("src/bushido/static/belts/rank.png"),
+            Path("src/bushido/assets/belts/white_belt.png"),
+            Path("src/bushido/assets/belts/rank.png"),
             id_="header",
         )
         yield Rule()
