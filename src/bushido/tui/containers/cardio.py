@@ -7,18 +7,14 @@ from textual.widgets import (
 )
 
 
-class LiftingContainer(Container):
+class CardioContainer(Container):
     def compose(self) -> ComposeResult:
         with TabbedContent():
             with TabPane("stats"):
                 yield Markdown("TODO")
-            with TabPane("squat"):
+            with TabPane("running"):
                 yield Markdown("TODO")
-            with TabPane("deadlift"):
+            with TabPane("swimming"):
                 yield Markdown("TODO")
-            with TabPane("benchpress"):
-                yield Markdown("TODO")
-            with TabPane("overheadpress"):
-                yield Markdown("TODO")
-            with TabPane("rows"):
+            with TabPane("skipping"):
                 yield Markdown("TODO")

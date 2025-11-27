@@ -13,6 +13,7 @@ from textual.widgets import (
 
 from bushido.infra.db import SessionFactory
 from bushido.service.log_unit import LogUnitService
+from bushido.tui.containers.cardio import CardioContainer
 from bushido.tui.containers.header import HeaderContainer
 from bushido.tui.containers.lifting import LiftingContainer
 from bushido.tui.screens.helpscreen import HelpScreen
@@ -51,13 +52,7 @@ class BushidoApp(App[None]):
             with TabPane("lifting"):
                 yield LiftingContainer()
             with TabPane("cardio"):
-                with TabbedContent():
-                    with TabPane("stats"):
-                        yield Markdown("TODO")
-                    with TabPane("running"):
-                        yield Markdown("TODO")
-                    with TabPane("skipping"):
-                        yield Markdown("TODO")
+                yield CardioContainer()
             with TabPane("wimhof"):
                 yield Markdown("TODO")
             with TabPane("unitlog"):
