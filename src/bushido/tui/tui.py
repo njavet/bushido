@@ -14,6 +14,8 @@ from textual.widgets import (
 from bushido.infra.db import SessionFactory
 from bushido.modules.factory import Factory
 from bushido.tui.containers.header import HeaderContainer
+from bushido.tui.screens.helpscreen import HelpScreen
+from bushido.tui.screens.log_unit import LogUnitScreen
 
 
 class BushidoApp(App[None]):
@@ -72,6 +74,13 @@ class BushidoApp(App[None]):
         # yield TextInput(suggester=UnitSuggester(un2emoji))
         # yield self.unit_log
 
+    def action_log_unit(self):
+        # TODO update other widgets after saving a unit
+        self.app.push_screen(LogUnitScreen(["yo"]))
+
+    def action_help(self):
+        self.app.push_screen(HelpScreen())
+
     def watch_show_tree(self, show_tree: Any) -> None:
         self.set_class(show_tree, "-show-tree")
 
@@ -120,12 +129,6 @@ class BushidoApp(App[None]):
         tree.root.expand()
         add_node("Units", tree.root, {})
 
-    def action_log_unit(self):
-        # TODO update other widgets after saving a unit
-        self.app.push_screen(unitlog.UnitLog(self.string_processor))
-
-    def action_help(self):
-        self.app.push_screen(helpscreen.HelpScreen(emojis))
 
     def action_toggle_tree(self):
         self.show_tree = not self.show_tree

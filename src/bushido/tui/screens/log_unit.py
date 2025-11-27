@@ -10,7 +10,11 @@ from bushido.modules import ParsedUnit
 
 
 class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
-    pass
+    BINDINGS = [("q", "app.pop_screen", "back"), ("l", "app.pop_screen", "back")]
+
+    def __init__(self, unit_names: list[str]) -> None:
+        super().__init__()
+        self.unit_names = unit_names
 
 
 class UnitSuggester(Suggester):
