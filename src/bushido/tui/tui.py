@@ -145,10 +145,4 @@ class BushidoApp(App[None]):
         if event.button.id == "weights":
             self.app.push_screen(weights.Weights())
 
-    async def on_input_submitted(self, event: Input.Submitted) -> None:
-        rl = self.query_one("#response", RichLog)
-        rl.clear()
-        rl.write(msg.message)
-        self.query_one(Input).action_delete_left_all()
-        self.query_one(Input).action_delete_right_all()
 """

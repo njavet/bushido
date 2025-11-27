@@ -56,3 +56,11 @@ class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
             LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names)),
             RichLog(id="log_result"),
         )
+
+    async def on_input_submitted(self, event: Input.Submitted) -> None:
+        msg = event.value
+        rl = self.query_one("#log_result", RichLog)
+        rl.clear()
+        rl.write(msg)
+        self.query_one(Input).action_delete_left_all()
+        self.query_one(Input).action_delete_right_all()
