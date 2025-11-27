@@ -1,10 +1,13 @@
 import datetime
 import json
 import sys
+from typing import Any
 from zoneinfo import ZoneInfo
 
 
-def convert_tg_export(json_data, local_timezone=ZoneInfo("Europe/Zurich")):
+def convert_tg_export(
+    json_data: dict[str, Any], local_timezone=ZoneInfo("Europe/Zurich")
+) -> list[Any]:
     """
     this converts jsondata that was exported from telegram
     """
@@ -27,13 +30,13 @@ def convert_tg_export(json_data, local_timezone=ZoneInfo("Europe/Zurich")):
     return lst
 
 
-def convert_tg_export_to_file(json_data):
+def convert_tg_export_to_file(json_data: dict[str, Any]) -> None:
     res = convert_tg_export(json_data)
     with open("converted.json", "w") as f:
         json.dump(res, f, indent=2, ensure_ascii=False)
 
 
-def main():
+def main() -> None:
     if len(sys.argv) != 2:
         print(f"usage: python {sys.argv[0]} <json_file>")
         sys.exit(1)
