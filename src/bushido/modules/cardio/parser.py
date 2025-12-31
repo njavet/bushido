@@ -1,7 +1,7 @@
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Ok, Result
 from bushido.modules.parser import UnitParser
-from bushido.parsing.utils import parse_start_end_time_string
+from bushido.parsing.utils import parse_military_time_string, time_string_to_seconds
 
 from .domain import CardioSpec
 
@@ -11,32 +11,49 @@ class GymParser(UnitParser[CardioSpec]):
         if not self.tokens:
             return Err("empty payload")
 
-        res_t = parse_start_end_time_string(self.tokens[0])
+        res_t = parse_military_time_string(self.tokens[0])
         if isinstance(res_t, Err):
             return res_t
 
-        start_t, end_t = res_t.value
+        start_t = res_t.value
         try:
-            location = self.tokens[1]
+            res_s = time_string_to_seconds(self.tokens[1])
         except IndexError:
-            return Err("no unit location")
+            return Err("no time")
+
+        seconds = res_s.value
         try:
-            training = self.tokens[2]
+            location = self.tokens[2]
         except IndexError:
-            training = None
+            return Err("no location")
+
         try:
-            focus = self.tokens[3]
+            distance = float(self.tokens[3])
         except IndexError:
-            focus = None
+            distance = None
+        try:
+            avg_hr = float(self.tokens[4])
+        except IndexError:
+            avg_hr = None
+        try:
+            max_hr = float(self.tokens[5])
+        except IndexError:
+            max_hr = None
+        try:
+            calories = float(self.tokens[6])
+        except IndexError:
+            calories = None
 
         pu = ParsedUnit(
             name=self.unit_name,
             data=CardioSpec(
                 start_t=start_t,
-                end_t=end_t,
+                seconds=seconds,
                 location=location,
-                training=training,
-                focus=focus,
+                distance=distance,
+                avg_hr=avg_hr,
+                max_hr=max_hr,
+                calories=calories,
             ),
             log_time=self.log_time,
             comment=self.comment,
