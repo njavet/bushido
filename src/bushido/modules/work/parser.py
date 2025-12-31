@@ -21,13 +21,13 @@ class WorkParser(UnitParser[WorkSpec]):
         except IndexError:
             return Err("no unit location")
         try:
-            training = self.tokens[2]
+            employer = self.tokens[2]
         except IndexError:
-            training = None
+            return Err("no unit employer")
         try:
-            focus = self.tokens[3]
+            project = self.tokens[3]
         except IndexError:
-            focus = None
+            return Err("no unit project")
 
         pu = ParsedUnit(
             name=self.unit_name,
@@ -35,8 +35,8 @@ class WorkParser(UnitParser[WorkSpec]):
                 start_t=start_t,
                 end_t=end_t,
                 location=location,
-                training=training,
-                focus=focus,
+                employer=employer,
+                project=project,
             ),
             log_time=self.log_time,
             comment=self.comment,
