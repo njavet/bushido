@@ -16,9 +16,8 @@ class CardioParser(UnitParser[CardioSpec]):
             return res_t
 
         start_t = res_t.value
-        try:
-            res_s = time_string_to_seconds(self.tokens[1])
-        except IndexError:
+        res_s = time_string_to_seconds(self.tokens[1])
+        if isinstance(res_s, Err):
             return Err("no time")
 
         seconds = res_s.value
