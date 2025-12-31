@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from textual.app import ComposeResult
-from textual.containers import Container, Horizontal, Vertical
+from textual.containers import Center, Container, Horizontal, Middle, Vertical
 from textual.widgets import Label, ProgressBar
 from textual_image.widget import Image as ImageWidget
 
@@ -26,7 +26,12 @@ class HeaderContainer(Container):
             yield ImageWidget(str(self.rank_path), id="rank")
             yield Label(self.rank)
         with Vertical():
-            yield ProgressBar(id="progress")
+            with Center():
+                with Middle():
+                    yield ProgressBar(id="progress0")
+                    yield ProgressBar(id="progress1")
+                    yield ProgressBar(id="progress2")
+                    yield ProgressBar(id="progress3")
         with Horizontal():
             yield BinaryClock(id="bin_clock")
             yield ImageWidget(KYOKUSHIN_IMG, id="kyokushin_img")
