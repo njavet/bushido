@@ -1,13 +1,13 @@
-from .domain import GymSpec, GymUnitName, format_gym_unit
-from .mapper import GymMapper
-from .orm import GymUnit
-from .parser import GymParser
+from .domain import WorkSpec, WorkUnitName, format_work_unit
+from .mapper import WorkMapper
+from .orm import WorkUnit
+from .parser import WorkParser
 
 __all__ = [
-    "GymSpec",
-    "GymParser",
-    "GymMapper",
-    "GymUnit",
-    "GymUnitName",
-    "format_gym_unit",
+    "WorkSpec",
+    "WorkParser",
+    "WorkMapper",
+    "WorkUnit",
+    "WorkUnitName",
+    "format_work_unit",
 ]
