@@ -8,7 +8,6 @@ from bushido.modules.orm import Unit
 class CardioUnit(Unit):
     __tablename__ = "cardio_unit"
 
-    kind: Mapped[str] = mapped_column()
     start_t: Mapped[datetime.time] = mapped_column()
     seconds: Mapped[float] = mapped_column()
     location: Mapped[str] = mapped_column()

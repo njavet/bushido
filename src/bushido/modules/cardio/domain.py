@@ -4,23 +4,24 @@ from enum import StrEnum
 
 from bushido.core.dtypes import UnitData
 
-from .orm import GymUnit
+from .orm import CardioUnit
 
 
-class GymUnitName(StrEnum):
-    weights = "weights"
-    martial_arts = "martial_arts"
-    yoga = "yoga"
+class CardioUnitName(StrEnum):
+    running = "running"
+    skipping = "skipping"
 
 
 @dataclass
-class GymSpec(UnitData):
+class CardioSpec(UnitData):
     start_t: datetime.time
-    end_t: datetime.time
+    seconds: float
     location: str
-    training: str | None = None
-    focus: str | None = None
+    distance: float | None
+    avg_hr: int | None
+    max_hr: int | None
+    calories: int | None
 
 
-def format_gym_unit(unit: GymUnit) -> str:
+def format_cardio_unit(unit: CardioUnit) -> str:
     return unit.name
