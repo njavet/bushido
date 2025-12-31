@@ -3,11 +3,11 @@ from bushido.core.result import Err, Ok, Result
 from bushido.modules.parser import UnitParser
 from bushido.parsing.utils import parse_start_end_time_string
 
-from .domain import GymSpec
+from .domain import CardioSpec
 
 
-class GymParser(UnitParser[GymSpec]):
-    def _parse_unit(self) -> Result[ParsedUnit[GymSpec]]:
+class GymParser(UnitParser[CardioSpec]):
+    def _parse_unit(self) -> Result[ParsedUnit[CardioSpec]]:
         if not self.tokens:
             return Err("empty payload")
 
@@ -31,7 +31,7 @@ class GymParser(UnitParser[GymSpec]):
 
         pu = ParsedUnit(
             name=self.unit_name,
-            data=GymSpec(
+            data=CardioSpec(
                 start_t=start_t,
                 end_t=end_t,
                 location=location,
