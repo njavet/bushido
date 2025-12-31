@@ -6,7 +6,7 @@ from bushido.parsing.utils import parse_military_time_string, time_string_to_sec
 from .domain import CardioSpec
 
 
-class GymParser(UnitParser[CardioSpec]):
+class CardioParser(UnitParser[CardioSpec]):
     def _parse_unit(self) -> Result[ParsedUnit[CardioSpec]]:
         if not self.tokens:
             return Err("empty payload")

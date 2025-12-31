@@ -7,7 +7,7 @@ from .domain import CardioSpec
 from .orm import CardioUnit
 
 
-class GymMapper(UnitMapper[CardioSpec, CardioUnit, Any]):
+class CardioMapper(UnitMapper[CardioSpec, CardioUnit, Any]):
     @staticmethod
     def to_orm(parsed_unit: ParsedUnit[CardioSpec]) -> tuple[CardioUnit, list[Any]]:
         unit = CardioUnit(
