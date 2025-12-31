@@ -32,15 +32,15 @@ class CardioParser(UnitParser[CardioSpec]):
         except IndexError:
             distance = None
         try:
-            avg_hr = float(self.tokens[4])
+            avg_hr = int(self.tokens[4])
         except IndexError:
             avg_hr = None
         try:
-            max_hr = float(self.tokens[5])
+            max_hr = int(self.tokens[5])
         except IndexError:
             max_hr = None
         try:
-            calories = float(self.tokens[6])
+            calories = int(self.tokens[6])
         except IndexError:
             calories = None
 
