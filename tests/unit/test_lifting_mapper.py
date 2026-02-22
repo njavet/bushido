@@ -3,7 +3,7 @@ import datetime
 import pytest
 
 from bushido.core.dtypes import ParsedUnit
-from bushido.modules.lifting import (
+from bushido.units.lifting import (
     LiftingMapper,
     LiftingSet,
     LiftingSpec,

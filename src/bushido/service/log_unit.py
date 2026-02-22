@@ -6,7 +6,7 @@ from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Ok, Result
 
 # TODO rethink design
-from bushido.modules.factory import get_mapper, get_parser, get_repo, get_unit_names
+from bushido.units.factory import get_mapper, get_parser, get_repo, get_unit_names
 
 
 class LogUnitService:

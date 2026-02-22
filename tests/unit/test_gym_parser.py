@@ -5,7 +5,7 @@ from freezegun import freeze_time
 
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Ok
-from bushido.modules.gym import GymParser, GymSpec
+from bushido.units.gym import GymParser, GymSpec
 
 
 @pytest.fixture

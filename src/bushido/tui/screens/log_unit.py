@@ -10,8 +10,8 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widgets import Input, RichLog
 
 from bushido.core.result import Err, Result, Warn
-from bushido.modules import ParsedUnit
 from bushido.service.log_unit import LogUnitService
+from bushido.units import ParsedUnit
 
 
 class UnitSuggester(Suggester):

@@ -1,7 +1,7 @@
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Ok, Result
-from bushido.modules.lifting.domain import LiftingSpec, SetSpec
-from bushido.modules.parser import UnitParser
+from bushido.units.lifting.domain import LiftingSpec, SetSpec
+from bushido.units.parser import UnitParser
 
 
 class LiftingParser(UnitParser[LiftingSpec]):

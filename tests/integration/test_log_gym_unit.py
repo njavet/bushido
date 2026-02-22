@@ -8,8 +8,8 @@ from sqlalchemy.orm import Session
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Ok
 from bushido.infra.db import SessionFactory
-from bushido.modules.gym import GymUnit
 from bushido.service.log_unit import LogUnitService
+from bushido.units.gym import GymUnit
 
 
 @pytest.fixture(scope="session")

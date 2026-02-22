@@ -3,7 +3,7 @@ import datetime
 import pytest
 
 from bushido.core.dtypes import ParsedUnit
-from bushido.modules.gym import GymMapper, GymSpec, GymUnit
+from bushido.units.gym import GymMapper, GymSpec, GymUnit
 
 
 @pytest.fixture

@@ -3,7 +3,7 @@ import datetime
 import pytest
 
 from bushido.core.dtypes import ParsedUnit
-from bushido.modules.wimhof import (
+from bushido.units.wimhof import (
     RoundSpec,
     WimhofMapper,
     WimhofRound,

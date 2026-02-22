@@ -41,7 +41,6 @@ pytest-mock = "^3.15.1"
 poethepoet = "^0.37.0"
 freezegun = "^1.5.5"
 
-
 [tool.poetry.group.dev.dependencies]
 ipython = "^9.6.0"
 textual-dev = "^1.8.0"
@@ -86,5 +85,4 @@ fmt = "ruff format ."
 typecheck = "mypy --strict src"
 test = "pytest -q2"
 check = ["lint", "typecheck", "test"]
-
 

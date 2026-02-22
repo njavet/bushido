@@ -5,7 +5,7 @@ from freezegun import freeze_time
 
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Ok
-from bushido.modules.wimhof import RoundSpec, WimhofParser, WimhofSpec
+from bushido.units.wimhof import RoundSpec, WimhofParser, WimhofSpec
 
 
 @pytest.fixture

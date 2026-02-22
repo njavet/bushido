@@ -1,7 +1,7 @@
 from typing import Protocol, TypeVar
 
 from bushido.core.dtypes import ParsedUnit, TUData
-from bushido.modules.orm import Subunit, Unit
+from bushido.units.orm import Subunit, Unit
 
 TU = TypeVar("TU", bound=Unit)
 TS = TypeVar("TS", bound=Subunit)

@@ -2,7 +2,7 @@ import datetime
 
 from sqlalchemy.orm import Mapped, mapped_column
 
-from bushido.modules.orm import Unit
+from bushido.units.orm import Unit
 
 
 class CardioUnit(Unit):

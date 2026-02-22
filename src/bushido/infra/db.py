@@ -6,7 +6,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from bushido.core.conf import DB_URL
-from bushido.modules.orm import Base
+from bushido.units.orm import Base
 
 
 class SessionFactory:
