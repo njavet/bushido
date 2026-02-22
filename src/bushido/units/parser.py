@@ -1,23 +1,16 @@
 import datetime
-from abc import ABC, abstractmethod
-from typing import Generic
+from dataclasses import dataclass
 
-from bushido.core.dtypes import ParsedUnit, TUData
 from bushido.core.result import Err, Ok, Result
 
 
-class UnitParser(ABC, Generic[TUData]):
-    def __init__(self, unit_name: str) -> None:
-        self.unit_name = unit_name
-        self.log_time: datetime.datetime
-        self.tokens: list[str] = []
-        self.comment: str | None = None
-
-    def _parse_comment(self, line: str) -> list[str]:
-        """parses comment if present and returns list of tokens"""
+@dataclass(frozen=True, slots=True)
+class BaseUnitParser:
+    @staticmethod
+    def _parse_comment(line: str) -> list[str]:
         parts = line.split("#", 1)
         if len(parts) > 1 and parts[1]:
-            self.comment = parts[1].strip()
+            comment = parts[1].strip()
         if parts:
             tokens = parts[0].split()
         else:
