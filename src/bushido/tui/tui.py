@@ -1,4 +1,3 @@
-from typing import Any
 
 from textual.app import App, ComposeResult
 from textual.binding import Binding
@@ -49,11 +48,7 @@ class BushidoApp(App[None]):
 
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a unit
-        with self.sf.session() as session:
-            self.app.push_screen(LogUnitScreen(self.log_unit_service, session))
+        self.push_screen(LogUnitScreen(self.log_unit_service, self.sf))
 
     def action_help(self) -> None:
-        self.app.push_screen(HelpScreen())
-
-    def watch_show_tree(self, show_tree: Any) -> None:
-        self.set_class(show_tree, "-show-tree")
+        self.push_screen(HelpScreen())

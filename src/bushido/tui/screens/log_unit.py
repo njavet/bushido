@@ -1,6 +1,7 @@
+from typing import Any
+
 from rich.console import Group
 from rich.panel import Panel
-from sqlalchemy.orm import Session
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.events import Key
@@ -9,7 +10,7 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Footer, Input
 
-from bushido.categories import LogUnitService
+from bushido.categories import LogUnitService, SessionFactory
 
 
 class UnitSuggester(Suggester):
@@ -26,7 +27,7 @@ class UnitSuggester(Suggester):
 
 class LogUnitInput(Input):
     def __init__(self, suggester: UnitSuggester) -> None:
-        super().__init__(suggester=suggester, id="text_input")
+        super().__init__(suggester=suggester)
 
     def on_suggestion_ready(self, event: SuggestionReady) -> None:
         self.action_delete_left_all()
@@ -60,22 +61,23 @@ class UnitHelpWidget(Widget):
         return Group(*panels)
 
 
-class LogUnitScreen(ModalScreen[None]):
+class LogUnitScreen(ModalScreen[Any]):
     BINDINGS = [
         Binding("q", "app.pop_screen", "back"),
     ]
 
-    def __init__(self, log_unit_service: LogUnitService, session: Session) -> None:
+    def __init__(self, log_unit_service: LogUnitService, sf: SessionFactory) -> None:
         super().__init__()
         self.log_unit_service = log_unit_service
-        self.session = session
+        self.sf = sf
 
     def compose(self) -> ComposeResult:
         yield UnitHelpWidget(self.log_unit_service)
-        yield LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names))
+        # yield LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names))
         yield Footer()
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
-        _ = self.log_unit_service.log_unit(event.value, self.session)
+        with self.sf.session() as session:
+            self.log_unit_service.log_unit(event.value, session)
         self.query_one(Input).action_delete_left_all()
         self.query_one(Input).action_delete_right_all()

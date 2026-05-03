@@ -30,11 +30,3 @@ LogUnitScreen {
     layout: vertical;
 }
 
-UnitHelperWidget {
-    height: 1fr;
-    overflow-y: auto;
-}
-
-LogUnitInput {
-    height: 4;
-}
