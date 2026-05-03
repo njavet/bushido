@@ -9,7 +9,6 @@ from .registry import REGISTRY, UNIT_TO_CATEGORY, get_unit_names
 class LogUnitService:
     def __init__(self, clock: Clock = SystemClock()) -> None:
         self.clock = clock
-        self.registry = REGISTRY
 
     def log_unit(self, line: str, session: Session) -> str | None:
         try:
@@ -21,7 +20,7 @@ class LogUnitService:
         except KeyError:
             return f"unknown unit: {raw.name}"
 
-        registry = self.registry[category]
+        registry = REGISTRY[category]
         tokens, log_time = split_options(raw.tokens, self.clock)
         try:
             unit_data = registry.parser.parse(tokens)
