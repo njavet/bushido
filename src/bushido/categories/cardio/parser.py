@@ -9,6 +9,7 @@ from ..parsing.dt_parse import parse_military_time_string, time_string_to_second
 class CardioUnitName(StrEnum):
     running = "running"
     skipping = "skipping"
+    swimming = "swimming"
 
 
 @dataclass(frozen=True, slots=True)
@@ -24,7 +25,9 @@ class CardioSpec:
 
 @dataclass(frozen=True, slots=True)
 class CardioParser:
-    grammar = ""
+    grammar = """
+<name> <start> <sec> <loc> [<dist>] [<avg_hr>] [<max_hr>] [<cal>] # [<comment>]
+    """
     unit_names = [unit_name.value for unit_name in CardioUnitName]
 
     @staticmethod

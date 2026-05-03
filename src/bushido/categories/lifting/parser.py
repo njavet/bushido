@@ -28,7 +28,9 @@ class LiftingSpec:
 
 @dataclass(frozen=True, slots=True)
 class LiftingParser:
-    grammar = ""
+    grammar = """
+    <name> (<weight> <reps> [<rest>])+ # [<comment>]
+    """
     unit_names = [unit_name.value for unit_name in LiftingUnitName]
 
     @staticmethod

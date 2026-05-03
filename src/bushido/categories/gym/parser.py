@@ -24,14 +24,11 @@ class GymSpec:
 @dataclass(frozen=True, slots=True)
 class GymParser:
     grammar = """
-<name> <start>-<end> <location> [<training>] [<focus>] # [<comment>]
-
-name:
-  weights | martial_arts | yoga
-
-time:
-  HHMM-HHMM
-"""
+        <name> <start>-<end> <location> [<training>] [<focus>] # [<comment>]
+        
+        time format:
+          HHMM-HHMM
+    """
     unit_names = [unit_name.value for unit_name in GymUnitName]
 
     @staticmethod

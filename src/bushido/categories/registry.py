@@ -65,7 +65,7 @@ REGISTRY: dict[str, CategoryRegistration] = {
         parser=CardioParser(),
         mapper=CardioMapper(),
         unit_cls=CardioUnit,
-        grammar=LiftingParser.grammar,
+        grammar=CardioParser.grammar,
         unit_names=CardioParser.unit_names,
     ),
     UnitCategory.wimhof: CategoryRegistration(

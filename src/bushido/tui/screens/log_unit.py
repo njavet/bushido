@@ -1,8 +1,9 @@
-from rich.table import Table
+from rich.console import Group
+from rich.panel import Panel
 from sqlalchemy.orm import Session
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.containers import Grid
+from textual.containers import Vertical
 from textual.events import Key
 from textual.screen import ModalScreen
 from textual.suggester import Suggester, SuggestionReady
@@ -43,21 +44,21 @@ class UnitHelpWidget(Widget):
         super().__init__()
         self.log_unit_service = log_unit_service
 
-    def render(self) -> Table:
-        table = Table(
-            show_header=False,
-            show_edge=False,
-            pad_edge=False,
-            box=None,
-            collapse_padding=True,
-        )
+    def render(self) -> Group:
+        panels = []
         for item in self.log_unit_service.category_help:
-            table.add_row("Category", item.name)
-            table.add_row(item.grammar)
-            table.add_row("Units")
-            for unit_name in item.unit_names:
-                table.add_row(unit_name)
-        return table
+            content = "\n".join(
+                [
+                    f"Category: {item.name}",
+                    f"Grammar: {item.grammar}",
+                    f"Units: {', '.join(item.unit_names)}",
+                ]
+            )
+            panel = Panel(
+                content,
+            )
+            panels.append(panel)
+        return Group(*panels)
 
 
 class LogUnitScreen(ModalScreen[None]):
@@ -71,7 +72,8 @@ class LogUnitScreen(ModalScreen[None]):
         self.session = session
 
     def compose(self) -> ComposeResult:
-        yield Grid(
+        yield Vertical(
+            UnitHelpWidget(self.log_unit_service),
             LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names)),
         )
         yield Footer()

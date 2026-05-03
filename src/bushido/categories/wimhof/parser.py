@@ -22,7 +22,7 @@ class WimhofSpec:
 
 @dataclass(frozen=True, slots=True)
 class WimhofParser:
-    grammar = ""
+    grammar = "<name> (<breaths> <retentions>)+ # [<comment>]"
     unit_names = [unit_name.value for unit_name in WimhofUnitName]
 
     @staticmethod
