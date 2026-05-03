@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Generic, Protocol, TypeVar
 
 T = TypeVar("T")
+P = TypeVar("P", covariant=True)
 
 
 class Clock(Protocol):
@@ -32,6 +33,6 @@ class RawUnit:
     comment: str | None = None
 
 
-class UnitParser(Protocol[T]):
+class UnitParser(Protocol[P]):
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> T: ...
+    def parse(tokens: tuple[str, ...]) -> P: ...
