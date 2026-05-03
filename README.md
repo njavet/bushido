@@ -6,7 +6,6 @@ Bushido is a discipline-driven personal logging and analytics app. It helps you 
 
 ### Prerequisites
 * Python 3.14+
-* uv
 ```
 curl -Ls https://astral.sh/uv/install.sh | sh
 git clone https://github.com/njavet/bushido.git
