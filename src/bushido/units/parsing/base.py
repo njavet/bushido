@@ -1,17 +1,14 @@
 import datetime
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
+from typing import Generic
 
 from bushido.core.dtypes import (
     Clock,
-    Options,
     ParsedUnit,
     RawUnit,
     SystemClock,
-    UnitData,
+    TUData,
 )
-
-T = TypeVar("T", bound=UnitData)
 
 
 def parse_raw_unit(line: str) -> RawUnit:
@@ -34,9 +31,9 @@ def parse_datetime(value: str) -> datetime.datetime:
     )
 
 
-class TokenParser(ABC, Generic[T]):
+class TokenParser(ABC, Generic[TUData]):
     @abstractmethod
-    def parse_tokens(self, tokens: tuple[str, ...]) -> T: ...
+    def parse_tokens(self, tokens: tuple[str, ...]) -> TUData: ...
 
 
 class UnitParser:
@@ -46,7 +43,9 @@ class UnitParser:
         self.parsers = parsers
         self.clock = clock
 
-    def split_options(self, tokens: tuple[str, ...]) -> tuple[tuple[str, ...], Options]:
+    def split_options(
+        self, tokens: tuple[str, ...]
+    ) -> tuple[tuple[str, ...], datetime.datetime]:
         clean: list[str] = []
         log_time: datetime.datetime | None = None
 
@@ -64,7 +63,7 @@ class UnitParser:
 
             clean.append(token)
             i += 1
-        return tuple(clean), Options(log_time=log_time or self.clock.now())
+        return tuple(clean), log_time or self.clock.now()
 
     def parse(self, line: str) -> ParsedUnit[object]:
         raw = parse_raw_unit(line)
@@ -72,11 +71,11 @@ class UnitParser:
             parser = self.parsers[raw.name]
         except KeyError:
             raise ValueError(f"Unknown unit: {raw.name}") from None
-        payload_tokens, options = self.split_options(raw.tokens[1:])
+        payload_tokens, log_time = self.split_options(raw.tokens[1:])
 
         return ParsedUnit(
             name=raw.name,
             data=parser.parse_tokens(payload_tokens),
-            options=options,
+            log_time=log_time,
             comment=raw.comment,
         )
