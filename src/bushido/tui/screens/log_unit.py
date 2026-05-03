@@ -7,11 +7,11 @@ from textual.containers import Grid
 from textual.events import Key
 from textual.screen import ModalScreen
 from textual.suggester import Suggester, SuggestionReady
-from textual.widgets import Input, RichLog
+from textual.widgets import Footer, Input, RichLog
 
+from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Result, Warn
 from bushido.service.log_unit import LogUnitService
-from bushido.units import ParsedUnit
 
 
 class UnitSuggester(Suggester):
@@ -56,6 +56,7 @@ class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
             LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names)),
             RichLog(id="log_result"),
         )
+        yield Footer()
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
         rl = self.query_one("#log_result", RichLog)
