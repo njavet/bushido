@@ -1,4 +1,3 @@
-from typing import Any
 
 from rich.table import Table
 from sqlalchemy.orm import Session
@@ -9,10 +8,9 @@ from textual.events import Key
 from textual.screen import ModalScreen
 from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
-from textual.widgets import Footer, Input, RichLog
+from textual.widgets import Footer, Input
 
-from bushido.core.dtypes import ParsedUnit
-from bushido.core.result import Err, Result, Warn
+from bushido.core.result import Err, Warn
 from bushido.service.log_unit import LogUnitService, UnitHelp
 
 
@@ -64,7 +62,7 @@ class UnitHelpWidget(Widget):
         return table
 
 
-class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
+class LogUnitScreen(ModalScreen[bool]):
     BINDINGS = [
         Binding("q", "app.pop_screen", "back"),
     ]
@@ -76,22 +74,18 @@ class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
 
     def compose(self) -> ComposeResult:
         yield Grid(
-            UnitHelpWidget(self.log_unit_service.unit_help),
             LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names)),
-            RichLog(id="log_result"),
         )
         yield Footer()
 
-    async def on_input_submitted(self, event: Input.Submitted) -> None:
-        rl = self.query_one("#log_result", RichLog)
-        rl.clear()
+    async def on_input_submitted(self, event: Input.Submitted) -> bool:
         result = self.log_unit_service.log_unit(event.value, self.session)
         if isinstance(result, Err):
-            rl.write(result.message)
+            return False
         elif isinstance(result, Warn):
             # TODO implement warning
-            pass
+            return False
         else:
-            rl.write("Unit confirmed")
-        self.query_one(Input).action_delete_left_all()
-        self.query_one(Input).action_delete_right_all()
+            self.query_one(Input).action_delete_left_all()
+            self.query_one(Input).action_delete_right_all()
+            return True

@@ -33,7 +33,7 @@ name:
 time:
   HHMM-HHMM
 """
-    unit_names = [unit_name for unit_name in GymUnitName]
+    unit_names = [unit_name.value for unit_name in GymUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[GymSpec]:

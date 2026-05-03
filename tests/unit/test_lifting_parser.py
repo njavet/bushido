@@ -2,7 +2,7 @@ import pytest
 
 from bushido.core.result import Ok
 from bushido.units.lifting import LiftingParser
-from bushido.units.lifting.render import LiftingSpec, SetSpec
+from bushido.units.lifting.parser import LiftingSpec, SetSpec
 
 
 @pytest.fixture

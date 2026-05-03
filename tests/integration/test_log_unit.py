@@ -1,14 +1,16 @@
+import datetime
 from collections.abc import Iterator
 
 import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Ok
 from bushido.infra.db import SessionFactory
 from bushido.service.log_unit import LogUnitService
+from bushido.units.gym import GymUnit
 from bushido.units.lifting import LiftingSet, LiftingUnit
+from bushido.units.parsing.base import ParsedUnit
 
 
 @pytest.fixture(scope="session")
@@ -30,6 +32,19 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 @pytest.fixture
 def service() -> LogUnitService:
     return LogUnitService()
+
+
+def test_log_gym_unit_success(service: LogUnitService, session: Session) -> None:
+    line = "weights 1800-1900 nautilus"
+    res = service.log_unit(line, session)
+    assert isinstance(res, Ok)
+    assert isinstance(res.value, ParsedUnit)
+    units = session.scalars(select(GymUnit)).all()
+    assert len(units) == 1
+    assert units[0].name == "weights"
+    assert units[0].start_t == datetime.time(18, 0)
+    assert units[0].end_t == datetime.time(19, 0)
+    assert units[0].location == "nautilus"
 
 
 def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:

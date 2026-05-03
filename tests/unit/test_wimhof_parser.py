@@ -1,7 +1,8 @@
 import pytest
 
 from bushido.core.result import Ok
-from bushido.units.wimhof import RoundSpec, WimhofParser, WimhofSpec
+from bushido.units.wimhof import WimhofParser
+from bushido.units.wimhof.parser import RoundSpec, WimhofSpec
 
 
 @pytest.fixture

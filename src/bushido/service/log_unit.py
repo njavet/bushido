@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from bushido.core.dtypes import Clock, SystemClock
 from bushido.core.result import Err, Ok, Result
 from bushido.units.parsing.base import ParsedUnit, parse_raw_unit, split_options
-from bushido.units.registry import REGISTRY, UNIT_TO_CATEGORY
+from bushido.units.registry import REGISTRY, UNIT_TO_CATEGORY, get_unit_names
 
 
 @dataclass(frozen=True, slots=True)
@@ -47,3 +47,7 @@ class LogUnitService:
             return Ok(parsed_unit)
         else:
             return Err("error")
+
+    @property
+    def unit_names(self) -> list[str]:
+        return get_unit_names()

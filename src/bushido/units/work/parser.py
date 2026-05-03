@@ -24,7 +24,7 @@ class WorkSpec:
 @dataclass(frozen=True, slots=True)
 class WorkParser(UnitParser[WorkSpec]):
     grammar = ""
-    unit_names = [unit_name for unit_name in WorkUnitName]
+    unit_names = [unit_name.value for unit_name in WorkUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[WorkSpec]:

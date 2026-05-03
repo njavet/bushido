@@ -3,7 +3,8 @@ import datetime
 import pytest
 
 from bushido.core.result import Ok
-from bushido.units.gym import GymParser, GymSpec
+from bushido.units.gym import GymParser
+from bushido.units.gym.parser import GymSpec
 
 
 @pytest.fixture

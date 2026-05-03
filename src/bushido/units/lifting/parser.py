@@ -30,7 +30,7 @@ class LiftingSpec:
 @dataclass(frozen=True, slots=True)
 class LiftingParser(UnitParser[LiftingSpec]):
     grammar = ""
-    unit_names = [unit_name for unit_name in LiftingUnitName]
+    unit_names = [unit_name.value for unit_name in LiftingUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[LiftingSpec]:

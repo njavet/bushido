@@ -29,7 +29,7 @@ class CardioSpec:
 @dataclass(frozen=True, slots=True)
 class CardioParser(UnitParser[CardioSpec]):
     grammar = ""
-    unit_names = [unit_name for unit_name in CardioUnitName]
+    unit_names = [unit_name.value for unit_name in CardioUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[CardioSpec]:
