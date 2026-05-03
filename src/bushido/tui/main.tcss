@@ -25,3 +25,7 @@ HeaderContainer {
     padding: 0 2;
     content-align: center middle;
 }
+
+UnitHelperWidget {
+    height: 2fr;
+}
