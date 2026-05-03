@@ -16,6 +16,12 @@ dependencies = [
     "textual[syntax]>=8.2.5",
 ]
 
+[dependency-groups]
+dev = [
+    "mypy>=1.20.2",
+    "ruff>=0.15.12",
+]
+
 [tool.ruff]
 line-length = 88
 indent-width = 4
