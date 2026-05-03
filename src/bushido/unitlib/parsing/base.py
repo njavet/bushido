@@ -1,0 +1,88 @@
+import datetime
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from typing import Generic, Protocol, TypeVar
+
+
+class Clock(Protocol):
+    def now(self) -> datetime.datetime: ...
+
+
+@dataclass(frozen=True, slots=True)
+class SystemClock:
+    timezone: datetime.tzinfo = datetime.UTC
+
+    def now(self) -> datetime.datetime:
+        return datetime.datetime.now(self.timezone)
+
+
+@dataclass(frozen=True, slots=True)
+class RawUnit:
+    name: str
+    tokens: tuple[str, ...]
+    comment: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class Options:
+    log_time: datetime.datetime
+
+
+T = TypeVar("T")
+
+
+@dataclass(frozen=True, slots=True)
+class ParsedUnit(Generic[T]):
+    name: str
+    data: T
+    options: Options
+    comment: str | None = None
+
+
+def parse_raw_unit(line: str) -> RawUnit:
+    body, sep, comment = line.partition("#")
+    tokens = tuple(body.split())
+
+    if not tokens:
+        raise ValueError("Empty unit line")
+
+    return RawUnit(
+        name=tokens[0],
+        tokens=tokens[1:],
+        comment=comment.strip() if sep and comment.strip() else None,
+    )
+
+
+def parse_datetime(value: str) -> datetime.datetime:
+    return datetime.datetime.strptime(value, "%d.%m.%y-%H%M").replace(
+        tzinfo=datetime.UTC
+    )
+
+
+def split_options(
+    tokens: tuple[str, ...], clock: Clock
+) -> tuple[tuple[str, ...], Options]:
+    clean: list[str] = []
+    log_time: datetime.datetime | None = None
+
+    i = 0
+    while i < len(tokens):
+        token = tokens[i]
+
+        if token == "--dt":
+            if i + 1 >= len(tokens):
+                raise ValueError("--dt requires a value")
+
+            log_time = parse_datetime(tokens[i + 1])
+            i += 2
+            continue
+
+        clean.append(token)
+        i += 1
+
+    return tuple(clean), Options(log_time=log_time or clock.now())
+
+
+class TokenParser(ABC, Generic[T]):
+    @abstractmethod
+    def parse_tokens(self, tokens: tuple[str, ...]) -> T: ...
