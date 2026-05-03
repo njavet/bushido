@@ -2,13 +2,11 @@ import logging
 import sys
 from argparse import ArgumentParser
 
-import uvicorn
 from rich.logging import RichHandler
 
 from bushido import __version__
 from bushido.categories import LogUnitService
 from bushido.categories.db import SessionFactory
-from bushido.conf import DEFAULT_PORT
 from bushido.tui.tui import BushidoApp
 
 logging.basicConfig(
@@ -41,22 +39,6 @@ def main() -> None:
         sf.init_db()
         log_unit_service = LogUnitService()
         BushidoApp(sf, log_unit_service).run()
-
-    elif args.dev:
-        uvicorn.run(
-            "bushido.web.web:create_app",
-            port=DEFAULT_PORT,
-            reload=True,
-            factory=True,
-            log_level="debug",
-        )
-    else:
-        uvicorn.run(
-            "bushido.web.web:create_app",
-            port=DEFAULT_PORT,
-            factory=True,
-            log_level="info",
-        )
 
 
 if __name__ == "__main__":
