@@ -5,8 +5,7 @@ from argparse import ArgumentParser
 from rich.logging import RichHandler
 
 from bushido import __version__
-from bushido.categories import LogUnitService
-from bushido.categories.db import SessionFactory
+from bushido.categories import LogUnitService, SessionFactory
 from bushido.tui.tui import BushidoApp
 
 logging.basicConfig(
