@@ -5,7 +5,6 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido.core.result import Ok
 from bushido.infra.db import SessionFactory
 from bushido.service.log_unit import LogUnitService
 from bushido.units.gym import GymUnit
@@ -36,9 +35,8 @@ def service() -> LogUnitService:
 
 def test_log_gym_unit_success(service: LogUnitService, session: Session) -> None:
     line = "weights 1800-1900 nautilus"
-    res = service.log_unit(line, session)
-    assert isinstance(res, Ok)
-    assert isinstance(res.value, ParsedUnit)
+    parsed_unit = service.log_unit(line, session)
+    assert isinstance(parsed_unit, ParsedUnit)
     units = session.scalars(select(GymUnit)).all()
     assert len(units) == 1
     assert units[0].name == "weights"
@@ -49,9 +47,8 @@ def test_log_gym_unit_success(service: LogUnitService, session: Session) -> None
 
 def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:
     line = "benchpress 100 5 180 100 5"
-    res = service.log_unit(line, session)
-    assert isinstance(res, Ok)
-    assert isinstance(res.value, ParsedUnit)
+    parsed_unit = service.log_unit(line, session)
+    assert isinstance(parsed_unit, ParsedUnit)
     units = session.scalars(select(LiftingUnit)).all()
     assert len(units) == 1
     assert units[0].name == "benchpress"
