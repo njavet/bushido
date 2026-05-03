@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Any
 
 from textual.app import App, ComposeResult
@@ -41,11 +40,7 @@ class BushidoApp(App[None]):
         self.log_unit_service = log_unit_service
 
     def compose(self) -> ComposeResult:
-        yield HeaderContainer(
-            "renegade",
-            Path("src/bushido/assets/images/ranks/rank.png"),
-            id_="header",
-        )
+        yield HeaderContainer()
         yield Rule()
         with TabbedContent():
             with TabPane("training"):

@@ -12,37 +12,28 @@ Title {
     text-style: bold;
 }
 
-#header {
+HeaderContainer {
     layout: horizontal;
     height: 4;
     background: $surface;
+}
+
+#bin_date {
+    padding: 0 2;
+    width: 1fr;
+}
+
+#bin_clock {
+    padding: 0 2;
+    width: 1fr;
+    content-align: right middle;
 }
 
 #bushido_img {
     width: 8;
     height: 4;
     padding: 0 2;
-}
-
-#belt {
-    width: 16;
-    height: 2;
-}
-
-#rank {
-    width: 8;
-    height: 2;
-}
-
-#bin_clock {
-    width: 16;
-
-}
-
-#kyokushin_img {
-    width: 8;
-    height: 4;
-    padding: 0 2;
+    content-align: center middle;
 }
 
 /* Main area: sidebar + terminal */

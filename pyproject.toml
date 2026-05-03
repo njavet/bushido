@@ -24,6 +24,7 @@ dev = [
     "mypy>=1.20.2",
     "pytest>=9.0.3",
     "ruff>=0.15.12",
+    "textual-dev>=1.8.0",
 ]
 
 [tool.ruff]
