@@ -2,16 +2,6 @@ Screen {
     overflow-y: hidden;
 }
 
-Title {
-    background: $boost;
-    color: $secondary;
-    padding: 2 4;
-    border-right: $background;
-    dock: top;
-    text-align: center;
-    text-style: bold;
-}
-
 HeaderContainer {
     layout: horizontal;
     height: 4;
@@ -35,71 +25,3 @@ HeaderContainer {
     padding: 0 2;
     content-align: center middle;
 }
-
-/* Main area: sidebar + terminal */
-#main_area {
-    layout: horizontal;
-    height: 1fr;
-}
-
-/* Sidebar */
-#sidebar {
-    width: 30%;
-    min-width: 24;
-    border: tall $primary;
-}
-
-#unit_tree {
-    height: 1fr;
-}
-
-/* Terminal area */
-#terminal {
-    width: 70%;
-    border: tall $secondary;
-}
-
-#log {
-    height: 1fr;
-}
-
-#input {
-    height: 3;
-    border-top: heavy $secondary;
-}
-
-/* Toggle sidebar visibility */
-.hidden {
-    display: none;
-}
-
-
-RichLog {
-    border: white;
-    scrollbar-size: 1 1;
-}
-
-#tree-view {
-    display: none;
-    scrollbar-gutter: stable;
-    scrollbar-size: 1 1;
-    overflow: auto;
-    height: 100%;
-    dock: left;
-}
-
-TimeTable.-show-tree #tree-view {
-    display: block;
-    max-width: 50%;
-}
-
-
-
-.box {
-    background: $surface-lighten-2;
-}
-
-.box-light {
-    background: $accent-lighten-2;
-}
-
