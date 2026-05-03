@@ -10,7 +10,6 @@ from textual.widget import Widget
 from textual.widgets import Footer, Input
 
 from bushido.categories import LogUnitService
-from bushido.categories.dtypes import CategoryHelp
 
 
 class UnitSuggester(Suggester):
@@ -40,9 +39,9 @@ class LogUnitInput(Input):
 
 
 class UnitHelpWidget(Widget):
-    def __init__(self, unit_help: dict[str, CategoryHelp]) -> None:
+    def __init__(self, log_unit_service: LogUnitService) -> None:
         super().__init__()
-        self.unit_help = unit_help
+        self.log_unit_service = log_unit_service
 
     def render(self) -> Table:
         table = Table(
@@ -52,11 +51,11 @@ class UnitHelpWidget(Widget):
             box=None,
             collapse_padding=True,
         )
-        for category, unit_help in self.unit_help.items():
-            table.add_row("Category", category)
-            table.add_row(unit_help.grammar)
+        for item in self.log_unit_service.category_help:
+            table.add_row("Category", item.name)
+            table.add_row(item.grammar)
             table.add_row("Units")
-            for unit_name in unit_help.unit_names:
+            for unit_name in item.unit_names:
                 table.add_row(unit_name)
         return table
 
