@@ -2,13 +2,13 @@ import datetime
 
 import pytest
 
+from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.lifting import (
     LiftingMapper,
     LiftingSet,
     LiftingUnit,
 )
 from bushido.categories.lifting.parser import LiftingSpec, SetSpec
-from bushido.categories.parsing.base import ParsedUnit
 
 
 @pytest.fixture

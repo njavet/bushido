@@ -5,6 +5,7 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from .cardio import CardioMapper, CardioParser, CardioUnit
+from .dtypes import UnitParser
 from .gym import GymMapper, GymParser, GymUnit
 from .lifting import (
     LiftingMapper,
@@ -12,7 +13,6 @@ from .lifting import (
     LiftingUnit,
 )
 from .mapper import UnitMapper
-from .parsing.base import UnitParser
 from .repo import UnitRepo
 from .wimhof import (
     WimhofMapper,

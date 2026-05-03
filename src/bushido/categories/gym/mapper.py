@@ -1,7 +1,7 @@
 from typing import Any
 
+from ..dtypes import ParsedUnit
 from ..mapper import UnitMapper
-from ..parsing.base import ParsedUnit
 from .orm import GymUnit
 from .parser import GymSpec
 

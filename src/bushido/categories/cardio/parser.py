@@ -2,8 +2,8 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
+from ..dtypes import UnitParser
 from ..exceptions import ParsingError
-from ..parsing.base import UnitParser
 from ..parsing.dt_parse import (
     parse_military_time_string,
     time_string_to_seconds,

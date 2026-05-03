@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
+from ..dtypes import UnitParser
 from ..exceptions import ParsingError
-from ..parsing.base import UnitParser
 
 
 class WimhofUnitName(StrEnum):

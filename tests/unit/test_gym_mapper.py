@@ -2,9 +2,9 @@ import datetime
 
 import pytest
 
+from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.gym import GymMapper, GymUnit
 from bushido.categories.gym.parser import GymSpec
-from bushido.categories.parsing.base import ParsedUnit
 
 
 @pytest.fixture

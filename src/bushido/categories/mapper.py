@@ -1,7 +1,7 @@
 from typing import Protocol, TypeVar
 
+from .dtypes import ParsedUnit
 from .orm import Subunit, Unit
-from .parsing.base import ParsedUnit
 
 T = TypeVar("T")
 TU = TypeVar("TU", bound=Unit)

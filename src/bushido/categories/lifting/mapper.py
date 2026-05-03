@@ -1,5 +1,5 @@
+from ..dtypes import ParsedUnit
 from ..mapper import UnitMapper
-from ..parsing.base import ParsedUnit
 from .orm import LiftingSet, LiftingUnit
 from .parser import LiftingSpec, SetSpec
 

@@ -1,26 +1,7 @@
 import datetime
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import Generic, TypeVar
 
-from ..dtypes import Clock
-
-T = TypeVar("T")
-
-
-@dataclass(frozen=True, slots=True)
-class ParsedUnit(Generic[T]):
-    name: str
-    data: T
-    log_time: datetime.datetime
-    comment: str | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class RawUnit:
-    name: str
-    tokens: tuple[str, ...]
-    comment: str | None = None
+from ..dtypes import Clock, RawUnit
+from .dt_parse import parse_datetime
 
 
 def parse_raw_unit(line: str) -> RawUnit:
@@ -34,12 +15,6 @@ def parse_raw_unit(line: str) -> RawUnit:
         name=tokens[0],
         tokens=tokens[1:],
         comment=comment.strip() if sep and comment.strip() else None,
-    )
-
-
-def parse_datetime(value: str) -> datetime.datetime:
-    return datetime.datetime.strptime(value, "%d.%m.%y-%H%M").replace(
-        tzinfo=datetime.UTC
     )
 
 
@@ -64,9 +39,3 @@ def split_options(
         clean.append(token)
         i += 1
     return tuple(clean), log_time or clock.now()
-
-
-class UnitParser(ABC, Generic[T]):
-    @staticmethod
-    @abstractmethod
-    def parse(tokens: tuple[str, ...]) -> T: ...
