@@ -30,20 +30,23 @@ Key technologies:
 * React as a frontend that can connect via FastAPI
 
 This structure keeps the core clean and testable, while making it easy to extend into richer applications (dashboards, RAG/LLM integrations, etc.).
-## Setup Backend
+
+## Installation
+
+* install uv:
+
+`curl -Ls https://astral.sh/uv/install.sh | sh`
+
+* clone repo:
+
+`git clone https://github.com/njavet/bushido.git`
+
+* install project
 ```
-poetry install 
-poetry run bushido
+cd bushido
+uv sync
 ```
 
-## Tests
-```
-poetry run pytest
-```
-
-## Setup Frontend
-```
-cd bushido/frontend
-npm install
-npm run dev
-```
+* run textual app
+ 
+`uv run bushido`
