@@ -1,20 +1,20 @@
 import datetime
 import re
 
-from bushido.core.result import Err, Ok, Result
-from bushido.core.settings import DAY_START_HOUR, LOCAL_TIME_ZONE
+from bushido.exceptions import ParsingError
+from bushido.settings import DAY_START_HOUR, LOCAL_TIME_ZONE
 
 
-def time_string_to_seconds(time_string: str) -> Result[float]:
+def time_string_to_seconds(time_string: str) -> float:
     """
-    input string can be of the form:
+    the input string can be of the form:
     MM:SS, HH:MM:SS, <num>h, <num>s, <num> (-> default is minutes)
     :param time_string:
     :return seconds:
 
     """
     if time_string is None:
-        return Err("time_string is None")
+        raise ParsingError("time_string is None")
 
     values = time_string.split(":")
     if len(values) > 1:
@@ -22,17 +22,17 @@ def time_string_to_seconds(time_string: str) -> Result[float]:
 
     try:
         m = float(values[0])
-        return Ok(60 * m)
+        return 60 * m
     except ValueError:
         if re.search(r"\d+h", values[0]):
-            return Ok(60 * 60 * float(values[0][:-1]))
+            return 60 * 60 * float(values[0][:-1])
         elif re.search(r"\d+s", values[0]):
-            return Ok(float(values[0][:-1]))
+            return float(values[0][:-1])
         else:
-            return Err("colon time format error")
+            raise ParsingError(f"unknown time format: {time_string}")
 
 
-def colon_separated_time_string_to_seconds(values: list[str]) -> Result[float]:
+def colon_separated_time_string_to_seconds(values: list[str]) -> float:
     # format HH:MM:SS
     if len(values) == 3:
         try:
@@ -40,38 +40,38 @@ def colon_separated_time_string_to_seconds(values: list[str]) -> Result[float]:
             m = float(values[1])
             s = float(values[2])
         except ValueError:
-            return Err("colon time format error")
+            raise ParsingError("colon time format error")
         else:
-            return Ok(h * 60 * 60 + m * 60 + s)
+            return h * 60 * 60 + m * 60 + s
     # format MM:SS
     elif len(values) == 2:
         try:
             m = float(values[0])
             s = float(values[1])
         except ValueError:
-            return Err("colon time format error")
+            raise ParsingError("colon time format error")
         else:
-            return Ok(m * 60 + s)
+            return m * 60 + s
     else:
-        return Err("colon time format error")
+        raise ParsingError("colon time format error")
 
 
-def parse_military_time_string(time_string: str) -> Result[datetime.time]:
+def parse_military_time_string(time_string: str) -> datetime.time:
     # e.g. 1600 for 16:00
     if len(time_string) != 4:
-        return Err("incorrect military time")
+        raise ParsingError("incorrect military time")
     try:
         hour = int(time_string[0:2])
         minutes = int(time_string[2:])
     except ValueError:
-        return Err("incorrect military time")
+        raise ParsingError("incorrect military time")
     else:
-        return Ok(datetime.time(hour, minutes))
+        return datetime.time(hour, minutes)
 
 
 def parse_start_end_time_string(
     time_string: str,
-) -> Result[tuple[datetime.time, datetime.time]]:
+) -> tuple[datetime.time, datetime.time]:
     """
         the format is HHMM-HHMM as start time and end time
         "normal case": 0400 <= start < end <= 2359
@@ -82,20 +82,12 @@ def parse_start_end_time_string(
     """
     reg = re.search("[0-2][0-9][0-5][0-9]-[0-2][0-9][0-5][0-9]", time_string)
     if reg is None:
-        return Err("wrong time format")
+        raise ParsingError("wrong time format")
     s, e = reg.group().split("-")
 
-    start_t_res = parse_military_time_string(s)
-    end_t_res = parse_military_time_string(e)
-    if isinstance(start_t_res, Ok):
-        start_t = start_t_res.value
-    elif isinstance(start_t_res, Err):
-        return start_t_res
-    if isinstance(end_t_res, Ok):
-        end_t = end_t_res.value
-    elif isinstance(end_t_res, Err):
-        return end_t_res
-    return Ok(value=(start_t, end_t))
+    start_t = parse_military_time_string(s)
+    end_t = parse_military_time_string(e)
+    return start_t, end_t
 
 
 def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
@@ -108,8 +100,8 @@ def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
 
 def find_previous_sunday(dt: datetime.date) -> datetime.date:
     """
-    Finds the previous sunday of the given date
-    e.g. input: 01.01.2020
+    Finds the previous Sunday of the given date
+    e.g., input: 01.01.2020
     returns: 29.12.2019
 
     """

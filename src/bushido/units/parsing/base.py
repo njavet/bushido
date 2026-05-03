@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import Generic, TypeVar
 
 from bushido.core.dtypes import Clock
-from bushido.core.result import Result
 
 T = TypeVar("T")
 
@@ -70,4 +69,4 @@ def split_options(
 class UnitParser(ABC, Generic[T]):
     @staticmethod
     @abstractmethod
-    def parse(tokens: tuple[str, ...]) -> Result[T]: ...
+    def parse(tokens: tuple[str, ...]) -> T: ...

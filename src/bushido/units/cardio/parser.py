@@ -2,7 +2,7 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.core.result import Err, Ok, Result
+from bushido.exceptions import ParsingError
 
 from ..parsing.base import UnitParser
 from ..parsing.dt_parse import (
@@ -33,22 +33,14 @@ class CardioParser(UnitParser[CardioSpec]):
     unit_names = [unit_name.value for unit_name in CardioUnitName]
 
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> Result[CardioSpec]:
+    def parse(tokens: tuple[str, ...]) -> CardioSpec:
 
-        res_t = parse_military_time_string(tokens[0])
-        if isinstance(res_t, Err):
-            return res_t
-
-        start_t = res_t.value
-        res_s = time_string_to_seconds(tokens[1])
-        if isinstance(res_s, Err):
-            return Err("no time")
-
-        seconds = res_s.value
+        start_t = parse_military_time_string(tokens[0])
+        seconds = time_string_to_seconds(tokens[1])
         try:
             location = tokens[2]
         except IndexError:
-            return Err("no location")
+            raise ParsingError("no location")
 
         try:
             distance = float(tokens[3])
@@ -67,7 +59,7 @@ class CardioParser(UnitParser[CardioSpec]):
         except IndexError:
             calories = None
 
-        data = CardioSpec(
+        return CardioSpec(
             start_t=start_t,
             seconds=seconds,
             location=location,
@@ -76,4 +68,3 @@ class CardioParser(UnitParser[CardioSpec]):
             max_hr=max_hr,
             calories=calories,
         )
-        return Ok(data)

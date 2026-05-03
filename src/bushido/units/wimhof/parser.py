@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.core.result import Err, Ok, Result
+from bushido.exceptions import ParsingError
 
 from ..parsing.base import UnitParser
 
@@ -28,22 +28,21 @@ class WimhofParser(UnitParser[WimhofSpec]):
     unit_names = [unit_name.value for unit_name in WimhofUnitName]
 
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> Result[WimhofSpec]:
+    def parse(tokens: tuple[str, ...]) -> WimhofSpec:
         breaths = [int(b) for b in tokens[::2]]
         retentions = [int(r) for r in tokens[1::2]]
         if len(breaths) == 0:
-            return Err("at least one round")
+            raise ParsingError("at least one round")
         if len(breaths) != len(retentions):
-            return Err("breaths and retentions don't match")
+            raise ParsingError("breaths and retentions don't match")
         if any(x < 0 for x in breaths):
-            return Err("breaths must all be positive")
+            raise ParsingError("breaths must all be positive")
         if any(x < 0 for x in retentions):
-            return Err("Retentions must all be positive")
+            raise ParsingError("retentions must all be positive")
 
-        ex = WimhofSpec(
+        return WimhofSpec(
             rounds=[
                 RoundSpec(round_nr=i, breaths=b, retention=r)
                 for i, (b, r) in enumerate(zip(breaths, retentions))
             ]
         )
-        return Ok(ex)

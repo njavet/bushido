@@ -9,7 +9,6 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Footer, Input
 
-from bushido.core.result import Err, Warn
 from bushido.service.log_unit import LogUnitService, UnitHelp
 
 
@@ -79,12 +78,6 @@ class LogUnitScreen(ModalScreen[bool]):
 
     async def on_input_submitted(self, event: Input.Submitted) -> bool:
         result = self.log_unit_service.log_unit(event.value, self.session)
-        if isinstance(result, Err):
-            return False
-        elif isinstance(result, Warn):
-            # TODO implement warning
-            return False
-        else:
-            self.query_one(Input).action_delete_left_all()
-            self.query_one(Input).action_delete_right_all()
-            return True
+        self.query_one(Input).action_delete_left_all()
+        self.query_one(Input).action_delete_right_all()
+        return True
