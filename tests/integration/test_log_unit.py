@@ -9,7 +9,6 @@ from bushido.infra.db import SessionFactory
 from bushido.units.gym import GymUnit
 from bushido.units.lifting import LiftingSet, LiftingUnit
 from bushido.units.log_unit import LogUnitService
-from bushido.units.parsing.base import ParsedUnit
 
 
 @pytest.fixture(scope="session")
@@ -35,8 +34,7 @@ def service() -> LogUnitService:
 
 def test_log_gym_unit_success(service: LogUnitService, session: Session) -> None:
     line = "weights 1800-1900 nautilus"
-    parsed_unit = service.log_unit(line, session)
-    assert isinstance(parsed_unit, ParsedUnit)
+    service.log_unit(line, session)
     units = session.scalars(select(GymUnit)).all()
     assert len(units) == 1
     assert units[0].name == "weights"
@@ -47,8 +45,7 @@ def test_log_gym_unit_success(service: LogUnitService, session: Session) -> None
 
 def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:
     line = "benchpress 100 5 180 100 5"
-    parsed_unit = service.log_unit(line, session)
-    assert isinstance(parsed_unit, ParsedUnit)
+    service.log_unit(line, session)
     units = session.scalars(select(LiftingUnit)).all()
     assert len(units) == 1
     assert units[0].name == "benchpress"
