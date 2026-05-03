@@ -1,10 +1,9 @@
 from ..dtypes import ParsedUnit
-from ..mapper import UnitMapper
 from .orm import WimhofRound, WimhofUnit
 from .parser import RoundSpec, WimhofSpec
 
 
-class WimhofMapper(UnitMapper[WimhofSpec, WimhofUnit, WimhofRound]):
+class WimhofMapper:
     @staticmethod
     def to_orm(
         parsed_unit: ParsedUnit[WimhofSpec],

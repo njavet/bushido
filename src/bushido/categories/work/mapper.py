@@ -1,12 +1,11 @@
 from typing import Any
 
 from ..dtypes import ParsedUnit
-from ..mapper import UnitMapper
 from .orm import WorkUnit
 from .parser import WorkSpec
 
 
-class WorkMapper(UnitMapper[WorkSpec, WorkUnit, Any]):
+class WorkMapper:
     @staticmethod
     def to_orm(parsed_unit: ParsedUnit[WorkSpec]) -> tuple[WorkUnit, list[Any]]:
         unit = WorkUnit(

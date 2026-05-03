@@ -1,12 +1,11 @@
 from typing import Any
 
 from ..dtypes import ParsedUnit
-from ..mapper import UnitMapper
 from .orm import CardioUnit
 from .parser import CardioSpec
 
 
-class CardioMapper(UnitMapper[CardioSpec, CardioUnit, Any]):
+class CardioMapper:
     @staticmethod
     def to_orm(parsed_unit: ParsedUnit[CardioSpec]) -> tuple[CardioUnit, list[Any]]:
         unit = CardioUnit(

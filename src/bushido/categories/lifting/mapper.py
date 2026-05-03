@@ -1,10 +1,9 @@
 from ..dtypes import ParsedUnit
-from ..mapper import UnitMapper
 from .orm import LiftingSet, LiftingUnit
 from .parser import LiftingSpec, SetSpec
 
 
-class LiftingMapper(UnitMapper[LiftingSpec, LiftingUnit, LiftingSet]):
+class LiftingMapper:
     @staticmethod
     def to_orm(
         parsed_unit: ParsedUnit[LiftingSpec],

@@ -1,12 +1,11 @@
 from typing import Any
 
 from ..dtypes import ParsedUnit
-from ..mapper import UnitMapper
 from .orm import GymUnit
 from .parser import GymSpec
 
 
-class GymMapper(UnitMapper[GymSpec, GymUnit, Any]):
+class GymMapper:
     @staticmethod
     def to_orm(parsed_unit: ParsedUnit[GymSpec]) -> tuple[GymUnit, list[Any]]:
         unit = GymUnit(
