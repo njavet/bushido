@@ -2,7 +2,7 @@ from textual.app import ComposeResult
 from textual.containers import Container, Horizontal
 from textual_image.widget import Image as ImageWidget
 
-from bushido.core.conf import BUSHIDO_IMG
+from bushido.conf import BUSHIDO_IMG
 from bushido.tui.widgets.binary_clock import BinaryClock
 from bushido.tui.widgets.binary_date import BinaryDate
 

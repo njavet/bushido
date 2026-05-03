@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Generic, TypeVar
 
-from bushido.core.dtypes import Clock
+from bushido.dtypes import Clock
 
 T = TypeVar("T")
 

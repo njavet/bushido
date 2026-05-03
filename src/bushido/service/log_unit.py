@@ -4,7 +4,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.core.dtypes import Clock, SystemClock
+from bushido.dtypes import Clock, SystemClock
 from bushido.exceptions import ParsingError
 from bushido.units import (
     REGISTRY,
