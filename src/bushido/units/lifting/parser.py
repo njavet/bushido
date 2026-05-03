@@ -4,6 +4,8 @@ from bushido.units.parsing.base import UnitParser
 
 
 class LiftingParser(UnitParser[LiftingSpec]):
+    grammar = ""
+
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[LiftingSpec]:
         weights = [float(w) for w in tokens[::3]]

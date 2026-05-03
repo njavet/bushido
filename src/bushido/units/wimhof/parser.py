@@ -5,6 +5,8 @@ from .domain import RoundSpec, WimhofSpec
 
 
 class WimhofParser(UnitParser[WimhofSpec]):
+    grammar = ""
+
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[WimhofSpec]:
         breaths = [int(b) for b in tokens[::2]]

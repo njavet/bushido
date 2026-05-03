@@ -6,6 +6,16 @@ from .domain import GymSpec
 
 
 class GymParser(UnitParser[GymSpec]):
+    grammar = """
+<name> <start>-<end> <location> [<training>] [<focus>] # [<comment>]
+
+name:
+  weights | martial_arts | yoga
+
+time:
+  HHMM-HHMM
+"""
+
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[GymSpec]:
         res_t = parse_start_end_time_string(tokens[0])

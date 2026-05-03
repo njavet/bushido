@@ -6,6 +6,8 @@ from .domain import WorkSpec
 
 
 class WorkParser(UnitParser[WorkSpec]):
+    grammar = ""
+
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[WorkSpec]:
         res_t = parse_start_end_time_string(tokens[0])

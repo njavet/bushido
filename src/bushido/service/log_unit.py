@@ -41,8 +41,8 @@ class LogUnitService:
         else:
             return Err("error")
 
-    @staticmethod
-    def get_unit_names() -> list[str]:
+    @property
+    def unit_names(self) -> list[str]:
         return [
             *CardioUnitName,
             *GymUnitName,

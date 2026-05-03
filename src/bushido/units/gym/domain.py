@@ -6,16 +6,6 @@ from bushido.core.dtypes import UnitData
 
 from .orm import GymUnit
 
-GYM_GRAMMAR = """
-<name> <start>-<end> <location> [<training>] [<focus>] # [<comment>]
-
-name:
-  weights | martial_arts | yoga
-
-time:
-  HHMM-HHMM
-"""
-
 
 class GymUnitName(StrEnum):
     weights = "weights"
