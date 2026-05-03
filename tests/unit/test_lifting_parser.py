@@ -1,7 +1,7 @@
 import pytest
 
-from bushido.units.lifting import LiftingParser
-from bushido.units.lifting.parser import LiftingSpec, SetSpec
+from bushido.categories.lifting import LiftingParser
+from bushido.categories.lifting.parser import LiftingSpec, SetSpec
 
 
 @pytest.fixture

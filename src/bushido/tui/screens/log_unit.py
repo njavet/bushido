@@ -9,7 +9,7 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Footer, Input
 
-from bushido.units.log_unit import LogUnitService, UnitHelp
+from bushido.categories.log_unit import LogUnitService, UnitHelp
 
 
 class UnitSuggester(Suggester):

@@ -2,13 +2,13 @@ import datetime
 
 import pytest
 
-from bushido.units.parsing.base import ParsedUnit
-from bushido.units.wimhof import (
+from bushido.categories.parsing.base import ParsedUnit
+from bushido.categories.wimhof import (
     WimhofMapper,
     WimhofRound,
     WimhofUnit,
 )
-from bushido.units.wimhof.parser import RoundSpec, WimhofSpec
+from bushido.categories.wimhof.parser import RoundSpec, WimhofSpec
 
 
 @pytest.fixture

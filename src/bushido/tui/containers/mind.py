@@ -24,16 +24,16 @@ from textual.widgets import Button, Static
 
 
 class Mind(Screen):
-    def __init__(self, user_id, units):
+    def __init__(self, user_id, categories):
         super().__init__()
         self.user_id = user_id
-        self.units = units
+        self.categories = categories
 
     def compose(self) -> ComposeResult:
         pass
 
     def on_mount(self):
-        for unit in self.units["study"]:
+        for unit in self.categories["study"]:
             pass
 
 

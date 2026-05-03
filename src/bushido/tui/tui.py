@@ -9,6 +9,7 @@ from textual.widgets import (
     TabPane,
 )
 
+from bushido.categories.log_unit import LogUnitService
 from bushido.infra.db import SessionFactory
 from bushido.tui.containers.header import HeaderContainer
 from bushido.tui.containers.mind import MindContainer
@@ -16,7 +17,6 @@ from bushido.tui.containers.training import TrainingContainer
 from bushido.tui.containers.work import WorkContainer
 from bushido.tui.screens.helpscreen import HelpScreen
 from bushido.tui.screens.log_unit import LogUnitScreen
-from bushido.units.log_unit import LogUnitService
 
 
 class BushidoApp(App[None]):
