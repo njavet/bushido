@@ -7,7 +7,7 @@ authors = [
 ]
 license = {text = "GPL-3"}
 readme = "README.md"
-requires-python = ">=3.13,<4.0.0"
+requires-python = ">=3.14,<4.0.0"
 dependencies = [
     "sqlalchemy (>=2.0.43,<3.0.0)",
     "fastapi[standard] (>=0.118.0,<0.119.0)",
@@ -21,30 +21,6 @@ dependencies = [
     "jinja2 (>=3.1.6,<4.0.0)"
 ]
 
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry]
-name = "bushido"
-packages = [{ include = "bushido", from = "src"}]
-
-[tool.poetry.scripts]
-bushido = "bushido.__main__:main"
-
-[tool.poetry.group.test.dependencies]
-ruff = "^0.13.3"
-coverage = "^7.10.7"
-mypy = "^1.18.2"
-pytest = "^8.4.2"
-pytest-mock = "^3.15.1"
-poethepoet = "^0.37.0"
-freezegun = "^1.5.5"
-
-[tool.poetry.group.dev.dependencies]
-ipython = "^9.6.0"
-textual-dev = "^1.8.0"
-
 [tool.ruff]
 line-length = 88
 indent-width = 4
@@ -57,7 +33,7 @@ quote-style = "double"
 indent-style = "space"
 
 [tool.mypy]
-python_version = "3.13"
+python_version = "3.14"
 packages = ["bushido", "tests"]
 strict = true
 show_error_codes = true
@@ -74,15 +50,8 @@ plugins = [
     "pydantic.mypy"
 ]
 
-[[tool.mypy.overrides]]
-module = ["tests.*"]
-disallow_untyped_defs = false
-
-[tool.poe.tasks]
-install = "poetry install --no-root"
-lint = "ruff check --fix ."
-fmt = "ruff format ."
-typecheck = "mypy --strict src"
-test = "pytest -q2"
-check = ["lint", "typecheck", "test"]
+[tool.uv.workspace]
+members = [
+    "bushido",
+]
 

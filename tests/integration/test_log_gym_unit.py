@@ -2,11 +2,11 @@ import datetime
 from collections.abc import Iterator
 
 import pytest
+from bushido.core.dtypes import ParsedUnit
+from bushido.core.result import Ok
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido.core.dtypes import ParsedUnit
-from bushido.core.result import Ok
 from bushido.infra.db import SessionFactory
 from bushido.service.log_unit import LogUnitService
 from bushido.units.gym import GymUnit

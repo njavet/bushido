@@ -1,7 +1,10 @@
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Ok, Result
-from bushido.parsing.utils import parse_military_time_string, time_string_to_seconds
 from bushido.units.parser import UnitParser
+from bushido.units.parsing.utils import (
+    parse_military_time_string,
+    time_string_to_seconds,
+)
 
 from .domain import CardioSpec
 

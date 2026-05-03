@@ -1,10 +1,10 @@
 import datetime
 
 import pytest
-from freezegun import freeze_time
-
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Ok
+from freezegun import freeze_time
+
 from bushido.units.lifting.domain import LiftingSpec, SetSpec
 from bushido.units.lifting.parser import LiftingParser
 

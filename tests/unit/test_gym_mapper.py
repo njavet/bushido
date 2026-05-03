@@ -1,8 +1,8 @@
 import datetime
 
 import pytest
-
 from bushido.core.dtypes import ParsedUnit
+
 from bushido.units.gym import GymMapper, GymSpec, GymUnit
 
 
