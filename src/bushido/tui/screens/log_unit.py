@@ -43,7 +43,6 @@ class LogUnitInput(Input):
 class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
     BINDINGS = [
         Binding("q", "app.pop_screen", "back"),
-        Binding("l", "app.pop_screen", "back"),
     ]
 
     def __init__(self, log_unit_service: LogUnitService, session: Session) -> None:

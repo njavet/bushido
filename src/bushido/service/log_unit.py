@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+from enum import StrEnum
 from typing import Any
 
 from sqlalchemy.orm import Session
@@ -8,18 +10,26 @@ from bushido.units.cardio import CardioUnitName
 from bushido.units.gym import GymUnitName
 from bushido.units.lifting import LiftingUnitName
 from bushido.units.parsing.base import parse_raw_unit, split_options
-from bushido.units.registry import get_registration
+from bushido.units.registry import REGISTRY, unit_name_to_category
 from bushido.units.wimhof import WimhofUnitName
 from bushido.units.work import WorkUnitName
+
+
+@dataclass(frozen=True, slots=True)
+class UnitHelp:
+    grammar: str
+    unit_names: StrEnum
 
 
 class LogUnitService:
     def __init__(self, clock: Clock = SystemClock()) -> None:
         self.clock = clock
+        self.registry = REGISTRY
 
     def log_unit(self, line: str, session: Session) -> Result[ParsedUnit[Any]]:
         raw = parse_raw_unit(line)
-        registry = get_registration(raw.name)
+        category = unit_name_to_category(raw.name)
+        registry = self.registry[category]
 
         tokens, log_time = split_options(raw.tokens, self.clock)
 
@@ -44,9 +54,13 @@ class LogUnitService:
     @property
     def unit_names(self) -> list[str]:
         return [
-            *CardioUnitName,
             *GymUnitName,
+            *CardioUnitName,
             *LiftingUnitName,
             *WimhofUnitName,
             *WorkUnitName,
         ]
+
+    @property
+    def unit_help(self) -> dict[str, UnitHelp]:
+        return {c: UnitHelp(r.grammar, r.unit_names) for c, r in self.registry.items()}

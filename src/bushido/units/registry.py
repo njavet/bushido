@@ -47,16 +47,12 @@ def unit_name_to_category(unit_name: str) -> UnitCategory:
         raise ValueError(f"Unknown unit: {unit_name}")
 
 
-def get_registration(unit_name: str) -> UnitRegistration:
-    category = unit_name_to_category(unit_name)
-    return REGISTRY[category]
-
-
 @dataclass(frozen=True, slots=True)
 class UnitRegistration:
     parser: UnitParser[Any]
     mapper: UnitMapper[Any, Any, Any]
     unit_cls: Any
+    unit_names: Any
     grammar: str
     subrels: Any | None = None
 
@@ -71,12 +67,14 @@ REGISTRY: dict[str, UnitRegistration] = {
         parser=GymParser(),
         mapper=GymMapper(),
         unit_cls=GymUnit,
+        unit_names=GymUnitName,
         grammar=GymParser.grammar,
     ),
     UnitCategory.lifting: UnitRegistration(
         parser=LiftingParser(),
         mapper=LiftingMapper(),
         unit_cls=LiftingUnit,
+        unit_names=LiftingUnitName,
         grammar=LiftingParser.grammar,
         subrels=LiftingUnit.subunits,
     ),
@@ -84,12 +82,14 @@ REGISTRY: dict[str, UnitRegistration] = {
         parser=CardioParser(),
         mapper=CardioMapper(),
         unit_cls=CardioUnit,
+        unit_names=CardioUnitName,
         grammar=LiftingParser.grammar,
     ),
     UnitCategory.wimhof: UnitRegistration(
         parser=WimhofParser(),
         mapper=WimhofMapper(),
         unit_cls=WimhofUnit,
+        unit_names=WimhofUnitName,
         grammar=WimhofParser.grammar,
         subrels=WimhofUnit.subunits,
     ),
