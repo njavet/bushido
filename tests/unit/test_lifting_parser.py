@@ -1,6 +1,5 @@
 import pytest
 
-from bushido.core.result import Ok
 from bushido.units.lifting import LiftingParser
 from bushido.units.lifting.parser import LiftingSpec, SetSpec
 
@@ -41,7 +40,5 @@ def parser() -> LiftingParser:
 def test_correct_lifting_units(
     parser: LiftingParser, tokens: tuple[str, ...], expected: LiftingSpec
 ) -> None:
-    result = parser.parse(tokens)
-    assert isinstance(result, Ok)
-    parsed_unit = result.value
-    assert parsed_unit == expected
+    unit_data = parser.parse(tokens)
+    assert unit_data == expected

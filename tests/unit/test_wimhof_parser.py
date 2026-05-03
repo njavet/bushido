@@ -1,6 +1,5 @@
 import pytest
 
-from bushido.core.result import Ok
 from bushido.units.wimhof import WimhofParser
 from bushido.units.wimhof.parser import RoundSpec, WimhofSpec
 
@@ -28,7 +27,5 @@ def parser() -> WimhofParser:
 def test_correct_wimhof_unit(
     parser: WimhofParser, tokens: tuple[str, ...], expected: WimhofSpec
 ) -> None:
-    result = parser.parse(tokens)
-    assert isinstance(result, Ok)
-    parsed_unit = result.value
-    assert parsed_unit == expected
+    unit_data = parser.parse(tokens)
+    assert unit_data == expected

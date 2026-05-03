@@ -5,7 +5,7 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from bushido.core.dtypes import Clock, SystemClock
-from bushido.core.result import Err, Ok, Result
+from bushido.exceptions import ParsingError
 from bushido.units import (
     REGISTRY,
     UNIT_TO_CATEGORY,
@@ -27,20 +27,16 @@ class LogUnitService:
         self.clock = clock
         self.registry = REGISTRY
 
-    def log_unit(self, line: str, session: Session) -> Result[ParsedUnit[Any]]:
+    def log_unit(self, line: str, session: Session) -> ParsedUnit[Any]:
         raw = parse_raw_unit(line)
         try:
             category = UNIT_TO_CATEGORY[raw.name]
         except KeyError:
-            return Err("unknown unit")
+            raise ParsingError(f"unknown unit: {raw.name}")
         registry = self.registry[category]
         tokens, log_time = split_options(raw.tokens, self.clock)
 
-        parse_res = registry.parser.parse(tokens)
-        if isinstance(parse_res, Err):
-            return parse_res
-        else:
-            unit_data = parse_res.value
+        unit_data = registry.parser.parse(tokens)
 
         parsed_unit = ParsedUnit(
             name=raw.name,
@@ -50,9 +46,9 @@ class LogUnitService:
         )
         unit, subunits = registry.mapper.to_orm(parsed_unit)
         if registry.repo(session).add_unit(unit, subunits):
-            return Ok(parsed_unit)
+            return parsed_unit
         else:
-            return Err("error")
+            raise ParsingError("error")
 
     @property
     def unit_names(self) -> list[str]:

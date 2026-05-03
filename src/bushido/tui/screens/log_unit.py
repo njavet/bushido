@@ -77,7 +77,7 @@ class LogUnitScreen(ModalScreen[bool]):
         yield Footer()
 
     async def on_input_submitted(self, event: Input.Submitted) -> bool:
-        result = self.log_unit_service.log_unit(event.value, self.session)
+        _ = self.log_unit_service.log_unit(event.value, self.session)
         self.query_one(Input).action_delete_left_all()
         self.query_one(Input).action_delete_right_all()
         return True
