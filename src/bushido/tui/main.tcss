@@ -26,6 +26,15 @@ HeaderContainer {
     content-align: center middle;
 }
 
+LogUnitScreen {
+    layout: vertical;
+}
+
 UnitHelperWidget {
-    height: 2fr;
+    height: 1fr;
+    overflow-y: auto;
+}
+
+LogUnitInput {
+    height: 4;
 }

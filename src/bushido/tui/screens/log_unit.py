@@ -3,7 +3,6 @@ from rich.panel import Panel
 from sqlalchemy.orm import Session
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.containers import Vertical
 from textual.events import Key
 from textual.screen import ModalScreen
 from textual.suggester import Suggester, SuggestionReady
@@ -72,10 +71,8 @@ class LogUnitScreen(ModalScreen[None]):
         self.session = session
 
     def compose(self) -> ComposeResult:
-        yield Vertical(
-            UnitHelpWidget(self.log_unit_service),
-            LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names)),
-        )
+        yield UnitHelpWidget(self.log_unit_service)
+        yield LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names))
         yield Footer()
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
