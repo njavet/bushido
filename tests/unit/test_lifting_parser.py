@@ -1,4 +1,3 @@
-
 import pytest
 
 from bushido.core.result import Ok

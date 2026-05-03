@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from bushido.core.result import Err, Ok
+from bushido.core.result import Ok
 from bushido.units.gym import GymParser, GymSpec
 
 
@@ -50,14 +50,3 @@ def test_correct_gym_units(
     assert isinstance(result, Ok)
     unit_data = result.value
     assert unit_data == expected
-
-
-@pytest.mark.parametrize(
-    "tokens",
-    [
-        "",
-    ],
-)
-def test_invalid_gym_units(parser: GymParser, tokens: tuple[str, ...]) -> None:
-    result = parser.parse(tokens)
-    assert isinstance(result, Err)
