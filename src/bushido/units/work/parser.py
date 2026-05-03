@@ -21,8 +21,10 @@ class WorkSpec:
     project: str
 
 
+@dataclass(frozen=True, slots=True)
 class WorkParser(UnitParser[WorkSpec]):
     grammar = ""
+    unit_names = [unit_name for unit_name in WorkUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[WorkSpec]:

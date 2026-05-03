@@ -6,13 +6,8 @@ from sqlalchemy.orm import Session
 
 from bushido.core.dtypes import Clock, SystemClock
 from bushido.core.result import Err, Ok, Result
-from bushido.units.cardio import CardioUnitName
-from bushido.units.gym import GymUnitName
-from bushido.units.lifting import LiftingUnitName
 from bushido.units.parsing.base import ParsedUnit, parse_raw_unit, split_options
-from bushido.units.registry import REGISTRY, unit_name_to_category
-from bushido.units.wimhof import WimhofUnitName
-from bushido.units.work import WorkUnitName
+from bushido.units.registry import REGISTRY, UNIT_TO_CATEGORY
 
 
 @dataclass(frozen=True, slots=True)
@@ -28,9 +23,11 @@ class LogUnitService:
 
     def log_unit(self, line: str, session: Session) -> Result[ParsedUnit[Any]]:
         raw = parse_raw_unit(line)
-        category = unit_name_to_category(raw.name)
+        try:
+            category = UNIT_TO_CATEGORY[raw.name]
+        except KeyError:
+            return Err("unknown unit")
         registry = self.registry[category]
-
         tokens, log_time = split_options(raw.tokens, self.clock)
 
         parse_res = registry.parser.parse(tokens)
@@ -50,17 +47,3 @@ class LogUnitService:
             return Ok(parsed_unit)
         else:
             return Err("error")
-
-    @property
-    def unit_names(self) -> list[str]:
-        return [
-            *GymUnitName,
-            *CardioUnitName,
-            *LiftingUnitName,
-            *WimhofUnitName,
-            *WorkUnitName,
-        ]
-
-    @property
-    def unit_help(self) -> dict[str, UnitHelp]:
-        return {c: UnitHelp(r.grammar, r.unit_names) for c, r in self.registry.items()}

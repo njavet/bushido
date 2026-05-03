@@ -22,6 +22,7 @@ class GymSpec:
     focus: str | None = None
 
 
+@dataclass(frozen=True, slots=True)
 class GymParser(UnitParser[GymSpec]):
     grammar = """
 <name> <start>-<end> <location> [<training>] [<focus>] # [<comment>]
@@ -32,6 +33,7 @@ name:
 time:
   HHMM-HHMM
 """
+    unit_names = [unit_name for unit_name in GymUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[GymSpec]:

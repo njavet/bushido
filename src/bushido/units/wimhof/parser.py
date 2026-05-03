@@ -21,8 +21,10 @@ class WimhofSpec:
     rounds: list[RoundSpec]
 
 
+@dataclass(frozen=True, slots=True)
 class WimhofParser(UnitParser[WimhofSpec]):
     grammar = ""
+    unit_names = [unit_name for unit_name in WimhofUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[WimhofSpec]:

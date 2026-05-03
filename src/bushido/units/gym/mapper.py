@@ -1,10 +1,10 @@
 from typing import Any
 
-from bushido.core.dtypes import ParsedUnit
 from bushido.units.mapper import UnitMapper
+from bushido.units.parsing.base import ParsedUnit
 
 from .orm import GymUnit
-from .render import GymSpec
+from .parser import GymSpec
 
 
 class GymMapper(UnitMapper[GymSpec, GymUnit, Any]):

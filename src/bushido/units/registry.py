@@ -4,13 +4,12 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.units.cardio import CardioMapper, CardioParser, CardioUnit, CardioUnitName
-from bushido.units.gym import GymMapper, GymParser, GymUnit, GymUnitName
+from bushido.units.cardio import CardioMapper, CardioParser, CardioUnit
+from bushido.units.gym import GymMapper, GymParser, GymUnit
 from bushido.units.lifting import (
     LiftingMapper,
     LiftingParser,
     LiftingUnit,
-    LiftingUnitName,
 )
 from bushido.units.mapper import UnitMapper
 from bushido.units.parsing.base import UnitParser
@@ -19,9 +18,7 @@ from bushido.units.wimhof import (
     WimhofMapper,
     WimhofParser,
     WimhofUnit,
-    WimhofUnitName,
 )
-from bushido.units.work import WorkUnitName
 
 
 class UnitCategory(StrEnum):
@@ -32,28 +29,13 @@ class UnitCategory(StrEnum):
     wimhof = "wimhof"
 
 
-def unit_name_to_category(unit_name: str) -> UnitCategory:
-    if unit_name in GymUnitName:
-        return UnitCategory.gym
-    elif unit_name in LiftingUnitName:
-        return UnitCategory.lifting
-    elif unit_name in WimhofUnitName:
-        return UnitCategory.wimhof
-    elif unit_name in CardioUnitName:
-        return UnitCategory.cardio
-    elif unit_name in WorkUnitName:
-        return UnitCategory.work
-    else:
-        raise ValueError(f"Unknown unit: {unit_name}")
-
-
 @dataclass(frozen=True, slots=True)
-class UnitRegistration:
+class CategoryRegistration:
     parser: UnitParser[Any]
     mapper: UnitMapper[Any, Any, Any]
     unit_cls: Any
-    unit_names: type[StrEnum]
     grammar: str
+    unit_names: list[str]
     subrels: Any | None = None
 
     def repo(self, session: Session) -> UnitRepo[Any, Any]:
@@ -62,35 +44,46 @@ class UnitRegistration:
         return UnitRepo(session=session, unit_cls=self.unit_cls, subrels=self.subrels)
 
 
-REGISTRY: dict[str, UnitRegistration] = {
-    UnitCategory.gym: UnitRegistration(
+REGISTRY: dict[str, CategoryRegistration] = {
+    UnitCategory.gym: CategoryRegistration(
         parser=GymParser(),
         mapper=GymMapper(),
         unit_cls=GymUnit,
-        unit_names=GymUnitName,
         grammar=GymParser.grammar,
+        unit_names=GymParser.unit_names,
     ),
-    UnitCategory.lifting: UnitRegistration(
+    UnitCategory.lifting: CategoryRegistration(
         parser=LiftingParser(),
         mapper=LiftingMapper(),
         unit_cls=LiftingUnit,
-        unit_names=LiftingUnitName,
         grammar=LiftingParser.grammar,
+        unit_names=LiftingParser.unit_names,
         subrels=LiftingUnit.subunits,
     ),
-    UnitCategory.cardio: UnitRegistration(
+    UnitCategory.cardio: CategoryRegistration(
         parser=CardioParser(),
         mapper=CardioMapper(),
         unit_cls=CardioUnit,
-        unit_names=CardioUnitName,
         grammar=LiftingParser.grammar,
+        unit_names=CardioParser.unit_names,
     ),
-    UnitCategory.wimhof: UnitRegistration(
+    UnitCategory.wimhof: CategoryRegistration(
         parser=WimhofParser(),
         mapper=WimhofMapper(),
         unit_cls=WimhofUnit,
-        unit_names=WimhofUnitName,
         grammar=WimhofParser.grammar,
+        unit_names=WimhofParser.unit_names,
         subrels=WimhofUnit.subunits,
     ),
 }
+
+
+UNIT_TO_CATEGORY: dict[str, str] = {
+    unit_name: category
+    for category, registration in REGISTRY.items()
+    for unit_name in registration.unit_names
+}
+
+
+def get_unit_names() -> list[str]:
+    return sorted(UNIT_TO_CATEGORY)

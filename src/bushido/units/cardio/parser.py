@@ -26,7 +26,11 @@ class CardioSpec:
     calories: int | None
 
 
+@dataclass(frozen=True, slots=True)
 class CardioParser(UnitParser[CardioSpec]):
+    grammar = ""
+    unit_names = [unit_name for unit_name in CardioUnitName]
+
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> Result[CardioSpec]:
 

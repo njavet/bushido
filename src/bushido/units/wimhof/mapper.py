@@ -1,8 +1,8 @@
-from bushido.core.dtypes import ParsedUnit
 from bushido.units.mapper import UnitMapper
+from bushido.units.parsing.base import ParsedUnit
 
 from .orm import WimhofRound, WimhofUnit
-from .render import RoundSpec, WimhofSpec
+from .parser import RoundSpec, WimhofSpec
 
 
 class WimhofMapper(UnitMapper[WimhofSpec, WimhofUnit, WimhofRound]):
