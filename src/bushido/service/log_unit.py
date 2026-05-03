@@ -4,8 +4,13 @@ from sqlalchemy.orm import Session
 
 from bushido.core.dtypes import Clock, ParsedUnit, SystemClock
 from bushido.core.result import Err, Ok, Result
+from bushido.units.cardio import CardioUnitName
+from bushido.units.gym import GymUnitName
+from bushido.units.lifting import LiftingUnitName
 from bushido.units.parsing.base import parse_raw_unit, split_options
 from bushido.units.units import get_registration
+from bushido.units.wimhof import WimhofUnitName
+from bushido.units.work import WorkUnitName
 
 
 class LogUnitService:
@@ -35,3 +40,13 @@ class LogUnitService:
             return Ok(parsed_unit)
         else:
             return Err("error")
+
+    @staticmethod
+    def get_unit_names() -> list[str]:
+        return [
+            *CardioUnitName,
+            *GymUnitName,
+            *LiftingUnitName,
+            *WimhofUnitName,
+            *WorkUnitName,
+        ]
