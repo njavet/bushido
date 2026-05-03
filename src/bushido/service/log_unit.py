@@ -2,7 +2,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.core.dtypes import ParsedUnit
+from bushido.core.dtypes import Clock, ParsedUnit, SystemClock
 from bushido.core.result import Err, Ok, Result
 
 # TODO rethink design
@@ -10,7 +10,8 @@ from bushido.units.factory import get_mapper, get_parser, get_repo, get_unit_nam
 
 
 class LogUnitService:
-    def __init__(self) -> None:
+    def __init__(self, clock: Clock = SystemClock()) -> None:
+        self.clock = clock
         self.unit_names = get_unit_names()
 
     def log_unit(self, line: str, session: Session) -> Result[ParsedUnit[Any]]:

@@ -11,7 +11,7 @@ from bushido.units.lifting import (
     LiftingUnitName,
 )
 from bushido.units.mapper import UnitMapper
-from bushido.units.parser import UnitParser
+from bushido.units.parsing.base import UnitParser
 from bushido.units.repo import UnitRepo
 from bushido.units.wimhof import (
     WimhofMapper,

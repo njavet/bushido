@@ -1,14 +1,14 @@
-from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Ok, Result
-from bushido.units.parser import UnitParser
+from bushido.units.parsing.base import UnitParser
 
 from .domain import RoundSpec, WimhofSpec
 
 
 class WimhofParser(UnitParser[WimhofSpec]):
-    def _parse_unit(self) -> Result[ParsedUnit[WimhofSpec]]:
-        breaths = [int(b) for b in self.tokens[::2]]
-        retentions = [int(r) for r in self.tokens[1::2]]
+    @staticmethod
+    def parse(tokens: tuple[str, ...]) -> Result[WimhofSpec]:
+        breaths = [int(b) for b in tokens[::2]]
+        retentions = [int(r) for r in tokens[1::2]]
         if len(breaths) == 0:
             return Err("at least one round")
         if len(breaths) != len(retentions):
@@ -24,11 +24,4 @@ class WimhofParser(UnitParser[WimhofSpec]):
                 for i, (b, r) in enumerate(zip(breaths, retentions))
             ]
         )
-
-        pu = ParsedUnit(
-            name=self.unit_name,
-            data=ex,
-            comment=self.comment,
-            log_time=self.log_time,
-        )
-        return Ok(pu)
+        return Ok(ex)

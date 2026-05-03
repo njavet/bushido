@@ -1,14 +1,14 @@
-from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Ok, Result
 from bushido.units.lifting.domain import LiftingSpec, SetSpec
-from bushido.units.parser import UnitParser
+from bushido.units.parsing.base import UnitParser
 
 
 class LiftingParser(UnitParser[LiftingSpec]):
-    def _parse_unit(self) -> Result[ParsedUnit[LiftingSpec]]:
-        weights = [float(w) for w in self.tokens[::3]]
-        reps = [float(r) for r in self.tokens[1::3]]
-        rests = [float(r) for r in self.tokens[2::3]] + [0]
+    @staticmethod
+    def parse(tokens: tuple[str, ...]) -> Result[LiftingSpec]:
+        weights = [float(w) for w in tokens[::3]]
+        reps = [float(r) for r in tokens[1::3]]
+        rests = [float(r) for r in tokens[2::3]] + [0]
         if len(weights) == 0:
             return Err("at least one set")
         if len(weights) != len(reps):
@@ -26,11 +26,4 @@ class LiftingParser(UnitParser[LiftingSpec]):
                 for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests))
             ]
         )
-
-        pu = ParsedUnit(
-            name=self.unit_name,
-            data=data,
-            comment=self.comment,
-            log_time=self.log_time,
-        )
-        return Ok(pu)
+        return Ok(data)
