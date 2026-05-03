@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.core.dtypes import UnitData
-
 from .orm import WimhofUnit
 
 
@@ -18,7 +16,7 @@ class RoundSpec:
 
 
 @dataclass(frozen=True, slots=True)
-class WimhofSpec(UnitData):
+class WimhofSpec:
     rounds: list[RoundSpec]
 
 

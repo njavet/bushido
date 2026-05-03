@@ -1,8 +1,8 @@
 from bushido.core.dtypes import ParsedUnit
 from bushido.units.mapper import UnitMapper
 
-from .domain import LiftingSpec, SetSpec
 from .orm import LiftingSet, LiftingUnit
+from .render import LiftingSpec, SetSpec
 
 
 class LiftingMapper(UnitMapper[LiftingSpec, LiftingUnit, LiftingSet]):

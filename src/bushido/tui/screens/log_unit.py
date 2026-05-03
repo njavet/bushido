@@ -1,5 +1,6 @@
 from typing import Any
 
+from rich.table import Table
 from sqlalchemy.orm import Session
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -7,11 +8,12 @@ from textual.containers import Grid
 from textual.events import Key
 from textual.screen import ModalScreen
 from textual.suggester import Suggester, SuggestionReady
+from textual.widget import Widget
 from textual.widgets import Footer, Input, RichLog
 
 from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Err, Result, Warn
-from bushido.service.log_unit import LogUnitService
+from bushido.service.log_unit import LogUnitService, UnitHelp
 
 
 class UnitSuggester(Suggester):
@@ -40,6 +42,28 @@ class LogUnitInput(Input):
             self.action_cursor_right()
 
 
+class UnitHelpWidget(Widget):
+    def __init__(self, unit_help: dict[str, UnitHelp]) -> None:
+        super().__init__()
+        self.unit_help = unit_help
+
+    def render(self) -> Table:
+        table = Table(
+            show_header=False,
+            show_edge=False,
+            pad_edge=False,
+            box=None,
+            collapse_padding=True,
+        )
+        for category, unit_help in self.unit_help.items():
+            table.add_row("Category", category)
+            table.add_row(unit_help.grammar)
+            table.add_row("Units")
+            for unit_name in unit_help.unit_names:
+                table.add_row(unit_name)
+        return table
+
+
 class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
     BINDINGS = [
         Binding("q", "app.pop_screen", "back"),
@@ -52,6 +76,7 @@ class LogUnitScreen(ModalScreen[Result[ParsedUnit[Any]]]):
 
     def compose(self) -> ComposeResult:
         yield Grid(
+            UnitHelpWidget(self.log_unit_service.unit_help),
             LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names)),
             RichLog(id="log_result"),
         )

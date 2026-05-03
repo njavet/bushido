@@ -1,6 +1,30 @@
+from dataclasses import dataclass
+from enum import StrEnum
+
 from bushido.core.result import Err, Ok, Result
-from bushido.units.lifting.domain import LiftingSpec, SetSpec
 from bushido.units.parsing.base import UnitParser
+
+
+class LiftingUnitName(StrEnum):
+    squat = "squat"
+    deadlift = "deadlift"
+    benchpress = "benchpress"
+    overheadpress = "overheadpress"
+    rows = "rows"
+    curls = "curls"
+
+
+@dataclass(frozen=True, slots=True)
+class SetSpec:
+    set_nr: int
+    weight: float
+    reps: float
+    rest: float
+
+
+@dataclass(frozen=True, slots=True)
+class LiftingSpec:
+    sets: list[SetSpec]
 
 
 class LiftingParser(UnitParser[LiftingSpec]):

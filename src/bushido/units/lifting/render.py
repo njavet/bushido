@@ -1,29 +1,5 @@
-from dataclasses import dataclass
-from enum import StrEnum
 
 from .orm import LiftingSet, LiftingUnit
-
-
-class LiftingUnitName(StrEnum):
-    squat = "squat"
-    deadlift = "deadlift"
-    benchpress = "benchpress"
-    overheadpress = "overheadpress"
-    rows = "rows"
-    curls = "curls"
-
-
-@dataclass(frozen=True, slots=True)
-class SetSpec:
-    set_nr: int
-    weight: float
-    reps: float
-    rest: float
-
-
-@dataclass(frozen=True, slots=True)
-class LiftingSpec:
-    sets: list[SetSpec]
 
 
 def format_lifting_unit(unit: LiftingUnit) -> str:

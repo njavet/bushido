@@ -2,8 +2,6 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.core.dtypes import UnitData
-
 from .orm import CardioUnit
 
 
@@ -12,8 +10,8 @@ class CardioUnitName(StrEnum):
     skipping = "skipping"
 
 
-@dataclass
-class CardioSpec(UnitData):
+@dataclass(frozen=True, slots=True)
+class CardioSpec:
     start_t: datetime.time
     seconds: float
     location: str

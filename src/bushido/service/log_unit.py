@@ -4,12 +4,12 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.core.dtypes import Clock, ParsedUnit, SystemClock
+from bushido.core.dtypes import Clock, SystemClock
 from bushido.core.result import Err, Ok, Result
 from bushido.units.cardio import CardioUnitName
 from bushido.units.gym import GymUnitName
 from bushido.units.lifting import LiftingUnitName
-from bushido.units.parsing.base import parse_raw_unit, split_options
+from bushido.units.parsing.base import ParsedUnit, parse_raw_unit, split_options
 from bushido.units.registry import REGISTRY, unit_name_to_category
 from bushido.units.wimhof import WimhofUnitName
 from bushido.units.work import WorkUnitName

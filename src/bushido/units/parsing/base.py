@@ -1,13 +1,27 @@
 import datetime
 from abc import ABC, abstractmethod
-from typing import Generic
+from dataclasses import dataclass
+from typing import Generic, TypeVar
 
-from bushido.core.dtypes import (
-    Clock,
-    RawUnit,
-    TUData,
-)
+from bushido.core.dtypes import Clock
 from bushido.core.result import Result
+
+T = TypeVar("T")
+
+
+@dataclass(frozen=True, slots=True)
+class ParsedUnit(Generic[T]):
+    name: str
+    data: T
+    log_time: datetime.datetime
+    comment: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class RawUnit:
+    name: str
+    tokens: tuple[str, ...]
+    comment: str | None = None
 
 
 def parse_raw_unit(line: str) -> RawUnit:
@@ -53,7 +67,7 @@ def split_options(
     return tuple(clean), log_time or clock.now()
 
 
-class UnitParser(ABC, Generic[TUData]):
+class UnitParser(ABC, Generic[T]):
     @staticmethod
     @abstractmethod
-    def parse(tokens: tuple[str, ...]) -> Result[TUData]: ...
+    def parse(tokens: tuple[str, ...]) -> Result[T]: ...

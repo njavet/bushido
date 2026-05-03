@@ -52,7 +52,7 @@ class UnitRegistration:
     parser: UnitParser[Any]
     mapper: UnitMapper[Any, Any, Any]
     unit_cls: Any
-    unit_names: Any
+    unit_names: type[StrEnum]
     grammar: str
     subrels: Any | None = None
 

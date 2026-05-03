@@ -2,8 +2,6 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.core.dtypes import UnitData
-
 from .orm import WorkUnit
 
 
@@ -12,8 +10,11 @@ class WorkUnitName(StrEnum):
     myself = "myself"
 
 
-@dataclass
-class WorkSpec(UnitData):
+@dataclass(
+    frozen=True,
+    slots=True,
+)
+class WorkSpec:
     start_t: datetime.time
     end_t: datetime.time
     location: str

@@ -2,8 +2,6 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.core.dtypes import UnitData
-
 from .orm import GymUnit
 
 
@@ -13,8 +11,8 @@ class GymUnitName(StrEnum):
     yoga = "yoga"
 
 
-@dataclass
-class GymSpec(UnitData):
+@dataclass(frozen=True, slots=True)
+class GymSpec:
     start_t: datetime.time
     end_t: datetime.time
     location: str
