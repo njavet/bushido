@@ -3,9 +3,8 @@ from enum import StrEnum
 
 from sqlalchemy.orm import Session
 
-from bushido.dtypes import Clock, SystemClock
-from bushido.exceptions import ParsingError
-
+from .dtypes import Clock, SystemClock
+from .exceptions import ParsingError
 from .parsing.base import ParsedUnit, parse_raw_unit, split_options
 from .registry import REGISTRY, UNIT_TO_CATEGORY, get_unit_names
 

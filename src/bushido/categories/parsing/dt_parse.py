@@ -1,8 +1,9 @@
 import datetime
 import re
 
-from bushido.exceptions import ParsingError
 from bushido.settings import DAY_START_HOUR, LOCAL_TIME_ZONE
+
+from ..exceptions import ParsingError
 
 
 def time_string_to_seconds(time_string: str) -> float:

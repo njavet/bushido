@@ -60,7 +60,7 @@ class UnitHelpWidget(Widget):
         return table
 
 
-class LogUnitScreen(ModalScreen[bool]):
+class LogUnitScreen(ModalScreen[None]):
     BINDINGS = [
         Binding("q", "app.pop_screen", "back"),
     ]
@@ -76,8 +76,7 @@ class LogUnitScreen(ModalScreen[bool]):
         )
         yield Footer()
 
-    async def on_input_submitted(self, event: Input.Submitted) -> bool:
+    async def on_input_submitted(self, event: Input.Submitted) -> None:
         _ = self.log_unit_service.log_unit(event.value, self.session)
         self.query_one(Input).action_delete_left_all()
         self.query_one(Input).action_delete_right_all()
-        return True

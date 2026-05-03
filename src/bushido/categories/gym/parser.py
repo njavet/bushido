@@ -2,8 +2,7 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.exceptions import ParsingError
-
+from ..exceptions import ParsingError
 from ..parsing.base import UnitParser
 from ..parsing.dt_parse import parse_start_end_time_string
 
