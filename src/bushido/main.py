@@ -8,8 +8,8 @@ from rich.logging import RichHandler
 from bushido import __version__
 from bushido.conf import DEFAULT_PORT
 from bushido.infra.db import SessionFactory
-from bushido.service.log_unit import LogUnitService
 from bushido.tui.tui import BushidoApp
+from bushido.units.log_unit import LogUnitService
 
 logging.basicConfig(
     level=logging.INFO,

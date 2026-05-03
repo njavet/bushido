@@ -1,19 +1,13 @@
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import Any
 
 from sqlalchemy.orm import Session
 
 from bushido.dtypes import Clock, SystemClock
 from bushido.exceptions import ParsingError
-from bushido.units import (
-    REGISTRY,
-    UNIT_TO_CATEGORY,
-    ParsedUnit,
-    get_unit_names,
-    parse_raw_unit,
-    split_options,
-)
+
+from .parsing.base import ParsedUnit, parse_raw_unit, split_options
+from .registry import REGISTRY, UNIT_TO_CATEGORY, get_unit_names
 
 
 @dataclass(frozen=True, slots=True)
@@ -27,16 +21,22 @@ class LogUnitService:
         self.clock = clock
         self.registry = REGISTRY
 
-    def log_unit(self, line: str, session: Session) -> ParsedUnit[Any]:
-        raw = parse_raw_unit(line)
+    def log_unit(self, line: str, session: Session) -> str | None:
+        try:
+            raw = parse_raw_unit(line)
+        except ParsingError as e:
+            return str(e)
         try:
             category = UNIT_TO_CATEGORY[raw.name]
         except KeyError:
-            raise ParsingError(f"unknown unit: {raw.name}")
+            return f"unknown unit: {raw.name}"
         registry = self.registry[category]
         tokens, log_time = split_options(raw.tokens, self.clock)
 
-        unit_data = registry.parser.parse(tokens)
+        try:
+            unit_data = registry.parser.parse(tokens)
+        except ParsingError as e:
+            return str(e)
 
         parsed_unit = ParsedUnit(
             name=raw.name,
@@ -45,10 +45,10 @@ class LogUnitService:
             comment=raw.comment,
         )
         unit, subunits = registry.mapper.to_orm(parsed_unit)
-        if registry.repo(session).add_unit(unit, subunits):
-            return parsed_unit
+        if not registry.repo(session).add_unit(unit, subunits):
+            return "repo error"
         else:
-            raise ParsingError("error")
+            return None
 
     @property
     def unit_names(self) -> list[str]:

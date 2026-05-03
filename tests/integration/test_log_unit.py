@@ -6,9 +6,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from bushido.infra.db import SessionFactory
-from bushido.service.log_unit import LogUnitService
 from bushido.units.gym import GymUnit
 from bushido.units.lifting import LiftingSet, LiftingUnit
+from bushido.units.log_unit import LogUnitService
 from bushido.units.parsing.base import ParsedUnit
 
 

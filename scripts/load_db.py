@@ -3,7 +3,7 @@ import sys
 from typing import Any
 
 from bushido.infra.db import SessionFactory
-from bushido.service.log_unit import LogUnitService
+from bushido.units.log_unit import LogUnitService
 
 
 def load_db(data: list[Any]) -> None:
