@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
-from ..dtypes import UnitParser
 from ..exceptions import ParsingError
 
 
@@ -28,7 +27,7 @@ class LiftingSpec:
 
 
 @dataclass(frozen=True, slots=True)
-class LiftingParser(UnitParser[LiftingSpec]):
+class LiftingParser:
     grammar = ""
     unit_names = [unit_name.value for unit_name in LiftingUnitName]
 

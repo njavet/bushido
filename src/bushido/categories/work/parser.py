@@ -2,7 +2,6 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
-from ..dtypes import UnitParser
 from ..exceptions import ParsingError
 from ..parsing.dt_parse import parse_start_end_time_string
 
@@ -22,7 +21,7 @@ class WorkSpec:
 
 
 @dataclass(frozen=True, slots=True)
-class WorkParser(UnitParser[WorkSpec]):
+class WorkParser:
     grammar = ""
     unit_names = [unit_name.value for unit_name in WorkUnitName]
 

@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
-from ..dtypes import UnitParser
 from ..exceptions import ParsingError
 
 
@@ -22,7 +21,7 @@ class WimhofSpec:
 
 
 @dataclass(frozen=True, slots=True)
-class WimhofParser(UnitParser[WimhofSpec]):
+class WimhofParser:
     grammar = ""
     unit_names = [unit_name.value for unit_name in WimhofUnitName]
 

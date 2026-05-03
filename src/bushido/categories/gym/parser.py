@@ -2,7 +2,6 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
-from ..dtypes import UnitParser
 from ..exceptions import ParsingError
 from ..parsing.dt_parse import parse_start_end_time_string
 
@@ -23,7 +22,7 @@ class GymSpec:
 
 
 @dataclass(frozen=True, slots=True)
-class GymParser(UnitParser[GymSpec]):
+class GymParser:
     grammar = """
 <name> <start>-<end> <location> [<training>] [<focus>] # [<comment>]
 
