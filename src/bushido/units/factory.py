@@ -22,9 +22,9 @@ from bushido.units.wimhof import (
 )
 
 PARSERS: dict[str, UnitParser[Any]] = {
-    **{u.name: GymParser(u.name) for u in GymUnitName},
-    **{u.name: LiftingParser(u.name) for u in LiftingUnitName},
-    **{u.name: WimhofParser(u.name) for u in WimhofUnitName},
+    **{u.name: GymParser() for u in GymUnitName},
+    **{u.name: LiftingParser() for u in LiftingUnitName},
+    **{u.name: WimhofParser() for u in WimhofUnitName},
 }
 
 

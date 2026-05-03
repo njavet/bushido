@@ -10,7 +10,7 @@ from textual.reactive import Reactive
 from textual.widgets import Static
 
 from bushido.core.dtypes import ParsedUnit
-from bushido.units.parsing import get_bushido_date_from_datetime
+from bushido.units.parsing.dt_parse import get_bushido_date_from_datetime
 
 
 class DayWidget(Static):
