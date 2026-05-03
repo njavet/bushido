@@ -2,12 +2,8 @@ import datetime
 from dataclasses import dataclass
 from enum import StrEnum
 
-from ..dtypes import UnitParser
 from ..exceptions import ParsingError
-from ..parsing.dt_parse import (
-    parse_military_time_string,
-    time_string_to_seconds,
-)
+from ..parsing.dt_parse import parse_military_time_string, time_string_to_seconds
 
 
 class CardioUnitName(StrEnum):
@@ -27,7 +23,7 @@ class CardioSpec:
 
 
 @dataclass(frozen=True, slots=True)
-class CardioParser(UnitParser[CardioSpec]):
+class CardioParser:
     grammar = ""
     unit_names = [unit_name.value for unit_name in CardioUnitName]
 
