@@ -9,7 +9,8 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Footer, Input
 
-from bushido.categories.log_unit import LogUnitService, UnitHelp
+from bushido.categories.dtypes import CategoryHelp
+from bushido.categories.log_unit import LogUnitService
 
 
 class UnitSuggester(Suggester):
@@ -39,7 +40,7 @@ class LogUnitInput(Input):
 
 
 class UnitHelpWidget(Widget):
-    def __init__(self, unit_help: dict[str, UnitHelp]) -> None:
+    def __init__(self, unit_help: dict[str, CategoryHelp]) -> None:
         super().__init__()
         self.unit_help = unit_help
 

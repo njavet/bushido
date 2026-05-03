@@ -36,3 +36,10 @@ class RawUnit:
 class UnitParser(Protocol[P]):
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> P: ...
+
+
+@dataclass(frozen=True, slots=True)
+class CategoryHelp:
+    name: str
+    grammar: str
+    unit_names: list[str]

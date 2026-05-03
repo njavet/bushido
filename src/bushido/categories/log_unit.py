@@ -1,18 +1,9 @@
-from dataclasses import dataclass
-from enum import StrEnum
-
 from sqlalchemy.orm import Session
 
-from .dtypes import Clock, ParsedUnit, SystemClock
+from .dtypes import CategoryHelp, Clock, ParsedUnit, SystemClock
 from .exceptions import ParsingError
 from .parsing.unit import parse_raw_unit, split_options
 from .registry import REGISTRY, UNIT_TO_CATEGORY, get_unit_names
-
-
-@dataclass(frozen=True, slots=True)
-class UnitHelp:
-    grammar: str
-    unit_names: StrEnum
 
 
 class LogUnitService:
@@ -29,9 +20,9 @@ class LogUnitService:
             category = UNIT_TO_CATEGORY[raw.name]
         except KeyError:
             return f"unknown unit: {raw.name}"
+
         registry = self.registry[category]
         tokens, log_time = split_options(raw.tokens, self.clock)
-
         try:
             unit_data = registry.parser.parse(tokens)
         except ParsingError as e:
@@ -52,3 +43,10 @@ class LogUnitService:
     @property
     def unit_names(self) -> list[str]:
         return get_unit_names()
+
+    @property
+    def category_help(self) -> list[CategoryHelp]:
+        return [
+            CategoryHelp(name=category, grammar=r.grammar, unit_names=r.unit_names)
+            for category, r in REGISTRY.items()
+        ]

@@ -13,6 +13,7 @@ from .lifting import (
     LiftingUnit,
 )
 from .mapper import UnitMapper
+from .orm import Unit
 from .repo import UnitRepo
 from .wimhof import (
     WimhofMapper,
@@ -33,7 +34,7 @@ class UnitCategory(StrEnum):
 class CategoryRegistration:
     parser: UnitParser[Any]
     mapper: UnitMapper[Any, Any, Any]
-    unit_cls: Any
+    unit_cls: type[Unit]
     grammar: str
     unit_names: list[str]
     subrels: Any | None = None
