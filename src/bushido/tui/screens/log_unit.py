@@ -1,4 +1,3 @@
-
 from rich.table import Table
 from sqlalchemy.orm import Session
 from textual.app import ComposeResult

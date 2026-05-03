@@ -2,7 +2,7 @@ import datetime
 
 from sqlalchemy.orm import Mapped, mapped_column
 
-from bushido.units.orm import Unit
+from ..orm import Unit
 
 
 class WorkUnit(Unit):

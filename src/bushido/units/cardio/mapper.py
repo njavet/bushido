@@ -1,8 +1,7 @@
 from typing import Any
 
-from bushido.units.mapper import UnitMapper
-from bushido.units.parsing.base import ParsedUnit
-
+from ..mapper import UnitMapper
+from ..parsing.base import ParsedUnit
 from .orm import CardioUnit
 from .parser import CardioSpec
 

@@ -4,17 +4,17 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from bushido.units.cardio import CardioMapper, CardioParser, CardioUnit
-from bushido.units.gym import GymMapper, GymParser, GymUnit
-from bushido.units.lifting import (
+from .cardio import CardioMapper, CardioParser, CardioUnit
+from .gym import GymMapper, GymParser, GymUnit
+from .lifting import (
     LiftingMapper,
     LiftingParser,
     LiftingUnit,
 )
-from bushido.units.mapper import UnitMapper
-from bushido.units.parsing.base import UnitParser
-from bushido.units.repo import UnitRepo
-from bushido.units.wimhof import (
+from .mapper import UnitMapper
+from .parsing.base import UnitParser
+from .repo import UnitRepo
+from .wimhof import (
     WimhofMapper,
     WimhofParser,
     WimhofUnit,

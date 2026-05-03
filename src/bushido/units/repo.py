@@ -4,7 +4,7 @@ from typing import Generic
 from sqlalchemy import select
 from sqlalchemy.orm import InstrumentedAttribute, Session, selectinload
 
-from bushido.units.mapper import TS, TU
+from .mapper import TS, TU
 
 # TODO add stricter typing
 """

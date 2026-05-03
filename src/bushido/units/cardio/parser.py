@@ -3,8 +3,9 @@ from dataclasses import dataclass
 from enum import StrEnum
 
 from bushido.core.result import Err, Ok, Result
-from bushido.units.parsing.base import UnitParser
-from bushido.units.parsing.dt_parse import (
+
+from ..parsing.base import UnitParser
+from ..parsing.dt_parse import (
     parse_military_time_string,
     time_string_to_seconds,
 )

@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from enum import StrEnum
 
 from bushido.core.result import Err, Ok, Result
-from bushido.units.parsing.base import UnitParser
+
+from ..parsing.base import UnitParser
 
 
 class LiftingUnitName(StrEnum):

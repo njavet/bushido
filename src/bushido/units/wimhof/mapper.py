@@ -1,6 +1,5 @@
-from bushido.units.mapper import UnitMapper
-from bushido.units.parsing.base import ParsedUnit
-
+from ..mapper import UnitMapper
+from ..parsing.base import ParsedUnit
 from .orm import WimhofRound, WimhofUnit
 from .parser import RoundSpec, WimhofSpec
 
