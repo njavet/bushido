@@ -1,8 +1,25 @@
+import datetime
+from dataclasses import dataclass
+from enum import StrEnum
+
 from bushido.core.result import Err, Ok, Result
 from bushido.units.parsing.base import UnitParser
 from bushido.units.parsing.dt_parse import parse_start_end_time_string
 
-from .domain import GymSpec
+
+class GymUnitName(StrEnum):
+    weights = "weights"
+    martial_arts = "martial_arts"
+    yoga = "yoga"
+
+
+@dataclass(frozen=True, slots=True)
+class GymSpec:
+    start_t: datetime.time
+    end_t: datetime.time
+    location: str
+    training: str | None = None
+    focus: str | None = None
 
 
 class GymParser(UnitParser[GymSpec]):

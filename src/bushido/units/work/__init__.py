@@ -1,7 +1,7 @@
-from .domain import WorkSpec, WorkUnitName, format_work_unit
 from .mapper import WorkMapper
 from .orm import WorkUnit
 from .parser import WorkParser
+from .render import WorkSpec, WorkUnitName, format_work_unit
 
 __all__ = [
     "WorkSpec",

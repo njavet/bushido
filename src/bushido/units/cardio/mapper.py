@@ -1,10 +1,10 @@
 from typing import Any
 
-from bushido.core.dtypes import ParsedUnit
 from bushido.units.mapper import UnitMapper
+from bushido.units.parsing.base import ParsedUnit
 
-from .domain import CardioSpec
 from .orm import CardioUnit
+from .parser import CardioSpec
 
 
 class CardioMapper(UnitMapper[CardioSpec, CardioUnit, Any]):

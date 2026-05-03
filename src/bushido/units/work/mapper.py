@@ -3,8 +3,8 @@ from typing import Any
 from bushido.core.dtypes import ParsedUnit
 from bushido.units.mapper import UnitMapper
 
-from .domain import WorkSpec
 from .orm import WorkUnit
+from .render import WorkSpec
 
 
 class WorkMapper(UnitMapper[WorkSpec, WorkUnit, Any]):

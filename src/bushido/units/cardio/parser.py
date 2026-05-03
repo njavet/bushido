@@ -1,3 +1,7 @@
+import datetime
+from dataclasses import dataclass
+from enum import StrEnum
+
 from bushido.core.result import Err, Ok, Result
 from bushido.units.parsing.base import UnitParser
 from bushido.units.parsing.dt_parse import (
@@ -5,7 +9,21 @@ from bushido.units.parsing.dt_parse import (
     time_string_to_seconds,
 )
 
-from .domain import CardioSpec
+
+class CardioUnitName(StrEnum):
+    running = "running"
+    skipping = "skipping"
+
+
+@dataclass(frozen=True, slots=True)
+class CardioSpec:
+    start_t: datetime.time
+    seconds: float
+    location: str
+    distance: float | None
+    avg_hr: int | None
+    max_hr: int | None
+    calories: int | None
 
 
 class CardioParser(UnitParser[CardioSpec]):

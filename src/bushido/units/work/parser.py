@@ -1,8 +1,24 @@
+import datetime
+from dataclasses import dataclass
+from enum import StrEnum
+
 from bushido.core.result import Err, Ok, Result
 from bushido.units.parsing.base import UnitParser
 from bushido.units.parsing.dt_parse import parse_start_end_time_string
 
-from .domain import WorkSpec
+
+class WorkUnitName(StrEnum):
+    risktec = "risktec"
+    myself = "myself"
+
+
+@dataclass(frozen=True, slots=True)
+class WorkSpec:
+    start_t: datetime.time
+    end_t: datetime.time
+    location: str
+    employer: str
+    project: str
 
 
 class WorkParser(UnitParser[WorkSpec]):

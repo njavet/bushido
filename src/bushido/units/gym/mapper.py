@@ -3,8 +3,8 @@ from typing import Any
 from bushido.core.dtypes import ParsedUnit
 from bushido.units.mapper import UnitMapper
 
-from .domain import GymSpec
 from .orm import GymUnit
+from .render import GymSpec
 
 
 class GymMapper(UnitMapper[GymSpec, GymUnit, Any]):

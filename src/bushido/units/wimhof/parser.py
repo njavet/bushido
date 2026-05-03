@@ -1,7 +1,24 @@
+from dataclasses import dataclass
+from enum import StrEnum
+
 from bushido.core.result import Err, Ok, Result
 from bushido.units.parsing.base import UnitParser
 
-from .domain import RoundSpec, WimhofSpec
+
+class WimhofUnitName(StrEnum):
+    wimhof = "wimhof"
+
+
+@dataclass(frozen=True, slots=True)
+class RoundSpec:
+    round_nr: int
+    breaths: int
+    retention: int
+
+
+@dataclass(frozen=True, slots=True)
+class WimhofSpec:
+    rounds: list[RoundSpec]
 
 
 class WimhofParser(UnitParser[WimhofSpec]):
