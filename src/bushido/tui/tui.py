@@ -9,8 +9,8 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido.categories.log_unit import LogUnitService
-from bushido.infra.db import SessionFactory
+from bushido.categories import LogUnitService
+from bushido.categories.db import SessionFactory
 from bushido.tui.containers.header import HeaderContainer
 from bushido.tui.containers.mind import MindContainer
 from bushido.tui.containers.training import TrainingContainer

@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from bushido.infra.db import SessionFactory
+from bushido.categories.db import SessionFactory
 from bushido.web import router
 
 

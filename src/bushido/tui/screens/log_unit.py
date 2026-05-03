@@ -9,8 +9,8 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Footer, Input
 
+from bushido.categories import LogUnitService
 from bushido.categories.dtypes import CategoryHelp
-from bushido.categories.log_unit import LogUnitService
 
 
 class UnitSuggester(Suggester):
