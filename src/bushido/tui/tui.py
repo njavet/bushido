@@ -4,7 +4,6 @@ from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
     Footer,
-    Markdown,
     Rule,
     TabbedContent,
     TabPane,
@@ -12,9 +11,7 @@ from textual.widgets import (
 
 from bushido.infra.db import SessionFactory
 from bushido.service.log_unit import LogUnitService
-from bushido.tui.containers.cardio import CardioContainer
 from bushido.tui.containers.header import HeaderContainer
-from bushido.tui.containers.lifting import LiftingContainer
 from bushido.tui.containers.mind import MindContainer
 from bushido.tui.containers.training import TrainingContainer
 from bushido.tui.containers.work import WorkContainer
@@ -45,16 +42,10 @@ class BushidoApp(App[None]):
         with TabbedContent():
             with TabPane("training"):
                 yield TrainingContainer()
-            with TabPane("lifting"):
-                yield LiftingContainer()
-            with TabPane("cardio"):
-                yield CardioContainer()
-            with TabPane("work"):
-                yield WorkContainer()
             with TabPane("mind"):
                 yield MindContainer()
-            with TabPane("unitlog"):
-                yield Markdown("TODO")
+            with TabPane("work"):
+                yield WorkContainer()
         yield Footer()
 
     def action_log_unit(self) -> None:

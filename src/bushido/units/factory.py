@@ -2,6 +2,7 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
+from bushido.units.cardio import CardioMapper, CardioParser, CardioUnitName
 from bushido.units.gym import GymMapper, GymParser, GymUnit, GymUnitName
 from bushido.units.lifting import (
     LiftingMapper,
@@ -23,6 +24,7 @@ from bushido.units.wimhof import (
 
 PARSERS: dict[str, UnitParser[Any]] = {
     **{u.name: GymParser() for u in GymUnitName},
+    **{u.name: CardioParser() for u in CardioUnitName},
     **{u.name: LiftingParser() for u in LiftingUnitName},
     **{u.name: WimhofParser() for u in WimhofUnitName},
 }
@@ -30,6 +32,7 @@ PARSERS: dict[str, UnitParser[Any]] = {
 
 MAPPERS: dict[str, UnitMapper[Any, Any, Any]] = {
     **{u.name: GymMapper() for u in GymUnitName},
+    **{u.name: CardioMapper() for u in CardioUnitName},
     **{u.name: LiftingMapper() for u in LiftingUnitName},
     **{u.name: WimhofMapper() for u in WimhofUnitName},
 }
