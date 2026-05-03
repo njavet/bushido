@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
-from bushido.core.dtypes import UnitData
-
 from .orm import LiftingSet, LiftingUnit
 
 
@@ -24,7 +22,7 @@ class SetSpec:
 
 
 @dataclass(frozen=True, slots=True)
-class LiftingSpec(UnitData):
+class LiftingSpec:
     sets: list[SetSpec]
 
 
