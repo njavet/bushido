@@ -33,20 +33,10 @@ This structure keeps the core clean and testable, while making it easy to extend
 
 ## Installation
 
-* install uv:
-
-`curl -Ls https://astral.sh/uv/install.sh | sh`
-
-* clone repo:
-
-`git clone https://github.com/njavet/bushido.git`
-
-* install project
 ```
+curl -Ls https://astral.sh/uv/install.sh | sh
+git clone https://github.com/njavet/bushido.git
 cd bushido
 uv sync
+uv run bushido
 ```
-
-* run textual app
- 
-`uv run bushido`
