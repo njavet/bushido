@@ -1,41 +1,34 @@
-import datetime
 
 import pytest
-from freezegun import freeze_time
 
-from bushido.core.dtypes import ParsedUnit
 from bushido.core.result import Ok
 from bushido.units.wimhof import RoundSpec, WimhofParser, WimhofSpec
 
 
 @pytest.fixture
-def parser():
-    return WimhofParser(unit_name="wimhof")
+def parser() -> WimhofParser:
+    return WimhofParser()
 
 
 @pytest.mark.parametrize(
-    "line, expected",
+    "tokens, expected",
     [
         (
-            "30 90 30 120 30 150",
-            ParsedUnit(
-                name="wimhof",
-                data=WimhofSpec(
-                    rounds=[
-                        RoundSpec(round_nr=0, breaths=30, retention=90),
-                        RoundSpec(round_nr=1, breaths=30, retention=120),
-                        RoundSpec(round_nr=2, breaths=30, retention=150),
-                    ]
-                ),
-                log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-                comment=None,
+            ("30", "90", "30", "120", "30", "150"),
+            WimhofSpec(
+                rounds=[
+                    RoundSpec(round_nr=0, breaths=30, retention=90),
+                    RoundSpec(round_nr=1, breaths=30, retention=120),
+                    RoundSpec(round_nr=2, breaths=30, retention=150),
+                ]
             ),
         ),
     ],
 )
-@freeze_time("2020-01-01")
-def test_correct_wimhof_unit(parser, line, expected):
-    result = parser.parse(line)
+def test_correct_wimhof_unit(
+    parser: WimhofParser, tokens: tuple[str, ...], expected: WimhofSpec
+) -> None:
+    result = parser.parse(tokens)
     assert isinstance(result, Ok)
     parsed_unit = result.value
     assert parsed_unit == expected

@@ -7,7 +7,7 @@ from bushido.units.gym import GymMapper, GymSpec, GymUnit
 
 
 @pytest.fixture
-def mapper():
+def mapper() -> GymMapper:
     return GymMapper()
 
 
@@ -35,7 +35,9 @@ GYM_CASES = [
 
 
 @pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
-def test_correct_to_orm_mapping(mapper, parsed_unit, unit):
+def test_correct_to_orm_mapping(
+    mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnit
+) -> None:
     u, _ = mapper.to_orm(parsed_unit)
     assert isinstance(u, GymUnit)
     assert u.name == unit.name
@@ -46,7 +48,9 @@ def test_correct_to_orm_mapping(mapper, parsed_unit, unit):
 
 
 @pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
-def test_correct_from_orm_mapping(mapper, parsed_unit, unit):
+def test_correct_from_orm_mapping(
+    mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnit
+) -> None:
     pu = mapper.from_orm((unit, []))
     assert isinstance(pu, ParsedUnit)
     assert pu.name == unit.name

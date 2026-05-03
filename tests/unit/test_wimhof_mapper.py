@@ -13,7 +13,7 @@ from bushido.units.wimhof import (
 
 
 @pytest.fixture
-def mapper():
+def mapper() -> WimhofMapper:
     return WimhofMapper()
 
 
@@ -45,7 +45,12 @@ WIMHOF_CASES = [
 
 
 @pytest.mark.parametrize("parsed_unit, unit, rounds", WIMHOF_CASES)
-def test_correct_to_orm(mapper, parsed_unit, unit, rounds):
+def test_correct_to_orm(
+    mapper: WimhofMapper,
+    parsed_unit: ParsedUnit[WimhofSpec],
+    unit: WimhofUnit,
+    rounds: list[WimhofRound],
+) -> None:
     u, r = mapper.to_orm(parsed_unit)
     assert isinstance(u, WimhofUnit)
     assert u.name == unit.name
@@ -59,7 +64,12 @@ def test_correct_to_orm(mapper, parsed_unit, unit, rounds):
 
 
 @pytest.mark.parametrize("parsed_unit, unit, rounds", WIMHOF_CASES)
-def test_correct_from_orm(mapper, parsed_unit, unit, rounds):
+def test_correct_from_orm(
+    mapper: WimhofMapper,
+    parsed_unit: ParsedUnit[WimhofSpec],
+    unit: WimhofUnit,
+    rounds: list[WimhofRound],
+) -> None:
     pu = mapper.from_orm((unit, rounds))
     assert isinstance(pu, ParsedUnit)
     assert pu.name == unit.name

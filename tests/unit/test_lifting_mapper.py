@@ -13,7 +13,7 @@ from bushido.units.lifting import (
 
 
 @pytest.fixture
-def mapper():
+def mapper() -> LiftingMapper:
     return LiftingMapper()
 
 
@@ -65,7 +65,12 @@ LIFTING_CASES = [
 
 
 @pytest.mark.parametrize("parsed_unit, unit, sets", LIFTING_CASES)
-def test_correct_to_orm_mapping(mapper, parsed_unit, unit, sets):
+def test_correct_to_orm_mapping(
+    mapper: LiftingMapper,
+    parsed_unit: ParsedUnit[LiftingSpec],
+    unit: LiftingUnit,
+    sets: list[LiftingSet],
+) -> None:
     u, s = mapper.to_orm(parsed_unit)
     assert isinstance(u, LiftingUnit)
     assert u.name == unit.name
@@ -80,7 +85,12 @@ def test_correct_to_orm_mapping(mapper, parsed_unit, unit, sets):
 
 
 @pytest.mark.parametrize("parsed_unit, unit, sets", LIFTING_CASES)
-def test_correct_from_orm_mapping(mapper, parsed_unit, unit, sets):
+def test_correct_from_orm_mapping(
+    mapper: LiftingMapper,
+    parsed_unit: ParsedUnit[LiftingSpec],
+    unit: LiftingUnit,
+    sets: list[LiftingSet],
+) -> None:
     pu = mapper.from_orm((unit, sets))
     assert isinstance(pu, ParsedUnit)
     assert pu.name == unit.name
