@@ -18,20 +18,20 @@ jobs:
         with:
           python-version: '3.14'
 
-      - name: Install Poetry
-        run: pip install poetry
+      - name: Install uv
+        run: pip install uv
 
       - name: Install Dependencies
-        run: poetry install --no-interaction --without=dev
+        run: uv sync
 
       - name: Run Ruff check
-        run: poetry run ruff check .
+        run: uv run ruff check .
 
       - name: Run Typechecker
-        run: poetry run mypy .
+        run: uv run mypy .
 
       - name: Run tests
-        run: poetry run pytest tests
+        run: uv run pytest tests
 
       - name: Build Package
-        run: poetry build
+        run: uv build
