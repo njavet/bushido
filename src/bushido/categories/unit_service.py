@@ -1,4 +1,5 @@
 import datetime
+from typing import Any
 
 from sqlalchemy.orm import Session
 
@@ -43,11 +44,22 @@ class UnitService:
         else:
             return None
 
+    @staticmethod
     def load_units(
-        self,
         session: Session,
         category: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> None:
-        return
+    ) -> dict[str, list[ParsedUnit[Any]]]:
+        if category is not None:
+            registry = REGISTRY[category]
+            units = registry.repo(session).fetch_units(start_t=start_t, end_t=end_t)
+            parsed_units = [registry.mapper.from_orm(unit) for unit in units]
+            return {category: parsed_units}
+
+        result = {}
+        for category, registry in REGISTRY.items():
+            units = registry.repo(session).fetch_units(start_t=start_t, end_t=end_t)
+            parsed_units = [registry.mapper.from_orm(unit) for unit in units]
+            result[category] = parsed_units
+        return result
