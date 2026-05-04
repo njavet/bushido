@@ -1,5 +1,3 @@
-from typing import Any
-
 from ..dtypes import ParsedUnit
 from .orm import CardioUnit
 from .parser import CardioSpec
@@ -7,7 +5,7 @@ from .parser import CardioSpec
 
 class CardioMapper:
     @staticmethod
-    def to_orm(parsed_unit: ParsedUnit[CardioSpec]) -> tuple[CardioUnit, list[Any]]:
+    def to_orm(parsed_unit: ParsedUnit[CardioSpec]) -> CardioUnit:
         unit = CardioUnit(
             name=parsed_unit.name,
             log_time=parsed_unit.log_time,
@@ -20,24 +18,22 @@ class CardioMapper:
             calories=parsed_unit.data.calories,
             comment=parsed_unit.comment,
         )
-        return unit, []
+        return unit
 
-    # TODO fix Any / None / []
     @staticmethod
-    def from_orm(orms: tuple[CardioUnit, list[Any]]) -> ParsedUnit[CardioSpec]:
-        unit, _ = orms
+    def from_orm(orm_unit: CardioUnit) -> ParsedUnit[CardioSpec]:
         pu = ParsedUnit(
-            name=unit.name,
+            name=orm_unit.name,
             data=CardioSpec(
-                start_t=unit.start_t,
-                seconds=unit.seconds,
-                location=unit.location,
-                distance=unit.distance,
-                avg_hr=unit.avg_hr,
-                max_hr=unit.max_hr,
-                calories=unit.calories,
+                start_t=orm_unit.start_t,
+                seconds=orm_unit.seconds,
+                location=orm_unit.location,
+                distance=orm_unit.distance,
+                avg_hr=orm_unit.avg_hr,
+                max_hr=orm_unit.max_hr,
+                calories=orm_unit.calories,
             ),
-            log_time=unit.log_time,
-            comment=unit.comment,
+            log_time=orm_unit.log_time,
+            comment=orm_unit.comment,
         )
         return pu

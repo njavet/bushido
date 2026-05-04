@@ -1,5 +1,3 @@
-from typing import Any
-
 from ..dtypes import ParsedUnit
 from .orm import GymUnit
 from .parser import GymSpec
@@ -7,7 +5,7 @@ from .parser import GymSpec
 
 class GymMapper:
     @staticmethod
-    def to_orm(parsed_unit: ParsedUnit[GymSpec]) -> tuple[GymUnit, list[Any]]:
+    def to_orm(parsed_unit: ParsedUnit[GymSpec]) -> GymUnit:
         unit = GymUnit(
             name=parsed_unit.name,
             log_time=parsed_unit.log_time,
@@ -18,22 +16,20 @@ class GymMapper:
             focus=parsed_unit.data.focus,
             comment=parsed_unit.comment,
         )
-        return unit, []
+        return unit
 
-    # TODO fix Any / None / []
     @staticmethod
-    def from_orm(orms: tuple[GymUnit, list[Any]]) -> ParsedUnit[GymSpec]:
-        unit, _ = orms
+    def from_orm(orm_unit: GymUnit) -> ParsedUnit[GymSpec]:
         pu = ParsedUnit(
-            name=unit.name,
+            name=orm_unit.name,
             data=GymSpec(
-                start_t=unit.start_t,
-                end_t=unit.end_t,
-                location=unit.location,
-                training=unit.training,
-                focus=unit.focus,
+                start_t=orm_unit.start_t,
+                end_t=orm_unit.end_t,
+                location=orm_unit.location,
+                training=orm_unit.training,
+                focus=orm_unit.focus,
             ),
-            log_time=unit.log_time,
-            comment=unit.comment,
+            log_time=orm_unit.log_time,
+            comment=orm_unit.comment,
         )
         return pu

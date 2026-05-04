@@ -12,7 +12,7 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input
 
-from bushido.categories.unit_help import UnitHelpService
+from bushido.categories import UnitService
 
 LogUnitHandler = Callable[[str], Awaitable[str | None]]
 
@@ -54,13 +54,13 @@ class UnitSubmitted(Message):
 
 
 class UnitHelpWidget(Widget):
-    def __init__(self, ch: UnitHelpService) -> None:
+    def __init__(self, unit_service: UnitService) -> None:
         super().__init__()
-        self.ch = ch
+        self.unit_service = unit_service
 
     def render(self) -> Group:
         panels = []
-        for item in self.ch.category_help:
+        for item in self.unit_service.category_help:
             content = "\n".join(
                 [
                     f"Category: {item.name}",
@@ -83,15 +83,15 @@ class LogUnitScreen(ModalScreen[bool]):
     def action_cancel(self) -> None:
         self.dismiss(False)
 
-    def __init__(self, ch: UnitHelpService, log_unit: LogUnitHandler) -> None:
+    def __init__(self, unit_service: UnitService, log_unit: LogUnitHandler) -> None:
         super().__init__()
-        self.ch = ch
+        self.unit_service = unit_service
         self.log_unit = log_unit
 
     def compose(self) -> ComposeResult:
         with Vertical(id="log_unit_dialog"):
-            yield UnitHelpWidget(self.ch)
-            yield UnitInput(suggester=UnitSuggester(self.ch.unit_names))
+            yield UnitHelpWidget(self.unit_service)
+            yield UnitInput(suggester=UnitSuggester(self.unit_service.unit_names))
 
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:

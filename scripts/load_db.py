@@ -3,13 +3,13 @@ import sys
 from typing import Any
 
 from bushido.categories.db import SessionFactory
-from bushido.categories.log_unit import LogUnitService
+from bushido.categories.unit_service import UnitService
 
 
 def load_db(data: list[Any]) -> None:
     sf = SessionFactory()
     sf.init_db()
-    lus = LogUnitService()
+    lus = UnitService()
     with sf.session() as session:
         for unit in data:
             line = unit["line"] + " --dt " + unit["local_datetime"]

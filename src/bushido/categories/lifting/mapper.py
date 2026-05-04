@@ -5,31 +5,28 @@ from .parser import LiftingSpec, SetSpec
 
 class LiftingMapper:
     @staticmethod
-    def to_orm(
-        parsed_unit: ParsedUnit[LiftingSpec],
-    ) -> tuple[LiftingUnit, list[LiftingSet]]:
+    def to_orm(parsed_unit: ParsedUnit[LiftingSpec]) -> LiftingUnit:
         unit = LiftingUnit(
             name=parsed_unit.name,
             comment=parsed_unit.comment,
             log_time=parsed_unit.log_time,
         )
-        lst = []
-        for s in parsed_unit.data.sets:
-            ls = LiftingSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
-            lst.append(ls)
-        return unit, lst
+        unit.subunits = [
+            LiftingSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
+            for s in parsed_unit.data.sets
+        ]
+        return unit
 
     @staticmethod
-    def from_orm(orms: tuple[LiftingUnit, list[LiftingSet]]) -> ParsedUnit[LiftingSpec]:
-        unit, sets = orms
+    def from_orm(orm_unit: LiftingUnit) -> ParsedUnit[LiftingSpec]:
         lst = []
-        for s in sets:
+        for s in orm_unit.subunits:
             sp = SetSpec(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             lst.append(sp)
         pu = ParsedUnit(
-            name=unit.name,
+            name=orm_unit.name,
             data=LiftingSpec(sets=lst),
-            log_time=unit.log_time,
-            comment=unit.comment,
+            log_time=orm_unit.log_time,
+            comment=orm_unit.comment,
         )
         return pu

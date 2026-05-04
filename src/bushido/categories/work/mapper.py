@@ -1,5 +1,3 @@
-from typing import Any
-
 from ..dtypes import ParsedUnit
 from .orm import WorkUnit
 from .parser import WorkSpec
@@ -7,7 +5,7 @@ from .parser import WorkSpec
 
 class WorkMapper:
     @staticmethod
-    def to_orm(parsed_unit: ParsedUnit[WorkSpec]) -> tuple[WorkUnit, list[Any]]:
+    def to_orm(parsed_unit: ParsedUnit[WorkSpec]) -> WorkUnit:
         unit = WorkUnit(
             name=parsed_unit.name,
             log_time=parsed_unit.log_time,
@@ -18,22 +16,20 @@ class WorkMapper:
             project=parsed_unit.data.project,
             comment=parsed_unit.comment,
         )
-        return unit, []
+        return unit
 
-    # TODO fix Any / None / []
     @staticmethod
-    def from_orm(orms: tuple[WorkUnit, list[Any]]) -> ParsedUnit[WorkSpec]:
-        unit, _ = orms
+    def from_orm(orm_unit: WorkUnit) -> ParsedUnit[WorkSpec]:
         pu = ParsedUnit(
-            name=unit.name,
+            name=orm_unit.name,
             data=WorkSpec(
-                start_t=unit.start_t,
-                end_t=unit.end_t,
-                location=unit.location,
-                employer=unit.employer,
-                project=unit.project,
+                start_t=orm_unit.start_t,
+                end_t=orm_unit.end_t,
+                location=orm_unit.location,
+                employer=orm_unit.employer,
+                project=orm_unit.project,
             ),
-            log_time=unit.log_time,
-            comment=unit.comment,
+            log_time=orm_unit.log_time,
+            comment=orm_unit.comment,
         )
         return pu

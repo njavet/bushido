@@ -5,37 +5,30 @@ from .parser import RoundSpec, WimhofSpec
 
 class WimhofMapper:
     @staticmethod
-    def to_orm(
-        parsed_unit: ParsedUnit[WimhofSpec],
-    ) -> tuple[WimhofUnit, list[WimhofRound]]:
+    def to_orm(parsed_unit: ParsedUnit[WimhofSpec]) -> WimhofUnit:
         unit = WimhofUnit(
             name=parsed_unit.name,
             log_time=parsed_unit.log_time,
             comment=parsed_unit.comment,
         )
-        lst = []
-        for r in parsed_unit.data.rounds:
-            wr = WimhofRound(
-                round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
-            )
-            lst.append(wr)
-        return unit, lst
+        unit.subunits = [
+            WimhofRound(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
+            for r in parsed_unit.data.rounds
+        ]
+        return unit
 
     @staticmethod
-    def from_orm(
-        orms: tuple[WimhofUnit, list[WimhofRound]],
-    ) -> ParsedUnit[WimhofSpec]:
-        unit, rounds = orms
+    def from_orm(orm_unit: WimhofUnit) -> ParsedUnit[WimhofSpec]:
         lst = []
-        for r in rounds:
+        for r in orm_unit.subunits:
             ws = RoundSpec(
                 round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
             )
             lst.append(ws)
         pu = ParsedUnit(
-            name=unit.name,
+            name=orm_unit.name,
             data=WimhofSpec(rounds=lst),
-            log_time=unit.log_time,
-            comment=unit.comment,
+            log_time=orm_unit.log_time,
+            comment=orm_unit.comment,
         )
         return pu

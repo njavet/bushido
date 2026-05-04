@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from bushido.categories.db import SessionFactory
 from bushido.categories.gym import GymUnit
 from bushido.categories.lifting import LiftingSet, LiftingUnit
-from bushido.categories.log_unit import LogUnitService
+from bushido.categories.unit_service import UnitService
 
 
 @pytest.fixture(scope="session")
@@ -28,11 +28,11 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 
 @pytest.fixture
-def service() -> LogUnitService:
-    return LogUnitService()
+def service() -> UnitService:
+    return UnitService()
 
 
-def test_log_gym_unit_success(service: LogUnitService, session: Session) -> None:
+def test_log_gym_unit_success(service: UnitService, session: Session) -> None:
     line = "weights 1800-1900 nautilus"
     service.log_unit(line, session)
     units = session.scalars(select(GymUnit)).all()
@@ -43,7 +43,7 @@ def test_log_gym_unit_success(service: LogUnitService, session: Session) -> None
     assert units[0].location == "nautilus"
 
 
-def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:
+def test_log_lifting_unit_success(service: UnitService, session: Session) -> None:
     line = "benchpress 100 5 180 100 5"
     service.log_unit(line, session)
     units = session.scalars(select(LiftingUnit)).all()

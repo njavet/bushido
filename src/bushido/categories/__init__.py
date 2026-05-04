@@ -1,7 +1,7 @@
 from .db import SessionFactory
-from .log_unit import LogUnitService
+from .unit_service import UnitService
 
 __all__ = [
-    "LogUnitService",
+    "UnitService",
     "SessionFactory",
 ]

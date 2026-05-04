@@ -1,10 +1,11 @@
 import datetime
-from typing import Generic
+from typing import Generic, TypeVar
 
 from sqlalchemy import select
 from sqlalchemy.orm import InstrumentedAttribute, Session, selectinload
 
-from .mapper import TS, TU
+from .mapper import TU
+from .orm import Subunit
 
 # TODO add stricter typing
 """
@@ -22,6 +23,8 @@ class FlatRepo(Generic[U]):
     def __init__(self, s: Session, unit_cls: type[U]): ...
     # add_unit (no subs) and fetch_units (no eager-load)
 """
+
+TS = TypeVar("TS", bound=Subunit)
 
 
 class UnitRepo(Generic[TU, TS]):
