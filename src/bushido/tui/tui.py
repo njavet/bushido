@@ -10,10 +10,7 @@ from textual.widgets import (
 from bushido.categories import LogUnitService, SessionFactory
 from bushido.categories.unit_help import UnitHelpService
 from bushido.categories.unit_ret import UnitLoadService
-from bushido.tui.containers.header import HeaderContainer
-from bushido.tui.containers.mind import MindContainer
-from bushido.tui.containers.training import TrainingContainer
-from bushido.tui.containers.work import WorkContainer
+from bushido.tui.containers import GymContainer, HeaderContainer, LiftingContainer
 from bushido.tui.screens.log_unit import LogUnitScreen
 
 
@@ -44,12 +41,10 @@ class BushidoApp(App[None]):
         yield HeaderContainer()
         yield Rule()
         with TabbedContent():
-            with TabPane("training"):
-                yield TrainingContainer(self.units)
-            with TabPane("mind"):
-                yield MindContainer()
-            with TabPane("work"):
-                yield WorkContainer()
+            with TabPane("gym"):
+                yield GymContainer(self.units)
+            with TabPane("lifting"):
+                yield LiftingContainer()
         yield Footer(id="app_footer")
 
     def action_log_unit(self) -> None:

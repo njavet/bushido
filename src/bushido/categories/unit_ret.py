@@ -10,6 +10,7 @@ class UnitLoadService:
     def load_units(
         self,
         session: Session,
+        category: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> Any:
