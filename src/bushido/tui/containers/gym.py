@@ -1,4 +1,3 @@
-from typing import Any
 
 from textual.app import ComposeResult
 from textual.containers import Container
@@ -10,9 +9,8 @@ from textual.widgets import (
 
 
 class GymContainer(Container):
-    def __init__(self, units: dict[str, Any]) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.units = units
 
     def compose(self) -> ComposeResult:
         with TabbedContent():
