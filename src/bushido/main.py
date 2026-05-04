@@ -6,6 +6,7 @@ from rich.logging import RichHandler
 
 from bushido import __version__
 from bushido.categories import LogUnitService, SessionFactory
+from bushido.categories.unit_help import UnitHelpService
 from bushido.tui.tui import BushidoApp
 
 logging.basicConfig(
@@ -37,7 +38,8 @@ def main() -> None:
         # TODO all orm tables must have been imported already
         sf.init_db()
         log_unit_service = LogUnitService()
-        BushidoApp(sf, log_unit_service).run()
+        unit_help_service = UnitHelpService()
+        BushidoApp(sf, log_unit_service, unit_help_service).run()
 
 
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ from textual.widgets import (
 )
 
 from bushido.categories import LogUnitService, SessionFactory
+from bushido.categories.unit_help import UnitHelpService
 from bushido.tui.containers.header import HeaderContainer
 from bushido.tui.containers.mind import MindContainer
 from bushido.tui.containers.training import TrainingContainer
@@ -16,18 +17,22 @@ from bushido.tui.screens.log_unit import LogUnitScreen
 
 
 class BushidoApp(App[None]):
+    CSS_PATH = "main.tcss"
     BINDINGS = [
         Binding("q", "quit", "quit"),
         Binding("l", "log_unit", "log"),
     ]
-    CSS_PATH = "main.tcss"
 
     def __init__(
-        self, session_factory: SessionFactory, log_unit_service: LogUnitService
+        self,
+        session_factory: SessionFactory,
+        log_unit_service: LogUnitService,
+        unit_help_service: UnitHelpService,
     ) -> None:
         super().__init__()
         self.sf = session_factory
         self.log_unit_service = log_unit_service
+        self.unit_help_service = unit_help_service
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
@@ -43,4 +48,9 @@ class BushidoApp(App[None]):
 
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a unit
-        self.push_screen(LogUnitScreen(self.log_unit_service, self.sf))
+        self.push_screen(LogUnitScreen(self.unit_help_service))
+
+    async def log_unit(self, line: str) -> str | None:
+        with self.sf.session() as session:
+            error = self.log_unit_service.log_unit(line, session)
+        return error

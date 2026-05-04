@@ -5,7 +5,7 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from .cardio import CardioMapper, CardioParser, CardioUnit
-from .dtypes import UnitParser
+from .dtypes import CategoryHelp, UnitParser
 from .gym import GymMapper, GymParser, GymUnit
 from .lifting import (
     LiftingMapper,
@@ -88,3 +88,10 @@ UNIT_TO_CATEGORY: dict[str, str] = {
 
 def get_unit_names() -> list[str]:
     return sorted(UNIT_TO_CATEGORY)
+
+
+def get_category_help() -> list[CategoryHelp]:
+    return [
+        CategoryHelp(name=category, grammar=r.grammar, unit_names=r.unit_names)
+        for category, r in REGISTRY.items()
+    ]

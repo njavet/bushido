@@ -26,10 +26,10 @@ HeaderContainer {
     content-align: center middle;
 }
 
-
 LogUnitScreen {
-    layout: vertical;
+    align: center middle;
 }
+
 UnitHelpWidget {
     height: 2fr;
 }

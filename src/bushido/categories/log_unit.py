@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 
-from .dtypes import CategoryHelp, Clock, ParsedUnit, SystemClock
+from .dtypes import Clock, ParsedUnit, SystemClock
 from .exceptions import ParsingError
 from .parsing.unit import parse_raw_unit, split_options
-from .registry import REGISTRY, UNIT_TO_CATEGORY, get_unit_names
+from .registry import REGISTRY, UNIT_TO_CATEGORY
 
 
 class LogUnitService:
@@ -38,14 +38,3 @@ class LogUnitService:
             return "repo error"
         else:
             return None
-
-    @property
-    def unit_names(self) -> list[str]:
-        return get_unit_names()
-
-    @property
-    def category_help(self) -> list[CategoryHelp]:
-        return [
-            CategoryHelp(name=category, grammar=r.grammar, unit_names=r.unit_names)
-            for category, r in REGISTRY.items()
-        ]

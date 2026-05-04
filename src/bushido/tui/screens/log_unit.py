@@ -1,16 +1,16 @@
-from typing import Any
 
 from rich.console import Group
 from rich.panel import Panel
 from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.events import Key
+from textual.message import Message
 from textual.screen import ModalScreen
 from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
-from textual.widgets import Footer, Input
+from textual.widgets import Input
 
-from bushido.categories import LogUnitService, SessionFactory
+from bushido.categories.unit_help import UnitHelpService
 
 
 class UnitSuggester(Suggester):
@@ -25,7 +25,7 @@ class UnitSuggester(Suggester):
         return None
 
 
-class LogUnitInput(Input):
+class UnitInput(Input):
     def __init__(self, suggester: UnitSuggester) -> None:
         super().__init__(suggester=suggester, id="text_input")
 
@@ -39,15 +39,24 @@ class LogUnitInput(Input):
             self.action_cursor_right()
             event.stop()
 
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        self.post_message(UnitSubmitted(event.value.strip()))
+
+
+class UnitSubmitted(Message):
+    def __init__(self, value: str) -> None:
+        super().__init__()
+        self.value = value
+
 
 class UnitHelpWidget(Widget):
-    def __init__(self, log_unit_service: LogUnitService) -> None:
+    def __init__(self, ch: UnitHelpService) -> None:
         super().__init__()
-        self.log_unit_service = log_unit_service
+        self.ch = ch
 
     def render(self) -> Group:
         panels = []
-        for item in self.log_unit_service.category_help:
+        for item in self.ch.category_help:
             content = "\n".join(
                 [
                     f"Category: {item.name}",
@@ -62,24 +71,25 @@ class UnitHelpWidget(Widget):
         return Group(*panels)
 
 
-class LogUnitScreen(ModalScreen[Any]):
-    def __init__(self, log_unit_service: LogUnitService, sf: SessionFactory) -> None:
+class LogUnitScreen(ModalScreen[bool]):
+    def __init__(self, ch: UnitHelpService) -> None:
         super().__init__()
-        self.log_unit_service = log_unit_service
-        self.sf = sf
+        self.ch = ch
 
     def compose(self) -> ComposeResult:
         with Vertical():
-            yield UnitHelpWidget(self.log_unit_service)
-            yield LogUnitInput(
-                suggester=UnitSuggester(self.log_unit_service.unit_names)
-            )
-            yield Footer()
+            yield UnitHelpWidget(self.ch)
+            yield UnitInput(suggester=UnitSuggester(self.ch.unit_names))
 
-    async def on_input_submitted(self, event: Input.Submitted) -> None:
-        with self.sf.session() as session:
-            error = self.log_unit_service.log_unit(event.value, session)
+    async def on_unit_submitted(self, message: UnitSubmitted) -> None:
+        if not message.value:
+            self.app.notify("empty unit", title="logging failed", severity="error")
+            self.dismiss(False)
+            return
+
+        error = await self.app.log_unit(message.value)
         if error:
             self.app.notify(error, title="logging failed", severity="error")
-        self.query_one(Input).action_delete_left_all()
-        self.query_one(Input).action_delete_right_all()
+            self.dismiss(False)
+        else:
+            self.dismiss(True)
