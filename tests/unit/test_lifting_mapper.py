@@ -68,19 +68,18 @@ def test_correct_to_orm_mapping(
     mapper: LiftingMapper,
     parsed_unit: ParsedUnit[LiftingSpec],
     unit: LiftingUnit,
-    sets: list[LiftingSet],
 ) -> None:
-    u, s = mapper.to_orm(parsed_unit)
+    u = mapper.to_orm(parsed_unit)
     assert isinstance(u, LiftingUnit)
-    assert u.name == unit.name
-    assert u.comment == unit.comment
-    assert u.log_time == unit.log_time
-    for i, ls in enumerate(s):
+    assert unit.name == u.name
+    assert unit.comment == u.comment
+    assert unit.log_time == u.log_time
+    for i, ls in enumerate(u.subunits):
         assert isinstance(ls, LiftingSet)
-        assert ls.set_nr == sets[i].set_nr
-        assert ls.weight == sets[i].weight
-        assert ls.reps == sets[i].reps
-        assert ls.rest == sets[i].rest
+        assert ls.set_nr == unit.subunits[i].set_nr
+        assert ls.weight == unit.subunits[i].weight
+        assert ls.reps == unit.subunits[i].reps
+        assert ls.rest == unit.subunits[i].rest
 
 
 @pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)

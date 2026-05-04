@@ -39,7 +39,7 @@ GYM_CASES = [
 def test_correct_to_orm_mapping(
     mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnit
 ) -> None:
-    u, _ = mapper.to_orm(parsed_unit)
+    u = mapper.to_orm(parsed_unit)
     assert isinstance(u, GymUnit)
     assert u.name == unit.name
     assert u.log_time == unit.log_time
