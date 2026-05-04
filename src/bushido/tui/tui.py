@@ -38,16 +38,14 @@ class BushidoApp(App[None]):
         self.unit_help_service = unit_help_service
         self.unit_retrieve_service = unit_retrieve_service
         with self.sf.session() as session:
-            units = self.unit_retrieve_service.load_units(session)
-            for unit in units:
-                self.log("unitname", unit.name)
+            self.units = self.unit_retrieve_service.load_units(session)
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
         yield Rule()
         with TabbedContent():
             with TabPane("training"):
-                yield TrainingContainer()
+                yield TrainingContainer(self.units)
             with TabPane("mind"):
                 yield MindContainer()
             with TabPane("work"):
