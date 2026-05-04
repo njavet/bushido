@@ -3,6 +3,7 @@ from typing import Awaitable, Callable
 from rich.console import Group
 from rich.panel import Panel
 from textual.app import ComposeResult
+from textual.binding import Binding
 from textual.containers import Vertical
 from textual.events import Key
 from textual.message import Message
@@ -75,13 +76,20 @@ class UnitHelpWidget(Widget):
 
 
 class LogUnitScreen(ModalScreen[bool]):
+    BINDINGS = [
+        Binding("escape", "cancel", "cancel"),
+    ]
+
+    def action_cancel(self) -> None:
+        self.dismiss(False)
+
     def __init__(self, ch: UnitHelpService, log_unit: LogUnitHandler) -> None:
         super().__init__()
         self.ch = ch
         self.log_unit = log_unit
 
     def compose(self) -> ComposeResult:
-        with Vertical():
+        with Vertical(id="log_unit_dialog"):
             yield UnitHelpWidget(self.ch)
             yield UnitInput(suggester=UnitSuggester(self.ch.unit_names))
 

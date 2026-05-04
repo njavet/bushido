@@ -28,6 +28,7 @@ HeaderContainer {
 
 LogUnitScreen {
     align: center middle;
+    background: transparent;
 }
 
 UnitHelpWidget {
@@ -36,4 +37,12 @@ UnitHelpWidget {
 
 #text_input {
     height: 3;
+}
+
+#log_unit_dialog {
+    width: 90%;
+    height: 95%;
+    padding: 1 2;
+    border: round $accent;
+    background: $surface;
 }

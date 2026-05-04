@@ -21,6 +21,7 @@ class BushidoApp(App[None]):
     BINDINGS = [
         Binding("q", "quit", "quit"),
         Binding("l", "log_unit", "log"),
+        Binding("escape", "cancel", "cancel"),
     ]
 
     def __init__(
