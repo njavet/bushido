@@ -3,7 +3,7 @@ from typing import Any
 from rich.console import Group
 from rich.panel import Panel
 from textual.app import ComposeResult
-from textual.binding import Binding
+from textual.containers import Vertical
 from textual.events import Key
 from textual.screen import ModalScreen
 from textual.suggester import Suggester, SuggestionReady
@@ -27,7 +27,7 @@ class UnitSuggester(Suggester):
 
 class LogUnitInput(Input):
     def __init__(self, suggester: UnitSuggester) -> None:
-        super().__init__(suggester=suggester)
+        super().__init__(suggester=suggester, id="text_input")
 
     def on_suggestion_ready(self, event: SuggestionReady) -> None:
         self.action_delete_left_all()
@@ -37,6 +37,7 @@ class LogUnitInput(Input):
         # workaround for accepting autocompletion
         if event.key == "space":
             self.action_cursor_right()
+            event.stop()
 
 
 class UnitHelpWidget(Widget):
@@ -62,22 +63,23 @@ class UnitHelpWidget(Widget):
 
 
 class LogUnitScreen(ModalScreen[Any]):
-    BINDINGS = [
-        Binding("q", "app.pop_screen", "back"),
-    ]
-
     def __init__(self, log_unit_service: LogUnitService, sf: SessionFactory) -> None:
         super().__init__()
         self.log_unit_service = log_unit_service
         self.sf = sf
 
     def compose(self) -> ComposeResult:
-        yield UnitHelpWidget(self.log_unit_service)
-        # yield LogUnitInput(suggester=UnitSuggester(self.log_unit_service.unit_names))
-        yield Footer()
+        with Vertical():
+            yield UnitHelpWidget(self.log_unit_service)
+            yield LogUnitInput(
+                suggester=UnitSuggester(self.log_unit_service.unit_names)
+            )
+            yield Footer()
 
     async def on_input_submitted(self, event: Input.Submitted) -> None:
         with self.sf.session() as session:
-            self.log_unit_service.log_unit(event.value, session)
+            error = self.log_unit_service.log_unit(event.value, session)
+        if error:
+            self.app.notify(error, title="logging failed", severity="error")
         self.query_one(Input).action_delete_left_all()
         self.query_one(Input).action_delete_right_all()

@@ -26,7 +26,14 @@ HeaderContainer {
     content-align: center middle;
 }
 
+
 LogUnitScreen {
     layout: vertical;
 }
+UnitHelpWidget {
+    height: 2fr;
+}
 
+#text_input {
+    height: 3;
+}

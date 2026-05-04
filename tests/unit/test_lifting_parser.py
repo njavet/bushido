@@ -1,5 +1,6 @@
 import pytest
 
+from bushido.categories.exceptions import ParsingError
 from bushido.categories.lifting import LiftingParser
 from bushido.categories.lifting.parser import LiftingSpec, SetSpec
 
@@ -42,3 +43,18 @@ def test_correct_lifting_units(
 ) -> None:
     unit_data = parser.parse(tokens)
     assert unit_data == expected
+
+
+@pytest.mark.parametrize(
+    "tokens, expected",
+    [
+        (("asdf", "5", "180"), "invalid weight"),
+        (("120", "f9"), "invalid reps"),
+        (("150", "3", "f22"), "invalid rest"),
+    ],
+)
+def test_correct_error_message(
+    parser: LiftingParser, tokens: tuple[str, ...], expected: str
+) -> None:
+    with pytest.raises(ParsingError, match=expected):
+        _ = parser.parse(tokens)

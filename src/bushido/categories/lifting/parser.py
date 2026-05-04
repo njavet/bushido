@@ -35,9 +35,18 @@ class LiftingParser:
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> LiftingSpec:
-        weights = [float(w) for w in tokens[::3]]
-        reps = [float(r) for r in tokens[1::3]]
-        rests = [float(r) for r in tokens[2::3]] + [0]
+        try:
+            weights = [float(w) for w in tokens[::3]]
+        except ValueError:
+            raise ParsingError("invalid weight")
+        try:
+            reps = [float(r) for r in tokens[1::3]]
+        except ValueError:
+            raise ParsingError("invalid reps")
+        try:
+            rests = [float(r) for r in tokens[2::3]] + [0]
+        except ValueError:
+            raise ParsingError("invalid rest")
         if len(weights) == 0:
             raise ParsingError("at least one set")
         if len(weights) != len(reps):
