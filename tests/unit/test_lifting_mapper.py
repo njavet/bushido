@@ -32,13 +32,12 @@ LIFTING_CASES = [
         LiftingUnit(
             name="squat",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-            subunits=
-        [
-            LiftingSet(set_nr=0, weight=100.0, reps=5, rest=180.0),
-            LiftingSet(set_nr=1, weight=100.0, reps=5, rest=0.0),
-        ],
+            subunits=[
+                LiftingSet(set_nr=0, weight=100.0, reps=5, rest=180.0),
+                LiftingSet(set_nr=1, weight=100.0, reps=5, rest=0.0),
+            ],
+        ),
     ),
-
     (
         ParsedUnit(
             name="squat",
@@ -57,9 +56,9 @@ LIFTING_CASES = [
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             subunits=[
                 LiftingSet(set_nr=0, weight=150.0, reps=3.0, rest=300.0),
-             LiftingSet(set_nr=1, weight=100.0, reps=20.0, rest=0.0),
-         ],
-        )
+                LiftingSet(set_nr=1, weight=100.0, reps=20.0, rest=0.0),
+            ],
+        ),
     ),
 ]
 
@@ -84,14 +83,14 @@ def test_correct_to_orm_mapping(
         assert ls.rest == sets[i].rest
 
 
-@pytest.mark.parametrize("parsed_unit, unit, sets", LIFTING_CASES)
+@pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
 def test_correct_from_orm_mapping(
     mapper: LiftingMapper,
     parsed_unit: ParsedUnit[LiftingSpec],
     unit: LiftingUnit,
     sets: list[LiftingSet],
 ) -> None:
-    pu = mapper.from_orm((unit, sets))
+    pu = mapper.from_orm(unit)
     assert isinstance(pu, ParsedUnit)
     assert pu.name == unit.name
     assert pu.comment == unit.comment
