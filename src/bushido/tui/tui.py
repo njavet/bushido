@@ -9,6 +9,7 @@ from textual.widgets import (
 
 from bushido.categories import LogUnitService, SessionFactory
 from bushido.categories.unit_help import UnitHelpService
+from bushido.categories.unit_ret import UnitLoadService
 from bushido.tui.containers.header import HeaderContainer
 from bushido.tui.containers.mind import MindContainer
 from bushido.tui.containers.training import TrainingContainer
@@ -29,11 +30,17 @@ class BushidoApp(App[None]):
         session_factory: SessionFactory,
         log_unit_service: LogUnitService,
         unit_help_service: UnitHelpService,
+        unit_retrieve_service: UnitLoadService,
     ) -> None:
         super().__init__()
         self.sf = session_factory
         self.log_unit_service = log_unit_service
         self.unit_help_service = unit_help_service
+        self.unit_retrieve_service = unit_retrieve_service
+        with self.sf.session() as session:
+            units = self.unit_retrieve_service.load_units(session)
+            for unit in units:
+                self.log("unitname", unit.name)
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
