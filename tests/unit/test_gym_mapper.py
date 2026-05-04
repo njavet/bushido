@@ -52,7 +52,7 @@ def test_correct_to_orm_mapping(
 def test_correct_from_orm_mapping(
     mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnit
 ) -> None:
-    pu = mapper.from_orm((unit, []))
+    pu = mapper.from_orm(unit)
     assert isinstance(pu, ParsedUnit)
     assert pu.name == unit.name
     assert pu.comment == unit.comment

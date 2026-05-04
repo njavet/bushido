@@ -1,5 +1,4 @@
 import datetime
-from typing import Any
 
 from sqlalchemy.orm import Session
 
@@ -50,26 +49,5 @@ class UnitService:
         category: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> dict[str, list[ParsedUnit[Any]]]:
-        if category is not None:
-            registration = REGISTRY[category]
-            units = registration.repo(session).fetch_units(start_t=start_t, end_t=end_t)
-            pus = []
-            for unit in units:
-                try:
-                    pu = registration.mapper.from_orm(unit, [unit.subunits])
-                except:
-                    pu = registration.mapper.from_orm(unit, [])
-            pus.append(pu)
-            return {category: pus}
-
-        result = {}
-        unit, subunits = registry.mapper.to_orm(parsed_unit)
-
-        total = []
-        for category, registration in REGISTRY.items():
-            units = registration.repo(session).fetch_units(start_t=start_t, end_t=end_t)
-            for unit in units:
-                print("NAME", unit.name)
-            total += units
-        return total
+    ) -> None:
+        return

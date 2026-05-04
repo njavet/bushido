@@ -33,7 +33,7 @@ class UnitCategory(StrEnum):
 @dataclass(frozen=True, slots=True)
 class CategoryRegistration:
     parser: UnitParser[Any]
-    mapper: UnitMapper[Any, Any, Any]
+    mapper: UnitMapper[Any, Any]
     unit_cls: type[Unit]
     grammar: str
     unit_names: list[str]

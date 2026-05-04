@@ -32,12 +32,13 @@ LIFTING_CASES = [
         LiftingUnit(
             name="squat",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-        ),
+            subunits=
         [
             LiftingSet(set_nr=0, weight=100.0, reps=5, rest=180.0),
             LiftingSet(set_nr=1, weight=100.0, reps=5, rest=0.0),
         ],
     ),
+
     (
         ParsedUnit(
             name="squat",
@@ -54,16 +55,16 @@ LIFTING_CASES = [
             name="squat",
             comment="heavy day, 20reps at the end",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-        ),
-        [
-            LiftingSet(set_nr=0, weight=150.0, reps=3.0, rest=300.0),
-            LiftingSet(set_nr=1, weight=100.0, reps=20.0, rest=0.0),
-        ],
+            subunits=[
+                LiftingSet(set_nr=0, weight=150.0, reps=3.0, rest=300.0),
+             LiftingSet(set_nr=1, weight=100.0, reps=20.0, rest=0.0),
+         ],
+        )
     ),
 ]
 
 
-@pytest.mark.parametrize("parsed_unit, unit, sets", LIFTING_CASES)
+@pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
 def test_correct_to_orm_mapping(
     mapper: LiftingMapper,
     parsed_unit: ParsedUnit[LiftingSpec],
