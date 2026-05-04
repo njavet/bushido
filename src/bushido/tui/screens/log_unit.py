@@ -1,3 +1,4 @@
+from typing import Awaitable, Callable
 
 from rich.console import Group
 from rich.panel import Panel
@@ -11,6 +12,8 @@ from textual.widget import Widget
 from textual.widgets import Input
 
 from bushido.categories.unit_help import UnitHelpService
+
+LogUnitHandler = Callable[[str], Awaitable[str | None]]
 
 
 class UnitSuggester(Suggester):
@@ -72,9 +75,10 @@ class UnitHelpWidget(Widget):
 
 
 class LogUnitScreen(ModalScreen[bool]):
-    def __init__(self, ch: UnitHelpService) -> None:
+    def __init__(self, ch: UnitHelpService, log_unit: LogUnitHandler) -> None:
         super().__init__()
         self.ch = ch
+        self.log_unit = log_unit
 
     def compose(self) -> ComposeResult:
         with Vertical():
@@ -87,7 +91,7 @@ class LogUnitScreen(ModalScreen[bool]):
             self.dismiss(False)
             return
 
-        error = await self.app.log_unit(message.value)
+        error = await self.log_unit(message.value)
         if error:
             self.app.notify(error, title="logging failed", severity="error")
             self.dismiss(False)
