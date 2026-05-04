@@ -87,7 +87,6 @@ def test_correct_from_orm_mapping(
     mapper: LiftingMapper,
     parsed_unit: ParsedUnit[LiftingSpec],
     unit: LiftingUnit,
-    sets: list[LiftingSet],
 ) -> None:
     pu = mapper.from_orm(unit)
     assert isinstance(pu, ParsedUnit)
@@ -96,7 +95,7 @@ def test_correct_from_orm_mapping(
     assert pu.log_time == unit.log_time
     for i, ls in enumerate(pu.data.sets):
         assert isinstance(ls, SetSpec)
-        assert ls.set_nr == sets[i].set_nr
-        assert ls.weight == sets[i].weight
-        assert ls.reps == sets[i].reps
-        assert ls.rest == sets[i].rest
+        assert ls.set_nr == unit.subunits[i].set_nr
+        assert ls.weight == unit.subunits[i].weight
+        assert ls.reps == unit.subunits[i].reps
+        assert ls.rest == unit.subunits[i].rest

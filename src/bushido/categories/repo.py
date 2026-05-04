@@ -39,9 +39,9 @@ class UnitRepo(Generic[TU, TS]):
         self.subrels = subrels
 
     # TODO handle exceptions
-    def add_unit(self, unit: TU, subs: list[TS] | None = None) -> bool:
-        if self.subrels is not None:
-            getattr(unit, self.subrels.key).extend(subs)
+    def add_unit(self, unit: TU) -> bool:
+        if self.subrels is not None and hasattr(unit, "subunits"):
+            getattr(unit, self.subrels.key).extend(unit.subunits)
         self.session.add(unit)
         self.session.commit()
         return True

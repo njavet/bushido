@@ -37,8 +37,8 @@ class UnitService:
             log_time=log_time,
             comment=raw.comment,
         )
-        unit, subunits = registry.mapper.to_orm(parsed_unit)
-        if not registry.repo(session).add_unit(unit, subunits):
+        unit = registry.mapper.to_orm(parsed_unit)
+        if not registry.repo(session).add_unit(unit):
             return "repo error"
         else:
             return None
