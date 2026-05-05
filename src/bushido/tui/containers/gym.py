@@ -1,4 +1,5 @@
 from collections import defaultdict
+from typing import Any
 
 from textual.app import ComposeResult
 from textual.containers import Container
@@ -12,11 +13,11 @@ from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.gym.parser import GymSpec
 
 
-class GymTable(DataTable):
+class GymTable(DataTable[Any]):
     def on_mount(self) -> None:
         self.add_columns("Date", "Time", "Training", "Gym", "Comment")
 
-    def set_units(self, units: list[ParsedUnit[GymSpec]]):
+    def set_units(self, units: list[ParsedUnit[GymSpec]]) -> None:
         self.clear()
         for unit in units:
             self.add_row(
