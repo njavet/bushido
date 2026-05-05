@@ -2,9 +2,6 @@ import datetime
 from dataclasses import dataclass
 from typing import Generic, Protocol, TypeVar
 
-T = TypeVar("T")
-P = TypeVar("P", covariant=True)
-
 
 class Clock(Protocol):
     def now(self) -> datetime.datetime: ...
@@ -19,11 +16,10 @@ class SystemClock:
 
 
 @dataclass(frozen=True, slots=True)
-class ParsedUnit(Generic[T]):
+class CategoryHelp:
     name: str
-    data: T
-    log_time: datetime.datetime
-    comment: str | None = None
+    grammar: str
+    unit_names: list[str]
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,13 +29,20 @@ class RawUnit:
     comment: str | None = None
 
 
-class UnitParser(Protocol[P]):
-    @staticmethod
-    def parse(tokens: tuple[str, ...]) -> P: ...
+T = TypeVar("T")
 
 
 @dataclass(frozen=True, slots=True)
-class CategoryHelp:
+class ParsedUnit(Generic[T]):
     name: str
-    grammar: str
-    unit_names: list[str]
+    data: T
+    log_time: datetime.datetime
+    comment: str | None = None
+
+
+P = TypeVar("P", covariant=True)
+
+
+class UnitParser(Protocol[P]):
+    @staticmethod
+    def parse(tokens: tuple[str, ...]) -> P: ...
