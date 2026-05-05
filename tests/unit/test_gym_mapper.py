@@ -4,7 +4,7 @@ import pytest
 
 from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.gym import GymMapper, GymUnitTable
-from bushido.categories.gym.domain import GymSpec
+from bushido.categories.gym.domain import GymSpec, GymUnit
 
 
 @pytest.fixture
@@ -37,7 +37,7 @@ GYM_CASES = [
 
 @pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
 def test_correct_to_orm_mapping(
-    mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnitTable
+    mapper: GymMapper, parsed_unit: GymUnit, unit: GymUnitTable
 ) -> None:
     u = mapper.to_orm(parsed_unit)
     assert isinstance(u, GymUnitTable)

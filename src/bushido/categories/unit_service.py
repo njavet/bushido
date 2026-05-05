@@ -1,12 +1,17 @@
 import datetime
-from typing import Any
 
 from sqlalchemy.orm import Session
 
+from .cardio import CardioUnit
 from .dtypes import Clock, ParsedUnit, SystemClock
 from .exceptions import ParsingError
+from .gym import GymUnit
+from .lifting import LiftingUnit
 from .parsing.unit import parse_raw_unit, split_options
 from .registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help, get_unit_names
+from .wimhof import WimhofUnit
+
+type AnyUnit = GymUnit | CardioUnit | LiftingUnit | WimhofUnit
 
 
 class UnitService:
@@ -50,7 +55,7 @@ class UnitService:
         category: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> dict[str, list[ParsedUnit[Any]]]:
+    ) -> dict[str, list[AnyUnit]]:
         if category is not None:
             registry = REGISTRY[category]
             units = registry.repo(session).fetch_units(start_t=start_t, end_t=end_t)
