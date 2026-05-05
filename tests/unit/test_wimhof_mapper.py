@@ -6,9 +6,10 @@ from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.wimhof import (
     WimhofMapper,
     WimhofRound,
+    WimhofUnit,
     WimhofUnitTable,
 )
-from bushido.categories.wimhof.parser import RoundSpec, WimhofSpec
+from bushido.categories.wimhof.domain import RoundSpec, WimhofSpec
 
 
 @pytest.fixture
@@ -46,7 +47,7 @@ WIMHOF_CASES = [
 @pytest.mark.parametrize("parsed_unit, unit", WIMHOF_CASES)
 def test_correct_to_orm(
     mapper: WimhofMapper,
-    parsed_unit: ParsedUnit[WimhofSpec],
+    parsed_unit: WimhofUnit,
     unit: WimhofUnitTable,
 ) -> None:
     u = mapper.to_orm(parsed_unit)

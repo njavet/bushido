@@ -6,9 +6,10 @@ from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.lifting import (
     LiftingMapper,
     LiftingSet,
+    LiftingUnit,
     LiftingUnitTable,
 )
-from bushido.categories.lifting.parser import LiftingSpec, SetSpec
+from bushido.categories.lifting.domain import LiftingSpec, SetSpec
 
 
 @pytest.fixture
@@ -66,7 +67,7 @@ LIFTING_CASES = [
 @pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
 def test_correct_to_orm_mapping(
     mapper: LiftingMapper,
-    parsed_unit: ParsedUnit[LiftingSpec],
+    parsed_unit: LiftingUnit,
     unit: LiftingUnitTable,
 ) -> None:
     u = mapper.to_orm(parsed_unit)
@@ -85,7 +86,7 @@ def test_correct_to_orm_mapping(
 @pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
 def test_correct_from_orm_mapping(
     mapper: LiftingMapper,
-    parsed_unit: ParsedUnit[LiftingSpec],
+    parsed_unit: LiftingUnit,
     unit: LiftingUnitTable,
 ) -> None:
     pu = mapper.from_orm(unit)
