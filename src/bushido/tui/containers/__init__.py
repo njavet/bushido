@@ -1,7 +1,7 @@
 from .cardio import CardioContainer
-from .gym import GymContainer
 from .header import HeaderContainer
 from .lifting import LiftingContainer
+from .training import GymContainer
 from .wimhof import WimhofContainer
 from .work import WorkContainer
 

@@ -13,7 +13,7 @@ from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.gym.parser import GymSpec
 
 
-class GymTable(DataTable[Any]):
+class TrainingTable(DataTable[Any]):
     def on_mount(self) -> None:
         self.add_columns("Date", "Time", "Training", "Gym", "Comment")
 
@@ -37,9 +37,9 @@ class GymContainer(Container):
     def compose(self) -> ComposeResult:
         with TabbedContent():
             with TabPane("MartialArts"):
-                yield GymTable(id="martial_arts_table")
+                yield TrainingTable(id="martial_arts_table")
             with TabPane("Weights"):
-                yield GymTable(id="weights_table")
+                yield TrainingTable(id="weights_table")
 
     async def on_mount(self) -> None:
 
@@ -48,5 +48,5 @@ class GymContainer(Container):
             by_category[unit.name].append(unit)
 
         for t, u in by_category.items():
-            table = self.query_one(f"#{t}_table", GymTable)
+            table = self.query_one(f"#{t}_table", TrainingTable)
             table.set_units(u)
