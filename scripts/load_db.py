@@ -2,8 +2,8 @@ import json
 import sys
 from typing import Any
 
-from bushido.categories.db import SessionFactory
 from bushido.categories.unit_service import UnitService
+from bushido.infra.db import SessionFactory
 
 
 def load_db(data: list[Any]) -> None:

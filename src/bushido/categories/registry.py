@@ -7,19 +7,11 @@ from sqlalchemy.orm import Session
 from .cardio import CardioMapper, CardioParser, CardioUnit
 from .dtypes import CategoryHelp, UnitParser
 from .gym import GymMapper, GymParser, GymUnit
-from .lifting import (
-    LiftingMapper,
-    LiftingParser,
-    LiftingUnit,
-)
+from .lifting import LiftingMapper, LiftingParser, LiftingUnit
 from .mapper import UnitMapper
 from .orm import Unit
 from .repo import UnitRepo
-from .wimhof import (
-    WimhofMapper,
-    WimhofParser,
-    WimhofUnit,
-)
+from .wimhof import WimhofMapper, WimhofParser, WimhofUnit
 
 
 class UnitCategory(StrEnum):

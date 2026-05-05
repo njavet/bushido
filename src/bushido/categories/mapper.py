@@ -1,10 +1,9 @@
 from typing import Protocol, TypeVar
 
 from .dtypes import ParsedUnit
-from .orm import Unit
+from .repo import TU
 
 T = TypeVar("T")
-TU = TypeVar("TU", bound=Unit)
 
 
 class UnitMapper(Protocol[T, TU]):

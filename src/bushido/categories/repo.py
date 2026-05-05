@@ -4,26 +4,9 @@ from typing import Generic, TypeVar
 from sqlalchemy import select
 from sqlalchemy.orm import InstrumentedAttribute, Session, selectinload
 
-from .mapper import TU
-from .orm import Subunit
+from .orm import Subunit, Unit
 
-# TODO add stricter typing
-"""
-from typing import Protocol
-
-class HasSubunits(Generic[S], Protocol):
-    subunits: Mapped[list[S]]
-
-class RepoWithSubs(Generic[U, S]):
-    def __init__(self, 
-    s: Session, unit_cls: type[U], rel: InstrumentedAttribute[list[S]]): ...
-    # add_unit and fetch_units eager-load rel
-
-class FlatRepo(Generic[U]):
-    def __init__(self, s: Session, unit_cls: type[U]): ...
-    # add_unit (no subs) and fetch_units (no eager-load)
-"""
-
+TU = TypeVar("TU", bound=Unit)
 TS = TypeVar("TS", bound=Subunit)
 
 
@@ -63,3 +46,21 @@ class UnitRepo(Generic[TU, TS]):
             stmt = stmt.where(self.unit_cls.log_time <= end_t)
         stmt = stmt.order_by(self.unit_cls.log_time.desc())
         return list(self.session.scalars(stmt))
+
+
+# TODO add stricter typing
+"""
+from typing import Protocol
+
+class HasSubunits(Generic[S], Protocol):
+    subunits: Mapped[list[S]]
+
+class RepoWithSubs(Generic[U, S]):
+    def __init__(self, 
+    s: Session, unit_cls: type[U], rel: InstrumentedAttribute[list[S]]): ...
+    # add_unit and fetch_units eager-load rel
+
+class FlatRepo(Generic[U]):
+    def __init__(self, s: Session, unit_cls: type[U]): ...
+    # add_unit (no subs) and fetch_units (no eager-load)
+"""

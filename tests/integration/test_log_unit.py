@@ -5,10 +5,10 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido.categories.db import SessionFactory
 from bushido.categories.gym import GymUnit
 from bushido.categories.lifting import LiftingSet, LiftingUnit
 from bushido.categories.unit_service import UnitService
+from bushido.infra.db import SessionFactory
 
 
 @pytest.fixture(scope="session")
