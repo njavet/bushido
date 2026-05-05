@@ -1,11 +1,10 @@
-from ..dtypes import ParsedUnit
+from .domain import GymSpec, GymUnit
 from .orm import GymUnitTable
-from .parser import GymSpec
 
 
 class GymMapper:
     @staticmethod
-    def to_orm(parsed_unit: ParsedUnit[GymSpec]) -> GymUnitTable:
+    def to_orm(parsed_unit: GymUnit) -> GymUnitTable:
         unit = GymUnitTable(
             name=parsed_unit.name,
             log_time=parsed_unit.log_time,
@@ -19,8 +18,8 @@ class GymMapper:
         return unit
 
     @staticmethod
-    def from_orm(orm_unit: GymUnitTable) -> ParsedUnit[GymSpec]:
-        pu = ParsedUnit(
+    def from_orm(orm_unit: GymUnitTable) -> GymUnit:
+        pu = GymUnit(
             name=orm_unit.name,
             data=GymSpec(
                 start_t=orm_unit.start_t,

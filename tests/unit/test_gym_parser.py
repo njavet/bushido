@@ -3,7 +3,7 @@ import datetime
 import pytest
 
 from bushido.categories.gym import GymParser
-from bushido.categories.gym.parser import GymSpec
+from bushido.categories.gym.domain import GymSpec
 
 
 @pytest.fixture

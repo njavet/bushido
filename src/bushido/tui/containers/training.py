@@ -9,15 +9,14 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido.categories.dtypes import ParsedUnit
-from bushido.categories.gym.parser import GymSpec
+from bushido.categories.gym import GymUnit
 
 
 class TrainingTable(DataTable[Any]):
     def on_mount(self) -> None:
         self.add_columns("Date", "Time", "Training", "Gym", "Comment")
 
-    def set_units(self, units: list[ParsedUnit[GymSpec]]) -> None:
+    def set_units(self, units: list[GymUnit]) -> None:
         self.clear()
         for unit in units:
             self.add_row(
@@ -30,7 +29,7 @@ class TrainingTable(DataTable[Any]):
 
 
 class GymContainer(Container):
-    def __init__(self, units: list[ParsedUnit[GymSpec]]) -> None:
+    def __init__(self, units: list[GymUnit]) -> None:
         super().__init__()
         self.units = units
 

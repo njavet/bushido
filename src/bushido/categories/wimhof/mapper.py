@@ -1,11 +1,10 @@
-from ..dtypes import ParsedUnit
+from .domain import RoundSpec, WimhofSpec, WimhofUnit
 from .orm import WimhofRound, WimhofUnitTable
-from .parser import RoundSpec, WimhofSpec
 
 
 class WimhofMapper:
     @staticmethod
-    def to_orm(parsed_unit: ParsedUnit[WimhofSpec]) -> WimhofUnitTable:
+    def to_orm(parsed_unit: WimhofUnit) -> WimhofUnitTable:
         unit = WimhofUnitTable(
             name=parsed_unit.name,
             log_time=parsed_unit.log_time,
@@ -18,14 +17,14 @@ class WimhofMapper:
         return unit
 
     @staticmethod
-    def from_orm(orm_unit: WimhofUnitTable) -> ParsedUnit[WimhofSpec]:
+    def from_orm(orm_unit: WimhofUnitTable) -> WimhofUnit:
         lst = []
         for r in orm_unit.subunits:
             ws = RoundSpec(
                 round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
             )
             lst.append(ws)
-        pu = ParsedUnit(
+        pu = WimhofUnit(
             name=orm_unit.name,
             data=WimhofSpec(rounds=lst),
             log_time=orm_unit.log_time,
