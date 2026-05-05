@@ -1,10 +1,10 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from ..orm import Subunit, Unit
+from ..orm import Subunit, UnitTable
 
 
-class LiftingUnit(Unit):
+class LiftingUnitTable(UnitTable):
     __tablename__ = "unit_lifting"
 
     subunits: Mapped[list["LiftingSet"]] = relationship(
@@ -20,8 +20,8 @@ class LiftingSet(Subunit):
     weight: Mapped[float] = mapped_column()
     reps: Mapped[float] = mapped_column()
     rest: Mapped[float] = mapped_column(default=0)
-    fk_unit: Mapped[int] = mapped_column(ForeignKey(LiftingUnit.id))
+    fk_unit: Mapped[int] = mapped_column(ForeignKey(LiftingUnitTable.id))
 
-    unit: Mapped[LiftingUnit] = relationship(
+    unit: Mapped[LiftingUnitTable] = relationship(
         back_populates="subunits",
     )

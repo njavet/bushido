@@ -1,9 +1,9 @@
 from .mapper import GymMapper
-from .orm import GymUnit
+from .orm import GymUnitTable
 from .parser import GymParser
 
 __all__ = [
     "GymParser",
     "GymMapper",
-    "GymUnit",
+    "GymUnitTable",
 ]

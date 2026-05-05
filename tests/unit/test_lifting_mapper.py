@@ -6,7 +6,7 @@ from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.lifting import (
     LiftingMapper,
     LiftingSet,
-    LiftingUnit,
+    LiftingUnitTable,
 )
 from bushido.categories.lifting.parser import LiftingSpec, SetSpec
 
@@ -29,7 +29,7 @@ LIFTING_CASES = [
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             comment=None,
         ),
-        LiftingUnit(
+        LiftingUnitTable(
             name="squat",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             subunits=[
@@ -50,7 +50,7 @@ LIFTING_CASES = [
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             comment="heavy day, 20reps at the end",
         ),
-        LiftingUnit(
+        LiftingUnitTable(
             name="squat",
             comment="heavy day, 20reps at the end",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
@@ -67,10 +67,10 @@ LIFTING_CASES = [
 def test_correct_to_orm_mapping(
     mapper: LiftingMapper,
     parsed_unit: ParsedUnit[LiftingSpec],
-    unit: LiftingUnit,
+    unit: LiftingUnitTable,
 ) -> None:
     u = mapper.to_orm(parsed_unit)
-    assert isinstance(u, LiftingUnit)
+    assert isinstance(u, LiftingUnitTable)
     assert unit.name == u.name
     assert unit.comment == u.comment
     assert unit.log_time == u.log_time
@@ -86,7 +86,7 @@ def test_correct_to_orm_mapping(
 def test_correct_from_orm_mapping(
     mapper: LiftingMapper,
     parsed_unit: ParsedUnit[LiftingSpec],
-    unit: LiftingUnit,
+    unit: LiftingUnitTable,
 ) -> None:
     pu = mapper.from_orm(unit)
     assert isinstance(pu, ParsedUnit)

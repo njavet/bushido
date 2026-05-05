@@ -4,14 +4,14 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from .cardio import CardioMapper, CardioParser, CardioUnit
+from .cardio import CardioMapper, CardioParser, CardioUnitTable
 from .dtypes import CategoryHelp, UnitParser
-from .gym import GymMapper, GymParser, GymUnit
-from .lifting import LiftingMapper, LiftingParser, LiftingUnit
+from .gym import GymMapper, GymParser, GymUnitTable
+from .lifting import LiftingMapper, LiftingParser, LiftingUnitTable
 from .mapper import UnitMapper
-from .orm import Unit
+from .orm import UnitTable
 from .repo import UnitRepo
-from .wimhof import WimhofMapper, WimhofParser, WimhofUnit
+from .wimhof import WimhofMapper, WimhofParser, WimhofUnitTable
 
 
 class UnitCategory(StrEnum):
@@ -26,7 +26,7 @@ class UnitCategory(StrEnum):
 class CategoryRegistration:
     parser: UnitParser[Any]
     mapper: UnitMapper[Any, Any]
-    unit_cls: type[Unit]
+    unit_cls: type[UnitTable]
     grammar: str
     unit_names: list[str]
     subrels: Any | None = None
@@ -41,32 +41,32 @@ REGISTRY: dict[str, CategoryRegistration] = {
     UnitCategory.gym: CategoryRegistration(
         parser=GymParser(),
         mapper=GymMapper(),
-        unit_cls=GymUnit,
+        unit_cls=GymUnitTable,
         grammar=GymParser.grammar,
         unit_names=GymParser.unit_names,
     ),
     UnitCategory.lifting: CategoryRegistration(
         parser=LiftingParser(),
         mapper=LiftingMapper(),
-        unit_cls=LiftingUnit,
+        unit_cls=LiftingUnitTable,
         grammar=LiftingParser.grammar,
         unit_names=LiftingParser.unit_names,
-        subrels=LiftingUnit.subunits,
+        subrels=LiftingUnitTable.subunits,
     ),
     UnitCategory.cardio: CategoryRegistration(
         parser=CardioParser(),
         mapper=CardioMapper(),
-        unit_cls=CardioUnit,
+        unit_cls=CardioUnitTable,
         grammar=CardioParser.grammar,
         unit_names=CardioParser.unit_names,
     ),
     UnitCategory.wimhof: CategoryRegistration(
         parser=WimhofParser(),
         mapper=WimhofMapper(),
-        unit_cls=WimhofUnit,
+        unit_cls=WimhofUnitTable,
         grammar=WimhofParser.grammar,
         unit_names=WimhofParser.unit_names,
-        subrels=WimhofUnit.subunits,
+        subrels=WimhofUnitTable.subunits,
     ),
 }
 

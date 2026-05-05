@@ -6,7 +6,7 @@ from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.wimhof import (
     WimhofMapper,
     WimhofRound,
-    WimhofUnit,
+    WimhofUnitTable,
 )
 from bushido.categories.wimhof.parser import RoundSpec, WimhofSpec
 
@@ -30,7 +30,7 @@ WIMHOF_CASES = [
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             comment=None,
         ),
-        WimhofUnit(
+        WimhofUnitTable(
             name="wimhof",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             subunits=[
@@ -47,10 +47,10 @@ WIMHOF_CASES = [
 def test_correct_to_orm(
     mapper: WimhofMapper,
     parsed_unit: ParsedUnit[WimhofSpec],
-    unit: WimhofUnit,
+    unit: WimhofUnitTable,
 ) -> None:
     u = mapper.to_orm(parsed_unit)
-    assert isinstance(u, WimhofUnit)
+    assert isinstance(u, WimhofUnitTable)
     assert u.name == unit.name
     assert u.log_time == unit.log_time
     assert u.comment == unit.comment
@@ -65,7 +65,7 @@ def test_correct_to_orm(
 def test_correct_from_orm(
     mapper: WimhofMapper,
     parsed_unit: ParsedUnit[WimhofSpec],
-    unit: WimhofUnit,
+    unit: WimhofUnitTable,
 ) -> None:
     pu = mapper.from_orm(unit)
     assert isinstance(pu, ParsedUnit)

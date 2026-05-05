@@ -1,10 +1,10 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from ..orm import Subunit, Unit
+from ..orm import Subunit, UnitTable
 
 
-class WimhofUnit(Unit):
+class WimhofUnitTable(UnitTable):
     __tablename__ = "wimhof_unit"
 
     subunits: Mapped[list["WimhofRound"]] = relationship(
@@ -19,8 +19,8 @@ class WimhofRound(Subunit):
     round_nr: Mapped[int] = mapped_column()
     breaths: Mapped[int] = mapped_column()
     retention: Mapped[int] = mapped_column()
-    fk_unit: Mapped[int] = mapped_column(ForeignKey(WimhofUnit.id))
+    fk_unit: Mapped[int] = mapped_column(ForeignKey(WimhofUnitTable.id))
 
-    unit: Mapped[WimhofUnit] = relationship(
+    unit: Mapped[WimhofUnitTable] = relationship(
         back_populates="subunits",
     )

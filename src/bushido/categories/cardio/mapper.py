@@ -1,12 +1,12 @@
 from ..dtypes import ParsedUnit
-from .orm import CardioUnit
+from .orm import CardioUnitTable
 from .parser import CardioSpec
 
 
 class CardioMapper:
     @staticmethod
-    def to_orm(parsed_unit: ParsedUnit[CardioSpec]) -> CardioUnit:
-        unit = CardioUnit(
+    def to_orm(parsed_unit: ParsedUnit[CardioSpec]) -> CardioUnitTable:
+        unit = CardioUnitTable(
             name=parsed_unit.name,
             log_time=parsed_unit.log_time,
             start_t=parsed_unit.data.start_t,
@@ -21,7 +21,7 @@ class CardioMapper:
         return unit
 
     @staticmethod
-    def from_orm(orm_unit: CardioUnit) -> ParsedUnit[CardioSpec]:
+    def from_orm(orm_unit: CardioUnitTable) -> ParsedUnit[CardioSpec]:
         pu = ParsedUnit(
             name=orm_unit.name,
             data=CardioSpec(

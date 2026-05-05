@@ -2,10 +2,10 @@ import datetime
 
 from sqlalchemy.orm import Mapped, mapped_column
 
-from ..orm import Unit
+from ..orm import UnitTable
 
 
-class CardioUnit(Unit):
+class CardioUnitTable(UnitTable):
     __tablename__ = "cardio_unit"
 
     start_t: Mapped[datetime.time] = mapped_column()

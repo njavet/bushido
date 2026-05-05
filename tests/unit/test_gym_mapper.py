@@ -3,7 +3,7 @@ import datetime
 import pytest
 
 from bushido.categories.dtypes import ParsedUnit
-from bushido.categories.gym import GymMapper, GymUnit
+from bushido.categories.gym import GymMapper, GymUnitTable
 from bushido.categories.gym.parser import GymSpec
 
 
@@ -24,7 +24,7 @@ GYM_CASES = [
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             comment=None,
         ),
-        GymUnit(
+        GymUnitTable(
             name="weights",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             start_t=datetime.time(18, 0),
@@ -37,10 +37,10 @@ GYM_CASES = [
 
 @pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
 def test_correct_to_orm_mapping(
-    mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnit
+    mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnitTable
 ) -> None:
     u = mapper.to_orm(parsed_unit)
-    assert isinstance(u, GymUnit)
+    assert isinstance(u, GymUnitTable)
     assert u.name == unit.name
     assert u.log_time == unit.log_time
     assert u.location == unit.location
@@ -50,7 +50,7 @@ def test_correct_to_orm_mapping(
 
 @pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
 def test_correct_from_orm_mapping(
-    mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnit
+    mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnitTable
 ) -> None:
     pu = mapper.from_orm(unit)
     assert isinstance(pu, ParsedUnit)

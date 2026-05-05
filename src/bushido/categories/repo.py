@@ -4,9 +4,9 @@ from typing import Generic, TypeVar
 from sqlalchemy import select
 from sqlalchemy.orm import InstrumentedAttribute, Session, selectinload
 
-from .orm import Subunit, Unit
+from .orm import Subunit, UnitTable
 
-TU = TypeVar("TU", bound=Unit)
+TU = TypeVar("TU", bound=UnitTable)
 TS = TypeVar("TS", bound=Subunit)
 
 
