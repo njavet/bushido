@@ -30,14 +30,14 @@ class BushidoApp(App[None]):
         self.sf = session_factory
         self.unit_service = unit_service
         with self.sf.session() as session:
-            self.unit_service.load_units(session)
+            self.units = self.unit_service.load_units(session, "gym")
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
         yield Rule()
         with TabbedContent():
             with TabPane("Training"):
-                yield GymContainer()
+                yield GymContainer(self.units["gym"])
         yield Footer(id="app_footer")
 
     def action_log_unit(self) -> None:
