@@ -1,23 +1,7 @@
 from dataclasses import dataclass
-from enum import StrEnum
 
 from ..exceptions import ParsingError
-
-
-class WimhofUnitName(StrEnum):
-    wimhof = "wimhof"
-
-
-@dataclass(frozen=True, slots=True)
-class RoundSpec:
-    round_nr: int
-    breaths: int
-    retention: int
-
-
-@dataclass(frozen=True, slots=True)
-class WimhofSpec:
-    rounds: list[RoundSpec]
+from .domain import RoundSpec, WimhofSpec, WimhofUnitName
 
 
 @dataclass(frozen=True, slots=True)

@@ -1,29 +1,7 @@
 from dataclasses import dataclass
-from enum import StrEnum
 
 from ..exceptions import ParsingError
-
-
-class LiftingUnitName(StrEnum):
-    squat = "squat"
-    deadlift = "deadlift"
-    benchpress = "benchpress"
-    overheadpress = "overheadpress"
-    rows = "rows"
-    curls = "curls"
-
-
-@dataclass(frozen=True, slots=True)
-class SetSpec:
-    set_nr: int
-    weight: float
-    reps: float
-    rest: float
-
-
-@dataclass(frozen=True, slots=True)
-class LiftingSpec:
-    sets: list[SetSpec]
+from .domain import LiftingSpec, LiftingUnitName, SetSpec
 
 
 @dataclass(frozen=True, slots=True)

@@ -1,24 +1,8 @@
-import datetime
 from dataclasses import dataclass
-from enum import StrEnum
 
 from ..exceptions import ParsingError
 from ..parsing.dt_parse import parse_start_end_time_string
-
-
-class GymUnitName(StrEnum):
-    weights = "weights"
-    martial_arts = "martial_arts"
-    yoga = "yoga"
-
-
-@dataclass(frozen=True, slots=True)
-class GymSpec:
-    start_t: datetime.time
-    end_t: datetime.time
-    location: str
-    training: str | None = None
-    focus: str | None = None
+from .domain import GymSpec, GymUnitName
 
 
 @dataclass(frozen=True, slots=True)

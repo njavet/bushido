@@ -1,26 +1,8 @@
-import datetime
 from dataclasses import dataclass
-from enum import StrEnum
 
 from ..exceptions import ParsingError
 from ..parsing.dt_parse import parse_military_time_string, time_string_to_seconds
-
-
-class CardioUnitName(StrEnum):
-    running = "running"
-    skipping = "skipping"
-    swimming = "swimming"
-
-
-@dataclass(frozen=True, slots=True)
-class CardioSpec:
-    start_t: datetime.time
-    seconds: float
-    location: str
-    distance: float | None
-    avg_hr: int | None
-    max_hr: int | None
-    calories: int | None
+from .domain import CardioSpec, CardioUnitName
 
 
 @dataclass(frozen=True, slots=True)
