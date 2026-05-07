@@ -12,6 +12,12 @@ from .registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help, get_unit_na
 from .wimhof import WimhofUnit
 
 type AnyUnit = GymUnit | CardioUnit | LiftingUnit | WimhofUnit
+DEFAULT_CATEGORIES = (
+    "gym",
+    "cardio",
+    "lifting",
+    "wimhof",
+)
 
 
 class UnitService:
@@ -49,22 +55,26 @@ class UnitService:
         else:
             return None
 
-    @staticmethod
     def load_units(
+        self,
         session: Session,
-        category: str | None = None,
+        categories: tuple[str, ...] = DEFAULT_CATEGORIES,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> dict[str, list[AnyUnit]]:
-        if category is not None:
-            registry = REGISTRY[category]
-            units = registry.repo(session).fetch_units(start_t=start_t, end_t=end_t)
-            parsed_units = [registry.mapper.from_orm(unit) for unit in units]
-            return {category: parsed_units}
-
         result = {}
-        for category, registry in REGISTRY.items():
-            units = registry.repo(session).fetch_units(start_t=start_t, end_t=end_t)
-            parsed_units = [registry.mapper.from_orm(unit) for unit in units]
-            result[category] = parsed_units
+        for category in categories:
+            result[category] = self._load_units(session, category, start_t, end_t)
         return result
+
+    @staticmethod
+    def _load_units(
+        session: Session,
+        category: str,
+        start_t: datetime.datetime | None = None,
+        end_t: datetime.datetime | None = None,
+    ) -> list[AnyUnit]:
+        registry = REGISTRY[category]
+        units = registry.repo(session).fetch_units(start_t=start_t, end_t=end_t)
+        parsed_units = [registry.mapper.from_orm(unit) for unit in units]
+        return parsed_units

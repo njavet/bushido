@@ -29,8 +29,6 @@ class BushidoApp(App[None]):
         super().__init__()
         self.sf = session_factory
         self.unit_service = unit_service
-        with self.sf.session() as session:
-            self.units = self.unit_service.load_units(session, "gym")
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
@@ -41,7 +39,12 @@ class BushidoApp(App[None]):
         yield Footer(id="app_footer")
 
     def on_mount(self) -> None:
-        gc = self.query_one("#gym_container")
+        self.update_gym_container()
+
+    def update_gym_container(self) -> None:
+        gc = self.query_one("#gym_container", GymContainer)
+        with self.sf.session() as session:
+            units = self.unit_service.load_units(session, ("gym",))
         gc.set_units(self.units["gym"])
 
     def action_log_unit(self) -> None:

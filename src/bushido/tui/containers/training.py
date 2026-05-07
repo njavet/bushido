@@ -14,13 +14,11 @@ from bushido.categories.gym import GymUnit
 
 class TrainingTable(DataTable[Any]):
     def on_mount(self) -> None:
-        self.add_columns("Date", "Time", "Training", "Gym", "Comment")
+        self.add_columns("date", "time", "training", "gym", "comment")
 
     def set_units(self, units: list[GymUnit]) -> None:
         self.clear()
         for unit in units:
-            with open("t.log", "w") as f:
-                f.write(str(unit))
             self.add_row(
                 unit.log_time,
                 unit.data.start_t,
