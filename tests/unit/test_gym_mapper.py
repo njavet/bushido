@@ -29,7 +29,7 @@ GYM_CASES = [
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             start_t=datetime.time(18, 0),
             end_t=datetime.time(19, 0),
-            location="nautilus",
+            gym="nautilus",
         ),
     ),
 ]
