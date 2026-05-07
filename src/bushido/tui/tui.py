@@ -37,8 +37,12 @@ class BushidoApp(App[None]):
         yield Rule()
         with TabbedContent():
             with TabPane("training"):
-                yield GymContainer()
+                yield GymContainer(id="gym_container")
         yield Footer(id="app_footer")
+
+    def on_mount(self) -> None:
+        gc = self.query_one("#gym_container")
+        gc.set_units(self.units["gym"])
 
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a unit

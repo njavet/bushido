@@ -19,6 +19,8 @@ class TrainingTable(DataTable[Any]):
     def set_units(self, units: list[GymUnit]) -> None:
         self.clear()
         for unit in units:
+            with open("t.log", "w") as f:
+                f.write(str(unit))
             self.add_row(
                 unit.log_time,
                 unit.data.start_t,
@@ -35,3 +37,6 @@ class GymContainer(Container):
                 yield Markdown("TODO")
             with TabPane("table"):
                 yield TrainingTable(id="training_table")
+
+    def set_units(self, units: list[GymUnit]) -> None:
+        self.query_one(TrainingTable).set_units(units)
