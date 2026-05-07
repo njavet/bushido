@@ -43,7 +43,7 @@ def test_correct_to_orm_mapping(
     assert isinstance(u, GymUnitTable)
     assert u.name == unit.name
     assert u.log_time == unit.log_time
-    assert u.location == unit.location
+    assert u.gym == unit.gym
     assert u.start_t == unit.start_t
     assert u.end_t == unit.end_t
 
@@ -59,4 +59,4 @@ def test_correct_from_orm_mapping(
     assert pu.log_time == unit.log_time
     assert pu.data.start_t == unit.start_t
     assert pu.data.end_t == unit.end_t
-    assert pu.data.gym == unit.location
+    assert pu.data.gym == unit.gym

@@ -10,6 +10,6 @@ class GymUnitTable(UnitTable):
 
     start_t: Mapped[datetime.time] = mapped_column()
     end_t: Mapped[datetime.time] = mapped_column()
-    location: Mapped[str] = mapped_column()
+    gym: Mapped[str] = mapped_column()
     training: Mapped[str | None] = mapped_column()
     focus: Mapped[str | None] = mapped_column()
