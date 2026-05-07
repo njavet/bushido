@@ -10,19 +10,13 @@ class GymUnitName(StrEnum):
     weights = "weights"
 
 
-class TrainingType(StrEnum):
-    kyokushin = "kyokushin"
-    grappling = "grappling"
-    lifting = "lifting"
-
-
 @dataclass(frozen=True, slots=True)
 class GymSpec:
     start_t: datetime.time
     end_t: datetime.time
     gym: str
     intensity: int = 3
-    training: TrainingType | None = None
+    training: str | None = None
     focus: str | None = None
     private: bool = False
 
