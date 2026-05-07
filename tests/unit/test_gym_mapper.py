@@ -19,7 +19,7 @@ GYM_CASES = [
             data=GymSpec(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
-                location="nautilus",
+                gym="nautilus",
             ),
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             comment=None,
@@ -59,4 +59,4 @@ def test_correct_from_orm_mapping(
     assert pu.log_time == unit.log_time
     assert pu.data.start_t == unit.start_t
     assert pu.data.end_t == unit.end_t
-    assert pu.data.location == unit.location
+    assert pu.data.gym == unit.location

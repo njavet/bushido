@@ -1,10 +1,10 @@
-from collections import defaultdict
 from typing import Any
 
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.widgets import (
     DataTable,
+    Markdown,
     TabbedContent,
     TabPane,
 )
@@ -23,29 +23,15 @@ class TrainingTable(DataTable[Any]):
                 unit.log_time,
                 unit.data.start_t,
                 unit.name,
-                unit.data.location,
+                unit.data.gym,
                 unit.comment,
             )
 
 
 class GymContainer(Container):
-    def __init__(self, units: list[GymUnit]) -> None:
-        super().__init__()
-        self.units = units
-
     def compose(self) -> ComposeResult:
         with TabbedContent():
-            with TabPane("MartialArts"):
-                yield TrainingTable(id="martial_arts_table")
-            with TabPane("Weights"):
-                yield TrainingTable(id="weights_table")
-
-    async def on_mount(self) -> None:
-
-        by_category = defaultdict(list)
-        for unit in self.units:
-            by_category[unit.name].append(unit)
-
-        for t, u in by_category.items():
-            table = self.query_one(f"#{t}_table", TrainingTable)
-            table.set_units(u)
+            with TabPane("stats"):
+                yield Markdown("TODO")
+            with TabPane("table"):
+                yield TrainingTable(id="training_table")

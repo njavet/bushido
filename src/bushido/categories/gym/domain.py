@@ -6,18 +6,25 @@ from ..dtypes import ParsedUnit
 
 
 class GymUnitName(StrEnum):
-    weights = "weights"
     martial_arts = "martial_arts"
-    yoga = "yoga"
+    weights = "weights"
+
+
+class TrainingType(StrEnum):
+    kyokushin = "kyokushin"
+    grappling = "grappling"
+    lifting = "lifting"
 
 
 @dataclass(frozen=True, slots=True)
 class GymSpec:
     start_t: datetime.time
     end_t: datetime.time
-    location: str
-    training: str | None = None
+    gym: str
+    intensity: int = 3
+    training: TrainingType | None = None
     focus: str | None = None
+    private: bool = False
 
 
 @dataclass(frozen=True, slots=True)

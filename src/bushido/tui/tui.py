@@ -36,8 +36,8 @@ class BushidoApp(App[None]):
         yield HeaderContainer()
         yield Rule()
         with TabbedContent():
-            with TabPane("Training"):
-                yield GymContainer(self.units["gym"])
+            with TabPane("training"):
+                yield GymContainer()
         yield Footer(id="app_footer")
 
     def action_log_unit(self) -> None:

@@ -10,7 +10,7 @@ class GymMapper:
             log_time=parsed_unit.log_time,
             start_t=parsed_unit.data.start_t,
             end_t=parsed_unit.data.end_t,
-            location=parsed_unit.data.location,
+            location=parsed_unit.data.gym,
             training=parsed_unit.data.training,
             focus=parsed_unit.data.focus,
             comment=parsed_unit.comment,
@@ -24,7 +24,7 @@ class GymMapper:
             data=GymSpec(
                 start_t=orm_unit.start_t,
                 end_t=orm_unit.end_t,
-                location=orm_unit.location,
+                gym=orm_unit.location,
                 training=orm_unit.training,
                 focus=orm_unit.focus,
             ),

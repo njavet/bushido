@@ -19,7 +19,7 @@ def parser() -> GymParser:
             GymSpec(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
-                location="nautilus",
+                gym="nautilus",
             ),
         ),
         (
@@ -27,7 +27,7 @@ def parser() -> GymParser:
             GymSpec(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
-                location="nautilus",
+                gym="nautilus",
                 training="legs",
             ),
         ),
@@ -36,7 +36,7 @@ def parser() -> GymParser:
             GymSpec(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
-                location="nautilus",
+                gym="nautilus",
                 training="legs",
                 focus="slow",
             ),

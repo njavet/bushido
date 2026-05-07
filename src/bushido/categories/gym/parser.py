@@ -34,7 +34,7 @@ class GymParser:
         return GymSpec(
             start_t=start_t,
             end_t=end_t,
-            location=location,
+            gym=location,
             training=training,
             focus=focus,
         )

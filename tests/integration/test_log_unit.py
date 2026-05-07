@@ -40,7 +40,7 @@ def test_log_gym_unit_success(service: UnitService, session: Session) -> None:
     assert units[0].name == "weights"
     assert units[0].start_t == datetime.time(18, 0)
     assert units[0].end_t == datetime.time(19, 0)
-    assert units[0].location == "nautilus"
+    assert units[0].gym == "nautilus"
 
 
 def test_log_lifting_unit_success(service: UnitService, session: Session) -> None:
