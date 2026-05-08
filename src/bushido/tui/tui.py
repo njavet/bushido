@@ -45,7 +45,7 @@ class BushidoApp(App[None]):
         gc = self.query_one("#gym_container", GymContainer)
         with self.sf.session() as session:
             units = self.unit_service.load_units(session, ("gym",))
-        gc.set_units(self.units["gym"])
+        gc.set_units(units["gym"])
 
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a unit

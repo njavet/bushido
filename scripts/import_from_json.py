@@ -42,7 +42,6 @@ def main() -> None:
         sys.exit(1)
     with open(sys.argv[1]) as f:
         data = json.load(f)
-
     convert_tg_export_to_file(data)
 
 

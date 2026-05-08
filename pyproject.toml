@@ -69,3 +69,4 @@ packages = ['src/bushido']
 
 [project.scripts]
 bushido = "bushido.main:main"
+
