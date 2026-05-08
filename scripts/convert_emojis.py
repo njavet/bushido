@@ -11,8 +11,10 @@ def main() -> None:
 
     lst = []
     for item in data:
-        e = item["line"].split()[0]
-        eb = e.encode()
+        line = item["line"]
+        body, sep, comment = line.partition("#")
+        tokens = tuple(body.split())
+        eb = tokens[0].encode()
         try:
             name = EMOJIS[eb]
         except KeyError:
@@ -23,8 +25,18 @@ def main() -> None:
             eb = single_char2complete[eb]
         except KeyError:
             pass
-        line = item["line"].replace(e, name, count=1)
-        lst.append({"line": line, "local_datetime": item["local_datetime"]})
+
+        if sep:
+            new_line = " ".join([body, "--dt", item["local_datetime"], sep, comment])
+        else:
+            new_line = " ".join([body, "--dt", item["local_datetime"]])
+
+        e = eb.decode()
+        if e == "martial_arts_uniform":
+            e = "martial_arts"
+
+        new_line = new_line.replace(e, name, count=1)
+        lst.append({"line": new_line, "local_datetime": item["local_datetime"]})
 
     with open("converted.json", "w") as f:
         f.write(json.dumps(lst, indent=2))

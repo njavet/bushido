@@ -15,10 +15,8 @@ class GymSpec:
     start_t: datetime.time
     end_t: datetime.time
     gym: str
-    intensity: int = 3
     training: str | None = None
     focus: str | None = None
-    private: bool = False
 
 
 @dataclass(frozen=True, slots=True)

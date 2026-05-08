@@ -122,6 +122,4 @@ def find_next_saturday(dt: datetime.date) -> datetime.date:
 
 
 def parse_datetime(value: str) -> datetime.datetime:
-    return datetime.datetime.strptime(value, "%d.%m.%y-%H%M").replace(
-        tzinfo=datetime.UTC
-    )
+    return datetime.datetime.strptime(value, "%Y%m%d-%H%M").replace(tzinfo=datetime.UTC)
