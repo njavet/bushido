@@ -30,11 +30,11 @@ class TrainingTable(DataTable[Any]):
 
 class GymContainer(Container):
     def compose(self) -> ComposeResult:
-        with TabbedContent():
-            with TabPane("stats"):
-                yield Markdown("TODO")
+        with TabbedContent(id="gym_tabs"):
             with TabPane("table"):
                 yield TrainingTable(id="training_table")
+            with TabPane("stats"):
+                yield Markdown("TODO")
 
     def set_units(self, units: list[GymUnit]) -> None:
         self.query_one(TrainingTable).set_units(units)

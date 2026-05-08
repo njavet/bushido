@@ -1,5 +1,5 @@
 Screen {
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 HeaderContainer {
@@ -45,4 +45,15 @@ UnitHelpWidget {
     padding: 1 2;
     border: round $accent;
     background: $surface;
+}
+
+#main_tabs {
+    height: 1fr;
+    min-height: 0;
+}
+
+#gym_tabs {
+    border: round $accent;
+    height: 100%;
+    min-height: 0;
 }
