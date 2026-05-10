@@ -15,7 +15,7 @@ class WimhofParser:
         if len(breaths) == 0:
             raise ParsingError("at least one round")
         if len(breaths) != len(retentions):
-            raise ParsingError("breaths and retentions don't match")
+            raise ParsingError(f"breaths and retentions don't match {tokens}")
         if any(x < 0 for x in breaths):
             raise ParsingError("breaths must all be positive")
         if any(x < 0 for x in retentions):

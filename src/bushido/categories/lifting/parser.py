@@ -15,15 +15,15 @@ class LiftingParser:
         try:
             weights = [float(w) for w in tokens[::3]]
         except ValueError:
-            raise ParsingError("invalid weight")
+            raise ParsingError(f"invalid weight {tokens[::3]}")
         try:
             reps = [float(r) for r in tokens[1::3]]
         except ValueError:
-            raise ParsingError("invalid reps")
+            raise ParsingError(f"invalid reps {tokens[1::3]}")
         try:
             rests = [float(r) for r in tokens[2::3]] + [0]
         except ValueError:
-            raise ParsingError("invalid rest")
+            raise ParsingError(f"invalid rest {tokens[2::3]}")
         if len(weights) == 0:
             raise ParsingError("at least one set")
         if len(weights) != len(reps):

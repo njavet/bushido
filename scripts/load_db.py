@@ -13,10 +13,9 @@ def load_db(data: list[Any]) -> None:
     with sf.session() as session:
         for unit in data:
             line = unit["line"]
-            if line.split()[0] in ["kyokushin", "grappling", "lifting"]:
-                error = lus.log_unit(line, session)
-                if error:
-                    print("ERROR", error)
+            error = lus.log_unit(line, session)
+            if error:
+                print("ERROR", error)
 
 
 def main() -> None:
