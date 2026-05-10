@@ -40,6 +40,7 @@ class UnitService:
 
         parsed_unit = ParsedUnit(
             name=raw.name,
+            emoji=registry.unit_settings[raw.name],
             data=unit_data,
             log_time=log_time,
             comment=raw.comment,

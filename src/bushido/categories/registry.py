@@ -46,16 +46,16 @@ REGISTRY: dict[str, CategoryRegistration] = {
 
 
 UNIT_TO_CATEGORY: dict[str, str] = {
-    unit_spec.name: category
+    unit_name: category
     for category, registration in REGISTRY.items()
-    for unit_spec in registration.unit_settings
+    for unit_name in registration.unit_settings.keys()
 }
 
 
 def get_category_help() -> list[CategoryHelp]:
     result = []
     for category, registration in REGISTRY.items():
-        unit_names = [unit_spec.name for unit_spec in registration.unit_settings]
+        unit_names = [unit_name for unit_name in registration.unit_settings.keys()]
         ch = CategoryHelp(
             name=category, grammar=registration.grammar, unit_names=unit_names
         )
