@@ -44,7 +44,7 @@ class BushidoApp(App[None]):
     def update_gym_container(self) -> None:
         gc = self.query_one("#gym_container", GymContainer)
         with self.sf.session() as session:
-            units = self.unit_service.load_gym_units(session)
+            units = self.unit_service.load_training_units(session)
         gc.set_units(units)
 
     def action_log_unit(self) -> None:
