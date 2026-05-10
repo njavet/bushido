@@ -3,8 +3,8 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
+from bushido.categories import LiftingUnit
 from bushido.categories.gym.domain import compute_duration
-from bushido.categories.lifting import LiftingUnit
 from bushido.categories.registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
 from bushido.core.dtypes import (
     CategoryRegistration,
