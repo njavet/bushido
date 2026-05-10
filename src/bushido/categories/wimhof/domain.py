@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from ..dtypes import ParsedUnit
+from bushido.core.dtypes import ParsedUnit
 
 
 @dataclass(frozen=True, slots=True)

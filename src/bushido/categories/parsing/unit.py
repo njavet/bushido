@@ -1,6 +1,7 @@
 import datetime
 
-from ..dtypes import RawUnit
+from bushido.core.dtypes import RawUnit
+
 from ..protocols import Clock
 from .dt_parse import parse_datetime
 

@@ -1,3 +1,5 @@
+from bushido.core.dtypes import CategoryHelp, CategoryRegistration
+
 from ..settings import (
     CARDIO_UNIT_SETTINGS,
     GYM_UNIT_SETTINGS,
@@ -6,7 +8,6 @@ from ..settings import (
     UnitCategory,
 )
 from .cardio import CardioMapper, CardioParser, CardioRepo
-from .dtypes import CategoryHelp, CategoryRegistration
 from .gym import GymMapper, GymParser, GymRepo
 from .lifting import LiftingMapper, LiftingParser, LiftingRepo
 from .wimhof import WimhofMapper, WimhofParser, WimhofRepo

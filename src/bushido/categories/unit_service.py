@@ -3,7 +3,13 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from .dtypes import CategoryRegistration, ParsedUnit, SystemClock, TrainingUnit
+from bushido.core.dtypes import (
+    CategoryRegistration,
+    ParsedUnit,
+    SystemClock,
+    TrainingUnit,
+)
+
 from .exceptions import ParsingError
 from .gym.domain import compute_duration
 from .lifting import LiftingUnit
