@@ -19,7 +19,14 @@ class Category(StrEnum):
     wimhof = "wimhof"
 
 
-UNIT_SETTINGS = {}
+UNIT_SETTINGS = {
+    "kyokushin": {
+        "emoji": b"\xf0\x9f\xa5\x8b",
+        "category": Category.training,
+        "options": {},
+        "flags": [],
+    }
+}
 
 
 GYM_UNIT_SETTINGS = {

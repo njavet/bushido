@@ -14,6 +14,8 @@ class DayStart(BaseModel):
 
 
 class LogSpec(BaseModel):
-    category: Category
     name: str
     emoji: bytes
+    category: Category
+    options: dict[str, str]
+    flags: list[str]
