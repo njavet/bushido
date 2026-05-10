@@ -7,6 +7,7 @@ class LiftingMapper:
     def to_orm(parsed_unit: LiftingUnit) -> LiftingUnitTable:
         unit = LiftingUnitTable(
             name=parsed_unit.name,
+            emoji=parsed_unit.emoji,
             comment=parsed_unit.comment,
             log_time=parsed_unit.log_time,
         )
@@ -24,6 +25,7 @@ class LiftingMapper:
             lst.append(sp)
         pu = LiftingUnit(
             name=orm_unit.name,
+            emoji=orm_unit.emoji,
             data=LiftingSpec(sets=lst),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,

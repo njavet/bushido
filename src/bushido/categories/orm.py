@@ -12,6 +12,7 @@ class UnitTable(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column()
+    emoji: Mapped[str] = mapped_column()
     comment: Mapped[str | None] = mapped_column()
     log_time: Mapped[datetime.datetime] = mapped_column(
         default=datetime.datetime.now(datetime.timezone.utc)

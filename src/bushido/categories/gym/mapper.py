@@ -7,6 +7,7 @@ class GymMapper:
     def to_orm(parsed_unit: GymUnit) -> GymUnitTable:
         unit = GymUnitTable(
             name=parsed_unit.name,
+            emoji=parsed_unit.emoji,
             log_time=parsed_unit.log_time,
             start_t=parsed_unit.data.start_t,
             end_t=parsed_unit.data.end_t,
@@ -21,6 +22,7 @@ class GymMapper:
     def from_orm(orm_unit: GymUnitTable) -> GymUnit:
         pu = GymUnit(
             name=orm_unit.name,
+            emoji=orm_unit.emoji,
             data=GymSpec(
                 start_t=orm_unit.start_t,
                 end_t=orm_unit.end_t,

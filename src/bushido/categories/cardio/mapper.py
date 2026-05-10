@@ -7,6 +7,7 @@ class CardioMapper:
     def to_orm(parsed_unit: CardioUnit) -> CardioUnitTable:
         unit = CardioUnitTable(
             name=parsed_unit.name,
+            emoji=parsed_unit.emoji,
             log_time=parsed_unit.log_time,
             start_t=parsed_unit.data.start_t,
             seconds=parsed_unit.data.seconds,
@@ -23,6 +24,7 @@ class CardioMapper:
     def from_orm(orm_unit: CardioUnitTable) -> CardioUnit:
         pu = CardioUnit(
             name=orm_unit.name,
+            emoji=orm_unit.emoji,
             data=CardioSpec(
                 start_t=orm_unit.start_t,
                 seconds=orm_unit.seconds,
