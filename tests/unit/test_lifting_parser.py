@@ -1,7 +1,7 @@
 import pytest
 
-from bushido.categories.lifting import LiftingParser
 from bushido.categories.lifting.domain import LiftingSpec, SetSpec
+from bushido.categories.lifting.parser import LiftingParser
 from bushido.core.exceptions import ParsingError
 
 

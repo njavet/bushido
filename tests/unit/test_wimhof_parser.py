@@ -1,7 +1,7 @@
 import pytest
 
-from bushido.categories.wimhof import WimhofParser
 from bushido.categories.wimhof.domain import RoundSpec, WimhofSpec
+from bushido.categories.wimhof.parser import WimhofParser
 
 
 @pytest.fixture
