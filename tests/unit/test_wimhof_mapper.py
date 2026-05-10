@@ -2,11 +2,8 @@ import datetime
 
 import pytest
 
-from bushido.categories.wimhof import (
-    WimhofMapper,
-    WimhofUnit,
-)
-from bushido.categories.wimhof.domain import RoundSpec, WimhofSpec
+from bushido.categories.wimhof.domain import RoundSpec, WimhofSpec, WimhofUnit
+from bushido.categories.wimhof.mapper import WimhofMapper
 from bushido.categories.wimhof.orm import WimhofRound, WimhofUnitTable
 from bushido.core.dtypes import ParsedUnit
 
