@@ -21,6 +21,7 @@ WIMHOF_CASES = [
     (
         ParsedUnit(
             name="wimhof",
+            emoji="saturn",
             data=WimhofSpec(
                 rounds=[
                     RoundSpec(round_nr=0, breaths=30, retention=90),
@@ -33,6 +34,7 @@ WIMHOF_CASES = [
         ),
         WimhofUnitTable(
             name="wimhof",
+            emoji="saturn",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             subunits=[
                 WimhofRound(round_nr=0, breaths=30, retention=90),
@@ -53,6 +55,7 @@ def test_correct_to_orm(
     u = mapper.to_orm(parsed_unit)
     assert isinstance(u, WimhofUnitTable)
     assert u.name == unit.name
+    assert u.emoji == unit.emoji
     assert u.log_time == unit.log_time
     assert u.comment == unit.comment
     for i, rs in enumerate(u.subunits):
@@ -70,6 +73,7 @@ def test_correct_from_orm(
 ) -> None:
     pu = mapper.from_orm(unit)
     assert isinstance(pu, ParsedUnit)
+    assert pu.emoji == unit.emoji
     assert pu.name == unit.name
     assert pu.log_time == unit.log_time
     assert pu.comment == unit.comment

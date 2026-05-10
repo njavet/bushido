@@ -21,6 +21,7 @@ LIFTING_CASES = [
     (
         ParsedUnit(
             name="squat",
+            emoji="shinto",
             data=LiftingSpec(
                 sets=[
                     SetSpec(set_nr=0, weight=100.0, reps=5, rest=180.0),
@@ -32,6 +33,7 @@ LIFTING_CASES = [
         ),
         LiftingUnitTable(
             name="squat",
+            emoji="shinto",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             subunits=[
                 LiftingSet(set_nr=0, weight=100.0, reps=5, rest=180.0),
@@ -42,6 +44,7 @@ LIFTING_CASES = [
     (
         ParsedUnit(
             name="squat",
+            emoji="shinto",
             data=LiftingSpec(
                 sets=[
                     SetSpec(set_nr=0, weight=150.0, reps=3, rest=300.0),
@@ -53,6 +56,7 @@ LIFTING_CASES = [
         ),
         LiftingUnitTable(
             name="squat",
+            emoji="shinto",
             comment="heavy day, 20reps at the end",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             subunits=[
@@ -72,6 +76,7 @@ def test_correct_to_orm_mapping(
 ) -> None:
     u = mapper.to_orm(parsed_unit)
     assert isinstance(u, LiftingUnitTable)
+    assert u.emoji == unit.emoji
     assert unit.name == u.name
     assert unit.comment == u.comment
     assert unit.log_time == u.log_time
@@ -91,6 +96,7 @@ def test_correct_from_orm_mapping(
 ) -> None:
     pu = mapper.from_orm(unit)
     assert isinstance(pu, ParsedUnit)
+    assert pu.emoji == unit.emoji
     assert pu.name == unit.name
     assert pu.comment == unit.comment
     assert pu.log_time == unit.log_time

@@ -1,8 +1,6 @@
 import json
 import sys
 
-from bushido.categories.unit_settings import GYM_UNIT_SETTINGS
-
 
 def main() -> None:
     if len(sys.argv) != 2:
@@ -40,7 +38,7 @@ def main() -> None:
             except IndexError:
                 print("TOKENS", tokens)
         elif name == "gorilla":
-            unit_name = GYM_UNIT_SETTINGS.lifting
+            unit_name = "lifting"
         else:
             unit_name = e
             print("unit", unit_name)
@@ -50,12 +48,6 @@ def main() -> None:
 
     with open("converted.json", "w") as f:
         f.write(json.dumps(lst, indent=2))
-
-
-emoji_name_to_unit = {
-    "martial_arts_uniform": "martial_arts",
-    "gorilla": GYM_UNIT_SETTINGS.lifting.name,
-}
 
 
 EMOJIS = {
