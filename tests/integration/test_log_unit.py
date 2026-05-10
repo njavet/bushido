@@ -33,11 +33,11 @@ def service() -> UnitService:
 
 
 def test_log_gym_unit_success(service: UnitService, session: Session) -> None:
-    line = "weights 1800-1900 nautilus"
+    line = "lifting 1800-1900 nautilus"
     service.log_unit(line, session)
     units = session.scalars(select(GymUnitTable)).all()
     assert len(units) == 1
-    assert units[0].name == "weights"
+    assert units[0].name == "lifting"
     assert units[0].start_t == datetime.time(18, 0)
     assert units[0].end_t == datetime.time(19, 0)
     assert units[0].gym == "nautilus"
