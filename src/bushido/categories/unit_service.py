@@ -57,7 +57,7 @@ class UnitService:
                 TrainingUnit(
                     name=unit.name,
                     emoji=unit.emoji,
-                    date=unit.data.log_time.date(),
+                    date=unit.log_time.date(),
                     duration=compute_duration(unit.data.start_t, unit.data.end_t),
                     start_t=unit.data.start_t,
                     end_t=unit.data.end_t,
@@ -70,14 +70,14 @@ class UnitService:
                 TrainingUnit(
                     name=unit.name,
                     emoji=unit.emoji,
-                    date=unit.data.log_time.date(),
-                    duration=unit.data.seconds / 60,
+                    date=unit.log_time.date(),
+                    duration=int(unit.data.seconds / 60),
                     start_t=unit.data.start_t,
                     gym=unit.data.location,
                     comment=unit.comment,
                 )
             )
-        return result
+        return sorted(result, key=lambda u: u.date, reverse=True)
 
     @staticmethod
     def _load_units(

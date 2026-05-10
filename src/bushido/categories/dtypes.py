@@ -62,7 +62,7 @@ class TrainingUnit:
     name: str
     emoji: str
     date: datetime.datetime
-    duration: int | float
+    duration: int
     start_t: datetime.time | None = None
     end_t: datetime.time | None = None
     gym: str | None = None
