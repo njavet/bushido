@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from .dtypes import CategoryRegistration, ParsedUnit, SystemClock, TrainingUnit
 from .exceptions import ParsingError
 from .gym.domain import compute_duration
+from .lifting import LiftingUnit
 from .parsing.unit import parse_raw_unit, split_options
 from .protocols import Clock
 from .registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
@@ -78,6 +79,14 @@ class UnitService:
                 )
             )
         return sorted(result, key=lambda u: u.date, reverse=True)
+
+    def load_lifting_units(
+        self,
+        session: Session,
+        start_t: datetime.datetime | None = None,
+        end_t: datetime.datetime | None = None,
+    ) -> list[LiftingUnit]:
+        return self._load_units(session, REGISTRY["lifting"], start_t, end_t)
 
     @staticmethod
     def _load_units(

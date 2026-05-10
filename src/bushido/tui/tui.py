@@ -9,7 +9,7 @@ from textual.widgets import (
 
 from bushido.categories import UnitService
 from bushido.infra.db import SessionFactory
-from bushido.tui.containers import GymContainer, HeaderContainer
+from bushido.tui.containers import GymContainer, HeaderContainer, LiftingContainer
 from bushido.tui.screens.log_unit import LogUnitScreen
 
 
@@ -36,15 +36,25 @@ class BushidoApp(App[None]):
         with TabbedContent(id="main_tabs"):
             with TabPane("training"):
                 yield GymContainer(id="gym_container")
+            with TabPane("lifting"):
+                yield LiftingContainer(id="lifting_container")
+
         yield Footer(id="app_footer")
 
     def on_mount(self) -> None:
         self.update_gym_container()
+        self.update_lifting_container()
 
     def update_gym_container(self) -> None:
         gc = self.query_one("#gym_container", GymContainer)
         with self.sf.session() as session:
             units = self.unit_service.load_training_units(session)
+        gc.set_units(units)
+
+    def update_lifting_container(self) -> None:
+        gc = self.query_one("#lifting_container", LiftingContainer)
+        with self.sf.session() as session:
+            units = self.unit_service.load_lifting_units(session)
         gc.set_units(units)
 
     def action_log_unit(self) -> None:
