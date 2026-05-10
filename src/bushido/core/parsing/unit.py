@@ -1,6 +1,7 @@
 import datetime
 
 from bushido.core.dtypes import RawUnit
+from bushido.core.exceptions import ParsingError
 from bushido.core.protocols import Clock
 
 from .dt_parse import parse_datetime
@@ -11,7 +12,7 @@ def parse_raw_unit(line: str) -> RawUnit:
     tokens = tuple(body.split())
 
     if not tokens:
-        raise ValueError("Empty unit line")
+        raise ParsingError(f"Empty unit line: {line}")
 
     return RawUnit(
         name=tokens[0],
