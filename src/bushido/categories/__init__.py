@@ -1,5 +1,11 @@
-from bushido.service.unit_service import UnitService
+from .cardio.domain import CardioUnit
+from .gym.domain import GymUnit
+from .lifting.domain import LiftingUnit
+from .wimhof.domain import WimhofUnit
 
 __all__ = [
-    "UnitService",
+    "CardioUnit",
+    "WimhofUnit",
+    "LiftingUnit",
+    "GymUnit",
 ]
