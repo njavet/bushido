@@ -1,12 +1,11 @@
 from .domain import LiftingUnit
 from .mapper import LiftingMapper
-from .orm import LiftingSet, LiftingUnitTable
 from .parser import LiftingParser
+from .repo import LiftingRepo
 
 __all__ = [
     "LiftingUnit",
-    "LiftingSet",
     "LiftingMapper",
-    "LiftingUnitTable",
+    "LiftingRepo",
     "LiftingParser",
 ]
