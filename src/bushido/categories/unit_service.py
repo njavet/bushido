@@ -4,14 +4,13 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from .cardio import CardioUnit
-from .dtypes import CategoryRegistration, ParsedUnit, SystemClock
+from .dtypes import CategoryRegistration, ParsedUnit, SystemClock, TrainingUnit
 from .exceptions import ParsingError
 from .gym import GymUnit
 from .lifting import LiftingUnit
 from .parsing.unit import parse_raw_unit, split_options
-from .protocols import Clock, TrainingUnit
+from .protocols import Clock
 from .registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
-from .unit_settings import DEFAULT_CATEGORIES
 from .wimhof import WimhofUnit
 
 
@@ -50,19 +49,6 @@ class UnitService:
             return "repo error"
         else:
             return None
-
-    def load_units(
-        self,
-        session: Session,
-        categories: tuple[str, ...] = DEFAULT_CATEGORIES,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> dict[str, list[Any]]:
-        result = {}
-        for category in categories:
-            registry = REGISTRY[category]
-            result[category] = self._load_units(session, registry, start_t, end_t)
-        return result
 
     def load_training_units(
         self,

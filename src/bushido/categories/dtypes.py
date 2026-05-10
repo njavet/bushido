@@ -4,9 +4,8 @@ from typing import Any, Generic, TypeVar
 
 from sqlalchemy.orm import Session
 
-from bushido.categories.mapper import UnitMapper
 from bushido.categories.orm import UnitTable
-from bushido.categories.protocols import UnitParser
+from bushido.categories.protocols import UnitMapper, UnitParser
 from bushido.categories.repo import UnitRepo
 
 
@@ -57,3 +56,15 @@ class CategoryRegistration:
         if self.subrels is None:
             return UnitRepo(session=session, unit_cls=self.unit_cls)
         return UnitRepo(session=session, unit_cls=self.unit_cls, subrels=self.subrels)
+
+
+@dataclass(frozen=True, slots=True)
+class TrainingUnit:
+    name: str
+    emoji: str
+    date: datetime.datetime
+    duration: int
+    start_t: datetime.time | None = None
+    end_t: datetime.time | None = None
+    gym: str | None = None
+    comment: str | None = None

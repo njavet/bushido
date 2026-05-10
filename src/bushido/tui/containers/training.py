@@ -9,7 +9,7 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido.categories.protocols import TrainingUnit
+from bushido.categories.dtypes import TrainingUnit
 
 
 class TrainingTable(DataTable[str]):

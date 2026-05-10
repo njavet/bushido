@@ -35,11 +35,3 @@ class UnitCategory(StrEnum):
     work = "work"
     gym = "gym"
     wimhof = "wimhof"
-
-
-DEFAULT_CATEGORIES: tuple[str, ...] = (
-    "cardio",
-    "lifting",
-    "gym",
-    "wimhof",
-)
