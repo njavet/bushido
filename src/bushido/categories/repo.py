@@ -28,6 +28,14 @@ class UnitRepo(Generic[TU]):
         unit_name: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
+    ) -> list[TU]:
+        return self._fetch_units(unit_name, start_t, end_t)
+
+    def _fetch_units(
+        self,
+        unit_name: str | None = None,
+        start_t: datetime.datetime | None = None,
+        end_t: datetime.datetime | None = None,
         options: Sequence[Load] = (),
     ) -> list[TU]:
         stmt = select(self.unit_cls).options(*options)
