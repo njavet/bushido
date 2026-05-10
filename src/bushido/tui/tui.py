@@ -1,3 +1,4 @@
+
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
@@ -44,8 +45,8 @@ class BushidoApp(App[None]):
     def update_gym_container(self) -> None:
         gc = self.query_one("#gym_container", GymContainer)
         with self.sf.session() as session:
-            units = self.unit_service.load_units(session, ("gym",))
-        gc.set_units(units["gym"][::-1])
+            units = self.unit_service.load_gym_units(session)
+        gc.set_units(units)
 
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a unit
