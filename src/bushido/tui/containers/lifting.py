@@ -1,9 +1,7 @@
 from textual.app import ComposeResult
 from textual.containers import Container
-from textual.coordinate import Coordinate
 from textual.widgets import (
     DataTable,
-    Markdown,
     TabbedContent,
     TabPane,
 )
@@ -17,13 +15,13 @@ class LiftingContainer(Container):
             with TabPane("squat"):
                 yield LiftingTable(id="squat_table")
             with TabPane("deadlift"):
-                yield Markdown("TODO")
+                yield LiftingTable(id="deadlift_table")
             with TabPane("benchpress"):
-                yield Markdown("TODO")
+                yield LiftingTable(id="benchpress_table")
             with TabPane("overheadpress"):
-                yield Markdown("TODO")
+                yield LiftingTable(id="overheadpress_table")
             with TabPane("rows"):
-                yield Markdown("TODO")
+                yield LiftingTable(id="rows_table")
 
     def set_units(self, units: list[LiftingUnit]) -> None:
         self.query_one("#squat_table", LiftingTable).set_units(
@@ -50,16 +48,12 @@ class LiftingTable(DataTable[str]):
     def set_units(self, units: list[LiftingUnit]) -> None:
         self.clear()
         for unit in units:
-            row_key = self.add_row(
+            self.add_row(
                 unit.log_time.strftime("%d.%m.%y"),
                 "",
                 "",
                 "",
                 "",
-            )
-            self.update_cell_at(
-                Coordinate(row=int(row_key.value if row_key.value else 0), column=0),
-                unit.log_time.strftime("%d.%m.%y"),
             )
 
             for lifting_set in unit.data.sets:
