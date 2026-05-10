@@ -1,14 +1,7 @@
 import datetime
 from dataclasses import dataclass
-from enum import StrEnum
 
 from ..dtypes import ParsedUnit
-
-
-class CardioUnitName(StrEnum):
-    running = "running"
-    skipping = "skipping"
-    swimming = "swimming"
 
 
 @dataclass(frozen=True, slots=True)

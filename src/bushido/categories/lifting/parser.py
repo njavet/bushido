@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
 from ..exceptions import ParsingError
-from .domain import LiftingSpec, LiftingUnitName, SetSpec
+from ..unit_settings import LiftingUnitName
+from .domain import LiftingSpec, SetSpec
 
 
 @dataclass(frozen=True, slots=True)

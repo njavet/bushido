@@ -1,11 +1,6 @@
 from dataclasses import dataclass
-from enum import StrEnum
 
 from ..dtypes import ParsedUnit
-
-
-class WimhofUnitName(StrEnum):
-    wimhof = "wimhof"
 
 
 @dataclass(frozen=True, slots=True)

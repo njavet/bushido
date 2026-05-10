@@ -2,7 +2,8 @@ from dataclasses import dataclass
 
 from ..exceptions import ParsingError
 from ..parsing.dt_parse import parse_military_time_string, time_string_to_seconds
-from .domain import CardioSpec, CardioUnitName
+from ..unit_settings import CardioUnitName
+from .domain import CardioSpec
 
 
 @dataclass(frozen=True, slots=True)

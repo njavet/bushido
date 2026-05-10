@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
 from ..exceptions import ParsingError
-from .domain import RoundSpec, WimhofSpec, WimhofUnitName
+from ..unit_settings import WimhofUnitName
+from .domain import RoundSpec, WimhofSpec
 
 
 @dataclass(frozen=True, slots=True)

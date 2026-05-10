@@ -2,7 +2,8 @@ from dataclasses import dataclass
 
 from ..exceptions import ParsingError
 from ..parsing.dt_parse import parse_start_end_time_string
-from .domain import GymSpec, GymUnitName
+from ..unit_settings import GymUnitName
+from .domain import GymSpec
 
 
 @dataclass(frozen=True, slots=True)
