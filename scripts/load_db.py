@@ -5,6 +5,16 @@ from typing import Any
 from bushido.categories.unit_service import UnitService
 from bushido.infra.db import SessionFactory
 
+UNIT_NAMES = [
+    "lifting",
+    "kyokushin",
+    "boxing",
+    "grappling",
+    "running",
+    "swimming",
+    "skipping",
+]
+
 
 def load_db(data: list[Any]) -> None:
     sf = SessionFactory()
@@ -13,9 +23,12 @@ def load_db(data: list[Any]) -> None:
     with sf.session() as session:
         for unit in data:
             line = unit["line"]
+            unit_name = line.split()[0]
+            if unit_name not in UNIT_NAMES:
+                continue
             error = lus.log_unit(line, session)
             if error:
-                print("ERROR", error)
+                print("ERROR", error, "line", line)
 
 
 def main() -> None:

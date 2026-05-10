@@ -3,6 +3,7 @@ from enum import StrEnum
 GYM_UNIT_SETTINGS = {
     "kyokushin": b"\xf0\x9f\xa5\x8b".decode(),
     "grappling": b"\xf0\x9f\xa5\x8b".decode(),
+    "boxing": b"\xf0\x9f\xa5\x8b".decode(),
     "lifting": b"\xf0\x9f\xa6\x8d".decode(),
 }
 

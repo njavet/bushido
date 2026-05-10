@@ -60,12 +60,12 @@ def colon_separated_time_string_to_seconds(values: list[str]) -> float:
 def parse_military_time_string(time_string: str) -> datetime.time:
     # e.g. 1600 for 16:00
     if len(time_string) != 4:
-        raise ParsingError("incorrect military time")
+        raise ParsingError(f"incorrect military time {time_string}")
     try:
         hour = int(time_string[0:2])
         minutes = int(time_string[2:])
     except ValueError:
-        raise ParsingError("incorrect military time")
+        raise ParsingError(f"incorrect military time {time_string}")
     else:
         return datetime.time(hour, minutes)
 
