@@ -13,7 +13,7 @@ from bushido.categories.lifting import LiftingUnit
 
 class LiftingContainer(Container):
     def compose(self) -> ComposeResult:
-        with TabbedContent():
+        with TabbedContent(id="lifting_tabs"):
             with TabPane("squat"):
                 yield LiftingTable(id="squat_table")
             with TabPane("deadlift"):
@@ -26,7 +26,21 @@ class LiftingContainer(Container):
                 yield Markdown("TODO")
 
     def set_units(self, units: list[LiftingUnit]) -> None:
-        self.query_one(LiftingTable).set_units(units)
+        self.query_one("#squat_table", LiftingTable).set_units(
+            [u for u in units if u.name == "squat"]
+        )
+        self.query_one("#deadlift_table", LiftingTable).set_units(
+            [u for u in units if u.name == "deadlift"]
+        )
+        self.query_one("#benchpress_table", LiftingTable).set_units(
+            [u for u in units if u.name == "benchpress"]
+        )
+        self.query_one("#overheadpress_table", LiftingTable).set_units(
+            [u for u in units if u.name == "overheadpress"]
+        )
+        self.query_one("#rows_table", LiftingTable).set_units(
+            [u for u in units if u.name == "rows"]
+        )
 
 
 class LiftingTable(DataTable[str]):
@@ -43,15 +57,14 @@ class LiftingTable(DataTable[str]):
                 "",
                 "",
             )
-            if row_key.value is None:
-                continue
             self.update_cell_at(
-                Coordinate(row=int(row_key.value), column=0),
+                Coordinate(row=int(row_key.value if row_key.value else 0), column=0),
                 unit.log_time.strftime("%d.%m.%y"),
             )
 
             for lifting_set in unit.data.sets:
                 self.add_row(
+                    "",
                     str(lifting_set.set_nr),
                     str(lifting_set.weight),
                     str(lifting_set.reps),

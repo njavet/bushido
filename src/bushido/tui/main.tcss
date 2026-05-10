@@ -57,3 +57,9 @@ UnitHelpWidget {
     height: 100%;
     min-height: 0;
 }
+
+#lifting_tabs {
+    border: round $accent;
+    height: 100%;
+    min-height: 0;
+}
