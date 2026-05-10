@@ -13,6 +13,10 @@ UNIT_NAMES = [
     "running",
     "swimming",
     "skipping",
+    "squat",
+    "deadlift",
+    "benchpress",
+    "overheadpress",
 ]
 
 

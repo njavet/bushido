@@ -2,6 +2,110 @@ import json
 import sys
 
 
+def add_logtime(body: str, sep: str, comment: str, dt: str) -> str:
+    words = body.split()
+    try:
+        _ = words.index("--dt")
+        return " ".join([body, sep, comment])
+    except ValueError:
+        pass
+
+    if sep:
+        new_line = " ".join([body, "--dt", dt, sep, comment])
+    else:
+        new_line = " ".join([body, "--dt", dt])
+    return new_line
+
+
+def remove_options(line: str, dt: str) -> str:
+    words = line.split()
+    clean: list[str] = []
+
+    i = 0
+    while i < len(words):
+        word = words[i]
+
+        if word == "--dt":
+            if i + 1 >= len(words):
+                raise ValueError("--dt requires a value")
+
+            if words[i + 1] == dt:
+                i += 2
+                continue
+        clean.append(word)
+        i += 1
+    return " ".join(clean)
+
+
+def replace_emoji(line: str) -> str:
+    body, sep, comment = line.partition("#")
+    tokens = tuple(body.split())
+    eb = tokens[0].encode()
+    try:
+        name = EMOJIS[eb]
+    except KeyError:
+        print("NO EMOJIS FOUND", eb.decode())
+        return line
+    try:
+        eb = single_char2complete[eb]
+    except KeyError:
+        pass
+    e = eb.decode()
+    if name.lower() == "bjj" or name == "grappling":
+        unit_name = "grappling"
+    elif name == "boxing":
+        unit_name = "boxing"
+    elif name == "globe":
+        unit_name = "log"
+    elif name == "lifting":
+        unit_name = "lifting"
+    elif name == "kyokushin":
+        unit_name = "kyokushin"
+    elif name == "shark":
+        unit_name = "swimming"
+    elif name == "helicopter":
+        unit_name = "benchpress"
+    elif name == "seal":
+        unit_name = "overheadpress"
+    elif name == "shinto" or name == "1_shinto":
+        unit_name = "squat"
+    elif name == "construction_site" or name == "1_construction_site":
+        unit_name = "deadlift"
+    elif name == "turtle":
+        unit_name = "rows"
+    elif name == "cyborg_arm":
+        unit_name = "curls"
+    elif name == "saturn":
+        unit_name = "wimhof"
+    elif name == "sword" or name == "1_sword":
+        unit_name = "split_machine"
+    elif name == "bison":
+        unit_name = "shrugs"
+    elif name == "magnet":
+        unit_name = "core"
+    elif name == "helmet" or name == "sneaker":
+        unit_name = "running"
+    elif name == "satellite":
+        unit_name = "work"
+    elif name == "eight_ball":
+        unit_name = "shoulders"
+    elif name == "balance" or name == "1_balance":
+        unit_name = "scale"
+    elif name == "scissors" or name == "1_scissors":
+        unit_name = "stretching"
+    elif name == "reminder_ribbon" or name == "1_reminder_ribbon":
+        unit_name = "skipping"
+    elif name == "eagle":
+        unit_name = "pullups"
+    elif name == "1_orbital" or name == "orbital":
+        unit_name = "work"
+    else:
+        unit_name = e
+        print("unit", unit_name, "emoji", e.encode())
+    new_line = line.replace(e, unit_name, count=1)
+    return new_line
+
+
 def main() -> None:
     if len(sys.argv) != 2:
         print("usage: python convert_emojis.py <file.json>")
@@ -12,83 +116,12 @@ def main() -> None:
     lst = []
     for item in data:
         line = item["line"]
+        line = remove_options(line, item["local_datetime"])
         body, sep, comment = line.partition("#")
-        tokens = tuple(body.split())
-        eb = tokens[0].encode()
-        try:
-            name = EMOJIS[eb]
-        except KeyError:
-            print("NO EMOJIS FOUND", eb.decode())
-            continue
+        line = add_logtime(body, sep, comment, item["local_datetime"])
+        lst.append({"line": line, "local_datetime": item["local_datetime"]})
 
-        try:
-            # eb = single_char2complete[eb]
-            eb = eb
-        except KeyError:
-            pass
-
-        if sep:
-            new_line = " ".join([body, "--dt", item["local_datetime"], sep, comment])
-        else:
-            new_line = " ".join([body, "--dt", item["local_datetime"]])
-
-        e = eb.decode()
-        if name.lower() == "bjj" or name == "grappling":
-            unit_name = "grappling"
-        elif name == "boxing":
-            unit_name = "boxing"
-        elif name == "globe":
-            unit_name = "log"
-        elif name == "lifting":
-            unit_name = "lifting"
-        elif name == "kyokushin":
-            unit_name = "kyokushin"
-        elif name == "shark":
-            unit_name = "swimming"
-        elif name == "helicopter":
-            unit_name = "benchpress"
-        elif name == "seal":
-            unit_name = "overheadpress"
-        elif name == "shinto" or name == "1_shinto":
-            unit_name = "squat"
-        elif name == "construction_site" or name == "1_construction_site":
-            unit_name = "deadlift"
-        elif name == "turtle":
-            unit_name = "rows"
-        elif name == "cyborg_arm":
-            unit_name = "curls"
-        elif name == "saturn":
-            unit_name = "wimhof"
-        elif name == "sword" or name == "1_sword":
-            unit_name = "split_machine"
-        elif name == "bison":
-            unit_name = "shrugs"
-        elif name == "magnet":
-            unit_name = "core"
-        elif name == "helmet" or name == "sneaker":
-            unit_name = "running"
-        elif name == "satellite":
-            unit_name = "work"
-        elif name == "eight_ball":
-            unit_name = "shoulders"
-        elif name == "balance" or name == "1_balance":
-            unit_name = "scale"
-        elif name == "scissors" or name == "1_scissors":
-            unit_name = "stretching"
-        elif name == "reminder_ribbon" or name == "1_reminder_ribbon":
-            unit_name = "skipping"
-        elif name == "eagle":
-            unit_name = "pullups"
-        elif name == "1_orbital" or name == "orbital":
-            unit_name = "work"
-        else:
-            unit_name = e
-            print("unit", unit_name, "emoji", e.encode())
-
-        new_line = new_line.replace(e, unit_name, count=1)
-        lst.append({"line": new_line, "local_datetime": item["local_datetime"]})
-
-    with open("converted.json", "w") as f:
+    with open("units.json", "w") as f:
         f.write(json.dumps(lst, indent=2, ensure_ascii=False))
 
 
