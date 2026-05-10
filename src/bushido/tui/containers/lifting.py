@@ -1,5 +1,6 @@
 from textual.app import ComposeResult
 from textual.containers import Container
+from textual.coordinate import Coordinate
 from textual.widgets import (
     DataTable,
     Markdown,
@@ -42,8 +43,12 @@ class LiftingTable(DataTable[str]):
                 "",
                 "",
             )
-
-            self.update_cell_at((row_key, 0), unit.log_time.strftime("%d.%m.%y"))
+            if row_key.value is None:
+                continue
+            self.update_cell_at(
+                Coordinate(row=int(row_key.value), column=0),
+                unit.log_time.strftime("%d.%m.%y"),
+            )
 
             for lifting_set in unit.data.sets:
                 self.add_row(
