@@ -5,11 +5,10 @@ import pytest
 from bushido.categories.dtypes import ParsedUnit
 from bushido.categories.lifting import (
     LiftingMapper,
-    LiftingSet,
     LiftingUnit,
-    LiftingUnitTable,
 )
 from bushido.categories.lifting.domain import LiftingSpec, SetSpec
+from bushido.categories.lifting.orm import LiftingSet, LiftingUnitTable
 
 
 @pytest.fixture

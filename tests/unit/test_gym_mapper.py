@@ -3,8 +3,9 @@ import datetime
 import pytest
 
 from bushido.categories.dtypes import ParsedUnit
-from bushido.categories.gym import GymMapper, GymUnitTable
+from bushido.categories.gym import GymMapper
 from bushido.categories.gym.domain import GymSpec, GymUnit
+from bushido.categories.gym.orm import GymUnitTable
 
 
 @pytest.fixture
