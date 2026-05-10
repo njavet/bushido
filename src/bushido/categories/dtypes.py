@@ -44,9 +44,6 @@ class ParsedUnit(Generic[T]):
     comment: str | None = None
 
 
-P = TypeVar("P", covariant=True)
-
-
 @dataclass(frozen=True, slots=True)
 class CategoryRegistration:
     parser: UnitParser[Any]

@@ -1,7 +1,7 @@
 import datetime
-from typing import Protocol
+from typing import Protocol, TypeVar
 
-from bushido.categories.dtypes import P
+P = TypeVar("P", covariant=True)
 
 
 class UnitParser(Protocol[P]):
