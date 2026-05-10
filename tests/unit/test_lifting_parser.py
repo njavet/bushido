@@ -1,8 +1,8 @@
 import pytest
 
-from bushido.categories.exceptions import ParsingError
 from bushido.categories.lifting import LiftingParser
 from bushido.categories.lifting.domain import LiftingSpec, SetSpec
+from bushido.core.exceptions import ParsingError
 
 
 @pytest.fixture

@@ -3,19 +3,18 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
+from bushido.categories.gym.domain import compute_duration
+from bushido.categories.lifting import LiftingUnit
+from bushido.categories.parsing.unit import parse_raw_unit, split_options
 from bushido.core.dtypes import (
     CategoryRegistration,
     ParsedUnit,
     SystemClock,
     TrainingUnit,
 )
-
-from .exceptions import ParsingError
-from .gym.domain import compute_duration
-from .lifting import LiftingUnit
-from .parsing.unit import parse_raw_unit, split_options
-from .protocols import Clock
-from .registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
+from bushido.core.exceptions import ParsingError
+from bushido.core.protocols import Clock
+from bushido.core.registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
 
 
 class UnitService:

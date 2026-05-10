@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
-from .orm import UnitTable
+from bushido.core.orm import UnitTable
 
 TU = TypeVar("TU", bound=UnitTable)
 

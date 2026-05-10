@@ -1,16 +1,15 @@
+from bushido.categories.cardio import CardioMapper, CardioParser, CardioRepo
+from bushido.categories.gym import GymMapper, GymParser, GymRepo
+from bushido.categories.lifting import LiftingMapper, LiftingParser, LiftingRepo
+from bushido.categories.wimhof import WimhofMapper, WimhofParser, WimhofRepo
 from bushido.core.dtypes import CategoryHelp, CategoryRegistration
-
-from ..settings import (
+from bushido.settings import (
     CARDIO_UNIT_SETTINGS,
     GYM_UNIT_SETTINGS,
     LIFTING_UNIT_SETTINGS,
     WIMHOF_UNIT_SETTINGS,
     UnitCategory,
 )
-from .cardio import CardioMapper, CardioParser, CardioRepo
-from .gym import GymMapper, GymParser, GymRepo
-from .lifting import LiftingMapper, LiftingParser, LiftingRepo
-from .wimhof import WimhofMapper, WimhofParser, WimhofRepo
 
 REGISTRY: dict[str, CategoryRegistration] = {
     UnitCategory.gym: CategoryRegistration(

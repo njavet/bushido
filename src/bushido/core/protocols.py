@@ -1,7 +1,7 @@
 import datetime
 from typing import Protocol, TypeVar
 
-from bushido.categories.repo import TU
+from bushido.core.repo import TU
 
 P = TypeVar("P", covariant=True)
 

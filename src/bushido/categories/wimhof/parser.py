@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from ..exceptions import ParsingError
+from bushido.core.exceptions import ParsingError
+
 from .domain import RoundSpec, WimhofSpec
 
 

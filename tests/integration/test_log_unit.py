@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from bushido.categories.gym.orm import GymUnitTable
 from bushido.categories.lifting.orm import LiftingSet, LiftingUnitTable
-from bushido.categories.unit_service import UnitService
+from bushido.core.unit_service import UnitService
 from bushido.infra.db import SessionFactory
 
 

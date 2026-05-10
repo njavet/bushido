@@ -2,7 +2,7 @@ import datetime
 
 from sqlalchemy.orm import Mapped, mapped_column
 
-from ..orm import UnitTable
+from bushido.core.orm import UnitTable
 
 
 class GymUnitTable(UnitTable):

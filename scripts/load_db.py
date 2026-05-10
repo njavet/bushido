@@ -2,7 +2,7 @@ import json
 import sys
 from typing import Any
 
-from bushido.categories.unit_service import UnitService
+from bushido.core.unit_service import UnitService
 from bushido.infra.db import SessionFactory
 
 UNIT_NAMES = [
