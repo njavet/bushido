@@ -45,10 +45,8 @@ class UnitService:
             comment=raw.comment,
         )
         unit = registry.mapper.to_orm(parsed_unit)
-        if not registry.repo(session).add_unit(unit):
-            return "repo error"
-        else:
-            return None
+        registry.repo(session).add_unit(unit)
+        return None
 
     def load_training_units(
         self,

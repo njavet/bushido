@@ -4,7 +4,7 @@ from ..repo import UnitRepo
 from .orm import CardioUnitTable
 
 
-class GymRepo(UnitRepo[CardioUnitTable]):
+class CardioRepo(UnitRepo[CardioUnitTable]):
     def __init__(
         self,
         session: Session,
