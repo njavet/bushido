@@ -1,14 +1,14 @@
-from .cardio import CardioMapper, CardioParser, CardioRepo
-from .dtypes import CategoryHelp, CategoryRegistration
-from .gym import GymMapper, GymParser, GymRepo
-from .lifting import LiftingMapper, LiftingParser, LiftingRepo
-from .unit_settings import (
+from ..settings import (
     CARDIO_UNIT_SETTINGS,
     GYM_UNIT_SETTINGS,
     LIFTING_UNIT_SETTINGS,
     WIMHOF_UNIT_SETTINGS,
     UnitCategory,
 )
+from .cardio import CardioMapper, CardioParser, CardioRepo
+from .dtypes import CategoryHelp, CategoryRegistration
+from .gym import GymMapper, GymParser, GymRepo
+from .lifting import LiftingMapper, LiftingParser, LiftingRepo
 from .wimhof import WimhofMapper, WimhofParser, WimhofRepo
 
 REGISTRY: dict[str, CategoryRegistration] = {
