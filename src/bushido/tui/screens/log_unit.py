@@ -12,7 +12,7 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input
 
-from bushido.categories import UnitService
+from bushido.service import UnitService
 
 LogUnitHandler = Callable[[str], Awaitable[str | None]]
 
