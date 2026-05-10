@@ -1,16 +1,13 @@
 import datetime
 from dataclasses import dataclass
-from typing import Any, Generic, Protocol, TypeVar
+from typing import Any, Generic, TypeVar
 
 from sqlalchemy.orm import Session
 
 from bushido.categories.mapper import UnitMapper
 from bushido.categories.orm import UnitTable
+from bushido.categories.protocols import UnitParser
 from bushido.categories.repo import UnitRepo
-
-
-class Clock(Protocol):
-    def now(self) -> datetime.datetime: ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -48,11 +45,6 @@ class ParsedUnit(Generic[T]):
 
 
 P = TypeVar("P", covariant=True)
-
-
-class UnitParser(Protocol[P]):
-    @staticmethod
-    def parse(tokens: tuple[str, ...]) -> P: ...
 
 
 @dataclass(frozen=True, slots=True)

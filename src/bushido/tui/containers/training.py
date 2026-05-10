@@ -1,4 +1,4 @@
-from typing import Any
+import datetime
 
 from textual.app import ComposeResult
 from textual.containers import Container
@@ -9,22 +9,27 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido.categories.gym import GymUnit
+from bushido.categories.protocols import TrainingUnit
 
 
-class TrainingTable(DataTable[Any]):
+class TrainingTable(DataTable[str]):
     def on_mount(self) -> None:
-        self.add_columns("date", "time", "training", "gym", "comment")
+        self.add_columns(
+            "emoji", "date", "start", "end", "time", "training", "gym", "comment"
+        )
 
-    def set_units(self, units: list[GymUnit]) -> None:
+    def set_units(self, units: list[TrainingUnit]) -> None:
         self.clear()
         for unit in units:
             self.add_row(
-                unit.log_time,
-                unit.data.start_t,
+                unit.emoji,
+                unit.date.strftime("%d.%m.%y"),
+                unit.start_t.strftime("%H%M") if unit.start_t else "",
+                unit.end_t.strftime("%H%M") if unit.end_t else "",
+                str(unit.duration),
                 unit.name,
-                unit.data.gym,
-                unit.comment,
+                unit.gym if unit.gym else "",
+                unit.comment if unit.comment else "",
             )
 
 
@@ -36,5 +41,12 @@ class GymContainer(Container):
             with TabPane("stats"):
                 yield Markdown("TODO")
 
-    def set_units(self, units: list[GymUnit]) -> None:
+    def set_units(self, units: list[TrainingUnit]) -> None:
         self.query_one(TrainingTable).set_units(units)
+
+
+def compute_duration(start_t: datetime.time, end_t: datetime.time) -> int:
+    return (
+        datetime.datetime.combine(datetime.date.today(), end_t)
+        - datetime.datetime.combine(datetime.date.today(), start_t)
+    ).seconds // 60

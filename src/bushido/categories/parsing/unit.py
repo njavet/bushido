@@ -1,6 +1,7 @@
 import datetime
 
-from ..dtypes import Clock, RawUnit
+from ..dtypes import RawUnit
+from ..protocols import Clock
 from .dt_parse import parse_datetime
 
 

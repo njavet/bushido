@@ -22,7 +22,8 @@ def main() -> None:
             continue
 
         try:
-            eb = single_char2complete[eb]
+            # eb = single_char2complete[eb]
+            eb = eb
         except KeyError:
             pass
 
@@ -32,25 +33,72 @@ def main() -> None:
             new_line = " ".join([body, "--dt", item["local_datetime"]])
 
         e = eb.decode()
-        if name == "martial_arts":
-            try:
-                unit_name = tokens[3]
-            except IndexError:
-                print("TOKENS", tokens)
-        elif name == "gorilla":
+        if name.lower() == "bjj" or name == "grappling":
+            unit_name = "grappling"
+        elif name == "boxing":
+            unit_name = "boxing"
+        elif name == "globe":
+            unit_name = "log"
+        elif name == "lifting":
             unit_name = "lifting"
+        elif name == "kyokushin":
+            unit_name = "kyokushin"
+        elif name == "shark":
+            unit_name = "swimming"
+        elif name == "helicopter":
+            unit_name = "benchpress"
+        elif name == "seal":
+            unit_name = "overheadpress"
+        elif name == "shinto" or name == "1_shinto":
+            unit_name = "squat"
+        elif name == "construction_site" or name == "1_construction_site":
+            unit_name = "deadlift"
+        elif name == "turtle":
+            unit_name = "rows"
+        elif name == "cyborg_arm":
+            unit_name = "curls"
+        elif name == "saturn":
+            unit_name = "wimhof"
+        elif name == "sword" or name == "1_sword":
+            unit_name = "split_machine"
+        elif name == "bison":
+            unit_name = "shrugs"
+        elif name == "magnet":
+            unit_name = "core"
+        elif name == "helmet" or name == "sneaker":
+            unit_name = "running"
+        elif name == "satellite":
+            unit_name = "work"
+        elif name == "eight_ball":
+            unit_name = "shoulders"
+        elif name == "balance" or name == "1_balance":
+            unit_name = "scale"
+        elif name == "scissors" or name == "1_scissors":
+            unit_name = "stretching"
+        elif name == "reminder_ribbon" or name == "1_reminder_ribbon":
+            unit_name = "skipping"
+        elif name == "eagle":
+            unit_name = "pullups"
+        elif name == "1_orbital" or name == "orbital":
+            unit_name = "work"
         else:
             unit_name = e
-            print("unit", unit_name)
+            print("unit", unit_name, "emoji", e.encode())
 
         new_line = new_line.replace(e, unit_name, count=1)
         lst.append({"line": new_line, "local_datetime": item["local_datetime"]})
 
     with open("converted.json", "w") as f:
-        f.write(json.dumps(lst, indent=2))
+        f.write(json.dumps(lst, indent=2, ensure_ascii=False))
 
 
 EMOJIS = {
+    b"kyokushin": "kyokushin",
+    b"lifting": "lifting",
+    b"grappling": "grappling",
+    b"bjj": "grappling",
+    b"BJJ": "grappling",
+    b"boxing": "boxing",
     # animals
     b"\xf0\x9f\xa6\x8d": "gorilla",
     b"\xf0\x9f\xa6\x88": "shark",

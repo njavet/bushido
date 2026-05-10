@@ -3,11 +3,12 @@ import datetime
 from sqlalchemy.orm import Session
 
 from .cardio import CardioUnit
-from .dtypes import Clock, ParsedUnit, SystemClock
+from .dtypes import ParsedUnit, SystemClock
 from .exceptions import ParsingError
 from .gym import GymUnit
 from .lifting import LiftingUnit
 from .parsing.unit import parse_raw_unit, split_options
+from .protocols import Clock, TrainingUnit
 from .registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
 from .unit_settings import DEFAULT_CATEGORIES
 from .wimhof import WimhofUnit
@@ -64,11 +65,11 @@ class UnitService:
         return result
 
     @staticmethod
-    def load_gym_units(
+    def load_training_units(
         session: Session,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> list[GymUnit]:
+    ) -> list[TrainingUnit]:
         registry = REGISTRY["gym"]
         units = registry.repo(session).fetch_units(start_t=start_t, end_t=end_t)
         parsed_units = [registry.mapper.from_orm(unit) for unit in units]
