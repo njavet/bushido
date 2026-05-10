@@ -3,15 +3,12 @@ from typing import Any
 
 from sqlalchemy.orm import Session
 
-from .cardio import CardioUnit
 from .dtypes import CategoryRegistration, ParsedUnit, SystemClock, TrainingUnit
 from .exceptions import ParsingError
-from .gym import GymUnit
-from .lifting import LiftingUnit
+from .gym.domain import compute_duration
 from .parsing.unit import parse_raw_unit, split_options
 from .protocols import Clock
 from .registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
-from .wimhof import WimhofUnit
 
 
 class UnitService:
@@ -61,7 +58,7 @@ class UnitService:
                     name=unit.name,
                     emoji=unit.emoji,
                     date=unit.data.log_time.date(),
-                    duration=0,
+                    duration=compute_duration(unit.data.start_t, unit.data.end_t),
                     start_t=unit.data.start_t,
                     end_t=unit.data.end_t,
                     gym=unit.data.gym,
@@ -74,49 +71,13 @@ class UnitService:
                     name=unit.name,
                     emoji=unit.emoji,
                     date=unit.data.log_time.date(),
-                    duration=unit.data.seconds,
+                    duration=unit.data.seconds / 60,
                     start_t=unit.data.start_t,
                     gym=unit.data.location,
                     comment=unit.comment,
                 )
             )
         return result
-
-    def load_wimhof_units(
-        self,
-        session: Session,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[WimhofUnit]:
-        registry = REGISTRY["wimhof"]
-        return self._load_units(session, registry, start_t, end_t)
-
-    def load_lifting_units(
-        self,
-        session: Session,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[LiftingUnit]:
-        registry = REGISTRY["lifting"]
-        return self._load_units(session, registry, start_t, end_t)
-
-    def load_cardio_units(
-        self,
-        session: Session,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[CardioUnit]:
-        registry = REGISTRY["cardio"]
-        return self._load_units(session, registry, start_t, end_t)
-
-    def load_gym_units(
-        self,
-        session: Session,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[GymUnit]:
-        registry = REGISTRY["gym"]
-        return self._load_units(session, registry, start_t, end_t)
 
     @staticmethod
     def _load_units(

@@ -1,4 +1,3 @@
-import datetime
 
 from textual.app import ComposeResult
 from textual.containers import Container
@@ -43,10 +42,3 @@ class GymContainer(Container):
 
     def set_units(self, units: list[TrainingUnit]) -> None:
         self.query_one(TrainingTable).set_units(units)
-
-
-def compute_duration(start_t: datetime.time, end_t: datetime.time) -> int:
-    return (
-        datetime.datetime.combine(datetime.date.today(), end_t)
-        - datetime.datetime.combine(datetime.date.today(), start_t)
-    ).seconds // 60
