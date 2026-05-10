@@ -2,7 +2,8 @@ import datetime
 from typing import Generic, Sequence, TypeVar
 
 from sqlalchemy import select
-from sqlalchemy.orm import Load, Session
+from sqlalchemy.orm import Session
+from sqlalchemy.orm.interfaces import ORMOption
 
 from .orm import UnitTable
 
@@ -36,7 +37,7 @@ class UnitRepo(Generic[TU]):
         unit_name: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-        options: Sequence[Load] = (),
+        options: Sequence[ORMOption] = (),
     ) -> list[TU]:
         stmt = select(self.unit_cls).options(*options)
         if unit_name is not None:
