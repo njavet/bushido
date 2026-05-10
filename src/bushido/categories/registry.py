@@ -3,13 +3,13 @@ from bushido.categories.gym import gym_registration
 from bushido.categories.lifting import lifting_registration
 from bushido.categories.wimhof import wimhof_registration
 from bushido.core.dtypes import CategoryHelp, CategoryRegistration
-from bushido.settings import UnitCategory
+from bushido.settings import Category
 
 REGISTRY: dict[str, CategoryRegistration] = {
-    UnitCategory.gym: gym_registration,
-    UnitCategory.cardio: cardio_registration,
-    UnitCategory.lifting: lifting_registration,
-    UnitCategory.wimhof: wimhof_registration,
+    Category.gym: gym_registration,
+    Category.cardio: cardio_registration,
+    Category.lifting: lifting_registration,
+    Category.wimhof: wimhof_registration,
 }
 
 

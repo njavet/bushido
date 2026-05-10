@@ -8,12 +8,16 @@ DAY_START_HOUR = 4
 POINT_DIVISOR = 64
 
 
-class UnitCategory(StrEnum):
+class Category(StrEnum):
+    training = "training"
+    gym = "gym"
     cardio = "cardio"
     lifting = "lifting"
     work = "work"
-    gym = "gym"
     wimhof = "wimhof"
+
+
+UNIT_SETTINGS = {}
 
 
 GYM_UNIT_SETTINGS = {
