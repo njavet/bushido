@@ -54,7 +54,33 @@ class UnitService:
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[TrainingUnit]:
-        gym_units = self.load_gym_units(session, start_t, end_t)
+        result = []
+        for unit in self._load_units(session, REGISTRY["gym"], start_t, end_t):
+            result.append(
+                TrainingUnit(
+                    name=unit.name,
+                    emoji=unit.emoji,
+                    date=unit.data.log_time.date(),
+                    duration=0,
+                    start_t=unit.data.start_t,
+                    end_t=unit.data.end_t,
+                    gym=unit.data.gym,
+                    comment=unit.comment,
+                )
+            )
+        for unit in self._load_units(session, REGISTRY["cardio"], start_t, end_t):
+            result.append(
+                TrainingUnit(
+                    name=unit.name,
+                    emoji=unit.emoji,
+                    date=unit.data.log_time.date(),
+                    duration=unit.data.seconds,
+                    start_t=unit.data.start_t,
+                    gym=unit.data.location,
+                    comment=unit.comment,
+                )
+            )
+        return result
 
     def load_wimhof_units(
         self,
