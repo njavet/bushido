@@ -5,6 +5,8 @@ TIMEZONE = ZoneInfo("Europe/Zurich")
 
 DAY_START_HOUR = 4
 
+COMMENT_SEP = "#"
+
 POINT_DIVISOR = 64
 
 
