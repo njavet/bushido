@@ -1,11 +1,11 @@
 from .domain import GymUnit
 from .mapper import GymMapper
-from .orm import GymUnitTable
 from .parser import GymParser
+from .repo import GymRepo
 
 __all__ = [
     "GymUnit",
     "GymParser",
     "GymMapper",
-    "GymUnitTable",
+    "GymRepo",
 ]
