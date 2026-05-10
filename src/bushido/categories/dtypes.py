@@ -1,10 +1,9 @@
 import datetime
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar
+from typing import Any, Callable, Generic, TypeVar
 
 from sqlalchemy.orm import Session
 
-from bushido.categories.orm import UnitTable
 from bushido.categories.protocols import UnitMapper, UnitParser
 from bushido.categories.repo import UnitRepo
 
@@ -43,19 +42,19 @@ class ParsedUnit(Generic[T]):
     comment: str | None = None
 
 
+RepoFactory = Callable[[Session], UnitRepo[Any]]
+
+
 @dataclass(frozen=True, slots=True)
 class CategoryRegistration:
     parser: UnitParser[Any]
     mapper: UnitMapper[Any, Any]
-    unit_cls: type[UnitTable]
+    repo_factory: RepoFactory
     grammar: str
     unit_settings: dict[str, str]
-    subrels: Any | None = None
 
-    def repo(self, session: Session) -> UnitRepo[Any, Any]:
-        if self.subrels is None:
-            return UnitRepo(session=session, unit_cls=self.unit_cls)
-        return UnitRepo(session=session, unit_cls=self.unit_cls, subrels=self.subrels)
+    def repo(self, session: Session) -> UnitRepo[Any]:
+        return self.repo_factory(session)
 
 
 @dataclass(frozen=True, slots=True)
