@@ -1,4 +1,3 @@
-
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (

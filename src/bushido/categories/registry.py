@@ -1,39 +1,15 @@
-from dataclasses import dataclass
-from typing import Any
-
-from sqlalchemy.orm import Session
-
 from .cardio import CardioMapper, CardioParser, CardioUnitTable
-from .dtypes import CategoryHelp, UnitParser
+from .dtypes import CategoryHelp, CategoryRegistration
 from .gym import GymMapper, GymParser, GymUnitTable
 from .lifting import LiftingMapper, LiftingParser, LiftingUnitTable
-from .mapper import UnitMapper
-from .orm import UnitTable
-from .repo import UnitRepo
 from .unit_settings import (
-    CardioUnitName,
-    GymUnitName,
-    LiftingUnitName,
+    CARDIO_UNIT_SETTINGS,
+    GYM_UNIT_SETTINGS,
+    LIFTING_UNIT_SETTINGS,
+    WIMHOF_UNIT_SETTINGS,
     UnitCategory,
-    WimhofUnitName,
 )
 from .wimhof import WimhofMapper, WimhofParser, WimhofUnitTable
-
-
-@dataclass(frozen=True, slots=True)
-class CategoryRegistration:
-    parser: UnitParser[Any]
-    mapper: UnitMapper[Any, Any]
-    unit_cls: type[UnitTable]
-    grammar: str
-    unit_names: list[str]
-    subrels: Any | None = None
-
-    def repo(self, session: Session) -> UnitRepo[Any, Any]:
-        if self.subrels is None:
-            return UnitRepo(session=session, unit_cls=self.unit_cls)
-        return UnitRepo(session=session, unit_cls=self.unit_cls, subrels=self.subrels)
-
 
 REGISTRY: dict[str, CategoryRegistration] = {
     UnitCategory.gym: CategoryRegistration(
@@ -41,14 +17,14 @@ REGISTRY: dict[str, CategoryRegistration] = {
         mapper=GymMapper(),
         unit_cls=GymUnitTable,
         grammar=GymParser.grammar,
-        unit_names=[x.name for x in GymUnitName],
+        unit_settings=GYM_UNIT_SETTINGS,
     ),
     UnitCategory.lifting: CategoryRegistration(
         parser=LiftingParser(),
         mapper=LiftingMapper(),
         unit_cls=LiftingUnitTable,
         grammar=LiftingParser.grammar,
-        unit_names=[x.name for x in LiftingUnitName],
+        unit_settings=LIFTING_UNIT_SETTINGS,
         subrels=LiftingUnitTable.subunits,
     ),
     UnitCategory.cardio: CategoryRegistration(
@@ -56,28 +32,32 @@ REGISTRY: dict[str, CategoryRegistration] = {
         mapper=CardioMapper(),
         unit_cls=CardioUnitTable,
         grammar=CardioParser.grammar,
-        unit_names=[x.name for x in CardioUnitName],
+        unit_settings=CARDIO_UNIT_SETTINGS,
     ),
     UnitCategory.wimhof: CategoryRegistration(
         parser=WimhofParser(),
         mapper=WimhofMapper(),
         unit_cls=WimhofUnitTable,
         grammar=WimhofParser.grammar,
-        unit_names=[x.name for x in WimhofUnitName],
+        unit_settings=WIMHOF_UNIT_SETTINGS,
         subrels=WimhofUnitTable.subunits,
     ),
 }
 
 
 UNIT_TO_CATEGORY: dict[str, str] = {
-    unit_name: category
+    unit_spec.name: category
     for category, registration in REGISTRY.items()
-    for unit_name in registration.unit_names
+    for unit_spec in registration.unit_settings
 }
 
 
 def get_category_help() -> list[CategoryHelp]:
-    return [
-        CategoryHelp(name=category, grammar=r.grammar, unit_names=r.unit_names)
-        for category, r in REGISTRY.items()
-    ]
+    result = []
+    for category, registration in REGISTRY.items():
+        unit_names = [unit_spec.name for unit_spec in registration.unit_settings]
+        ch = CategoryHelp(
+            name=category, grammar=registration.grammar, unit_names=unit_names
+        )
+        result.append(ch)
+    return result

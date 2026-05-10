@@ -1,7 +1,7 @@
 import json
 import sys
 
-from bushido.categories.unit_settings import GymUnitName
+from bushido.categories.unit_settings import GYM_UNIT_SETTINGS
 
 
 def main() -> None:
@@ -40,7 +40,7 @@ def main() -> None:
             except IndexError:
                 print("TOKENS", tokens)
         elif name == "gorilla":
-            unit_name = GymUnitName.lifting
+            unit_name = GYM_UNIT_SETTINGS.lifting
         else:
             unit_name = e
             print("unit", unit_name)
@@ -54,7 +54,7 @@ def main() -> None:
 
 emoji_name_to_unit = {
     "martial_arts_uniform": "martial_arts",
-    "gorilla": GymUnitName.lifting.name,
+    "gorilla": GYM_UNIT_SETTINGS.lifting.name,
 }
 
 
@@ -145,8 +145,8 @@ EMOJIS = {
     b"\xf0\x9f\x9b\xa9\xef\xb8\x8f": "small_airplane",
     b"\xf0\x9f\x9b\xb7": "sled",
     # buildings
-    b"\xf0\x9f\x8f\x97": "1_crane",
-    b"\xf0\x9f\x8f\x97\xef\xb8\x8f": "crane",
+    b"\xf0\x9f\x8f\x97": "1_construction_site",
+    b"\xf0\x9f\x8f\x97\xef\xb8\x8f": "construction_site",
     b"\xe2\x9b\xa9": "1_shinto",
     b"\xe2\x9b\xa9\xef\xb8\x8f": "shinto",
     b"\xf0\x9f\x8f\x9b": "1_greek_house",
