@@ -1,7 +1,7 @@
-from .cardio import CardioMapper, CardioParser, CardioUnitTable
+from .cardio import CardioMapper, CardioParser, CardioRepo
 from .dtypes import CategoryHelp, CategoryRegistration
-from .gym import GymMapper, GymParser, GymUnitTable
-from .lifting import LiftingMapper, LiftingParser, LiftingUnitTable
+from .gym import GymMapper, GymParser, GymRepo
+from .lifting import LiftingMapper, LiftingParser, LiftingRepo
 from .unit_settings import (
     CARDIO_UNIT_SETTINGS,
     GYM_UNIT_SETTINGS,
@@ -9,38 +9,36 @@ from .unit_settings import (
     WIMHOF_UNIT_SETTINGS,
     UnitCategory,
 )
-from .wimhof import WimhofMapper, WimhofParser, WimhofUnitTable
+from .wimhof import WimhofMapper, WimhofParser, WimhofRepo
 
 REGISTRY: dict[str, CategoryRegistration] = {
     UnitCategory.gym: CategoryRegistration(
         parser=GymParser(),
         mapper=GymMapper(),
-        unit_cls=GymUnitTable,
+        repo_factory=GymRepo,
         grammar=GymParser.grammar,
         unit_settings=GYM_UNIT_SETTINGS,
     ),
     UnitCategory.lifting: CategoryRegistration(
         parser=LiftingParser(),
         mapper=LiftingMapper(),
-        unit_cls=LiftingUnitTable,
+        repo_factory=LiftingRepo,
         grammar=LiftingParser.grammar,
         unit_settings=LIFTING_UNIT_SETTINGS,
-        subrels=LiftingUnitTable.subunits,
     ),
     UnitCategory.cardio: CategoryRegistration(
         parser=CardioParser(),
         mapper=CardioMapper(),
-        unit_cls=CardioUnitTable,
+        repo_factory=CardioRepo,
         grammar=CardioParser.grammar,
         unit_settings=CARDIO_UNIT_SETTINGS,
     ),
     UnitCategory.wimhof: CategoryRegistration(
         parser=WimhofParser(),
         mapper=WimhofMapper(),
-        unit_cls=WimhofUnitTable,
+        repo_factory=WimhofRepo,
         grammar=WimhofParser.grammar,
         unit_settings=WIMHOF_UNIT_SETTINGS,
-        subrels=WimhofUnitTable.subunits,
     ),
 }
 
