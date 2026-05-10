@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from bushido.categories.gym.domain import compute_duration
 from bushido.categories.lifting import LiftingUnit
-from bushido.categories.parsing.unit import parse_raw_unit, split_options
+from bushido.categories.registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
 from bushido.core.dtypes import (
     CategoryRegistration,
     ParsedUnit,
@@ -13,8 +13,8 @@ from bushido.core.dtypes import (
     TrainingUnit,
 )
 from bushido.core.exceptions import ParsingError
+from bushido.core.parsing.unit import parse_raw_unit, split_options
 from bushido.core.protocols import Clock
-from bushido.core.registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
 
 
 class UnitService:

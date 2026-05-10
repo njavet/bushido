@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
 from bushido.core.exceptions import ParsingError
+from bushido.core.parsing import parse_start_end_time_string
 
-from ..parsing.dt_parse import parse_start_end_time_string
 from .domain import GymSpec
 
 

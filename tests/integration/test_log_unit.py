@@ -7,8 +7,8 @@ from sqlalchemy.orm import Session
 
 from bushido.categories.gym.orm import GymUnitTable
 from bushido.categories.lifting.orm import LiftingSet, LiftingUnitTable
-from bushido.core.unit_service import UnitService
 from bushido.infra.db import SessionFactory
+from bushido.service.unit_service import UnitService
 
 
 @pytest.fixture(scope="session")
