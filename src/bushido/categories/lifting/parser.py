@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 from ..exceptions import ParsingError
-from ..unit_settings import LiftingUnitName
 from .domain import LiftingSpec, SetSpec
 
 
@@ -10,7 +9,6 @@ class LiftingParser:
     grammar = """
     <name> (<weight> <reps> [<rest>])+ # [<comment>]
     """
-    unit_names = [unit_name.value for unit_name in LiftingUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> LiftingSpec:

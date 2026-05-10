@@ -1,14 +1,12 @@
 from dataclasses import dataclass
 
 from ..exceptions import ParsingError
-from ..unit_settings import WimhofUnitName
 from .domain import RoundSpec, WimhofSpec
 
 
 @dataclass(frozen=True, slots=True)
 class WimhofParser:
     grammar = "<name> (<breaths> <retentions>)+ # [<comment>]"
-    unit_names = [unit_name.value for unit_name in WimhofUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> WimhofSpec:

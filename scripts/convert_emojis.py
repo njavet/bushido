@@ -1,6 +1,8 @@
 import json
 import sys
 
+from bushido.categories.unit_settings import GymUnitName
+
 
 def main() -> None:
     if len(sys.argv) != 2:
@@ -32,31 +34,27 @@ def main() -> None:
             new_line = " ".join([body, "--dt", item["local_datetime"]])
 
         e = eb.decode()
-        if e == "martial_arts_uniform":
-            e = "martial_arts"
+        if name == "martial_arts":
+            try:
+                unit_name = tokens[3]
+            except IndexError:
+                print("TOKENS", tokens)
+        elif name == "gorilla":
+            unit_name = GymUnitName.lifting
+        else:
+            unit_name = e
+            print("unit", unit_name)
 
-        new_line = new_line.replace(e, name, count=1)
+        new_line = new_line.replace(e, unit_name, count=1)
         lst.append({"line": new_line, "local_datetime": item["local_datetime"]})
 
     with open("converted.json", "w") as f:
         f.write(json.dumps(lst, indent=2))
 
 
-emojis = {
-    b"\xe2\x9a\x96\xef\xb8\x8f".decode(): "balance",
-    b"\xf0\x9f\xaa\x90".decode(): "wimhof",
-    b"\xf0\x9f\xa6\x8d".decode(): "weights",
-    b"\xe2\x9b\xa9\xef\xb8\x8f".decode(): "squat",
-    b"\xf0\x9f\x8f\x97\xef\xb8\x8f".decode(): "deadlift",
-    b"\xf0\x9f\x9a\x81".decode(): "benchpress",
-    b"\xf0\x9f\xa6\xad".decode(): "overheadpress",
-    b"\xf0\x9f\x90\xa2".decode(): "rows",
-    b"\xf0\x9f\xa6\x85".decode(): "pullups",
-    b"\xf0\x9f\x8c\x90".decode(): "pushups",
-    b"\xf0\x9f\xaa\x96".decode(): "running",
-    b"\xe2\x9a\x94\xef\xb8\x8f".decode(): "split_machine",
-    b"\xf0\x9f\x8f\xb9".decode(): "stretch",
-    b"\xf0\x9f\x94\xa5".decode(): "nauli_kriya",
+emoji_name_to_unit = {
+    "martial_arts_uniform": "martial_arts",
+    "gorilla": GymUnitName.lifting.name,
 }
 
 

@@ -2,7 +2,6 @@ from dataclasses import dataclass
 
 from ..exceptions import ParsingError
 from ..parsing.dt_parse import parse_military_time_string, time_string_to_seconds
-from ..unit_settings import CardioUnitName
 from .domain import CardioSpec
 
 
@@ -11,7 +10,6 @@ class CardioParser:
     grammar = """
 <name> <start> <sec> <loc> [<dist>] [<avg_hr>] [<max_hr>] [<cal>] # [<comment>]
     """
-    unit_names = [unit_name.value for unit_name in CardioUnitName]
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> CardioSpec:

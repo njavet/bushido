@@ -24,3 +24,19 @@ class LiftingUnitName(StrEnum):
 
 class WimhofUnitName(StrEnum):
     wimhof = "wimhof"
+
+
+class UnitCategory(StrEnum):
+    cardio = "cardio"
+    lifting = "lifting"
+    work = "work"
+    gym = "gym"
+    wimhof = "wimhof"
+
+
+DEFAULT_CATEGORIES: tuple[str, ...] = (
+    "cardio",
+    "lifting",
+    "gym",
+    "wimhof",
+)

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from enum import StrEnum
 from typing import Any
 
 from sqlalchemy.orm import Session
@@ -11,15 +10,14 @@ from .lifting import LiftingMapper, LiftingParser, LiftingUnitTable
 from .mapper import UnitMapper
 from .orm import UnitTable
 from .repo import UnitRepo
+from .unit_settings import (
+    CardioUnitName,
+    GymUnitName,
+    LiftingUnitName,
+    UnitCategory,
+    WimhofUnitName,
+)
 from .wimhof import WimhofMapper, WimhofParser, WimhofUnitTable
-
-
-class UnitCategory(StrEnum):
-    cardio = "cardio"
-    lifting = "lifting"
-    work = "work"
-    gym = "gym"
-    wimhof = "wimhof"
 
 
 @dataclass(frozen=True, slots=True)
@@ -43,14 +41,14 @@ REGISTRY: dict[str, CategoryRegistration] = {
         mapper=GymMapper(),
         unit_cls=GymUnitTable,
         grammar=GymParser.grammar,
-        unit_names=GymParser.unit_names,
+        unit_names=[x.name for x in GymUnitName],
     ),
     UnitCategory.lifting: CategoryRegistration(
         parser=LiftingParser(),
         mapper=LiftingMapper(),
         unit_cls=LiftingUnitTable,
         grammar=LiftingParser.grammar,
-        unit_names=LiftingParser.unit_names,
+        unit_names=[x.name for x in LiftingUnitName],
         subrels=LiftingUnitTable.subunits,
     ),
     UnitCategory.cardio: CategoryRegistration(
@@ -58,14 +56,14 @@ REGISTRY: dict[str, CategoryRegistration] = {
         mapper=CardioMapper(),
         unit_cls=CardioUnitTable,
         grammar=CardioParser.grammar,
-        unit_names=CardioParser.unit_names,
+        unit_names=[x.name for x in CardioUnitName],
     ),
     UnitCategory.wimhof: CategoryRegistration(
         parser=WimhofParser(),
         mapper=WimhofMapper(),
         unit_cls=WimhofUnitTable,
         grammar=WimhofParser.grammar,
-        unit_names=WimhofParser.unit_names,
+        unit_names=[x.name for x in WimhofUnitName],
         subrels=WimhofUnitTable.subunits,
     ),
 }
@@ -76,10 +74,6 @@ UNIT_TO_CATEGORY: dict[str, str] = {
     for category, registration in REGISTRY.items()
     for unit_name in registration.unit_names
 }
-
-
-def get_unit_names() -> list[str]:
-    return sorted(UNIT_TO_CATEGORY)
 
 
 def get_category_help() -> list[CategoryHelp]:

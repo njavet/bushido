@@ -8,22 +8,17 @@ from .exceptions import ParsingError
 from .gym import GymUnit
 from .lifting import LiftingUnit
 from .parsing.unit import parse_raw_unit, split_options
-from .registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help, get_unit_names
+from .registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
+from .unit_settings import DEFAULT_CATEGORIES
 from .wimhof import WimhofUnit
 
 type AnyUnit = GymUnit | CardioUnit | LiftingUnit | WimhofUnit
-DEFAULT_CATEGORIES = (
-    "gym",
-    "cardio",
-    "lifting",
-    "wimhof",
-)
 
 
 class UnitService:
     def __init__(self, clock: Clock = SystemClock()) -> None:
         self.clock = clock
-        self.unit_names = get_unit_names()
+        self.unit_names = sorted(UNIT_TO_CATEGORY)
         self.category_help = get_category_help()
 
     def log_unit(self, line: str, session: Session) -> str | None:
