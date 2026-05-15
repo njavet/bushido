@@ -3,17 +3,12 @@ from dataclasses import dataclass
 from bushido.core.exceptions import ParsingError
 from bushido.core.parsing.dt_parse import parse_start_end_time_string
 
-from .unit import GymSpec
+from .unit import GymUnit
 
 
 @dataclass(frozen=True, slots=True)
 class GymParser:
-    grammar = """
-        <name> <start>-<end> <location> [<training>] [<focus>] # [<comment>]
-        
-        time format:
-          HHMM-HHMM
-    """
+
 
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> GymSpec:
