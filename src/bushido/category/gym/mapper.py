@@ -1,5 +1,5 @@
 from .domain import GymSpec, GymUnit
-from .orm import GymUnitTable
+from .db_model import GymUnitTable
 
 
 class GymMapper:

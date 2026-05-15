@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from bushido.category.repo import UnitRepo
 
-from .orm import GymUnitTable
+from .db_model import GymUnitTable
 
 
 class GymRepo(UnitRepo[GymUnitTable]):

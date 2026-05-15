@@ -2,7 +2,7 @@ import datetime
 
 from bushido.category.dtypes import RawUnit
 from bushido.core.exceptions import ParsingError
-from bushido.core.protocols import Clock
+from bushido.category.protocols import Clock
 
 from .dt_parse import parse_datetime
 

@@ -4,17 +4,17 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from bushido.category import LiftingUnit
-from bushido.category.gym.domain import compute_duration
-from bushido.category.registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
 from bushido.category.dtypes import (
     CategoryRegistration,
     ParsedUnit,
     SystemClock,
     TrainingUnit,
 )
+from bushido.category.gym.domain import compute_duration
+from bushido.category.registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
 from bushido.core.exceptions import ParsingError
 from bushido.core.parsing.unit import parse_raw_unit, split_options
-from bushido.core.protocols import Clock
+from bushido.category.protocols import Clock
 
 
 class UnitService:

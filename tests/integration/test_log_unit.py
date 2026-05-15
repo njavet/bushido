@@ -5,7 +5,7 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido.category.gym.orm import GymUnitTable
+from bushido.category.gym.db_model import GymUnitTable
 from bushido.category.lifting.orm import LiftingSet, LiftingUnitTable
 from bushido.infra.db import SessionFactory
 from bushido.service.unit_service import UnitService

@@ -5,8 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from bushido.conf import DB_URL
 from bushido.category.db_model import Base
+from bushido.conf import DB_URL
 
 
 class SessionFactory:
