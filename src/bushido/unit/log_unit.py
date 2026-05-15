@@ -1,2 +1,0 @@
-class BaseLogUnit:
-    pass

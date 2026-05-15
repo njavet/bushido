@@ -1,6 +1,6 @@
 from ..base import Unit
+from .db_model import BarbellSet, BarbellUnitTable
 from .unit import BarbellData, SetData
-from .db_model import BarbellUnitTable, BarbellSet
 
 
 class BarbellMapper:

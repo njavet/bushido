@@ -38,5 +38,5 @@ class BarbellParser:
             sets=[
                 SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
                 for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests))
-            ]
+            ],
         )

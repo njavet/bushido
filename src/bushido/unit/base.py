@@ -2,7 +2,16 @@ import datetime
 from dataclasses import dataclass
 from typing import TypeVar, Generic
 
+from pydantic import BaseModel
+
 T = TypeVar("T")
+
+
+class UnitLogRequest(BaseModel):
+    name: str
+    tokens: tuple[str, ...]
+    log_time: datetime.datetime
+    comment: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

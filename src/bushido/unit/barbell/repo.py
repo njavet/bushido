@@ -6,7 +6,7 @@ from ..repo import UnitRepo
 from .db_model import BarbellUnitTable
 
 
-class LiftingRepo(UnitRepo[BarbellUnitTable]):
+class BarbellRepo(UnitRepo[BarbellUnitTable]):
     def __init__(
         self,
         session: Session,
