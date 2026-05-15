@@ -91,7 +91,7 @@ class UnitService:
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[LiftingUnit]:
-        return self._load_units(session, REGISTRY["lifting"], start_t, end_t)
+        return self._load_units(session, REGISTRY["barbell"], start_t, end_t)
 
     @staticmethod
     def _load_units(

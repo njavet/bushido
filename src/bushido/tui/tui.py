@@ -36,7 +36,7 @@ class BushidoApp(App[None]):
         with TabbedContent(id="main_tabs"):
             with TabPane("training"):
                 yield GymContainer(id="gym_container")
-            with TabPane("lifting"):
+            with TabPane("barbell"):
                 yield LiftingContainer(id="lifting_container")
 
         yield Footer(id="app_footer")

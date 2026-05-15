@@ -14,7 +14,7 @@ class Category(StrEnum):
     training = "training"
     gym = "gym"
     cardio = "cardio"
-    lifting = "lifting"
+    lifting = "barbell"
     work = "work"
     wimhof = "wimhof"
 
@@ -38,7 +38,7 @@ UNIT_SETTINGS = {
         "options": {},
         "flags": [],
     },
-    "lifting": {
+    "barbell": {
         "emoji": b"\xf0\x9f\xa6\x8d".decode(),
         "unit": Category.training,
         "options": {},

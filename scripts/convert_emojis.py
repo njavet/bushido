@@ -57,8 +57,8 @@ def replace_emoji(line: str) -> str:
         unit_name = "boxing"
     elif name == "globe":
         unit_name = "log"
-    elif name == "lifting":
-        unit_name = "lifting"
+    elif name == "barbell":
+        unit_name = "barbell"
     elif name == "kyokushin":
         unit_name = "kyokushin"
     elif name == "shark":
@@ -127,7 +127,7 @@ def main() -> None:
 
 EMOJIS = {
     b"kyokushin": "kyokushin",
-    b"lifting": "lifting",
+    b"barbell": "barbell",
     b"grappling": "grappling",
     b"bjj": "grappling",
     b"BJJ": "grappling",

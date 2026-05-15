@@ -6,7 +6,7 @@ from bushido.infra.db import SessionFactory
 from bushido.service.unit_service import UnitService
 
 UNIT_NAMES = [
-    "lifting",
+    "barbell",
     "kyokushin",
     "boxing",
     "grappling",

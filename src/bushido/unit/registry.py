@@ -1,7 +1,7 @@
 from bushido.unit.cardio import cardio_registration
 from bushido.unit.dtypes import CategoryHelp, CategoryRegistration
 from bushido.unit.gym import gym_registration
-from bushido.unit.lifting import lifting_registration
+from bushido.unit.barbell import lifting_registration
 from bushido.unit.wimhof import wimhof_registration
 from bushido.settings import Category
 
