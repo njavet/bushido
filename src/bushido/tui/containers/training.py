@@ -7,7 +7,7 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido.unit.dtypes import TrainingUnit
+from bushido.dtypes import TrainingUnit
 
 
 class TrainingTable(DataTable[str]):

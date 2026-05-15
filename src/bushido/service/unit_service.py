@@ -4,7 +4,7 @@ from typing import Any
 from sqlalchemy.orm import Session
 
 from bushido.unit import LiftingUnit
-from bushido.unit.dtypes import (
+from bushido.dtypes import (
     CategoryRegistration,
     ParsedUnit,
     SystemClock,
