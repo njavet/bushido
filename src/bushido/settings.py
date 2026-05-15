@@ -44,6 +44,7 @@ UNIT_SETTINGS = {
         "options": {},
         "flags": [],
     },
+
     "running": {
         "emoji": b"\xf0\x9f\xaa\x96".decode(),
         "category": Category.cardio,
@@ -62,6 +63,7 @@ UNIT_SETTINGS = {
         "options": {},
         "flags": [],
     },
+
     "squat": {
         "emoji": b"\xe2\x9b\xa9\xef\xb8\x8f".decode(),
         "category": Category.lifting,
@@ -98,6 +100,7 @@ UNIT_SETTINGS = {
         "options": {},
         "flags": [],
     },
+
     "wimhof": {
         "wimhof": b"\xf0\x9f\xaa\x90".decode(),
         "category": Category.wimhof,

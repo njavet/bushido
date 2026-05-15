@@ -1,11 +1,9 @@
 import datetime
 from dataclasses import dataclass
 
-from ..unit import Unit
-
 
 @dataclass(frozen=True, slots=True)
-class GymUnit(Unit):
+class GymData:
     start_t: datetime.time
     end_t: datetime.time
     gym: str

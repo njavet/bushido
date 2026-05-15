@@ -1,0 +1,5 @@
+
+
+class BaseLogUnit:
+    pass
+
