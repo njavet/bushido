@@ -23,16 +23,6 @@ class CategoryHelp:
     unit_names: list[str]
 
 
-T = TypeVar("T")
-
-
-@dataclass(frozen=True, slots=True)
-class ParsedUnit(Generic[T]):
-    name: str
-    emoji: str
-    data: T
-    log_time: datetime.datetime
-    comment: str | None = None
 
 
 RepoFactory = Callable[[Session], UnitRepo[Any]]

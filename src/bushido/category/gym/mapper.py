@@ -1,4 +1,4 @@
-from .domain import GymSpec, GymUnit
+from .unit import GymSpec, GymUnit
 from .db_model import GymUnitTable
 
 

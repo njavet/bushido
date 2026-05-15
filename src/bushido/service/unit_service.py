@@ -10,7 +10,7 @@ from bushido.category.dtypes import (
     SystemClock,
     TrainingUnit,
 )
-from bushido.category.gym.domain import compute_duration
+from bushido.category.gym.unit import compute_duration
 from bushido.category.registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
 from bushido.core.exceptions import ParsingError
 from bushido.core.parsing.unit import parse_raw_unit, split_options

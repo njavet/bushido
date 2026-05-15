@@ -1,4 +1,4 @@
-from .domain import GymUnit
+from .unit import GymUnit
 from .mapper import GymMapper
 from .parser import GymParser
 from .repo import GymRepo
