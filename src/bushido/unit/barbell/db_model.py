@@ -7,6 +7,8 @@ from ..db_model import UnitTable, Base
 class BarbellUnitTable(UnitTable):
     __tablename__ = "barbell_unit"
 
+    variant: Mapped[str | None] = mapped_column()
+    program: Mapped[str | None] = mapped_column()
     sets: Mapped[list["BarbellSet"]] = relationship(
         cascade="all, delete-orphan",
         back_populates="barbell_set",
