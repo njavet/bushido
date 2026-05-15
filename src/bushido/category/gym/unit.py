@@ -1,21 +1,16 @@
 import datetime
 from dataclasses import dataclass
 
-from bushido.category.dtypes import ParsedUnit
+from ..unit import Unit
 
 
 @dataclass(frozen=True, slots=True)
-class GymSpec:
+class GymUnit(Unit):
     start_t: datetime.time
     end_t: datetime.time
     gym: str
     training: str | None = None
     focus: str | None = None
-
-
-@dataclass(frozen=True, slots=True)
-class GymUnit(ParsedUnit[GymSpec]):
-    pass
 
 
 def compute_duration(start_t: datetime.time, end_t: datetime.time) -> int:

@@ -8,4 +8,4 @@ class Unit(ABC):
     name: str
     emoji: str
     log_time: datetime.datetime
-    comment: str | None = None
+    comment: str | None
