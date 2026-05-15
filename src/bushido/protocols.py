@@ -1,5 +1,5 @@
 import datetime
-from typing import Protocol, TypeVar
+from typing import Protocol
 
 
 class Clock(Protocol):

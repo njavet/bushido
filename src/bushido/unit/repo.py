@@ -8,7 +8,6 @@ from sqlalchemy.orm.interfaces import ORMOption
 
 from .db_model import UnitTable
 
-
 T = TypeVar("T", bound=UnitTable)
 
 

@@ -1,6 +1,6 @@
 import datetime
 from dataclasses import dataclass
-from typing import TypeVar, Generic
+from typing import Generic, TypeVar
 
 from pydantic import BaseModel
 

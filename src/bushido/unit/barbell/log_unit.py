@@ -20,11 +20,11 @@ class LogUnit:
 
         parsed_unit = Unit(
             name=req.name,
-            emoji='',
+            emoji="",
             data=unit_data,
             log_time=req.log_time,
             comment=req.comment,
         )
         unit = self.mapper.to_orm(parsed_unit)
         BarbellRepo(session).add_unit(unit)
-        return 'confirmed'
+        return "confirmed"
