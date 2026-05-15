@@ -1,31 +1,33 @@
+from ..base import Unit
+from .unit import BarbellData, SetData
 from .db_model import BarbellUnitTable, BarbellSet
 
 
 class BarbellMapper:
     @staticmethod
-    def to_orm(parsed_unit: LiftingUnit) -> BarbellUnitTable:
-        unit = BarbellUnitTable(
-            name=parsed_unit.name,
-            emoji=parsed_unit.emoji,
-            comment=parsed_unit.comment,
-            log_time=parsed_unit.log_time,
+    def to_orm(unit: Unit[BarbellData]) -> BarbellUnitTable:
+        orm_unit = BarbellUnitTable(
+            name=unit.name,
+            emoji=unit.emoji,
+            comment=unit.comment,
+            log_time=unit.log_time,
         )
-        unit.subunits = [
+        orm_unit.sets = [
             BarbellSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
-            for s in parsed_unit.data.sets
+            for s in unit.data.sets
         ]
-        return unit
+        return orm_unit
 
     @staticmethod
-    def from_orm(orm_unit: BarbellUnitTable) -> LiftingUnit:
+    def from_orm(orm_unit: BarbellUnitTable) -> Unit[BarbellData]:
         lst = []
         for s in orm_unit.sets:
-            sp = SetSpec(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
+            sp = SetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             lst.append(sp)
-        pu = LiftingUnit(
+        pu = Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
-            data=LiftingSpec(sets=lst),
+            data=BarbellData(sets=lst, program=None, variant=None),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )

@@ -33,6 +33,8 @@ class BarbellParser:
             raise ParsingError("rests must all be positive")
 
         return BarbellData(
+            variant=None,
+            program=None,
             sets=[
                 SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
                 for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests))
