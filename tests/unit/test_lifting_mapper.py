@@ -2,9 +2,9 @@ import datetime
 
 import pytest
 
-from bushido.categories.lifting.domain import LiftingSpec, LiftingUnit, SetSpec
-from bushido.categories.lifting.mapper import LiftingMapper
-from bushido.categories.lifting.orm import LiftingSet, LiftingUnitTable
+from bushido.category.lifting.domain import LiftingSpec, LiftingUnit, SetSpec
+from bushido.category.lifting.mapper import LiftingMapper
+from bushido.category.lifting.orm import LiftingSet, LiftingUnitTable
 from bushido.core.dtypes import ParsedUnit
 
 

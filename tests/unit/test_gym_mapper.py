@@ -2,9 +2,9 @@ import datetime
 
 import pytest
 
-from bushido.categories.gym.domain import GymSpec, GymUnit
-from bushido.categories.gym.mapper import GymMapper
-from bushido.categories.gym.orm import GymUnitTable
+from bushido.category.gym.domain import GymSpec, GymUnit
+from bushido.category.gym.mapper import GymMapper
+from bushido.category.gym.orm import GymUnitTable
 from bushido.core.dtypes import ParsedUnit
 
 

@@ -2,8 +2,8 @@ import datetime
 
 import pytest
 
-from bushido.categories.gym.domain import GymSpec
-from bushido.categories.gym.parser import GymParser
+from bushido.category.gym.domain import GymSpec
+from bushido.category.gym.parser import GymParser
 
 
 @pytest.fixture

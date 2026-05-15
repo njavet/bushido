@@ -23,12 +23,3 @@ class Subunit(Base):
     __abstract__ = True
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-
-
-class Spartan(Base):
-    __tablename__ = "spartan"
-
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column()
-    height: Mapped[int] = mapped_column()
-    weight: Mapped[float] = mapped_column()

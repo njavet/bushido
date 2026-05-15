@@ -2,7 +2,6 @@ import datetime
 import re
 
 from bushido.core.exceptions import ParsingError
-from bushido.settings import DAY_START_HOUR, LOCAL_TIME_ZONE
 
 
 def time_string_to_seconds(time_string: str) -> float:
@@ -90,9 +89,11 @@ def parse_start_end_time_string(
     return start_t, end_t
 
 
-def get_bushido_date_from_datetime(dt: datetime.datetime) -> datetime.date:
-    local_dt = dt.astimezone(LOCAL_TIME_ZONE)
-    if 0 <= local_dt.hour < DAY_START_HOUR:
+def get_bushido_date_from_datetime(
+    dt: datetime.datetime, tz: datetime.tzinfo, start_hour: int
+) -> datetime.date:
+    local_dt = dt.astimezone(tz)
+    if 0 <= local_dt.hour < start_hour:
         return local_dt.date() - datetime.timedelta(days=1)
     else:
         return local_dt.date()

@@ -25,35 +25,83 @@ UNIT_SETTINGS = {
         "category": Category.training,
         "options": {},
         "flags": [],
-    }
-}
-
-
-GYM_UNIT_SETTINGS = {
-    "kyokushin": b"\xf0\x9f\xa5\x8b".decode(),
-    "grappling": b"\xf0\x9f\xa5\x8b".decode(),
-    "boxing": b"\xf0\x9f\xa5\x8b".decode(),
-    "lifting": b"\xf0\x9f\xa6\x8d".decode(),
-}
-
-
-CARDIO_UNIT_SETTINGS = {
-    "running": b"\xf0\x9f\xaa\x96".decode(),
-    "skipping": b"\xf0\x9f\x8e\x97\xef\xb8\x8f".decode(),
-    "swimming": b"\xf0\x9f\xa6\x88".decode(),
-}
-
-
-LIFTING_UNIT_SETTINGS = {
-    "squat": b"\xe2\x9b\xa9\xef\xb8\x8f".decode(),
-    "deadlift": b"\xf0\x9f\x8f\x97\xef\xb8\x8f".decode(),
-    "benchpress": b"\xf0\x9f\x9b\xab".decode(),
-    "overheadpress": b"\xf0\x9f\x9a\x81".decode(),
-    "rows": b"\xf0\x9f\x90\xa2".decode(),
-    "curls": b"\xf0\x9f\xa6\xbe".decode(),
-}
-
-
-WIMHOF_UNIT_SETTINGS = {
-    "wimhof": b"\xf0\x9f\xaa\x90".decode(),
+    },
+    "grappling": {
+        "emoji": b"\xf0\x9f\xa5\x8b".decode(),
+        "category": Category.training,
+        "options": {},
+        "flags": [],
+    },
+    "boxing": {
+        "emoji": b"\xf0\x9f\xa5\x8b".decode(),
+        "category": Category.training,
+        "options": {},
+        "flags": [],
+    },
+    "lifting": {
+        "emoji": b"\xf0\x9f\xa6\x8d".decode(),
+        "category": Category.training,
+        "options": {},
+        "flags": [],
+    },
+    "running": {
+        "emoji": b"\xf0\x9f\xaa\x96".decode(),
+        "category": Category.cardio,
+        "options": {},
+        "flags": [],
+    },
+    "skipping": {
+        "emoji": b"\xf0\x9f\x8e\x97\xef\xb8\x8f".decode(),
+        "category": Category.cardio,
+        "options": {},
+        "flags": [],
+    },
+    "swimming": {
+        "emoji": b"\xf0\x9f\xa6\x88".decode(),
+        "category": Category.cardio,
+        "options": {},
+        "flags": [],
+    },
+    "squat": {
+        "emoji": b"\xe2\x9b\xa9\xef\xb8\x8f".decode(),
+        "category": Category.lifting,
+        "options": {},
+        "flags": [],
+    },
+    "deadlift": {
+        "emoji": b"\xf0\x9f\x8f\x97\xef\xb8\x8f".decode(),
+        "category": Category.lifting,
+        "options": {},
+        "flags": [],
+    },
+    "benchpress": {
+        "emoji": b"\xf0\x9f\x9b\xab".decode(),
+        "category": Category.lifting,
+        "options": {},
+        "flags": [],
+    },
+    "overheadpress": {
+        "emoji": b"\xf0\x9f\x9a\x81".decode(),
+        "category": Category.lifting,
+        "options": {},
+        "flags": [],
+    },
+    "rows": {
+        "emoji": b"\xf0\x9f\x90\xa2".decode(),
+        "category": Category.lifting,
+        "options": {},
+        "flags": [],
+    },
+    "curls": {
+        "emoji": b"\xf0\x9f\xa6\xbe".decode(),
+        "category": Category.lifting,
+        "options": {},
+        "flags": [],
+    },
+    "wimhof": {
+        "wimhof": b"\xf0\x9f\xaa\x90".decode(),
+        "category": Category.wimhof,
+        "options": {},
+        "flags": [],
+    },
 }
