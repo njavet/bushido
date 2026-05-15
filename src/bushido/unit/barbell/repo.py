@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from bushido.unit.repo import UnitRepo
 
-from .orm import LiftingUnitTable
+from .db_model import LiftingUnitTable
 
 
 class LiftingRepo(UnitRepo[LiftingUnitTable]):

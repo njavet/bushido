@@ -1,5 +1,5 @@
 from .domain import LiftingSpec, LiftingUnit, SetSpec
-from .orm import LiftingSet, LiftingUnitTable
+from .db_model import LiftingSet, LiftingUnitTable
 
 
 class LiftingMapper:
