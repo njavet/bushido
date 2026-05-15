@@ -21,7 +21,6 @@ class UnitRepo(ABC, Generic[T]):
         self.session = session
         self.unit_cls = unit_cls
 
-    # TODO handle exceptions
     def add_unit(self, unit: T) -> None:
         self.session.add(unit)
         self.session.commit()
