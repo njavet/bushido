@@ -23,8 +23,6 @@ class CategoryHelp:
     unit_names: list[str]
 
 
-
-
 RepoFactory = Callable[[Session], UnitRepo[Any]]
 
 

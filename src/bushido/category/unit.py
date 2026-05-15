@@ -1,15 +1,11 @@
 import datetime
 from dataclasses import dataclass
-from typing import Generic, TypeVar
-
-T = TypeVar("T")
+from abc import ABC
 
 
 @dataclass(frozen=True, slots=True)
-class Unit(Generic[T]):
+class Unit(ABC):
     name: str
     emoji: str
-    data: T
     log_time: datetime.datetime
     comment: str | None = None
-
