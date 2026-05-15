@@ -1,4 +1,4 @@
-from .domain import LiftingSpec, LiftingUnit, SetSpec
+from .unit import LiftingSpec, LiftingUnit, SetSpec
 from .db_model import LiftingSet, LiftingUnitTable
 
 

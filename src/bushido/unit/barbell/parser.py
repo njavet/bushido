@@ -2,15 +2,11 @@ from dataclasses import dataclass
 
 from bushido.core.exceptions import ParsingError
 
-from .domain import LiftingSpec, SetSpec
+from .unit import LiftingSpec, SetSpec
 
 
 @dataclass(frozen=True, slots=True)
 class LiftingParser:
-    grammar = """
-    <name> (<weight> <reps> [<rest>])+ # [<comment>]
-    """
-
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> LiftingSpec:
         try:
