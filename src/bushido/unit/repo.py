@@ -1,4 +1,5 @@
 import datetime
+from abc import ABC
 from typing import Generic, Sequence, TypeVar
 
 from sqlalchemy import select
@@ -10,7 +11,7 @@ from .db_model import UnitTable
 T = TypeVar("T", bound=UnitTable)
 
 
-class UnitRepo(Generic[T]):
+class UnitRepo(ABC, Generic[T]):
     def __init__(
         self,
         session: Session,
