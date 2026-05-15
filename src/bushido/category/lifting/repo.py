@@ -2,7 +2,7 @@ import datetime
 
 from sqlalchemy.orm import Session, selectinload
 
-from bushido.core.repo import UnitRepo
+from bushido.category.repo import UnitRepo
 
 from .orm import LiftingUnitTable
 

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from bushido.category import LiftingUnit
 from bushido.category.gym.domain import compute_duration
 from bushido.category.registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
-from bushido.core.dtypes import (
+from bushido.category.dtypes import (
     CategoryRegistration,
     ParsedUnit,
     SystemClock,

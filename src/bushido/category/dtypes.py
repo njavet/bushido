@@ -5,7 +5,7 @@ from typing import Any, Callable, Generic, TypeVar
 from sqlalchemy.orm import Session
 
 from bushido.core.protocols import UnitMapper, UnitParser
-from bushido.core.repo import UnitRepo
+from bushido.category.repo import UnitRepo
 
 
 @dataclass(frozen=True, slots=True)
@@ -21,13 +21,6 @@ class CategoryHelp:
     name: str
     grammar: str
     unit_names: list[str]
-
-
-@dataclass(frozen=True, slots=True)
-class RawUnit:
-    name: str
-    tokens: tuple[str, ...]
-    comment: str | None = None
 
 
 T = TypeVar("T")

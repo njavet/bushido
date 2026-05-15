@@ -1,7 +1,12 @@
 import datetime
 from typing import Protocol, TypeVar
 
-from bushido.core.repo import TU
+from bushido.category.repo import TU
+
+
+class Clock(Protocol):
+    def now(self) -> datetime.datetime: ...
+
 
 P = TypeVar("P", covariant=True)
 
@@ -9,10 +14,6 @@ P = TypeVar("P", covariant=True)
 class UnitParser(Protocol[P]):
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> P: ...
-
-
-class Clock(Protocol):
-    def now(self) -> datetime.datetime: ...
 
 
 T = TypeVar("T")

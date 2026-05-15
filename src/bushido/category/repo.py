@@ -5,22 +5,22 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
-from bushido.core.orm import UnitTable
+from .db_model import UnitTable
 
-TU = TypeVar("TU", bound=UnitTable)
+T = TypeVar("T", bound=UnitTable)
 
 
-class UnitRepo(Generic[TU]):
+class UnitRepo(Generic[T]):
     def __init__(
         self,
         session: Session,
-        unit_cls: type[TU],
+        unit_cls: type[T],
     ) -> None:
         self.session = session
         self.unit_cls = unit_cls
 
     # TODO handle exceptions
-    def add_unit(self, unit: TU) -> None:
+    def add_unit(self, unit: T) -> None:
         self.session.add(unit)
         self.session.commit()
 
@@ -29,7 +29,7 @@ class UnitRepo(Generic[TU]):
         unit_name: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> list[TU]:
+    ) -> list[T]:
         return self._fetch_units(unit_name, start_t, end_t)
 
     def _fetch_units(
@@ -38,7 +38,7 @@ class UnitRepo(Generic[TU]):
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
         options: Sequence[ORMOption] = (),
-    ) -> list[TU]:
+    ) -> list[T]:
         stmt = select(self.unit_cls).options(*options)
         if unit_name is not None:
             stmt = stmt.where(self.unit_cls.name == unit_name)

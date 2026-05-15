@@ -5,7 +5,7 @@ import pytest
 from bushido.category.lifting.domain import LiftingSpec, LiftingUnit, SetSpec
 from bushido.category.lifting.mapper import LiftingMapper
 from bushido.category.lifting.orm import LiftingSet, LiftingUnitTable
-from bushido.core.dtypes import ParsedUnit
+from bushido.category.dtypes import ParsedUnit
 
 
 @pytest.fixture

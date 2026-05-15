@@ -5,7 +5,7 @@ import pytest
 from bushido.category.gym.domain import GymSpec, GymUnit
 from bushido.category.gym.mapper import GymMapper
 from bushido.category.gym.orm import GymUnitTable
-from bushido.core.dtypes import ParsedUnit
+from bushido.category.dtypes import ParsedUnit
 
 
 @pytest.fixture

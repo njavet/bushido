@@ -5,7 +5,7 @@ import pytest
 from bushido.category.wimhof.domain import RoundSpec, WimhofSpec, WimhofUnit
 from bushido.category.wimhof.mapper import WimhofMapper
 from bushido.category.wimhof.orm import WimhofRound, WimhofUnitTable
-from bushido.core.dtypes import ParsedUnit
+from bushido.category.dtypes import ParsedUnit
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from bushido.core.repo import UnitRepo
+from bushido.category.repo import UnitRepo
 
 from .orm import GymUnitTable
 
