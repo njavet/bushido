@@ -1,26 +1,26 @@
 from .unit import LiftingSpec, LiftingUnit, SetSpec
-from .db_model import LiftingSet, LiftingUnitTable
+from .db_model import BarbellUnitTable, BarbellSet
 
 
-class LiftingMapper:
+class BarbellMapper:
     @staticmethod
-    def to_orm(parsed_unit: LiftingUnit) -> LiftingUnitTable:
-        unit = LiftingUnitTable(
+    def to_orm(parsed_unit: LiftingUnit) -> BarbellUnitTable:
+        unit = BarbellUnitTable(
             name=parsed_unit.name,
             emoji=parsed_unit.emoji,
             comment=parsed_unit.comment,
             log_time=parsed_unit.log_time,
         )
         unit.subunits = [
-            LiftingSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
+            BarbellSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             for s in parsed_unit.data.sets
         ]
         return unit
 
     @staticmethod
-    def from_orm(orm_unit: LiftingUnitTable) -> LiftingUnit:
+    def from_orm(orm_unit: BarbellUnitTable) -> LiftingUnit:
         lst = []
-        for s in orm_unit.subunits:
+        for s in orm_unit.sets:
             sp = SetSpec(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             lst.append(sp)
         pu = LiftingUnit(

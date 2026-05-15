@@ -2,13 +2,13 @@ from dataclasses import dataclass
 
 from bushido.core.exceptions import ParsingError
 
-from .unit import LiftingSpec, SetSpec
+from .unit import BarbellData, SetData
 
 
 @dataclass(frozen=True, slots=True)
-class LiftingParser:
+class BarbellParser:
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> LiftingSpec:
+    def parse(tokens: tuple[str, ...]) -> BarbellData:
         try:
             weights = [float(w) for w in tokens[::3]]
         except ValueError:
@@ -32,9 +32,9 @@ class LiftingParser:
         if any(x < 0 for x in rests):
             raise ParsingError("rests must all be positive")
 
-        return LiftingSpec(
+        return BarbellData(
             sets=[
-                SetSpec(set_nr=i, weight=weight, reps=rep, rest=rest)
+                SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
                 for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests))
             ]
         )

@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
-from bushido.dtypes import ParsedUnit
+from ..base import Unit
 
 
 @dataclass(frozen=True, slots=True)
-class SetSpec:
+class SetData:
     set_nr: int
     weight: float
     reps: float
@@ -12,10 +12,14 @@ class SetSpec:
 
 
 @dataclass(frozen=True, slots=True)
-class LiftingSpec:
-    sets: list[SetSpec]
+class BarbellData:
+    variant: str | None
+    program: str | None
+    sets: list[SetData]
 
 
 @dataclass(frozen=True, slots=True)
-class LiftingUnit(ParsedUnit[LiftingSpec]):
-    pass
+class BarbellUnit(Unit):
+    variant: str | None
+    program: str | None
+    sets: list[SetData]
