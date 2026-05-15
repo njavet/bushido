@@ -1,11 +1,11 @@
 import datetime
 from dataclasses import dataclass
-from typing import Any, Callable, Generic, TypeVar
+from typing import Any, Callable
 
 from sqlalchemy.orm import Session
 
 from bushido.unit.repo import UnitRepo
-from bushido.unit.protocols import UnitMapper, UnitParser
+from bushido.protocols import UnitMapper, UnitParser
 
 
 @dataclass(frozen=True, slots=True)

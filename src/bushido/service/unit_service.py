@@ -14,7 +14,7 @@ from bushido.unit.gym.unit import compute_duration
 from bushido.unit.registry import REGISTRY, UNIT_TO_CATEGORY, get_category_help
 from bushido.core.exceptions import ParsingError
 from bushido.core.parsing.unit import parse_raw_unit, split_options
-from bushido.unit.protocols import Clock
+from bushido.protocols import Clock
 
 
 class UnitService:
