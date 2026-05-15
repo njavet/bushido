@@ -4,8 +4,8 @@ from typing import Any, Callable, Generic, TypeVar
 
 from sqlalchemy.orm import Session
 
-from bushido.category.repo import UnitRepo
-from bushido.category.protocols import UnitMapper, UnitParser
+from bushido.unit.repo import UnitRepo
+from bushido.unit.protocols import UnitMapper, UnitParser
 
 
 @dataclass(frozen=True, slots=True)

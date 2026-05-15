@@ -2,27 +2,27 @@ import datetime
 
 from sqlalchemy.orm import Session, selectinload
 
-from bushido.category.repo import UnitRepo
+from bushido.unit.repo import UnitRepo
 
-from .orm import LiftingUnitTable
+from .orm import WimhofUnitTable
 
 
-class LiftingRepo(UnitRepo[LiftingUnitTable]):
+class WimhofRepo(UnitRepo[WimhofUnitTable]):
     def __init__(
         self,
         session: Session,
     ) -> None:
-        super().__init__(session, LiftingUnitTable)
+        super().__init__(session, WimhofUnitTable)
 
     def fetch_units(
         self,
         unit_name: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> list[LiftingUnitTable]:
+    ) -> list[WimhofUnitTable]:
         return self._fetch_units(
             unit_name=unit_name,
             start_t=start_t,
             end_t=end_t,
-            options=[selectinload(LiftingUnitTable.subunits)],
+            options=[selectinload(WimhofUnitTable.subunits)],
         )

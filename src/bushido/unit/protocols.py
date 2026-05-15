@@ -1,7 +1,7 @@
 import datetime
 from typing import Protocol, TypeVar
 
-from bushido.category.repo import TU
+from bushido.unit.repo import TU
 
 
 class Clock(Protocol):

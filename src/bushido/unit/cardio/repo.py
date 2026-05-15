@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from bushido.category.repo import UnitRepo
+from bushido.unit.repo import UnitRepo
 
 from .orm import CardioUnitTable
 

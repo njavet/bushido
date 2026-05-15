@@ -1,8 +1,8 @@
-from bushido.category.cardio import cardio_registration
-from bushido.category.dtypes import CategoryHelp, CategoryRegistration
-from bushido.category.gym import gym_registration
-from bushido.category.lifting import lifting_registration
-from bushido.category.wimhof import wimhof_registration
+from bushido.unit.cardio import cardio_registration
+from bushido.unit.dtypes import CategoryHelp, CategoryRegistration
+from bushido.unit.gym import gym_registration
+from bushido.unit.lifting import lifting_registration
+from bushido.unit.wimhof import wimhof_registration
 from bushido.settings import Category
 
 REGISTRY: dict[str, CategoryRegistration] = {
