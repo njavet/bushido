@@ -89,6 +89,7 @@ def parse_start_end_time_string(
     return start_t, end_t
 
 
+# TODO move to bushido package
 def get_bushido_date_from_datetime(
     dt: datetime.datetime, tz: datetime.tzinfo, start_hour: int
 ) -> datetime.date:

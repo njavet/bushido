@@ -15,5 +15,10 @@ class Unit(Generic[T]):
     data: T
 
 
+@dataclass(frozen=True, slots=True)
+class UnitGrammar:
+    pass
+
+
 class UnitMetric(Protocol[T, R]):
     def compute(self, units: Iterable[Unit[T]]) -> R: ...
