@@ -1,7 +1,7 @@
 import pytest
 
-from bushido.category.wimhof.domain import RoundSpec, WimhofSpec
-from bushido.category.wimhof.parser import WimhofParser
+from bushido.units.wimhof.parser import WimhofParser
+from bushido.units.wimhof.unit import RoundData, WimhofData
 
 
 @pytest.fixture
@@ -14,18 +14,18 @@ def parser() -> WimhofParser:
     [
         (
             ("30", "90", "30", "120", "30", "150"),
-            WimhofSpec(
+            WimhofData(
                 rounds=[
-                    RoundSpec(round_nr=0, breaths=30, retention=90),
-                    RoundSpec(round_nr=1, breaths=30, retention=120),
-                    RoundSpec(round_nr=2, breaths=30, retention=150),
+                    RoundData(round_nr=0, breaths=30, retention=90),
+                    RoundData(round_nr=1, breaths=30, retention=120),
+                    RoundData(round_nr=2, breaths=30, retention=150),
                 ]
             ),
         ),
     ],
 )
 def test_correct_wimhof_unit(
-    parser: WimhofParser, tokens: tuple[str, ...], expected: WimhofSpec
+    parser: WimhofParser, tokens: tuple[str, ...], expected: WimhofData
 ) -> None:
     unit_data = parser.parse(tokens)
     assert unit_data == expected
