@@ -4,7 +4,7 @@ from .db_model import MartialArtsUnitTable
 from .unit import MartialArtsData
 
 
-class LiftingMapper:
+class MartialArtsMapper:
     @staticmethod
     def to_orm(unit: Unit[MartialArtsData]) -> MartialArtsUnitTable:
         orm_unit = MartialArtsUnitTable(
