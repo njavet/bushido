@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True, slots=True)
-class GymData:
+class LiftingData:
     start_t: datetime.time
     end_t: datetime.time
     gym: str
