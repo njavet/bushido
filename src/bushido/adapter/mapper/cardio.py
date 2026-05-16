@@ -1,11 +1,11 @@
 from bushido.db.model import CardioUnitTable
 from bushido.units.base import Unit
-from bushido.units.cardio.unit import Data
+from bushido.units.cardio import CardioData
 
 
 class CardioMapper:
     @staticmethod
-    def to_orm(unit: Unit[Data]) -> CardioUnitTable:
+    def to_orm(unit: Unit[CardioData]) -> CardioUnitTable:
         orm_unit = CardioUnitTable(
             name=unit.name,
             emoji=unit.emoji,
@@ -22,11 +22,11 @@ class CardioMapper:
         return orm_unit
 
     @staticmethod
-    def from_orm(orm_unit: CardioUnitTable) -> Unit[Data]:
+    def from_orm(orm_unit: CardioUnitTable) -> Unit[CardioData]:
         pu = Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
-            data=Data(
+            data=CardioData(
                 start_t=orm_unit.start_t,
                 seconds=orm_unit.seconds,
                 location=orm_unit.location,

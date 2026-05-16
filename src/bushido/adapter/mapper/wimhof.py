@@ -1,11 +1,11 @@
 from bushido.db.model import WimhofRound, WimhofUnitTable
 from bushido.units.base import Unit
-from bushido.units.wimhof.unit import Data, RoundData
+from bushido.units.wimhof import RoundData, WimhofData
 
 
 class WimhofMapper:
     @staticmethod
-    def to_orm(unit: Unit[Data]) -> WimhofUnitTable:
+    def to_orm(unit: Unit[WimhofData]) -> WimhofUnitTable:
         orm_unit = WimhofUnitTable(
             name=unit.name,
             emoji=unit.emoji,
@@ -19,7 +19,7 @@ class WimhofMapper:
         return orm_unit
 
     @staticmethod
-    def from_orm(orm_unit: WimhofUnitTable) -> Unit[Data]:
+    def from_orm(orm_unit: WimhofUnitTable) -> Unit[WimhofData]:
         lst = []
         for r in orm_unit.subunits:
             ws = RoundData(
@@ -29,7 +29,7 @@ class WimhofMapper:
         pu = Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
-            data=Data(rounds=lst),
+            data=WimhofData(rounds=lst),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
