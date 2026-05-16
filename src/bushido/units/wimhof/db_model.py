@@ -1,19 +1,19 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from bushido.unit.db_model import Subunit, UnitTable
+from bushido.units.db_model import Base, UnitTable
 
 
 class WimhofUnitTable(UnitTable):
     __tablename__ = "wimhof_unit"
 
-    subunits: Mapped[list["WimhofRound"]] = relationship(
+    rounds: Mapped[list["WimhofRound"]] = relationship(
         cascade="all, delete-orphan",
         back_populates="unit",
     )
 
 
-class WimhofRound(Subunit):
+class WimhofRound(Base):
     __tablename__ = "wimhof_round"
 
     round_nr: Mapped[int] = mapped_column()
@@ -22,5 +22,5 @@ class WimhofRound(Subunit):
     fk_unit: Mapped[int] = mapped_column(ForeignKey(WimhofUnitTable.id))
 
     unit: Mapped[WimhofUnitTable] = relationship(
-        back_populates="subunits",
+        back_populates="rounds",
     )

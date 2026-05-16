@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from bushido.units.repo import UnitRepo
 
-from .orm import WimhofUnitTable
+from .db_model import WimhofUnitTable
 
 
 class WimhofRepo(UnitRepo[WimhofUnitTable]):
