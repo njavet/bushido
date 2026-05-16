@@ -23,8 +23,7 @@ class LiftingData:
 
 class HeaviestSetMetric:
     def compute(self, units: Iterable[Unit[LiftingData]]) -> list[Unit[LiftingData]]:
-        key_fn = lambda x: (x[1].weight, x[1].reps)
-        return compute_unit_pr(units, n=3, key_fn=key_fn)
+        return compute_unit_pr(units, n=3, key_fn=lambda x: (x[1].weight, x[1].reps))
 
 
 class MostRepsSetMetric:
