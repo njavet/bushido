@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
-from ..model.base import UnitTable
+from .model.base import UnitTable
 
 T = TypeVar("T", bound=UnitTable)
 
@@ -15,9 +15,11 @@ class UnitRepo(Generic[T]):
         self,
         session: Session,
         unit_cls: type[T],
+        load_options: Sequence[ORMOption] = (),
     ) -> None:
         self.session = session
         self.unit_cls = unit_cls
+        self.load_options = load_options
 
     def add_unit(self, unit: T) -> None:
         self.session.add(unit)
@@ -29,16 +31,7 @@ class UnitRepo(Generic[T]):
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> Sequence[T]:
-        return self._fetch_units(unit_name, start_t, end_t)
-
-    def _fetch_units(
-        self,
-        unit_name: str | None = None,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-        options: Sequence[ORMOption] = (),
-    ) -> Sequence[T]:
-        stmt = select(self.unit_cls).options(*options)
+        stmt = select(self.unit_cls).options(*self.load_options)
         if unit_name is not None:
             stmt = stmt.where(self.unit_cls.name == unit_name)
         if start_t is not None:
