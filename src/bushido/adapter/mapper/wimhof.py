@@ -1,9 +1,9 @@
 from bushido.db.model import WimhofRound, WimhofUnitTable
-from bushido.units.base import Unit
+from bushido.units import Unit
 from bushido.units.wimhof import RoundData, WimhofData
 
 
-class WimhofMapper:
+class Mapper:
     @staticmethod
     def to_orm(unit: Unit[WimhofData]) -> WimhofUnitTable:
         orm_unit = WimhofUnitTable(

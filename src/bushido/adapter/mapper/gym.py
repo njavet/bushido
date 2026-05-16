@@ -1,9 +1,9 @@
 from bushido.db.model import GymUnitTable
-from bushido.units.base import Unit
+from bushido.units import Unit
 from bushido.units.gym import GymData
 
 
-class GymMapper:
+class Mapper:
     @staticmethod
     def to_orm(unit: Unit[GymData]) -> GymUnitTable:
         orm_unit = GymUnitTable(

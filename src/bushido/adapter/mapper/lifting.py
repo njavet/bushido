@@ -1,9 +1,9 @@
 from bushido.db.model import LiftingSet, LiftingUnitTable
-from bushido.units.base import Unit
+from bushido.units import Unit
 from bushido.units.lifting import LiftingData, SetData
 
 
-class LiftingMapper:
+class Mapper:
     @staticmethod
     def to_orm(unit: Unit[LiftingData]) -> LiftingUnitTable:
         orm_unit = LiftingUnitTable(

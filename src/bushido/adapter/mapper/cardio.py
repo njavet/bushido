@@ -1,9 +1,9 @@
 from bushido.db.model import CardioUnitTable
-from bushido.units.base import Unit
+from bushido.units import Unit
 from bushido.units.cardio import CardioData
 
 
-class CardioMapper:
+class Mapper:
     @staticmethod
     def to_orm(unit: Unit[CardioData]) -> CardioUnitTable:
         orm_unit = CardioUnitTable(
