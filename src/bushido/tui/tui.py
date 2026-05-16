@@ -24,11 +24,11 @@ class BushidoApp(App[None]):
     def __init__(
         self,
         session_factory: SessionFactory,
-        unit_log_service: UnitService,
+        unit_service: UnitService,
     ) -> None:
         super().__init__()
         self.sf = session_factory
-        self.unit_log_service = unit_log_service
+        self.unit_service = unit_service
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
@@ -41,8 +41,8 @@ class BushidoApp(App[None]):
 
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a units
-        self.push_screen(LogUnitScreen(self.unit_log_service, self.log_unit))
+        self.push_screen(LogUnitScreen(self.unit_service, self.log_unit))
 
     async def log_unit(self, line: str) -> None:
         with self.sf.session() as session:
-            self.unit_log_service.log_unit(line, session)
+            self.unit_service.log_unit(line, session)

@@ -54,9 +54,9 @@ class UnitSubmitted(Message):
 
 
 class UnitHelpWidget(Widget):
-    def __init__(self, unit_log_service: UnitService) -> None:
+    def __init__(self, unit_service: UnitService) -> None:
         super().__init__()
-        self.unit_log_service = unit_log_service
+        self.unit_service = unit_service
 
     def render(self) -> Group:
         panels = []
@@ -81,15 +81,15 @@ class LogUnitScreen(ModalScreen[bool]):
     def action_cancel(self) -> None:
         self.dismiss(False)
 
-    def __init__(self, unit_log_service: UnitService, log_unit: LogUnitHandler) -> None:
+    def __init__(self, unit_service: UnitService, log_unit: LogUnitHandler) -> None:
         super().__init__()
-        self.unit_log_service = unit_log_service
+        self.unit_service = unit_service
         self.log_unit = log_unit
 
     def compose(self) -> ComposeResult:
         with Vertical(id="log_unit_dialog"):
-            yield UnitHelpWidget(self.unit_log_service)
-            yield UnitInput(suggester=UnitSuggester(self.unit_log_service.unit_names))
+            yield UnitHelpWidget(self.unit_service)
+            yield UnitInput(suggester=UnitSuggester(self.unit_service.unit_names))
 
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:
