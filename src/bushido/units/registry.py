@@ -17,6 +17,10 @@ from bushido.units.martial_arts.mapper import MartialArtsMapper
 from bushido.units.martial_arts.parser import MartialArtsParser
 from bushido.units.martial_arts.repo import MartialArtsRepo
 from bushido.units.repo import UnitRepo
+from bushido.units.running.grammar import grammar as running_grammar
+from bushido.units.running.mapper import RunningMapper
+from bushido.units.running.parser import RunningParser
+from bushido.units.running.repo import RunningRepo
 from bushido.units.wimhof.grammar import grammar as wimhof_grammar
 from bushido.units.wimhof.mapper import WimhofMapper
 from bushido.units.wimhof.parser import WimhofParser
@@ -115,5 +119,12 @@ UNIT_REGISTRY: dict[str, UnitRegistration] = {
         repo_factory=lambda session: WimhofRepo(session),
         grammar=wimhof_grammar,
         emoji=b"\xf0\x9f\xaa\x90".decode(),
+    ),
+    "running": UnitRegistration(
+        parser=RunningParser(),
+        mapper=RunningMapper(),
+        repo_factory=lambda session: RunningRepo(session),
+        grammar=running_grammar,
+        emoji=b"\xf0\x9f\xaa\x96".decode(),
     ),
 }
