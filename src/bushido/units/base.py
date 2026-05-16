@@ -7,13 +7,6 @@ R = TypeVar("R", covariant=True)
 
 
 @dataclass(frozen=True, slots=True)
-class RawUnit:
-    name: str
-    tokens: tuple[str, ...]
-    comment: str | None = None
-
-
-@dataclass(frozen=True, slots=True)
 class Unit(Generic[T]):
     name: str
     emoji: str

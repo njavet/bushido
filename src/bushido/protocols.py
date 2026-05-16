@@ -2,7 +2,7 @@ import datetime
 from typing import Protocol, TypeVar
 
 from bushido.db.model.base import UnitTable
-from bushido.units.base import Unit
+from bushido.units import Unit
 
 TU = TypeVar("TU", bound=UnitTable)
 T = TypeVar("T")

@@ -5,7 +5,8 @@ from sqlalchemy.orm import Session
 
 from bushido.dtypes import SystemClock, UnitRegistration
 from bushido.protocols import Clock
-from bushido.units.base import RawUnit, Unit
+from bushido.schema.req import RawUnit
+from bushido.units import Unit
 from bushido.units.dt_parse import parse_datetime
 from bushido.units.exceptions import ParsingError
 
