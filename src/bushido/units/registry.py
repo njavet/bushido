@@ -1,3 +1,5 @@
+from bushido.db.repo.lifting import LiftingRepo
+from bushido.db.repo.wimhof import WimhofRepo
 from bushido.units.base import UnitRegistration
 from bushido.units.cardio.grammar import grammar as cardio_grammar
 from bushido.units.cardio.mapper import CardioMapper
@@ -10,11 +12,9 @@ from bushido.units.gym.repo import GymRepo
 from bushido.units.lifting.grammar import grammar as lifting_grammar
 from bushido.units.lifting.mapper import LiftingMapper
 from bushido.units.lifting.parser import LiftingParser
-from bushido.units.lifting.repo import LiftingRepo
 from bushido.units.wimhof.grammar import grammar as wimhof_grammar
 from bushido.units.wimhof.mapper import WimhofMapper
 from bushido.units.wimhof.parser import WimhofParser
-from bushido.units.wimhof.repo import WimhofRepo
 
 # TODO split
 UNIT_REGISTRY: dict[str, UnitRegistration] = {
