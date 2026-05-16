@@ -18,7 +18,7 @@ WIMHOF_CASES = [
         Unit(
             name="wimhof",
             emoji="saturn",
-            data=Data(
+            data=WimhofData(
                 rounds=[
                     RoundData(round_nr=0, breaths=30, retention=90),
                     RoundData(round_nr=1, breaths=30, retention=120),

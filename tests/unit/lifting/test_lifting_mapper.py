@@ -18,7 +18,7 @@ LIFTING_CASES = [
         Unit(
             name="squat",
             emoji="shinto",
-            data=Data(
+            data=LiftingData(
                 sets=[
                     SetData(set_nr=0, weight=100.0, reps=5, rest=180.0),
                     SetData(set_nr=1, weight=100.0, reps=5, rest=0.0),
@@ -43,7 +43,7 @@ LIFTING_CASES = [
         Unit(
             name="squat",
             emoji="shinto",
-            data=Data(
+            data=LiftingData(
                 sets=[
                     SetData(set_nr=0, weight=150.0, reps=3, rest=300.0),
                     SetData(set_nr=1, weight=100.0, reps=20.0, rest=0.0),
