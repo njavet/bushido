@@ -7,8 +7,6 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido.unit import LiftingUnit
-
 
 class LiftingContainer(Container):
     def compose(self) -> ComposeResult:
