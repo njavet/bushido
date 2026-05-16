@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from bushido.db.model.lifting import LiftingSet, LiftingUnitTable
-from bushido.infra.db import SessionFactory
+from bushido.db.sf import SessionFactory
 from bushido.service import UnitService
 from bushido.units.registry import UNIT_REGISTRY
 
