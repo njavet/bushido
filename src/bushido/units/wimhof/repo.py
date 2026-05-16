@@ -24,5 +24,5 @@ class WimhofRepo(UnitRepo[WimhofUnitTable]):
             unit_name=unit_name,
             start_t=start_t,
             end_t=end_t,
-            options=[selectinload(WimhofUnitTable.subunits)],
+            options=[selectinload(WimhofUnitTable.rounds)],
         )
