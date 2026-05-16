@@ -1,9 +1,8 @@
-from dataclasses import dataclass
 from typing import Any, Callable
 
 from sqlalchemy.orm import Session
 
-from bushido.units.base import UnitMapper, UnitParser
+from bushido.units.base import UnitRegistration
 from bushido.units.cardio.grammar import grammar as cardio_grammar
 from bushido.units.cardio.mapper import CardioMapper
 from bushido.units.cardio.parser import CardioParser
@@ -23,19 +22,6 @@ from bushido.units.wimhof.parser import WimhofParser
 from bushido.units.wimhof.repo import WimhofRepo
 
 RepoFactory = Callable[[Session], UnitRepo[Any]]
-
-
-@dataclass(frozen=True, slots=True)
-class UnitRegistration:
-    parser: UnitParser[Any]
-    mapper: UnitMapper[Any, Any]
-    repo_factory: RepoFactory
-    grammar: str
-    emoji: str
-
-    def repo(self, session: Session) -> UnitRepo[Any]:
-        return self.repo_factory(session)
-
 
 # TODO split
 UNIT_REGISTRY: dict[str, UnitRegistration] = {
