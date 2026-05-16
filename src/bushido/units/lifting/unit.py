@@ -1,7 +1,9 @@
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from typing import Iterable
 
 from bushido.units.base import Unit
+
+from ._metrics import compute_unit_pr
 
 
 @dataclass(frozen=True, slots=True)
@@ -21,25 +23,11 @@ class LiftingData:
 
 class HeaviestSetMetric:
     def compute(self, units: Iterable[Unit[LiftingData]]) -> list[Unit[LiftingData]]:
-        candidates = [(unit, set_) for unit in units for set_ in unit.data.sets]
-        best = sorted(
-            candidates,
-            key=lambda x: (x[1].weight, x[1].reps),
-            reverse=True,
-        )[:3]
-        return [
-            replace(unit, data=replace(unit.data, sets=[set_])) for unit, set_ in best
-        ]
+        key_fn = lambda x: (x[1].weight, x[1].reps)
+        return compute_unit_pr(units, n=3, key_fn=key_fn)
 
 
 class MostRepsSetMetric:
     def compute(self, units: Iterable[Unit[LiftingData]]) -> list[Unit[LiftingData]]:
-        candidates = [(unit, set_) for unit in units for set_ in unit.data.sets]
-        best = sorted(
-            candidates,
-            key=lambda x: (x[1].reps, x[1].weight),
-            reverse=True,
-        )[:3]
-        return [
-            replace(unit, data=replace(unit.data, sets=[set_])) for unit, set_ in best
-        ]
+        key_fn = lambda x: (x[1].reps, x[1].weight)
+        return compute_unit_pr(units, n=3, key_fn=key_fn)
