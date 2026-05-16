@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class RawUnit(BaseModel):
+class UnitLogRequest(BaseModel):
     name: str
     tokens: tuple[str, ...]
     comment: str | None = None

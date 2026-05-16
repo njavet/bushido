@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from bushido.dtypes import SystemClock, UnitRegistration
 from bushido.protocols import Clock
-from bushido.schema.req import RawUnit
+from bushido.schema.req import UnitLogRequest
 from bushido.units import Unit
 from bushido.units.exceptions import ParsingError
 
@@ -66,14 +66,14 @@ class UnitService:
         return parsed_units
 
 
-def parse_raw_unit(line: str) -> RawUnit:
+def parse_raw_unit(line: str) -> UnitLogRequest:
     body, sep, comment = line.partition("#")
     tokens = tuple(body.split())
 
     if not tokens:
         raise ParsingError(f"Empty unit line: {line}")
 
-    return RawUnit(
+    return UnitLogRequest(
         name=tokens[0],
         tokens=tokens[1:],
         comment=comment.strip() if sep and comment.strip() else None,
