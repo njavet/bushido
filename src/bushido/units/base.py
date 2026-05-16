@@ -10,7 +10,6 @@ from bushido.units.repo import UnitRepo
 
 T = TypeVar("T")
 R = TypeVar("R", covariant=True)
-P = TypeVar("P", covariant=True)
 TU = TypeVar("TU", bound=UnitTable)
 
 
@@ -50,9 +49,9 @@ class UnitMapper(Protocol[T, TU]):
     def from_orm(orm_unit: TU) -> Unit[T]: ...
 
 
-class UnitParser(Protocol[P]):
+class UnitParser(Protocol[R]):
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> P: ...
+    def parse(tokens: tuple[str, ...]) -> R: ...
 
 
 class Metric(Protocol[T, R]):

@@ -19,27 +19,27 @@ class LiftingData:
     sets: list[SetData]
 
 
-def heaviest_lifting_unit_or_none(
-    units: Iterable[Unit[LiftingData]],
-) -> Unit[LiftingData] | None:
-    candidates = [(unit, set_) for unit in units for set_ in unit.data.sets]
+class HeaviestSetMetric:
+    def compute(self, units: Iterable[Unit[LiftingData]]) -> list[Unit[LiftingData]]:
+        candidates = [(unit, set_) for unit in units for set_ in unit.data.sets]
+        best = sorted(
+            candidates,
+            key=lambda x: (x[1].weight, x[1].reps),
+            reverse=True,
+        )[:3]
+        return [
+            replace(unit, data=replace(unit.data, sets=[set_])) for unit, set_ in best
+        ]
 
-    if not candidates:
-        return None
 
-    best_unit, best_set = max(candidates, key=lambda x: (x[1].weight, x[1].reps))
-
-    return replace(best_unit, data=replace(best_unit.data, sets=[best_set]))
-
-
-def most_reps_lifting_unit_or_none(
-    units: Iterable[Unit[LiftingData]],
-) -> Unit[LiftingData] | None:
-    candidates = [(unit, set_) for unit in units for set_ in unit.data.sets]
-
-    if not candidates:
-        return None
-
-    best_unit, best_set = max(candidates, key=lambda x: (x[1].reps, x[1].weight))
-
-    return replace(best_unit, data=replace(best_unit.data, sets=[best_set]))
+class MostRepsSetMetric:
+    def compute(self, units: Iterable[Unit[LiftingData]]) -> list[Unit[LiftingData]]:
+        candidates = [(unit, set_) for unit in units for set_ in unit.data.sets]
+        best = sorted(
+            candidates,
+            key=lambda x: (x[1].reps, x[1].weight),
+            reverse=True,
+        )[:3]
+        return [
+            replace(unit, data=replace(unit.data, sets=[set_])) for unit, set_ in best
+        ]
