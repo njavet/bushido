@@ -52,18 +52,12 @@ UnitHelpWidget {
     min-height: 0;
 }
 
-#gym_tabs {
-    border: round $accent;
-    height: 100%;
-    min-height: 0;
-}
-
 #lifting_tabs {
     border: round $accent;
     height: 100%;
     min-height: 0;
 }
 
-BarbellTable {
+LiftingTable {
     width: 50%;
 }
