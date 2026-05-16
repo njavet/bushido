@@ -5,6 +5,7 @@ from argparse import ArgumentParser
 from rich.logging import RichHandler
 
 from bushido import __version__
+from bushido.db.model import Base
 from bushido.db.sf import SessionFactory
 from bushido.registry import UNIT_REGISTRY
 from bushido.service import UnitService
@@ -15,6 +16,10 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[RichHandler(rich_tracebacks=True, show_time=False)],
 )
+
+
+def init_db(engine) -> None:
+    Base.metadata.create_all(bind=engine)
 
 
 def create_parser() -> ArgumentParser:
@@ -36,8 +41,7 @@ def main() -> None:
 
     elif args.tui:
         sf = SessionFactory()
-        # TODO all orm tables must have been imported already
-        sf.init_db()
+        init_db(engine=sf.engine)
         unit_service = UnitService(registry=UNIT_REGISTRY)
         BushidoApp(sf, unit_service).run()
 

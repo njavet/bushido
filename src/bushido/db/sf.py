@@ -7,8 +7,6 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from bushido.conf import DB_URL
 
-from .model import Base
-
 
 class SessionFactory:
     # TODO db path, linux installation
@@ -24,9 +22,6 @@ class SessionFactory:
     @property
     def db_url(self) -> str:
         return self._db_url
-
-    def init_db(self) -> None:
-        Base.metadata.create_all(bind=self._engine)
 
     @contextmanager
     def session(self) -> Iterator[Session]:
