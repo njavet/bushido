@@ -11,7 +11,7 @@ class BarbellUnitTable(UnitTable):
     program: Mapped[str | None] = mapped_column()
     sets: Mapped[list["BarbellSet"]] = relationship(
         cascade="all, delete-orphan",
-        back_populates="barbell_set",
+        back_populates="unit",
     )
 
 
