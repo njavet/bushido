@@ -8,15 +8,15 @@ from bushido.units.barbell.mapper import BarbellMapper
 from bushido.units.barbell.parser import BarbellParser
 from bushido.units.barbell.repo import BarbellRepo
 from bushido.units.base import UnitMapper, UnitParser
+from bushido.units.cardio.grammar import grammar as cardio_grammar
+from bushido.units.cardio.mapper import CardioMapper
+from bushido.units.cardio.parser import CardioParser
+from bushido.units.cardio.repo import CardioRepo
 from bushido.units.gym.grammar import grammar as gym_grammar
 from bushido.units.gym.mapper import GymMapper
 from bushido.units.gym.parser import GymParser
 from bushido.units.gym.repo import GymRepo
 from bushido.units.repo import UnitRepo
-from bushido.units.running.grammar import grammar as running_grammar
-from bushido.units.running.mapper import RunningMapper
-from bushido.units.running.parser import RunningParser
-from bushido.units.running.repo import RunningRepo
 from bushido.units.wimhof.grammar import grammar as wimhof_grammar
 from bushido.units.wimhof.mapper import WimhofMapper
 from bushido.units.wimhof.parser import WimhofParser
@@ -117,10 +117,10 @@ UNIT_REGISTRY: dict[str, UnitRegistration] = {
         emoji=b"\xf0\x9f\xaa\x90".decode(),
     ),
     "running": UnitRegistration(
-        parser=RunningParser(),
-        mapper=RunningMapper(),
-        repo_factory=lambda session: RunningRepo(session),
-        grammar=running_grammar,
+        parser=CardioParser(),
+        mapper=CardioMapper(),
+        repo_factory=lambda session: CardioRepo(session),
+        grammar=cardio_grammar,
         emoji=b"\xf0\x9f\xaa\x96".decode(),
     ),
 }

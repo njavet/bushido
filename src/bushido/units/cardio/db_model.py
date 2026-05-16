@@ -5,8 +5,8 @@ from sqlalchemy.orm import Mapped, mapped_column
 from bushido.units.db_model import UnitTable
 
 
-class RunningUnitTable(UnitTable):
-    __tablename__ = "running_unit"
+class CardioUnitTable(UnitTable):
+    __tablename__ = "cardio_unit"
 
     start_t: Mapped[datetime.time] = mapped_column()
     seconds: Mapped[float] = mapped_column()

@@ -11,7 +11,7 @@ UNIT_NAMES = [
     "kyokushin",
     "boxing",
     "grappling",
-    "running",
+    "cardio",
     "swimming",
     "skipping",
     "squat",

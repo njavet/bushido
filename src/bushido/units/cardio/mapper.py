@@ -1,13 +1,13 @@
 from bushido.units.base import Unit
 
-from .db_model import RunningUnitTable
-from .unit import RunningData
+from .db_model import CardioUnitTable
+from .unit import CardioData
 
 
-class RunningMapper:
+class CardioMapper:
     @staticmethod
-    def to_orm(unit: Unit[RunningData]) -> RunningUnitTable:
-        orm_unit = RunningUnitTable(
+    def to_orm(unit: Unit[CardioData]) -> CardioUnitTable:
+        orm_unit = CardioUnitTable(
             name=unit.name,
             emoji=unit.emoji,
             log_time=unit.log_time,
@@ -23,11 +23,11 @@ class RunningMapper:
         return orm_unit
 
     @staticmethod
-    def from_orm(orm_unit: RunningUnitTable) -> Unit[RunningData]:
+    def from_orm(orm_unit: CardioUnitTable) -> Unit[CardioData]:
         pu = Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
-            data=RunningData(
+            data=CardioData(
                 start_t=orm_unit.start_t,
                 seconds=orm_unit.seconds,
                 location=orm_unit.location,

@@ -84,7 +84,7 @@ def replace_emoji(line: str) -> str:
     elif name == "magnet":
         unit_name = "core"
     elif name == "helmet" or name == "sneaker":
-        unit_name = "running"
+        unit_name = "cardio"
     elif name == "satellite":
         unit_name = "work"
     elif name == "eight_ball":
