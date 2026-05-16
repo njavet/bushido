@@ -17,3 +17,13 @@ def compute_unit_pr(
         reverse=True,
     )[:n]
     return [replace(unit, data=replace(unit.data, sets=[set_])) for unit, set_ in best]
+
+
+class HeaviestSetMetric:
+    def compute(self, units: Iterable[Unit[LiftingData]]) -> list[Unit[LiftingData]]:
+        return compute_unit_pr(units, n=3, key_fn=lambda x: (x[1].weight, x[1].reps))
+
+
+class MostRepsSetMetric:
+    def compute(self, units: Iterable[Unit[LiftingData]]) -> list[Unit[LiftingData]]:
+        return compute_unit_pr(units, n=3, key_fn=lambda x: (x[1].reps, x[1].weight))
