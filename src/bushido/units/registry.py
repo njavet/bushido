@@ -13,9 +13,9 @@ from bushido.units.gym.mapper import GymMapper
 from bushido.units.gym.parser import GymParser
 from bushido.units.gym.repo import GymRepo
 from bushido.units.lifting.grammar import grammar as barbell_grammar
-from bushido.units.lifting.mapper import BarbellMapper
-from bushido.units.lifting.parser import BarbellParser
-from bushido.units.lifting.repo import BarbellRepo
+from bushido.units.lifting.mapper import LiftingMapper
+from bushido.units.lifting.parser import LiftingParser
+from bushido.units.lifting.repo import LiftingRepo
 from bushido.units.repo import UnitRepo
 from bushido.units.wimhof.grammar import grammar as wimhof_grammar
 from bushido.units.wimhof.mapper import WimhofMapper
@@ -68,44 +68,44 @@ UNIT_REGISTRY: dict[str, UnitRegistration] = {
         emoji=b"\xf0\x9f\xa6\x8d".decode(),
     ),
     "squat": UnitRegistration(
-        parser=BarbellParser(),
-        mapper=BarbellMapper(),
-        repo_factory=lambda session: BarbellRepo(session),
+        parser=LiftingParser(),
+        mapper=LiftingMapper(),
+        repo_factory=lambda session: LiftingRepo(session),
         grammar=barbell_grammar,
         emoji=b"\xe2\x9b\xa9\xef\xb8\x8f".decode(),
     ),
     "deadlift": UnitRegistration(
-        parser=BarbellParser(),
-        mapper=BarbellMapper(),
-        repo_factory=lambda session: BarbellRepo(session),
+        parser=LiftingParser(),
+        mapper=LiftingMapper(),
+        repo_factory=lambda session: LiftingRepo(session),
         grammar=barbell_grammar,
         emoji=b"\xf0\x9f\x8f\x97\xef\xb8\x8f".decode(),
     ),
     "benchpress": UnitRegistration(
-        parser=BarbellParser(),
-        mapper=BarbellMapper(),
-        repo_factory=lambda session: BarbellRepo(session),
+        parser=LiftingParser(),
+        mapper=LiftingMapper(),
+        repo_factory=lambda session: LiftingRepo(session),
         grammar=barbell_grammar,
         emoji=b"\xf0\x9f\x9b\xab".decode(),
     ),
     "overheadpress": UnitRegistration(
-        parser=BarbellParser(),
-        mapper=BarbellMapper(),
-        repo_factory=lambda session: BarbellRepo(session),
+        parser=LiftingParser(),
+        mapper=LiftingMapper(),
+        repo_factory=lambda session: LiftingRepo(session),
         grammar=barbell_grammar,
         emoji=b"\xf0\x9f\x9a\x81".decode(),
     ),
     "rows": UnitRegistration(
-        parser=BarbellParser(),
-        mapper=BarbellMapper(),
-        repo_factory=lambda session: BarbellRepo(session),
+        parser=LiftingParser(),
+        mapper=LiftingMapper(),
+        repo_factory=lambda session: LiftingRepo(session),
         grammar=barbell_grammar,
         emoji=b"\xf0\x9f\x90\xa2".decode(),
     ),
     "curls": UnitRegistration(
-        parser=BarbellParser(),
-        mapper=BarbellMapper(),
-        repo_factory=lambda session: BarbellRepo(session),
+        parser=LiftingParser(),
+        mapper=LiftingMapper(),
+        repo_factory=lambda session: LiftingRepo(session),
         grammar=barbell_grammar,
         emoji=b"\xf0\x9f\xa6\xbe".decode(),
     ),

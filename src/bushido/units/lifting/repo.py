@@ -4,25 +4,25 @@ from sqlalchemy.orm import Session, selectinload
 
 from bushido.units.repo import UnitRepo
 
-from .db_model import BarbellUnitTable
+from .db_model import LiftingUnitTable
 
 
-class BarbellRepo(UnitRepo[BarbellUnitTable]):
+class LiftingRepo(UnitRepo[LiftingUnitTable]):
     def __init__(
         self,
         session: Session,
     ) -> None:
-        super().__init__(session, BarbellUnitTable)
+        super().__init__(session, LiftingUnitTable)
 
     def fetch_units(
         self,
         unit_name: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> list[BarbellUnitTable]:
+    ) -> list[LiftingUnitTable]:
         return self._fetch_units(
             unit_name=unit_name,
             start_t=start_t,
             end_t=end_t,
-            options=[selectinload(BarbellUnitTable.sets)],
+            options=[selectinload(LiftingUnitTable.sets)],
         )

@@ -1,26 +1,26 @@
 from bushido.units.base import Unit
 
-from .db_model import BarbellSet, BarbellUnitTable
-from .unit import BarbellData, SetData
+from .db_model import LiftingSet, LiftingUnitTable
+from .unit import LiftingData, SetData
 
 
-class BarbellMapper:
+class LiftingMapper:
     @staticmethod
-    def to_orm(unit: Unit[BarbellData]) -> BarbellUnitTable:
-        orm_unit = BarbellUnitTable(
+    def to_orm(unit: Unit[LiftingData]) -> LiftingUnitTable:
+        orm_unit = LiftingUnitTable(
             name=unit.name,
             emoji=unit.emoji,
             comment=unit.comment,
             log_time=unit.log_time,
         )
         orm_unit.sets = [
-            BarbellSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
+            LiftingSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             for s in unit.data.sets
         ]
         return orm_unit
 
     @staticmethod
-    def from_orm(orm_unit: BarbellUnitTable) -> Unit[BarbellData]:
+    def from_orm(orm_unit: LiftingUnitTable) -> Unit[LiftingData]:
         lst = []
         for s in orm_unit.sets:
             sp = SetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
@@ -28,7 +28,7 @@ class BarbellMapper:
         pu = Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
-            data=BarbellData(sets=lst, program=None, variant=None),
+            data=LiftingData(sets=lst, program=None, variant=None),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )

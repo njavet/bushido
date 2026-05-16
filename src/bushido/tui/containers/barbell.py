@@ -8,7 +8,7 @@ from textual.widgets import (
 )
 
 from bushido.units.base import Unit
-from bushido.units.lifting.unit import BarbellData
+from bushido.units.lifting.unit import LiftingData
 
 
 class BarbellContainer(Container):
@@ -26,7 +26,7 @@ class BarbellContainer(Container):
             with TabPane("rows"):
                 yield BarbellTable(id="rows_table")
 
-    def set_units(self, units: list[Unit[BarbellData]]) -> None:
+    def set_units(self, units: list[Unit[LiftingData]]) -> None:
         self.query_one("#squat_table", BarbellTable).set_units(
             [u for u in units if u.name == "squat"]
         )
@@ -48,7 +48,7 @@ class BarbellTable(DataTable[str]):
     def on_mount(self) -> None:
         self.add_columns("date", "set", "weight", "reps", "rest")
 
-    def set_units(self, units: list[Unit[BarbellData]]) -> None:
+    def set_units(self, units: list[Unit[LiftingData]]) -> None:
         self.clear()
         for unit in units:
             self.add_row(

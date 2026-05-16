@@ -1,13 +1,13 @@
 import pytest
 
 from bushido.units.exceptions import ParsingError
-from bushido.units.lifting.parser import BarbellParser
-from bushido.units.lifting.unit import BarbellData, SetData
+from bushido.units.lifting.parser import LiftingParser
+from bushido.units.lifting.unit import LiftingData, SetData
 
 
 @pytest.fixture
-def parser() -> BarbellParser:
-    return BarbellParser()
+def parser() -> LiftingParser:
+    return LiftingParser()
 
 
 @pytest.mark.parametrize(
@@ -15,7 +15,7 @@ def parser() -> BarbellParser:
     [
         (
             ("100", "5", "180", "100", "5"),
-            BarbellData(
+            LiftingData(
                 sets=[
                     SetData(set_nr=0, weight=100.0, reps=5, rest=180.0),
                     SetData(set_nr=1, weight=100.0, reps=5, rest=0.0),
@@ -26,7 +26,7 @@ def parser() -> BarbellParser:
         ),
         (
             ("120", "5"),
-            BarbellData(
+            LiftingData(
                 sets=[SetData(set_nr=0, weight=120.0, reps=5, rest=0.0)],
                 program=None,
                 variant=None,
@@ -34,7 +34,7 @@ def parser() -> BarbellParser:
         ),
         (
             ("150", "3", "300", "160", "2", "90", "100", "20"),
-            BarbellData(
+            LiftingData(
                 sets=[
                     SetData(set_nr=0, weight=150.0, reps=3, rest=300.0),
                     SetData(set_nr=1, weight=160.0, reps=2.0, rest=90.0),
@@ -47,7 +47,7 @@ def parser() -> BarbellParser:
     ],
 )
 def test_correct_lifting_units(
-    parser: BarbellParser, tokens: tuple[str, ...], expected: BarbellData
+    parser: LiftingParser, tokens: tuple[str, ...], expected: LiftingData
 ) -> None:
     unit_data = parser.parse(tokens)
     assert unit_data == expected
@@ -62,7 +62,7 @@ def test_correct_lifting_units(
     ],
 )
 def test_correct_error_message(
-    parser: BarbellParser, tokens: tuple[str, ...], expected: str
+    parser: LiftingParser, tokens: tuple[str, ...], expected: str
 ) -> None:
     with pytest.raises(ParsingError, match=expected):
         _ = parser.parse(tokens)

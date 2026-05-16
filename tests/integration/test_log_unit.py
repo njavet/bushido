@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from bushido.infra.db import SessionFactory
 from bushido.service import UnitService
-from bushido.units.lifting.db_model import BarbellSet, BarbellUnitTable
+from bushido.units.lifting.db_model import LiftingSet, LiftingUnitTable
 from bushido.units.registry import UNIT_REGISTRY
 
 
@@ -34,10 +34,10 @@ def service() -> UnitService:
 def test_log_lifting_unit_success(service: UnitService, session: Session) -> None:
     line = "benchpress 100 5 180 100 5"
     service.log_unit(line, session)
-    units = session.scalars(select(BarbellUnitTable)).all()
+    units = session.scalars(select(LiftingUnitTable)).all()
     assert len(units) == 1
     assert units[0].name == "benchpress"
-    subs = session.scalars(select(BarbellSet)).all()
+    subs = session.scalars(select(LiftingSet)).all()
     assert len(subs) == 2
     assert subs[0].weight == 100
     assert subs[0].reps == 5
