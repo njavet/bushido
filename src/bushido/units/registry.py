@@ -123,4 +123,18 @@ UNIT_REGISTRY: dict[str, UnitRegistration] = {
         grammar=cardio_grammar,
         emoji=b"\xf0\x9f\xaa\x96".decode(),
     ),
+    "swimming": UnitRegistration(
+        parser=CardioParser(),
+        mapper=CardioMapper(),
+        repo_factory=lambda session: CardioRepo(session),
+        grammar=cardio_grammar,
+        emoji=b"\xf0\x9f\xa6\x88".decode(),
+    ),
+    "skipping": UnitRegistration(
+        parser=CardioParser(),
+        mapper=CardioMapper(),
+        repo_factory=lambda session: CardioRepo(session),
+        grammar=cardio_grammar,
+        emoji=b"\xf0\x9f\x8e\x97\xef\xb8\x8f".decode(),
+    ),
 }
