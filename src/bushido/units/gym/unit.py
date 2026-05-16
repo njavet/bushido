@@ -3,11 +3,10 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True, slots=True)
-class MartialArtsData:
+class GymData:
     start_t: datetime.time
     end_t: datetime.time
     gym: str
-    sensei: str | None = None
     training: str | None = None
     focus: str | None = None
 

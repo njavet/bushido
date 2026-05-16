@@ -3,22 +3,22 @@ import datetime
 import pytest
 
 from bushido.units.base import Unit
-from bushido.units.lifting.db_model import LiftingUnitTable
-from bushido.units.lifting.mapper import LiftingMapper
-from bushido.units.lifting.unit import LiftingData
+from bushido.units.gym.db_model import GymUnitTable
+from bushido.units.gym.mapper import GymMapper
+from bushido.units.gym.unit import GymData
 
 
 @pytest.fixture
-def mapper() -> LiftingMapper:
-    return LiftingMapper()
+def mapper() -> GymMapper:
+    return GymMapper()
 
 
 GYM_CASES = [
     (
         Unit(
-            name="lifting",
+            name="gym",
             emoji="gorilla",
-            data=LiftingData(
+            data=GymData(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
                 gym="nautilus",
@@ -26,8 +26,8 @@ GYM_CASES = [
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             comment=None,
         ),
-        LiftingUnitTable(
-            name="lifting",
+        GymUnitTable(
+            name="gym",
             emoji="gorilla",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             start_t=datetime.time(18, 0),
@@ -40,10 +40,10 @@ GYM_CASES = [
 
 @pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
 def test_correct_to_orm_mapping(
-    mapper: LiftingMapper, parsed_unit: Unit[LiftingData], unit: LiftingUnitTable
+    mapper: GymMapper, parsed_unit: Unit[GymData], unit: GymUnitTable
 ) -> None:
     u = mapper.to_orm(parsed_unit)
-    assert isinstance(u, LiftingUnitTable)
+    assert isinstance(u, GymUnitTable)
     assert u.emoji == unit.emoji
     assert u.name == unit.name
     assert u.log_time == unit.log_time
@@ -54,7 +54,7 @@ def test_correct_to_orm_mapping(
 
 @pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
 def test_correct_from_orm_mapping(
-    mapper: LiftingMapper, parsed_unit: Unit[LiftingData], unit: LiftingUnitTable
+    mapper: GymMapper, parsed_unit: Unit[GymData], unit: GymUnitTable
 ) -> None:
     pu = mapper.from_orm(unit)
     assert isinstance(pu, Unit)

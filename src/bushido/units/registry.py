@@ -8,14 +8,10 @@ from bushido.units.barbell.mapper import BarbellMapper
 from bushido.units.barbell.parser import BarbellParser
 from bushido.units.barbell.repo import BarbellRepo
 from bushido.units.base import UnitMapper, UnitParser
-from bushido.units.lifting.grammar import grammar as lifting_grammar
-from bushido.units.lifting.mapper import LiftingMapper
-from bushido.units.lifting.parser import LiftingParser
-from bushido.units.lifting.repo import LiftingRepo
-from bushido.units.martial_arts.grammar import grammar as martial_arts_grammar
-from bushido.units.martial_arts.mapper import MartialArtsMapper
-from bushido.units.martial_arts.parser import MartialArtsParser
-from bushido.units.martial_arts.repo import MartialArtsRepo
+from bushido.units.gym.grammar import grammar as gym_grammar
+from bushido.units.gym.mapper import GymMapper
+from bushido.units.gym.parser import GymParser
+from bushido.units.gym.repo import GymRepo
 from bushido.units.repo import UnitRepo
 from bushido.units.running.grammar import grammar as running_grammar
 from bushido.units.running.mapper import RunningMapper
@@ -44,25 +40,32 @@ class UnitRegistration:
 # TODO split
 UNIT_REGISTRY: dict[str, UnitRegistration] = {
     "kyokushin": UnitRegistration(
-        parser=MartialArtsParser(),
-        mapper=MartialArtsMapper(),
-        repo_factory=lambda session: MartialArtsRepo(session),
-        grammar=martial_arts_grammar,
+        parser=GymParser(),
+        mapper=GymMapper(),
+        repo_factory=lambda session: GymRepo(session),
+        grammar=gym_grammar,
         emoji=b"\xf0\x9f\xa5\x8b".decode(),
     ),
     "grappling": UnitRegistration(
-        parser=MartialArtsParser(),
-        mapper=MartialArtsMapper(),
-        repo_factory=lambda session: MartialArtsRepo(session),
-        grammar=martial_arts_grammar,
+        parser=GymParser(),
+        mapper=GymMapper(),
+        repo_factory=lambda session: GymRepo(session),
+        grammar=gym_grammar,
         emoji=b"\xf0\x9f\xa5\x8b".decode(),
     ),
     "boxing": UnitRegistration(
-        parser=MartialArtsParser(),
-        mapper=MartialArtsMapper(),
-        repo_factory=lambda session: MartialArtsRepo(session),
-        grammar=martial_arts_grammar,
+        parser=GymParser(),
+        mapper=GymMapper(),
+        repo_factory=lambda session: GymRepo(session),
+        grammar=gym_grammar,
         emoji=b"\xf0\x9f\xa5\x8b".decode(),
+    ),
+    "lifting": UnitRegistration(
+        parser=GymParser(),
+        mapper=GymMapper(),
+        repo_factory=lambda session: GymRepo(session),
+        grammar=gym_grammar,
+        emoji=b"\xf0\x9f\xa6\x8d".decode(),
     ),
     "squat": UnitRegistration(
         parser=BarbellParser(),
@@ -105,13 +108,6 @@ UNIT_REGISTRY: dict[str, UnitRegistration] = {
         repo_factory=lambda session: BarbellRepo(session),
         grammar=barbell_grammar,
         emoji=b"\xf0\x9f\xa6\xbe".decode(),
-    ),
-    "lifting": UnitRegistration(
-        parser=LiftingParser(),
-        mapper=LiftingMapper(),
-        repo_factory=lambda session: LiftingRepo(session),
-        grammar=lifting_grammar,
-        emoji=b"\xf0\x9f\xa6\x8d".decode(),
     ),
     "wimhof": UnitRegistration(
         parser=WimhofParser(),
