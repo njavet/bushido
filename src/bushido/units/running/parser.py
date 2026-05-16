@@ -11,10 +11,6 @@ from .unit import CardioSpec
 
 @dataclass(frozen=True, slots=True)
 class CardioParser:
-    grammar = """
-<name> <start> <sec> <loc> [<dist>] [<avg_hr>] [<max_hr>] [<cal>] # [<comment>]
-    """
-
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> CardioSpec:
 
