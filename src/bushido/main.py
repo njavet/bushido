@@ -6,7 +6,7 @@ from rich.logging import RichHandler
 
 from bushido import __version__
 from bushido.infra.db import SessionFactory
-from bushido.service import UnitLogService
+from bushido.service import UnitService
 from bushido.tui.tui import BushidoApp
 from bushido.units.registry import UNIT_REGISTRY
 
@@ -38,7 +38,7 @@ def main() -> None:
         sf = SessionFactory()
         # TODO all orm tables must have been imported already
         sf.init_db()
-        unit_service = UnitLogService(registry=UNIT_REGISTRY)
+        unit_service = UnitService(registry=UNIT_REGISTRY)
         BushidoApp(sf, unit_service).run()
 
 

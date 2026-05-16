@@ -12,7 +12,7 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input
 
-from bushido.service import UnitLogService
+from bushido.service import UnitService
 
 LogUnitHandler = Callable[[str], Awaitable[str | None]]
 
@@ -54,7 +54,7 @@ class UnitSubmitted(Message):
 
 
 class UnitHelpWidget(Widget):
-    def __init__(self, unit_log_service: UnitLogService) -> None:
+    def __init__(self, unit_log_service: UnitService) -> None:
         super().__init__()
         self.unit_log_service = unit_log_service
 
@@ -81,9 +81,7 @@ class LogUnitScreen(ModalScreen[bool]):
     def action_cancel(self) -> None:
         self.dismiss(False)
 
-    def __init__(
-        self, unit_log_service: UnitLogService, log_unit: LogUnitHandler
-    ) -> None:
+    def __init__(self, unit_log_service: UnitService, log_unit: LogUnitHandler) -> None:
         super().__init__()
         self.unit_log_service = unit_log_service
         self.log_unit = log_unit

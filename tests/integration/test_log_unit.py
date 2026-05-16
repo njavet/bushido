@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from bushido.infra.db import SessionFactory
-from bushido.service import UnitLogService
+from bushido.service import UnitService
 from bushido.units.barbell.db_model import BarbellSet, BarbellUnitTable
 from bushido.units.registry import UNIT_REGISTRY
 
@@ -27,11 +27,11 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 
 @pytest.fixture
-def service() -> UnitLogService:
-    return UnitLogService(registry=UNIT_REGISTRY)
+def service() -> UnitService:
+    return UnitService(registry=UNIT_REGISTRY)
 
 
-def test_log_lifting_unit_success(service: UnitLogService, session: Session) -> None:
+def test_log_lifting_unit_success(service: UnitService, session: Session) -> None:
     line = "benchpress 100 5 180 100 5"
     service.log_unit(line, session)
     units = session.scalars(select(BarbellUnitTable)).all()

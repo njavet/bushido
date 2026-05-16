@@ -3,7 +3,7 @@ import sys
 from typing import Any
 
 from bushido.infra.db import SessionFactory
-from bushido.service import UnitLogService
+from bushido.service import UnitService
 from bushido.units.registry import UNIT_REGISTRY
 
 UNIT_NAMES = [
@@ -24,7 +24,7 @@ UNIT_NAMES = [
 def load_db(data: list[Any]) -> None:
     sf = SessionFactory()
     sf.init_db()
-    lus = UnitLogService(registry=UNIT_REGISTRY)
+    lus = UnitService(registry=UNIT_REGISTRY)
     with sf.session() as session:
         for unit in data:
             line = unit["line"]

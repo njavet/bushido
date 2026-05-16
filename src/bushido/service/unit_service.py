@@ -1,3 +1,6 @@
+import datetime
+from typing import Any
+
 from sqlalchemy.orm import Session
 
 from bushido.dtypes import SystemClock
@@ -8,7 +11,7 @@ from bushido.units.exceptions import ParsingError
 from bushido.units.registry import UnitRegistration
 
 
-class UnitLogService:
+class UnitService:
     def __init__(
         self,
         registry: dict[str, UnitRegistration],
@@ -43,6 +46,23 @@ class UnitLogService:
     @property
     def unit_names(self) -> list[str]:
         return list(self.registry.keys())
+
+    def load_units(
+        self,
+        unit_name: str,
+        session: Session,
+        start_t: datetime.datetime | None = None,
+        end_t: datetime.datetime | None = None,
+    ) -> list[Any]:
+        units = (
+            self.registry[unit_name]
+            .repo(session)
+            .fetch_units(start_t=start_t, end_t=end_t)
+        )
+        parsed_units = [
+            self.registry[unit_name].mapper.from_orm(unit) for unit in units
+        ]
+        return parsed_units
 
 
 def parse_raw_unit(line: str) -> RawUnit:
