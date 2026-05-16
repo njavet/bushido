@@ -60,7 +60,7 @@ class UnitHelpWidget(Widget):
 
     def render(self) -> Group:
         panels = []
-        for item in []:
+        for item in ["yo"]:
             content = "\n".join(
                 [
                     f"Grammar: {item}",
