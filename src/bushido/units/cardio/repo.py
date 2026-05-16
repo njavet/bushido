@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from bushido.db.model.cardio import CardioUnitTable
-from bushido.units.repo import UnitRepo
+from bushido.db.repo.base import UnitRepo
 
 
 class CardioRepo(UnitRepo[CardioUnitTable]):
