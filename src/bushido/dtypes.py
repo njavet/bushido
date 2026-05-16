@@ -16,14 +16,11 @@ class SystemClock:
         return datetime.datetime.now(self.timezone)
 
 
-RepoFactory = Callable[[Session], UnitRepo[Any]]
-
-
 @dataclass(frozen=True, slots=True)
 class UnitRegistration:
     parser: UnitParser[Any]
     mapper: UnitMapper[Any, Any]
-    repo_factory: RepoFactory
+    repo_factory: Callable[[Session], UnitRepo[Any]]
     grammar: str
     emoji: str
 

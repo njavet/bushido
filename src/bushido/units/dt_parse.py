@@ -1,7 +1,7 @@
 import datetime
 import re
 
-from bushido.units.exceptions import ParsingError
+from .exceptions import ParsingError
 
 
 def time_string_to_seconds(time_string: str) -> float:

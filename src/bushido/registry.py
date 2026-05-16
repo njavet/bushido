@@ -6,7 +6,7 @@ from bushido.db.repo.lifting import LiftingRepo
 from bushido.db.repo.wimhof import WimhofRepo
 from bushido.dtypes import UnitRegistration
 from bushido.units.cardio.grammar import grammar as cardio_grammar
-from bushido.units.cardio.parser import CardioParser
+from bushido.units.cardio.parser import Parser
 from bushido.units.cardio.repo import CardioRepo
 from bushido.units.gym.grammar import grammar as gym_grammar
 from bushido.units.gym.parser import GymParser
@@ -96,21 +96,21 @@ UNIT_REGISTRY: dict[str, UnitRegistration] = {
         emoji=b"\xf0\x9f\xaa\x90".decode(),
     ),
     "running": UnitRegistration(
-        parser=CardioParser(),
+        parser=Parser(),
         mapper=CardioMapper(),
         repo_factory=lambda session: CardioRepo(session),
         grammar=cardio_grammar,
         emoji=b"\xf0\x9f\xaa\x96".decode(),
     ),
     "swimming": UnitRegistration(
-        parser=CardioParser(),
+        parser=Parser(),
         mapper=CardioMapper(),
         repo_factory=lambda session: CardioRepo(session),
         grammar=cardio_grammar,
         emoji=b"\xf0\x9f\xa6\x88".decode(),
     ),
     "skipping": UnitRegistration(
-        parser=CardioParser(),
+        parser=Parser(),
         mapper=CardioMapper(),
         repo_factory=lambda session: CardioRepo(session),
         grammar=cardio_grammar,
