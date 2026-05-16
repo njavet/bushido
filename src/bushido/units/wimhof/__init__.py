@@ -1,7 +1,7 @@
-from .grammar import grammar as wimhof_grammar
 from .parser import Parser as WimhofParser
-from .unit import Data as WimhofData
-from .unit import RoundData
+from .spec import Data as WimhofData
+from .spec import RoundData
+from .spec import grammar as wimhof_grammar
 
 __all__ = [
     "wimhof_grammar",

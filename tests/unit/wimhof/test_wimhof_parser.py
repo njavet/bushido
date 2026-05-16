@@ -1,7 +1,7 @@
 import pytest
 
 from bushido.units.wimhof.parser import Parser
-from bushido.units.wimhof.unit import Data, RoundData
+from bushido.units.wimhof.spec import Data, RoundData
 
 
 @pytest.fixture

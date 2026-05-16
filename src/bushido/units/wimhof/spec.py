@@ -11,3 +11,6 @@ class RoundData:
 @dataclass(frozen=True, slots=True)
 class Data:
     rounds: list[RoundData]
+
+
+grammar = "<name> (<breaths> <retentions>)+ # [<comment>]"
