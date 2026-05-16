@@ -5,6 +5,7 @@ from typing import Generic, TypeVar, Protocol
 from bushido.unit.db_model import UnitTable
 
 T = TypeVar("T")
+P = TypeVar("P", covariant=True)
 TU = TypeVar("TU", bound=UnitTable)
 
 
@@ -24,12 +25,12 @@ class Unit(Generic[T]):
     data: T
 
 
-class Parser(Protocol[T]):
+class UnitParser(Protocol[P]):
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> T: ...
+    def parse(tokens: tuple[str, ...]) -> P: ...
 
 
-class Mapper(Protocol[T, TU]):
+class UnitMapper(Protocol[T, TU]):
     @staticmethod
     def to_orm(unit: Unit[T]) -> TU: ...
 
