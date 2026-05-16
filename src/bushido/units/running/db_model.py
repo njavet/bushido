@@ -2,11 +2,11 @@ import datetime
 
 from sqlalchemy.orm import Mapped, mapped_column
 
-from bushido.unit.db_model import UnitTable
+from bushido.units.db_model import UnitTable
 
 
-class CardioUnitTable(UnitTable):
-    __tablename__ = "cardio_unit"
+class RunningUnitTable(UnitTable):
+    __tablename__ = "running_unit"
 
     start_t: Mapped[datetime.time] = mapped_column()
     seconds: Mapped[float] = mapped_column()
