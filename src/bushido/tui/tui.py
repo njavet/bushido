@@ -9,7 +9,7 @@ from textual.widgets import (
 
 from bushido.infra.db import SessionFactory
 from bushido.service import UnitLogService
-from bushido.tui.containers import GymContainer, HeaderContainer, LiftingContainer
+from bushido.tui.containers import HeaderContainer, LiftingContainer
 from bushido.tui.screens.log_unit import LogUnitScreen
 
 
@@ -34,8 +34,6 @@ class BushidoApp(App[None]):
         yield HeaderContainer()
         yield Rule()
         with TabbedContent(id="main_tabs"):
-            with TabPane("training"):
-                yield GymContainer(id="gym_container")
             with TabPane("barbell"):
                 yield LiftingContainer(id="lifting_container")
 
@@ -47,5 +45,4 @@ class BushidoApp(App[None]):
 
     async def log_unit(self, line: str) -> str | None:
         with self.sf.session() as session:
-            error = self.unit_log_service.log_unit(line, session)
-        return error
+            self.unit_log_service.log_unit(line, session)
