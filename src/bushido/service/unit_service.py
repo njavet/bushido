@@ -7,7 +7,6 @@ from bushido.dtypes import SystemClock, UnitRegistration
 from bushido.protocols import Clock
 from bushido.schema.req import RawUnit
 from bushido.units import Unit
-from bushido.units.dt_parse import parse_datetime
 from bushido.units.exceptions import ParsingError
 
 
@@ -29,7 +28,9 @@ class UnitService:
 
         tokens, log_time_str = split_options(raw.tokens)
         if log_time_str:
-            log_time = parse_datetime(log_time_str)
+            log_time = datetime.datetime.strptime(log_time_str, "%Y%m%d-%H%M").replace(
+                tzinfo=datetime.UTC
+            )
         else:
             log_time = self.clock.now()
         unit_data = unit_registry.parser.parse(tokens)

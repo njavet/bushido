@@ -119,7 +119,3 @@ def find_next_saturday(dt: datetime.date) -> datetime.date:
         return dt + datetime.timedelta(days=days)
     else:
         return dt + datetime.timedelta(days=6)
-
-
-def parse_datetime(value: str) -> datetime.datetime:
-    return datetime.datetime.strptime(value, "%Y%m%d-%H%M").replace(tzinfo=datetime.UTC)
