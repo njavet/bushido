@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
-from bushido.core.exceptions import ParsingError
-from bushido.core.parsing.dt_parse import (
+from bushido.units.dt_parse import (
     parse_military_time_string,
     time_string_to_seconds,
 )
+from bushido.units.exceptions import ParsingError
 
 from .unit import CardioSpec
 

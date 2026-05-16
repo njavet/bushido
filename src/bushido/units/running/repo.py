@@ -1,13 +1,13 @@
 from sqlalchemy.orm import Session
 
-from bushido.unit.repo import UnitRepo
+from bushido.units.repo import UnitRepo
 
-from .db_model import CardioUnitTable
+from .db_model import RunningUnitTable
 
 
-class CardioRepo(UnitRepo[CardioUnitTable]):
+class RunningRepo(UnitRepo[RunningUnitTable]):
     def __init__(
         self,
         session: Session,
     ) -> None:
-        super().__init__(session, CardioUnitTable)
+        super().__init__(session, RunningUnitTable)

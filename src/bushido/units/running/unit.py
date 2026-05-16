@@ -1,11 +1,9 @@
 import datetime
 from dataclasses import dataclass
 
-from bushido.unit.dtypes import ParsedUnit
-
 
 @dataclass(frozen=True, slots=True)
-class CardioSpec:
+class RunningData:
     start_t: datetime.time
     seconds: float
     location: str
@@ -13,8 +11,3 @@ class CardioSpec:
     avg_hr: int | None
     max_hr: int | None
     calories: int | None
-
-
-@dataclass(frozen=True, slots=True)
-class CardioUnit(ParsedUnit[CardioSpec]):
-    pass
