@@ -1,5 +1,5 @@
-from .domain import CardioSpec, CardioUnit
-from .orm import CardioUnitTable
+from .db_model import CardioUnitTable
+from .unit import CardioSpec, CardioUnit
 
 
 class CardioMapper:

@@ -6,7 +6,7 @@ from bushido.core.parsing.dt_parse import (
     time_string_to_seconds,
 )
 
-from .domain import CardioSpec
+from .unit import CardioSpec
 
 
 @dataclass(frozen=True, slots=True)
