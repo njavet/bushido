@@ -23,6 +23,7 @@ from bushido.units.wimhof.repo import WimhofRepo
 
 RepoFactory = Callable[[Session], UnitRepo[Any]]
 
+
 # TODO split
 UNIT_REGISTRY: dict[str, UnitRegistration] = {
     "kyokushin": UnitRegistration(

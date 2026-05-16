@@ -54,5 +54,5 @@ class UnitParser(Protocol[R]):
     def parse(tokens: tuple[str, ...]) -> R: ...
 
 
-class Metric(Protocol[T, R]):
+class UnitMetric(Protocol[T, R]):
     def compute(self, units: Iterable[Unit[T]]) -> R: ...
