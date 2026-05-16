@@ -15,7 +15,7 @@ from bushido.protocols import Clock
 from bushido.schema.req import LogRequest
 
 
-class UnitService:
+class UnitLogService:
     def __init__(self, clock: Clock = SystemClock()) -> None:
         self.clock = clock
 

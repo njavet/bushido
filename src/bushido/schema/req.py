@@ -3,7 +3,7 @@ import datetime
 from pydantic import BaseModel
 
 
-class LogRequest(BaseModel):
+class UnitLogRequest(BaseModel):
     name: str
     tokens: tuple[str, ...]
     log_time: datetime.datetime
