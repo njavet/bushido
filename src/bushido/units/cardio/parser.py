@@ -5,7 +5,7 @@ from ..dt_parse import (
     time_string_to_seconds,
 )
 from ..exceptions import ParsingError
-from .unit import Data
+from .spec import Data
 
 
 @dataclass(frozen=True, slots=True)

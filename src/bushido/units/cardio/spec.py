@@ -11,3 +11,8 @@ class Data:
     avg_hr: int | None
     max_hr: int | None
     calories: int | None
+
+
+grammar = """
+<name> <start> <sec> <loc> [<dist>] [<avg_hr>] [<max_hr>] [<cal>] # [<comment>]
+    """
