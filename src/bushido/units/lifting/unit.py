@@ -30,3 +30,16 @@ def heaviest_lifting_unit_or_none(
     best_unit, best_set = max(candidates, key=lambda x: (x[1].weight, x[1].reps))
 
     return replace(best_unit, data=replace(best_unit.data, sets=[best_set]))
+
+
+def most_reps_lifting_unit_or_none(
+    units: Iterable[Unit[LiftingData]],
+) -> Unit[LiftingData] | None:
+    candidates = [(unit, set_) for unit in units for set_ in unit.data.sets]
+
+    if not candidates:
+        return None
+
+    best_unit, best_set = max(candidates, key=lambda x: (x[1].reps, x[1].weight))
+
+    return replace(best_unit, data=replace(best_unit.data, sets=[best_set]))
