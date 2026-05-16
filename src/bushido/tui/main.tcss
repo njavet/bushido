@@ -64,6 +64,6 @@ UnitHelpWidget {
     min-height: 0;
 }
 
-LiftingTable {
+BarbellTable {
     width: 50%;
 }

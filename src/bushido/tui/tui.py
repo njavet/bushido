@@ -9,7 +9,7 @@ from textual.widgets import (
 
 from bushido.infra.db import SessionFactory
 from bushido.service import UnitService
-from bushido.tui.containers import HeaderContainer, LiftingContainer
+from bushido.tui.containers import BarbellContainer, HeaderContainer
 from bushido.tui.screens.log_unit import LogUnitScreen
 
 
@@ -35,7 +35,7 @@ class BushidoApp(App[None]):
         yield Rule()
         with TabbedContent(id="main_tabs"):
             with TabPane("barbell"):
-                yield LiftingContainer(id="lifting_container")
+                yield BarbellContainer(id="lifting_container")
 
         yield Footer(id="app_footer")
 
