@@ -6,10 +6,8 @@ from rich.logging import RichHandler
 from sqlalchemy import Engine
 
 from bushido import __version__
-from bushido.conf import UnitType
 from bushido.db.model import Base
 from bushido.db.sf import SessionFactory
-from bushido.dtypes import UnitRegistration
 from bushido.registry import UNIT_REGISTRY
 from bushido.service import UnitService
 from bushido.tui.tui import BushidoApp
@@ -33,11 +31,6 @@ def create_parser() -> ArgumentParser:
     )
     parser.add_argument("--dev", action="store_true", help="run development server")
     return parser
-
-
-def build_unit_registry() -> dict[str, UnitRegistration]:
-    for unit_type in UnitType:
-        pass
 
 
 def main() -> None:
