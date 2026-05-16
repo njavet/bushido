@@ -6,6 +6,4 @@ class Registry:
     pass
 
 
-UNIT_REGISTRY: dict[str, Registry] = {
-
-}
+UNIT_REGISTRY: dict[str, Registry] = {}

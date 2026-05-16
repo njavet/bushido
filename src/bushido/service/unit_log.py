@@ -1,6 +1,3 @@
-import datetime
-from typing import Any
-
 from sqlalchemy.orm import Session
 
 from bushido.unit.base import RawUnit, Unit
@@ -13,7 +10,11 @@ from bushido.unit.registry import UNIT_REGISTRY, Registry
 
 
 class UnitLogService:
-    def __init__(self, registry: dict[str, Registry] = UNIT_REGISTRY, clock: Clock = SystemClock()) -> None:
+    def __init__(
+        self,
+        registry: dict[str, Registry] = UNIT_REGISTRY,
+        clock: Clock = SystemClock(),
+    ) -> None:
         self.registry = registry
         self.clock = clock
 

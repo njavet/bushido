@@ -71,4 +71,3 @@ class UnitService:
         units = registry.repo(session).fetch_units(start_t=start_t, end_t=end_t)
         parsed_units = [registry.mapper.from_orm(unit) for unit in units]
         return parsed_units
-
