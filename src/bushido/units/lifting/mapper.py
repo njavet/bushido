@@ -6,7 +6,7 @@ from .unit import LiftingData
 class LiftingMapper:
     @staticmethod
     def to_orm(unit: Unit[LiftingData]) -> LiftingUnitTable:
-        unit = LiftingUnitTable(
+        orm_unit = LiftingUnitTable(
             name=unit.name,
             emoji=unit.emoji,
             log_time=unit.log_time,
@@ -17,7 +17,7 @@ class LiftingMapper:
             focus=unit.data.focus,
             comment=unit.comment,
         )
-        return unit
+        return orm_unit
 
     @staticmethod
     def from_orm(orm_unit: LiftingUnitTable) -> Unit[LiftingData]:
