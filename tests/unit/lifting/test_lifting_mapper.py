@@ -2,8 +2,8 @@ import datetime
 
 import pytest
 
+from bushido.db_model.lifting import LiftingSet, LiftingUnitTable
 from bushido.units.base import Unit
-from bushido.units.lifting.db_model import LiftingSet, LiftingUnitTable
 from bushido.units.lifting.mapper import LiftingMapper
 from bushido.units.lifting.unit import LiftingData, SetData
 

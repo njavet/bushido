@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from bushido.db.db_model import Base, UnitTable
+from .base import Base, UnitTable
 
 
 class WimhofUnitTable(UnitTable):

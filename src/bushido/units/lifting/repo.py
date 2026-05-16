@@ -2,9 +2,8 @@ import datetime
 
 from sqlalchemy.orm import Session, selectinload
 
+from bushido.db_model.lifting import LiftingUnitTable
 from bushido.units.repo import UnitRepo
-
-from .db_model import LiftingUnitTable
 
 
 class LiftingRepo(UnitRepo[LiftingUnitTable]):
