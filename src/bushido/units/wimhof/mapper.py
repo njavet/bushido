@@ -13,7 +13,7 @@ class WimhofMapper:
             log_time=unit.log_time,
             comment=unit.comment,
         )
-        orm_unit.rounds = [
+        orm_unit.subunits = [
             WimhofRound(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
             for r in unit.data.rounds
         ]
@@ -22,7 +22,7 @@ class WimhofMapper:
     @staticmethod
     def from_orm(orm_unit: WimhofUnitTable) -> Unit[WimhofData]:
         lst = []
-        for r in orm_unit.rounds:
+        for r in orm_unit.subunits:
             ws = RoundData(
                 round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
             )

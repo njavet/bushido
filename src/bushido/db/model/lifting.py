@@ -9,7 +9,7 @@ class LiftingUnitTable(UnitTable):
 
     variant: Mapped[str | None] = mapped_column()
     program: Mapped[str | None] = mapped_column()
-    sets: Mapped[list["LiftingSet"]] = relationship(
+    subunits: Mapped[list["LiftingSet"]] = relationship(
         cascade="all, delete-orphan",
         back_populates="unit",
     )
@@ -25,5 +25,5 @@ class LiftingSet(Base):
     fk_unit: Mapped[int] = mapped_column(ForeignKey(LiftingUnitTable.id))
 
     unit: Mapped[LiftingUnitTable] = relationship(
-        back_populates="sets",
+        back_populates="subunits",
     )

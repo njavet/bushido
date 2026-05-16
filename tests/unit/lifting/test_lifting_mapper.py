@@ -80,12 +80,12 @@ def test_correct_to_orm_mapping(
     assert unit.name == u.name
     assert unit.comment == u.comment
     assert unit.log_time == u.log_time
-    for i, ls in enumerate(u.sets):
+    for i, ls in enumerate(u.subunits):
         assert isinstance(ls, LiftingSet)
-        assert ls.set_nr == unit.sets[i].set_nr
-        assert ls.weight == unit.sets[i].weight
-        assert ls.reps == unit.sets[i].reps
-        assert ls.rest == unit.sets[i].rest
+        assert ls.set_nr == unit.subunits[i].set_nr
+        assert ls.weight == unit.subunits[i].weight
+        assert ls.reps == unit.subunits[i].reps
+        assert ls.rest == unit.subunits[i].rest
 
 
 @pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
@@ -102,7 +102,7 @@ def test_correct_from_orm_mapping(
     assert pu.log_time == unit.log_time
     for i, ls in enumerate(pu.data.sets):
         assert isinstance(ls, SetData)
-        assert ls.set_nr == unit.sets[i].set_nr
-        assert ls.weight == unit.sets[i].weight
-        assert ls.reps == unit.sets[i].reps
-        assert ls.rest == unit.sets[i].rest
+        assert ls.set_nr == unit.subunits[i].set_nr
+        assert ls.weight == unit.subunits[i].weight
+        assert ls.reps == unit.subunits[i].reps
+        assert ls.rest == unit.subunits[i].rest

@@ -13,7 +13,7 @@ class LiftingMapper:
             comment=unit.comment,
             log_time=unit.log_time,
         )
-        orm_unit.sets = [
+        orm_unit.subunits = [
             LiftingSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             for s in unit.data.sets
         ]
@@ -22,7 +22,7 @@ class LiftingMapper:
     @staticmethod
     def from_orm(orm_unit: LiftingUnitTable) -> Unit[LiftingData]:
         lst = []
-        for s in orm_unit.sets:
+        for s in orm_unit.subunits:
             sp = SetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             lst.append(sp)
         pu = Unit(

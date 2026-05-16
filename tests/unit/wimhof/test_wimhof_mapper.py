@@ -54,11 +54,11 @@ def test_correct_to_orm(
     assert u.emoji == unit.emoji
     assert u.log_time == unit.log_time
     assert u.comment == unit.comment
-    for i, rs in enumerate(u.rounds):
+    for i, rs in enumerate(u.subunits):
         assert isinstance(rs, WimhofRound)
-        assert rs.round_nr == unit.rounds[i].round_nr
-        assert rs.breaths == unit.rounds[i].breaths
-        assert rs.retention == unit.rounds[i].retention
+        assert rs.round_nr == unit.subunits[i].round_nr
+        assert rs.breaths == unit.subunits[i].breaths
+        assert rs.retention == unit.subunits[i].retention
 
 
 @pytest.mark.parametrize("parsed_unit, unit", WIMHOF_CASES)
@@ -75,6 +75,6 @@ def test_correct_from_orm(
     assert pu.comment == unit.comment
     for i, rs in enumerate(pu.data.rounds):
         assert isinstance(rs, RoundData)
-        assert rs.round_nr == unit.rounds[i].round_nr
-        assert rs.breaths == unit.rounds[i].breaths
-        assert rs.retention == unit.rounds[i].retention
+        assert rs.round_nr == unit.subunits[i].round_nr
+        assert rs.breaths == unit.subunits[i].breaths
+        assert rs.retention == unit.subunits[i].retention

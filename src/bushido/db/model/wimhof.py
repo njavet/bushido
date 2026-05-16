@@ -7,7 +7,7 @@ from .base import Base, UnitTable
 class WimhofUnitTable(UnitTable):
     __tablename__ = "wimhof_unit"
 
-    rounds: Mapped[list["WimhofRound"]] = relationship(
+    subunits: Mapped[list["WimhofRound"]] = relationship(
         cascade="all, delete-orphan",
         back_populates="unit",
     )
@@ -22,5 +22,5 @@ class WimhofRound(Base):
     fk_unit: Mapped[int] = mapped_column(ForeignKey(WimhofUnitTable.id))
 
     unit: Mapped[WimhofUnitTable] = relationship(
-        back_populates="rounds",
+        back_populates="subunits",
     )
