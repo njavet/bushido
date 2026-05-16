@@ -1,9 +1,10 @@
 from dataclasses import dataclass
+from typing import Any
+
+from bushido.unit.base import Mapper
 
 
 @dataclass(frozen=True, slots=True)
-class Registry:
-    pass
+class UnitRegistry:
+    mapper: Mapper[Any, Any]
 
-
-UNIT_REGISTRY: dict[str, Registry] = {}

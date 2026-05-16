@@ -1,8 +1,11 @@
 import datetime
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Protocol
+
+from bushido.unit.db_model import UnitTable
 
 T = TypeVar("T")
+TU = TypeVar("TU", bound=UnitTable)
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,3 +22,11 @@ class Unit(Generic[T]):
     log_time: datetime.datetime
     comment: str | None
     data: T
+
+
+class Mapper(Protocol[T, TU]):
+    @staticmethod
+    def to_orm(unit: Unit[T]) -> TU: ...
+
+    @staticmethod
+    def from_orm(orm_unit: TU) -> Unit[T]: ...
