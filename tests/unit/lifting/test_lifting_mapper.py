@@ -33,7 +33,7 @@ LIFTING_CASES = [
             name="squat",
             emoji="shinto",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-            sets=[
+            subunits=[
                 LiftingSet(set_nr=0, weight=100.0, reps=5, rest=180.0),
                 LiftingSet(set_nr=1, weight=100.0, reps=5, rest=0.0),
             ],
@@ -59,7 +59,7 @@ LIFTING_CASES = [
             emoji="shinto",
             comment="heavy day, 20reps at the end",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-            sets=[
+            subunits=[
                 LiftingSet(set_nr=0, weight=150.0, reps=3.0, rest=300.0),
                 LiftingSet(set_nr=1, weight=100.0, reps=20.0, rest=0.0),
             ],

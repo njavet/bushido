@@ -32,7 +32,7 @@ WIMHOF_CASES = [
             name="wimhof",
             emoji="saturn",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-            rounds=[
+            subunits=[
                 WimhofRound(round_nr=0, breaths=30, retention=90),
                 WimhofRound(round_nr=1, breaths=30, retention=120),
                 WimhofRound(round_nr=2, breaths=30, retention=150),
