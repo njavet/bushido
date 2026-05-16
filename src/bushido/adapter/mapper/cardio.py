@@ -1,7 +1,6 @@
-from bushido.db.model.cardio import CardioUnitTable
+from bushido.db.model import CardioUnitTable
 from bushido.units.base import Unit
-
-from .unit import CardioData
+from bushido.units.cardio.unit import CardioData
 
 
 class CardioMapper:

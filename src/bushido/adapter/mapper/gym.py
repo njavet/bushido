@@ -1,7 +1,6 @@
-from bushido.db.model.gym import GymUnitTable
+from bushido.db.model import GymUnitTable
 from bushido.units.base import Unit
-
-from .unit import GymData
+from bushido.units.gym.unit import GymData
 
 
 class GymMapper:

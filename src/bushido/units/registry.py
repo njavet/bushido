@@ -1,19 +1,19 @@
+from bushido.adapter.mapper.cardio import CardioMapper
+from bushido.adapter.mapper.gym import GymMapper
+from bushido.adapter.mapper.lifting import LiftingMapper
+from bushido.adapter.mapper.wimhof import WimhofMapper
 from bushido.db.repo.lifting import LiftingRepo
 from bushido.db.repo.wimhof import WimhofRepo
 from bushido.units.base import UnitRegistration
 from bushido.units.cardio.grammar import grammar as cardio_grammar
-from bushido.units.cardio.mapper import CardioMapper
 from bushido.units.cardio.parser import CardioParser
 from bushido.units.cardio.repo import CardioRepo
 from bushido.units.gym.grammar import grammar as gym_grammar
-from bushido.units.gym.mapper import GymMapper
 from bushido.units.gym.parser import GymParser
 from bushido.units.gym.repo import GymRepo
 from bushido.units.lifting.grammar import grammar as lifting_grammar
-from bushido.units.lifting.mapper import LiftingMapper
 from bushido.units.lifting.parser import LiftingParser
 from bushido.units.wimhof.grammar import grammar as wimhof_grammar
-from bushido.units.wimhof.mapper import WimhofMapper
 from bushido.units.wimhof.parser import WimhofParser
 
 # TODO split
