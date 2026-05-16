@@ -7,6 +7,9 @@ from textual.widgets import (
     TabPane,
 )
 
+from bushido.unit.barbell.unit import BarbellData
+from bushido.unit.base import Unit
+
 
 class LiftingContainer(Container):
     def compose(self) -> ComposeResult:
@@ -23,7 +26,7 @@ class LiftingContainer(Container):
             with TabPane("rows"):
                 yield LiftingTable(id="rows_table")
 
-    def set_units(self, units: list[LiftingUnit]) -> None:
+    def set_units(self, units: list[Unit[BarbellData]]) -> None:
         self.query_one("#squat_table", LiftingTable).set_units(
             [u for u in units if u.name == "squat"]
         )
@@ -45,7 +48,7 @@ class LiftingTable(DataTable[str]):
     def on_mount(self) -> None:
         self.add_columns("date", "set", "weight", "reps", "rest")
 
-    def set_units(self, units: list[LiftingUnit]) -> None:
+    def set_units(self, units: list[Unit[BarbellData]]) -> None:
         self.clear()
         for unit in units:
             self.add_row(
