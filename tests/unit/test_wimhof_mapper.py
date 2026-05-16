@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from bushido.units.base import ParsedUnit, Unit
+from bushido.units.base import Unit
 from bushido.units.wimhof.db_model import WimhofRound, WimhofUnitTable
 from bushido.units.wimhof.mapper import WimhofMapper
 from bushido.units.wimhof.unit import RoundData, WimhofData
@@ -15,7 +15,7 @@ def mapper() -> WimhofMapper:
 
 WIMHOF_CASES = [
     (
-        ParsedUnit(
+        Unit(
             name="wimhof",
             emoji="saturn",
             data=WimhofData(
@@ -64,11 +64,11 @@ def test_correct_to_orm(
 @pytest.mark.parametrize("parsed_unit, unit", WIMHOF_CASES)
 def test_correct_from_orm(
     mapper: WimhofMapper,
-    parsed_unit: ParsedUnit[WimhofData],
+    parsed_unit: Unit[WimhofData],
     unit: WimhofUnitTable,
 ) -> None:
     pu = mapper.from_orm(unit)
-    assert isinstance(pu, ParsedUnit)
+    assert isinstance(pu, Unit)
     assert pu.emoji == unit.emoji
     assert pu.name == unit.name
     assert pu.log_time == unit.log_time
