@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from bushido.db.model.lifting import LiftingSet, LiftingUnitTable
 from bushido.db.sf import SessionFactory
+from bushido.main import init_db
 from bushido.registry import UNIT_REGISTRY
 from bushido.service import UnitService
 
@@ -13,7 +14,7 @@ from bushido.service import UnitService
 @pytest.fixture(scope="session")
 def session_factory() -> SessionFactory:
     sf = SessionFactory("sqlite+pysqlite:///:memory:")
-    sf.init_db()
+    init_db(engine=sf.engine)
     return sf
 
 

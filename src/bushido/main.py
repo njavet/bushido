@@ -3,6 +3,7 @@ import sys
 from argparse import ArgumentParser
 
 from rich.logging import RichHandler
+from sqlalchemy import Engine
 
 from bushido import __version__
 from bushido.db.model import Base
@@ -18,7 +19,7 @@ logging.basicConfig(
 )
 
 
-def init_db(engine) -> None:
+def init_db(engine: Engine) -> None:
     Base.metadata.create_all(bind=engine)
 
 
