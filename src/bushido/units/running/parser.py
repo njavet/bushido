@@ -6,13 +6,13 @@ from bushido.units.dt_parse import (
 )
 from bushido.units.exceptions import ParsingError
 
-from .unit import CardioSpec
+from .unit import RunningData
 
 
 @dataclass(frozen=True, slots=True)
-class CardioParser:
+class RunningParser:
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> CardioSpec:
+    def parse(tokens: tuple[str, ...]) -> RunningData:
 
         start_t = parse_military_time_string(tokens[0])
         seconds = time_string_to_seconds(tokens[1])
@@ -38,7 +38,7 @@ class CardioParser:
         except IndexError:
             calories = None
 
-        return CardioSpec(
+        return RunningData(
             start_t=start_t,
             seconds=seconds,
             location=location,
