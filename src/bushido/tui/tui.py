@@ -8,7 +8,7 @@ from textual.widgets import (
 )
 
 from bushido.infra.db import SessionFactory
-from bushido.service import UnitService
+from bushido.service import UnitLogService
 from bushido.tui.containers import GymContainer, HeaderContainer, LiftingContainer
 from bushido.tui.screens.log_unit import LogUnitScreen
 
@@ -24,11 +24,11 @@ class BushidoApp(App[None]):
     def __init__(
         self,
         session_factory: SessionFactory,
-        unit_service: UnitService,
+        unit_log_service: UnitLogService,
     ) -> None:
         super().__init__()
         self.sf = session_factory
-        self.unit_service = unit_service
+        self.unit_log_service = unit_log_service
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
@@ -41,27 +41,11 @@ class BushidoApp(App[None]):
 
         yield Footer(id="app_footer")
 
-    def on_mount(self) -> None:
-        self.update_gym_container()
-        self.update_lifting_container()
-
-    def update_gym_container(self) -> None:
-        gc = self.query_one("#gym_container", GymContainer)
-        with self.sf.session() as session:
-            units = self.unit_service.load_training_units(session)
-        gc.set_units(units)
-
-    def update_lifting_container(self) -> None:
-        gc = self.query_one("#lifting_container", LiftingContainer)
-        with self.sf.session() as session:
-            units = self.unit_service.load_lifting_units(session)
-        gc.set_units(units)
-
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a unit
-        self.push_screen(LogUnitScreen(self.unit_service, self.log_unit))
+        self.push_screen(LogUnitScreen(self.unit_log_service, self.log_unit))
 
     async def log_unit(self, line: str) -> str | None:
         with self.sf.session() as session:
-            error = self.unit_service.log_unit(line, session)
+            error = self.unit_log_service.log_unit(line, session)
         return error

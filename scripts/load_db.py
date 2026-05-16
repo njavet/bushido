@@ -2,8 +2,9 @@ import json
 import sys
 from typing import Any
 
-from bushido.infra.db import SessionFactory
 from bushido.service.unit_load import UnitService
+
+from bushido.infra.db import SessionFactory
 
 UNIT_NAMES = [
     "barbell",
