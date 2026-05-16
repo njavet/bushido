@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from ..dt_parse import parse_start_end_time_string
 from ..exceptions import ParsingError
-from .unit import Data
+from .spec import Data
 
 
 @dataclass(frozen=True, slots=True)
