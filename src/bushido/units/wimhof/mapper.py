@@ -13,7 +13,7 @@ class WimhofMapper:
             log_time=parsed_unit.log_time,
             comment=parsed_unit.comment,
         )
-        unit.subunits = [
+        unit.rounds = [
             WimhofRound(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
             for r in parsed_unit.data.rounds
         ]
