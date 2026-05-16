@@ -1,4 +1,4 @@
-from bushido.db_model.lifting import LiftingSet, LiftingUnitTable
+from bushido.db.model.lifting import LiftingSet, LiftingUnitTable
 from bushido.units.base import Unit
 
 from .unit import LiftingData, SetData

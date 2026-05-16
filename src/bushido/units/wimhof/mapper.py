@@ -1,4 +1,4 @@
-from bushido.db_model.wimhof import WimhofRound, WimhofUnitTable
+from bushido.db.model.wimhof import WimhofRound, WimhofUnitTable
 from bushido.units.base import Unit
 
 from .unit import RoundData, WimhofData

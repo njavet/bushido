@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from bushido.db_model.wimhof import WimhofRound, WimhofUnitTable
+from bushido.db.model.wimhof import WimhofRound, WimhofUnitTable
 from bushido.units.base import Unit
 from bushido.units.wimhof.mapper import WimhofMapper
 from bushido.units.wimhof.unit import RoundData, WimhofData

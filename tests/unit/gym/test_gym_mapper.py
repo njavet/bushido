@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from bushido.db_model.gym import GymUnitTable
+from bushido.db.model.gym import GymUnitTable
 from bushido.units.base import Unit
 from bushido.units.gym.mapper import GymMapper
 from bushido.units.gym.unit import GymData
