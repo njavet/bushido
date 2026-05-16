@@ -40,6 +40,10 @@ class UnitLogService:
         unit = unit_registry.mapper.to_orm(parsed_unit)
         unit_registry.repo(session).add_unit(unit)
 
+    @property
+    def unit_names(self) -> list[str]:
+        return list(self.registry.keys())
+
 
 def parse_raw_unit(line: str) -> RawUnit:
     body, sep, comment = line.partition("#")
