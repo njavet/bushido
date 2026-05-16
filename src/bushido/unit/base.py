@@ -1,6 +1,6 @@
 import datetime
 from dataclasses import dataclass
-from typing import Generic, TypeVar, Protocol
+from typing import Generic, Protocol, TypeVar
 
 from bushido.unit.db_model import UnitTable
 
