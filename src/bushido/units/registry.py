@@ -13,6 +13,9 @@ from bushido.units.lifting.mapper import LiftingMapper
 from bushido.units.lifting.parser import LiftingParser
 from bushido.units.lifting.repo import LiftingRepo
 from bushido.units.repo import UnitRepo
+from bushido.units.wimhof.mapper import WimhofMapper
+from bushido.units.wimhof.parser import WimhofParser
+from bushido.units.wimhof.repo import WimhofRepo
 
 RepoFactory = Callable[[Session], UnitRepo[Any]]
 
@@ -77,6 +80,13 @@ UNIT_REGISTRY: dict[str, UnitRegistration] = {
         parser=LiftingParser(),
         mapper=LiftingMapper(),
         repo_factory=lambda session: LiftingRepo(session),
+        grammar=lifting_grammar,
+        emoji=b"\xf0\x9f\xa6\x8d".decode(),
+    ),
+    "wimhof": UnitRegistration(
+        parser=WimhofParser(),
+        mapper=WimhofMapper(),
+        repo_factory=lambda session: WimhofRepo(session),
         grammar=lifting_grammar,
         emoji=b"\xf0\x9f\xa6\x8d".decode(),
     ),

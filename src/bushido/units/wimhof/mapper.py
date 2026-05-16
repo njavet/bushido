@@ -6,16 +6,16 @@ from .unit import RoundData, WimhofData
 
 class WimhofMapper:
     @staticmethod
-    def to_orm(parsed_unit: Unit[WimhofData]) -> WimhofUnitTable:
+    def to_orm(unit: Unit[WimhofData]) -> WimhofUnitTable:
         unit = WimhofUnitTable(
-            name=parsed_unit.name,
-            emoji=parsed_unit.emoji,
-            log_time=parsed_unit.log_time,
-            comment=parsed_unit.comment,
+            name=unit.name,
+            emoji=unit.emoji,
+            log_time=unit.log_time,
+            comment=unit.comment,
         )
         unit.rounds = [
             WimhofRound(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
-            for r in parsed_unit.data.rounds
+            for r in unit.data.rounds
         ]
         return unit
 
