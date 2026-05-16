@@ -8,6 +8,10 @@ from bushido.units.barbell.mapper import BarbellMapper
 from bushido.units.barbell.parser import BarbellParser
 from bushido.units.barbell.repo import BarbellRepo
 from bushido.units.base import UnitMapper, UnitParser
+from bushido.units.lifting.grammar import grammar as lifting_grammar
+from bushido.units.lifting.mapper import LiftingMapper
+from bushido.units.lifting.parser import LiftingParser
+from bushido.units.lifting.repo import LiftingRepo
 from bushido.units.repo import UnitRepo
 
 RepoFactory = Callable[[Session], UnitRepo[Any]]
@@ -25,6 +29,7 @@ class UnitRegistration:
         return self.repo_factory(session)
 
 
+# TODO split
 UNIT_REGISTRY: dict[str, UnitRegistration] = {
     "squat": UnitRegistration(
         parser=BarbellParser(),
@@ -67,5 +72,12 @@ UNIT_REGISTRY: dict[str, UnitRegistration] = {
         repo_factory=lambda session: BarbellRepo(session),
         grammar=barbell_grammar,
         emoji=b"\xf0\x9f\xa6\xbe".decode(),
+    ),
+    "lifting": UnitRegistration(
+        parser=LiftingParser(),
+        mapper=LiftingMapper(),
+        repo_factory=lambda session: LiftingRepo(session),
+        grammar=lifting_grammar,
+        emoji=b"\xf0\x9f\xa6\x8d".decode(),
     ),
 }

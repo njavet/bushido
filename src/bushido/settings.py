@@ -18,10 +18,6 @@ UNIT_SETTINGS = {
         "emoji": b"\xf0\x9f\xa5\x8b".decode(),
         "options": {},
     },
-    "barbell": {
-        "emoji": b"\xf0\x9f\xa6\x8d".decode(),
-        "options": {},
-    },
     "running": {
         "emoji": b"\xf0\x9f\xaa\x96".decode(),
         "options": {},
