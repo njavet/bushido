@@ -8,7 +8,7 @@ from textual.widgets import (
 )
 
 from bushido.units.base import Unit
-from bushido.units.lifting.unit import Data
+from bushido.units.lifting.spec import Data
 
 
 class LiftingContainer(Container):

@@ -2,7 +2,7 @@ import pytest
 
 from bushido.units.exceptions import ParsingError
 from bushido.units.lifting.parser import Parser
-from bushido.units.lifting.unit import Data, SetData
+from bushido.units.lifting.spec import Data, SetData
 
 
 @pytest.fixture

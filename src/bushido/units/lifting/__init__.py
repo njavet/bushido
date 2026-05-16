@@ -1,7 +1,7 @@
-from .grammar import grammar as lifting_grammar
 from .parser import Parser as LiftingParser
-from .unit import Data as LiftingData
-from .unit import SetData
+from .spec import Data as LiftingData
+from .spec import SetData
+from .spec import grammar as lifting_grammar
 
 __all__ = [
     "lifting_grammar",

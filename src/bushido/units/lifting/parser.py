@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from ..exceptions import ParsingError
-from .unit import Data, SetData
+from .spec import Data, SetData
 
 
 @dataclass(frozen=True, slots=True)
