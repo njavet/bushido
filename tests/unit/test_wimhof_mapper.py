@@ -1,10 +1,11 @@
 import datetime
 
 import pytest
-from bushido.category.dtypes import ParsedUnit
-from bushido.category.wimhof.domain import RoundSpec, WimhofSpec, WimhofUnit
-from bushido.category.wimhof.mapper import WimhofMapper
-from bushido.category.wimhof.orm import WimhofRound, WimhofUnitTable
+
+from bushido.units.base import ParsedUnit, Unit
+from bushido.units.wimhof.db_model import WimhofRound, WimhofUnitTable
+from bushido.units.wimhof.mapper import WimhofMapper
+from bushido.units.wimhof.unit import RoundData, WimhofData
 
 
 @pytest.fixture
@@ -17,11 +18,11 @@ WIMHOF_CASES = [
         ParsedUnit(
             name="wimhof",
             emoji="saturn",
-            data=WimhofSpec(
+            data=WimhofData(
                 rounds=[
-                    RoundSpec(round_nr=0, breaths=30, retention=90),
-                    RoundSpec(round_nr=1, breaths=30, retention=120),
-                    RoundSpec(round_nr=2, breaths=30, retention=150),
+                    RoundData(round_nr=0, breaths=30, retention=90),
+                    RoundData(round_nr=1, breaths=30, retention=120),
+                    RoundData(round_nr=2, breaths=30, retention=150),
                 ]
             ),
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
@@ -31,7 +32,7 @@ WIMHOF_CASES = [
             name="wimhof",
             emoji="saturn",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
-            subunits=[
+            rounds=[
                 WimhofRound(round_nr=0, breaths=30, retention=90),
                 WimhofRound(round_nr=1, breaths=30, retention=120),
                 WimhofRound(round_nr=2, breaths=30, retention=150),
@@ -44,7 +45,7 @@ WIMHOF_CASES = [
 @pytest.mark.parametrize("parsed_unit, units", WIMHOF_CASES)
 def test_correct_to_orm(
     mapper: WimhofMapper,
-    parsed_unit: WimhofUnit,
+    parsed_unit: Unit[WimhofData],
     unit: WimhofUnitTable,
 ) -> None:
     u = mapper.to_orm(parsed_unit)
@@ -53,17 +54,17 @@ def test_correct_to_orm(
     assert u.emoji == unit.emoji
     assert u.log_time == unit.log_time
     assert u.comment == unit.comment
-    for i, rs in enumerate(u.subunits):
+    for i, rs in enumerate(u.rounds):
         assert isinstance(rs, WimhofRound)
-        assert rs.round_nr == unit.subunits[i].round_nr
-        assert rs.breaths == unit.subunits[i].breaths
-        assert rs.retention == unit.subunits[i].retention
+        assert rs.round_nr == unit.rounds[i].round_nr
+        assert rs.breaths == unit.rounds[i].breaths
+        assert rs.retention == unit.rounds[i].retention
 
 
 @pytest.mark.parametrize("parsed_unit, units", WIMHOF_CASES)
 def test_correct_from_orm(
     mapper: WimhofMapper,
-    parsed_unit: ParsedUnit[WimhofSpec],
+    parsed_unit: ParsedUnit[WimhofData],
     unit: WimhofUnitTable,
 ) -> None:
     pu = mapper.from_orm(unit)
@@ -73,7 +74,7 @@ def test_correct_from_orm(
     assert pu.log_time == unit.log_time
     assert pu.comment == unit.comment
     for i, rs in enumerate(pu.data.rounds):
-        assert isinstance(rs, RoundSpec)
-        assert rs.round_nr == unit.subunits[i].round_nr
-        assert rs.breaths == unit.subunits[i].breaths
-        assert rs.retention == unit.subunits[i].retention
+        assert isinstance(rs, RoundData)
+        assert rs.round_nr == unit.rounds[i].round_nr
+        assert rs.breaths == unit.rounds[i].breaths
+        assert rs.retention == unit.rounds[i].retention
