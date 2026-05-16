@@ -9,7 +9,7 @@ from bushido.units.registry import RepoFactory
 from bushido.units.repo import UnitRepo
 
 T = TypeVar("T")
-R = TypeVar("R")
+R = TypeVar("R", covariant=True)
 P = TypeVar("P", covariant=True)
 TU = TypeVar("TU", bound=UnitTable)
 
