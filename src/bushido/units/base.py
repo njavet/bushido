@@ -1,15 +1,15 @@
 import datetime
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar
+from typing import Any, Generic, Iterable, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 
 from bushido.units.db_model import UnitTable
-from bushido.units.protocols import UnitMapper, UnitParser
 from bushido.units.registry import RepoFactory
 from bushido.units.repo import UnitRepo
 
 T = TypeVar("T")
+R = TypeVar("R")
 P = TypeVar("P", covariant=True)
 TU = TypeVar("TU", bound=UnitTable)
 
@@ -40,3 +40,20 @@ class UnitRegistration:
 
     def repo(self, session: Session) -> UnitRepo[Any]:
         return self.repo_factory(session)
+
+
+class UnitMapper(Protocol[T, TU]):
+    @staticmethod
+    def to_orm(unit: Unit[T]) -> TU: ...
+
+    @staticmethod
+    def from_orm(orm_unit: TU) -> Unit[T]: ...
+
+
+class UnitParser(Protocol[P]):
+    @staticmethod
+    def parse(tokens: tuple[str, ...]) -> P: ...
+
+
+class Metric(Protocol[T, R]):
+    def compute(self, units: Iterable[Unit[T]]) -> R: ...
