@@ -2,14 +2,14 @@ from dataclasses import replace
 from typing import Callable, Iterable
 
 from bushido.units.base import Unit
-from bushido.units.lifting.unit import LiftingData, SetData
+from bushido.units.lifting.unit import Data, SetData
 
 
 def compute_unit_pr(
-    units: Iterable[Unit[LiftingData]],
+    units: Iterable[Unit[Data]],
     n: int,
-    key_fn: Callable[[tuple[Unit[LiftingData], SetData]], tuple[float, float]],
-) -> list[Unit[LiftingData]]:
+    key_fn: Callable[[tuple[Unit[Data], SetData]], tuple[float, float]],
+) -> list[Unit[Data]]:
     candidates = [(unit, set_) for unit in units for set_ in unit.data.sets]
     best = sorted(
         candidates,
@@ -20,10 +20,10 @@ def compute_unit_pr(
 
 
 class HeaviestSetMetric:
-    def compute(self, units: Iterable[Unit[LiftingData]]) -> list[Unit[LiftingData]]:
+    def compute(self, units: Iterable[Unit[Data]]) -> list[Unit[Data]]:
         return compute_unit_pr(units, n=3, key_fn=lambda x: (x[1].weight, x[1].reps))
 
 
 class MostRepsSetMetric:
-    def compute(self, units: Iterable[Unit[LiftingData]]) -> list[Unit[LiftingData]]:
+    def compute(self, units: Iterable[Unit[Data]]) -> list[Unit[Data]]:
         return compute_unit_pr(units, n=3, key_fn=lambda x: (x[1].reps, x[1].weight))

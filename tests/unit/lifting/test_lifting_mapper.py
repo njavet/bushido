@@ -5,7 +5,7 @@ import pytest
 from bushido.adapter.mapper.lifting import LiftingMapper
 from bushido.db.model.lifting import LiftingSet, LiftingUnitTable
 from bushido.units.base import Unit
-from bushido.units.lifting.unit import LiftingData, SetData
+from bushido.units.lifting.unit import Data, SetData
 
 
 @pytest.fixture
@@ -18,7 +18,7 @@ LIFTING_CASES = [
         Unit(
             name="squat",
             emoji="shinto",
-            data=LiftingData(
+            data=Data(
                 sets=[
                     SetData(set_nr=0, weight=100.0, reps=5, rest=180.0),
                     SetData(set_nr=1, weight=100.0, reps=5, rest=0.0),
@@ -43,7 +43,7 @@ LIFTING_CASES = [
         Unit(
             name="squat",
             emoji="shinto",
-            data=LiftingData(
+            data=Data(
                 sets=[
                     SetData(set_nr=0, weight=150.0, reps=3, rest=300.0),
                     SetData(set_nr=1, weight=100.0, reps=20.0, rest=0.0),
@@ -71,7 +71,7 @@ LIFTING_CASES = [
 @pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
 def test_correct_to_orm_mapping(
     mapper: LiftingMapper,
-    parsed_unit: Unit[LiftingData],
+    parsed_unit: Unit[Data],
     unit: LiftingUnitTable,
 ) -> None:
     u = mapper.to_orm(parsed_unit)
@@ -91,7 +91,7 @@ def test_correct_to_orm_mapping(
 @pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
 def test_correct_from_orm_mapping(
     mapper: LiftingMapper,
-    parsed_unit: Unit[LiftingData],
+    parsed_unit: Unit[Data],
     unit: LiftingUnitTable,
 ) -> None:
     pu = mapper.from_orm(unit)

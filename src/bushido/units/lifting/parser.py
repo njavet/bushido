@@ -2,13 +2,13 @@ from dataclasses import dataclass
 
 from bushido.units.exceptions import ParsingError
 
-from .unit import LiftingData, SetData
+from .unit import Data, SetData
 
 
 @dataclass(frozen=True, slots=True)
-class LiftingParser:
+class Parser:
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> LiftingData:
+    def parse(tokens: tuple[str, ...]) -> Data:
         try:
             weights = [float(w) for w in tokens[::3]]
         except ValueError:
@@ -32,7 +32,7 @@ class LiftingParser:
         if any(x < 0 for x in rests):
             raise ParsingError("rests must all be positive")
 
-        return LiftingData(
+        return Data(
             variant=None,
             program=None,
             sets=[
