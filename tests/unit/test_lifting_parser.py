@@ -1,13 +1,14 @@
 import datetime
 
 import pytest
-from bushido.category.gym.domain import GymSpec
-from bushido.category.gym.parser import GymParser
+
+from bushido.units.lifting.parser import LiftingParser
+from bushido.units.lifting.unit import LiftingData
 
 
 @pytest.fixture
-def parser() -> GymParser:
-    return GymParser()
+def parser() -> LiftingParser:
+    return LiftingParser()
 
 
 @pytest.mark.parametrize(
@@ -15,7 +16,7 @@ def parser() -> GymParser:
     [
         (
             ("1800-1900", "nautilus"),
-            GymSpec(
+            LiftingData(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
                 gym="nautilus",
@@ -23,7 +24,7 @@ def parser() -> GymParser:
         ),
         (
             ("1800-1900", "nautilus", "legs"),
-            GymSpec(
+            LiftingData(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
                 gym="nautilus",
@@ -31,7 +32,7 @@ def parser() -> GymParser:
         ),
         (
             ("1800-1900", "nautilus", "legs", "slow"),
-            GymSpec(
+            LiftingData(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
                 gym="nautilus",
@@ -40,7 +41,7 @@ def parser() -> GymParser:
     ],
 )
 def test_correct_gym_units(
-    parser: GymParser, tokens: tuple[str, ...], expected: GymSpec
+    parser: LiftingParser, tokens: tuple[str, ...], expected: LiftingData
 ) -> None:
     unit_data = parser.parse(tokens)
     assert unit_data == expected
