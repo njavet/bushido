@@ -31,7 +31,6 @@ UNIT_SETTINGS = {
         "options": {},
     },
     "wimhof": {
-        "wimhof": b"\xf0\x9f\xaa\x90".decode(),
         "options": {},
     },
 }

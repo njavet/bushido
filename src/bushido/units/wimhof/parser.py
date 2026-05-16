@@ -7,8 +7,6 @@ from .unit import RoundData, WimhofData
 
 @dataclass(frozen=True, slots=True)
 class WimhofParser:
-    grammar = "<name> (<breaths> <retentions>)+ # [<comment>]"
-
     @staticmethod
     def parse(tokens: tuple[str, ...]) -> WimhofData:
         breaths = [int(b) for b in tokens[::2]]
