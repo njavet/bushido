@@ -1,8 +1,8 @@
 from dataclasses import replace
 from typing import Callable, Iterable
 
-from bushido.units.base import Unit
-from bushido.units.lifting.unit import Data, SetData
+from ..base import Unit
+from .unit import Data, SetData
 
 
 def compute_unit_pr(

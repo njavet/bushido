@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
-from bushido.units.exceptions import ParsingError
-
+from ..exceptions import ParsingError
 from .unit import Data, SetData
 
 
