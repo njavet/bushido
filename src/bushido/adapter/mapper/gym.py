@@ -1,11 +1,11 @@
 from bushido.db.model import GymUnitTable
 from bushido.units.base import Unit
-from bushido.units.gym.unit import GymData
+from bushido.units.gym.unit import Data
 
 
 class GymMapper:
     @staticmethod
-    def to_orm(unit: Unit[GymData]) -> GymUnitTable:
+    def to_orm(unit: Unit[Data]) -> GymUnitTable:
         orm_unit = GymUnitTable(
             name=unit.name,
             emoji=unit.emoji,
@@ -20,11 +20,11 @@ class GymMapper:
         return orm_unit
 
     @staticmethod
-    def from_orm(orm_unit: GymUnitTable) -> Unit[GymData]:
+    def from_orm(orm_unit: GymUnitTable) -> Unit[Data]:
         pu = Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
-            data=GymData(
+            data=Data(
                 start_t=orm_unit.start_t,
                 end_t=orm_unit.end_t,
                 gym=orm_unit.gym,

@@ -5,7 +5,7 @@ import pytest
 from bushido.adapter.mapper.gym import GymMapper
 from bushido.db.model.gym import GymUnitTable
 from bushido.units.base import Unit
-from bushido.units.gym.unit import GymData
+from bushido.units.gym.unit import Data
 
 
 @pytest.fixture
@@ -18,7 +18,7 @@ GYM_CASES = [
         Unit(
             name="gym",
             emoji="gorilla",
-            data=GymData(
+            data=Data(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
                 gym="nautilus",
@@ -40,7 +40,7 @@ GYM_CASES = [
 
 @pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
 def test_correct_to_orm_mapping(
-    mapper: GymMapper, parsed_unit: Unit[GymData], unit: GymUnitTable
+    mapper: GymMapper, parsed_unit: Unit[Data], unit: GymUnitTable
 ) -> None:
     u = mapper.to_orm(parsed_unit)
     assert isinstance(u, GymUnitTable)
@@ -54,7 +54,7 @@ def test_correct_to_orm_mapping(
 
 @pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
 def test_correct_from_orm_mapping(
-    mapper: GymMapper, parsed_unit: Unit[GymData], unit: GymUnitTable
+    mapper: GymMapper, parsed_unit: Unit[Data], unit: GymUnitTable
 ) -> None:
     pu = mapper.from_orm(unit)
     assert isinstance(pu, Unit)
