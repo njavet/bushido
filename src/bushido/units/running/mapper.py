@@ -1,31 +1,33 @@
-from .db_model import CardioUnitTable
-from .unit import CardioSpec, CardioUnit
+from bushido.units.base import Unit
+
+from .db_model import RunningUnitTable
+from .unit import RunningData
 
 
-class CardioMapper:
+class RunningMapper:
     @staticmethod
-    def to_orm(parsed_unit: CardioUnit) -> CardioUnitTable:
-        unit = CardioUnitTable(
-            name=parsed_unit.name,
-            emoji=parsed_unit.emoji,
-            log_time=parsed_unit.log_time,
-            start_t=parsed_unit.data.start_t,
-            seconds=parsed_unit.data.seconds,
-            location=parsed_unit.data.location,
-            distance=parsed_unit.data.distance,
-            avg_hr=parsed_unit.data.avg_hr,
-            max_hr=parsed_unit.data.max_hr,
-            calories=parsed_unit.data.calories,
-            comment=parsed_unit.comment,
+    def to_orm(unit: Unit[RunningData]) -> RunningUnitTable:
+        orm_unit = RunningUnitTable(
+            name=unit.name,
+            emoji=unit.emoji,
+            log_time=unit.log_time,
+            start_t=unit.data.start_t,
+            seconds=unit.data.seconds,
+            location=unit.data.location,
+            distance=unit.data.distance,
+            avg_hr=unit.data.avg_hr,
+            max_hr=unit.data.max_hr,
+            calories=unit.data.calories,
+            comment=unit.comment,
         )
-        return unit
+        return orm_unit
 
     @staticmethod
-    def from_orm(orm_unit: CardioUnitTable) -> CardioUnit:
-        pu = CardioUnit(
+    def from_orm(orm_unit: RunningUnitTable) -> Unit[RunningData]:
+        pu = Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
-            data=CardioSpec(
+            data=RunningData(
                 start_t=orm_unit.start_t,
                 seconds=orm_unit.seconds,
                 location=orm_unit.location,
