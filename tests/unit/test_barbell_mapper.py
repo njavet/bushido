@@ -68,7 +68,7 @@ LIFTING_CASES = [
 ]
 
 
-@pytest.mark.parametrize("parsed_unit, units", LIFTING_CASES)
+@pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
 def test_correct_to_orm_mapping(
     mapper: BarbellMapper,
     parsed_unit: Unit[BarbellData],
@@ -88,7 +88,7 @@ def test_correct_to_orm_mapping(
         assert ls.rest == unit.sets[i].rest
 
 
-@pytest.mark.parametrize("parsed_unit, units", LIFTING_CASES)
+@pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
 def test_correct_from_orm_mapping(
     mapper: BarbellMapper,
     parsed_unit: Unit[BarbellData],
