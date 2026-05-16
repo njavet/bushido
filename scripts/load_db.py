@@ -2,9 +2,9 @@ import json
 import sys
 from typing import Any
 
-from bushido.service.unit_load import UnitService
-
 from bushido.infra.db import SessionFactory
+from bushido.service import UnitLogService
+from bushido.unit.registry import UNIT_REGISTRY
 
 UNIT_NAMES = [
     "barbell",
@@ -24,16 +24,17 @@ UNIT_NAMES = [
 def load_db(data: list[Any]) -> None:
     sf = SessionFactory()
     sf.init_db()
-    lus = UnitService()
+    lus = UnitLogService(registry=UNIT_REGISTRY)
     with sf.session() as session:
         for unit in data:
             line = unit["line"]
             unit_name = line.split()[0]
             if unit_name not in UNIT_NAMES:
                 continue
-            error = lus.log_unit(line, session)
-            if error:
-                print("ERROR", error, "line", line)
+            try:
+                lus.log_unit(line, session)
+            except Exception as e:
+                print(str(e))
 
 
 def main() -> None:
