@@ -42,7 +42,6 @@ class UnitService:
         unit = registry.mapper.to_orm(parsed_unit)
         registry.repo(session).add_unit(unit)
 
-
     def load_training_units(
         self,
         session: Session,
@@ -126,4 +125,3 @@ def split_options(tokens: tuple[str, ...]) -> tuple[tuple[str, ...], str | None]
         clean.append(token)
         i += 1
     return tuple(clean), log_time
-

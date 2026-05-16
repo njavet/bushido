@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from ..db_model import Base, UnitTable
+from bushido.unit.db_model import Base, UnitTable
 
 
 class BarbellUnitTable(UnitTable):
