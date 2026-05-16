@@ -6,13 +6,13 @@ from bushido.unit.exceptions import ParsingError
 from bushido.dtypes import SystemClock
 from bushido.protocols import Clock
 
-from bushido.unit.registry import UNIT_REGISTRY, Registry
+from bushido.unit.registry import UnitRegistration
 
 
 class UnitLogService:
     def __init__(
         self,
-        registry: dict[str, Registry] = UNIT_REGISTRY,
+        registry: dict[str, UnitRegistration],
         clock: Clock = SystemClock(),
     ) -> None:
         self.registry = registry
@@ -30,12 +30,10 @@ class UnitLogService:
             log_time = parse_datetime(log_time_str)
         else:
             log_time = self.clock.now()
-
         unit_data = unit_registry.parser.parse(tokens)
-
         parsed_unit = Unit(
             name=raw.name,
-            emoji=unit_registry.unit_settings[raw.name],
+            emoji=unit_registry.emoji,
             data=unit_data,
             log_time=log_time,
             comment=raw.comment,

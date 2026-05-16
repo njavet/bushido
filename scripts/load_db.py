@@ -3,7 +3,7 @@ import sys
 from typing import Any
 
 from bushido.infra.db import SessionFactory
-from bushido.service.unit_service import UnitService
+from bushido.service.unit_load import UnitService
 
 UNIT_NAMES = [
     "barbell",
