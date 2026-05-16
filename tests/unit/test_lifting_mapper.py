@@ -1,23 +1,24 @@
 import datetime
 
 import pytest
-from bushido.category.dtypes import ParsedUnit
-from bushido.category.gym.db_model import GymUnitTable
-from bushido.category.gym.domain import GymSpec, GymUnit
-from bushido.category.gym.mapper import GymMapper
+
+from bushido.units.base import Unit
+from bushido.units.lifting.db_model import LiftingUnitTable
+from bushido.units.lifting.mapper import LiftingMapper
+from bushido.units.lifting.unit import LiftingData
 
 
 @pytest.fixture
-def mapper() -> GymMapper:
-    return GymMapper()
+def mapper() -> LiftingMapper:
+    return LiftingMapper()
 
 
 GYM_CASES = [
     (
-        ParsedUnit(
-            name="weights",
+        Unit(
+            name="lifting",
             emoji="gorilla",
-            data=GymSpec(
+            data=LiftingData(
                 start_t=datetime.time(18, 0),
                 end_t=datetime.time(19, 0),
                 gym="nautilus",
@@ -25,8 +26,8 @@ GYM_CASES = [
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             comment=None,
         ),
-        GymUnitTable(
-            name="weights",
+        LiftingUnitTable(
+            name="lifting",
             emoji="gorilla",
             log_time=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc),
             start_t=datetime.time(18, 0),
@@ -37,12 +38,12 @@ GYM_CASES = [
 ]
 
 
-@pytest.mark.parametrize("parsed_unit, units", GYM_CASES)
+@pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
 def test_correct_to_orm_mapping(
-    mapper: GymMapper, parsed_unit: GymUnit, unit: GymUnitTable
+    mapper: LiftingMapper, parsed_unit: Unit[LiftingData], unit: LiftingUnitTable
 ) -> None:
     u = mapper.to_orm(parsed_unit)
-    assert isinstance(u, GymUnitTable)
+    assert isinstance(u, LiftingUnitTable)
     assert u.emoji == unit.emoji
     assert u.name == unit.name
     assert u.log_time == unit.log_time
@@ -51,12 +52,12 @@ def test_correct_to_orm_mapping(
     assert u.end_t == unit.end_t
 
 
-@pytest.mark.parametrize("parsed_unit, units", GYM_CASES)
+@pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
 def test_correct_from_orm_mapping(
-    mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnitTable
+    mapper: LiftingMapper, parsed_unit: Unit[LiftingData], unit: LiftingUnitTable
 ) -> None:
     pu = mapper.from_orm(unit)
-    assert isinstance(pu, ParsedUnit)
+    assert isinstance(pu, Unit)
     assert pu.emoji == unit.emoji
     assert pu.name == unit.name
     assert pu.comment == unit.comment
