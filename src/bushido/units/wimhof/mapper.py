@@ -1,10 +1,12 @@
-from .domain import RoundSpec, WimhofSpec, WimhofUnit
+from bushido.units.base import Unit
+
 from .orm import WimhofRound, WimhofUnitTable
+from .unit import RoundData, WimhofData
 
 
 class WimhofMapper:
     @staticmethod
-    def to_orm(parsed_unit: WimhofUnit) -> WimhofUnitTable:
+    def to_orm(parsed_unit: Unit[WimhofData]) -> WimhofUnitTable:
         unit = WimhofUnitTable(
             name=parsed_unit.name,
             emoji=parsed_unit.emoji,
@@ -18,17 +20,17 @@ class WimhofMapper:
         return unit
 
     @staticmethod
-    def from_orm(orm_unit: WimhofUnitTable) -> WimhofUnit:
+    def from_orm(orm_unit: WimhofUnitTable) -> Unit[WimhofData]:
         lst = []
         for r in orm_unit.subunits:
-            ws = RoundSpec(
+            ws = RoundData(
                 round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
             )
             lst.append(ws)
-        pu = WimhofUnit(
+        pu = Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
-            data=WimhofSpec(rounds=lst),
+            data=WimhofData(rounds=lst),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
