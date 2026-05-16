@@ -24,6 +24,11 @@ class Unit(Generic[T]):
     data: T
 
 
+class Parser(Protocol[T]):
+    @staticmethod
+    def parse(tokens: tuple[str, ...]) -> T: ...
+
+
 class Mapper(Protocol[T, TU]):
     @staticmethod
     def to_orm(unit: Unit[T]) -> TU: ...
