@@ -1,5 +1,11 @@
 import datetime
 from dataclasses import dataclass
+from typing import Any, Callable
+
+from sqlalchemy.orm import Session
+
+from bushido.db.repo import UnitRepo
+from bushido.protocols import UnitMapper, UnitParser
 
 
 @dataclass(frozen=True, slots=True)
@@ -8,3 +14,18 @@ class SystemClock:
 
     def now(self) -> datetime.datetime:
         return datetime.datetime.now(self.timezone)
+
+
+RepoFactory = Callable[[Session], UnitRepo[Any]]
+
+
+@dataclass(frozen=True, slots=True)
+class UnitRegistration:
+    parser: UnitParser[Any]
+    mapper: UnitMapper[Any, Any]
+    repo_factory: RepoFactory
+    grammar: str
+    emoji: str
+
+    def repo(self, session: Session) -> UnitRepo[Any]:
+        return self.repo_factory(session)

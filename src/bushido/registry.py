@@ -4,7 +4,7 @@ from bushido.adapter.mapper.lifting import LiftingMapper
 from bushido.adapter.mapper.wimhof import WimhofMapper
 from bushido.db.repo.lifting import LiftingRepo
 from bushido.db.repo.wimhof import WimhofRepo
-from bushido.units.base import UnitRegistration
+from bushido.dtypes import UnitRegistration
 from bushido.units.cardio.grammar import grammar as cardio_grammar
 from bushido.units.cardio.parser import CardioParser
 from bushido.units.cardio.repo import CardioRepo

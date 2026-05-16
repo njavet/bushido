@@ -6,9 +6,9 @@ from rich.logging import RichHandler
 
 from bushido import __version__
 from bushido.db.sf import SessionFactory
+from bushido.registry import UNIT_REGISTRY
 from bushido.service import UnitService
 from bushido.tui.tui import BushidoApp
-from bushido.units.registry import UNIT_REGISTRY
 
 logging.basicConfig(
     level=logging.INFO,

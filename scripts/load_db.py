@@ -3,8 +3,8 @@ import sys
 from typing import Any
 
 from bushido.db.sf import SessionFactory
+from bushido.registry import UNIT_REGISTRY
 from bushido.service import UnitService
-from bushido.units.registry import UNIT_REGISTRY
 
 UNIT_NAMES = [
     "lifting",
