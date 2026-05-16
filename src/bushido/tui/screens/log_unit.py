@@ -60,12 +60,10 @@ class UnitHelpWidget(Widget):
 
     def render(self) -> Group:
         panels = []
-        for item in self.unit_log_service.category_help:
+        for item in []:
             content = "\n".join(
                 [
-                    f"Category: {item.name}",
-                    f"Grammar: {item.grammar}",
-                    f"Units: {', '.join(item.unit_names)}",
+                    f"Grammar: {}",
                 ]
             )
             panel = Panel(
