@@ -2,10 +2,10 @@ import datetime
 
 import pytest
 
-from bushido.units.barbell.db_model import BarbellSet, BarbellUnitTable
-from bushido.units.barbell.mapper import BarbellMapper
-from bushido.units.barbell.unit import BarbellData, SetData
 from bushido.units.base import Unit
+from bushido.units.lifting.db_model import BarbellSet, BarbellUnitTable
+from bushido.units.lifting.mapper import BarbellMapper
+from bushido.units.lifting.unit import BarbellData, SetData
 
 
 @pytest.fixture

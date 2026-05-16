@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from bushido.infra.db import SessionFactory
 from bushido.service import UnitService
-from bushido.units.barbell.db_model import BarbellSet, BarbellUnitTable
+from bushido.units.lifting.db_model import BarbellSet, BarbellUnitTable
 from bushido.units.registry import UNIT_REGISTRY
 
 

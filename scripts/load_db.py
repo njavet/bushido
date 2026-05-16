@@ -7,7 +7,7 @@ from bushido.service import UnitService
 from bushido.units.registry import UNIT_REGISTRY
 
 UNIT_NAMES = [
-    "barbell",
+    "lifting",
     "kyokushin",
     "boxing",
     "grappling",

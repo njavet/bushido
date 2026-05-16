@@ -34,7 +34,7 @@ class BushidoApp(App[None]):
         yield HeaderContainer()
         yield Rule()
         with TabbedContent(id="main_tabs"):
-            with TabPane("barbell"):
+            with TabPane("lifting"):
                 yield BarbellContainer(id="lifting_container")
 
         yield Footer(id="app_footer")

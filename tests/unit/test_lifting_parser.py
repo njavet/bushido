@@ -1,8 +1,8 @@
 import pytest
 
-from bushido.units.barbell.parser import BarbellParser
-from bushido.units.barbell.unit import BarbellData, SetData
 from bushido.units.exceptions import ParsingError
+from bushido.units.lifting.parser import BarbellParser
+from bushido.units.lifting.unit import BarbellData, SetData
 
 
 @pytest.fixture

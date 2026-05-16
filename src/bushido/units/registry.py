@@ -3,10 +3,6 @@ from typing import Any, Callable
 
 from sqlalchemy.orm import Session
 
-from bushido.units.barbell.grammar import grammar as barbell_grammar
-from bushido.units.barbell.mapper import BarbellMapper
-from bushido.units.barbell.parser import BarbellParser
-from bushido.units.barbell.repo import BarbellRepo
 from bushido.units.base import UnitMapper, UnitParser
 from bushido.units.cardio.grammar import grammar as cardio_grammar
 from bushido.units.cardio.mapper import CardioMapper
@@ -16,6 +12,10 @@ from bushido.units.gym.grammar import grammar as gym_grammar
 from bushido.units.gym.mapper import GymMapper
 from bushido.units.gym.parser import GymParser
 from bushido.units.gym.repo import GymRepo
+from bushido.units.lifting.grammar import grammar as barbell_grammar
+from bushido.units.lifting.mapper import BarbellMapper
+from bushido.units.lifting.parser import BarbellParser
+from bushido.units.lifting.repo import BarbellRepo
 from bushido.units.repo import UnitRepo
 from bushido.units.wimhof.grammar import grammar as wimhof_grammar
 from bushido.units.wimhof.mapper import WimhofMapper
