@@ -1,11 +1,10 @@
 import datetime
 from dataclasses import dataclass
-from typing import Any, Generic, Iterable, Protocol, TypeVar
+from typing import Any, Callable, Generic, Iterable, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 
 from bushido.units.db_model import UnitTable
-from bushido.units.registry import RepoFactory
 from bushido.units.repo import UnitRepo
 
 T = TypeVar("T")
@@ -27,6 +26,9 @@ class Unit(Generic[T]):
     log_time: datetime.datetime
     comment: str | None
     data: T
+
+
+RepoFactory = Callable[[Session], UnitRepo[Any]]
 
 
 @dataclass(frozen=True, slots=True)
