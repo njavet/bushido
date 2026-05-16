@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Session
 
-from bushido.unit.repo import UnitRepo
+from bushido.units.repo import UnitRepo
 
 from .db_model import LiftingUnitTable
 
 
-class GymRepo(UnitRepo[LiftingUnitTable]):
+class LiftingRepo(UnitRepo[LiftingUnitTable]):
     def __init__(
         self,
         session: Session,
