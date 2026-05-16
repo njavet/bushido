@@ -6,18 +6,6 @@ DAY_START_HOUR = 4
 
 
 UNIT_SETTINGS = {
-    "kyokushin": {
-        "emoji": b"\xf0\x9f\xa5\x8b",
-        "options": {},
-    },
-    "grappling": {
-        "emoji": b"\xf0\x9f\xa5\x8b".decode(),
-        "options": {},
-    },
-    "boxing": {
-        "emoji": b"\xf0\x9f\xa5\x8b".decode(),
-        "options": {},
-    },
     "running": {
         "emoji": b"\xf0\x9f\xaa\x96".decode(),
         "options": {},
