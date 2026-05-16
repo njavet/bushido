@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
 
+from bushido.db_model.gym import GymUnitTable
 from bushido.units.repo import UnitRepo
-
-from .db_model import GymUnitTable
 
 
 class GymRepo(UnitRepo[GymUnitTable]):

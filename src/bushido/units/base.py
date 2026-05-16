@@ -4,7 +4,7 @@ from typing import Any, Callable, Generic, Iterable, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 
-from bushido.units.db_model import UnitTable
+from bushido.db.db_model import UnitTable
 from bushido.units.repo import UnitRepo
 
 T = TypeVar("T")
