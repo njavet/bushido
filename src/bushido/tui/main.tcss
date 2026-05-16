@@ -58,6 +58,13 @@ UnitHelpWidget {
     min-height: 0;
 }
 
+TabPane {
+    layout: horizontal;
+}
+
 LiftingTable {
+    width: 50%;
+}
+RichLog {
     width: 50%;
 }

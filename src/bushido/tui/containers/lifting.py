@@ -2,6 +2,7 @@ from textual.app import ComposeResult
 from textual.containers import Container
 from textual.widgets import (
     DataTable,
+    RichLog,
     TabbedContent,
     TabPane,
 )
@@ -14,6 +15,7 @@ class LiftingContainer(Container):
     def compose(self) -> ComposeResult:
         with TabbedContent(id="lifting_tabs"):
             with TabPane("squat"):
+                yield RichLog(id="squat_stats")
                 yield LiftingTable(id="squat_table")
             with TabPane("deadlift"):
                 yield LiftingTable(id="deadlift_table")

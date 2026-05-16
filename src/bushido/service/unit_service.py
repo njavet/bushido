@@ -53,7 +53,7 @@ class UnitService:
         session: Session,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> list[Any]:
+    ) -> list[Unit[Any]]:
         units = (
             self.registry[unit_name]
             .repo(session)
