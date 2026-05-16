@@ -3,8 +3,7 @@ from bushido.dtypes import UnitRegistration
 from bushido.units.cardio import CardioParser, cardio_grammar
 from bushido.units.gym import GymParser, gym_grammar
 from bushido.units.lifting import LiftingParser, lifting_grammar
-from bushido.units.wimhof.grammar import grammar as wimhof_grammar
-from bushido.units.wimhof.parser import WimhofParser
+from bushido.units.wimhof import WimhofParser, wimhof_grammar
 
 # TODO split
 UNIT_REGISTRY: dict[str, UnitRegistration] = {

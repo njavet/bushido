@@ -1,12 +1,12 @@
 import pytest
 
-from bushido.units.wimhof.parser import WimhofParser
-from bushido.units.wimhof.unit import RoundData, WimhofData
+from bushido.units.wimhof.parser import Parser
+from bushido.units.wimhof.unit import Data, RoundData
 
 
 @pytest.fixture
-def parser() -> WimhofParser:
-    return WimhofParser()
+def parser() -> Parser:
+    return Parser()
 
 
 @pytest.mark.parametrize(
@@ -14,7 +14,7 @@ def parser() -> WimhofParser:
     [
         (
             ("30", "90", "30", "120", "30", "150"),
-            WimhofData(
+            Data(
                 rounds=[
                     RoundData(round_nr=0, breaths=30, retention=90),
                     RoundData(round_nr=1, breaths=30, retention=120),
@@ -25,7 +25,7 @@ def parser() -> WimhofParser:
     ],
 )
 def test_correct_wimhof_unit(
-    parser: WimhofParser, tokens: tuple[str, ...], expected: WimhofData
+    parser: Parser, tokens: tuple[str, ...], expected: Data
 ) -> None:
     unit_data = parser.parse(tokens)
     assert unit_data == expected

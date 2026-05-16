@@ -1,14 +1,13 @@
 from dataclasses import dataclass
 
-from bushido.units.exceptions import ParsingError
-
-from .unit import RoundData, WimhofData
+from ..exceptions import ParsingError
+from .unit import Data, RoundData
 
 
 @dataclass(frozen=True, slots=True)
-class WimhofParser:
+class Parser:
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> WimhofData:
+    def parse(tokens: tuple[str, ...]) -> Data:
         breaths = [int(b) for b in tokens[::2]]
         retentions = [int(r) for r in tokens[1::2]]
         if len(breaths) == 0:
@@ -20,7 +19,7 @@ class WimhofParser:
         if any(x < 0 for x in retentions):
             raise ParsingError("retentions must all be positive")
 
-        return WimhofData(
+        return Data(
             rounds=[
                 RoundData(round_nr=i, breaths=b, retention=r)
                 for i, (b, r) in enumerate(zip(breaths, retentions))
