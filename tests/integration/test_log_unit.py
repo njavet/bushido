@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session
 
 from bushido.infra.db import SessionFactory
 from bushido.service import UnitLogService
-from bushido.unit.barbell.db_model import BarbellSet, BarbellUnitTable
-from bushido.unit.registry import UNIT_REGISTRY
+from bushido.units.barbell.db_model import BarbellSet, BarbellUnitTable
+from bushido.units.registry import UNIT_REGISTRY
 
 
 @pytest.fixture(scope="session")

@@ -37,7 +37,7 @@ GYM_CASES = [
 ]
 
 
-@pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
+@pytest.mark.parametrize("parsed_unit, units", GYM_CASES)
 def test_correct_to_orm_mapping(
     mapper: GymMapper, parsed_unit: GymUnit, unit: GymUnitTable
 ) -> None:
@@ -51,7 +51,7 @@ def test_correct_to_orm_mapping(
     assert u.end_t == unit.end_t
 
 
-@pytest.mark.parametrize("parsed_unit, unit", GYM_CASES)
+@pytest.mark.parametrize("parsed_unit, units", GYM_CASES)
 def test_correct_from_orm_mapping(
     mapper: GymMapper, parsed_unit: ParsedUnit[GymSpec], unit: GymUnitTable
 ) -> None:

@@ -1,4 +1,4 @@
-from bushido.unit.base import Unit
+from bushido.units.base import Unit
 
 from .db_model import BarbellSet, BarbellUnitTable
 from .unit import BarbellData, SetData

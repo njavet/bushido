@@ -2,7 +2,7 @@ import datetime
 from dataclasses import dataclass
 from typing import Generic, Protocol, TypeVar
 
-from bushido.unit.db_model import UnitTable
+from bushido.units.db_model import UnitTable
 
 T = TypeVar("T")
 P = TypeVar("P", covariant=True)

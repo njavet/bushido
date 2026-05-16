@@ -4,7 +4,7 @@ from typing import Any
 
 from bushido.infra.db import SessionFactory
 from bushido.service import UnitLogService
-from bushido.unit.registry import UNIT_REGISTRY
+from bushido.units.registry import UNIT_REGISTRY
 
 UNIT_NAMES = [
     "barbell",

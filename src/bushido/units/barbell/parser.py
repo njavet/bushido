@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from bushido.unit.exceptions import ParsingError
+from bushido.units.exceptions import ParsingError
 
 from .unit import BarbellData, SetData
 

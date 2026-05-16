@@ -7,8 +7,8 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido.unit.barbell.unit import BarbellData
-from bushido.unit.base import Unit
+from bushido.units.barbell.unit import BarbellData
+from bushido.units.base import Unit
 
 
 class LiftingContainer(Container):

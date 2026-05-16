@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from bushido.unit.db_model import Base, UnitTable
+from bushido.units.db_model import Base, UnitTable
 
 
 class BarbellUnitTable(UnitTable):
@@ -11,7 +11,7 @@ class BarbellUnitTable(UnitTable):
     program: Mapped[str | None] = mapped_column()
     sets: Mapped[list["BarbellSet"]] = relationship(
         cascade="all, delete-orphan",
-        back_populates="unit",
+        back_populates="units",
     )
 
 

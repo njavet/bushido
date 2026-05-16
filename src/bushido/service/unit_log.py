@@ -2,10 +2,10 @@ from sqlalchemy.orm import Session
 
 from bushido.dtypes import SystemClock
 from bushido.protocols import Clock
-from bushido.unit.base import RawUnit, Unit
-from bushido.unit.dt_parse import parse_datetime
-from bushido.unit.exceptions import ParsingError
-from bushido.unit.registry import UnitRegistration
+from bushido.units.base import RawUnit, Unit
+from bushido.units.dt_parse import parse_datetime
+from bushido.units.exceptions import ParsingError
+from bushido.units.registry import UnitRegistration
 
 
 class UnitLogService:

@@ -2,10 +2,10 @@ import datetime
 
 import pytest
 
-from bushido.unit.barbell.db_model import BarbellSet, BarbellUnitTable
-from bushido.unit.barbell.mapper import BarbellMapper
-from bushido.unit.barbell.unit import BarbellData, SetData
-from bushido.unit.base import Unit
+from bushido.units.barbell.db_model import BarbellSet, BarbellUnitTable
+from bushido.units.barbell.mapper import BarbellMapper
+from bushido.units.barbell.unit import BarbellData, SetData
+from bushido.units.base import Unit
 
 
 @pytest.fixture
@@ -68,7 +68,7 @@ LIFTING_CASES = [
 ]
 
 
-@pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
+@pytest.mark.parametrize("parsed_unit, units", LIFTING_CASES)
 def test_correct_to_orm_mapping(
     mapper: BarbellMapper,
     parsed_unit: Unit[BarbellData],
@@ -88,7 +88,7 @@ def test_correct_to_orm_mapping(
         assert ls.rest == unit.sets[i].rest
 
 
-@pytest.mark.parametrize("parsed_unit, unit", LIFTING_CASES)
+@pytest.mark.parametrize("parsed_unit, units", LIFTING_CASES)
 def test_correct_from_orm_mapping(
     mapper: BarbellMapper,
     parsed_unit: Unit[BarbellData],

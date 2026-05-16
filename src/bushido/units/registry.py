@@ -3,12 +3,12 @@ from typing import Any, Callable
 
 from sqlalchemy.orm import Session
 
-from bushido.unit.barbell.grammar import grammar as barbell_grammar
-from bushido.unit.barbell.mapper import BarbellMapper
-from bushido.unit.barbell.parser import BarbellParser
-from bushido.unit.barbell.repo import BarbellRepo
-from bushido.unit.base import UnitMapper, UnitParser
-from bushido.unit.repo import UnitRepo
+from bushido.units.barbell.grammar import grammar as barbell_grammar
+from bushido.units.barbell.mapper import BarbellMapper
+from bushido.units.barbell.parser import BarbellParser
+from bushido.units.barbell.repo import BarbellRepo
+from bushido.units.base import UnitMapper, UnitParser
+from bushido.units.repo import UnitRepo
 
 RepoFactory = Callable[[Session], UnitRepo[Any]]
 

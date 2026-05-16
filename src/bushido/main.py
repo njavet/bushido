@@ -8,7 +8,7 @@ from bushido import __version__
 from bushido.infra.db import SessionFactory
 from bushido.service import UnitLogService
 from bushido.tui.tui import BushidoApp
-from bushido.unit.registry import UNIT_REGISTRY
+from bushido.units.registry import UNIT_REGISTRY
 
 logging.basicConfig(
     level=logging.INFO,

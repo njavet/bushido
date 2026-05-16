@@ -95,7 +95,7 @@ class LogUnitScreen(ModalScreen[bool]):
 
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:
-            self.app.notify("empty unit", title="logging failed", severity="error")
+            self.app.notify("empty units", title="logging failed", severity="error")
             self.dismiss(False)
             return
 

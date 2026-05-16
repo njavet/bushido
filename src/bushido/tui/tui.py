@@ -40,7 +40,7 @@ class BushidoApp(App[None]):
         yield Footer(id="app_footer")
 
     def action_log_unit(self) -> None:
-        # TODO update other widgets after saving a unit
+        # TODO update other widgets after saving a units
         self.push_screen(LogUnitScreen(self.unit_log_service, self.log_unit))
 
     async def log_unit(self, line: str) -> None:

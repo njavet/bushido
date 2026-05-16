@@ -101,7 +101,7 @@ def replace_emoji(line: str) -> str:
         unit_name = "work"
     else:
         unit_name = e
-        print("unit", unit_name, "emoji", e.encode())
+        print("units", unit_name, "emoji", e.encode())
     new_line = line.replace(e, unit_name, count=1)
     return new_line
 

@@ -41,7 +41,7 @@ WIMHOF_CASES = [
 ]
 
 
-@pytest.mark.parametrize("parsed_unit, unit", WIMHOF_CASES)
+@pytest.mark.parametrize("parsed_unit, units", WIMHOF_CASES)
 def test_correct_to_orm(
     mapper: WimhofMapper,
     parsed_unit: WimhofUnit,
@@ -60,7 +60,7 @@ def test_correct_to_orm(
         assert rs.retention == unit.subunits[i].retention
 
 
-@pytest.mark.parametrize("parsed_unit, unit", WIMHOF_CASES)
+@pytest.mark.parametrize("parsed_unit, units", WIMHOF_CASES)
 def test_correct_from_orm(
     mapper: WimhofMapper,
     parsed_unit: ParsedUnit[WimhofSpec],
