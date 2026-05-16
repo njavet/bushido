@@ -30,7 +30,4 @@ UNIT_SETTINGS = {
         "emoji": b"\xf0\x9f\xa6\x88".decode(),
         "options": {},
     },
-    "wimhof": {
-        "options": {},
-    },
 }
