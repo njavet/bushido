@@ -1,16 +1,23 @@
 import logging
 import sys
 from argparse import ArgumentParser
+from contextlib import asynccontextmanager
+from typing import AsyncIterator
 
+import uvicorn
+from fastapi import FastAPI
 from rich.logging import RichHandler
 from sqlalchemy import Engine
+from starlette.middleware.cors import CORSMiddleware
 
 from bushido import __version__
+from bushido.conf import DEFAULT_PORT
 from bushido.db.model import Base
 from bushido.db.sf import SessionFactory
 from bushido.registry import UNIT_REGISTRY
 from bushido.service import UnitService
 from bushido.tui.tui import BushidoApp
+from bushido.web import router
 
 logging.basicConfig(
     level=logging.INFO,
@@ -33,6 +40,25 @@ def create_parser() -> ArgumentParser:
     return parser
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    app.state.sf = SessionFactory()
+    yield
+
+
+def create_app() -> FastAPI:
+    app = FastAPI(lifespan=lifespan)
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:5173"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    app.include_router(router)
+    return app
+
+
 def main() -> None:
     parser = create_parser()
     args = parser.parse_args()
@@ -45,6 +71,14 @@ def main() -> None:
         init_db(engine=sf.engine)
         unit_service = UnitService(registry=UNIT_REGISTRY)
         BushidoApp(sf, unit_service).run()
+
+    else:
+        uvicorn.run(
+            "bushido.web.web:create_app",
+            port=DEFAULT_PORT,
+            factory=True,
+            log_level="info",
+        )
 
 
 if __name__ == "__main__":
