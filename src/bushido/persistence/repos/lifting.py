@@ -1,34 +1,15 @@
-import datetime
-
-from sqlalchemy import select
-from sqlalchemy.orm import Session, selectinload
+from sqlalchemy.orm import selectinload
 
 from bushido.units import Unit
 from bushido.units.lifting import LiftingData, SetData
 
 from ..models import LiftingSet, LiftingUnitTable
+from .base import BaseUnitRepo
 
 
-class LiftingUnitRepo:
-    def __init__(self, session: Session) -> None:
-        self.session = session
-
-    def add_unit(self, unit: Unit[LiftingData]) -> None:
-        self.session.add(self._to_orm(unit))
-        self.session.commit()
-
-    def fetch_units(
-        self,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[Unit[LiftingData]]:
-        stmt = select(LiftingUnitTable).options(selectinload(LiftingUnitTable.subunits))
-        if start_t is not None:
-            stmt = stmt.where(start_t <= LiftingUnitTable.log_time)
-        if end_t is not None:
-            stmt = stmt.where(LiftingUnitTable.log_time <= end_t)
-        stmt = stmt.order_by(LiftingUnitTable.log_time.desc())
-        return [self._from_orm(unit) for unit in self.session.scalars(stmt)]
+class LiftingUnitRepo(BaseUnitRepo[LiftingData, LiftingUnitTable]):
+    orm_cls = LiftingUnitTable
+    load_options = (selectinload(LiftingUnitTable.subunits),)
 
     @staticmethod
     def _to_orm(unit: Unit[LiftingData]) -> LiftingUnitTable:
