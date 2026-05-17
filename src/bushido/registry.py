@@ -26,6 +26,7 @@ def build_registry(unit_settings: list[UnitSetting]) -> dict[str, UnitRegistrati
                     parser=GymParser(),
                     mapper=GymMapper(),
                     repo_factory=lambda session: UnitRepo(session, GymUnitTable),
+                    unit_type=UnitType.GYM,
                     grammar=gym_grammar,
                     emoji=unit_setting.emoji,
                 )
@@ -38,6 +39,7 @@ def build_registry(unit_settings: list[UnitSetting]) -> dict[str, UnitRegistrati
                         LiftingUnitTable,
                         load_options=(selectinload(LiftingUnitTable.subunits),),
                     ),
+                    unit_type=UnitType.LIFTING,
                     grammar=lifting_grammar,
                     emoji=unit_setting.emoji,
                 )
@@ -50,6 +52,7 @@ def build_registry(unit_settings: list[UnitSetting]) -> dict[str, UnitRegistrati
                         WimhofUnitTable,
                         load_options=(selectinload(WimhofUnitTable.subunits),),
                     ),
+                    unit_type=UnitType.WIMHOF,
                     grammar=wimhof_grammar,
                     emoji=unit_setting.emoji,
                 )
@@ -58,6 +61,7 @@ def build_registry(unit_settings: list[UnitSetting]) -> dict[str, UnitRegistrati
                     parser=CardioParser(),
                     mapper=CardioMapper(),
                     repo_factory=lambda session: UnitRepo(session, CardioUnitTable),
+                    unit_type=UnitType.CARDIO,
                     grammar=cardio_grammar,
                     emoji=unit_setting.emoji,
                 )

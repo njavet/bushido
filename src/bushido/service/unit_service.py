@@ -1,13 +1,14 @@
 import datetime
-from typing import Any
 
 from sqlalchemy.orm import Session
 
+from bushido.conf import UnitType
 from bushido.dtypes import SystemClock, UnitRegistration
 from bushido.protocols import Clock
 from bushido.schema.req import UnitLogRequest
 from bushido.units import Unit
 from bushido.units.exceptions import ParsingError
+from bushido.units.lifting import LiftingData
 
 
 class UnitService:
@@ -48,13 +49,15 @@ class UnitService:
     def unit_names(self) -> list[str]:
         return list(self.registry.keys())
 
-    def load_units(
+    def load_lifting_units(
         self,
-        unit_name: str,
         session: Session,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> list[Unit[Any]]:
+    ) -> list[Unit[LiftingData]]:
+        unit_name = [
+            u for u, v in self.registry.items() if v.unit_type == UnitType.LIFTING
+        ][0]
         units = (
             self.registry[unit_name]
             .repo(session)
