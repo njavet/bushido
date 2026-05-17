@@ -11,7 +11,7 @@ from bushido.db.model import (
 from bushido.db.repo import UnitRepo
 from bushido.dtypes import UnitRegistration
 from bushido.units.base import UnitSetting
-from bushido.units.cardio import CardioParser, cardio_grammar
+from bushido.units.cardio import CardioParser, cardio_grammar, cardio_unit_settings
 from bushido.units.gym import GymParser, gym_grammar, gym_unit_settings
 from bushido.units.lifting import LiftingParser, lifting_grammar, lifting_unit_settings
 from bushido.units.wimhof import WimhofParser, wimhof_grammar
@@ -39,6 +39,7 @@ def build_registry() -> dict[str, UnitRegistration]:
             grammar=lifting_grammar,
             emoji=unit_setting.emoji,
         )
+    for unit_setting in cardio_unit_settings:
     
             case UnitType.WIMHOF:
                 registry[unit_setting.name] = UnitRegistration(
