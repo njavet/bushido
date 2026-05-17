@@ -12,7 +12,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from bushido import __version__
 from bushido.conf import DEFAULT_PORT
-from bushido.db.model import Base
+from bushido.db.models import Base
 from bushido.db.sf import SessionFactory
 from bushido.registry import build_registry
 from bushido.service import LogUnitService

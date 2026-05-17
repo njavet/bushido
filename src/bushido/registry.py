@@ -1,7 +1,7 @@
 from sqlalchemy.orm import selectinload
 
 from bushido.adapter.mapper import CardioMapper, GymMapper, LiftingMapper, WimhofMapper
-from bushido.db.model import (
+from bushido.db.models import (
     CardioUnitTable,
     GymUnitTable,
     LiftingUnitTable,

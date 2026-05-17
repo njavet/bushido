@@ -1,4 +1,4 @@
-from bushido.db.model import CardioUnitTable
+from bushido.db.models import CardioUnitTable
 from bushido.units import Unit
 from bushido.units.cardio import CardioData
 

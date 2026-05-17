@@ -1,4 +1,4 @@
-from bushido.db.model import GymUnitTable
+from bushido.db.models import GymUnitTable
 from bushido.units import Unit
 from bushido.units.gym import GymData
 

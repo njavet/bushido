@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
-from .model.base import UnitTable
+from .models.base import UnitTable
 
 T_ORM = TypeVar("T_ORM", bound=UnitTable)
 
