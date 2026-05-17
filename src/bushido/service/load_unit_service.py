@@ -3,6 +3,7 @@ from typing import Callable, TypeVar
 
 from sqlalchemy.orm import Session
 
+from bushido.db.model.base import UnitTable
 from bushido.db.repo import UnitRepo
 from bushido.dtypes import UnitRegistration
 from bushido.protocols import UnitMapper
@@ -11,7 +12,7 @@ from bushido.units.gym import GymData
 from bushido.units.lifting import LiftingData, lifting_unit_settings
 
 T = TypeVar("T")
-TU = TypeVar("TU")
+TU = TypeVar("TU", bound=UnitTable)
 
 
 class LoadUnitService:
