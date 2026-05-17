@@ -1,3 +1,4 @@
+from bushido.domain.dtypes import UnitRegistration
 from bushido.domain.units import (
     CardioParser,
     GymParser,
@@ -14,7 +15,6 @@ from bushido.domain.units.wimhof import (
     wimhof_grammar,
     wimhof_unit_settings,
 )
-from bushido.dtypes import UnitRegistration
 from bushido.persistence.repos import (
     CardioUnitRepo,
     GymUnitRepo,

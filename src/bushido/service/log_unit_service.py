@@ -2,8 +2,8 @@ import datetime
 
 from sqlalchemy.orm import Session
 
+from bushido.domain.dtypes import Clock, SystemClock, UnitRegistration
 from bushido.domain.units import ParsingError, Unit
-from bushido.dtypes import Clock, SystemClock, UnitRegistration
 from bushido.schema.req import UnitLogRequest
 
 

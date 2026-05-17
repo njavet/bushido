@@ -6,8 +6,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
+from bushido.domain.dtypes import T_DOMAIN
 from bushido.domain.units import Unit
-from bushido.dtypes import T_DOMAIN
 
 from ..models import UnitTable
 
