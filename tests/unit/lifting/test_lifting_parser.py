@@ -1,6 +1,6 @@
 import pytest
 
-from bushido.domain.units import ParsingError
+from bushido.domain.units.exceptions import ParsingError
 from bushido.domain.units.lifting.parser import Parser
 from bushido.domain.units.lifting.spec import Data, SetData
 
