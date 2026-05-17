@@ -7,7 +7,7 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido.units.base import Unit
+from bushido.units import Unit
 from bushido.units.lifting import LiftingData, lifting_unit_settings
 
 
@@ -15,7 +15,7 @@ class LiftingContainer(Container):
     def compose(self) -> ComposeResult:
         with TabbedContent(id="lifting_tabs"):
             for unit_spec in lifting_unit_settings:
-                with TabPane(unit_spec.name):
+                with TabPane(" ".join([unit_spec.name, unit_spec.emoji])):
                     yield RichLog(id=f"{unit_spec.name}_stats")
                     yield LiftingTable(id=f"{unit_spec.name}_table")
 
