@@ -63,7 +63,7 @@ class BushidoApp(App[None]):
 
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a units
-        self.push_screen(LogUnitScreen(self.log_unit_service, self.log_unit))
+        self.push_screen(LogUnitScreen(self.log_unit_service.unit_names, self.log_unit))
 
     async def log_unit(self, line: str) -> None:
         with self.sf.session() as session:

@@ -12,9 +12,7 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input
 
-from bushido.service import LogUnitService
-
-LogUnitHandler = Callable[[str], Awaitable[str | None]]
+LogUnitHandler = Callable[[str], Awaitable[None]]
 
 
 class UnitSuggester(Suggester):
@@ -54,10 +52,6 @@ class UnitSubmitted(Message):
 
 
 class UnitHelpWidget(Widget):
-    def __init__(self, unit_service: LogUnitService) -> None:
-        super().__init__()
-        self.unit_service = unit_service
-
     def render(self) -> Group:
         panels = []
         for item in ["yo"]:
@@ -81,15 +75,15 @@ class LogUnitScreen(ModalScreen[bool]):
     def action_cancel(self) -> None:
         self.dismiss(False)
 
-    def __init__(self, unit_service: LogUnitService, log_unit: LogUnitHandler) -> None:
+    def __init__(self, unit_names: list[str], log_unit: LogUnitHandler) -> None:
         super().__init__()
-        self.unit_service = unit_service
+        self.unit_names = unit_names
         self.log_unit = log_unit
 
     def compose(self) -> ComposeResult:
         with Vertical(id="log_unit_dialog"):
-            yield UnitHelpWidget(self.unit_service)
-            yield UnitInput(suggester=UnitSuggester(self.unit_service.unit_names))
+            yield UnitHelpWidget()
+            yield UnitInput(suggester=UnitSuggester(self.unit_names))
 
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:
@@ -97,9 +91,10 @@ class LogUnitScreen(ModalScreen[bool]):
             self.dismiss(False)
             return
 
-        error = await self.log_unit(message.value)
-        if error:
-            self.app.notify(error, title="logging failed", severity="error")
+        try:
+            await self.log_unit(message.value)
+        except Exception as e:
+            self.app.notify(str(e), title="logging failed", severity="error")
             self.dismiss(False)
         else:
             self.dismiss(True)
