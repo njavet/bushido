@@ -17,7 +17,7 @@ from bushido.application.service.load_unit_service import LoadUnitService
 from bushido.conf import DEFAULT_PORT
 from bushido.interfaces.tui.tui import BushidoApp
 from bushido.interfaces.web import router
-from bushido.persistence._sf import SessionFactory
+from bushido.persistence import SessionFactory
 from bushido.persistence.models import Base
 
 logging.basicConfig(

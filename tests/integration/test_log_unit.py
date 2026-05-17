@@ -7,8 +7,8 @@ from sqlalchemy.orm import Session
 from bushido.application.registry import build_registry
 from bushido.application.service import LogUnitService
 from bushido.main import init_db
-from bushido.persistence._sf import SessionFactory
-from bushido.persistence.models._lifting import LiftingSet, LiftingUnitTable
+from bushido.persistence import SessionFactory
+from bushido.persistence.models import LiftingSet, LiftingUnitTable
 
 
 @pytest.fixture(scope="session")
