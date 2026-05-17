@@ -2,7 +2,7 @@ from bushido.domain.units import Unit
 from bushido.domain.units.wimhof import RoundData, WimhofData
 
 from ..models import WimhofRound, WimhofUnitTable
-from .base import BaseUnitRepo
+from ._base import BaseUnitRepo
 
 
 class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):

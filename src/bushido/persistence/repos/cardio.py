@@ -2,7 +2,7 @@ from bushido.domain.units import Unit
 from bushido.domain.units.cardio import CardioData
 
 from ..models import CardioUnitTable
-from .base import BaseUnitRepo
+from ._base import BaseUnitRepo
 
 
 class CardioUnitRepo(BaseUnitRepo[CardioData, CardioUnitTable]):

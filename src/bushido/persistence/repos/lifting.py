@@ -4,7 +4,7 @@ from bushido.domain.units import Unit
 from bushido.domain.units.lifting import LiftingData, SetData
 
 from ..models import LiftingSet, LiftingUnitTable
-from .base import BaseUnitRepo
+from ._base import BaseUnitRepo
 
 
 class LiftingUnitRepo(BaseUnitRepo[LiftingData, LiftingUnitTable]):
