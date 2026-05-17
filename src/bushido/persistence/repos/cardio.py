@@ -1,34 +1,14 @@
-import datetime
 
-from sqlalchemy import select
-from sqlalchemy.orm import Session
 
 from bushido.units import Unit
 from bushido.units.cardio import CardioData
 
 from ..models import CardioUnitTable
+from .base import BaseUnitRepo
 
 
-class CardioUnitRepo:
-    def __init__(self, session: Session) -> None:
-        self.session = session
-
-    def add_unit(self, unit: Unit[CardioData]) -> None:
-        self.session.add(self._to_orm(unit))
-        self.session.commit()
-
-    def fetch_units(
-        self,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[Unit[CardioData]]:
-        stmt = select(CardioUnitTable)
-        if start_t is not None:
-            stmt = stmt.where(start_t <= CardioUnitTable.log_time)
-        if end_t is not None:
-            stmt = stmt.where(CardioUnitTable.log_time <= end_t)
-        stmt = stmt.order_by(CardioUnitTable.log_time.desc())
-        return [self._from_orm(unit) for unit in self.session.scalars(stmt)]
+class CardioUnitRepo(BaseUnitRepo[CardioData, CardioUnitTable]):
+    orm_cls = CardioUnitTable
 
     @staticmethod
     def _to_orm(unit: Unit[CardioData]) -> CardioUnitTable:
