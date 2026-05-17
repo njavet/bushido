@@ -2,7 +2,7 @@ import json
 import sys
 from typing import Any
 
-from bushido.db.sf import SessionFactory
+from bushido.persistence.sf import SessionFactory
 from bushido.main import init_db
 from bushido.registry import build_registry
 from bushido.service import LogUnitService

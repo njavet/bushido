@@ -4,7 +4,7 @@ from typing import Any, Callable, Iterable, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 
-from bushido.db.repo import T_ORM, UnitRepo
+from bushido.persistence.repo import T_ORM, UnitRepo
 from bushido.units import Unit
 
 T_DOMAIN = TypeVar("T_DOMAIN")

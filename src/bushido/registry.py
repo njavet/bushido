@@ -1,14 +1,14 @@
 from sqlalchemy.orm import selectinload
 
 from bushido.adapter.mapper import CardioMapper, GymMapper, LiftingMapper, WimhofMapper
-from bushido.db.models import (
+from bushido.dtypes import UnitRegistration
+from bushido.persistence.models import (
     CardioUnitTable,
     GymUnitTable,
     LiftingUnitTable,
     WimhofUnitTable,
 )
-from bushido.db.repo import UnitRepo
-from bushido.dtypes import UnitRegistration
+from bushido.persistence.repo import UnitRepo
 from bushido.units.cardio import CardioParser, cardio_grammar, cardio_unit_settings
 from bushido.units.gym import GymParser, gym_grammar, gym_unit_settings
 from bushido.units.lifting import LiftingParser, lifting_grammar, lifting_unit_settings

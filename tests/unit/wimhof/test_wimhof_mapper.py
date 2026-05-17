@@ -3,7 +3,7 @@ import datetime
 import pytest
 
 from bushido.adapter.mapper import WimhofMapper
-from bushido.db.models import WimhofRound, WimhofUnitTable
+from bushido.persistence.models import WimhofRound, WimhofUnitTable
 from bushido.units import Unit
 from bushido.units.wimhof import RoundData, WimhofData
 
