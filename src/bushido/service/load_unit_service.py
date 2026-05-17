@@ -29,15 +29,13 @@ class LoadUnitService:
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[LiftingData]]:
         unit_name = lifting_unit_settings[0].name
-        units = (
-            self.registry[unit_name]
-            .repo(session)
-            .fetch_units(start_t=start_t, end_t=end_t)
+        return self._load_units(
+            self.registry[unit_name].mapper,
+            self.registry[unit_name].repo_factory,
+            session,
+            start_t=start_t,
+            end_t=end_t,
         )
-        parsed_units = [
-            self.registry[unit_name].mapper.from_orm(unit) for unit in units
-        ]
-        return parsed_units
 
     def load_gym_units(
         self,
