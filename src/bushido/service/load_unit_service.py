@@ -2,10 +2,9 @@ import datetime
 
 from sqlalchemy.orm import Session
 
-from bushido.conf import UnitType
 from bushido.dtypes import UnitRegistration
 from bushido.units import Unit
-from bushido.units.lifting import LiftingData
+from bushido.units.lifting import LiftingData, lifting_unit_settings
 
 
 class LoadUnitService:
@@ -21,9 +20,7 @@ class LoadUnitService:
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[LiftingData]]:
-        unit_name = [
-            u for u, v in self.registry.items() if v.unit_type == UnitType.LIFTING
-        ][0]
+        unit_name = lifting_unit_settings[0].unit_name
         units = (
             self.registry[unit_name]
             .repo(session)
