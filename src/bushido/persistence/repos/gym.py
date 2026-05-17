@@ -1,5 +1,3 @@
-
-
 from bushido.units import Unit
 from bushido.units.gym import GymData
 

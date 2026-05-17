@@ -1,34 +1,14 @@
-import datetime
 
-from sqlalchemy import select
-from sqlalchemy.orm import Session, selectinload
 
 from bushido.units import Unit
 from bushido.units.wimhof import RoundData, WimhofData
 
 from ..models import WimhofRound, WimhofUnitTable
+from .base import BaseUnitRepo
 
 
-class WimhofUnitRepo:
-    def __init__(self, session: Session) -> None:
-        self.session = session
-
-    def add_unit(self, unit: Unit[WimhofData]) -> None:
-        self.session.add(self._to_orm(unit))
-        self.session.commit()
-
-    def fetch_units(
-        self,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[Unit[WimhofData]]:
-        stmt = select(WimhofUnitTable).options(selectinload(WimhofUnitTable.subunits))
-        if start_t is not None:
-            stmt = stmt.where(start_t <= WimhofUnitTable.log_time)
-        if end_t is not None:
-            stmt = stmt.where(WimhofUnitTable.log_time <= end_t)
-        stmt = stmt.order_by(WimhofUnitTable.log_time.desc())
-        return [self._from_orm(unit) for unit in self.session.scalars(stmt)]
+class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):
+    orm_cls = WimhofUnitTable
 
     @staticmethod
     def _to_orm(unit: Unit[WimhofData]) -> WimhofUnitTable:
