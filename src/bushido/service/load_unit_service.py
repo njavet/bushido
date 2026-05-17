@@ -1,18 +1,14 @@
 import datetime
-from typing import Callable, TypeVar
+from typing import Callable
 
 from sqlalchemy.orm import Session
 
-from bushido.db.model.base import UnitTable
 from bushido.db.repo import UnitRepo
 from bushido.dtypes import UnitRegistration
-from bushido.protocols import UnitMapper
+from bushido.protocols import TU, T, UnitMapper
 from bushido.units import Unit
 from bushido.units.gym import GymData, gym_unit_settings
 from bushido.units.lifting import LiftingData, lifting_unit_settings
-
-T = TypeVar("T")
-TU = TypeVar("TU", bound=UnitTable)
 
 
 class LoadUnitService:

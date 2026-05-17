@@ -1,5 +1,5 @@
 import datetime
-from typing import Protocol, TypeVar
+from typing import Iterable, Protocol, TypeVar
 
 from bushido.db.model.base import UnitTable
 from bushido.units import Unit
@@ -24,3 +24,7 @@ class UnitMapper(Protocol[T, TU]):
 
     @staticmethod
     def from_orm(orm_unit: TU) -> Unit[T]: ...
+
+
+class UnitMetric(Protocol[T, R]):
+    def compute(self, units: Iterable[Unit[T]]) -> R: ...
