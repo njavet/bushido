@@ -4,11 +4,9 @@ from typing import Any, Callable, Iterable, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 
-from bushido.db.model.base import UnitTable
-from bushido.db.repo import UnitRepo
+from bushido.db.repo import T_ORM, UnitRepo
 from bushido.units import Unit
 
-TU = TypeVar("TU", bound=UnitTable)
 T = TypeVar("T")
 R = TypeVar("R", covariant=True)
 
@@ -37,12 +35,12 @@ class UnitMetric(Protocol[T, R]):
     def compute(self, units: Iterable[Unit[T]]) -> R: ...
 
 
-class UnitMapper(Protocol[T, TU]):
+class UnitMapper(Protocol[T, T_ORM]):
     @staticmethod
-    def to_orm(unit: Unit[T]) -> TU: ...
+    def to_orm(unit: Unit[T]) -> T_ORM: ...
 
     @staticmethod
-    def from_orm(orm_unit: TU) -> Unit[T]: ...
+    def from_orm(orm_unit: T_ORM) -> Unit[T]: ...
 
 
 class UnitParser(Protocol[R]):

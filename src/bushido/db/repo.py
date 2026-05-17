@@ -7,21 +7,21 @@ from sqlalchemy.orm.interfaces import ORMOption
 
 from .model.base import UnitTable
 
-T = TypeVar("T", bound=UnitTable)
+T_ORM = TypeVar("T_ORM", bound=UnitTable)
 
 
-class UnitRepo(Generic[T]):
+class UnitRepo(Generic[T_ORM]):
     def __init__(
         self,
         session: Session,
-        unit_cls: type[T],
+        unit_cls: type[T_ORM],
         load_options: Sequence[ORMOption] = (),
     ) -> None:
         self.session = session
         self.unit_cls = unit_cls
         self.load_options = load_options
 
-    def add_unit(self, unit: T) -> None:
+    def add_unit(self, unit: T_ORM) -> None:
         self.session.add(unit)
         self.session.commit()
 
@@ -30,7 +30,7 @@ class UnitRepo(Generic[T]):
         unit_name: str | None = None,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> Sequence[T]:
+    ) -> Sequence[T_ORM]:
         stmt = select(self.unit_cls).options(*self.load_options)
         if unit_name is not None:
             stmt = stmt.where(self.unit_cls.name == unit_name)
