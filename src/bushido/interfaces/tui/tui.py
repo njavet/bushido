@@ -12,7 +12,7 @@ from bushido.application.service.load_unit_service import LoadUnitService
 from bushido.interfaces.tui.containers import HeaderContainer, LiftingContainer
 from bushido.interfaces.tui.containers.gym import GymContainer
 from bushido.interfaces.tui.screens.log_unit import LogUnitScreen
-from bushido.persistence._sf import SessionFactory
+from bushido.persistence import SessionFactory
 
 
 class BushidoApp(App[None]):
