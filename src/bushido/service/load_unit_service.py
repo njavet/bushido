@@ -8,7 +8,7 @@ from bushido.db.repo import UnitRepo
 from bushido.dtypes import UnitRegistration
 from bushido.protocols import UnitMapper
 from bushido.units import Unit
-from bushido.units.gym import GymData
+from bushido.units.gym import GymData, gym_unit_settings
 from bushido.units.lifting import LiftingData, lifting_unit_settings
 
 T = TypeVar("T")
@@ -45,7 +45,7 @@ class LoadUnitService:
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[GymData]]:
         # TODO repo per unit type
-        unit_name = lifting_unit_settings[0].name
+        unit_name = gym_unit_settings[0].name
         return self._load_units(
             self.registry[unit_name].mapper,
             self.registry[unit_name].repo_factory,
