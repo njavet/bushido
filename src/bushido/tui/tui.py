@@ -24,11 +24,11 @@ class BushidoApp(App[None]):
     def __init__(
         self,
         session_factory: SessionFactory,
-        unit_service: LogUnitService,
+        log_unit_service: LogUnitService,
     ) -> None:
         super().__init__()
         self.sf = session_factory
-        self.unit_service = unit_service
+        self.log_unit_service = log_unit_service
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
@@ -45,13 +45,13 @@ class BushidoApp(App[None]):
     def update_lifting_container(self) -> None:
         gc = self.query_one("#lifting_container", LiftingContainer)
         with self.sf.session() as session:
-            units = self.unit_service.load_lifting_units(session)
+            units = self.log_unit_service.load_lifting_units(session)
             gc.set_units(units)
 
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a units
-        self.push_screen(LogUnitScreen(self.unit_service, self.log_unit))
+        self.push_screen(LogUnitScreen(self.log_unit_service, self.log_unit))
 
     async def log_unit(self, line: str) -> None:
         with self.sf.session() as session:
-            self.unit_service.log_unit(line, session)
+            self.log_unit_service.log_unit(line, session)
