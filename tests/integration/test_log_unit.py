@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from bushido.application.registry import build_registry
 from bushido.application.service import LogUnitService
 from bushido.main import init_db
-from bushido.persistence.models.lifting import LiftingSet, LiftingUnitTable
+from bushido.persistence.models._lifting import LiftingSet, LiftingUnitTable
 from bushido.persistence.sf import SessionFactory
 
 

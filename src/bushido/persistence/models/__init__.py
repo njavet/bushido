@@ -1,8 +1,8 @@
 from ._base import Base, UnitTable
-from .cardio import CardioUnitTable
-from .gym import GymUnitTable
-from .lifting import LiftingSet, LiftingUnitTable
-from .wimhof import WimhofRound, WimhofUnitTable
+from ._cardio import CardioUnitTable
+from ._gym import GymUnitTable
+from ._lifting import LiftingSet, LiftingUnitTable
+from ._wimhof import WimhofRound, WimhofUnitTable
 
 __all__ = [
     "Base",
