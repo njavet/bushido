@@ -4,7 +4,7 @@ from typing import Any, Callable, Iterable, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 
-from bushido.domain.units import Unit
+from .units import Unit
 
 T_DOMAIN = TypeVar("T_DOMAIN")
 R_DOMAIN = TypeVar("R_DOMAIN", covariant=True)
