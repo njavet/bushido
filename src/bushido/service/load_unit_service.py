@@ -4,8 +4,7 @@ from typing import Callable
 from sqlalchemy.orm import Session
 
 from bushido.db.repo import UnitRepo
-from bushido.dtypes import UnitMapper, UnitRegistration
-from bushido.protocols import TU, T
+from bushido.dtypes import TU, T, UnitMapper, UnitRegistration
 from bushido.units import Unit
 from bushido.units.gym import GymData, gym_unit_settings
 from bushido.units.lifting import LiftingData, lifting_unit_settings
