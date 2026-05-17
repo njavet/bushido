@@ -1,5 +1,5 @@
-from .cardio import Mapper as CardioMapper
-from .gym import Mapper as GymMapper
+from .cardio import CardioUnitRepo
+from .gym import GymUnitRepo
 from .lifting import Mapper as LiftingMapper
 from .wimhof import Mapper as WimhofMapper
 
