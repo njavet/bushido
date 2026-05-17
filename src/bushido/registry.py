@@ -12,14 +12,14 @@ from bushido.db.repo import UnitRepo
 from bushido.dtypes import UnitRegistration
 from bushido.units.base import UnitSetting
 from bushido.units.cardio import CardioParser, cardio_grammar
-from bushido.units.gym import GymParser, gym_grammar
+from bushido.units.gym import GymParser, gym_grammar, gym_unit_settings
 from bushido.units.lifting import LiftingParser, lifting_grammar, lifting_unit_settings
 from bushido.units.wimhof import WimhofParser, wimhof_grammar
 
 
 def build_registry() -> dict[str, UnitRegistration]:
     registry: dict[str, UnitRegistration] = {}
-    for unit_setting in lifting_unit_settings:
+    for unit_setting in gym_unit_settings:
         registry[unit_setting.name] = UnitRegistration(
             parser=GymParser(),
             mapper=GymMapper(),
@@ -28,19 +28,18 @@ def build_registry() -> dict[str, UnitRegistration]:
             emoji=unit_setting.emoji,
         )
     for unit_setting in lifting_unit_settings:
-    case UnitType.LIFTING:
         registry[unit_setting.name] = UnitRegistration(
-                parser=LiftingParser(),
-                    mapper=LiftingMapper(),
-                    repo_factory=lambda session: UnitRepo(
-                        session,
-                        LiftingUnitTable,
-                        load_options=(selectinload(LiftingUnitTable.subunits),),
-                    ),
-                    unit_type=UnitType.LIFTING,
-                    grammar=lifting_grammar,
-                    emoji=unit_setting.emoji,
-                )
+            parser=LiftingParser(),
+            mapper=LiftingMapper(),
+            repo_factory=lambda session: UnitRepo(
+                session,
+                LiftingUnitTable,
+                load_options=(selectinload(LiftingUnitTable.subunits),),
+            ),
+            grammar=lifting_grammar,
+            emoji=unit_setting.emoji,
+        )
+    
             case UnitType.WIMHOF:
                 registry[unit_setting.name] = UnitRegistration(
                     parser=WimhofParser(),
