@@ -4,8 +4,9 @@ from typing import Any
 
 from bushido.db.sf import SessionFactory
 from bushido.main import init_db
-from bushido.registry import UNIT_REGISTRY
+from bushido.registry import build_registry
 from bushido.service import UnitService
+from bushido.settings import UNIT_SETTINGS
 
 UNIT_NAMES = [
     "lifting",
@@ -25,7 +26,7 @@ UNIT_NAMES = [
 def load_db(data: list[Any]) -> None:
     sf = SessionFactory()
     init_db(engine=sf.engine)
-    lus = UnitService(registry=UNIT_REGISTRY)
+    lus = UnitService(registry=build_registry(UNIT_SETTINGS))
     with sf.session() as session:
         for unit in data:
             line = unit["line"]
