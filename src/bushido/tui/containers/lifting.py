@@ -14,15 +14,15 @@ from bushido.units.lifting import LiftingData, lifting_unit_settings
 class LiftingContainer(Container):
     def compose(self) -> ComposeResult:
         with TabbedContent(id="lifting_tabs"):
-            for unit_name in lifting_unit_settings:
-                with TabPane(unit_name):
-                    yield RichLog(id=f"{unit_name}_stats")
-                    yield LiftingTable(id=f"{unit_name}_table")
+            for unit_spec in lifting_unit_settings:
+                with TabPane(unit_spec.name):
+                    yield RichLog(id=f"{unit_spec.name}_stats")
+                    yield LiftingTable(id=f"{unit_spec.name}_table")
 
     def set_units(self, units: list[Unit[LiftingData]]) -> None:
-        for unit_name in lifting_unit_settings:
-            self.query_one(f"#{unit_name}_table", LiftingTable).set_units(
-                [u for u in units if u.name == unit_name]
+        for unit_spec in lifting_unit_settings:
+            self.query_one(f"#{unit_spec.name}_table", LiftingTable).set_units(
+                [u for u in units if u.name == unit_spec.name]
             )
 
 
