@@ -11,14 +11,14 @@ from sqlalchemy import Engine
 from starlette.middleware.cors import CORSMiddleware
 
 from bushido import __version__
+from bushido.application.registry import build_registry
+from bushido.application.service import LogUnitService
+from bushido.application.service.load_unit_service import LoadUnitService
 from bushido.conf import DEFAULT_PORT
+from bushido.interfaces.tui.tui import BushidoApp
+from bushido.interfaces.web import router
 from bushido.persistence.models import Base
 from bushido.persistence.sf import SessionFactory
-from bushido.registry import build_registry
-from bushido.service import LogUnitService
-from bushido.service.load_unit_service import LoadUnitService
-from bushido.tui.tui import BushidoApp
-from bushido.web import router
 
 logging.basicConfig(
     level=logging.INFO,

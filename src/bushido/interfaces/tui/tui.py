@@ -7,12 +7,12 @@ from textual.widgets import (
     TabPane,
 )
 
+from bushido.application.service import LogUnitService
+from bushido.application.service.load_unit_service import LoadUnitService
+from bushido.interfaces.tui.containers import HeaderContainer, LiftingContainer
+from bushido.interfaces.tui.containers.gym import GymContainer
+from bushido.interfaces.tui.screens.log_unit import LogUnitScreen
 from bushido.persistence.sf import SessionFactory
-from bushido.service import LogUnitService
-from bushido.service.load_unit_service import LoadUnitService
-from bushido.tui.containers import HeaderContainer, LiftingContainer
-from bushido.tui.containers.gym import GymContainer
-from bushido.tui.screens.log_unit import LogUnitScreen
 
 
 class BushidoApp(App[None]):

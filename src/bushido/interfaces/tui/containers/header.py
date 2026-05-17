@@ -3,8 +3,8 @@ from textual.containers import Container, Horizontal
 from textual_image.widget import Image as ImageWidget
 
 from bushido.conf import BUSHIDO_IMG
-from bushido.tui.widgets.binary_clock import BinaryClock
-from bushido.tui.widgets.binary_date import BinaryDate
+from bushido.interfaces.tui.widgets.binary_clock import BinaryClock
+from bushido.interfaces.tui.widgets.binary_date import BinaryDate
 
 
 class HeaderContainer(Container):
