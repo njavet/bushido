@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 
 from bushido.application.schema.req import UnitLogRequest
 from bushido.domain.dtypes import Clock, SystemClock, UnitRegistration
-from bushido.domain.units import ParsingError, Unit
+from bushido.domain.units import Unit
+from bushido.domain.units.exceptions import ParsingError
 
 
 class LogUnitService:

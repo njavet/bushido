@@ -4,13 +4,9 @@ from typing import Callable
 from sqlalchemy.orm import Session
 
 from bushido.domain.dtypes import T_DOMAIN, UnitRegistration, UnitRepo
-from bushido.domain.units import (
-    GymData,
-    LiftingData,
-    Unit,
-    gym_unit_settings,
-    lifting_unit_settings,
-)
+from bushido.domain.units import Unit
+from bushido.domain.units.gym import GymData, gym_unit_settings
+from bushido.domain.units.lifting import LiftingData, lifting_unit_settings
 
 
 class LoadUnitService:
