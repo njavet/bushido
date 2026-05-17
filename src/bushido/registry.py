@@ -3,8 +3,6 @@ from sqlalchemy.orm import selectinload
 from bushido.adapter.mapper import CardioMapper, GymMapper, LiftingMapper, WimhofMapper
 from bushido.dtypes import UnitRegistration
 from bushido.persistence.models import (
-    CardioUnitTable,
-    GymUnitTable,
     LiftingUnitTable,
     WimhofUnitTable,
 )
@@ -21,7 +19,7 @@ def build_registry() -> dict[str, UnitRegistration]:
         registry[unit_setting.name] = UnitRegistration(
             parser=GymParser(),
             mapper=GymMapper(),
-            repo_factory=lambda session: UnitRepo(session, GymUnitTable),
+            repo_factory=lambda session: UnitRepo(session),
             grammar=gym_grammar,
             emoji=unit_setting.emoji,
         )
@@ -31,7 +29,6 @@ def build_registry() -> dict[str, UnitRegistration]:
             mapper=LiftingMapper(),
             repo_factory=lambda session: UnitRepo(
                 session,
-                LiftingUnitTable,
                 load_options=(selectinload(LiftingUnitTable.subunits),),
             ),
             grammar=lifting_grammar,
@@ -43,7 +40,6 @@ def build_registry() -> dict[str, UnitRegistration]:
             mapper=WimhofMapper(),
             repo_factory=lambda session: UnitRepo(
                 session,
-                WimhofUnitTable,
                 load_options=(selectinload(WimhofUnitTable.subunits),),
             ),
             grammar=wimhof_grammar,
@@ -53,7 +49,7 @@ def build_registry() -> dict[str, UnitRegistration]:
         registry[unit_setting.name] = UnitRegistration(
             parser=CardioParser(),
             mapper=CardioMapper(),
-            repo_factory=lambda session: UnitRepo(session, CardioUnitTable),
+            repo_factory=lambda session: UnitRepo(session),
             grammar=cardio_grammar,
             emoji=unit_setting.emoji,
         )

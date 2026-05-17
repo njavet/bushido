@@ -14,11 +14,9 @@ class UnitRepo(Generic[T_ORM]):
     def __init__(
         self,
         session: Session,
-        unit_cls: type[T_ORM],
         load_options: Sequence[ORMOption] = (),
     ) -> None:
         self.session = session
-        self.unit_cls = unit_cls
         self.load_options = load_options
 
     def add_unit(self, unit: T_ORM) -> None:
@@ -31,12 +29,12 @@ class UnitRepo(Generic[T_ORM]):
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> Sequence[T_ORM]:
-        stmt = select(self.unit_cls).options(*self.load_options)
+        stmt = select(UnitTable).options(*self.load_options)
         if unit_name is not None:
-            stmt = stmt.where(self.unit_cls.name == unit_name)
+            stmt = stmt.where(UnitTable.name == unit_name)
         if start_t is not None:
-            stmt = stmt.where(start_t <= self.unit_cls.log_time)
+            stmt = stmt.where(start_t <= UnitTable.log_time)
         if end_t is not None:
-            stmt = stmt.where(self.unit_cls.log_time <= end_t)
-        stmt = stmt.order_by(self.unit_cls.log_time.desc())
+            stmt = stmt.where(UnitTable.log_time <= end_t)
+        stmt = stmt.order_by(UnitTable.log_time.desc())
         return list(self.session.scalars(stmt))
