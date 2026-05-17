@@ -4,7 +4,7 @@ from typing import Callable
 from sqlalchemy.orm import Session
 
 from bushido.db.repo import T_ORM, UnitRepo
-from bushido.dtypes import T, UnitMapper, UnitRegistration
+from bushido.dtypes import T_DOMAIN, UnitMapper, UnitRegistration
 from bushido.units import Unit
 from bushido.units.gym import GymData, gym_unit_settings
 from bushido.units.lifting import LiftingData, lifting_unit_settings
@@ -51,12 +51,12 @@ class LoadUnitService:
 
     @staticmethod
     def _load_units(
-        mapper: UnitMapper[T, T_ORM],
+        mapper: UnitMapper[T_DOMAIN, T_ORM],
         repo_factory: Callable[[Session], UnitRepo[T_ORM]],
         session: Session,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> list[Unit[T]]:
+    ) -> list[Unit[T_DOMAIN]]:
         units = repo_factory(session).fetch_units(start_t=start_t, end_t=end_t)
         parsed_units = [mapper.from_orm(unit) for unit in units]
         return parsed_units

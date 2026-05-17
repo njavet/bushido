@@ -7,8 +7,12 @@ from sqlalchemy.orm import Session
 from bushido.db.repo import T_ORM, UnitRepo
 from bushido.units import Unit
 
-T = TypeVar("T")
-R = TypeVar("R", covariant=True)
+T_DOMAIN = TypeVar("T_DOMAIN")
+R_DOMAIN = TypeVar("R_DOMAIN", covariant=True)
+
+
+class Clock(Protocol):
+    def now(self) -> datetime.datetime: ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -31,22 +35,18 @@ class UnitRegistration:
         return self.repo_factory(session)
 
 
-class UnitMetric(Protocol[T, R]):
-    def compute(self, units: Iterable[Unit[T]]) -> R: ...
+class UnitMetric(Protocol[T_DOMAIN, R_DOMAIN]):
+    def compute(self, units: Iterable[Unit[T_DOMAIN]]) -> R_DOMAIN: ...
 
 
-class UnitMapper(Protocol[T, T_ORM]):
+class UnitMapper(Protocol[T_DOMAIN, T_ORM]):
     @staticmethod
-    def to_orm(unit: Unit[T]) -> T_ORM: ...
+    def to_orm(unit: Unit[T_DOMAIN]) -> T_ORM: ...
 
     @staticmethod
-    def from_orm(orm_unit: T_ORM) -> Unit[T]: ...
+    def from_orm(orm_unit: T_ORM) -> Unit[T_DOMAIN]: ...
 
 
-class UnitParser(Protocol[R]):
+class UnitParser(Protocol[R_DOMAIN]):
     @staticmethod
-    def parse(tokens: tuple[str, ...]) -> R: ...
-
-
-class Clock(Protocol):
-    def now(self) -> datetime.datetime: ...
+    def parse(tokens: tuple[str, ...]) -> R_DOMAIN: ...
