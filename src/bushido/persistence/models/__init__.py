@@ -1,4 +1,4 @@
-from .base import Base, UnitTable
+from ._base import Base, UnitTable
 from .cardio import CardioUnitTable
 from .gym import GymUnitTable
 from .lifting import LiftingSet, LiftingUnitTable

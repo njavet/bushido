@@ -2,7 +2,7 @@ import datetime
 
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .base import UnitTable
+from ._base import UnitTable
 
 
 class GymUnitTable(UnitTable):
