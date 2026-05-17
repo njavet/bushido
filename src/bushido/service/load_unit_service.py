@@ -20,7 +20,7 @@ class LoadUnitService:
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[LiftingData]]:
-        unit_name = lifting_unit_settings[0].unit_name
+        unit_name = lifting_unit_settings[0].name
         units = (
             self.registry[unit_name]
             .repo(session)
