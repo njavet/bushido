@@ -3,8 +3,7 @@ from typing import Callable
 
 from sqlalchemy.orm import Session
 
-from bushido.dtypes import T_DOMAIN, UnitMapper, UnitRegistration
-from bushido.persistence.repo import T_ORM, UnitRepo
+from bushido.dtypes import T_DOMAIN, UnitRegistration, UnitRepo
 from bushido.units import Unit
 from bushido.units.gym import GymData, gym_unit_settings
 from bushido.units.lifting import LiftingData, lifting_unit_settings
@@ -26,7 +25,6 @@ class LoadUnitService:
         # TODO repo per unit type
         unit_name = lifting_unit_settings[0].name
         return self._load_units(
-            self.registry[unit_name].mapper,
             self.registry[unit_name].repo_factory,
             session,
             start_t=start_t,
@@ -42,7 +40,6 @@ class LoadUnitService:
         # TODO repo per unit type
         unit_name = gym_unit_settings[0].name
         return self._load_units(
-            self.registry[unit_name].mapper,
             self.registry[unit_name].repo_factory,
             session,
             start_t=start_t,
@@ -51,12 +48,9 @@ class LoadUnitService:
 
     @staticmethod
     def _load_units(
-        mapper: UnitMapper[T_DOMAIN, T_ORM],
-        repo_factory: Callable[[Session], UnitRepo[T_ORM]],
+        repo_factory: Callable[[Session], UnitRepo[T_DOMAIN]],
         session: Session,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[T_DOMAIN]]:
-        units = repo_factory(session).fetch_units(start_t=start_t, end_t=end_t)
-        parsed_units = [mapper.from_orm(unit) for unit in units]
-        return parsed_units
+        return repo_factory(session).fetch_units(start_t=start_t, end_t=end_t)

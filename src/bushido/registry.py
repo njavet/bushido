@@ -1,4 +1,3 @@
-
 from bushido.dtypes import UnitRegistration
 from bushido.persistence.repos import (
     CardioUnitRepo,
