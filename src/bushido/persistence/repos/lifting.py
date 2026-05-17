@@ -14,7 +14,7 @@ class LiftingUnitRepo:
         self.session = session
 
     def add_unit(self, unit: Unit[LiftingData]) -> None:
-        self.session.add(unit)
+        self.session.add(self._to_orm(unit))
         self.session.commit()
 
     def fetch_units(
