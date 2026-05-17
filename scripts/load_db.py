@@ -5,7 +5,7 @@ from typing import Any
 from bushido.application.registry import build_registry
 from bushido.application.service import LogUnitService
 from bushido.main import init_db
-from bushido.persistence._sf import SessionFactory
+from bushido.persistence import SessionFactory
 
 UNIT_NAMES = [
     "lifting",
