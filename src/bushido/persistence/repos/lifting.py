@@ -1,7 +1,6 @@
 from sqlalchemy.orm import selectinload
 
-from bushido.units import Unit
-from bushido.units.lifting import LiftingData, SetData
+from bushido.domain.units import LiftingData, SetData, Unit
 
 from ..models import LiftingSet, LiftingUnitTable
 from .base import BaseUnitRepo

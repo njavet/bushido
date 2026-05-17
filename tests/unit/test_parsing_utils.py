@@ -1,6 +1,6 @@
 import datetime
 
-from bushido.units.dt_parse import (
+from bushido.domain.units import (
     find_previous_sunday,
     parse_military_time_string,
     time_string_to_seconds,

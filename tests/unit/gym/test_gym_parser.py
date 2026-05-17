@@ -2,8 +2,7 @@ import datetime
 
 import pytest
 
-from bushido.units.gym.parser import Parser
-from bushido.units.gym.spec import Data
+from bushido.domain.units import Data, Parser
 
 
 @pytest.fixture

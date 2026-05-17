@@ -1,3 +1,19 @@
+from bushido.domain.units import (
+    CardioParser,
+    GymParser,
+    LiftingParser,
+    cardio_grammar,
+    cardio_unit_settings,
+    gym_grammar,
+    gym_unit_settings,
+    lifting_grammar,
+    lifting_unit_settings,
+)
+from bushido.domain.units.wimhof import (
+    WimhofParser,
+    wimhof_grammar,
+    wimhof_unit_settings,
+)
 from bushido.dtypes import UnitRegistration
 from bushido.persistence.repos import (
     CardioUnitRepo,
@@ -5,10 +21,6 @@ from bushido.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
-from bushido.units.cardio import CardioParser, cardio_grammar, cardio_unit_settings
-from bushido.units.gym import GymParser, gym_grammar, gym_unit_settings
-from bushido.units.lifting import LiftingParser, lifting_grammar, lifting_unit_settings
-from bushido.units.wimhof import WimhofParser, wimhof_grammar, wimhof_unit_settings
 
 
 def build_registry() -> dict[str, UnitRegistration]:

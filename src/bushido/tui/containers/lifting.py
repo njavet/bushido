@@ -8,8 +8,7 @@ from textual.widgets import (
 )
 
 # TODO api
-from bushido.units import Unit
-from bushido.units.lifting import LiftingData, lifting_unit_settings
+from bushido.domain.units import LiftingData, Unit, lifting_unit_settings
 
 
 class LiftingContainer(Container):

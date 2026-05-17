@@ -1,5 +1,5 @@
-from bushido.units import Unit
-from bushido.units.wimhof import RoundData, WimhofData
+from bushido.domain.units import Unit
+from bushido.domain.units.wimhof import RoundData, WimhofData
 
 from ..models import WimhofRound, WimhofUnitTable
 from .base import BaseUnitRepo
