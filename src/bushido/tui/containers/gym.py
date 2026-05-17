@@ -43,7 +43,7 @@ class GymTable(DataTable[str]):
                 self.add_row(
                     "",
                     str(unit.name),
-                    unit.start_t.strftime("%H%M"),
-                    unit.end_t.strftime("%H%M"),
-                    unit.gym,
+                    unit.data.start_t.strftime("%H%M"),
+                    unit.data.end_t.strftime("%H%M"),
+                    unit.data.gym,
                 )
