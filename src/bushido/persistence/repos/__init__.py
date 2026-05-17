@@ -1,11 +1,11 @@
 from .cardio import CardioUnitRepo
 from .gym import GymUnitRepo
-from .lifting import Mapper as LiftingMapper
-from .wimhof import Mapper as WimhofMapper
+from .lifting import LiftingUnitRepo
+from .wimhof import WimhofUnitRepo
 
 __all__ = [
-    "CardioMapper",
-    "GymMapper",
-    "LiftingMapper",
-    "WimhofMapper",
+    "CardioUnitRepo",
+    "GymUnitRepo",
+    "LiftingUnitRepo",
+    "WimhofUnitRepo",
 ]
