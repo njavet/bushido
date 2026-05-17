@@ -4,7 +4,6 @@ from typing import Any, Callable, Iterable, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 
-from bushido.persistence.repo import T_ORM, UnitRepo
 from bushido.units import Unit
 
 T_DOMAIN = TypeVar("T_DOMAIN")
@@ -26,7 +25,6 @@ class SystemClock:
 @dataclass(frozen=True, slots=True)
 class UnitRegistration:
     parser: UnitParser[Any]
-    mapper: UnitMapper[Any, Any]
     repo_factory: Callable[[Session], UnitRepo[Any]]
     grammar: str
     emoji: str
@@ -39,12 +37,13 @@ class UnitMetric(Protocol[T_DOMAIN, R_DOMAIN]):
     def compute(self, units: Iterable[Unit[T_DOMAIN]]) -> R_DOMAIN: ...
 
 
-class UnitMapper(Protocol[T_DOMAIN, T_ORM]):
-    @staticmethod
-    def to_orm(unit: Unit[T_DOMAIN]) -> T_ORM: ...
-
-    @staticmethod
-    def from_orm(orm_unit: T_ORM) -> Unit[T_DOMAIN]: ...
+class UnitRepo(Protocol[T_DOMAIN]):
+    def add_unit(self, unit: Unit[T_DOMAIN]) -> None: ...
+    def fetch_units(
+        self,
+        start_t: datetime.datetime | None = None,
+        end_t: datetime.datetime | None = None,
+    ) -> list[Unit[T_DOMAIN]]: ...
 
 
 class UnitParser(Protocol[R_DOMAIN]):
