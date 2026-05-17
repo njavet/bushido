@@ -1,12 +1,16 @@
 from bushido.domain.dtypes import UnitRegistration
-from bushido.domain.units import (
+from bushido.domain.units.cardio import (
     CardioParser,
-    GymParser,
-    LiftingParser,
     cardio_grammar,
     cardio_unit_settings,
+)
+from bushido.domain.units.gym import (
+    GymParser,
     gym_grammar,
     gym_unit_settings,
+)
+from bushido.domain.units.lifting import (
+    LiftingParser,
     lifting_grammar,
     lifting_unit_settings,
 )
