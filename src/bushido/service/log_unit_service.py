@@ -32,14 +32,13 @@ class LogUnitService:
         else:
             log_time = self.clock.now()
         unit_data = unit_registry.parser.parse(tokens)
-        parsed_unit = Unit(
+        unit = Unit(
             name=raw.name,
             emoji=unit_registry.emoji,
             data=unit_data,
             log_time=log_time,
             comment=raw.comment,
         )
-        unit = unit_registry.mapper.to_orm(parsed_unit)
         unit_registry.repo(session).add_unit(unit)
 
     @property
