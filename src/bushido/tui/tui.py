@@ -39,6 +39,15 @@ class BushidoApp(App[None]):
 
         yield Footer(id="app_footer")
 
+    def on_mount(self) -> None:
+        self.update_lifting_container()
+
+    def update_lifting_container(self) -> None:
+        gc = self.query_one("#lifting_container", LiftingContainer)
+        with self.sf.session() as session:
+            units = self.unit_service.load_lifting_units(session)
+            gc.set_units(units)
+
     def action_log_unit(self) -> None:
         # TODO update other widgets after saving a units
         self.push_screen(LogUnitScreen(self.unit_service, self.log_unit))
