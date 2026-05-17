@@ -7,8 +7,8 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido.application.service import LogUnitService
-from bushido.application.service.load_unit_service import LoadUnitService
+from bushido.application.services import LogUnitService
+from bushido.application.services.load_unit_service import LoadUnitService
 from bushido.interfaces.tui.containers import HeaderContainer, LiftingContainer
 from bushido.interfaces.tui.containers.gym import GymContainer
 from bushido.interfaces.tui.screens.log_unit import LogUnitScreen

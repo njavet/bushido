@@ -12,8 +12,8 @@ from starlette.middleware.cors import CORSMiddleware
 
 from bushido import __version__
 from bushido.application.registry import build_registry
-from bushido.application.service import LogUnitService
-from bushido.application.service.load_unit_service import LoadUnitService
+from bushido.application.services import LogUnitService
+from bushido.application.services.load_unit_service import LoadUnitService
 from bushido.conf import DEFAULT_PORT
 from bushido.interfaces.tui import BushidoApp
 from bushido.interfaces.web import router

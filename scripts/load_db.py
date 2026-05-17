@@ -3,7 +3,7 @@ import sys
 from typing import Any
 
 from bushido.application.registry import build_registry
-from bushido.application.service import LogUnitService
+from bushido.application.services import LogUnitService
 from bushido.main import init_db
 from bushido.persistence import SessionFactory
 
