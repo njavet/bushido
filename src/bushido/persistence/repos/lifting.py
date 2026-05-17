@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from bushido.units import Unit
 from bushido.units.lifting import LiftingData, SetData
@@ -22,7 +22,7 @@ class LiftingUnitRepo:
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[LiftingData]]:
-        stmt = select(LiftingUnitTable).options(*())
+        stmt = select(LiftingUnitTable).options(selectinload(LiftingUnitTable.subunits))
         if start_t is not None:
             stmt = stmt.where(start_t <= LiftingUnitTable.log_time)
         if end_t is not None:

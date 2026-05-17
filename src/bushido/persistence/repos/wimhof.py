@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from bushido.units import Unit
 from bushido.units.wimhof import RoundData, WimhofData
@@ -22,7 +22,7 @@ class WimhofUnitRepo:
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[WimhofData]]:
-        stmt = select(WimhofUnitTable).options(*())
+        stmt = select(WimhofUnitTable).options(selectinload(WimhofUnitTable.subunits))
         if start_t is not None:
             stmt = stmt.where(start_t <= WimhofUnitTable.log_time)
         if end_t is not None:
