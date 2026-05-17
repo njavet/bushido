@@ -16,6 +16,7 @@ from bushido.db.model import Base
 from bushido.db.sf import SessionFactory
 from bushido.registry import build_registry
 from bushido.service import LogUnitService
+from bushido.service.load_unit_service import LoadUnitService
 from bushido.tui.tui import BushidoApp
 from bushido.web import router
 
@@ -69,9 +70,10 @@ def main() -> None:
     elif args.tui:
         sf = SessionFactory()
         init_db(engine=sf.engine)
-        unit_service = LogUnitService(registry=build_registry())
-        BushidoApp(sf, unit_service).run()
-
+        registry = build_registry()
+        log_unit_service = LogUnitService(registry=registry)
+        load_unit_service = LoadUnitService(registry=registry)
+        BushidoApp(sf, log_unit_service, load_unit_service).run()
     else:
         uvicorn.run(
             "bushido.web.web:create_app",
