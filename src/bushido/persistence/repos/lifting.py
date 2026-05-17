@@ -1,11 +1,37 @@
-from bushido.persistence.models import LiftingSet, LiftingUnitTable
+import datetime
+
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
 from bushido.units import Unit
 from bushido.units.lifting import LiftingData, SetData
 
+from ..models import LiftingSet, LiftingUnitTable
 
-class Mapper:
+
+class LiftingUnitRepo:
+    def __init__(self, session: Session) -> None:
+        self.session = session
+
+    def add_unit(self, unit: Unit[LiftingData]) -> None:
+        self.session.add(unit)
+        self.session.commit()
+
+    def fetch_units(
+        self,
+        start_t: datetime.datetime | None = None,
+        end_t: datetime.datetime | None = None,
+    ) -> list[Unit[LiftingData]]:
+        stmt = select(LiftingUnitTable).options(*())
+        if start_t is not None:
+            stmt = stmt.where(start_t <= LiftingUnitTable.log_time)
+        if end_t is not None:
+            stmt = stmt.where(LiftingUnitTable.log_time <= end_t)
+        stmt = stmt.order_by(LiftingUnitTable.log_time.desc())
+        return [self._from_orm(unit) for unit in self.session.scalars(stmt)]
+
     @staticmethod
-    def to_orm(unit: Unit[LiftingData]) -> LiftingUnitTable:
+    def _to_orm(unit: Unit[LiftingData]) -> LiftingUnitTable:
         orm_unit = LiftingUnitTable(
             name=unit.name,
             emoji=unit.emoji,
@@ -19,7 +45,7 @@ class Mapper:
         return orm_unit
 
     @staticmethod
-    def from_orm(orm_unit: LiftingUnitTable) -> Unit[LiftingData]:
+    def _from_orm(orm_unit: LiftingUnitTable) -> Unit[LiftingData]:
         lst = []
         for s in orm_unit.subunits:
             sp = SetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
@@ -32,45 +58,3 @@ class Mapper:
             comment=orm_unit.comment,
         )
         return pu
-
-
-import datetime
-from typing import Generic, Sequence, TypeVar
-
-from sqlalchemy import select
-from sqlalchemy.orm import Session
-from sqlalchemy.orm.interfaces import ORMOption
-
-from .models.base import UnitTable
-
-T_ORM = TypeVar("T_ORM", bound=UnitTable)
-
-
-class UnitRepo(Generic[T_ORM]):
-    def __init__(
-        self,
-        session: Session,
-        load_options: Sequence[ORMOption] = (),
-    ) -> None:
-        self.session = session
-        self.load_options = load_options
-
-    def add_unit(self, unit: T_ORM) -> None:
-        self.session.add(unit)
-        self.session.commit()
-
-    def fetch_units(
-        self,
-        unit_name: str | None = None,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> Sequence[T_ORM]:
-        stmt = select(UnitTable).options(*self.load_options)
-        if unit_name is not None:
-            stmt = stmt.where(UnitTable.name == unit_name)
-        if start_t is not None:
-            stmt = stmt.where(start_t <= UnitTable.log_time)
-        if end_t is not None:
-            stmt = stmt.where(UnitTable.log_time <= end_t)
-        stmt = stmt.order_by(UnitTable.log_time.desc())
-        return list(self.session.scalars(stmt))
