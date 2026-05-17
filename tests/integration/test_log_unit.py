@@ -9,7 +9,6 @@ from bushido.db.sf import SessionFactory
 from bushido.main import init_db
 from bushido.registry import build_registry
 from bushido.service import UnitService
-from bushido.settings import UNIT_SETTINGS
 
 
 @pytest.fixture(scope="session")
@@ -30,7 +29,7 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 @pytest.fixture
 def service() -> UnitService:
-    return UnitService(registry=build_registry(UNIT_SETTINGS))
+    return UnitService(registry=build_registry())
 
 
 def test_log_lifting_unit_success(service: UnitService, session: Session) -> None:
