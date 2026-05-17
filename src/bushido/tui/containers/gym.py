@@ -42,7 +42,7 @@ class GymTable(DataTable[str]):
             for unit in units:
                 self.add_row(
                     "",
-                    str(unit.name),
+                    " ".join([unit.emoji, unit.name]),
                     unit.data.start_t.strftime("%H%M"),
                     unit.data.end_t.strftime("%H%M"),
                     unit.data.gym,

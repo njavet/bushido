@@ -68,3 +68,10 @@ LiftingTable {
 RichLog {
     width: 50%;
 }
+
+GymContainer {
+    layout: horizontal;
+}
+GymTable {
+    width: 50%;
+}
