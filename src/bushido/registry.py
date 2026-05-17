@@ -10,29 +10,27 @@ from bushido.db.model import (
 )
 from bushido.db.repo import UnitRepo
 from bushido.dtypes import UnitRegistration
-from bushido.settings import UnitSetting
+from bushido.units.base import UnitSetting
 from bushido.units.cardio import CardioParser, cardio_grammar
 from bushido.units.gym import GymParser, gym_grammar
-from bushido.units.lifting import LiftingParser, lifting_grammar
+from bushido.units.lifting import LiftingParser, lifting_grammar, lifting_unit_settings
 from bushido.units.wimhof import WimhofParser, wimhof_grammar
 
 
-def build_registry(unit_settings: list[UnitSetting]) -> dict[str, UnitRegistration]:
+def build_registry() -> dict[str, UnitRegistration]:
     registry: dict[str, UnitRegistration] = {}
-    for unit_setting in unit_settings:
-        match unit_setting.unit_type:
-            case UnitType.GYM:
-                registry[unit_setting.name] = UnitRegistration(
-                    parser=GymParser(),
-                    mapper=GymMapper(),
-                    repo_factory=lambda session: UnitRepo(session, GymUnitTable),
-                    unit_type=UnitType.GYM,
-                    grammar=gym_grammar,
-                    emoji=unit_setting.emoji,
-                )
-            case UnitType.LIFTING:
-                registry[unit_setting.name] = UnitRegistration(
-                    parser=LiftingParser(),
+    for unit_setting in lifting_unit_settings:
+        registry[unit_setting.name] = UnitRegistration(
+            parser=GymParser(),
+            mapper=GymMapper(),
+            repo_factory=lambda session: UnitRepo(session, GymUnitTable),
+            grammar=gym_grammar,
+            emoji=unit_setting.emoji,
+        )
+    for unit_setting in lifting_unit_settings:
+    case UnitType.LIFTING:
+        registry[unit_setting.name] = UnitRegistration(
+                parser=LiftingParser(),
                     mapper=LiftingMapper(),
                     repo_factory=lambda session: UnitRepo(
                         session,
