@@ -3,8 +3,8 @@ from typing import Callable
 
 from sqlalchemy.orm import Session
 
-from bushido.db.repo import UnitRepo
-from bushido.dtypes import TU, T, UnitMapper, UnitRegistration
+from bushido.db.repo import T_ORM, UnitRepo
+from bushido.dtypes import T, UnitMapper, UnitRegistration
 from bushido.units import Unit
 from bushido.units.gym import GymData, gym_unit_settings
 from bushido.units.lifting import LiftingData, lifting_unit_settings
@@ -51,8 +51,8 @@ class LoadUnitService:
 
     @staticmethod
     def _load_units(
-        mapper: UnitMapper[T, TU],
-        repo_factory: Callable[[Session], UnitRepo[TU]],
+        mapper: UnitMapper[T, T_ORM],
+        repo_factory: Callable[[Session], UnitRepo[T_ORM]],
         session: Session,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
