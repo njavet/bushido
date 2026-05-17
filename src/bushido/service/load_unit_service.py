@@ -28,6 +28,7 @@ class LoadUnitService:
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[LiftingData]]:
+        # TODO repo per unit type
         unit_name = lifting_unit_settings[0].name
         return self._load_units(
             self.registry[unit_name].mapper,
@@ -43,6 +44,7 @@ class LoadUnitService:
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[GymData]]:
+        # TODO repo per unit type
         unit_name = lifting_unit_settings[0].name
         return self._load_units(
             self.registry[unit_name].mapper,
