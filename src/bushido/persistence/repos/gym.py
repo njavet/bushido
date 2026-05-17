@@ -1,34 +1,14 @@
-import datetime
 
-from sqlalchemy import select
-from sqlalchemy.orm import Session
 
 from bushido.units import Unit
 from bushido.units.gym import GymData
 
 from ..models import GymUnitTable
+from .base import BaseUnitRepo
 
 
-class GymUnitRepo:
-    def __init__(self, session: Session) -> None:
-        self.session = session
-
-    def add_unit(self, unit: Unit[GymData]) -> None:
-        self.session.add(self._to_orm(unit))
-        self.session.commit()
-
-    def fetch_units(
-        self,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[Unit[GymData]]:
-        stmt = select(GymUnitTable)
-        if start_t is not None:
-            stmt = stmt.where(start_t <= GymUnitTable.log_time)
-        if end_t is not None:
-            stmt = stmt.where(GymUnitTable.log_time <= end_t)
-        stmt = stmt.order_by(GymUnitTable.log_time.desc())
-        return [self._from_orm(unit) for unit in self.session.scalars(stmt)]
+class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
+    orm_cls = GymUnitTable
 
     @staticmethod
     def _to_orm(unit: Unit[GymData]) -> GymUnitTable:
