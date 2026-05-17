@@ -15,7 +15,7 @@ from bushido.conf import DEFAULT_PORT
 from bushido.db.model import Base
 from bushido.db.sf import SessionFactory
 from bushido.registry import build_registry
-from bushido.service import UnitService
+from bushido.service import LogUnitService
 from bushido.tui.tui import BushidoApp
 from bushido.web import router
 
@@ -69,7 +69,7 @@ def main() -> None:
     elif args.tui:
         sf = SessionFactory()
         init_db(engine=sf.engine)
-        unit_service = UnitService(registry=build_registry())
+        unit_service = LogUnitService(registry=build_registry())
         BushidoApp(sf, unit_service).run()
 
     else:

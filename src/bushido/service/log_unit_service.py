@@ -11,7 +11,7 @@ from bushido.units.exceptions import ParsingError
 from bushido.units.lifting import LiftingData
 
 
-class UnitService:
+class LogUnitService:
     def __init__(
         self,
         registry: dict[str, UnitRegistration],

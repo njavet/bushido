@@ -8,7 +8,7 @@ from textual.widgets import (
 )
 
 from bushido.db.sf import SessionFactory
-from bushido.service import UnitService
+from bushido.service import LogUnitService
 from bushido.tui.containers import HeaderContainer, LiftingContainer
 from bushido.tui.screens.log_unit import LogUnitScreen
 
@@ -24,7 +24,7 @@ class BushidoApp(App[None]):
     def __init__(
         self,
         session_factory: SessionFactory,
-        unit_service: UnitService,
+        unit_service: LogUnitService,
     ) -> None:
         super().__init__()
         self.sf = session_factory
