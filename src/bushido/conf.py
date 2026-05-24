@@ -2,7 +2,7 @@ from zoneinfo import ZoneInfo
 
 DB_URL = "sqlite:///bushido.db"
 
-BUSHIDO_IMG = "src/bushido/assets/images/bushido.png"
+BUSHIDO_IMG = "src/bushido/application/assets/images/bushido.png"
 KYOKUSHIN_IMG = "src/bushido/assets/images/kyokushin.png"
 
 DEFAULT_PORT = 8000
