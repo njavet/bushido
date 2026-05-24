@@ -11,6 +11,7 @@ from bushido.application.services import LogUnitService
 from bushido.application.services.load_unit_service import LoadUnitService
 from bushido.interfaces.tui.containers import HeaderContainer, LiftingContainer
 from bushido.interfaces.tui.containers.gym import GymContainer
+from bushido.interfaces.tui.containers.spartan import SpartanContainer
 from bushido.interfaces.tui.screens.log_unit import LogUnitScreen
 from bushido.persistence import SessionFactory
 
@@ -36,8 +37,10 @@ class BushidoApp(App[None]):
 
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
-        yield Rule()
+        yield Rule(line_style="dashed")
         with TabbedContent(id="main_tabs"):
+            with TabPane("spartan"):
+                yield SpartanContainer(id="spartan_container")
             with TabPane("gym"):
                 yield GymContainer(id="gym_container")
             with TabPane("lifting"):
