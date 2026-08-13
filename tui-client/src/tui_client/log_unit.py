@@ -9,64 +9,18 @@ from bushidolib.exceptions import ParsingError
 from bushidolib.units import Unit
 
 
-@singledispatch
-def log_unit(request: object, session: Session) -> None:
-    raise TypeError(f"Unsupported type for log_unit: {type(request).__name__}")
 
-
-@log_unit.register
-def log_unit_request(request: CardioLogUnitRequest, session: Session) -> None:
-    pass
-
-
-class LogUnitService:
-    def __init__(
-        self,
-        clock: Clock | None = None,
-    ) -> None:
-        self.clock = SystemClock() if clock is None else clock
-
-    def log_unit(self, line: str, session: Session) -> None:
-        raw = parse_raw_unit(line)
-        try:
-            unit_registry = self.registry[raw.name]
-        except KeyError as e:
-            raise ParsingError(f"Unknown unit {raw.name}") from e
-
-        tokens, log_time_str = split_options(raw.tokens)
-        if log_time_str:
-            log_time = datetime.datetime.strptime(log_time_str, "%Y%m%d-%H%M").replace(
-                tzinfo=datetime.UTC
-            )
-        else:
-            log_time = self.clock.now()
-        unit_data = unit_registry.parser.parse(tokens)
-        unit = Unit(
-            name=raw.name,
-            emoji=unit_registry.emoji,
-            data=unit_data,
-            log_time=log_time,
-            comment=raw.comment,
-        )
-        unit_registry.repo(session).add_unit(unit)
-
-    @property
-    def unit_names(self) -> list[str]:
-        return list(self.registry.keys())
-
-
-def parse_raw_unit(line: str) -> UnitLogRequest:
+def parse_raw_unit(line: str) -> tuple[str, tuple[str, ...], str | None]:
     body, sep, comment = line.partition("#")
     tokens = tuple(body.split())
 
     if not tokens:
         raise ParsingError(f"Empty unit line: {line}")
 
-    return UnitLogRequest(
-        name=tokens[0],
-        tokens=tokens[1:],
-        comment=comment.strip() if sep and comment.strip() else None,
-    )
+    name=tokens[0]
+    tokens=tokens[1:]
+    comment=comment.strip() if sep and comment.strip() else None
+    return name, tokens, comment
 
 
 def split_options(tokens: tuple[str, ...]) -> tuple[tuple[str, ...], str | None]:
