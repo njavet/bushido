@@ -1,8 +1,10 @@
+import datetime
 from collections.abc import Iterator
 
 import pytest
-from bushido_server.registry import build_registry
-from bushido_server.service import LogUnitService
+
+from bushido_server.schema.log_req import LiftingLogUnitRequest
+from bushido_server.service import log_unit
 from bushido_server.main import init_db
 from bushido_server.persistence import SessionFactory
 from bushido_server.persistence.models import LiftingSet, LiftingUnitTable
@@ -26,14 +28,9 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
             s.close()
 
 
-@pytest.fixture
-def service() -> LogUnitService:
-    return LogUnitService(registry=build_registry())
-
-
-def test_log_lifting_unit_success(service: LogUnitService, session: Session) -> None:
-    line = "benchpress 100 5 180 100 5"
-    service.log_unit(line, session)
+def test_log_lifting_unit_success(session: Session) -> None:
+    lr = LiftingLogUnitRequest(user_name='test', log_time=datetime.datetime.now(), unit_name="benchpress", tokens=("100", "5", "180", "100", "5"))
+    log_unit(lr, session)
     units = session.scalars(select(LiftingUnitTable)).all()
     assert len(units) == 1
     assert units[0].name == "benchpress"

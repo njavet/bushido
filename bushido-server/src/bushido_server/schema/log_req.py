@@ -14,19 +14,19 @@ class BaseLogUnitRequest(BaseModel):
 
 
 class CardioLogUnitRequest(BaseLogUnitRequest):
-    unit_type: Literal["cardio"]
+    unit_type: str = Literal["cardio"]
 
 
 class GymLogUnitRequest(BaseLogUnitRequest):
-    unit_type: Literal["gym"]
+    unit_type: str = Literal["gym"]
 
 
 class LiftingLogUnitRequest(BaseLogUnitRequest):
-    unit_type: Literal["lifting"]
+    unit_type: str = Literal["lifting"]
 
 
 class WimhofLogUnitRequest(BaseLogUnitRequest):
-    unit_type: Literal["wimhof"]
+    unit_type: str = Literal["wimhof"]
 
 
 LogUnitRequest = Annotated[
