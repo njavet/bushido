@@ -7,31 +7,32 @@ from bushido_server.schema.log_req import (
     LiftingLogUnitRequest,
     WimhofLogUnitRequest,
 )
+from bushido_server.schema.log_res import UnitLogResponse
 from bushidolib.units import Unit
 
 
 @singledispatch
-def log_unit(request: object, session: Session) -> None:
+def log_unit(request: object, session: Session) -> UnitLogResponse:
     raise TypeError(f"Unsupported type for log_unit: {type(request).__name__}")
 
 
 @log_unit.register
-def _(request: CardioLogUnitRequest, session: Session) -> None:
+def _(request: CardioLogUnitRequest, session: Session) -> UnitLogResponse:
     pass
 
 
 @log_unit.register
-def _(request: GymLogUnitRequest, session: Session) -> None:
+def _(request: GymLogUnitRequest, session: Session) -> UnitLogResponse:
     pass
 
 
 @log_unit.register
-def _(request: LiftingLogUnitRequest, session: Session) -> None:
+def _(request: LiftingLogUnitRequest, session: Session) -> UnitLogResponse:
     pass
 
 
 @log_unit.register
-def _(request: WimhofLogUnitRequest, session: Session) -> None:
+def _(request: WimhofLogUnitRequest, session: Session) -> UnitLogResponse:
 
     unit_data = unit_registry.parser.parse(tokens)
     unit = Unit(
