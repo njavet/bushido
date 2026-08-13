@@ -46,4 +46,10 @@ jobs:
       - name: Build tui client
         run: uv build --package tui-client
 
+      - name: Build server Docker image
+        run: |
+          docker build \
+            -f bushido-server/Dockerfile \
+            -t bushido-server:${{ github.sha }} \
+            .
 
