@@ -7,7 +7,6 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
-from bushidolib.dtypes import T_DOMAIN
 from bushidolib.units import Unit
 
 from ..models import UnitTable
@@ -15,7 +14,7 @@ from ..models import UnitTable
 T_ORM = TypeVar("T_ORM", bound=UnitTable)
 
 
-class BaseUnitRepo(ABC, [T_DOMAIN, T_ORM]):
+class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
     orm_cls: type[T_ORM]
     load_options: Sequence[ORMOption] = ()
 
