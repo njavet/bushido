@@ -1,4 +1,3 @@
-
 from bushidolib.exceptions import ParsingError
 
 from .spec import Data, SetData
