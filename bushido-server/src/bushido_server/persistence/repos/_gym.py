@@ -15,7 +15,6 @@ class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
     def _to_orm(unit: Unit[GymData]) -> GymUnitTable:
         return GymUnitTable(
             name=unit.name,
-            emoji=unit.emoji,
             log_time=unit.log_time,
             start_t=unit.data.start_t,
             end_t=unit.data.end_t,
@@ -30,7 +29,6 @@ class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
     def _from_orm(orm_unit: GymUnitTable) -> Unit[GymData]:
         return Unit(
             name=orm_unit.name,
-            emoji=orm_unit.emoji,
             data=GymData(
                 start_t=orm_unit.start_t,
                 end_t=orm_unit.end_t,

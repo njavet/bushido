@@ -18,7 +18,6 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingData, LiftingUnitTable]):
     def _to_orm(unit: Unit[LiftingData]) -> LiftingUnitTable:
         orm_unit = LiftingUnitTable(
             name=unit.name,
-            emoji=unit.emoji,
             comment=unit.comment,
             log_time=unit.log_time,
         )
@@ -37,7 +36,6 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingData, LiftingUnitTable]):
             lst.append(sp)
         return Unit(
             name=orm_unit.name,
-            emoji=orm_unit.emoji,
             data=LiftingData(sets=lst, program=None, variant=None),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,

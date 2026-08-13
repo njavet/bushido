@@ -15,7 +15,6 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):
     def _to_orm(unit: Unit[WimhofData]) -> WimhofUnitTable:
         orm_unit = WimhofUnitTable(
             name=unit.name,
-            emoji=unit.emoji,
             log_time=unit.log_time,
             comment=unit.comment,
         )
@@ -36,7 +35,6 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):
             lst.append(ws)
         return Unit(
             name=orm_unit.name,
-            emoji=orm_unit.emoji,
             data=WimhofData(rounds=lst),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,

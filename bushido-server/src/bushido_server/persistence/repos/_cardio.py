@@ -15,7 +15,6 @@ class CardioUnitRepo(BaseUnitRepo[CardioData, CardioUnitTable]):
     def _to_orm(unit: Unit[CardioData]) -> CardioUnitTable:
         return CardioUnitTable(
             name=unit.name,
-            emoji=unit.emoji,
             log_time=unit.log_time,
             start_t=unit.data.start_t,
             seconds=unit.data.seconds,
@@ -32,7 +31,6 @@ class CardioUnitRepo(BaseUnitRepo[CardioData, CardioUnitTable]):
     def _from_orm(orm_unit: CardioUnitTable) -> Unit[CardioData]:
         return Unit(
             name=orm_unit.name,
-            emoji=orm_unit.emoji,
             data=CardioData(
                 start_t=orm_unit.start_t,
                 seconds=orm_unit.seconds,
