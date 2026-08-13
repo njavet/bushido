@@ -1,6 +1,9 @@
+from typing import override
+
+from sqlalchemy.orm import selectinload
+
 from bushidolib.units import Unit
 from bushidolib.units.lifting import LiftingData, SetData
-from sqlalchemy.orm import selectinload
 
 from ..models import LiftingSet, LiftingUnitTable
 from ._base import BaseUnitRepo
@@ -10,6 +13,7 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingData, LiftingUnitTable]):
     orm_cls = LiftingUnitTable
     load_options = (selectinload(LiftingUnitTable.subunits),)
 
+    @override
     @staticmethod
     def _to_orm(unit: Unit[LiftingData]) -> LiftingUnitTable:
         orm_unit = LiftingUnitTable(
@@ -24,6 +28,7 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingData, LiftingUnitTable]):
         ]
         return orm_unit
 
+    @override
     @staticmethod
     def _from_orm(orm_unit: LiftingUnitTable) -> Unit[LiftingData]:
         lst = []

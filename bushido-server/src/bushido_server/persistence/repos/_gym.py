@@ -1,3 +1,5 @@
+from typing import override
+
 from bushidolib.units import Unit
 from bushidolib.units.gym import GymData
 
@@ -8,6 +10,7 @@ from ._base import BaseUnitRepo
 class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
     orm_cls = GymUnitTable
 
+    @override
     @staticmethod
     def _to_orm(unit: Unit[GymData]) -> GymUnitTable:
         return GymUnitTable(
@@ -22,6 +25,7 @@ class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
             comment=unit.comment,
         )
 
+    @override
     @staticmethod
     def _from_orm(orm_unit: GymUnitTable) -> Unit[GymData]:
         return Unit(

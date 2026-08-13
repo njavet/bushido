@@ -1,3 +1,5 @@
+from typing import override
+
 from bushidolib.units import Unit
 from bushidolib.units.wimhof import RoundData, WimhofData
 
@@ -8,6 +10,7 @@ from ._base import BaseUnitRepo
 class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):
     orm_cls = WimhofUnitTable
 
+    @override
     @staticmethod
     def _to_orm(unit: Unit[WimhofData]) -> WimhofUnitTable:
         orm_unit = WimhofUnitTable(
@@ -22,6 +25,7 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):
         ]
         return orm_unit
 
+    @override
     @staticmethod
     def _from_orm(orm_unit: WimhofUnitTable) -> Unit[WimhofData]:
         lst = []
