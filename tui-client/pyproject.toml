@@ -18,6 +18,9 @@ dependencies = [
     "textual[syntax]>=8.2.5",
 ]
 
+[tool.uv.sources]
+bushidolib = { workspace = true }
+
 [build-system]
 requires = ["hatchling"]
 build-backend = 'hatchling.build'

@@ -58,6 +58,7 @@ name = "bushido-server"
 version = "0.1.0"
 source = { editable = "bushido-server" }
 dependencies = [
+    { name = "bushidolib" },
     { name = "fastapi", extra = ["standard"] },
     { name = "platformdirs" },
     { name = "polars" },
@@ -68,6 +69,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "bushidolib", editable = "bushidolib" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.136.1" },
     { name = "platformdirs", specifier = ">=4.9.6" },
     { name = "polars", specifier = ">=1.41.2" },
@@ -1491,6 +1493,7 @@ name = "tui-client"
 version = "0.1.0"
 source = { editable = "tui-client" }
 dependencies = [
+    { name = "bushidolib" },
     { name = "platformdirs" },
     { name = "polars" },
     { name = "pydantic" },
@@ -1501,6 +1504,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "bushidolib", editable = "bushidolib" },
     { name = "platformdirs", specifier = ">=4.9.6" },
     { name = "polars", specifier = ">=1.41.2" },
     { name = "pydantic", specifier = ">=2.13.4" },
