@@ -1,25 +1,25 @@
-from bushido.domain.dtypes import UnitRegistration
-from bushido.domain.units.cardio import (
+from bushidolib.dtypes import UnitRegistration
+from bushidolib.units.cardio import (
     CardioParser,
     cardio_grammar,
     cardio_unit_settings,
 )
-from bushido.domain.units.gym import (
+from bushidolib.units.gym import (
     GymParser,
     gym_grammar,
     gym_unit_settings,
 )
-from bushido.domain.units.lifting import (
+from bushidolib.units.lifting import (
     LiftingParser,
     lifting_grammar,
     lifting_unit_settings,
 )
-from bushido.domain.units.wimhof import (
+from bushidolib.units.wimhof import (
     WimhofParser,
     wimhof_grammar,
     wimhof_unit_settings,
 )
-from bushido.persistence.repos import (
+from bushido_server.persistence.repos import (
     CardioUnitRepo,
     GymUnitRepo,
     LiftingUnitRepo,

@@ -1,7 +1,7 @@
 import pytest
-from bushidolib.domain.units.exceptions import ParsingError
-from bushidolib.domain.units.lifting.parser import Parser
-from bushidolib.domain.units.lifting.spec import Data, SetData
+from bushidolib.units.exceptions import ParsingError
+from bushidolib.units.lifting.parser import Parser
+from bushidolib.units.lifting.spec import Data, SetData
 
 
 @pytest.fixture

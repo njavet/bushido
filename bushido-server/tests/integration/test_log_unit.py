@@ -1,11 +1,11 @@
 from collections.abc import Iterator
 
 import pytest
-from bushido.application.registry import build_registry
-from bushido.application.services import LogUnitService
-from bushido.main import init_db
-from bushido.persistence import SessionFactory
-from bushido.persistence.models import LiftingSet, LiftingUnitTable
+from bushido_server.registry import build_registry
+from bushido_server.service import LogUnitService
+from bushido_server.main import init_db
+from bushido_server.persistence import SessionFactory
+from bushido_server.persistence.models import LiftingSet, LiftingUnitTable
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 

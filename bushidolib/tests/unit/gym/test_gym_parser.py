@@ -1,7 +1,7 @@
 import datetime
 
 import pytest
-from bushidolib.domain.units.gym import GymData, GymParser
+from bushidolib.units.gym import GymData, GymParser
 
 
 @pytest.fixture
