@@ -2,14 +2,14 @@ import datetime
 from collections.abc import Iterator
 
 import pytest
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
-from bushido_server.schema.log_req import LiftingLogUnitRequest
-from bushido_server.service import log_unit
 from bushido_server.main import init_db
 from bushido_server.persistence import SessionFactory
 from bushido_server.persistence.models import LiftingSet, LiftingUnitTable
-from sqlalchemy import select
-from sqlalchemy.orm import Session
+from bushido_server.schema.log_req import LiftingLogUnitRequest
+from bushido_server.service import log_unit
 
 
 @pytest.fixture(scope="session")
@@ -29,7 +29,7 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 
 def test_log_lifting_unit_success(session: Session) -> None:
-    lr = LiftingLogUnitRequest(user_name='test', log_time=datetime.datetime.now(), unit_name="benchpress", tokens=("100", "5", "180", "100", "5"))
+    lr = LiftingLogUnitRequest(user_name="test", log_time=datetime.datetime.now(), unit_name="benchpress", tokens=("100", "5", "180", "100", "5"))
     log_unit(lr, session)
     units = session.scalars(select(LiftingUnitTable)).all()
     assert len(units) == 1

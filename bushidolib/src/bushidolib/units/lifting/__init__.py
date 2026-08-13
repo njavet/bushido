@@ -6,8 +6,8 @@ from .spec import unit_settings as lifting_unit_settings
 
 __all__ = [
     "LiftingData",
-    "parse_lifting_unit",
     "SetData",
     "lifting_grammar",
     "lifting_unit_settings",
+    "parse_lifting_unit",
 ]

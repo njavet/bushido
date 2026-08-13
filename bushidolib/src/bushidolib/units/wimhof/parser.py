@@ -1,6 +1,6 @@
-from dataclasses import dataclass
 
 from bushidolib.exceptions import ParsingError
+
 from .spec import Data, RoundData
 
 

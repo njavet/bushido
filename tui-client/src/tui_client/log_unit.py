@@ -1,12 +1,12 @@
 import datetime
-
 from functools import singledispatch
+
 from sqlalchemy.orm import Session
 
 from bushido_server.dtypes import Clock, SystemClock
 from bushido_server.schema.log_req import CardioLogUnitRequest
-from bushidolib.units import Unit
 from bushidolib.exceptions import ParsingError
+from bushidolib.units import Unit
 
 
 @singledispatch

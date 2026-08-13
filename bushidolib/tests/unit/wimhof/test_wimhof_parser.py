@@ -1,4 +1,5 @@
 import pytest
+
 from bushidolib.units.wimhof import RoundData, WimhofData, WimhofParser
 
 

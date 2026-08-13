@@ -7,7 +7,6 @@ from bushidolib.constants import (
     MINUTE_LEN,
     WEEK_START_DAY,
 )
-
 from bushidolib.exceptions import ParsingError
 
 

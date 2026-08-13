@@ -1,4 +1,5 @@
 from bushidolib.exceptions import ParsingError
+
 from ..dt_parse import parse_start_end_time_string
 from .spec import Data
 
