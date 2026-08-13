@@ -75,26 +75,13 @@ class LogUnitScreen(ModalScreen[bool]):
     def action_cancel(self) -> None:
         self.dismiss(False)
 
-    def __init__(self, unit_names: list[str], log_unit: LogUnitHandler) -> None:
-        super().__init__()
-        self.unit_names = unit_names
-        self.log_unit = log_unit
-
     def compose(self) -> ComposeResult:
         with Vertical(id="log_unit_dialog"):
             yield UnitHelpWidget()
-            yield UnitInput(suggester=UnitSuggester(self.unit_names))
+            yield UnitInput(suggester=UnitSuggester(['test']))
 
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:
             self.app.notify("empty units", title="logging failed", severity="error")
             self.dismiss(False)
             return
-
-        try:
-            await self.log_unit(message.value)
-        except Exception as e:
-            self.app.notify(str(e), title="logging failed", severity="error")
-            self.dismiss(False)
-        else:
-            self.dismiss(True)

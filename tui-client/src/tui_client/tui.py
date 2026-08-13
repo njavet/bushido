@@ -1,10 +1,7 @@
-from bushido.application.services import LogUnitService
-from bushido.application.services.load_unit_service import LoadUnitService
-from bushido.interfaces.tui.containers import HeaderContainer, LiftingContainer
-from bushido.interfaces.tui.containers.gym import GymContainer
-from bushido.interfaces.tui.containers.spartan import SpartanContainer
-from bushido.interfaces.tui.screens.log_unit import LogUnitScreen
-from bushido.persistence import SessionFactory
+from containers import HeaderContainer, LiftingContainer
+from .containers.gym import GymContainer
+from .containers.spartan import SpartanContainer
+from .screens.log_unit import LogUnitScreen
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
@@ -23,17 +20,6 @@ class BushidoApp(App[None]):
         Binding("escape", "cancel", "cancel"),
     ]
 
-    def __init__(
-        self,
-        session_factory: SessionFactory,
-        log_unit_service: LogUnitService,
-        load_unit_service: LoadUnitService,
-    ) -> None:
-        super().__init__()
-        self.sf = session_factory
-        self.log_unit_service = log_unit_service
-        self.load_unit_service = load_unit_service
-
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
         yield Rule(line_style="dashed")
@@ -47,26 +33,3 @@ class BushidoApp(App[None]):
 
         yield Footer(id="app_footer")
 
-    def on_mount(self) -> None:
-        self.update_gym_container()
-        self.update_lifting_container()
-
-    def update_gym_container(self) -> None:
-        gc = self.query_one("#gym_container", GymContainer)
-        with self.sf.session() as session:
-            units = self.load_unit_service.load_gym_units(session)
-            gc.set_units(units)
-
-    def update_lifting_container(self) -> None:
-        gc = self.query_one("#lifting_container", LiftingContainer)
-        with self.sf.session() as session:
-            units = self.load_unit_service.load_lifting_units(session)
-            gc.set_units(units)
-
-    def action_log_unit(self) -> None:
-        # TODO update other widgets after saving a units
-        self.push_screen(LogUnitScreen(self.log_unit_service.unit_names, self.log_unit))
-
-    async def log_unit(self, line: str) -> None:
-        with self.sf.session() as session:
-            self.log_unit_service.log_unit(line, session)

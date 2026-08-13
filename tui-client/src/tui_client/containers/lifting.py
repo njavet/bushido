@@ -1,6 +1,6 @@
 # TODO api
-from bushido.domain.units import Unit
-from bushido.domain.units.lifting import LiftingData, lifting_unit_settings
+from bushidolib.units import Unit
+from bushidolib.units.lifting import LiftingData, lifting_unit_settings
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.widgets import (
