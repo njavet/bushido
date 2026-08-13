@@ -22,6 +22,6 @@ class Parser:
         return Data(
             rounds=[
                 RoundData(round_nr=i, breaths=b, retention=r)
-                for i, (b, r) in enumerate(zip(breaths, retentions))
+                for i, (b, r) in enumerate(zip(breaths, retentions, strict=False))
             ]
         )

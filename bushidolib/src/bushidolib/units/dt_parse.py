@@ -1,6 +1,8 @@
 import datetime
 import re
 
+from bushidolib.constants import WEEK_START_DAY
+
 from .exceptions import ParsingError
 
 
@@ -37,8 +39,8 @@ def colon_separated_time_string_to_seconds(values: list[str]) -> float:
             h = float(values[0])
             m = float(values[1])
             s = float(values[2])
-        except ValueError:
-            raise ParsingError("colon time format error")
+        except ValueError as e:
+            raise ParsingError("colon time format error") from e
         else:
             return h * 60 * 60 + m * 60 + s
     # format MM:SS
@@ -46,8 +48,8 @@ def colon_separated_time_string_to_seconds(values: list[str]) -> float:
         try:
             m = float(values[0])
             s = float(values[1])
-        except ValueError:
-            raise ParsingError("colon time format error")
+        except ValueError as e:
+            raise ParsingError("colon time format error") from e
         else:
             return m * 60 + s
     else:
@@ -105,14 +107,14 @@ def find_previous_sunday(dt: datetime.date) -> datetime.date:
     returns: 29.12.2019
 
     """
-    if dt.weekday() != 6:
+    if dt.weekday() != WEEK_START_DAY:
         days = dt.weekday() + 1
         return dt - datetime.timedelta(days=days)
     return dt
 
 
 def find_next_saturday(dt: datetime.date) -> datetime.date:
-    if dt.weekday() != 6:
+    if dt.weekday() != WEEK_START_DAY:
         days = 5 - dt.weekday()
         return dt + datetime.timedelta(days=days)
     return dt + datetime.timedelta(days=6)

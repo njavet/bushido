@@ -10,16 +10,16 @@ class Parser:
     def parse(tokens: tuple[str, ...]) -> Data:
         try:
             weights = [float(w) for w in tokens[::3]]
-        except ValueError:
-            raise ParsingError(f"invalid weight {tokens[::3]}")
+        except ValueError as e:
+            raise ParsingError(f"invalid weight {tokens[::3]}") from e
         try:
             reps = [float(r) for r in tokens[1::3]]
-        except ValueError:
-            raise ParsingError(f"invalid reps {tokens[1::3]}")
+        except ValueError as e:
+            raise ParsingError(f"invalid reps {tokens[1::3]}") from e
         try:
             rests = [float(r) for r in tokens[2::3]] + [0]
-        except ValueError:
-            raise ParsingError(f"invalid rest {tokens[2::3]}")
+        except ValueError as e:
+            raise ParsingError(f"invalid rest {tokens[2::3]}") from e
         if len(weights) == 0:
             raise ParsingError("at least one set")
         if len(weights) != len(reps):
@@ -36,6 +36,6 @@ class Parser:
             program=None,
             sets=[
                 SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
-                for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests))
+                for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests, strict=False))
             ],
         )

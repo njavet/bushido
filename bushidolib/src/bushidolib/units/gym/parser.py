@@ -12,8 +12,8 @@ class Parser:
         start_t, end_t = parse_start_end_time_string(tokens[0])
         try:
             location = tokens[1]
-        except IndexError:
-            raise ParsingError("no location")
+        except IndexError as e:
+            raise ParsingError("no location") from e
 
         return Data(
             start_t=start_t,
