@@ -35,22 +35,25 @@ def create_parser() -> ArgumentParser:
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    app.state.sf = SessionFactory()
+async def lifespan(app_: FastAPI) -> AsyncIterator[None]:
+    app_.state.sf = SessionFactory()
     yield
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(lifespan=lifespan)
+    app_ = FastAPI(lifespan=lifespan)
 
-    app.add_middleware(
+    app_.add_middleware(
         CORSMiddleware,
         allow_origins=["http://localhost:5173"],
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    app.include_router(router)
-    return app
+    app_.include_router(router)
+    return app_
+
+
+app = create_app()
 
 
 def main() -> None:
@@ -61,9 +64,9 @@ def main() -> None:
         sys.exit(0)
     else:
         uvicorn.run(
-            "bushido_server.web.web:create_app",
+            app,
+            host="0.0.0.0",
             port=DEFAULT_PORT,
-            factory=True,
             log_level="info",
         )
 
