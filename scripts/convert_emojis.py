@@ -110,7 +110,7 @@ def main() -> None:
     if len(sys.argv) != 2:
         print("usage: python convert_emojis.py <file.json>")
 
-    with open(sys.argv[1], "r") as f:
+    with open(sys.argv[1]) as f:
         data = json.load(f)
 
     lst = []

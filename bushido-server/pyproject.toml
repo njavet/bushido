@@ -1,0 +1,28 @@
+[project]
+name = "bushido-server"
+version = "0.1.0"
+description = "Track Trainings and Study Time"
+authors = [
+    {name = "Noe Javet", email = "np.javet@gmail.com"}
+]
+license = {text = "GPL-3"}
+readme = "README.md"
+requires-python = ">=3.14,<4.0.0"
+dependencies = [
+    "fastapi[standard]>=0.136.1",
+    "platformdirs>=4.9.6",
+    "polars>=1.41.2",
+    "pydantic>=2.13.4",
+    "rich>=15.0.0",
+    "sqlalchemy>=2.0.49",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = 'hatchling.build'
+
+[tool.hatch.build.targets.wheel]
+packages = ['src/bushido_server']
+
+[project.scripts]
+server = "bushido_server.main:main"
