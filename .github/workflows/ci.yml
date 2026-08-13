@@ -53,3 +53,13 @@ jobs:
             -t bushido-server:${{ github.sha }} \
             .
 
+      - name: Smoke test container
+        run: |
+          docker run -d \
+            --name bushido-server \
+            -p 8000:8000 \
+            bushido-server:${{ github.sha }}
+
+          sleep 3
+
+          curl --fail http://localhost:8000/docs
