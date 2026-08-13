@@ -53,12 +53,6 @@ plugins = [
     "sqlalchemy.ext.mypy.plugin",
 ]
 
-[tool.uv.workspace]
-members = [
-    "bushido",
-]
-
-
 [build-system]
 requires = ["hatchling"]
 build-backend = 'hatchling.build'

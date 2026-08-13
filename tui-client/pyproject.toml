@@ -51,12 +51,6 @@ disallow_any_generics = true
 strict_equality = true
 pretty = true
 
-[tool.uv.workspace]
-members = [
-    "bushido",
-]
-
-
 [build-system]
 requires = ["hatchling"]
 build-backend = 'hatchling.build'

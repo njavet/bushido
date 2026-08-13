@@ -1,7 +1,6 @@
 import datetime
 
 import pytest
-
 from bushido.domain.units.gym import GymData, GymParser
 
 

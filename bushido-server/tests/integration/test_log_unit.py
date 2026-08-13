@@ -1,14 +1,13 @@
 from collections.abc import Iterator
 
 import pytest
-from sqlalchemy import select
-from sqlalchemy.orm import Session
-
 from bushido.application.registry import build_registry
 from bushido.application.services import LogUnitService
 from bushido.main import init_db
 from bushido.persistence import SessionFactory
 from bushido.persistence.models import LiftingSet, LiftingUnitTable
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 
 @pytest.fixture(scope="session")
