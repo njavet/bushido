@@ -1,7 +1,12 @@
 import datetime
 import re
 
-from bushidolib.constants import WEEK_START_DAY
+from bushidolib.constants import (
+    COMPLETE_TIME_LEN,
+    MILITARY_TIME_LEN,
+    MINUTE_LEN,
+    WEEK_START_DAY,
+)
 
 from .exceptions import ParsingError
 
@@ -24,17 +29,17 @@ def time_string_to_seconds(time_string: str) -> float:
     try:
         m = float(values[0])
         return 60 * m
-    except ValueError:
+    except ValueError as e:
         if re.search(r"\d+h", values[0]):
             return 60 * 60 * float(values[0][:-1])
         if re.search(r"\d+s", values[0]):
             return float(values[0][:-1])
-        raise ParsingError(f"unknown time format: {time_string}")
+        raise ParsingError(f"unknown time format: {time_string}") from e
 
 
 def colon_separated_time_string_to_seconds(values: list[str]) -> float:
     # format HH:MM:SS
-    if len(values) == 3:
+    if len(values) == COMPLETE_TIME_LEN:
         try:
             h = float(values[0])
             m = float(values[1])
@@ -44,7 +49,7 @@ def colon_separated_time_string_to_seconds(values: list[str]) -> float:
         else:
             return h * 60 * 60 + m * 60 + s
     # format MM:SS
-    elif len(values) == 2:
+    elif len(values) == MINUTE_LEN:
         try:
             m = float(values[0])
             s = float(values[1])
@@ -58,13 +63,13 @@ def colon_separated_time_string_to_seconds(values: list[str]) -> float:
 
 def parse_military_time_string(time_string: str) -> datetime.time:
     # e.g. 1600 for 16:00
-    if len(time_string) != 4:
+    if len(time_string) != MILITARY_TIME_LEN:
         raise ParsingError(f"incorrect military time {time_string}")
     try:
         hour = int(time_string[0:2])
         minutes = int(time_string[2:])
-    except ValueError:
-        raise ParsingError(f"incorrect military time {time_string}")
+    except ValueError as e:
+        raise ParsingError(f"incorrect military time {time_string}") from e
     else:
         return datetime.time(hour, minutes)
 

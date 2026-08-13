@@ -17,8 +17,8 @@ class Parser:
         seconds = time_string_to_seconds(tokens[1])
         try:
             location = tokens[2]
-        except IndexError:
-            raise ParsingError("no location")
+        except IndexError as e:
+            raise ParsingError("no location") from e
 
         try:
             distance = float(tokens[3])

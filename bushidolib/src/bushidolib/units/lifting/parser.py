@@ -36,6 +36,8 @@ class Parser:
             program=None,
             sets=[
                 SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
-                for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests, strict=False))
+                for i, (weight, rep, rest) in enumerate(
+                    zip(weights, reps, rests, strict=False)
+                )
             ],
         )

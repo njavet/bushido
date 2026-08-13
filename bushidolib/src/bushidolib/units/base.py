@@ -1,6 +1,6 @@
 import datetime
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import TypeVar
 
 T = TypeVar("T")
 
@@ -12,7 +12,7 @@ class UnitSetting:
 
 
 @dataclass(frozen=True, slots=True)
-class Unit(Generic[T]):
+class Unit[T]:
     name: str
     emoji: str
     log_time: datetime.datetime
