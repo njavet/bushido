@@ -5,11 +5,6 @@ from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
 import uvicorn
-from fastapi import FastAPI
-from rich.logging import RichHandler
-from sqlalchemy import Engine
-from starlette.middleware.cors import CORSMiddleware
-
 from bushido import __version__
 from bushido.application.registry import build_registry
 from bushido.application.services import LogUnitService
@@ -19,6 +14,10 @@ from bushido.interfaces.tui import BushidoApp
 from bushido.interfaces.web import router
 from bushido.persistence import SessionFactory
 from bushido.persistence.models import Base
+from fastapi import FastAPI
+from rich.logging import RichHandler
+from sqlalchemy import Engine
+from starlette.middleware.cors import CORSMiddleware
 
 logging.basicConfig(
     level=logging.INFO,

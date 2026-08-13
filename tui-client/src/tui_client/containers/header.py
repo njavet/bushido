@@ -1,10 +1,9 @@
-from textual.app import ComposeResult
-from textual.containers import Container, Horizontal
-from textual_image.widget import Image as ImageWidget
-
 from bushido.conf import BUSHIDO_IMG
 from bushido.interfaces.tui.widgets.binary_clock import BinaryClock
 from bushido.interfaces.tui.widgets.binary_date import BinaryDate
+from textual.app import ComposeResult
+from textual.containers import Container, Horizontal
+from textual_image.widget import Image as ImageWidget
 
 
 class HeaderContainer(Container):

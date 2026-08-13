@@ -1,14 +1,13 @@
 import collections
 
+from bushido.domain.units import Unit
+from bushido.domain.units.gym import GymData
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.widgets import (
     DataTable,
     RichLog,
 )
-
-from bushido.domain.units import Unit
-from bushido.domain.units.gym import GymData
 
 
 class GymContainer(Container):

@@ -41,7 +41,7 @@ indent-style = "space"
 
 [tool.mypy]
 python_version = "3.14"
-packages = ["bushido", "tests"]
+packages = ["bushido_server", "tui_client", "tests"]
 strict = true
 show_error_codes = true
 warn_unused_ignores = true
@@ -70,5 +70,4 @@ build-backend = 'hatchling.build'
 packages = ['src/bushido']
 
 [project.scripts]
-bushido = "bushido.main:main"
-
+server = "bushido_server.main:main"

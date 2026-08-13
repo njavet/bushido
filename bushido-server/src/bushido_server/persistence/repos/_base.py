@@ -2,12 +2,11 @@ import datetime
 from abc import ABC, abstractmethod
 from typing import Generic, Sequence, TypeVar
 
+from bushido.domain.dtypes import T_DOMAIN
+from bushido.domain.units import Unit
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
-
-from bushido.domain.dtypes import T_DOMAIN
-from bushido.domain.units import Unit
 
 from ..models import UnitTable
 

@@ -1,11 +1,10 @@
 import datetime
 
-from sqlalchemy.orm import Session
-
 from bushido.domain.dtypes import UnitRegistration
 from bushido.domain.units import Unit
 from bushido.domain.units.gym import GymData, gym_unit_settings
 from bushido.domain.units.lifting import LiftingData, lifting_unit_settings
+from sqlalchemy.orm import Session
 
 
 class LoadUnitService:
