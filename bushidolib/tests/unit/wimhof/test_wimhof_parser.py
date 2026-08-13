@@ -4,7 +4,7 @@ from bushidolib.units.wimhof import RoundData, WimhofData, parse_wimhof_unit
 
 
 @pytest.mark.parametrize(
-    "tokens, expected",
+    ("tokens", "expected"),
     [
         (
             ("30", "90", "30", "120", "30", "150"),

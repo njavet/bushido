@@ -6,7 +6,7 @@ from bushidolib.units.gym import GymData, parse_gym_unit
 
 
 @pytest.mark.parametrize(
-    "tokens, expected",
+    ("tokens", "expected"),
     [
         (
             ("1800-1900", "nautilus"),

@@ -1,4 +1,5 @@
 from collections.abc import Awaitable, Callable
+from typing import ClassVar, override
 
 from rich.console import Group
 from rich.panel import Panel
@@ -20,6 +21,7 @@ class UnitSuggester(Suggester):
         super().__init__()
         self.unit_names = unit_names
 
+    @override
     async def get_suggestion(self, value: str) -> str | None:
         names = [name for name in self.unit_names if name.startswith(value)]
         if len(names) == 1:
@@ -52,6 +54,7 @@ class UnitSubmitted(Message):
 
 
 class UnitHelpWidget(Widget):
+    @override
     def render(self) -> Group:
         panels = []
         for item in ["yo"]:
@@ -68,20 +71,21 @@ class UnitHelpWidget(Widget):
 
 
 class LogUnitScreen(ModalScreen[bool]):
-    BINDINGS = [
+    BINDINGS: ClassVar = [
         Binding("escape", "cancel", "cancel"),
     ]
 
-    def action_cancel(self) -> None:
-        self.dismiss(False)
+    async def action_cancel(self) -> None:
+        await self.dismiss(False)
 
+    @override
     def compose(self) -> ComposeResult:
         with Vertical(id="log_unit_dialog"):
             yield UnitHelpWidget()
-            yield UnitInput(suggester=UnitSuggester(['test']))
+            yield UnitInput(suggester=UnitSuggester(["test"]))
 
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:
             self.app.notify("empty units", title="logging failed", severity="error")
-            self.dismiss(False)
+            await self.dismiss(False)
             return

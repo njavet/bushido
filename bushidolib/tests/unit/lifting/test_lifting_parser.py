@@ -6,7 +6,7 @@ from bushidolib.units.lifting.spec import Data, SetData
 
 
 @pytest.mark.parametrize(
-    "tokens, expected",
+    ("tokens", "expected"),
     [
         (
             ("100", "5", "180", "100", "5"),
@@ -47,7 +47,7 @@ def test_correct_lifting_units(tokens: tuple[str, ...], expected: Data) -> None:
 
 
 @pytest.mark.parametrize(
-    "tokens, expected",
+    ("tokens", "expected"),
     [
         (("asdf", "5", "180"), "invalid weight"),
         (("120", "f9"), "invalid reps"),

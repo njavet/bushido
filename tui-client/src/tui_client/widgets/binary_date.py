@@ -1,4 +1,6 @@
 import datetime
+import zoneinfo
+from typing import override
 
 from rich.table import Table
 from textual.widget import Widget
@@ -11,9 +13,10 @@ class BinaryDate(Widget):
         # TODO determine update interval
         self.set_interval(1.0, self.refresh, pause=False)
 
+    @override
     def render(self) -> Table:
-        today = datetime.date.today()
-        digits = datetime.datetime.strftime(today, "%d%m%y")
+        now = datetime.datetime.now(tz=zoneinfo.ZoneInfo("Europe/Berlin"))
+        digits = datetime.datetime.strftime(now, "%d%m%y")
         on_char = "\u25a0"
         off_char = "\u25a1"
 

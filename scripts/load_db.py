@@ -2,10 +2,6 @@ import json
 import sys
 from typing import Any
 
-from bushido.application.registry import build_registry
-from bushido.application.services import LogUnitService
-from bushido.main import init_db
-from bushido.persistence import SessionFactory
 
 UNIT_NAMES = [
     "lifting",
@@ -22,6 +18,7 @@ UNIT_NAMES = [
 ]
 
 
+"""
 def load_db(data: list[Any]) -> None:
     sf = SessionFactory()
     init_db(engine=sf.engine)
@@ -50,3 +47,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+"""

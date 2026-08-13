@@ -1,7 +1,5 @@
-from containers import HeaderContainer, LiftingContainer
-from .containers.gym import GymContainer
-from .containers.spartan import SpartanContainer
-from .screens.log_unit import LogUnitScreen
+from typing import ClassVar, override
+
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
@@ -11,15 +9,20 @@ from textual.widgets import (
     TabPane,
 )
 
+from .containers import HeaderContainer, LiftingContainer
+from .containers.gym import GymContainer
+from .containers.spartan import SpartanContainer
+
 
 class BushidoApp(App[None]):
     CSS_PATH = "main.tcss"
-    BINDINGS = [
+    BINDINGS: ClassVar = [
         Binding("q", "quit", "quit"),
         Binding("l", "log_unit", "log"),
         Binding("escape", "cancel", "cancel"),
     ]
 
+    @override
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
         yield Rule(line_style="dashed")
@@ -32,4 +35,3 @@ class BushidoApp(App[None]):
                 yield LiftingContainer(id="lifting_container")
 
         yield Footer(id="app_footer")
-

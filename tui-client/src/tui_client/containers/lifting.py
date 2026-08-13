@@ -1,6 +1,6 @@
 # TODO api
-from bushidolib.units import Unit
-from bushidolib.units.lifting import LiftingData, lifting_unit_settings
+from typing import override
+
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.widgets import (
@@ -10,8 +10,12 @@ from textual.widgets import (
     TabPane,
 )
 
+from bushidolib.units import Unit
+from bushidolib.units.lifting import LiftingData, lifting_unit_settings
+
 
 class LiftingContainer(Container):
+    @override
     def compose(self) -> ComposeResult:
         with TabbedContent(id="lifting_tabs"):
             for unit_spec in lifting_unit_settings:
@@ -27,6 +31,7 @@ class LiftingContainer(Container):
 
 
 class LiftingTable(DataTable[str]):
+    @override
     def on_mount(self) -> None:
         self.add_columns("date", "set", "weight", "reps", "rest")
 

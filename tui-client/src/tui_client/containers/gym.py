@@ -1,7 +1,6 @@
 import collections
+from typing import override
 
-from bushidolib.units import Unit
-from bushidolib.units.gym import GymData
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.widgets import (
@@ -9,8 +8,12 @@ from textual.widgets import (
     RichLog,
 )
 
+from bushidolib.units import Unit
+from bushidolib.units.gym import GymData
+
 
 class GymContainer(Container):
+    @override
     def compose(self) -> ComposeResult:
         yield RichLog(id="gym_stats")
         yield GymTable(id="gym_table")
@@ -20,6 +23,7 @@ class GymContainer(Container):
 
 
 class GymTable(DataTable[str]):
+    @override
     def on_mount(self) -> None:
         self.add_columns("date", "training", "start", "end", "gym")
 
@@ -29,7 +33,7 @@ class GymTable(DataTable[str]):
         for unit in units:
             by_day[unit.log_time.date()].append(unit)
 
-        for day, units in by_day.items():
+        for day, day_units in by_day.items():
             self.add_row(
                 day.strftime("%d.%m.%y"),
                 "",
@@ -38,10 +42,10 @@ class GymTable(DataTable[str]):
                 "",
             )
 
-            for unit in units:
+            for unit in day_units:
                 self.add_row(
                     "",
-                    " ".join([unit.emoji, unit.name]),
+                    " ".join([unit.name]),
                     unit.data.start_t.strftime("%H%M"),
                     unit.data.end_t.strftime("%H%M"),
                     unit.data.gym,

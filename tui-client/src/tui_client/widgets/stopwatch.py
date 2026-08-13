@@ -1,4 +1,5 @@
 import time
+from typing import override
 
 from textual.app import ComposeResult
 from textual.containers import Container
@@ -22,7 +23,7 @@ class StopwatchTimeDisplay(Static):
         self.seconds = self.total + (time.monotonic() - self.start_time)
 
     def watch_total(self, total: None) -> None:
-        print(self.total)
+        print(total)
 
     def watch_seconds(self, seconds: float) -> None:
         """Called when the time attribute changes."""
@@ -68,6 +69,7 @@ class Stopwatch(Container):
             self.remove_class("started")
             self.remove_class("paused")
 
+    @override
     def compose(self) -> ComposeResult:
         yield Button("Start", id="start")
         yield Button("Pause", disabled=True, id="pause")

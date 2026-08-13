@@ -38,6 +38,7 @@ exclude = [
     ".pytest_cache",
     ".ruff_cache",
     ".venv",
+    "scripts",
     "dist",
     "build",
 ]

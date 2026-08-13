@@ -1,4 +1,6 @@
 import datetime
+import zoneinfo
+from typing import override
 
 from rich.table import Table
 from textual.widget import Widget
@@ -10,8 +12,9 @@ class BinaryClock(Widget):
     def on_mount(self) -> None:
         self.set_interval(1.0, self.refresh, pause=False)
 
+    @override
     def render(self) -> Table:
-        now = datetime.datetime.now()
+        now = datetime.datetime.now(tz=zoneinfo.ZoneInfo("Europe/Berlin"))
         # HHMMSS as 6 decimal digits
         digits = f"{now.hour:02d}{now.minute:02d}{now.second:02d}"
         on_char = "\u25a0"
