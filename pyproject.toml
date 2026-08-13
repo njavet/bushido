@@ -22,7 +22,7 @@ indent-style = "space"
 
 [tool.mypy]
 python_version = "3.14"
-packages = ["bushido_server", "tui_client", "tests"]
+packages = ["bushido_server", "tui_client"]
 strict = true
 show_error_codes = true
 pretty = true
