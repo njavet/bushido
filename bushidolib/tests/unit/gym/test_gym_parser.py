@@ -2,12 +2,7 @@ import datetime
 
 import pytest
 
-from bushidolib.units.gym import GymData, GymParser
-
-
-@pytest.fixture
-def parser() -> GymParser:
-    return GymParser()
+from bushidolib.units.gym import GymData, parse_gym_unit
 
 
 @pytest.mark.parametrize(
@@ -40,7 +35,7 @@ def parser() -> GymParser:
     ],
 )
 def test_correct_gym_units(
-    parser: GymParser, tokens: tuple[str, ...], expected: GymData
+ tokens: tuple[str, ...], expected: GymData
 ) -> None:
-    unit_data = parser.parse(tokens)
+    unit_data = parse_gym_unit(tokens)
     assert unit_data == expected

@@ -1,13 +1,8 @@
 import pytest
 
 from bushidolib.exceptions import ParsingError
-from bushidolib.units.lifting.parser import Parser
+from bushidolib.units.lifting import parse_lifting_unit
 from bushidolib.units.lifting.spec import Data, SetData
-
-
-@pytest.fixture
-def parser() -> Parser:
-    return Parser()
 
 
 @pytest.mark.parametrize(
@@ -47,9 +42,9 @@ def parser() -> Parser:
     ],
 )
 def test_correct_lifting_units(
-    parser: Parser, tokens: tuple[str, ...], expected: Data
+tokens: tuple[str, ...], expected: Data
 ) -> None:
-    unit_data = parser.parse(tokens)
+    unit_data = parse_lifting_unit(tokens)
     assert unit_data == expected
 
 
@@ -62,7 +57,7 @@ def test_correct_lifting_units(
     ],
 )
 def test_correct_error_message(
-    parser: Parser, tokens: tuple[str, ...], expected: str
+    tokens: tuple[str, ...], expected: str
 ) -> None:
     with pytest.raises(ParsingError, match=expected):
-        _ = parser.parse(tokens)
+        _ = parse_lifting_unit(tokens)
