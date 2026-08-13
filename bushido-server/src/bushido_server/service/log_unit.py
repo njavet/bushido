@@ -1,4 +1,5 @@
 from functools import singledispatch
+
 from sqlalchemy.orm import Session
 
 from bushido_server.schema.log_req import (
@@ -12,7 +13,7 @@ from bushidolib.units import Unit
 
 
 @singledispatch
-def log_unit(request: object, session: Session) -> UnitLogResponse:
+def log_unit(request: object, _session: Session) -> UnitLogResponse:
     raise TypeError(f"Unsupported type for log_unit: {type(request).__name__}")
 
 
