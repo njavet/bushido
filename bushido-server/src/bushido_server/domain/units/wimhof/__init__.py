@@ -5,9 +5,9 @@ from .spec import grammar as wimhof_grammar
 from .spec import unit_settings as wimhof_unit_settings
 
 __all__ = [
-    "wimhof_grammar",
+    "RoundData",
     "WimhofData",
     "WimhofParser",
-    "RoundData",
+    "wimhof_grammar",
     "wimhof_unit_settings",
 ]

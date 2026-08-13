@@ -5,9 +5,9 @@ from .spec import grammar as lifting_grammar
 from .spec import unit_settings as lifting_unit_settings
 
 __all__ = [
-    "lifting_grammar",
-    "LiftingParser",
-    "lifting_unit_settings",
     "LiftingData",
+    "LiftingParser",
     "SetData",
+    "lifting_grammar",
+    "lifting_unit_settings",
 ]

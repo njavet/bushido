@@ -17,40 +17,6 @@ dependencies = [
     "textual[syntax]>=8.2.5",
 ]
 
-[dependency-groups]
-dev = [
-    "ipython>=9.13.0",
-    "mypy>=1.20.2",
-    "pytest>=9.0.3",
-    "ruff>=0.15.12",
-    "textual-dev>=1.8.0",
-]
-
-[tool.ruff]
-line-length = 88
-indent-width = 4
-
-[tool.ruff.lint]
-select = ["E", "F", "I"]
-
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-
-[tool.mypy]
-python_version = "3.14"
-packages = ["tui_client", "tests"]
-strict = true
-show_error_codes = true
-warn_unused_ignores = true
-warn_redundant_casts = true
-warn_return_any = true
-no_implicit_optional = true
-disallow_untyped_defs = true
-disallow_any_generics = true
-strict_equality = true
-pretty = true
-
 [build-system]
 requires = ["hatchling"]
 build-backend = 'hatchling.build'

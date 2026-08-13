@@ -1,6 +1,7 @@
 import datetime
 from abc import ABC, abstractmethod
-from typing import Generic, Sequence, TypeVar
+from collections.abc import Sequence
+from typing import Generic, TypeVar
 
 from bushido.domain.dtypes import T_DOMAIN
 from bushido.domain.units import Unit

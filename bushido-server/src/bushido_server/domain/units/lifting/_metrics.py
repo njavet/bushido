@@ -1,5 +1,5 @@
+from collections.abc import Callable, Iterable
 from dataclasses import replace
-from typing import Callable, Iterable
 
 from ..base import Unit
 from .spec import Data, SetData

@@ -10,49 +10,49 @@ from bushido.domain.units.dt_parse import (
 def test_time_string_to_seconds_0() -> None:
     ts = "02:24:59"
     result = time_string_to_seconds(ts)
-    assert 8699.0 == result
+    assert result == 8699.0
 
 
 def test_time_string_to_seconds_1() -> None:
     ts = "1:02:03"
     result = time_string_to_seconds(ts)
-    assert 3723.0 == result
+    assert result == 3723.0
 
 
 def test_time_string_to_seconds_2() -> None:
     ts = "2:4:1"
     result = time_string_to_seconds(ts)
-    assert 7441.0 == result
+    assert result == 7441.0
 
 
 def test_time_string_to_seconds_3() -> None:
     ts = "32:29"
     result = time_string_to_seconds(ts)
-    assert 1949.0 == result
+    assert result == 1949.0
 
 
 def test_time_string_to_seconds_4() -> None:
     ts = "1:20"
     result = time_string_to_seconds(ts)
-    assert 80.0 == result
+    assert result == 80.0
 
 
 def test_time_string_to_seconds_minutes() -> None:
     ts = "16"
     result = time_string_to_seconds(ts)
-    assert 960.0 == result
+    assert result == 960.0
 
 
 def test_time_string_to_seconds_hours() -> None:
     ts = "2h"
     result = time_string_to_seconds(ts)
-    assert 7200.0 == result
+    assert result == 7200.0
 
 
 def test_time_string_to_seconds_seconds() -> None:
     ts = "32s"
     result = time_string_to_seconds(ts)
-    assert 32.0 == result
+    assert result == 32.0
 
 
 def test_parse_military_time_string_0() -> None:

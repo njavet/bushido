@@ -6,11 +6,11 @@ from ._wimhof import WimhofRound, WimhofUnitTable
 
 __all__ = [
     "Base",
-    "UnitTable",
     "CardioUnitTable",
     "GymUnitTable",
-    "LiftingUnitTable",
     "LiftingSet",
-    "WimhofUnitTable",
+    "LiftingUnitTable",
+    "UnitTable",
     "WimhofRound",
+    "WimhofUnitTable",
 ]

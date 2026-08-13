@@ -1,8 +1,8 @@
 import logging
 import sys
 from argparse import ArgumentParser
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
 
 import uvicorn
 from bushido import __version__

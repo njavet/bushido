@@ -1,7 +1,15 @@
 [project]
-name = "bushido"
+name = "bushido-workspace"
 version = "0.1.0"
-requires-python = ">=3.14,<4.0.0"
+requires-python = ">=3.14,<4"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.20.2",
+    "pytest>=9.0.3",
+    "ruff>=0.15.12",
+    "ipython>=9.13.0",
+]
 
 [tool.uv.workspace]
 members = [
@@ -9,20 +17,150 @@ members = [
     "tui-client",
 ]
 
+# ---------------------------------------------------------------------------
+# Ruff
+# ---------------------------------------------------------------------------
 [tool.ruff]
+target-version = "py314"
 line-length = 88
 indent-width = 4
+src = [
+    "bushido-server/src",
+    "tui-client/src",
+]
+
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "dist",
+    "build",
+]
 
 [tool.ruff.lint]
-select = ["E", "F", "I"]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "N",      # pep8-naming
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "A",      # builtins shadowing
+    "C4",     # comprehensions
+    "DTZ",    # datetime timezone correctness
+    "T10",    # debugger statements
+    "ISC",    # implicit string concatenation
+    "ICN",    # import conventions
+    "PIE",    # misc simplifications
+    "PT",     # pytest style
+    "Q",      # quotes
+    "RET",    # return style
+    "SIM",    # simplifications
+    "ARG",    # unused arguments
+    "PTH",    # pathlib
+    "ERA",    # commented-out code
+    "PL",     # pylint-derived rules
+    "RUF",    # Ruff-specific rules
+]
+
+ignore = [
+    "PLR0913", # too many arguments; sometimes legitimate in adapters/constructors
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**/*.py" = [
+    "ARG001",  # fixtures/callback signatures may intentionally leave args unused
+    "PLR2004", # magic values are often fine in tests
+]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "bushido_server",
+    "tui_client",
+]
 
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+line-ending = "lf"
+skip-magic-trailing-comma = false
+docstring-code-format = true
 
+# ---------------------------------------------------------------------------
+# mypy
+# ---------------------------------------------------------------------------
 [tool.mypy]
 python_version = "3.14"
-packages = ["bushido_server", "tui_client"]
+
 strict = true
+
+files = [
+    "bushido-server/src",
+    "bushido-server/tests",
+    "tui-client/src",
+    "tui-client/tests",
+]
+
+mypy_path = [
+    "bushido-server/src",
+    "tui-client/src",
+]
+
 show_error_codes = true
+show_column_numbers = true
+show_error_context = true
 pretty = true
+
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+
+no_implicit_optional = true
+strict_equality = true
+strict_bytes = true
+
+disallow_any_generics = true
+disallow_any_unimported = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+disallow_untyped_decorators = true
+
+check_untyped_defs = true
+
+no_implicit_reexport = true
+
+local_partial_types = true
+
+enable_error_code = [
+    "explicit-override",
+    "ignore-without-code",
+    "possibly-undefined",
+    "redundant-expr",
+    "truthy-bool",
+    "truthy-iterable",
+    "unused-awaitable",
+]
+
+plugins = [
+    "sqlalchemy.ext.mypy.plugin",
+]
+
+# ---------------------------------------------------------------------------
+# pytest
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = [
+    "bushido-server/tests",
+    "tui-client/tests",
+]
+
+addopts = [
+    "-ra",
+    "--strict-config",
+    "--strict-markers",
+]

@@ -1,6 +1,7 @@
 import datetime
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from typing import Any, Callable, Iterable, Protocol, TypeVar
+from typing import Any, Protocol, TypeVar
 
 from sqlalchemy.orm import Session
 

@@ -25,10 +25,9 @@ def time_string_to_seconds(time_string: str) -> float:
     except ValueError:
         if re.search(r"\d+h", values[0]):
             return 60 * 60 * float(values[0][:-1])
-        elif re.search(r"\d+s", values[0]):
+        if re.search(r"\d+s", values[0]):
             return float(values[0][:-1])
-        else:
-            raise ParsingError(f"unknown time format: {time_string}")
+        raise ParsingError(f"unknown time format: {time_string}")
 
 
 def colon_separated_time_string_to_seconds(values: list[str]) -> float:
@@ -96,8 +95,7 @@ def get_bushido_date_from_datetime(
     local_dt = dt.astimezone(tz)
     if 0 <= local_dt.hour < start_hour:
         return local_dt.date() - datetime.timedelta(days=1)
-    else:
-        return local_dt.date()
+    return local_dt.date()
 
 
 def find_previous_sunday(dt: datetime.date) -> datetime.date:
@@ -110,13 +108,11 @@ def find_previous_sunday(dt: datetime.date) -> datetime.date:
     if dt.weekday() != 6:
         days = dt.weekday() + 1
         return dt - datetime.timedelta(days=days)
-    else:
-        return dt
+    return dt
 
 
 def find_next_saturday(dt: datetime.date) -> datetime.date:
     if dt.weekday() != 6:
         days = 5 - dt.weekday()
         return dt + datetime.timedelta(days=days)
-    else:
-        return dt + datetime.timedelta(days=6)
+    return dt + datetime.timedelta(days=6)
