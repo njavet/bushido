@@ -1,16 +1,18 @@
 name: CI
 
-on: [push]
+on: 
+  push:
+  pull_request:
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout 
         uses: actions/checkout@v4
 
       - name: Set up python
@@ -19,19 +21,29 @@ jobs:
           python-version: '3.14'
 
       - name: Install uv
-        run: pip install uv
+        uses: astral-sh/setup-uv@v6
 
       - name: Install Dependencies
-        run: uv sync
+        run: uv sync --all-packages --frozen
 
       - name: Run Ruff check
-        run: uv run ruff check .
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
 
       - name: Run Typechecker
-        run: uv run mypy .
+        run: uv run mypy 
 
       - name: Run tests
-        run: uv run pytest tests
+        run: uv run pytest 
 
-      - name: Build Package
-        run: uv build
+      - name: Build bushidolib
+        run: uv build --package bushidolib
+
+      - name: Build server
+        run: uv build --package bushido-server
+
+      - name: Build tui client
+        run: uv build --package tui-client
+
+
