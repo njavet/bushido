@@ -5,19 +5,16 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 import uvicorn
-from bushido import __version__
-from bushido.application.registry import build_registry
-from bushido.application.services import LogUnitService
-from bushido.application.services.load_unit_service import LoadUnitService
-from bushido.conf import DEFAULT_PORT
-from bushido.interfaces.tui import BushidoApp
-from bushido.interfaces.web import router
-from bushido.persistence import SessionFactory
-from bushido.persistence.models import Base
 from fastapi import FastAPI
 from rich.logging import RichHandler
 from sqlalchemy import Engine
 from starlette.middleware.cors import CORSMiddleware
+
+from bushido_server import __version__
+from bushido_server.api import router
+from bushido_server.conf import DEFAULT_PORT
+from bushido_server.persistence import SessionFactory
+from bushido_server.persistence.models import Base
 
 logging.basicConfig(
     level=logging.INFO,
@@ -31,11 +28,8 @@ def init_db(engine: Engine) -> None:
 
 
 def create_parser() -> ArgumentParser:
-    parser = ArgumentParser(description="bushido server")
+    parser = ArgumentParser(description="bushido_server server")
     parser.add_argument("--version", action="store_true", help="show version")
-    parser.add_argument(
-        "--tui", action="store_true", default=True, help="run Textual App "
-    )
     parser.add_argument("--dev", action="store_true", help="run development server")
     return parser
 
@@ -63,19 +57,11 @@ def main() -> None:
     parser = create_parser()
     args = parser.parse_args()
     if args.version:
-        print(f"bushido {__version__}")
+        print(f"bushido_server {__version__}")
         sys.exit(0)
-
-    elif args.tui:
-        sf = SessionFactory()
-        init_db(engine=sf.engine)
-        registry = build_registry()
-        log_unit_service = LogUnitService(registry=registry)
-        load_unit_service = LoadUnitService(registry=registry)
-        BushidoApp(sf, log_unit_service, load_unit_service).run()
     else:
         uvicorn.run(
-            "bushido.web.web:create_app",
+            "bushido_server.web.web:create_app",
             port=DEFAULT_PORT,
             factory=True,
             log_level="info",

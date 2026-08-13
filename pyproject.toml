@@ -9,10 +9,12 @@ dev = [
     "pytest>=9.0.3",
     "ruff>=0.15.12",
     "ipython>=9.13.0",
+    "pre-commit>=4.6.2",
 ]
 
 [tool.uv.workspace]
 members = [
+    "bushidolib",
     "bushido-server",
     "tui-client",
 ]
@@ -25,6 +27,7 @@ target-version = "py314"
 line-length = 88
 indent-width = 4
 src = [
+    "bushidolib/src",
     "bushido-server/src",
     "tui-client/src",
 ]
@@ -78,6 +81,7 @@ ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = [
+    "busidolib",
     "bushido_server",
     "tui_client",
 ]
@@ -98,6 +102,8 @@ python_version = "3.14"
 strict = true
 
 files = [
+    "bushidolib/src",
+    "bushidolib/tests",
     "bushido-server/src",
     "bushido-server/tests",
     "tui-client/src",
@@ -105,6 +111,7 @@ files = [
 ]
 
 mypy_path = [
+    "bushidolib/src",
     "bushido-server/src",
     "tui-client/src",
 ]
@@ -156,6 +163,7 @@ plugins = [
 # ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
 testpaths = [
+    "bushidolib/tests",
     "bushido-server/tests",
     "tui-client/tests",
 ]

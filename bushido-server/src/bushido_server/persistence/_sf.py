@@ -1,10 +1,11 @@
 from collections.abc import Iterator
 from contextlib import contextmanager
 
-from bushido.conf import DB_URL
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
+
+from bushido_server.conf import DB_URL
 
 
 class SessionFactory:
