@@ -7,7 +7,7 @@ from bushidolib.exceptions import ParsingError
 from .spec import Data
 
 
-def parse_cardio_unit(tokens: tuple[str, ...]) -> Data:
+def parse(tokens: tuple[str, ...]) -> Data:
     start_t = parse_military_time_string(tokens[0])
     seconds = time_string_to_seconds(tokens[1])
     try:
