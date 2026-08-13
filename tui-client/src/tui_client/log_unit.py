@@ -1,20 +1,29 @@
 import datetime
 
+from functools import singledispatch
 from sqlalchemy.orm import Session
 
-from bushido_server.dtypes import Clock, SystemClock, UnitRegistration
-from bushido_server.schema.log_req import UnitLogRequest
+from bushido_server.dtypes import Clock, SystemClock
+from bushido_server.schema.log_req import CardioLogUnitRequest
 from bushidolib.units import Unit
-from bushidolib.units.exceptions import ParsingError
+from bushidolib.exceptions import ParsingError
+
+
+@singledispatch
+def log_unit(request: object, session: Session) -> None:
+    raise TypeError(f"Unsupported type for log_unit: {type(request).__name__}")
+
+
+@log_unit.register
+def log_unit_request(request: CardioLogUnitRequest, session: Session) -> None:
+    pass
 
 
 class LogUnitService:
     def __init__(
         self,
-        registry: dict[str, UnitRegistration],
         clock: Clock | None = None,
     ) -> None:
-        self.registry = registry
         self.clock = SystemClock() if clock is None else clock
 
     def log_unit(self, line: str, session: Session) -> None:

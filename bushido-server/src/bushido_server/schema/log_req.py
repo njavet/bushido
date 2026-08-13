@@ -1,33 +1,38 @@
+import datetime
 from typing import Literal, Annotated
 
 from pydantic import BaseModel, Field
 
 
-class BaseLogRequest(BaseModel):
+class BaseLogUnitRequest(BaseModel):
     user_name: str
     unit_type: str
     unit_name: str
     tokens: tuple[str, ...]
+    log_time: datetime.datetime
     comment: str | None = None
 
 
-class LiftingLogRequest(BaseLogRequest):
-    unit_type: Literal["lifting"]
-
-
-class CardioLogRequest(BaseLogRequest):
+class CardioLogUnitRequest(BaseLogUnitRequest):
     unit_type: Literal["cardio"]
 
 
-class GymLogRequest(BaseLogRequest):
+class GymLogUnitRequest(BaseLogUnitRequest):
     unit_type: Literal["gym"]
 
 
-class WimhofLogRequest(BaseLogRequest):
+class LiftingLogUnitRequest(BaseLogUnitRequest):
+    unit_type: Literal["lifting"]
+
+
+class WimhofLogUnitRequest(BaseLogUnitRequest):
     unit_type: Literal["wimhof"]
 
 
-UnitLogRequest = Annotated[
-    LiftingLogRequest | CardioLogRequest | GymLogRequest | WimhofLogRequest,
+LogUnitRequest = Annotated[
+    LiftingLogUnitRequest
+    | CardioLogUnitRequest
+    | GymLogUnitRequest
+    | WimhofLogUnitRequest,
     Field(discriminator="unit_type"),
 ]

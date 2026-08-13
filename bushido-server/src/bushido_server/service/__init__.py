@@ -1,4 +1,4 @@
-from .log_unit_service import LogUnitService
+from .log_unit import LogUnitService
 
 __all__ = [
     "LogUnitService",

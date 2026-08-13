@@ -8,7 +8,7 @@ from bushidolib.constants import (
     WEEK_START_DAY,
 )
 
-from .exceptions import ParsingError
+from bushidolib.exceptions import ParsingError
 
 
 def time_string_to_seconds(time_string: str) -> float:

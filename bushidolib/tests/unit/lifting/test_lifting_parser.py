@@ -1,5 +1,5 @@
 import pytest
-from bushidolib.units.exceptions import ParsingError
+from bushidolib.exceptions import ParsingError
 from bushidolib.units.lifting.parser import Parser
 from bushidolib.units.lifting.spec import Data, SetData
 
