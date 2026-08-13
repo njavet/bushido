@@ -1,5 +1,5 @@
-from .log_unit import LogUnitService
+from .log_unit import log_unit
 
 __all__ = [
-    "LogUnitService",
+    "log_unit",
 ]
