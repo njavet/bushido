@@ -34,8 +34,6 @@ from bushidolib.units.gym import GymData, parse_gym_unit
         ),
     ],
 )
-def test_correct_gym_units(
- tokens: tuple[str, ...], expected: GymData
-) -> None:
+def test_correct_gym_units(tokens: tuple[str, ...], expected: GymData) -> None:
     unit_data = parse_gym_unit(tokens)
     assert unit_data == expected

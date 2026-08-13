@@ -3,8 +3,6 @@ import pytest
 from bushidolib.units.wimhof import RoundData, WimhofData, parse_wimhof_unit
 
 
-
-
 @pytest.mark.parametrize(
     "tokens, expected",
     [
@@ -20,8 +18,6 @@ from bushidolib.units.wimhof import RoundData, WimhofData, parse_wimhof_unit
         ),
     ],
 )
-def test_correct_wimhof_unit(
-    tokens: tuple[str, ...], expected: WimhofData
-) -> None:
+def test_correct_wimhof_unit(tokens: tuple[str, ...], expected: WimhofData) -> None:
     unit_data = parse_wimhof_unit(tokens)
     assert unit_data == expected

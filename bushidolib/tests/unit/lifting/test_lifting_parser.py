@@ -41,9 +41,7 @@ from bushidolib.units.lifting.spec import Data, SetData
         ),
     ],
 )
-def test_correct_lifting_units(
-tokens: tuple[str, ...], expected: Data
-) -> None:
+def test_correct_lifting_units(tokens: tuple[str, ...], expected: Data) -> None:
     unit_data = parse_lifting_unit(tokens)
     assert unit_data == expected
 
@@ -56,8 +54,6 @@ tokens: tuple[str, ...], expected: Data
         (("150", "3", "f22"), "invalid rest"),
     ],
 )
-def test_correct_error_message(
-    tokens: tuple[str, ...], expected: str
-) -> None:
+def test_correct_error_message(tokens: tuple[str, ...], expected: str) -> None:
     with pytest.raises(ParsingError, match=expected):
         _ = parse_lifting_unit(tokens)
