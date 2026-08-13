@@ -1,14 +1,9 @@
 import datetime
-from collections.abc import Callable, Iterable
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Protocol, TypeVar
+from typing import Any, Protocol
 
 from sqlalchemy.orm import Session
-
-from .units import Unit
-
-T_DOMAIN = TypeVar("T_DOMAIN")
-R_DOMAIN = TypeVar("R_DOMAIN", covariant=True)
 
 
 class Clock(Protocol):
@@ -34,10 +29,6 @@ class UnitRegistration:
         return self.repo_factory(session)
 
 
-class UnitMetric(Protocol[T_DOMAIN, R_DOMAIN]):
-    def compute(self, units: Iterable[Unit[T_DOMAIN]]) -> R_DOMAIN: ...
-
-
 class UnitRepo(Protocol[T_DOMAIN]):
     def add_unit(self, unit: Unit[T_DOMAIN]) -> None: ...
     def fetch_units(
@@ -45,8 +36,3 @@ class UnitRepo(Protocol[T_DOMAIN]):
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[Unit[T_DOMAIN]]: ...
-
-
-class UnitParser(Protocol[R_DOMAIN]):
-    @staticmethod
-    def parse(tokens: tuple[str, ...]) -> R_DOMAIN: ...

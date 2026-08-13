@@ -30,11 +30,10 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):
                 round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
             )
             lst.append(ws)
-        pu = Unit(
+        return Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
             data=WimhofData(rounds=lst),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
-        return pu

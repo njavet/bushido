@@ -1,20 +1,21 @@
 import datetime
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import Generic, TypeVar
+from typing import TypeVar
 
-from bushido.domain.dtypes import T_DOMAIN
-from bushido.domain.units import Unit
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
+
+from bushidolib.dtypes import T_DOMAIN
+from bushidolib.units import Unit
 
 from ..models import UnitTable
 
 T_ORM = TypeVar("T_ORM", bound=UnitTable)
 
 
-class BaseUnitRepo(ABC, Generic[T_DOMAIN, T_ORM]):
+class BaseUnitRepo(ABC, [T_DOMAIN, T_ORM]):
     orm_cls: type[T_ORM]
     load_options: Sequence[ORMOption] = ()
 

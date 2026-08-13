@@ -1,27 +1,28 @@
 import datetime
 
-from bushido.application.schemas.req import UnitLogRequest
-from bushido.domain.dtypes import Clock, SystemClock, UnitRegistration
-from bushido.domain.units import Unit
-from bushido.domain.units.exceptions import ParsingError
 from sqlalchemy.orm import Session
+
+from bushido_server.dtypes import Clock, SystemClock, UnitRegistration
+from bushido_server.schema.req import UnitLogRequest
+from bushidolib.units import Unit
+from bushidolib.units.exceptions import ParsingError
 
 
 class LogUnitService:
     def __init__(
         self,
         registry: dict[str, UnitRegistration],
-        clock: Clock = SystemClock(),
+        clock: Clock | None = None,
     ) -> None:
         self.registry = registry
-        self.clock = clock
+        self.clock = SystemClock() if clock is None else clock
 
     def log_unit(self, line: str, session: Session) -> None:
         raw = parse_raw_unit(line)
         try:
             unit_registry = self.registry[raw.name]
-        except KeyError:
-            raise ParsingError(f"Unknown unit {raw.name}")
+        except KeyError as e:
+            raise ParsingError(f"Unknown unit {raw.name}") from e
 
         tokens, log_time_str = split_options(raw.tokens)
         if log_time_str:

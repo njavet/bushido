@@ -10,7 +10,7 @@ class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
 
     @staticmethod
     def _to_orm(unit: Unit[GymData]) -> GymUnitTable:
-        orm_unit = GymUnitTable(
+        return GymUnitTable(
             name=unit.name,
             emoji=unit.emoji,
             log_time=unit.log_time,
@@ -21,11 +21,10 @@ class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
             focus=unit.data.focus,
             comment=unit.comment,
         )
-        return orm_unit
 
     @staticmethod
     def _from_orm(orm_unit: GymUnitTable) -> Unit[GymData]:
-        pu = Unit(
+        return Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
             data=GymData(
@@ -38,4 +37,3 @@ class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
-        return pu

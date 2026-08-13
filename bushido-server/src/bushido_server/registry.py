@@ -1,3 +1,9 @@
+from bushido_server.persistence.repos import (
+    CardioUnitRepo,
+    GymUnitRepo,
+    LiftingUnitRepo,
+    WimhofUnitRepo,
+)
 from bushidolib.dtypes import UnitRegistration
 from bushidolib.units.cardio import (
     CardioParser,
@@ -19,12 +25,6 @@ from bushidolib.units.wimhof import (
     wimhof_grammar,
     wimhof_unit_settings,
 )
-from bushido_server.persistence.repos import (
-    CardioUnitRepo,
-    GymUnitRepo,
-    LiftingUnitRepo,
-    WimhofUnitRepo,
-)
 
 
 def build_registry() -> dict[str, UnitRegistration]:
@@ -32,28 +32,28 @@ def build_registry() -> dict[str, UnitRegistration]:
     for unit_setting in gym_unit_settings:
         registry[unit_setting.name] = UnitRegistration(
             parser=GymParser(),
-            repo_factory=lambda session: GymUnitRepo(session),
+            repo_factory=GymUnitRepo,
             grammar=gym_grammar,
             emoji=unit_setting.emoji,
         )
     for unit_setting in lifting_unit_settings:
         registry[unit_setting.name] = UnitRegistration(
             parser=LiftingParser(),
-            repo_factory=lambda session: LiftingUnitRepo(session),
+            repo_factory=LiftingUnitRepo,
             grammar=lifting_grammar,
             emoji=unit_setting.emoji,
         )
     for unit_setting in wimhof_unit_settings:
         registry[unit_setting.name] = UnitRegistration(
             parser=WimhofParser(),
-            repo_factory=lambda session: WimhofUnitRepo(session),
+            repo_factory=WimhofUnitRepo,
             grammar=wimhof_grammar,
             emoji=unit_setting.emoji,
         )
     for unit_setting in cardio_unit_settings:
         registry[unit_setting.name] = UnitRegistration(
             parser=CardioParser(),
-            repo_factory=lambda session: CardioUnitRepo(session),
+            repo_factory=CardioUnitRepo,
             grammar=cardio_grammar,
             emoji=unit_setting.emoji,
         )

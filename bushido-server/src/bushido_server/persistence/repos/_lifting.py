@@ -30,11 +30,10 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingData, LiftingUnitTable]):
         for s in orm_unit.subunits:
             sp = SetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             lst.append(sp)
-        pu = Unit(
+        return Unit(
             name=orm_unit.name,
             emoji=orm_unit.emoji,
             data=LiftingData(sets=lst, program=None, variant=None),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
-        return pu
