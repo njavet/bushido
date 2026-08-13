@@ -13,4 +13,3 @@ class SystemClock:
 
     def now(self) -> datetime.datetime:
         return datetime.datetime.now(self.timezone)
-

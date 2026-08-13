@@ -14,7 +14,6 @@ class UnitSetting:
 @dataclass(frozen=True, slots=True)
 class Unit[T]:
     name: str
-    emoji: str
     log_time: datetime.datetime
     comment: str | None
     data: T
