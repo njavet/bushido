@@ -1,5 +1,5 @@
-from bushido.domain.units import Unit
-from bushido.domain.units.cardio import CardioData
+from bushidolib.units import Unit
+from bushidolib.units.cardio import CardioData
 
 from ..models import CardioUnitTable
 from ._base import BaseUnitRepo
