@@ -20,6 +20,7 @@ from bushidolib.domain.wimhof import WimhofData, parse_wimhof_unit
 from bushidolib.exceptions import ParsingUnitError
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
+UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
 
 
 def log_unit(request: LogUnitRequest, session: Session) -> UnitLogResponse:
