@@ -16,7 +16,7 @@ from bushidolib.contracts.log_req import (
     WimhofLogUnitRequest,
 )
 from bushidolib.contracts.log_res import UnitLogResponse
-from bushidolib.domain import Unit
+from bushidolib.domain._dtypes import Unit
 from bushidolib.domain.cardio import parse_cardio_unit
 from bushidolib.domain.gym import parse_gym_unit
 from bushidolib.domain.lifting import parse_lifting_unit

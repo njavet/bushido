@@ -1,7 +1,7 @@
 from collections.abc import Callable, Iterable
 from dataclasses import replace
 
-from ..base import Unit
+from bushidolib.domain._dtypes import Unit
 from ._spec import Data, SetData
 
 

@@ -10,7 +10,7 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushidolib.domain import Unit
+from bushidolib.domain._dtypes import Unit
 from bushidolib.domain.lifting import LiftingData
 
 
