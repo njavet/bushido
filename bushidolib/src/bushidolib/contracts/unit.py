@@ -83,4 +83,3 @@ class WimhofUnit(BaseUnit):
 LoadedUnits = Annotated[
     list[CardioUnit] | list[GymUnit] | list[LiftingUnit] | list[WimhofUnit],
 ]
-    
