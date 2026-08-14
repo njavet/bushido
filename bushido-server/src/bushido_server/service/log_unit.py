@@ -1,4 +1,5 @@
 from functools import singledispatch
+from typing import Any
 
 from sqlalchemy.orm import Session
 
@@ -31,55 +32,35 @@ def log_unit(request: object, _session: Session) -> UnitLogResponse:
 def _(request: CardioLogUnitRequest, session: Session) -> UnitLogResponse:
     cardio_data = parse_cardio_unit(request.tokens)
     repo = CardioUnitRepo(session)
-    repo.add_unit(
-        Unit(
-            name=request.unit_name,
-            data=cardio_data,
-            log_time=request.log_time,
-            comment=request.comment,
-        )
-    )
-    return UnitLogResponse(status="OK")
+    return _add_unit(request, cardio_data, repo)
 
 
 @log_unit.register
 def _(request: GymLogUnitRequest, session: Session) -> UnitLogResponse:
     gym_data = parse_gym_unit(request.tokens)
     repo = GymUnitRepo(session)
-    repo.add_unit(
-        Unit(
-            name=request.unit_name,
-            data=gym_data,
-            log_time=request.log_time,
-            comment=request.comment,
-        )
-    )
-    return UnitLogResponse(status="OK")
+    return _add_unit(request, gym_data, repo)
 
 
 @log_unit.register
 def _(request: LiftingLogUnitRequest, session: Session) -> UnitLogResponse:
     lifting_data = parse_lifting_unit(request.tokens)
     repo = LiftingUnitRepo(session)
-    repo.add_unit(
-        Unit(
-            name=request.unit_name,
-            data=lifting_data,
-            log_time=request.log_time,
-            comment=request.comment,
-        )
-    )
-    return UnitLogResponse(status="OK")
+    return _add_unit(request, lifting_data, repo)
 
 
 @log_unit.register
 def _(request: WimhofLogUnitRequest, session: Session) -> UnitLogResponse:
     wimhof_data = parse_wimhof_unit(request.tokens)
     repo = WimhofUnitRepo(session)
+    return _add_unit(request, wimhof_data, repo)
+
+
+def _add_unit(request: Any, data: Any, repo: Any) -> UnitLogResponse:
     repo.add_unit(
         Unit(
             name=request.unit_name,
-            data=wimhof_data,
+            data=data,
             log_time=request.log_time,
             comment=request.comment,
         )
