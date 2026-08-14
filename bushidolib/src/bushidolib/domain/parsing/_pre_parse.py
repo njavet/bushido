@@ -17,25 +17,16 @@ def parse_raw_unit(line: str) -> RawUnit:
     return RawUnit(name=name, tokens=tokens, comment=comment_)
 
 
-def split_options(
-    tokens: tuple[str, ...], timezone: datetime.tzinfo
-) -> tuple[tuple[str, ...], datetime.datetime | None]:
+def split_options(tokens: tuple[str, ...]) -> tuple[tuple[str, ...], str | None]:
     clean: list[str] = []
-    log_time: datetime.datetime | None = None
+    log_time: str | None = None
     i = 0
     while i < len(tokens):
         token = tokens[i]
         if token == "--dt":
             if i + 1 >= len(tokens):
                 raise UnitParsingError("--dt requires a value")
-            try:
-                log_time = datetime.datetime.strptime(
-                    tokens[i + 1], "%Y%m%d-%H%M"
-                ).replace(tzinfo=timezone)
-            except ValueError as e:
-                raise UnitParsingError(
-                    f"invalid datetime format: {tokens[i + 1]}"
-                ) from e
+            log_time = tokens[i + 1]
             i += 2
             continue
         clean.append(token)
