@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 
 from bushido_server.api.deps import SessionDep
-from bushido_server.schema.log_req import LogUnitRequest
-from bushido_server.schema.log_res import UnitLogResponse
 from bushido_server.service import log_unit
+from bushidolib.contracts.log_req import LogUnitRequest
+from bushidolib.contracts.log_res import UnitLogResponse
 
 router = APIRouter()
 

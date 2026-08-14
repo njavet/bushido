@@ -9,13 +9,13 @@ from bushido_server.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
-from bushido_server.schema.log_req import (
+from bushidolib.contracts.log_req import (
     CardioLogUnitRequest,
     GymLogUnitRequest,
     LiftingLogUnitRequest,
     WimhofLogUnitRequest,
 )
-from bushido_server.schema.log_res import UnitLogResponse
+from bushidolib.contracts.log_res import UnitLogResponse
 from bushidolib.domain import Unit
 from bushidolib.domain.cardio import parse_cardio_unit
 from bushidolib.domain.gym import parse_gym_unit
