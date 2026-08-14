@@ -2,8 +2,6 @@ import datetime
 from dataclasses import dataclass
 from typing import Protocol
 
-from tui_client.settings import LOCAL_TIMEZONE
-
 
 class Clock(Protocol):
     def now(self) -> datetime.datetime: ...
@@ -11,7 +9,7 @@ class Clock(Protocol):
 
 @dataclass(frozen=True, slots=True)
 class SystemClock:
-    timezone: datetime.tzinfo = LOCAL_TIMEZONE
+    timezone: datetime.tzinfo = datetime.UTC
 
     def now(self) -> datetime.datetime:
         return datetime.datetime.now(self.timezone)
