@@ -35,3 +35,7 @@ class BushidoApp(App[None]):
                 yield LiftingContainer(id="lifting_container")
 
         yield Footer(id="app_footer")
+
+
+if __name__ == "__main__":
+    BushidoApp().run()
