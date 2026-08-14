@@ -28,6 +28,7 @@ class BushidoApiClient:
         response.raise_for_status()
         return UnitLogResponse.model_validate(response.json())
 
+    # TODO remove, use pydantic adapter
     async def load_cardio_units(self, request: LoadUnitRequest) -> list[CardioUnit]:
         response = await self._load_units(request)
         return [CardioUnit.model_validate(u) for u in response.json()]
