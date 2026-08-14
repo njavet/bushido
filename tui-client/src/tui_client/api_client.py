@@ -1,4 +1,4 @@
-from httpx import AsyncClient
+from httpx import AsyncClient, Response
 
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts.log_res import UnitLogResponse
@@ -7,7 +7,6 @@ from bushidolib.contracts.unit import (
     CardioUnit,
     GymUnit,
     LiftingUnit,
-    LoadedUnits,
     UnitSetting,
     WimhofUnit,
 )
@@ -31,20 +30,28 @@ class BushidoApiClient:
         response.raise_for_status()
         return UnitLogResponse.model_validate(response.json())
 
-    async def load_units(self, request: LoadUnitRequest) -> LoadedUnits:
+    async def load_cardio_units(self, request: LoadUnitRequest) -> list[CardioUnit]:
+        response = await self._load_units(request)
+        return [CardioUnit.model_validate(u) for u in response.json()]
+
+    async def load_gym_units(self, request: LoadUnitRequest) -> list[GymUnit]:
+        response = await self._load_units(request)
+        return [GymUnit.model_validate(u) for u in response.json()]
+
+    async def load_lifting_units(self, request: LoadUnitRequest) -> list[LiftingUnit]:
+        response = await self._load_units(request)
+        return [LiftingUnit.model_validate(u) for u in response.json()]
+
+    async def load_wimhof_units(self, request: LoadUnitRequest) -> list[WimhofUnit]:
+        response = await self._load_units(request)
+        return [WimhofUnit.model_validate(u) for u in response.json()]
+
+    async def _load_units(self, request: LoadUnitRequest) -> Response:
         response = await self._client.post(
             "/api/unit-logs/query", json=request.model_dump(mode="json")
         )
         response.raise_for_status()
-        match request.unit_category:
-            case UnitCategory.GYM:
-                return [GymUnit.model_validate(u) for u in response.json()]
-            case UnitCategory.WIMHOF:
-                return [WimhofUnit.model_validate(u) for u in response.json()]
-            case UnitCategory.LIFTING:
-                return [LiftingUnit.model_validate(u) for u in response.json()]
-            case UnitCategory.CARDIO:
-                return [CardioUnit.model_validate(u) for u in response.json()]
+        return response
 
     async def close(self) -> None:
         await self._client.aclose()
