@@ -5,7 +5,6 @@ from pydantic import BaseModel, Field
 
 
 class BaseLogUnitRequest(BaseModel):
-    user_name: str
     unit_type: str
     unit_name: str
     tokens: tuple[str, ...]

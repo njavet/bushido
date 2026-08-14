@@ -1,8 +1,6 @@
 import datetime
 from dataclasses import dataclass
 
-from ..base import UnitSetting
-
 
 @dataclass(frozen=True, slots=True)
 class Data:
@@ -18,18 +16,3 @@ class Data:
 grammar = """
 <name> <start> <sec> <loc> [<dist>] [<avg_hr>] [<max_hr>] [<cal>] # [<comment>]
     """
-
-unit_settings = [
-    UnitSetting(
-        name="running",
-        emoji=b"\xf0\x9f\xaa\x96".decode(),
-    ),
-    UnitSetting(
-        name="swimming",
-        emoji=b"\xf0\x9f\xa6\x88".decode(),
-    ),
-    UnitSetting(
-        name="skipping",
-        emoji=b"\xf0\x9f\x8e\x97\xef\xb8\x8f".decode(),
-    ),
-]

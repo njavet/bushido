@@ -31,7 +31,6 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 def test_log_lifting_unit_success(session: Session) -> None:
     lr = LiftingLogUnitRequest(
-        user_name="test",
         log_time=datetime.datetime.now(zoneinfo.ZoneInfo("UTC")),
         unit_name="benchpress",
         tokens=("100", "5", "180", "100", "5"),

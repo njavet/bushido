@@ -1,4 +1,3 @@
-from collections.abc import Awaitable, Callable
 from typing import ClassVar, override
 
 from rich.console import Group
@@ -13,7 +12,7 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input
 
-LogUnitHandler = Callable[[str], Awaitable[None]]
+from tui_client.api_client import BushidoApiClient
 
 
 class UnitSuggester(Suggester):
@@ -75,6 +74,10 @@ class LogUnitScreen(ModalScreen[bool]):
         Binding("escape", "cancel", "cancel"),
     ]
 
+    def __init__(self, api: BushidoApiClient) -> None:
+        super().__init__()
+        self.api = api
+
     async def action_cancel(self) -> None:
         await self.dismiss(False)
 
@@ -88,4 +91,3 @@ class LogUnitScreen(ModalScreen[bool]):
         if not message.value:
             self.app.notify("empty domain", title="logging failed", severity="error")
             await self.dismiss(False)
-            return

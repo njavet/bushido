@@ -1,6 +1,5 @@
 from typing import ClassVar, override
 
-from httpx import AsyncClient
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
@@ -10,28 +9,12 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushidolib.contracts.log_req import LogUnitRequest
-from bushidolib.contracts.log_res import UnitLogResponse
+from tui_client.api_client import BushidoApiClient
+from tui_client.screens.log_unit import LogUnitScreen
 
 from .containers import HeaderContainer, LiftingContainer
 from .containers.gym import GymContainer
 from .containers.spartan import SpartanContainer
-
-
-class BushidoApiClient:
-    def __init__(self, base_url: str) -> None:
-        self._client = AsyncClient(base_url=base_url)
-
-    async def log_unit(self, request: LogUnitRequest) -> UnitLogResponse:
-        response = await self._client.post(
-            "/unit-logs",
-            json=request.model_dump(mode="json"),
-        )
-        response.raise_for_status()
-        return UnitLogResponse.model_validate(response.json())
-
-    async def close(self) -> None:
-        await self._client.aclose()
 
 
 class BushidoApp(App[None]):
@@ -59,6 +42,12 @@ class BushidoApp(App[None]):
                 yield LiftingContainer(id="lifting_container")
 
         yield Footer(id="app_footer")
+
+    def action_log_unit(self) -> None:
+        self.push_screen(LogUnitScreen(self.api))
+
+    async def on_unmount(self) -> None:
+        await self.api.close()
 
 
 def main() -> None:

@@ -7,6 +7,11 @@ class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
 
 
+class UnitSettingTable(Base):
+    name: Mapped[str] = mapped_column()
+    category: Mapped[str] = mapped_column()
+
+
 class UnitTable(Base):
     __abstract__ = True
 

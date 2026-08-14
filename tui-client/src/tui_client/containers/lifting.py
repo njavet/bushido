@@ -11,20 +11,20 @@ from textual.widgets import (
 )
 
 from bushidolib.domain import Unit
-from bushidolib.domain.lifting import LiftingData, lifting_unit_settings
+from bushidolib.domain.lifting import LiftingData
 
 
 class LiftingContainer(Container):
     @override
     def compose(self) -> ComposeResult:
         with TabbedContent(id="lifting_tabs"):
-            for unit_spec in lifting_unit_settings:
+            for unit_spec in []:
                 with TabPane(" ".join([unit_spec.name, unit_spec.emoji])):
                     yield RichLog(id=f"{unit_spec.name}_stats")
                     yield LiftingTable(id=f"{unit_spec.name}_table")
 
     def set_units(self, units: list[Unit[LiftingData]]) -> None:
-        for unit_spec in lifting_unit_settings:
+        for unit_spec in []:
             self.query_one(f"#{unit_spec.name}_table", LiftingTable).set_units(
                 [u for u in units if u.name == unit_spec.name]
             )

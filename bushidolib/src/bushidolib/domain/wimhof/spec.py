@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-from ..base import UnitSetting
-
 
 @dataclass(frozen=True, slots=True)
 class RoundData:
@@ -16,10 +14,3 @@ class Data:
 
 
 grammar = "<name> (<breaths> <retentions>)+ # [<comment>]"
-
-unit_settings = [
-    UnitSetting(
-        name="wimhof",
-        emoji=b"\xf0\x9f\xaa\x90".decode(),
-    ),
-]
