@@ -1,5 +1,4 @@
 import datetime
-from typing import Any
 
 from sqlalchemy.orm import Session
 
@@ -33,9 +32,11 @@ def log_unit(request: LogUnitRequest, session: Session) -> UnitLogResponse:
     raw_unit = parse_raw_unit(request.line)
     tokens, log_time_str = split_options(raw_unit.tokens)
     if log_time_str is None:
-        log_time = datetime.datetime.now(tz=datetime.timezone.utc)
+        log_time = datetime.datetime.now(tz=datetime.UTC)
     else:
-        log_time = datetime.datetime.strptime(log_time_str, "%Y%m%d-%H%M").replace(tzinfo=datetime.timezone.utc)
+        log_time = datetime.datetime.strptime(log_time_str, "%Y%m%d-%H%M").replace(
+            tzinfo=datetime.UTC
+        )
 
     category = unit_settings.get(raw_unit.name)
     match category:
@@ -51,7 +52,9 @@ def log_unit(request: LogUnitRequest, session: Session) -> UnitLogResponse:
             raise UnitParsingError(f"Unknown unit: {raw_unit.name}")
 
 
-def log_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime, session: Session) -> UnitLogResponse:
+def log_cardio_unit(
+    raw_unit: RawUnit, log_time: datetime.datetime, session: Session
+) -> UnitLogResponse:
     repo = CardioUnitRepo(session)
     repo.add_unit(
         Unit(
@@ -64,7 +67,9 @@ def log_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime, session: Ses
     return UnitLogResponse(status="OK")
 
 
-def log_gym_unit(raw_unit: RawUnit, log_time: datetime.datetime, session: Session) -> UnitLogResponse:
+def log_gym_unit(
+    raw_unit: RawUnit, log_time: datetime.datetime, session: Session
+) -> UnitLogResponse:
     repo = GymUnitRepo(session)
     repo.add_unit(
         Unit(
@@ -77,7 +82,9 @@ def log_gym_unit(raw_unit: RawUnit, log_time: datetime.datetime, session: Sessio
     return UnitLogResponse(status="OK")
 
 
-def log_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime, session: Session) -> UnitLogResponse:
+def log_lifting_unit(
+    raw_unit: RawUnit, log_time: datetime.datetime, session: Session
+) -> UnitLogResponse:
     repo = LiftingUnitRepo(session)
     repo.add_unit(
         Unit(
@@ -90,7 +97,9 @@ def log_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime, session: Se
     return UnitLogResponse(status="OK")
 
 
-def log_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime, session: Session) -> UnitLogResponse:
+def log_wimhof_unit(
+    raw_unit: RawUnit, log_time: datetime.datetime, session: Session
+) -> UnitLogResponse:
     repo = WimhofUnitRepo(session)
     repo.add_unit(
         Unit(
