@@ -12,17 +12,13 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input
 
-from bushidolib.constants import UnitCategory
 from bushidolib.contracts.req import LogUnitRequest
 from tui_client.api_client import BushidoApiClient
 
 
 class UnitSuggester(Suggester):
-    def __init__(self) -> None:
+    def __init__(self, unit_names: list[str]) -> None:
         super().__init__()
-        self.unit_names: list[str] = []
-
-    def set_unit_names(self, unit_names: list[str]) -> None:
         self.unit_names = unit_names
 
     @override
@@ -73,12 +69,10 @@ class LogUnitScreen(ModalScreen[bool]):
         Binding("escape", "cancel", "cancel"),
     ]
 
-    def __init__(self, api: BushidoApiClient) -> None:
+    def __init__(self, api: BushidoApiClient, unit_names: list[str]) -> None:
         super().__init__()
         self.api = api
-        # TODO investigate defaults ({}, [])
-        self.unit_settings: dict[str, UnitCategory] = {}
-        self.unit_suggester = UnitSuggester()
+        self.unit_suggester = UnitSuggester(unit_names)
 
     async def action_cancel(self) -> None:
         await self.dismiss(False)
@@ -88,11 +82,6 @@ class LogUnitScreen(ModalScreen[bool]):
         with Vertical(id="log_unit_dialog"):
             yield UnitHelpWidget()
             yield UnitInput(suggester=self.unit_suggester)
-
-    async def on_mount(self) -> None:
-        self.unit_settings = await self.api.load_unit_settings()
-        self.log(self.unit_settings)
-        self.unit_suggester.set_unit_names(list(self.unit_settings.keys()))
 
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:

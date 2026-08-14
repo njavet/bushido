@@ -9,6 +9,7 @@ from textual.widgets import (
     TabPane,
 )
 
+from bushidolib.constants import UnitCategory
 from tui_client.api_client import BushidoApiClient
 from tui_client.screens._log_unit import LogUnitScreen
 
@@ -27,6 +28,8 @@ class BushidoApp(App[None]):
 
     def __init__(self) -> None:
         super().__init__()
+        # TODO investigate defaults ({}, [])
+        self.unit_settings: dict[str, UnitCategory] = {}
         self.api = BushidoApiClient(base_url="http://localhost:8000")
 
     @override
@@ -43,8 +46,11 @@ class BushidoApp(App[None]):
 
         yield Footer(id="app_footer")
 
+    async def on_mount(self) -> None:
+        self.unit_settings = await self.api.load_unit_settings()
+
     async def action_log_unit(self) -> None:
-        await self.push_screen(LogUnitScreen(self.api))
+        await self.push_screen(LogUnitScreen(self.api, list(self.unit_settings.keys())))
 
     async def on_unmount(self) -> None:
         await self.api.close()
