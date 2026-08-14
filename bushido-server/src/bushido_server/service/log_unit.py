@@ -7,8 +7,8 @@ from bushido_server.persistence.repos import (
     GymUnitRepo,
     LiftingUnitRepo,
     WimhofUnitRepo,
+    load_unit_settings,
 )
-from bushido_server.service.load_unit_settings import load_unit_settings
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts.log_res import UnitLogResponse
 from bushidolib.contracts.req import LogUnitRequest

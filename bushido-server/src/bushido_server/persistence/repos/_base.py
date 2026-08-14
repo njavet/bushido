@@ -7,9 +7,11 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
+from bushidolib.constants import UnitCategory
+from bushidolib.contracts.unit import UnitSetting
 from bushidolib.domain import Unit
 
-from ..models import UnitSettingTable, UnitTable
+from ..models import UnitCategoryTable, UnitSettingTable, UnitTable
 
 T_ORM = TypeVar("T_ORM", bound=UnitTable)
 
@@ -51,3 +53,16 @@ class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
 
     @abstractmethod
     def _from_orm(self, orm_unit: T_ORM) -> Unit[T_DOMAIN]: ...
+
+
+def load_unit_settings(session: Session) -> list[UnitSetting]:
+    stmt = select(
+        UnitSettingTable.name,
+        UnitCategoryTable.name.label("category"),
+    ).join(
+        UnitCategoryTable,
+        UnitSettingTable.category_id == UnitCategoryTable.id,
+    )
+
+    result = session.execute(stmt).all()
+    return [UnitSetting(name=r.name, category=UnitCategory(r.category)) for r in result]

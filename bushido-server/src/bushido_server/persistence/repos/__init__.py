@@ -1,3 +1,4 @@
+from ._base import load_unit_settings
 from ._cardio import CardioUnitRepo
 from ._gym import GymUnitRepo
 from ._lifting import LiftingUnitRepo
@@ -8,4 +9,5 @@ __all__ = [
     "GymUnitRepo",
     "LiftingUnitRepo",
     "WimhofUnitRepo",
+    "load_unit_settings",
 ]
