@@ -1,7 +1,7 @@
 import pytest
 
 from bushidolib.domain.lifting import parse_lifting_unit
-from bushidolib.domain.lifting.spec import Data, SetData
+from bushidolib.domain.lifting._spec import Data, SetData
 from bushidolib.exceptions import ParsingUnitError
 
 

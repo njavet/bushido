@@ -4,7 +4,7 @@ from bushidolib.domain.dt_parse import (
 )
 from bushidolib.exceptions import ParsingUnitError
 
-from .spec import Data
+from ._spec import Data
 
 
 def parse(tokens: tuple[str, ...]) -> Data:

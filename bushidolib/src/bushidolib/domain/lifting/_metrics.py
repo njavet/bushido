@@ -2,7 +2,7 @@ from collections.abc import Callable, Iterable
 from dataclasses import replace
 
 from ..base import Unit
-from .spec import Data, SetData
+from ._spec import Data, SetData
 
 
 def compute_unit_pr(

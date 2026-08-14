@@ -1,6 +1,6 @@
 from bushidolib.exceptions import ParsingUnitError
 
-from .spec import Data, RoundData
+from ._spec import Data, RoundData
 
 
 def parse(tokens: tuple[str, ...]) -> Data:

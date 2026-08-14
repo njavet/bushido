@@ -1,6 +1,6 @@
 from bushidolib.exceptions import ParsingUnitError
 
-from .spec import Data, SetData
+from ._spec import Data, SetData
 
 
 def parse(tokens: tuple[str, ...]) -> Data:
@@ -20,11 +20,11 @@ def parse(tokens: tuple[str, ...]) -> Data:
         raise ParsingUnitError("at least one set")
     if len(weights) != len(reps):
         raise ParsingUnitError("weights and reps don't match")
-    if any(x < 0 for x in reps):
+    if any(x <= 0 for x in reps):
         raise ParsingUnitError("reps must all be positive")
-    if any(x < 0 for x in weights):
+    if any(x <= 0 for x in weights):
         raise ParsingUnitError("weights must all be positive")
-    if any(x < 0 for x in rests):
+    if any(x <= 0 for x in rests):
         raise ParsingUnitError("rests must all be positive")
 
     return Data(

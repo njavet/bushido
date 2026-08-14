@@ -1,7 +1,7 @@
 from ._parsing import parse as parse_lifting_unit
-from .spec import Data as LiftingData
-from .spec import SetData
-from .spec import grammar as lifting_grammar
+from ._spec import Data as LiftingData
+from ._spec import SetData
+from ._spec import grammar as lifting_grammar
 
 __all__ = [
     "LiftingData",
