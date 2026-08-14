@@ -10,7 +10,7 @@ from textual.widgets import (
 )
 
 from tui_client.api_client import BushidoApiClient
-from tui_client.screens.log_unit import LogUnitScreen
+from tui_client.screens._log_unit import LogUnitScreen
 
 from .containers import HeaderContainer, LiftingContainer
 from .containers.gym import GymContainer
