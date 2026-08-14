@@ -23,7 +23,7 @@ def time_string_to_seconds(time_string: str) -> float:
 
     values = time_string.split(":")
     if len(values) > 1:
-        return colon_separated_time_string_to_seconds(values)
+        return _colon_separated_time_string_to_seconds(values)
 
     try:
         m = float(values[0])
@@ -36,7 +36,7 @@ def time_string_to_seconds(time_string: str) -> float:
         raise ParsingUnitError(f"unknown time format: {time_string}") from e
 
 
-def colon_separated_time_string_to_seconds(values: list[str]) -> float:
+def _colon_separated_time_string_to_seconds(values: list[str]) -> float:
     # format HH:MM:SS
     if len(values) == COMPLETE_TIME_LEN:
         try:
