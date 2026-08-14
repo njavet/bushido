@@ -10,7 +10,7 @@ from sqlalchemy.orm.interfaces import ORMOption
 from bushidolib.contracts.unit import UnitSetting
 from bushidolib.domain import Unit
 
-from ..models import UnitTable, UnitSettingTable
+from ..models import UnitSettingTable, UnitTable
 
 T_ORM = TypeVar("T_ORM", bound=UnitTable)
 
