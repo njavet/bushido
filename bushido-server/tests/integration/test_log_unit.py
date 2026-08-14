@@ -1,5 +1,3 @@
-import datetime
-import zoneinfo
 from collections.abc import Iterator
 
 import pytest
@@ -28,11 +26,7 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 @pytest.mark.skip("empty db")
 def test_log_lifting_unit_success(session: Session) -> None:
-    lr = LogUnitRequest(
-        log_time=datetime.datetime.now(zoneinfo.ZoneInfo("UTC")),
-        unit_name="benchpress",
-        tokens=("100", "5", "180", "100", "5"),
-    )
+    lr = LogUnitRequest(line="benchpress 100 5 180 100 5")
     log_unit(lr, session)
     units = session.scalars(select(LiftingUnitTable)).all()
     assert len(units) == 1

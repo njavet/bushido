@@ -1,4 +1,3 @@
-import datetime
 from typing import ClassVar, override
 
 from rich.console import Group
@@ -15,9 +14,7 @@ from textual.widgets import Input
 
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts.req import LogUnitRequest
-from bushidolib.domain.parsing import parse_raw_unit, split_options
 from tui_client.api_client import BushidoApiClient
-from tui_client.settings import LOCAL_TIMEZONE
 
 
 class UnitSuggester(Suggester):
