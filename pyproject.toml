@@ -68,6 +68,7 @@ select = [
     "ERA",    # commented-out code
     "PL",     # pylint-derived rules
     "RUF",    # Ruff-specific rules
+    "PLC2701" # private name import
 ]
 
 ignore = [
