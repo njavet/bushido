@@ -1,4 +1,4 @@
-from .parsing import parse as parse_cardio_unit
+from ._parsing import parse as parse_cardio_unit
 from .spec import Data as CardioData
 from .spec import grammar as cardio_grammar
 

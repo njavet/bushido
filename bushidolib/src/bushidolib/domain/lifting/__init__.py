@@ -1,4 +1,4 @@
-from .parsing import parse as parse_lifting_unit
+from ._parsing import parse as parse_lifting_unit
 from .spec import Data as LiftingData
 from .spec import SetData
 from .spec import grammar as lifting_grammar
