@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 @dataclass(frozen=True, slots=True)
-class Data:
+class CardioData:
     start_t: datetime.time
     seconds: float
     location: str

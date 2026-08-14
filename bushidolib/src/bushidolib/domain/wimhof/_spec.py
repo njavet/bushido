@@ -9,7 +9,7 @@ class RoundData:
 
 
 @dataclass(frozen=True, slots=True)
-class Data:
+class WimhofData:
     rounds: list[RoundData]
 
 

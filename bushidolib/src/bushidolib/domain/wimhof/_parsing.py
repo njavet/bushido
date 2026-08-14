@@ -1,9 +1,9 @@
 from bushidolib.exceptions import ParsingUnitError
 
-from ._spec import Data, RoundData
+from ._spec import RoundData, WimhofData
 
 
-def parse(tokens: tuple[str, ...]) -> Data:
+def parse(tokens: tuple[str, ...]) -> WimhofData:
     breaths = [int(b) for b in tokens[::2]]
     retentions = [int(r) for r in tokens[1::2]]
     if len(breaths) == 0:
@@ -15,7 +15,7 @@ def parse(tokens: tuple[str, ...]) -> Data:
     if any(x < 0 for x in retentions):
         raise ParsingUnitError("retentions must all be positive")
 
-    return Data(
+    return WimhofData(
         rounds=[
             RoundData(round_nr=i, breaths=b, retention=r)
             for i, (b, r) in enumerate(zip(breaths, retentions, strict=False))

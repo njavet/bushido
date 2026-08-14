@@ -10,7 +10,7 @@ class SetData:
 
 
 @dataclass(frozen=True, slots=True)
-class Data:
+class LiftingData:
     variant: str | None
     program: str | None
     sets: list[SetData]

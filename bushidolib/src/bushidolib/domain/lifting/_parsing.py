@@ -1,9 +1,9 @@
 from bushidolib.exceptions import ParsingUnitError
 
-from ._spec import Data, SetData
+from ._spec import LiftingData, SetData
 
 
-def parse(tokens: tuple[str, ...]) -> Data:
+def parse(tokens: tuple[str, ...]) -> LiftingData:
     try:
         weights = [float(w) for w in tokens[::3]]
     except ValueError as e:
@@ -27,7 +27,7 @@ def parse(tokens: tuple[str, ...]) -> Data:
     if any(x <= 0 for x in rests[:-1]):
         raise ParsingUnitError("rests must all be positive")
 
-    return Data(
+    return LiftingData(
         variant=None,
         program=None,
         sets=[

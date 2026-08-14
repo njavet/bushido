@@ -13,11 +13,13 @@ from bushidolib.constants import UnitCategory
 from bushidolib.contracts.log_res import UnitLogResponse
 from bushidolib.contracts.req import LogUnitRequest
 from bushidolib.domain import Unit
-from bushidolib.domain.cardio import parse_cardio_unit
-from bushidolib.domain.gym import parse_gym_unit
-from bushidolib.domain.lifting import parse_lifting_unit
-from bushidolib.domain.wimhof import parse_wimhof_unit
+from bushidolib.domain.cardio import CardioData, parse_cardio_unit
+from bushidolib.domain.gym import GymData, parse_gym_unit
+from bushidolib.domain.lifting import LiftingData, parse_lifting_unit
+from bushidolib.domain.wimhof import WimhofData, parse_wimhof_unit
 from bushidolib.exceptions import ParsingUnitError
+
+UnitData = LiftingData | GymData | CardioData | WimhofData
 
 
 def log_unit(request: LogUnitRequest, session: Session) -> UnitLogResponse:
@@ -62,7 +64,7 @@ def log_wimhof_unit(request: LogUnitRequest, session: Session) -> UnitLogRespons
     return _add_unit(request, wimhof_data, repo)
 
 
-def _add_unit(request: LogUnitRequest, data: Any, repo: Any) -> UnitLogResponse:
+def _add_unit(request: LogUnitRequest, data: UnitData, repo: Any) -> UnitLogResponse:
     repo.add_unit(
         Unit(
             name=request.unit_name,

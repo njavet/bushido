@@ -4,10 +4,10 @@ from bushidolib.domain.parsing import (
 )
 from bushidolib.exceptions import ParsingUnitError
 
-from ._spec import Data
+from ._spec import CardioData
 
 
-def parse(tokens: tuple[str, ...]) -> Data:
+def parse(tokens: tuple[str, ...]) -> CardioData:
     start_t = parse_military_time_string(tokens[0])
     seconds = time_string_to_seconds(tokens[1])
     try:
@@ -32,7 +32,7 @@ def parse(tokens: tuple[str, ...]) -> Data:
     except IndexError:
         calories = None
 
-    return Data(
+    return CardioData(
         start_t=start_t,
         seconds=seconds,
         location=location,
