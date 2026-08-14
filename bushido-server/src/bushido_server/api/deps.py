@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 def get_session(request: Request) -> Generator[Session]:
     sf = request.app.state.sf
-    yield from sf.get_session()
+    yield from sf.session()
 
 
 SessionDep = Annotated[Session, Depends(get_session)]
