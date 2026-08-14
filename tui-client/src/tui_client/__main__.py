@@ -1,3 +1,3 @@
-from .main import BushidoApp
+from .main import main
 
-BushidoApp().run()
+main()

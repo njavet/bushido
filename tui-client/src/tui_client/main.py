@@ -37,5 +37,9 @@ class BushidoApp(App[None]):
         yield Footer(id="app_footer")
 
 
-if __name__ == "__main__":
+def main() -> None:
     BushidoApp().run()
+
+
+if __name__ == "__main__":
+    main()
