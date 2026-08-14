@@ -111,7 +111,7 @@ class LogUnitScreen(ModalScreen[bool]):
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:
             self.app.notify("empty domain", title="logging failed", severity="error")
-            await self.dismiss(False)
+            _ = self.dismiss(False)
         else:
             raw_unit = parse_raw_unit(message.value)
             tokens, log_time = split_options(raw_unit.tokens, LOCAL_TIMEZONE)
@@ -163,4 +163,4 @@ class LogUnitScreen(ModalScreen[bool]):
                             comment=raw_unit.comment,
                         )
                     )
-            await self.dismiss(True)
+            _ = self.dismiss(True)
