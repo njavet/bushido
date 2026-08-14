@@ -3,9 +3,11 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field
 
+from bushidolib.constants import UnitCategory
+
 
 class BaseLogUnitRequest(BaseModel):
-    unit_type: str
+    unit_category: UnitCategory
     unit_name: str
     tokens: tuple[str, ...]
     log_time: datetime.datetime
@@ -13,19 +15,19 @@ class BaseLogUnitRequest(BaseModel):
 
 
 class CardioLogUnitRequest(BaseLogUnitRequest):
-    unit_type: Literal["cardio"] = "cardio"
+    unit_category: Literal[UnitCategory.CARDIO] = UnitCategory.CARDIO
 
 
 class GymLogUnitRequest(BaseLogUnitRequest):
-    unit_type: Literal["gym"] = "gym"
+    unit_category: Literal[UnitCategory.GYM] = UnitCategory.GYM
 
 
 class LiftingLogUnitRequest(BaseLogUnitRequest):
-    unit_type: Literal["lifting"] = "lifting"
+    unit_category: Literal[UnitCategory.LIFTING] = UnitCategory.LIFTING
 
 
 class WimhofLogUnitRequest(BaseLogUnitRequest):
-    unit_type: Literal["wimhof"] = "wimhof"
+    unit_category: Literal[UnitCategory.WIMHOF] = UnitCategory.WIMHOF
 
 
 LogUnitRequest = Annotated[
@@ -33,5 +35,5 @@ LogUnitRequest = Annotated[
     | CardioLogUnitRequest
     | GymLogUnitRequest
     | WimhofLogUnitRequest,
-    Field(discriminator="unit_type"),
+    Field(discriminator="unit_category"),
 ]

@@ -1,4 +1,6 @@
 # sunday
+from enum import StrEnum
+
 WEEK_START_DAY = 6
 
 # 0400
@@ -12,3 +14,10 @@ MINUTE_LEN = 2
 
 # e.g. 05:00:00
 COMPLETE_TIME_LEN = 3
+
+
+class UnitCategory(StrEnum):
+    CARDIO = "cardio"
+    GYM = "gym"
+    LIFTING = "lifting"
+    WIMHOF = "wimhof"

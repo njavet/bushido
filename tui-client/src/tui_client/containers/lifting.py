@@ -11,7 +11,7 @@ from textual.widgets import (
 )
 
 from bushidolib.contracts.unit import LiftingUnit
-from tui_client.emojis import unit_settings
+from tui_client.settings import unit_settings
 
 
 class LiftingContainer(Container):

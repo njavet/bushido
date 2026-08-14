@@ -1,14 +1,8 @@
 import datetime
-from enum import StrEnum
 
 from pydantic import BaseModel
 
-
-class UnitCategory(StrEnum):
-    CARDIO = "cardio"
-    GYM = "gym"
-    LIFTING = "lifting"
-    WIMHOF = "wimhof"
+from bushidolib.constants import UnitCategory
 
 
 class UnitSetting(BaseModel):

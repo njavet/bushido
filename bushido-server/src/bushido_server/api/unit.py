@@ -5,10 +5,11 @@ from bushido_server.api.deps import SessionDep
 from bushido_server.persistence.models import UnitSettingTable
 from bushido_server.service import log_unit
 from bushido_server.service.load_units import load_units
+from bushidolib.constants import UnitCategory
 from bushidolib.contracts.load_req import LoadUnitRequest
 from bushidolib.contracts.log_req import LogUnitRequest
 from bushidolib.contracts.log_res import UnitLogResponse
-from bushidolib.contracts.unit import LoadedUnits, UnitCategory, UnitSetting
+from bushidolib.contracts.unit import LoadedUnits, UnitSetting
 
 router = APIRouter()
 
@@ -20,7 +21,7 @@ async def process_load_unit_settings_request(session: SessionDep) -> list[UnitSe
     return [UnitSetting(name=r.name, category=UnitCategory(r.category)) for r in result]
 
 
-@router.get("/load-units")
+@router.post("/load-units")
 async def process_load_units_request(
     request: LoadUnitRequest, session: SessionDep
 ) -> LoadedUnits:

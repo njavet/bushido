@@ -1,3 +1,8 @@
+from zoneinfo import ZoneInfo
+
+LOCAL_TIMEZONE = ZoneInfo("Europe/Zurich")
+
+
 unit_settings = {
     "squat": b"\xe2\x9b\xa9\xef\xb8\x8f".decode(),
     "deadlift": b"\xf0\x9f\x8f\x97\xef\xb8\x8f".decode(),
