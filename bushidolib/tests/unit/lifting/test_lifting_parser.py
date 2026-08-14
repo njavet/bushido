@@ -2,7 +2,7 @@ import pytest
 
 from bushidolib.domain.lifting import parse_lifting_unit
 from bushidolib.domain.lifting.spec import Data, SetData
-from bushidolib.exceptions import ParsingError
+from bushidolib.exceptions import ParsingUnitError
 
 
 @pytest.mark.parametrize(
@@ -55,5 +55,5 @@ def test_correct_lifting_units(tokens: tuple[str, ...], expected: Data) -> None:
     ],
 )
 def test_correct_error_message(tokens: tuple[str, ...], expected: str) -> None:
-    with pytest.raises(ParsingError, match=expected):
+    with pytest.raises(ParsingUnitError, match=expected):
         _ = parse_lifting_unit(tokens)

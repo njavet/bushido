@@ -9,7 +9,7 @@ from sqlalchemy.orm.interfaces import ORMOption
 
 from bushidolib.domain import Unit
 
-from ..models import UnitTable
+from ..models import UnitTable, UnitSettingTable
 
 T_ORM = TypeVar("T_ORM", bound=UnitTable)
 
@@ -20,6 +20,9 @@ class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
 
     def __init__(self, session: Session) -> None:
         self.session = session
+
+    def get_unit_settings(self) -> list[UnitSetting]:
+        result = self.session.scalars(select(UnitSettingTable))
 
     def add_unit(self, unit: Unit[T_DOMAIN]) -> None:
         self.session.add(self._to_orm(unit))

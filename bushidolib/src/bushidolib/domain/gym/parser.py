@@ -1,4 +1,4 @@
-from bushidolib.exceptions import ParsingError
+from bushidolib.exceptions import ParsingUnitError
 
 from ..dt_parse import parse_start_end_time_string
 from .spec import Data
@@ -9,7 +9,7 @@ def parse(tokens: tuple[str, ...]) -> Data:
     try:
         location = tokens[1]
     except IndexError as e:
-        raise ParsingError("no location") from e
+        raise ParsingUnitError("no location") from e
 
     return Data(
         start_t=start_t,
