@@ -11,10 +11,10 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):
     orm_cls = WimhofUnitTable
 
     @override
-    @staticmethod
-    def _to_orm(unit: Unit[WimhofData]) -> WimhofUnitTable:
+    def _to_orm(self, unit: Unit[WimhofData]) -> WimhofUnitTable:
+        setting_id = self.get_unit_setting_id(unit.name)
         orm_unit = WimhofUnitTable(
-            name=unit.name,
+            unit_setting_id=setting_id,
             log_time=unit.log_time,
             comment=unit.comment,
         )
@@ -25,8 +25,8 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):
         return orm_unit
 
     @override
-    @staticmethod
-    def _from_orm(orm_unit: WimhofUnitTable) -> Unit[WimhofData]:
+    def _from_orm(self, orm_unit: WimhofUnitTable) -> Unit[WimhofData]:
+        name = self.get_unit_setting_name(orm_unit.unit_setting_id)
         lst = []
         for r in orm_unit.subunits:
             ws = RoundData(
@@ -34,7 +34,7 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofData, WimhofUnitTable]):
             )
             lst.append(ws)
         return Unit(
-            name=orm_unit.name,
+            name=name,
             data=WimhofData(rounds=lst),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,

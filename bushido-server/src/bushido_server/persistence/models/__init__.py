@@ -1,4 +1,4 @@
-from ._base import Base, UnitSettingTable, UnitTable
+from ._base import Base, UnitCategoryTable, UnitSettingTable, UnitTable
 from ._cardio import CardioUnitTable
 from ._gym import GymUnitTable
 from ._lifting import LiftingSet, LiftingUnitTable
@@ -10,6 +10,7 @@ __all__ = [
     "GymUnitTable",
     "LiftingSet",
     "LiftingUnitTable",
+    "UnitCategoryTable",
     "UnitSettingTable",
     "UnitTable",
     "WimhofRound",

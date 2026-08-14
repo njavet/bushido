@@ -11,10 +11,10 @@ class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
     orm_cls = GymUnitTable
 
     @override
-    @staticmethod
-    def _to_orm(unit: Unit[GymData]) -> GymUnitTable:
+    def _to_orm(self, unit: Unit[GymData]) -> GymUnitTable:
+        setting_id = self.get_unit_setting_id(unit.name)
         return GymUnitTable(
-            name=unit.name,
+            unit_setting_id=setting_id,
             log_time=unit.log_time,
             start_t=unit.data.start_t,
             end_t=unit.data.end_t,
@@ -25,10 +25,10 @@ class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
         )
 
     @override
-    @staticmethod
-    def _from_orm(orm_unit: GymUnitTable) -> Unit[GymData]:
+    def _from_orm(self, orm_unit: GymUnitTable) -> Unit[GymData]:
+        name = self.get_unit_setting_name(orm_unit.unit_setting_id)
         return Unit(
-            name=orm_unit.name,
+            name=name,
             data=GymData(
                 start_t=orm_unit.start_t,
                 end_t=orm_unit.end_t,

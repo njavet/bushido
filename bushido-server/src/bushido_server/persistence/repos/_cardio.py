@@ -11,10 +11,10 @@ class CardioUnitRepo(BaseUnitRepo[CardioData, CardioUnitTable]):
     orm_cls = CardioUnitTable
 
     @override
-    @staticmethod
-    def _to_orm(unit: Unit[CardioData]) -> CardioUnitTable:
+    def _to_orm(self, unit: Unit[CardioData]) -> CardioUnitTable:
+        setting_id = self.get_unit_setting_id(unit.name)
         return CardioUnitTable(
-            name=unit.name,
+            unit_setting_id=setting_id,
             log_time=unit.log_time,
             start_t=unit.data.start_t,
             seconds=unit.data.seconds,
@@ -27,10 +27,10 @@ class CardioUnitRepo(BaseUnitRepo[CardioData, CardioUnitTable]):
         )
 
     @override
-    @staticmethod
-    def _from_orm(orm_unit: CardioUnitTable) -> Unit[CardioData]:
+    def _from_orm(self, orm_unit: CardioUnitTable) -> Unit[CardioData]:
+        name = self.get_unit_setting_name(orm_unit.unit_setting_id)
         return Unit(
-            name=orm_unit.name,
+            name=name,
             data=CardioData(
                 start_t=orm_unit.start_t,
                 seconds=orm_unit.seconds,

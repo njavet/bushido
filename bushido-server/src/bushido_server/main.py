@@ -7,24 +7,18 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 from rich.logging import RichHandler
-from sqlalchemy import Engine
 from starlette.middleware.cors import CORSMiddleware
 
 from bushido_server import __version__
 from bushido_server.api import router
 from bushido_server.conf import DEFAULT_PORT
 from bushido_server.persistence import SessionFactory
-from bushido_server.persistence.models import Base
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[RichHandler(rich_tracebacks=True, show_time=False)],
 )
-
-
-def init_db(engine: Engine) -> None:
-    Base.metadata.create_all(bind=engine)
 
 
 def create_parser() -> ArgumentParser:
@@ -63,8 +57,6 @@ def main() -> None:
         print(f"bushido_server {__version__}")
         sys.exit(0)
     else:
-        sf = SessionFactory()
-        init_db(sf.engine)
         uvicorn.run(
             app,
             host="0.0.0.0",

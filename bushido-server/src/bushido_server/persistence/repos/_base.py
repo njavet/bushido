@@ -9,7 +9,7 @@ from sqlalchemy.orm.interfaces import ORMOption
 
 from bushidolib.domain import Unit
 
-from ..models import UnitTable
+from ..models import UnitSettingTable, UnitTable
 
 T_ORM = TypeVar("T_ORM", bound=UnitTable)
 
@@ -20,6 +20,14 @@ class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
 
     def __init__(self, session: Session) -> None:
         self.session = session
+
+    def get_unit_setting_id(self, unit_name: str) -> int:
+        stmt = select(UnitSettingTable.id).where(UnitSettingTable.name == unit_name)
+        return self.session.scalars(stmt).one()
+
+    def get_unit_setting_name(self, setting_id: int) -> str:
+        stmt = select(UnitSettingTable.name).where(UnitSettingTable.id == setting_id)
+        return self.session.scalars(stmt).one()
 
     def add_unit(self, unit: Unit[T_DOMAIN]) -> None:
         self.session.add(self._to_orm(unit))
@@ -38,10 +46,8 @@ class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
         stmt = stmt.order_by(self.orm_cls.log_time.desc())
         return [self._from_orm(unit) for unit in self.session.scalars(stmt)]
 
-    @staticmethod
     @abstractmethod
-    def _to_orm(unit: Unit[T_DOMAIN]) -> T_ORM: ...
+    def _to_orm(self, unit: Unit[T_DOMAIN]) -> T_ORM: ...
 
-    @staticmethod
     @abstractmethod
-    def _from_orm(orm_unit: T_ORM) -> Unit[T_DOMAIN]: ...
+    def _from_orm(self, orm_unit: T_ORM) -> Unit[T_DOMAIN]: ...

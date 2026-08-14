@@ -1,11 +1,9 @@
 from fastapi import APIRouter
-from sqlalchemy import select
 
 from bushido_server.api.deps import SessionDep
-from bushido_server.persistence.models import UnitSettingTable
 from bushido_server.service import log_unit
+from bushido_server.service.load_unit_settings import load_unit_settings
 from bushido_server.service.load_units import load_units
-from bushidolib.constants import UnitCategory
 from bushidolib.contracts.load_req import LoadUnitRequest
 from bushidolib.contracts.log_req import LogUnitRequest
 from bushidolib.contracts.log_res import UnitLogResponse
@@ -16,9 +14,7 @@ router = APIRouter()
 
 @router.get("/load-unit-settings")
 async def process_load_unit_settings_request(session: SessionDep) -> list[UnitSetting]:
-    # TODO refactor
-    result = session.scalars(select(UnitSettingTable)).all()
-    return [UnitSetting(name=r.name, category=UnitCategory(r.category)) for r in result]
+    return load_unit_settings(session)
 
 
 @router.post("/load-units")

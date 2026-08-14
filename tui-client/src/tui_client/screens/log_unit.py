@@ -105,6 +105,7 @@ class LogUnitScreen(ModalScreen[bool]):
 
     async def on_mount(self) -> None:
         self.unit_settings = await self.api.load_unit_settings()
+        self.log(self.unit_settings)
         self.unit_suggester.set_unit_names(list(self.unit_settings.keys()))
 
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
