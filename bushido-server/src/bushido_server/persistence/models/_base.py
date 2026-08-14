@@ -8,6 +8,8 @@ class Base(DeclarativeBase):
 
 
 class UnitSettingTable(Base):
+    __tablename__ = "unit_setting"
+
     name: Mapped[str] = mapped_column()
     category: Mapped[str] = mapped_column()
 

@@ -24,7 +24,7 @@ def parse(tokens: tuple[str, ...]) -> Data:
         raise ParsingUnitError("reps must all be positive")
     if any(x <= 0 for x in weights):
         raise ParsingUnitError("weights must all be positive")
-    if any(x <= 0 for x in rests):
+    if any(x <= 0 for x in rests[:-1]):
         raise ParsingUnitError("rests must all be positive")
 
     return Data(

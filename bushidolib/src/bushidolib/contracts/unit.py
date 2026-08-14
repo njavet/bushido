@@ -79,7 +79,6 @@ class WimhofData(BaseModel):
 class WimhofUnit(BaseUnit):
     data: WimhofData
 
+LoadedUnit = CardioUnit | GymUnit | LiftingUnit | WimhofUnit
 
-LoadedUnits = Annotated[
-    list[CardioUnit] | list[GymUnit] | list[LiftingUnit] | list[WimhofUnit],
-]
+LoadedUnits = list[LoadedUnit]
