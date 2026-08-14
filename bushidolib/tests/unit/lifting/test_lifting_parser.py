@@ -1,7 +1,6 @@
 import pytest
 
-from bushidolib.domain.lifting import parse_lifting_unit
-from bushidolib.domain.lifting._spec import Data, SetData
+from bushidolib.domain.lifting import LiftingData, SetData, parse_lifting_unit
 from bushidolib.exceptions import ParsingUnitError
 
 
@@ -10,7 +9,7 @@ from bushidolib.exceptions import ParsingUnitError
     [
         (
             ("100", "5", "180", "100", "5"),
-            Data(
+            LiftingData(
                 sets=[
                     SetData(set_nr=0, weight=100.0, reps=5, rest=180.0),
                     SetData(set_nr=1, weight=100.0, reps=5, rest=0.0),
@@ -21,7 +20,7 @@ from bushidolib.exceptions import ParsingUnitError
         ),
         (
             ("120", "5"),
-            Data(
+            LiftingData(
                 sets=[SetData(set_nr=0, weight=120.0, reps=5, rest=0.0)],
                 program=None,
                 variant=None,
@@ -29,7 +28,7 @@ from bushidolib.exceptions import ParsingUnitError
         ),
         (
             ("150", "3", "300", "160", "2", "90", "100", "20"),
-            Data(
+            LiftingData(
                 sets=[
                     SetData(set_nr=0, weight=150.0, reps=3, rest=300.0),
                     SetData(set_nr=1, weight=160.0, reps=2.0, rest=90.0),
@@ -41,7 +40,7 @@ from bushidolib.exceptions import ParsingUnitError
         ),
     ],
 )
-def test_correct_lifting_units(tokens: tuple[str, ...], expected: Data) -> None:
+def test_correct_lifting_units(tokens: tuple[str, ...], expected: LiftingData) -> None:
     unit_data = parse_lifting_unit(tokens)
     assert unit_data == expected
 
