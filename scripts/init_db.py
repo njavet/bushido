@@ -4,11 +4,10 @@ from pathlib import Path
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido_server.conf import DB_URL, SEED_FILE
+from bushido_server.conf import DB_URL
+from bushido_server.persistence import SessionFactory
+from bushido_server.persistence.models import Base, UnitCategoryTable, UnitSettingTable
 from bushidolib.constants import UnitCategory
-
-from ._sf import SessionFactory
-from .models import Base, UnitCategoryTable, UnitSettingTable
 
 
 def upsert_categories(session: Session) -> dict[UnitCategory, UnitCategoryTable]:
@@ -63,10 +62,11 @@ def upsert_unit_settings(
 def init_db(db_url: str = DB_URL) -> None:
     sf = SessionFactory(db_url)
     Base.metadata.create_all(bind=sf.engine)
+    seed_file = Path(__file__).parent.parent / 'data' / 'units.csv'
 
     with sf.transaction() as session:
         categories = upsert_categories(session)
-        upsert_unit_settings(session, categories, SEED_FILE)
+        upsert_unit_settings(session, categories, seed_file)
 
 
 if __name__ == "__main__":
