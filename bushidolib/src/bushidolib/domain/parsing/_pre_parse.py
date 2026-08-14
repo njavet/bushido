@@ -1,7 +1,7 @@
 import datetime
 
 from bushidolib.contracts.unit import RawUnit
-from bushidolib.exceptions import ParsingUnitError
+from bushidolib.exceptions import UnitParsingError
 
 
 def parse_raw_unit(line: str) -> RawUnit:
@@ -9,7 +9,7 @@ def parse_raw_unit(line: str) -> RawUnit:
     tokens = tuple(body.split())
 
     if not tokens:
-        raise ParsingUnitError(f"Empty unit line: {line}")
+        raise UnitParsingError(f"Empty unit line: {line}")
 
     name = tokens[0]
     tokens = tokens[1:]
@@ -27,13 +27,13 @@ def split_options(
         token = tokens[i]
         if token == "--dt":
             if i + 1 >= len(tokens):
-                raise ParsingUnitError("--dt requires a value")
+                raise UnitParsingError("--dt requires a value")
             try:
                 log_time = datetime.datetime.strptime(
                     tokens[i + 1], "%Y%m%d-%H%M"
                 ).replace(tzinfo=timezone)
             except ValueError as e:
-                raise ParsingUnitError(
+                raise UnitParsingError(
                     f"invalid datetime format: {tokens[i + 1]}"
                 ) from e
             i += 2

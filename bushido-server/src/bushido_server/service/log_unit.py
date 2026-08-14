@@ -17,7 +17,7 @@ from bushidolib.domain.cardio import CardioData, parse_cardio_unit
 from bushidolib.domain.gym import GymData, parse_gym_unit
 from bushidolib.domain.lifting import LiftingData, parse_lifting_unit
 from bushidolib.domain.wimhof import WimhofData, parse_wimhof_unit
-from bushidolib.exceptions import ParsingUnitError
+from bushidolib.exceptions import UnitParsingError
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
@@ -38,7 +38,7 @@ def log_unit(request: LogUnitRequest, session: Session) -> UnitLogResponse:
         case UnitCategory.WIMHOF:
             return log_wimhof_unit(request, session)
         case _:
-            raise ParsingUnitError(f"Unknown unit: {request.unit_name}")
+            raise UnitParsingError(f"Unknown unit: {request.unit_name}")
 
 
 def log_cardio_unit(request: LogUnitRequest, session: Session) -> UnitLogResponse:

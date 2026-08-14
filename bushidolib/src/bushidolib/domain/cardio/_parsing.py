@@ -2,7 +2,7 @@ from bushidolib.domain.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )
-from bushidolib.exceptions import ParsingUnitError
+from bushidolib.exceptions import UnitParsingError
 
 from ._spec import CardioData
 
@@ -13,7 +13,7 @@ def parse(tokens: tuple[str, ...]) -> CardioData:
     try:
         location = tokens[2]
     except IndexError as e:
-        raise ParsingUnitError("no location") from e
+        raise UnitParsingError("no location") from e
 
     try:
         distance = float(tokens[3])

@@ -1,5 +1,5 @@
 from bushidolib.domain.parsing import parse_start_end_time_string
-from bushidolib.exceptions import ParsingUnitError
+from bushidolib.exceptions import UnitParsingError
 
 from ._spec import GymData
 
@@ -9,7 +9,7 @@ def parse(tokens: tuple[str, ...]) -> GymData:
     try:
         location = tokens[1]
     except IndexError as e:
-        raise ParsingUnitError("no location") from e
+        raise UnitParsingError("no location") from e
 
     return GymData(
         start_t=start_t,

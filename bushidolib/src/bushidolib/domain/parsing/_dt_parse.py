@@ -7,7 +7,7 @@ from bushidolib.constants import (
     MINUTE_LEN,
     WEEK_START_DAY,
 )
-from bushidolib.exceptions import ParsingUnitError
+from bushidolib.exceptions import UnitParsingError
 
 
 def time_string_to_seconds(time_string: str) -> float:
@@ -19,7 +19,7 @@ def time_string_to_seconds(time_string: str) -> float:
 
     """
     if time_string is None:
-        raise ParsingUnitError("time_string is None")
+        raise UnitParsingError("time_string is None")
 
     values = time_string.split(":")
     if len(values) > 1:
@@ -33,7 +33,7 @@ def time_string_to_seconds(time_string: str) -> float:
             return 60 * 60 * float(values[0][:-1])
         if re.search(r"\d+s", values[0]):
             return float(values[0][:-1])
-        raise ParsingUnitError(f"unknown time format: {time_string}") from e
+        raise UnitParsingError(f"unknown time format: {time_string}") from e
 
 
 def _colon_separated_time_string_to_seconds(values: list[str]) -> float:
@@ -44,7 +44,7 @@ def _colon_separated_time_string_to_seconds(values: list[str]) -> float:
             m = float(values[1])
             s = float(values[2])
         except ValueError as e:
-            raise ParsingUnitError("colon time format error") from e
+            raise UnitParsingError("colon time format error") from e
         else:
             return h * 60 * 60 + m * 60 + s
     # format MM:SS
@@ -53,22 +53,22 @@ def _colon_separated_time_string_to_seconds(values: list[str]) -> float:
             m = float(values[0])
             s = float(values[1])
         except ValueError as e:
-            raise ParsingUnitError("colon time format error") from e
+            raise UnitParsingError("colon time format error") from e
         else:
             return m * 60 + s
     else:
-        raise ParsingUnitError("colon time format error")
+        raise UnitParsingError("colon time format error")
 
 
 def parse_military_time_string(time_string: str) -> datetime.time:
     # e.g. 1600 for 16:00
     if len(time_string) != MILITARY_TIME_LEN:
-        raise ParsingUnitError(f"incorrect military time {time_string}")
+        raise UnitParsingError(f"incorrect military time {time_string}")
     try:
         hour = int(time_string[0:2])
         minutes = int(time_string[2:])
     except ValueError as e:
-        raise ParsingUnitError(f"incorrect military time {time_string}") from e
+        raise UnitParsingError(f"incorrect military time {time_string}") from e
     else:
         return datetime.time(hour, minutes)
 
@@ -86,7 +86,7 @@ def parse_start_end_time_string(
     """
     reg = re.search("[0-2][0-9][0-5][0-9]-[0-2][0-9][0-5][0-9]", time_string)
     if reg is None:
-        raise ParsingUnitError("wrong time format")
+        raise UnitParsingError("wrong time format")
     s, e = reg.group().split("-")
 
     start_t = parse_military_time_string(s)
