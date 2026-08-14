@@ -1,5 +1,6 @@
 import datetime
 from enum import StrEnum
+from typing import Annotated
 
 from pydantic import BaseModel, Field
 
@@ -22,5 +23,64 @@ class BaseUnit(BaseModel):
     comment: str | None
 
 
+class CardioData(BaseModel):
+    start_t: datetime.time
+    seconds: float
+    location: str
+    distance: float | None
+    avg_hr: int | None
+    max_hr: int | None
+    calories: int | None
+
+
 class CardioUnit(BaseUnit):
-    data: dict[str, float] = Field(default_factory=dict)
+    data: CardioData
+
+
+class GymData(BaseModel):
+    start_t: datetime.time
+    end_t: datetime.time
+    gym: str
+    training: str | None = None
+    focus: str | None = None
+
+
+class GymUnit(BaseUnit):
+    data: GymData
+
+
+class LiftingSetData(BaseModel):
+    set_nr: int
+    weight: float
+    reps: float
+    rest: float
+
+
+class LiftingData(BaseModel):
+    variant: str | None
+    program: str | None
+    sets: list[LiftingSetData]
+
+
+class LiftingUnit(BaseUnit):
+    data: LiftingData
+
+
+class WimhofRoundData(BaseModel):
+    round_nr: int
+    breaths: int
+    retention: int
+
+
+class WimhofData(BaseModel):
+    rounds: list[WimhofRoundData]
+
+
+class WimhofUnit(BaseUnit):
+    data: WimhofData
+
+
+LoadedUnits = Annotated[
+    list[CardioUnit] | list[GymUnit] | list[LiftingUnit] | list[WimhofUnit],
+]
+    
