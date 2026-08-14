@@ -10,6 +10,7 @@ from textual.widgets import (
     TabPane,
 )
 
+from bushidolib.constants import UnitCategory
 from tui_client.api_client import BushidoApiClient
 from tui_client.screens import LogUnitScreen
 from tui_client.settings import UnitConf, unit_emojis
@@ -17,6 +18,16 @@ from tui_client.settings import UnitConf, unit_emojis
 from .containers import HeaderContainer, LiftingContainer
 from .containers.gym import GymContainer
 from .containers.spartan import SpartanContainer
+
+
+def filter_units(
+    unit_settings: dict[str, UnitConf], category: UnitCategory
+) -> dict[str, str]:
+    return {
+        name: conf.emoji
+        for name, conf in unit_settings.items()
+        if conf.category == category
+    }
 
 
 class BushidoApp(App[None]):
@@ -45,7 +56,9 @@ class BushidoApp(App[None]):
             with TabPane("gym"):
                 yield GymContainer(id="gym_container")
             with TabPane("lifting"):
-                yield LiftingContainer(unit_settings=self.unit_settings)
+                yield LiftingContainer(
+                    unit_settings=filter_units(self.unit_settings, UnitCategory.LIFTING)
+                )
 
         yield Footer(id="app_footer")
 
