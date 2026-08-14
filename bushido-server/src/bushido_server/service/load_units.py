@@ -1,5 +1,3 @@
-from functools import singledispatch
-
 from sqlalchemy.orm import Session
 
 from bushido_server.persistence.repos import (
@@ -8,12 +6,8 @@ from bushido_server.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
-from bushidolib.contracts.req import (
-    CardioLoadUnitRequest,
-    GymLoadUnitRequest,
-    LiftingLoadUnitRequest,
-    WimhofLoadUnitRequest,
-)
+from bushidolib.constants import UnitCategory
+from bushidolib.contracts.req import LoadUnitRequest
 from bushidolib.contracts.unit import (
     CardioData,
     CardioUnit,
@@ -27,13 +21,21 @@ from bushidolib.contracts.unit import (
 )
 
 
-@singledispatch
-def load_units(request: object, _session: Session) -> LoadedUnits:
-    raise TypeError(f"Unsupported type for load_units: {type(request).__name__}")
+def load_units(request: LoadUnitRequest, session: Session) -> LoadedUnits:
+    match request.unit_category:
+        case UnitCategory.CARDIO:
+            return load_cardio_units(request, session)
+        case UnitCategory.GYM:
+            return load_cardio_units(request, session)
+        case UnitCategory.LIFTING:
+            return load_cardio_units(request, session)
+        case UnitCategory.WIMHOF:
+            return load_cardio_units(request, session)
+        case _:
+            raise ValueError(f"Unknown unit category: {request.unit_category}")
 
 
-@load_units.register
-def _(request: CardioLoadUnitRequest, session: Session) -> LoadedUnits:
+def load_cardio_units(request: LoadUnitRequest, session: Session) -> list[CardioUnit]:
     repo = CardioUnitRepo(session)
     units = repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
     return [
@@ -47,8 +49,7 @@ def _(request: CardioLoadUnitRequest, session: Session) -> LoadedUnits:
     ]
 
 
-@load_units.register
-def _(request: GymLoadUnitRequest, session: Session) -> LoadedUnits:
+def load_gym_units(request: LoadUnitRequest, session: Session) -> list[GymUnit]:
     repo = GymUnitRepo(session)
     units = repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
     return [
@@ -62,8 +63,7 @@ def _(request: GymLoadUnitRequest, session: Session) -> LoadedUnits:
     ]
 
 
-@load_units.register
-def _(request: LiftingLoadUnitRequest, session: Session) -> LoadedUnits:
+def load_lifting_units(request: LoadUnitRequest, session: Session) -> list[LiftingUnit]:
     repo = LiftingUnitRepo(session)
     units = repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
     return [
@@ -77,8 +77,7 @@ def _(request: LiftingLoadUnitRequest, session: Session) -> LoadedUnits:
     ]
 
 
-@load_units.register
-def _(request: WimhofLoadUnitRequest, session: Session) -> LoadedUnits:
+def load_wimhof_units(request: LoadUnitRequest, session: Session) -> list[WimhofUnit]:
     repo = WimhofUnitRepo(session)
     units = repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
     return [
