@@ -1,6 +1,5 @@
 import datetime
 from enum import StrEnum
-from typing import Annotated
 
 from pydantic import BaseModel
 
@@ -79,6 +78,5 @@ class WimhofData(BaseModel):
 class WimhofUnit(BaseUnit):
     data: WimhofData
 
-LoadedUnit = CardioUnit | GymUnit | LiftingUnit | WimhofUnit
 
-LoadedUnits = list[LoadedUnit]
+LoadedUnits = list[CardioUnit] | list[GymUnit] | list[LiftingUnit] | list[WimhofUnit]

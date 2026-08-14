@@ -43,8 +43,8 @@ class BushidoApp(App[None]):
 
         yield Footer(id="app_footer")
 
-    def action_log_unit(self) -> None:
-        self.push_screen(LogUnitScreen(self.api))
+    async def action_log_unit(self) -> None:
+        await self.push_screen(LogUnitScreen(self.api))
 
     async def on_unmount(self) -> None:
         await self.api.close()

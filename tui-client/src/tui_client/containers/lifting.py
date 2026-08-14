@@ -10,21 +10,21 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushidolib.domain._dtypes import Unit
-from bushidolib.domain.lifting import LiftingData
+from bushidolib.contracts.unit import LiftingUnit
+from tui_client.emojis import unit_settings
 
 
 class LiftingContainer(Container):
     @override
     def compose(self) -> ComposeResult:
         with TabbedContent(id="lifting_tabs"):
-            for unit_spec in []:
-                with TabPane(" ".join([unit_spec.name, unit_spec.emoji])):
-                    yield RichLog(id=f"{unit_spec.name}_stats")
-                    yield LiftingTable(id=f"{unit_spec.name}_table")
+            for name, emoji in unit_settings.items():
+                with TabPane(" ".join([name, emoji])):
+                    yield RichLog(id=f"{name}_stats")
+                    yield LiftingTable(id=f"{name}_table")
 
-    def set_units(self, units: list[Unit[LiftingData]]) -> None:
-        for unit_spec in []:
+    def set_units(self, units: list[LiftingUnit]) -> None:
+        for unit_spec in units:
             self.query_one(f"#{unit_spec.name}_table", LiftingTable).set_units(
                 [u for u in units if u.name == unit_spec.name]
             )
@@ -35,7 +35,7 @@ class LiftingTable(DataTable[str]):
     def on_mount(self) -> None:
         self.add_columns("date", "set", "weight", "reps", "rest")
 
-    def set_units(self, units: list[Unit[LiftingData]]) -> None:
+    def set_units(self, units: list[LiftingUnit]) -> None:
         self.clear()
         for unit in units:
             self.add_row(
