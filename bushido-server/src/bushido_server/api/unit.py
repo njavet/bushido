@@ -8,6 +8,11 @@ from bushidolib.contracts.log_res import UnitLogResponse
 router = APIRouter()
 
 
+@router.get("/get-units")
+async def get_units() -> dict[str, str]:
+    pass
+
+
 @router.post("/log-unit")
 async def process_log_request(
     request: LogUnitRequest, session: SessionDep
