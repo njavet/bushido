@@ -16,11 +16,11 @@ from bushido_server.schema.log_req import (
     WimhofLogUnitRequest,
 )
 from bushido_server.schema.log_res import UnitLogResponse
-from bushidolib.units import Unit
-from bushidolib.units.cardio import parse_cardio_unit
-from bushidolib.units.gym import parse_gym_unit
-from bushidolib.units.lifting import parse_lifting_unit
-from bushidolib.units.wimhof import parse_wimhof_unit
+from bushidolib.domain import Unit
+from bushidolib.domain.cardio import parse_cardio_unit
+from bushidolib.domain.gym import parse_gym_unit
+from bushidolib.domain.lifting import parse_lifting_unit
+from bushidolib.domain.wimhof import parse_wimhof_unit
 
 
 @singledispatch

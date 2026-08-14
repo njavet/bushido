@@ -1,8 +1,8 @@
-from bushidolib.exceptions import ParsingError
-from bushidolib.units.dt_parse import (
+from bushidolib.domain.dt_parse import (
     parse_military_time_string,
     time_string_to_seconds,
 )
+from bushidolib.exceptions import ParsingError
 
 from .spec import Data
 

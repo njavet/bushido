@@ -7,7 +7,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
-from bushidolib.units import Unit
+from bushidolib.domain import Unit
 
 from ..models import UnitTable
 

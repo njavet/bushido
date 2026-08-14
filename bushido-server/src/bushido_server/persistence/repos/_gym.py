@@ -1,7 +1,7 @@
 from typing import override
 
-from bushidolib.units import Unit
-from bushidolib.units.gym import GymData
+from bushidolib.domain import Unit
+from bushidolib.domain.gym import GymData
 
 from ..models import GymUnitTable
 from ._base import BaseUnitRepo

@@ -2,8 +2,8 @@ from typing import override
 
 from sqlalchemy.orm import selectinload
 
-from bushidolib.units import Unit
-from bushidolib.units.lifting import LiftingData, SetData
+from bushidolib.domain import Unit
+from bushidolib.domain.lifting import LiftingData, SetData
 
 from ..models import LiftingSet, LiftingUnitTable
 from ._base import BaseUnitRepo

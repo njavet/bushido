@@ -1,8 +1,8 @@
 import pytest
 
+from bushidolib.domain.lifting import parse_lifting_unit
+from bushidolib.domain.lifting.spec import Data, SetData
 from bushidolib.exceptions import ParsingError
-from bushidolib.units.lifting import parse_lifting_unit
-from bushidolib.units.lifting.spec import Data, SetData
 
 
 @pytest.mark.parametrize(

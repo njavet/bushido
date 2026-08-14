@@ -101,7 +101,7 @@ def replace_emoji(line: str) -> str:
         unit_name = "work"
     else:
         unit_name = e
-        print("units", unit_name, "emoji", e.encode())
+        print("domain", unit_name, "emoji", e.encode())
     new_line = line.replace(e, unit_name, count=1)
     return new_line
 
@@ -121,7 +121,7 @@ def main() -> None:
         line = add_logtime(body, sep, comment, item["local_datetime"])
         lst.append({"line": line, "local_datetime": item["local_datetime"]})
 
-    with open("units.json", "w") as f:
+    with open("domain.json", "w") as f:
         f.write(json.dumps(lst, indent=2, ensure_ascii=False))
 
 
