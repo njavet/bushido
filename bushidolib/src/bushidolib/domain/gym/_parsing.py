@@ -1,4 +1,4 @@
-from bushidolib.domain.parsing._dt_parse import parse_start_end_time_string
+from bushidolib.domain.parsing import parse_start_end_time_string
 from bushidolib.exceptions import ParsingUnitError
 
 from ._spec import Data
