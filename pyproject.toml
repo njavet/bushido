@@ -17,6 +17,7 @@ members = [
     "bushidolib",
     "bushido-server",
     "tui-client",
+	"telegram-bot",
 ]
 
 # ---------------------------------------------------------------------------
@@ -30,6 +31,7 @@ src = [
     "bushidolib/src",
     "bushido-server/src",
     "tui-client/src",
+	"telegram-bot/src",
 ]
 
 exclude = [
@@ -85,6 +87,7 @@ known-first-party = [
     "busidolib",
     "bushido_server",
     "tui_client",
+	"telegram-bot",
 ]
 
 [tool.ruff.format]
@@ -109,12 +112,15 @@ files = [
     "bushido-server/tests",
     "tui-client/src",
     "tui-client/tests",
+	"telegram-bot/src",
+	"telegram-bot/tests",
 ]
 
 mypy_path = [
     "bushidolib/src",
     "bushido-server/src",
     "tui-client/src",
+	"telegram-bot/src",
 ]
 
 explicit_package_bases = true
@@ -167,6 +173,7 @@ testpaths = [
     "bushidolib/tests",
     "bushido-server/tests",
     "tui-client/tests",
+	"telegram-bot/tests",
 ]
 
 addopts = [
