@@ -1,6 +1,5 @@
 from httpx import AsyncClient, Response
 
-from bushidolib.constants import UnitCategory
 from bushidolib.contracts.log_res import UnitLogResponse
 from bushidolib.contracts.req import LoadUnitRequest, LogUnitRequest
 from bushidolib.contracts.unit import (
@@ -16,11 +15,10 @@ class BushidoApiClient:
     def __init__(self, base_url: str) -> None:
         self._client = AsyncClient(base_url=base_url)
 
-    async def load_unit_settings(self) -> dict[str, UnitCategory]:
+    async def load_unit_settings(self) -> list[UnitSetting]:
         response = await self._client.get("/api/unit-settings")
         response.raise_for_status()
-        unit_settings = [UnitSetting.model_validate(s) for s in response.json()]
-        return {setting.name: setting.category for setting in unit_settings}
+        return [UnitSetting.model_validate(s) for s in response.json()]
 
     async def log_unit(self, request: LogUnitRequest) -> UnitLogResponse:
         response = await self._client.post(

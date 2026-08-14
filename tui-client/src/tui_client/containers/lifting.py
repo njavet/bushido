@@ -11,15 +11,19 @@ from textual.widgets import (
 )
 
 from bushidolib.contracts.unit import LiftingUnit
-from tui_client.settings import unit_settings
+from tui_client.settings import UnitConf
 
 
 class LiftingContainer(Container):
+    def __init__(self, unit_settings: dict[str, UnitConf]) -> None:
+        super().__init__()
+        self.unit_settings = unit_settings
+
     @override
     def compose(self) -> ComposeResult:
         with TabbedContent(id="lifting_tabs"):
-            for name, emoji in unit_settings.items():
-                with TabPane(" ".join([name, emoji])):
+            for name, uc in self.unit_settings.items():
+                with TabPane(" ".join([name, uc.emoji])):
                     yield RichLog(id=f"{name}_stats")
                     yield LiftingTable(id=f"{name}_table")
 

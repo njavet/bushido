@@ -1,9 +1,12 @@
+from dataclasses import dataclass
 from zoneinfo import ZoneInfo
+
+from bushidolib.constants import UnitCategory
 
 LOCAL_TIMEZONE = ZoneInfo("Europe/Zurich")
 
 
-unit_settings = {
+unit_emojis = {
     "squat": b"\xe2\x9b\xa9\xef\xb8\x8f".decode(),
     "deadlift": b"\xf0\x9f\x8f\x97\xef\xb8\x8f".decode(),
     "benchpress": b"\xf0\x9f\x9b\xab".decode(),
@@ -17,4 +20,11 @@ unit_settings = {
     "grappling": b"\xf0\x9f\xa5\x8b".decode(),
     "boxing": b"\xf0\x9f\xa5\x8b".decode(),
     "lifting": b"\xf0\x9f\xa6\x8d".decode(),
+    "wimhof": b"\xf0\x9f\xaa\x90".decode(),
 }
+
+
+@dataclass(frozen=True, slots=True)
+class UnitConf:
+    emoji: str
+    category: UnitCategory
