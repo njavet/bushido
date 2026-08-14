@@ -63,6 +63,8 @@ def main() -> None:
         print(f"bushido_server {__version__}")
         sys.exit(0)
     else:
+        sf = SessionFactory()
+        init_db(sf.engine)
         uvicorn.run(
             app,
             host="0.0.0.0",
