@@ -5,14 +5,28 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from bushido_server.persistence import SessionFactory
-from bushido_server.persistence.models import LiftingSet, LiftingUnitTable
+from bushido_server.persistence.models import (
+    Base,
+    LiftingSet,
+    LiftingUnitTable,
+    UnitCategoryTable,
+    UnitSettingTable,
+)
 from bushido_server.service import log_unit
+from bushidolib.constants import UnitCategory
 from bushidolib.contracts.req import LogUnitRequest
 
 
 @pytest.fixture(scope="session")
 def session_factory() -> SessionFactory:
-    return SessionFactory("sqlite+pysqlite:///:memory:")
+    sf = SessionFactory("sqlite+pysqlite:///:memory:")
+    Base.metadata.create_all(sf.engine)
+    with sf.session() as session:
+        session.add(UnitCategoryTable(name=UnitCategory.LIFTING))
+        session.commit()
+        session.add(UnitSettingTable(name="benchpress", category_id=1))
+        session.commit()
+    return sf
 
 
 @pytest.fixture
@@ -24,7 +38,6 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
             s.close()
 
 
-@pytest.mark.skip("empty db")
 def test_log_lifting_unit_success(session: Session) -> None:
     lr = LogUnitRequest(line="benchpress 100 5 180 100 5")
     log_unit(lr, session)
