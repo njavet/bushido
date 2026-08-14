@@ -8,7 +8,7 @@ from bushido_server.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
-from bushidolib.contracts.load_req import (
+from bushidolib.contracts.req import (
     CardioLoadUnitRequest,
     GymLoadUnitRequest,
     LiftingLoadUnitRequest,

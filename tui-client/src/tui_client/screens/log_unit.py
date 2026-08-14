@@ -14,14 +14,8 @@ from textual.widget import Widget
 from textual.widgets import Input
 
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts.log_req import (
-    CardioLogUnitRequest,
-    GymLogUnitRequest,
-    LiftingLogUnitRequest,
-    WimhofLogUnitRequest,
-)
+from bushidolib.contracts.req import LogUnitRequest
 from bushidolib.domain.parsing import parse_raw_unit, split_options
-from bushidolib.exceptions import ParsingUnitError
 from tui_client.api_client import BushidoApiClient
 from tui_client.settings import LOCAL_TIMEZONE
 
@@ -117,50 +111,12 @@ class LogUnitScreen(ModalScreen[bool]):
             tokens, log_time = split_options(raw_unit.tokens, LOCAL_TIMEZONE)
             if log_time is None:
                 log_time = datetime.datetime.now(LOCAL_TIMEZONE)
-            try:
-                unit_category = self.unit_settings[raw_unit.name]
-            except KeyError as e:
-                raise ParsingUnitError(f"unknown unit: {raw_unit.name}") from e
-
-            match unit_category:
-                case UnitCategory.CARDIO:
-                    await self.api.log_unit(
-                        CardioLogUnitRequest(
-                            unit_category=unit_category,
-                            unit_name=raw_unit.name,
-                            tokens=tokens,
-                            log_time=log_time,
-                            comment=raw_unit.comment,
-                        )
-                    )
-                case UnitCategory.GYM:
-                    await self.api.log_unit(
-                        GymLogUnitRequest(
-                            unit_category=unit_category,
-                            unit_name=raw_unit.name,
-                            tokens=tokens,
-                            log_time=log_time,
-                            comment=raw_unit.comment,
-                        )
-                    )
-                case UnitCategory.LIFTING:
-                    await self.api.log_unit(
-                        LiftingLogUnitRequest(
-                            unit_category=unit_category,
-                            unit_name=raw_unit.name,
-                            tokens=tokens,
-                            log_time=log_time,
-                            comment=raw_unit.comment,
-                        )
-                    )
-                case UnitCategory.WIMHOF:
-                    await self.api.log_unit(
-                        WimhofLogUnitRequest(
-                            unit_category=unit_category,
-                            unit_name=raw_unit.name,
-                            tokens=tokens,
-                            log_time=log_time,
-                            comment=raw_unit.comment,
-                        )
-                    )
+            await self.api.log_unit(
+                LogUnitRequest(
+                    unit_name=raw_unit.name,
+                    tokens=tokens,
+                    log_time=log_time,
+                    comment=raw_unit.comment,
+                )
+            )
             _ = self.dismiss(True)

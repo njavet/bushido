@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from bushido_server.persistence import SessionFactory
 from bushido_server.persistence.models import LiftingSet, LiftingUnitTable
 from bushido_server.service import log_unit
-from bushidolib.contracts.log_req import LiftingLogUnitRequest
+from bushidolib.contracts.req import LogUnitRequest
 
 
 @pytest.fixture(scope="session")
@@ -28,7 +28,7 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 @pytest.mark.skip("empty db")
 def test_log_lifting_unit_success(session: Session) -> None:
-    lr = LiftingLogUnitRequest(
+    lr = LogUnitRequest(
         log_time=datetime.datetime.now(zoneinfo.ZoneInfo("UTC")),
         unit_name="benchpress",
         tokens=("100", "5", "180", "100", "5"),

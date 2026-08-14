@@ -1,9 +1,8 @@
 from httpx import AsyncClient
 
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts.load_req import LoadUnitRequest
-from bushidolib.contracts.log_req import LogUnitRequest
 from bushidolib.contracts.log_res import UnitLogResponse
+from bushidolib.contracts.req import LoadUnitRequest, LogUnitRequest
 from bushidolib.contracts.unit import (
     CardioUnit,
     GymUnit,

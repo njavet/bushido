@@ -6,6 +6,13 @@ from pydantic import BaseModel, Field
 from bushidolib.constants import UnitCategory
 
 
+class LogUnitRequest(BaseModel):
+    unit_name: str
+    tokens: tuple[str, ...]
+    log_time: datetime.datetime
+    comment: str | None = None
+
+
 class BaseLoadUnitRequest(BaseModel):
     unit_category: UnitCategory
     start_time: datetime.datetime | None = None
