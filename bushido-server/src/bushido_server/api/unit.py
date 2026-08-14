@@ -11,19 +11,19 @@ from bushidolib.contracts.unit import LoadedUnits, UnitSetting
 router = APIRouter()
 
 
-@router.get("/load-unit-settings")
+@router.get("/unit-settings")
 async def process_load_unit_settings_request(session: SessionDep) -> list[UnitSetting]:
     return load_unit_settings(session)
 
 
-@router.post("/log-unit")
+@router.post("/unit-logs")
 async def process_log_request(
     request: LogUnitRequest, session: SessionDep
 ) -> UnitLogResponse:
     return log_unit(request, session)
 
 
-@router.post("/load-units")
+@router.post("/unit-logs/query")
 async def process_load_units_request(
     request: LoadUnitRequest, session: SessionDep
 ) -> LoadedUnits:
