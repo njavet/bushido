@@ -27,8 +27,11 @@ from tui_client.settings import LOCAL_TIMEZONE
 
 
 class UnitSuggester(Suggester):
-    def __init__(self, unit_names: list[str]) -> None:
+    def __init__(self) -> None:
         super().__init__()
+        self.unit_names: list[str] = []
+
+    def set_unit_names(self, unit_names: list[str]) -> None:
         self.unit_names = unit_names
 
     @override
@@ -88,6 +91,8 @@ class LogUnitScreen(ModalScreen[bool]):
     def __init__(self, api: BushidoApiClient) -> None:
         super().__init__()
         self.api = api
+        self.unit_settings: dict[str, UnitCategory] = {}
+        self.unit_suggester = UnitSuggester()
 
     async def action_cancel(self) -> None:
         await self.dismiss(False)
@@ -96,7 +101,11 @@ class LogUnitScreen(ModalScreen[bool]):
     def compose(self) -> ComposeResult:
         with Vertical(id="log_unit_dialog"):
             yield UnitHelpWidget()
-            yield UnitInput(suggester=UnitSuggester(["test"]))
+            yield UnitInput(suggester=self.unit_suggester)
+
+    async def on_mount(self) -> None:
+        self.unit_settings = await self.api.load_unit_settings()
+        self.unit_suggester.set_unit_names(list(self.unit_settings.keys()))
 
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:
@@ -107,9 +116,8 @@ class LogUnitScreen(ModalScreen[bool]):
             tokens, log_time = split_options(raw_unit.tokens, LOCAL_TIMEZONE)
             if log_time is None:
                 log_time = datetime.datetime.now(LOCAL_TIMEZONE)
-            unit_settings = await self.api.load_unit_settings()
             try:
-                unit_category = unit_settings[raw_unit.name]
+                unit_category = self.unit_settings[raw_unit.name]
             except KeyError as e:
                 raise ParsingUnitError(f"unknown unit: {raw_unit.name}") from e
 
