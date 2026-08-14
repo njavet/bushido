@@ -18,14 +18,14 @@ class BushidoApiClient:
         self._client = AsyncClient(base_url=base_url)
 
     async def load_unit_settings(self) -> dict[str, UnitCategory]:
-        response = await self._client.get("/api/load-unit-settings")
+        response = await self._client.get("/api/unit-settings")
         response.raise_for_status()
         unit_settings = [UnitSetting.model_validate(s) for s in response.json()]
         return {setting.name: setting.category for setting in unit_settings}
 
     async def log_unit(self, request: LogUnitRequest) -> UnitLogResponse:
         response = await self._client.post(
-            "/api/log-unit",
+            "/api/unit-logs",
             json=request.model_dump(mode="json"),
         )
         response.raise_for_status()
@@ -33,7 +33,7 @@ class BushidoApiClient:
 
     async def load_units(self, request: LoadUnitRequest) -> LoadedUnits:
         response = await self._client.post(
-            "/api/load-units", json=request.model_dump(mode="json")
+            "/api/unit-logs/query", json=request.model_dump(mode="json")
         )
         response.raise_for_status()
         match request.unit_category:
