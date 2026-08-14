@@ -65,14 +65,8 @@ class UnitHelpWidget(Widget):
     def render(self) -> Group:
         panels = []
         for item in ["yo"]:
-            content = "\n".join(
-                [
-                    f"Grammar: {item}",
-                ]
-            )
-            panel = Panel(
-                content,
-            )
+            content = "\n".join([f"Grammar: {item}"])
+            panel = Panel(content)
             panels.append(panel)
         return Group(*panels)
 
@@ -85,6 +79,7 @@ class LogUnitScreen(ModalScreen[bool]):
     def __init__(self, api: BushidoApiClient) -> None:
         super().__init__()
         self.api = api
+        # TODO investigate defaults ({}, [])
         self.unit_settings: dict[str, UnitCategory] = {}
         self.unit_suggester = UnitSuggester()
 
@@ -107,16 +102,5 @@ class LogUnitScreen(ModalScreen[bool]):
             self.app.notify("empty domain", title="logging failed", severity="error")
             _ = self.dismiss(False)
         else:
-            raw_unit = parse_raw_unit(message.value)
-            tokens, log_time = split_options(raw_unit.tokens, LOCAL_TIMEZONE)
-            if log_time is None:
-                log_time = datetime.datetime.now(LOCAL_TIMEZONE)
-            await self.api.log_unit(
-                LogUnitRequest(
-                    unit_name=raw_unit.name,
-                    tokens=tokens,
-                    log_time=log_time,
-                    comment=raw_unit.comment,
-                )
-            )
+            await self.api.log_unit(LogUnitRequest(line=message.value))
             _ = self.dismiss(True)
