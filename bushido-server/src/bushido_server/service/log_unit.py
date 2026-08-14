@@ -30,7 +30,7 @@ def log_unit(request: LogUnitRequest, session: Session) -> UnitLogResponse:
         setting.name: setting.category for setting in load_unit_settings(session)
     }
     raw_unit = parse_raw_unit(request.line)
-    tokens, log_time_str = split_options(raw_unit.tokens)
+    raw_unit.tokens, log_time_str = split_options(raw_unit.tokens)
     if log_time_str is None:
         log_time = datetime.datetime.now(tz=datetime.UTC)
     else:
