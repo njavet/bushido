@@ -1,9 +1,16 @@
 import datetime
 from dataclasses import dataclass
 
+from pydantic import BaseModel
 
-@dataclass(frozen=True, slots=True)
-class CardioData:
+from bushidolib.unit import BaseUnit
+
+grammar = """
+<name> <start> <sec> <loc> [<dist>] [<avg_hr>] [<max_hr>] [<cal>] # [<comment>]
+    """
+
+
+class CardioData(BaseModel):
     start_t: datetime.time
     seconds: float
     location: str
@@ -13,6 +20,6 @@ class CardioData:
     calories: int | None
 
 
-grammar = """
-<name> <start> <sec> <loc> [<dist>] [<avg_hr>] [<max_hr>] [<cal>] # [<comment>]
-    """
+class CardioUnit(BaseUnit):
+    data: CardioData
+
