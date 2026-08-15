@@ -1,9 +1,14 @@
 from dataclasses import dataclass
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from bushidolib.constants import UnitCategory
 
 LOCAL_TIMEZONE = ZoneInfo("Europe/Zurich")
+
+BUSHIDO_IMG_PATH = Path(
+    "tui-client", "src", "tui_client", "assets", "images", "bushido.png"
+)
 
 
 unit_emojis = {
