@@ -3,7 +3,6 @@ from typing import TypeVar
 
 from httpx import AsyncClient
 from pydantic import BaseModel, TypeAdapter
-from textual import log
 
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts import LoggedUnit
@@ -30,8 +29,6 @@ class BushidoApiClient:
             json={"line": line},
         )
         response.raise_for_status()
-        data = response.json()
-        log(data)
         return _unit_adapter.validate_python(response.json())
 
     async def load_units(
