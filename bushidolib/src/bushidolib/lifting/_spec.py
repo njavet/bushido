@@ -1,13 +1,12 @@
-from dataclasses import dataclass
-
 from pydantic import BaseModel
 
 from bushidolib.unit import BaseUnit
 
-
 grammar = """
 <name> (<weight> <reps> [<rest>])+ -p <program> -v <variant> # [<comment>]
 """
+
+
 class LiftingSetData(BaseModel):
     set_nr: int
     weight: float
@@ -23,4 +22,3 @@ class LiftingData(BaseModel):
 
 class LiftingUnit(BaseUnit):
     data: LiftingData
-

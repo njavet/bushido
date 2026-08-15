@@ -1,6 +1,7 @@
 import collections
 from typing import override
 
+from bushidolib.domain import Unit
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.widgets import (
@@ -8,7 +9,6 @@ from textual.widgets import (
     RichLog,
 )
 
-from bushidolib.domain import Unit
 from bushidolib.gym import GymData
 
 

@@ -1,8 +1,8 @@
+from bushidolib.exceptions import UnitParsingError
 from bushidolib.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )
-from bushidolib.exceptions import UnitParsingError
 
 from ._spec import CardioData
 

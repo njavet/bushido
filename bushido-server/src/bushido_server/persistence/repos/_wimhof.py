@@ -1,6 +1,7 @@
 from typing import override
 
 from bushidolib.domain import Unit
+
 from bushidolib.wimhof import RoundData, WimhofData
 
 from ..models import WimhofRound, WimhofUnitTable

@@ -1,5 +1,4 @@
 import datetime
-from dataclasses import dataclass
 
 from pydantic import BaseModel
 
@@ -22,4 +21,3 @@ class CardioData(BaseModel):
 
 class CardioUnit(BaseUnit):
     data: CardioData
-

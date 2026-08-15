@@ -1,5 +1,6 @@
 import datetime
 
+from bushidolib.domain import Unit
 from sqlalchemy.orm import Session
 
 from bushido_server.persistence.repos import (
@@ -10,15 +11,14 @@ from bushido_server.persistence.repos import (
     load_unit_settings,
 )
 from bushido_server.schema.res import UnitLogResponse
-from bushidolib.constants import UnitCategory
-from bushidolib.unit import RawUnit
-from bushidolib.domain import Unit
 from bushidolib.cardio import CardioData, parse_cardio_unit
+from bushidolib.constants import UnitCategory
+from bushidolib.exceptions import UnitParsingError
 from bushidolib.gym import GymData, parse_gym_unit
 from bushidolib.lifting import LiftingData, parse_lifting_unit
 from bushidolib.parsing import parse_raw_unit, split_options
+from bushidolib.unit import RawUnit
 from bushidolib.wimhof import WimhofData, parse_wimhof_unit
-from bushidolib.exceptions import UnitParsingError
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo

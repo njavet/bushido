@@ -1,10 +1,8 @@
 import datetime
-from dataclasses import dataclass
 
 from pydantic import BaseModel
 
 from bushidolib.unit import BaseUnit
-
 
 grammar = """
     <name> <start>-<end> <location> [<training>] [<focus>] # [<comment>]
@@ -24,4 +22,3 @@ class GymData(BaseModel):
 
 class GymUnit(BaseUnit):
     data: GymData
-

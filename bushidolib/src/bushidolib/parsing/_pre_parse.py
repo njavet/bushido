@@ -1,5 +1,5 @@
-from bushidolib.unit import RawUnit
 from bushidolib.exceptions import UnitParsingError
+from bushidolib.unit import RawUnit
 
 
 def parse_raw_unit(line: str) -> RawUnit:
