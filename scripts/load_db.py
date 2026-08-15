@@ -1,6 +1,9 @@
 import json
+import os
 import sys
 from typing import Any
+
+from dotenv import load_dotenv
 
 from bushido_server.persistence import SessionFactory
 from bushido_server.service import log_unit
@@ -19,9 +22,12 @@ UNIT_NAMES = [
     "overheadpress",
 ]
 
+load_dotenv()
+BUSHIDO_DB_URL = os.environ.get("BUSHIDO_DB_URL", "sqlite:///bushido.db")
+
 
 def load_db(data: list[Any]) -> None:
-    sf = SessionFactory()
+    sf = SessionFactory(db_url=BUSHIDO_DB_URL)
     with sf.session() as session:
         for unit in data:
             line = unit["line"]
