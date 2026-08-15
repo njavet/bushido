@@ -39,8 +39,9 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 def test_log_lifting_unit_success(session: Session) -> None:
     line = "benchpress 100 5 180 100 5"
-    log_unit(line, session)
+    res = log_unit(line, session)
     units = session.scalars(select(LiftingUnitTable)).all()
+    assert res.status == "OK"
     assert len(units) == 1
     subs = session.scalars(select(LiftingSet)).all()
     assert len(subs) == 2
