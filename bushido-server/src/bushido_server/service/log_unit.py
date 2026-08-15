@@ -10,8 +10,8 @@ from bushido_server.persistence.repos import (
     load_unit_settings,
 )
 from bushido_server.schema.req import LogUnitRequest
+from bushido_server.schema.res import UnitLogResponse
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts.log_res import UnitLogResponse
 from bushidolib.contracts.unit import RawUnit
 from bushidolib.domain import Unit
 from bushidolib.domain.cardio import CardioData, parse_cardio_unit
