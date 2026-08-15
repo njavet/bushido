@@ -1,5 +1,5 @@
 import datetime
-from typing import TypeVar, Annotated
+from typing import Annotated, TypeVar
 
 from httpx import AsyncClient
 from pydantic import BaseModel, Field, TypeAdapter
@@ -18,7 +18,7 @@ LoggedUnit = Annotated[
     CardioUnit | GymUnit | LiftingUnit | WimhofUnit,
     Field(discriminator="unit_category"),
 ]
-_unit_adapter = TypeAdapter(LoggedUnit)
+_unit_adapter: TypeAdapter[LoggedUnit] = TypeAdapter(LoggedUnit)
 
 
 class BushidoApiClient:

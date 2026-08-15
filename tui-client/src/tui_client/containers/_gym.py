@@ -25,7 +25,7 @@ class GymContainer(Container):
         self.query_one("#gym_table", GymTable).set_units(units)
 
     def add_unit(self, unit: GymUnit) -> None:
-        return
+        self.log(unit)
 
 
 class GymTable(DataTable[str]):

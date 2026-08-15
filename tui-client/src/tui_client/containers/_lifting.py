@@ -33,7 +33,7 @@ class LiftingContainer(Container):
             )
 
     def add_unit(self, unit: LiftingUnit) -> None:
-        return
+        self.log(unit)
 
 
 class LiftingTable(DataTable[str]):
