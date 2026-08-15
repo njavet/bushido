@@ -1,3 +1,13 @@
+"""
+API tests
+    test:
+        HTTP method/path
+        JSON → Pydantic
+        dependency injection
+        service invocation
+        response → JSON
+"""
+
 from collections.abc import Generator
 from unittest.mock import Mock
 
