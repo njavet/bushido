@@ -1,6 +1,5 @@
 import datetime
 
-from bushidolib.domain import Unit
 from sqlalchemy.orm import Session
 
 from bushido_server.persistence.repos import (
@@ -11,14 +10,14 @@ from bushido_server.persistence.repos import (
     load_unit_settings,
 )
 from bushido_server.schema.res import UnitLogResponse
-from bushidolib.cardio import CardioData, parse_cardio_unit
+from bushidolib.cardio import CardioData, parse_cardio_unit, CardioUnit
 from bushidolib.constants import UnitCategory
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.gym import GymData, parse_gym_unit
-from bushidolib.lifting import LiftingData, parse_lifting_unit
+from bushidolib.gym import GymData, parse_gym_unit, GymUnit
+from bushidolib.lifting import LiftingData, parse_lifting_unit, LiftingUnit
 from bushidolib.parsing import parse_raw_unit, split_options
 from bushidolib.unit import RawUnit
-from bushidolib.wimhof import WimhofData, parse_wimhof_unit
+from bushidolib.wimhof import WimhofData, parse_wimhof_unit, WimhofUnit
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
@@ -56,7 +55,7 @@ def log_cardio_unit(
 ) -> UnitLogResponse:
     repo = CardioUnitRepo(session)
     repo.add_unit(
-        Unit(
+        CardioUnit(
             name=raw_unit.name,
             data=parse_cardio_unit(raw_unit.tokens),
             log_time=log_time,
@@ -71,7 +70,7 @@ def log_gym_unit(
 ) -> UnitLogResponse:
     repo = GymUnitRepo(session)
     repo.add_unit(
-        Unit(
+        GymUnit(
             name=raw_unit.name,
             data=parse_gym_unit(raw_unit.tokens),
             log_time=log_time,
@@ -86,7 +85,7 @@ def log_lifting_unit(
 ) -> UnitLogResponse:
     repo = LiftingUnitRepo(session)
     repo.add_unit(
-        Unit(
+        LiftingUnit(
             name=raw_unit.name,
             data=parse_lifting_unit(raw_unit.tokens),
             log_time=log_time,
@@ -101,7 +100,7 @@ def log_wimhof_unit(
 ) -> UnitLogResponse:
     repo = WimhofUnitRepo(session)
     repo.add_unit(
-        Unit(
+        WimhofUnit(
             name=raw_unit.name,
             data=parse_wimhof_unit(raw_unit.tokens),
             log_time=log_time,
