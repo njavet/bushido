@@ -12,9 +12,9 @@ from bushido_server.persistence.models import (
     UnitCategoryTable,
     UnitSettingTable,
 )
+from bushido_server.schema.req import LogUnitRequest
 from bushido_server.service import log_unit
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts.req import LogUnitRequest
 
 
 @pytest.fixture(scope="session")

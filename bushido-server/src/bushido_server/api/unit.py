@@ -1,11 +1,12 @@
 from fastapi import APIRouter
 
 from bushido_server.api.deps import SessionDep
+from bushido_server.schema.req import LogUnitRequest
 from bushido_server.service import log_unit
 from bushido_server.service.load_unit_settings import load_unit_mappings
 from bushido_server.service.load_units import load_units
 from bushidolib.contracts.log_res import UnitLogResponse
-from bushidolib.contracts.req import LoadUnitRequest, LogUnitRequest
+from bushidolib.contracts.req import LoadUnitRequest
 from bushidolib.contracts.unit import LoadedUnits, UnitSetting
 
 router = APIRouter()

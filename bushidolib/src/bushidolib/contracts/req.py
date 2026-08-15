@@ -1,12 +1,8 @@
 import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from bushidolib.constants import UnitCategory
-
-
-class LogUnitRequest(BaseModel):
-    line: str = Field(min_length=1)
 
 
 class LoadUnitRequest(BaseModel):

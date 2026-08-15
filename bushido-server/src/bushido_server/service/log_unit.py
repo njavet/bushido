@@ -9,9 +9,9 @@ from bushido_server.persistence.repos import (
     WimhofUnitRepo,
     load_unit_settings,
 )
+from bushido_server.schema.req import LogUnitRequest
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts.log_res import UnitLogResponse
-from bushidolib.contracts.req import LogUnitRequest
 from bushidolib.contracts.unit import RawUnit
 from bushidolib.domain import Unit
 from bushidolib.domain.cardio import CardioData, parse_cardio_unit
