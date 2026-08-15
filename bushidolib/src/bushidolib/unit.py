@@ -24,22 +24,6 @@ class BaseUnit(BaseModel):
 
 
 
-class LiftingSetData(BaseModel):
-    set_nr: int
-    weight: float
-    reps: float
-    rest: float
-
-
-class LiftingData(BaseModel):
-    variant: str | None
-    program: str | None
-    sets: list[LiftingSetData]
-
-
-class LiftingUnit(BaseUnit):
-    data: LiftingData
-
 
 class WimhofRoundData(BaseModel):
     round_nr: int
