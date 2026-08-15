@@ -1,7 +1,7 @@
 from collections.abc import Callable, Iterable
 from dataclasses import replace
 
-from ._spec import LiftingData, LiftingSetData, LiftingUnit
+from ._spec import LiftingSetData, LiftingUnit
 
 
 def compute_unit_pr(

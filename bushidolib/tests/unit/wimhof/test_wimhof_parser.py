@@ -1,6 +1,6 @@
 import pytest
 
-from bushidolib.wimhof import WimhofRoundData, WimhofData, parse_wimhof_unit
+from bushidolib.wimhof import WimhofData, WimhofRoundData, parse_wimhof_unit
 
 
 @pytest.mark.parametrize(

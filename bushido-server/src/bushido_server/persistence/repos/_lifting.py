@@ -31,7 +31,9 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
         name = self.get_unit_setting_name(orm_unit.unit_setting_id)
         lst = []
         for s in orm_unit.subunits:
-            sp = LiftingSetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
+            sp = LiftingSetData(
+                set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest
+            )
             lst.append(sp)
         return LiftingUnit(
             name=name,

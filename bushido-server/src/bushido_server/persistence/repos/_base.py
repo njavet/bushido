@@ -2,11 +2,12 @@ import datetime
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 
-from bushidolib.unit import BaseUnit, UnitSetting
-from bushidolib.constants import UnitCategory
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
+
+from bushidolib.constants import UnitCategory
+from bushidolib.unit import BaseUnit, UnitSetting
 
 from ..models import UnitCategoryTable, UnitSettingTable, UnitTable
 
