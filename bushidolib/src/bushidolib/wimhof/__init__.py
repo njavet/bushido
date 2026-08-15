@@ -3,7 +3,7 @@ from ._spec import WimhofData, WimhofRoundData, WimhofUnit
 
 __all__ = [
     "WimhofData",
-    "WimhofUnit",
     "WimhofRoundData",
+    "WimhofUnit",
     "parse_wimhof_unit",
 ]
