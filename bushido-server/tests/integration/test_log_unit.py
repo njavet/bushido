@@ -12,7 +12,6 @@ from bushido_server.persistence.models import (
     UnitCategoryTable,
     UnitSettingTable,
 )
-from bushido_server.schema.req import LogUnitRequest
 from bushido_server.service import log_unit
 from bushidolib.constants import UnitCategory
 
@@ -39,8 +38,8 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
 
 
 def test_log_lifting_unit_success(session: Session) -> None:
-    lr = LogUnitRequest(line="benchpress 100 5 180 100 5")
-    log_unit(lr, session)
+    line = "benchpress 100 5 180 100 5"
+    log_unit(line, session)
     units = session.scalars(select(LiftingUnitTable)).all()
     assert len(units) == 1
     subs = session.scalars(select(LiftingSet)).all()

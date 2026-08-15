@@ -9,7 +9,6 @@ from bushido_server.persistence.repos import (
     WimhofUnitRepo,
     load_unit_settings,
 )
-from bushido_server.schema.req import LogUnitRequest
 from bushido_server.schema.res import UnitLogResponse
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts.unit import RawUnit
@@ -25,11 +24,11 @@ UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
 
 
-def log_unit(request: LogUnitRequest, session: Session) -> UnitLogResponse:
+def log_unit(line: str, session: Session) -> UnitLogResponse:
     unit_settings = {
         setting.name: setting.category for setting in load_unit_settings(session)
     }
-    raw_unit = parse_raw_unit(request.line)
+    raw_unit = parse_raw_unit(line)
     raw_unit.tokens, log_time_str = split_options(raw_unit.tokens)
     if log_time_str is None:
         log_time = datetime.datetime.now(tz=datetime.UTC)

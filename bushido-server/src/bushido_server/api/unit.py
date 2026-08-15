@@ -21,7 +21,7 @@ async def process_load_unit_settings_request(session: SessionDep) -> list[UnitSe
 async def process_log_request(
     request: LogUnitRequest, session: SessionDep
 ) -> UnitLogResponse:
-    return log_unit(request, session)
+    return log_unit(request.line, session)
 
 
 @router.post("/unit-logs/query")
