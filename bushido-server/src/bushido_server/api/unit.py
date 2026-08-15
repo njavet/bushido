@@ -6,7 +6,8 @@ from bushido_server.schema.res import LoadedUnits
 from bushido_server.service import log_unit
 from bushido_server.service.load_unit_settings import load_unit_mappings
 from bushido_server.service.load_units import load_units
-from bushidolib.unit import BaseUnit, UnitSetting
+from bushidolib.contracts import LoggedUnit
+from bushidolib.unit import UnitSetting
 
 router = APIRouter()
 
@@ -17,7 +18,9 @@ async def process_load_unit_settings_request(session: SessionDep) -> list[UnitSe
 
 
 @router.post("/unit-logs")
-async def process_log_request(request: LogUnitRequest, session: SessionDep) -> BaseUnit:
+async def process_log_request(
+    request: LogUnitRequest, session: SessionDep
+) -> LoggedUnit:
     return log_unit(request.line, session)
 
 

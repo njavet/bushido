@@ -1,6 +1,4 @@
-from typing import Annotated
-
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from bushidolib.cardio import CardioUnit
 from bushidolib.gym import GymUnit
@@ -13,7 +11,3 @@ class UnitLogResponse(BaseModel):
 
 
 LoadedUnits = list[CardioUnit] | list[GymUnit] | list[LiftingUnit] | list[WimhofUnit]
-LoggedUnit = Annotated[
-    CardioUnit | GymUnit | LiftingUnit | WimhofUnit,
-    Field(discriminator="unit_category"),
-]

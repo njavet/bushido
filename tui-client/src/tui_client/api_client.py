@@ -1,23 +1,17 @@
 import datetime
-from typing import Annotated, TypeVar
+from typing import TypeVar
 
 from httpx import AsyncClient
-from pydantic import BaseModel, Field, TypeAdapter
+from pydantic import BaseModel, TypeAdapter
+from textual import log
 
-from bushidolib.cardio import CardioUnit
 from bushidolib.constants import UnitCategory
-from bushidolib.gym import GymUnit
-from bushidolib.lifting import LiftingUnit
+from bushidolib.contracts import LoggedUnit
 from bushidolib.unit import UnitSetting
-from bushidolib.wimhof import WimhofUnit
 
 TUnit = TypeVar("TUnit", bound=BaseModel)
 
 
-LoggedUnit = Annotated[
-    CardioUnit | GymUnit | LiftingUnit | WimhofUnit,
-    Field(discriminator="unit_category"),
-]
 _unit_adapter: TypeAdapter[LoggedUnit] = TypeAdapter(LoggedUnit)
 
 
@@ -36,6 +30,8 @@ class BushidoApiClient:
             json={"line": line},
         )
         response.raise_for_status()
+        data = response.json()
+        log(data)
         return _unit_adapter.validate_python(response.json())
 
     async def load_units(
