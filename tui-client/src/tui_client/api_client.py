@@ -1,13 +1,15 @@
-from httpx import AsyncClient, Response
+import datetime
+from typing import TypeVar
 
-from bushidolib.contracts.req import LoadUnitRequest
+from httpx import AsyncClient
+from pydantic import BaseModel
+
+from bushidolib.constants import UnitCategory
 from bushidolib.contracts.unit import (
-    CardioUnit,
-    GymUnit,
-    LiftingUnit,
     UnitSetting,
-    WimhofUnit,
 )
+
+TUnit = TypeVar("TUnit", bound=BaseModel)
 
 
 class BushidoApiClient:
@@ -27,29 +29,23 @@ class BushidoApiClient:
         response.raise_for_status()
         return str(response.json()["status"])
 
-    # TODO remove, use pydantic adapter
-    async def load_cardio_units(self, request: LoadUnitRequest) -> list[CardioUnit]:
-        response = await self._load_units(request)
-        return [CardioUnit.model_validate(u) for u in response.json()]
-
-    async def load_gym_units(self, request: LoadUnitRequest) -> list[GymUnit]:
-        response = await self._load_units(request)
-        return [GymUnit.model_validate(u) for u in response.json()]
-
-    async def load_lifting_units(self, request: LoadUnitRequest) -> list[LiftingUnit]:
-        response = await self._load_units(request)
-        return [LiftingUnit.model_validate(u) for u in response.json()]
-
-    async def load_wimhof_units(self, request: LoadUnitRequest) -> list[WimhofUnit]:
-        response = await self._load_units(request)
-        return [WimhofUnit.model_validate(u) for u in response.json()]
-
-    async def _load_units(self, request: LoadUnitRequest) -> Response:
+    async def load_units(
+        self,
+        unit_category: UnitCategory,
+        start_t: datetime.datetime | None,
+        end_t: datetime.datetime | None,
+        unit_type: type[TUnit],
+    ) -> list[TUnit]:
         response = await self._client.post(
-            "/api/unit-logs/query", json=request.model_dump(mode="json")
+            "/api/unit-logs/query",
+            json={
+                "unit_category": unit_category,
+                "start_time": start_t,
+                "end_time": end_t,
+            },
         )
         response.raise_for_status()
-        return response
+        return [unit_type.model_validate(u) for u in response.json()]
 
     async def close(self) -> None:
         await self._client.aclose()
