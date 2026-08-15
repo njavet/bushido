@@ -23,20 +23,3 @@ class BaseUnit(BaseModel):
 
 
 
-
-
-class WimhofRoundData(BaseModel):
-    round_nr: int
-    breaths: int
-    retention: int
-
-
-class WimhofData(BaseModel):
-    rounds: list[WimhofRoundData]
-
-
-class WimhofUnit(BaseUnit):
-    data: WimhofData
-
-
-LoadedUnits = list[CardioUnit] | list[GymUnit] | list[LiftingUnit] | list[WimhofUnit]

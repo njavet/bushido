@@ -1,16 +1,20 @@
 from dataclasses import dataclass
 
+from pydantic import BaseModel
 
-@dataclass(frozen=True, slots=True)
-class RoundData:
+from bushidolib.unit import BaseUnit
+
+grammar = "<name> (<breaths> <retentions>)+ # [<comment>]"
+class WimhofRoundData(BaseModel):
     round_nr: int
     breaths: int
     retention: int
 
 
-@dataclass(frozen=True, slots=True)
-class WimhofData:
-    rounds: list[RoundData]
+class WimhofData(BaseModel):
+    rounds: list[WimhofRoundData]
 
 
-grammar = "<name> (<breaths> <retentions>)+ # [<comment>]"
+class WimhofUnit(BaseUnit):
+    data: WimhofData
+
