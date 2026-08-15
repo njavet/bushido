@@ -15,6 +15,7 @@ from bushidolib.constants import UnitCategory
 from bushidolib.gym import GymUnit
 from bushidolib.lifting import LiftingUnit
 from tui_client.api_client import BushidoApiClient
+from tui_client.dtypes import UnitLogResult
 from tui_client.screens import LogUnitScreen
 from tui_client.settings import UnitConf, unit_emojis
 
@@ -81,7 +82,18 @@ class BushidoApp(App[None]):
         self.query_one(GymContainer).set_units(units)
 
     async def action_log_unit(self) -> None:
-        await self.push_screen(LogUnitScreen(self.api, list(self.unit_settings.keys())))
+        await self.push_screen(LogUnitScreen(self.api, list(self.unit_settings.keys())),
+                               callback=self.on_log_unit_closed,
+                               )
+
+    def on_log_unit_closed(self, result: UnitLogResult | None) -> None:
+        if result is None or result.unit is None:
+            return
+        match result.unit:
+            case LiftingUnit():
+                self.query_one(LiftingContainer).add_unit(result.unit)
+            case GymUnit():
+                self.query_one(GymContainer).add_unit(result.unit)
 
     async def on_unmount(self) -> None:
         await self.api.close()

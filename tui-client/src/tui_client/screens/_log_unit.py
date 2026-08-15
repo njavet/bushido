@@ -13,6 +13,7 @@ from textual.widget import Widget
 from textual.widgets import Input
 
 from tui_client.api_client import BushidoApiClient
+from tui_client.dtypes import UnitLogResult
 
 
 class UnitSuggester(Suggester):
@@ -63,7 +64,7 @@ class UnitHelpWidget(Widget):
         return Group(*panels)
 
 
-class LogUnitScreen(ModalScreen[bool]):
+class LogUnitScreen(ModalScreen[UnitLogResult | None]):
     BINDINGS: ClassVar = [
         Binding("escape", "cancel", "cancel"),
     ]
@@ -85,7 +86,13 @@ class LogUnitScreen(ModalScreen[bool]):
     async def on_unit_submitted(self, message: UnitSubmitted) -> None:
         if not message.value:
             self.app.notify("empty domain", title="logging failed", severity="error")
-            _ = self.dismiss(False)
-        else:
-            await self.api.log_unit(line=message.value)
-            _ = self.dismiss(True)
+            return
+        try:
+            unit = await self.api.log_unit(line=message.value)
+        except Exception as e:
+            self.notify(str(e), title="logging failed", severity="error")
+            return
+
+        self.notify(f"logged unit: {unit.name}", title="logging successful", severity="information")
+
+        _ = self.dismiss(UnitLogResult(unit=unit))
