@@ -64,17 +64,18 @@ class BushidoApp(App[None]):
         yield Footer(id="app_footer")
 
     async def on_mount(self) -> None:
-        self.load_initial_units()
+        self.load_lifting_units()
+        self.load_gym_units()
 
-    @work(exclusive=True)
-    async def load_initial_units(self) -> None:
-        lifting_task = self.api.load_units(UnitCategory.LIFTING, LiftingUnit)
-        gym_task = self.api.load_units(UnitCategory.GYM, GymUnit)
+    @work
+    async def load_lifting_units(self) -> None:
+        units = await self.api.load_units(UnitCategory.LIFTING, LiftingUnit)
+        self.query_one(LiftingContainer).set_units(units)
 
-        lifting_units, gym_units = await asyncio.gather(lifting_task, gym_task)
-
-        self.query_one(LiftingContainer).set_units(lifting_units)
-        self.query_one(GymContainer).set_units(gym_units)
+    @work
+    async def load_gym_units(self) -> None:
+        units = await self.api.load_units(UnitCategory.GYM, GymUnit)
+        self.query_one(GymContainer).set_units(units)
 
     async def action_log_unit(self) -> None:
         await self.push_screen(LogUnitScreen(self.api, list(self.unit_settings.keys())))
