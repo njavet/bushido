@@ -1,8 +1,9 @@
 from ._parsing import parse as parse_wimhof_unit
-from ._spec import WimhofData, WimhofRoundData
+from ._spec import WimhofData, WimhofRoundData, WimhofUnit
 
 __all__ = [
     "WimhofData",
+    "WimhofUnit",
     "WimhofRoundData",
     "parse_wimhof_unit",
 ]
