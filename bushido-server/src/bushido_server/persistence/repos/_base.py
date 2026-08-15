@@ -1,7 +1,6 @@
 import datetime
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import TypeVar
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -12,8 +11,6 @@ from bushidolib.contracts.unit import UnitSetting
 from bushidolib.domain import Unit
 
 from ..models import UnitCategoryTable, UnitSettingTable, UnitTable
-
-T_ORM = TypeVar("T_ORM", bound=UnitTable)
 
 
 class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
