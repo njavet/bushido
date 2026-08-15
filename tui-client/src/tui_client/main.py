@@ -1,6 +1,7 @@
 import asyncio
 from typing import ClassVar, override
 
+import httpx
 from textual import work
 from textual.app import App, ComposeResult
 from textual.binding import Binding
@@ -102,13 +103,22 @@ class BushidoApp(App[None]):
 
 async def async_main() -> None:
     api_client = BushidoApiClient(base_url="http://localhost:8000")
-    settings = await api_client.load_unit_settings()
-    unit_settings = {
-        s.name: UnitConf(emoji=unit_emojis[s.name], category=s.category)
-        for s in settings
-    }
-    app = BushidoApp(api_client=api_client, unit_settings=unit_settings)
-    await app.run_async()
+    try:
+        settings = await api_client.load_unit_settings()
+    except httpx.ConnectError:
+        print("Failed to connect to the server. Is it running?")
+        await api_client.close()
+        return
+
+    try:
+        unit_settings = {
+            s.name: UnitConf(emoji=unit_emojis[s.name], category=s.category)
+            for s in settings
+        }
+        app = BushidoApp(api_client=api_client, unit_settings=unit_settings)
+        await app.run_async()
+    finally:
+        await api_client.close()
 
 
 def main() -> None:
