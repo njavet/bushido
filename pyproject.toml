@@ -164,6 +164,12 @@ enable_error_code = [
 plugins = [
     "sqlalchemy.ext.mypy.plugin",
 ]
+[[tool.mypy.overrides]]
+module = [
+    "telethon",
+    "telethon.*",
+]
+ignore_missing_imports = true
 
 # ---------------------------------------------------------------------------
 # pytest

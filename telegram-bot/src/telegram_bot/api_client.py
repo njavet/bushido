@@ -1,7 +1,6 @@
 from httpx import AsyncClient, Response
 
-from bushidolib.contracts.log_res import UnitLogResponse
-from bushidolib.contracts.req import LoadUnitRequest, LogUnitRequest
+from bushidolib.contracts.req import LoadUnitRequest
 from bushidolib.contracts.unit import (
     CardioUnit,
     GymUnit,
@@ -20,13 +19,13 @@ class BushidoApiClient:
         response.raise_for_status()
         return [UnitSetting.model_validate(s) for s in response.json()]
 
-    async def log_unit(self, request: LogUnitRequest) -> UnitLogResponse:
+    async def log_unit(self, line: str) -> str:
         response = await self._client.post(
             "/api/unit-logs",
-            json=request.model_dump(mode="json"),
+            json={"line": line},
         )
         response.raise_for_status()
-        return UnitLogResponse.model_validate(response.json())
+        return str(response.json()["status"])
 
     async def load_cardio_units(self, request: LoadUnitRequest) -> list[CardioUnit]:
         response = await self._load_units(request)
