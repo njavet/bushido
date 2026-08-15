@@ -1,17 +1,18 @@
 import logging
+import os
 import sys
 from argparse import ArgumentParser
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 import uvicorn
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from rich.logging import RichHandler
 from starlette.middleware.cors import CORSMiddleware
 
 from bushido_server import __version__
 from bushido_server.api import router
-from bushido_server.conf import DEFAULT_PORT
 from bushido_server.persistence import SessionFactory
 
 logging.basicConfig(
@@ -19,6 +20,10 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[RichHandler(rich_tracebacks=True, show_time=False)],
 )
+
+# TODO refactor
+PORT = int(os.environ.get("DEFAULT_PORT", "8000"))
+DB_URL = os.environ.get("BUSHIDO_DB_URL", "sqlite:///bushido.db")
 
 
 def create_parser() -> ArgumentParser:
@@ -30,7 +35,7 @@ def create_parser() -> ArgumentParser:
 
 @asynccontextmanager
 async def lifespan(app_: FastAPI) -> AsyncIterator[None]:
-    app_.state.sf = SessionFactory()
+    app_.state.sf = SessionFactory(db_url=DB_URL)
     yield
 
 
@@ -51,6 +56,7 @@ app = create_app()
 
 
 def main() -> None:
+    load_dotenv()
     parser = create_parser()
     args = parser.parse_args()
     if args.version:
@@ -60,7 +66,7 @@ def main() -> None:
         uvicorn.run(
             app,
             host="0.0.0.0",
-            port=DEFAULT_PORT,
+            port=PORT,
             log_level="info",
         )
 

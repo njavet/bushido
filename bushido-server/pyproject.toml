@@ -10,9 +10,11 @@ readme = "README.md"
 requires-python = ">=3.14,<4.0.0"
 dependencies = [
     "bushidolib",
+    "dotenv>=0.9.9",
     "fastapi[standard]>=0.136.1",
     "platformdirs>=4.9.6",
     "polars>=1.41.2",
+    "psycopg[binary]>=3.3.4",
     "pydantic>=2.13.4",
     "rich>=15.0.0",
     "sqlalchemy>=2.0.49",

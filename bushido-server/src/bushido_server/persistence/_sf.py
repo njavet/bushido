@@ -5,12 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from bushido_server.conf import DB_URL
-
 
 class SessionFactory:
-    # TODO persistence path, linux installation
-    def __init__(self, db_url: str = DB_URL) -> None:
+    def __init__(self, db_url: str) -> None:
         self._db_url = db_url
         self._engine = create_engine(db_url)
         self._sessionmaker = sessionmaker(bind=self._engine, expire_on_commit=False)
