@@ -28,7 +28,6 @@ class LiftingContainer(Container):
 
     def set_units(self, units: list[LiftingUnit]) -> None:
         for unit_spec in units:
-            self.log(unit_spec)
             self.query_one(f"#{unit_spec.name}_table", LiftingTable).set_units(
                 [u for u in units if u.name == unit_spec.name]
             )

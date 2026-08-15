@@ -11,6 +11,7 @@ from textual.widgets import (
 )
 
 from bushidolib.constants import UnitCategory
+from bushidolib.gym import GymUnit
 from bushidolib.lifting import LiftingUnit
 from tui_client.api_client import BushidoApiClient
 from tui_client.screens import LogUnitScreen
@@ -64,9 +65,11 @@ class BushidoApp(App[None]):
 
     async def on_mount(self) -> None:
         lifting_units = await self.api.load_units(UnitCategory.LIFTING, LiftingUnit)
-        self.log(lifting_units)
         lifting_container = self.query_one(LiftingContainer)
         lifting_container.set_units(lifting_units)
+        gym_units = await self.api.load_units(UnitCategory.GYM, GymUnit)
+        gym_container = self.query_one(GymContainer)
+        gym_container.set_units(gym_units)
 
     async def action_log_unit(self) -> None:
         await self.push_screen(LogUnitScreen(self.api, list(self.unit_settings.keys())))
