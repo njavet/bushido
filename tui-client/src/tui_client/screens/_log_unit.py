@@ -93,6 +93,10 @@ class LogUnitScreen(ModalScreen[UnitLogResult | None]):
             self.notify(str(e), title="logging failed", severity="error")
             return
 
-        self.notify(f"logged unit: {unit.name}", title="logging successful", severity="information")
+        self.notify(
+            f"logged unit: {unit.name}",
+            title="logging successful",
+            severity="information",
+        )
 
         _ = self.dismiss(UnitLogResult(unit=unit))

@@ -82,9 +82,10 @@ class BushidoApp(App[None]):
         self.query_one(GymContainer).set_units(units)
 
     async def action_log_unit(self) -> None:
-        await self.push_screen(LogUnitScreen(self.api, list(self.unit_settings.keys())),
-                               callback=self.on_log_unit_closed,
-                               )
+        await self.push_screen(
+            LogUnitScreen(self.api, list(self.unit_settings.keys())),
+            callback=self.on_log_unit_closed,
+        )
 
     def on_log_unit_closed(self, result: UnitLogResult | None) -> None:
         if result is None or result.unit is None:

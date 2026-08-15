@@ -9,14 +9,13 @@ from bushido_server.persistence.repos import (
     WimhofUnitRepo,
     load_unit_settings,
 )
-from bushido_server.schema.res import UnitLogResponse
 from bushidolib.cardio import CardioData, CardioUnit, parse_cardio_unit
 from bushidolib.constants import UnitCategory
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.gym import GymData, GymUnit, parse_gym_unit
 from bushidolib.lifting import LiftingData, LiftingUnit, parse_lifting_unit
 from bushidolib.parsing import parse_raw_unit, split_options
-from bushidolib.unit import RawUnit, BaseUnit
+from bushidolib.unit import BaseUnit, RawUnit
 from bushidolib.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
@@ -55,10 +54,10 @@ def log_cardio_unit(
 ) -> CardioUnit:
     repo = CardioUnitRepo(session)
     unit = CardioUnit(
-            name=raw_unit.name,
-            data=parse_cardio_unit(raw_unit.tokens),
-            log_time=log_time,
-            comment=raw_unit.comment,
+        name=raw_unit.name,
+        data=parse_cardio_unit(raw_unit.tokens),
+        log_time=log_time,
+        comment=raw_unit.comment,
     )
     repo.add_unit(unit)
     return unit
@@ -69,11 +68,11 @@ def log_gym_unit(
 ) -> GymUnit:
     repo = GymUnitRepo(session)
     unit = GymUnit(
-            name=raw_unit.name,
-            data=parse_gym_unit(raw_unit.tokens),
-            log_time=log_time,
-            comment=raw_unit.comment,
-        )
+        name=raw_unit.name,
+        data=parse_gym_unit(raw_unit.tokens),
+        log_time=log_time,
+        comment=raw_unit.comment,
+    )
     repo.add_unit(unit)
     return unit
 
@@ -83,10 +82,10 @@ def log_lifting_unit(
 ) -> LiftingUnit:
     repo = LiftingUnitRepo(session)
     unit = LiftingUnit(
-            name=raw_unit.name,
-            data=parse_lifting_unit(raw_unit.tokens),
-            log_time=log_time,
-            comment=raw_unit.comment,
+        name=raw_unit.name,
+        data=parse_lifting_unit(raw_unit.tokens),
+        log_time=log_time,
+        comment=raw_unit.comment,
     )
     repo.add_unit(unit)
     return unit
@@ -97,10 +96,10 @@ def log_wimhof_unit(
 ) -> WimhofUnit:
     repo = WimhofUnitRepo(session)
     unit = WimhofUnit(
-            name=raw_unit.name,
-            data=parse_wimhof_unit(raw_unit.tokens),
-            log_time=log_time,
-            comment=raw_unit.comment,
+        name=raw_unit.name,
+        data=parse_wimhof_unit(raw_unit.tokens),
+        log_time=log_time,
+        comment=raw_unit.comment,
     )
     repo.add_unit(unit)
     return unit
