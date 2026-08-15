@@ -5,7 +5,7 @@ from httpx import AsyncClient
 from pydantic import BaseModel
 
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts.unit import (
+from bushidolib.unit import (
     UnitSetting,
 )
 

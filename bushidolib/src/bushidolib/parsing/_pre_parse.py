@@ -1,4 +1,4 @@
-from bushidolib.contracts.unit import RawUnit
+from bushidolib.unit import RawUnit
 from bushidolib.exceptions import UnitParsingError
 
 

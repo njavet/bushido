@@ -11,7 +11,7 @@ from bushido_server.persistence.repos import (
 )
 from bushido_server.schema.res import UnitLogResponse
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts.unit import RawUnit
+from bushidolib.unit import RawUnit
 from bushidolib.domain import Unit
 from bushidolib.cardio import CardioData, parse_cardio_unit
 from bushidolib.gym import GymData, parse_gym_unit

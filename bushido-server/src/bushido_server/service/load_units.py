@@ -8,7 +8,7 @@ from bushido_server.persistence.repos import (
 )
 from bushido_server.schema.req import LoadUnitRequest
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts.unit import (
+from bushidolib.unit import (
     CardioData,
     CardioUnit,
     GymData,

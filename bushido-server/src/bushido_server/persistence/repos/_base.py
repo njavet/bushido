@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts.unit import UnitSetting
+from bushidolib.unit import UnitSetting
 from bushidolib.domain import Unit
 
 from ..models import UnitCategoryTable, UnitSettingTable, UnitTable
