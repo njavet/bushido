@@ -18,9 +18,12 @@ from tui_client.api_client import BushidoApiClient
 from tui_client.screens import LogUnitScreen
 from tui_client.settings import UnitConf, unit_emojis
 
-from .containers import HeaderContainer, LiftingContainer
-from .containers.gym import GymContainer
-from .containers.spartan import SpartanContainer
+from .containers import (
+    GymContainer,
+    HeaderContainer,
+    LiftingContainer,
+    SpartanContainer,
+)
 
 
 def filter_units(
