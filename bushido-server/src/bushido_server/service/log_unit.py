@@ -13,11 +13,11 @@ from bushido_server.schema.res import UnitLogResponse
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts.unit import RawUnit
 from bushidolib.domain import Unit
-from bushidolib.domain.cardio import CardioData, parse_cardio_unit
-from bushidolib.domain.gym import GymData, parse_gym_unit
-from bushidolib.domain.lifting import LiftingData, parse_lifting_unit
-from bushidolib.domain.parsing import parse_raw_unit, split_options
-from bushidolib.domain.wimhof import WimhofData, parse_wimhof_unit
+from bushidolib.cardio import CardioData, parse_cardio_unit
+from bushidolib.gym import GymData, parse_gym_unit
+from bushidolib.lifting import LiftingData, parse_lifting_unit
+from bushidolib.parsing import parse_raw_unit, split_options
+from bushidolib.wimhof import WimhofData, parse_wimhof_unit
 from bushidolib.exceptions import UnitParsingError
 
 UnitData = LiftingData | GymData | CardioData | WimhofData

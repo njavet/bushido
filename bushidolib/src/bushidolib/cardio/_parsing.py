@@ -1,4 +1,4 @@
-from bushidolib.domain.parsing import (
+from bushidolib.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )

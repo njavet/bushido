@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from bushidolib.domain.gym import GymData, parse_gym_unit
+from bushidolib.gym import GymData, parse_gym_unit
 
 
 @pytest.mark.parametrize(

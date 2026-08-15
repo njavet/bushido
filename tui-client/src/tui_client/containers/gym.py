@@ -9,7 +9,7 @@ from textual.widgets import (
 )
 
 from bushidolib.domain import Unit
-from bushidolib.domain.gym import GymData
+from bushidolib.gym import GymData
 
 
 class GymContainer(Container):

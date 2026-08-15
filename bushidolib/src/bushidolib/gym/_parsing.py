@@ -1,4 +1,4 @@
-from bushidolib.domain.parsing import parse_start_end_time_string
+from bushidolib.parsing import parse_start_end_time_string
 from bushidolib.exceptions import UnitParsingError
 
 from ._spec import GymData

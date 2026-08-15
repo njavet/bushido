@@ -1,6 +1,6 @@
 import pytest
 
-from bushidolib.domain.lifting import LiftingData, SetData, parse_lifting_unit
+from bushidolib.lifting import LiftingData, SetData, parse_lifting_unit
 from bushidolib.exceptions import UnitParsingError
 
 

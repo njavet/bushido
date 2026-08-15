@@ -1,7 +1,7 @@
 from typing import override
 
 from bushidolib.domain import Unit
-from bushidolib.domain.cardio import CardioData
+from bushidolib.cardio import CardioData
 
 from ..models import CardioUnitTable
 from ._base import BaseUnitRepo
