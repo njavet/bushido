@@ -75,7 +75,7 @@ class LogUnitScreen(ModalScreen[UnitLogResult | None]):
         self.unit_suggester = UnitSuggester(unit_names)
 
     async def action_cancel(self) -> None:
-        await self.dismiss(False)
+        await self.dismiss(None)
 
     @override
     def compose(self) -> ComposeResult:

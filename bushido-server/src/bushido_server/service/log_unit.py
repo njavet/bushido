@@ -16,14 +16,14 @@ from bushidolib.exceptions import UnitParsingError
 from bushidolib.gym import GymData, GymUnit, parse_gym_unit
 from bushidolib.lifting import LiftingData, LiftingUnit, parse_lifting_unit
 from bushidolib.parsing import parse_raw_unit, split_options
-from bushidolib.unit import RawUnit
+from bushidolib.unit import RawUnit, BaseUnit
 from bushidolib.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
 
 
-def log_unit(line: str, session: Session) -> UnitLogResponse:
+def log_unit(line: str, session: Session) -> BaseUnit:
     unit_settings = {
         setting.name: setting.category for setting in load_unit_settings(session)
     }
@@ -52,59 +52,55 @@ def log_unit(line: str, session: Session) -> UnitLogResponse:
 
 def log_cardio_unit(
     raw_unit: RawUnit, log_time: datetime.datetime, session: Session
-) -> UnitLogResponse:
+) -> CardioUnit:
     repo = CardioUnitRepo(session)
-    repo.add_unit(
-        CardioUnit(
+    unit = CardioUnit(
             name=raw_unit.name,
             data=parse_cardio_unit(raw_unit.tokens),
             log_time=log_time,
             comment=raw_unit.comment,
-        )
     )
-    return UnitLogResponse(status="OK")
+    repo.add_unit(unit)
+    return unit
 
 
 def log_gym_unit(
     raw_unit: RawUnit, log_time: datetime.datetime, session: Session
-) -> UnitLogResponse:
+) -> GymUnit:
     repo = GymUnitRepo(session)
-    repo.add_unit(
-        GymUnit(
+    unit = GymUnit(
             name=raw_unit.name,
             data=parse_gym_unit(raw_unit.tokens),
             log_time=log_time,
             comment=raw_unit.comment,
         )
-    )
-    return UnitLogResponse(status="OK")
+    repo.add_unit(unit)
+    return unit
 
 
 def log_lifting_unit(
     raw_unit: RawUnit, log_time: datetime.datetime, session: Session
-) -> UnitLogResponse:
+) -> LiftingUnit:
     repo = LiftingUnitRepo(session)
-    repo.add_unit(
-        LiftingUnit(
+    unit = LiftingUnit(
             name=raw_unit.name,
             data=parse_lifting_unit(raw_unit.tokens),
             log_time=log_time,
             comment=raw_unit.comment,
-        )
     )
-    return UnitLogResponse(status="OK")
+    repo.add_unit(unit)
+    return unit
 
 
 def log_wimhof_unit(
     raw_unit: RawUnit, log_time: datetime.datetime, session: Session
-) -> UnitLogResponse:
+) -> WimhofUnit:
     repo = WimhofUnitRepo(session)
-    repo.add_unit(
-        WimhofUnit(
+    unit = WimhofUnit(
             name=raw_unit.name,
             data=parse_wimhof_unit(raw_unit.tokens),
             log_time=log_time,
             comment=raw_unit.comment,
-        )
     )
-    return UnitLogResponse(status="OK")
+    repo.add_unit(unit)
+    return unit
