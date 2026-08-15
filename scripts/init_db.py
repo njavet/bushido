@@ -1,13 +1,18 @@
+import os
 import csv
 from pathlib import Path
 
+from dotenv import load_dotenv
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido_server.conf import DB_URL
 from bushido_server.persistence import SessionFactory
 from bushido_server.persistence.models import Base, UnitCategoryTable, UnitSettingTable
 from bushidolib.constants import UnitCategory
+
+
+load_dotenv()
+BUSHIDO_DB_URL = os.environ.get("BUSHIDO_DB_URL", "sqlite:///bushido.db")
 
 
 def upsert_categories(session: Session) -> dict[UnitCategory, UnitCategoryTable]:
@@ -59,8 +64,8 @@ def upsert_unit_settings(
                 unit.category_id = category_row.id
 
 
-def init_db(db_url: str = DB_URL) -> None:
-    sf = SessionFactory(db_url)
+def init_db() -> None:
+    sf = SessionFactory(db_url=BUSHIDO_DB_URL)
     Base.metadata.create_all(bind=sf.engine)
     seed_file = Path(__file__).parent.parent / 'data' / 'units.csv'
 
