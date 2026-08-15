@@ -23,17 +23,6 @@ class BaseUnit(BaseModel):
 
 
 
-class GymData(BaseModel):
-    start_t: datetime.time
-    end_t: datetime.time
-    gym: str
-    training: str | None = None
-    focus: str | None = None
-
-
-class GymUnit(BaseUnit):
-    data: GymData
-
 
 class LiftingSetData(BaseModel):
     set_nr: int

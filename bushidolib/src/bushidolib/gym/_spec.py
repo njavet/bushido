@@ -1,14 +1,9 @@
 import datetime
 from dataclasses import dataclass
 
+from pydantic import BaseModel
 
-@dataclass(frozen=True, slots=True)
-class GymData:
-    start_t: datetime.time
-    end_t: datetime.time
-    gym: str
-    training: str | None = None
-    focus: str | None = None
+from bushidolib.unit import BaseUnit
 
 
 grammar = """
@@ -17,3 +12,16 @@ grammar = """
     time format:
       HHMM-HHMM
 """
+
+
+class GymData(BaseModel):
+    start_t: datetime.time
+    end_t: datetime.time
+    gym: str
+    training: str | None = None
+    focus: str | None = None
+
+
+class GymUnit(BaseUnit):
+    data: GymData
+
