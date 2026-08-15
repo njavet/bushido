@@ -1,6 +1,6 @@
 from bushidolib.exceptions import UnitParsingError
 
-from ._spec import RoundData, WimhofData
+from ._spec import WimhofRoundData, WimhofData
 
 
 def parse(tokens: tuple[str, ...]) -> WimhofData:
@@ -17,7 +17,7 @@ def parse(tokens: tuple[str, ...]) -> WimhofData:
 
     return WimhofData(
         rounds=[
-            RoundData(round_nr=i, breaths=b, retention=r)
+            WimhofRoundData(round_nr=i, breaths=b, retention=r)
             for i, (b, r) in enumerate(zip(breaths, retentions, strict=False))
         ]
     )

@@ -1,6 +1,6 @@
 from bushidolib.exceptions import UnitParsingError
 
-from ._spec import LiftingData, SetData
+from ._spec import LiftingData, LiftingSetData
 
 
 def parse(tokens: tuple[str, ...]) -> LiftingData:
@@ -31,7 +31,7 @@ def parse(tokens: tuple[str, ...]) -> LiftingData:
         variant=None,
         program=None,
         sets=[
-            SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
+            LiftingSetData(set_nr=i, weight=weight, reps=rep, rest=rest)
             for i, (weight, rep, rest) in enumerate(
                 zip(weights, reps, rests, strict=False)
             )
