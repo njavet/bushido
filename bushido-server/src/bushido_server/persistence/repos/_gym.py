@@ -1,18 +1,16 @@
 from typing import override
 
-from bushidolib.domain import Unit
-
-from bushidolib.gym import GymData
+from bushidolib.gym import GymData, GymUnit
 
 from ..models import GymUnitTable
 from ._base import BaseUnitRepo
 
 
-class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
+class GymUnitRepo(BaseUnitRepo[GymUnit, GymUnitTable]):
     orm_cls = GymUnitTable
 
     @override
-    def _to_orm(self, unit: Unit[GymData]) -> GymUnitTable:
+    def _to_orm(self, unit: GymUnit) -> GymUnitTable:
         setting_id = self.get_unit_setting_id(unit.name)
         return GymUnitTable(
             unit_setting_id=setting_id,
@@ -26,9 +24,9 @@ class GymUnitRepo(BaseUnitRepo[GymData, GymUnitTable]):
         )
 
     @override
-    def _from_orm(self, orm_unit: GymUnitTable) -> Unit[GymData]:
+    def _from_orm(self, orm_unit: GymUnitTable) -> GymUnit:
         name = self.get_unit_setting_name(orm_unit.unit_setting_id)
-        return Unit(
+        return GymUnit(
             name=name,
             data=GymData(
                 start_t=orm_unit.start_t,
