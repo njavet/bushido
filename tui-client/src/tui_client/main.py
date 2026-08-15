@@ -31,7 +31,7 @@ def filter_units(
 
 
 class BushidoApp(App[None]):
-    CSS_PATH = "main.tcss"
+    CSS_PATH = "assets/static/main.tcss"
     BINDINGS: ClassVar = [
         Binding("q", "quit", "quit"),
         Binding("l", "log_unit", "log"),
@@ -54,7 +54,7 @@ class BushidoApp(App[None]):
             with TabPane("spartan"):
                 yield SpartanContainer(id="spartan_container")
             with TabPane("gym"):
-                yield GymContainer(id="gym_container")
+                yield GymContainer(filter_units(self.unit_settings, UnitCategory.GYM))
             with TabPane("lifting"):
                 yield LiftingContainer(
                     unit_settings=filter_units(self.unit_settings, UnitCategory.LIFTING)
