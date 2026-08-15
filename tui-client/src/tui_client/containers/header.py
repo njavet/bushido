@@ -4,9 +4,9 @@ from textual.app import ComposeResult
 from textual.containers import Container, Horizontal
 from textual_image.widget import Image as ImageWidget
 
-from ..settings import BUSHIDO_IMG_PATH
-from ..widgets.binary_clock import BinaryClock
-from ..widgets.binary_date import BinaryDate
+from tui_client.settings import BUSHIDO_IMG_PATH
+from tui_client.widgets.binary_clock import BinaryClock
+from tui_client.widgets.binary_date import BinaryDate
 
 
 class HeaderContainer(Container):
