@@ -24,6 +24,9 @@ class GymContainer(Container):
     def set_units(self, units: list[GymUnit]) -> None:
         self.query_one("#gym_table", GymTable).set_units(units)
 
+    def add_unit(self, unit: GymUnit) -> None:
+        return
+
 
 class GymTable(DataTable[str]):
     @override

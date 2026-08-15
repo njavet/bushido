@@ -32,6 +32,9 @@ class LiftingContainer(Container):
                 [u for u in units if u.name == unit_spec.name]
             )
 
+    def add_unit(self, unit: LiftingUnit) -> None:
+        return
+
 
 class LiftingTable(DataTable[str]):
     @override
