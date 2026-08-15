@@ -22,10 +22,10 @@ class BushidoApiClient:
     async def log_unit(self, line: str) -> str:
         response = await self._client.post(
             "/api/unit-logs",
-            json={'line': line},
+            json={"line": line},
         )
         response.raise_for_status()
-        return str(response.json()['status'])
+        return str(response.json()["status"])
 
     # TODO remove, use pydantic adapter
     async def load_cardio_units(self, request: LoadUnitRequest) -> list[CardioUnit]:

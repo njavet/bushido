@@ -1,7 +1,6 @@
-from typing import Any, Protocol
+from typing import Protocol
 
-from telethon import TelegramClient, events
-from telethon.events import NewMessage
+from telethon import events
 
 from telegram_bot.api_client import BushidoApiClient
 
@@ -12,6 +11,7 @@ class TelegramClientProtocol(Protocol):
 
 class TelegramEvent(Protocol):
     raw_text: str
+
     async def reply(self, message: str) -> object: ...
 
 

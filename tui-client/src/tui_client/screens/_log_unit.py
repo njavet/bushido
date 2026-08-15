@@ -12,7 +12,6 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input
 
-from bushidolib.contracts.req import LogUnitRequest
 from tui_client.api_client import BushidoApiClient
 
 
@@ -88,5 +87,5 @@ class LogUnitScreen(ModalScreen[bool]):
             self.app.notify("empty domain", title="logging failed", severity="error")
             _ = self.dismiss(False)
         else:
-            await self.api.log_unit(LogUnitRequest(line=message.value))
+            await self.api.log_unit(line=message.value)
             _ = self.dismiss(True)
