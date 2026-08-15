@@ -21,6 +21,12 @@ class UnitSettingTable(Base):
     category_id: Mapped[int] = mapped_column(ForeignKey(UnitCategoryTable.id))
 
 
+class Spartan(Base):
+    __tablename__ = "spartan"
+
+    name: Mapped[str] = mapped_column(unique=True)
+
+
 class UnitTable(Base):
     __abstract__ = True
 
