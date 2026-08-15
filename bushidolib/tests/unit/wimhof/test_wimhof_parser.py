@@ -1,6 +1,6 @@
 import pytest
 
-from bushidolib.wimhof import RoundData, WimhofData, parse_wimhof_unit
+from bushidolib.wimhof import WimhofRoundData, WimhofData, parse_wimhof_unit
 
 
 @pytest.mark.parametrize(
@@ -10,9 +10,9 @@ from bushidolib.wimhof import RoundData, WimhofData, parse_wimhof_unit
             ("30", "90", "30", "120", "30", "150"),
             WimhofData(
                 rounds=[
-                    RoundData(round_nr=0, breaths=30, retention=90),
-                    RoundData(round_nr=1, breaths=30, retention=120),
-                    RoundData(round_nr=2, breaths=30, retention=150),
+                    WimhofRoundData(round_nr=0, breaths=30, retention=90),
+                    WimhofRoundData(round_nr=1, breaths=30, retention=120),
+                    WimhofRoundData(round_nr=2, breaths=30, retention=150),
                 ]
             ),
         ),
