@@ -2,7 +2,7 @@ import datetime
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 
-from bushidolib.domain import Unit
+from bushidolib.unit import BaseUnit
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
@@ -13,7 +13,7 @@ from bushidolib.unit import UnitSetting
 from ..models import UnitCategoryTable, UnitSettingTable, UnitTable
 
 
-class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
+class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
     orm_cls: type[T_ORM]
     load_options: Sequence[ORMOption] = ()
 
@@ -28,7 +28,7 @@ class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
         stmt = select(UnitSettingTable.name).where(UnitSettingTable.id == setting_id)
         return self.session.scalars(stmt).one()
 
-    def add_unit(self, unit: Unit[T_DOMAIN]) -> None:
+    def add_unit(self, unit: T_DOMAIN) -> None:
         self.session.add(self._to_orm(unit))
         self.session.commit()
 
@@ -36,7 +36,7 @@ class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
         self,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
-    ) -> list[Unit[T_DOMAIN]]:
+    ) -> list[T_DOMAIN]:
         stmt = select(self.orm_cls).options(*self.load_options)
         if start_t is not None:
             stmt = stmt.where(start_t <= self.orm_cls.log_time)
@@ -46,10 +46,10 @@ class BaseUnitRepo[T_DOMAIN, T_ORM: UnitTable](ABC):
         return [self._from_orm(unit) for unit in self.session.scalars(stmt)]
 
     @abstractmethod
-    def _to_orm(self, unit: Unit[T_DOMAIN]) -> T_ORM: ...
+    def _to_orm(self, unit: T_DOMAIN) -> T_ORM: ...
 
     @abstractmethod
-    def _from_orm(self, orm_unit: T_ORM) -> Unit[T_DOMAIN]: ...
+    def _from_orm(self, orm_unit: T_ORM) -> T_DOMAIN: ...
 
 
 def load_unit_settings(session: Session) -> list[UnitSetting]:
