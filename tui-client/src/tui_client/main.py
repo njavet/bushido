@@ -11,6 +11,7 @@ from textual.widgets import (
 )
 
 from bushidolib.constants import UnitCategory
+from bushidolib.lifting import LiftingUnit
 from tui_client.api_client import BushidoApiClient
 from tui_client.screens import LogUnitScreen
 from tui_client.settings import UnitConf, unit_emojis
@@ -59,8 +60,13 @@ class BushidoApp(App[None]):
                 yield LiftingContainer(
                     unit_settings=filter_units(self.unit_settings, UnitCategory.LIFTING)
                 )
-
         yield Footer(id="app_footer")
+
+    async def on_mount(self) -> None:
+        lifting_units = await self.api.load_units(UnitCategory.LIFTING, LiftingUnit)
+        self.log(lifting_units)
+        lifting_container = self.query_one(LiftingContainer)
+        lifting_container.set_units(lifting_units)
 
     async def action_log_unit(self) -> None:
         await self.push_screen(LogUnitScreen(self.api, list(self.unit_settings.keys())))

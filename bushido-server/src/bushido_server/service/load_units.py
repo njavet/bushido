@@ -20,11 +20,11 @@ def load_units(request: LoadUnitRequest, session: Session) -> LoadedUnits:
         case UnitCategory.CARDIO:
             return load_cardio_units(request, session)
         case UnitCategory.GYM:
-            return load_cardio_units(request, session)
+            return load_gym_units(request, session)
         case UnitCategory.LIFTING:
-            return load_cardio_units(request, session)
+            return load_lifting_units(request, session)
         case UnitCategory.WIMHOF:
-            return load_cardio_units(request, session)
+            return load_wimhof_units(request, session)
         case _:
             raise ValueError(f"Unknown unit category: {request.unit_category}")
 

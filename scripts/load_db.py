@@ -2,6 +2,8 @@ import json
 import sys
 from typing import Any
 
+from bushido_server.persistence import SessionFactory
+from bushido_server.service import log_unit
 
 UNIT_NAMES = [
     "lifting",
@@ -18,11 +20,8 @@ UNIT_NAMES = [
 ]
 
 
-"""
 def load_db(data: list[Any]) -> None:
     sf = SessionFactory()
-    init_db(engine=sf.engine)
-    lus = LogUnitService(registry=build_registry())
     with sf.session() as session:
         for unit in data:
             line = unit["line"]
@@ -30,7 +29,7 @@ def load_db(data: list[Any]) -> None:
             if unit_name not in UNIT_NAMES:
                 continue
             try:
-                lus.log_unit(line, session)
+                log_unit(line, session)
             except Exception as e:
                 print(str(e))
 
@@ -47,4 +46,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-"""

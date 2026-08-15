@@ -32,9 +32,9 @@ class BushidoApiClient:
     async def load_units(
         self,
         unit_category: UnitCategory,
-        start_t: datetime.datetime | None,
-        end_t: datetime.datetime | None,
         unit_type: type[TUnit],
+        start_t: datetime.datetime | None = None,
+        end_t: datetime.datetime | None = None,
     ) -> list[TUnit]:
         response = await self._client.post(
             "/api/unit-logs/query",
