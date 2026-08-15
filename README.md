@@ -2,25 +2,25 @@
 Bushido is a discipline-driven personal logging and analytics app. It helps you capture structured data about training, recovery, and daily activities.
 
 ## Setup postgresql on Arch Linux
-* Install postgresql
+install postgresql
  
 `sudo pacman -S postgresql`
 
-* initialize the cluster
+initialize the cluster
 ```
 sudo -iu postgres 
 initdb --locale=C.UTF-8 --encoding=UTF8 -D /var/lib/postgresql/data
 exit
  ```
 
-* start and check
+start and check
 ```aiignore
 sudo systemctl enable --now postgresql
 systemctl status postgresql
 ss -lntp | grep 5432
 ```
 
-* create a database/user
+create a database/user
 
 `sudo -iu postgres psql`
 
@@ -30,7 +30,7 @@ CREATE DATABASE bushido OWNER bushido;
 \q
 ```
 
-* test
+test
 
 `psql -h localhost -U bushido -d bushido`
 
