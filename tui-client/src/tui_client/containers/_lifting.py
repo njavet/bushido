@@ -33,7 +33,7 @@ class LiftingContainer(Container):
             )
 
     def add_unit(self, unit: LiftingUnit) -> None:
-        self.log(unit)
+        self.query_one(f"#{unit.name}_table", LiftingTable).add_unit(unit)
 
 
 class LiftingTable(DataTable[str]):
@@ -44,19 +44,23 @@ class LiftingTable(DataTable[str]):
     def set_units(self, units: list[LiftingUnit]) -> None:
         self.clear()
         for unit in units:
-            self.add_row(
-                unit.log_time.strftime("%d.%m.%y"),
-                "",
-                "",
-                "",
-                "",
-            )
+            self.add_unit(unit)
 
-            for lifting_set in unit.data.sets:
-                self.add_row(
-                    "",
-                    str(lifting_set.set_nr),
-                    str(lifting_set.weight),
-                    str(lifting_set.reps),
-                    str(lifting_set.rest),
-                )
+    def add_unit(self, unit: LiftingUnit) -> None:
+
+        self.add_row(
+            unit.log_time.strftime("%d.%m.%y"),
+            "",
+            "",
+            "",
+            "",
+        )
+
+        for lifting_set in unit.data.sets:
+            self.add_row(
+                "",
+                str(lifting_set.set_nr),
+                str(lifting_set.weight),
+                str(lifting_set.reps),
+                str(lifting_set.rest),
+            )
