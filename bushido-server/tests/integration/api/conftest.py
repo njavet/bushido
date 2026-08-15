@@ -18,7 +18,7 @@ def session() -> Mock:
 @pytest.fixture
 def app(session: Mock) -> FastAPI:
     app = FastAPI()
-    app.include_router(router, prefix="/api")
+    app.include_router(router)
 
     def override_get_session() -> Generator[Session]:
         yield session
