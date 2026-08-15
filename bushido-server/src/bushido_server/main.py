@@ -22,6 +22,7 @@ logging.basicConfig(
 )
 
 # TODO refactor
+load_dotenv()
 PORT = int(os.environ.get("DEFAULT_PORT", "8000"))
 DB_URL = os.environ.get("BUSHIDO_DB_URL", "sqlite:///bushido.db")
 
@@ -56,7 +57,6 @@ app = create_app()
 
 
 def main() -> None:
-    load_dotenv()
     parser = create_parser()
     args = parser.parse_args()
     if args.version:
