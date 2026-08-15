@@ -1,12 +1,7 @@
-from httpx import AsyncClient, Response
+from httpx import AsyncClient
 
-from bushidolib.contracts.req import LoadUnitRequest
 from bushidolib.contracts.unit import (
-    CardioUnit,
-    GymUnit,
-    LiftingUnit,
     UnitSetting,
-    WimhofUnit,
 )
 
 
@@ -26,29 +21,6 @@ class BushidoApiClient:
         )
         response.raise_for_status()
         return str(response.json()["status"])
-
-    async def load_cardio_units(self, request: LoadUnitRequest) -> list[CardioUnit]:
-        response = await self._load_units(request)
-        return [CardioUnit.model_validate(u) for u in response.json()]
-
-    async def load_gym_units(self, request: LoadUnitRequest) -> list[GymUnit]:
-        response = await self._load_units(request)
-        return [GymUnit.model_validate(u) for u in response.json()]
-
-    async def load_lifting_units(self, request: LoadUnitRequest) -> list[LiftingUnit]:
-        response = await self._load_units(request)
-        return [LiftingUnit.model_validate(u) for u in response.json()]
-
-    async def load_wimhof_units(self, request: LoadUnitRequest) -> list[WimhofUnit]:
-        response = await self._load_units(request)
-        return [WimhofUnit.model_validate(u) for u in response.json()]
-
-    async def _load_units(self, request: LoadUnitRequest) -> Response:
-        response = await self._client.post(
-            "/api/unit-logs/query", json=request.model_dump(mode="json")
-        )
-        response.raise_for_status()
-        return response
 
     async def close(self) -> None:
         await self._client.aclose()
