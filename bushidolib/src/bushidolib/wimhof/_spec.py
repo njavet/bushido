@@ -1,5 +1,8 @@
+from typing import Literal
+
 from pydantic import BaseModel
 
+from bushidolib.constants import UnitCategory
 from bushidolib.unit import BaseUnit
 
 grammar = "<name> (<breaths> <retentions>)+ # [<comment>]"
@@ -16,4 +19,5 @@ class WimhofData(BaseModel):
 
 
 class WimhofUnit(BaseUnit):
+    unit_category: Literal[UnitCategory.WIMHOF] = UnitCategory.WIMHOF
     data: WimhofData

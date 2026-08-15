@@ -1,7 +1,9 @@
 import datetime
+from typing import Literal
 
 from pydantic import BaseModel
 
+from bushidolib.constants import UnitCategory
 from bushidolib.unit import BaseUnit
 
 grammar = """
@@ -20,4 +22,5 @@ class CardioData(BaseModel):
 
 
 class CardioUnit(BaseUnit):
+    unit_category: Literal[UnitCategory.CARDIO] = UnitCategory.CARDIO
     data: CardioData

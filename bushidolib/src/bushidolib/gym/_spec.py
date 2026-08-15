@@ -1,7 +1,9 @@
 import datetime
+from typing import Literal
 
 from pydantic import BaseModel
 
+from bushidolib.constants import UnitCategory
 from bushidolib.unit import BaseUnit
 
 grammar = """
@@ -21,4 +23,5 @@ class GymData(BaseModel):
 
 
 class GymUnit(BaseUnit):
+    unit_category: Literal[UnitCategory.GYM] = UnitCategory.GYM
     data: GymData
