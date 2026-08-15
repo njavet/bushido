@@ -14,5 +14,6 @@ class UnitLogResponse(BaseModel):
 
 LoadedUnits = list[CardioUnit] | list[GymUnit] | list[LiftingUnit] | list[WimhofUnit]
 LoggedUnit = Annotated[
-    CardioUnit | GymUnit | LiftingUnit | WimhofUnit,Field(discriminator="unit_category")]
-
+    CardioUnit | GymUnit | LiftingUnit | WimhofUnit,
+    Field(discriminator="unit_category"),
+]
