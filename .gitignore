@@ -191,3 +191,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.terraform/
