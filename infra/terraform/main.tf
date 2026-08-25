@@ -1,36 +1,6 @@
-resource "libvirt_network" "bushido" {
-  name = var.network_name
-
-  forward = {
-    mode = "nat"
-  }
-
-  ips = [
-    {
-      address = var.network_cidr
-      family  = "ipv4"
-
-      dhcp = {
-        enabled = true
-      }
-    }
-  ]
-}
-
 #-------------------------------------------------------------------------------------
 # azure
 #-------------------------------------------------------------------------------------
-terraform {
-  required_version = ">= 1.10"
-
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 5.0"
-    }
-  }
-}
-
 provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
