@@ -12,12 +12,12 @@ resource "azurerm_container_app" "bushido" {
   revision_mode = "Single"
 
   template {
-    min_replicas = 1
+    min_replicas = 0
     max_replicas = 1
 
     container {
       name   = "bushido-server"
-      image  = var.container_image
+      image  = "${azurerm_container_registry.bushido.login_server}/bushido-server:latest"
       cpu    = 0.25
       memory = "0.5Gi"
 
@@ -59,7 +59,15 @@ resource "azurerm_container_app" "bushido" {
   }
 
   identity {
-    type = "SystemAssigned"
+    type = "UserAssigned"
+    identity_ids = [
+      azurerm_user_assigned_identity.bushido.id,
+    ]
+  }
+
+  registry {
+    server = azurerm_container_registry.bushido.login_server
+    identity = azurerm_user_assigned_identity.bushido.id
   }
 
 }
