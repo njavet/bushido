@@ -4,3 +4,4 @@ unique_suffix = "nj"
 
 # Initially use a public test image if you haven't pushed Bushido to ACR yet.
 # container_image = "mcr.microsoft.com/k8se/quickstart:latest"
+container_image = "nautilus"
