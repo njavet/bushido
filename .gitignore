@@ -192,4 +192,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# terraform
 .terraform/
+
+*.tfstate
+*.tfstate.*
+
+*.tfvars
