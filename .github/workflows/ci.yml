@@ -3,6 +3,7 @@ name: CI
 on: 
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,51 +16,61 @@ jobs:
       - name: Checkout 
         uses: actions/checkout@v4
 
-      - name: Set up python
+      - name: set up python
         uses: actions/setup-python@v5
         with:
           python-version: '3.14'
 
-      - name: Install uv
+      - name: install uv
         uses: astral-sh/setup-uv@v6
 
-      - name: Install Dependencies
+      - name: install dependencies
         run: uv sync --all-packages --frozen
 
-      - name: Run Ruff check
+      - name: ruff
         run: |
           uv run ruff check .
           uv run ruff format --check .
 
-      - name: Run Typechecker
+      - name: mypy
         run: uv run mypy 
 
-      - name: Run tests
+      - name: tests
         run: uv run pytest 
 
-      - name: Build bushidolib
+      - name: build bushidolib
         run: uv build --package bushidolib
 
-      - name: Build server
+      - name: build server
         run: uv build --package bushido-server
 
-      - name: Build tui client
+      - name: build tui client
         run: uv build --package tui-client
 
-      - name: Build server Docker image
+      - name: build server docker image
         run: |
           docker build \
             -f bushido-server/Dockerfile \
             -t bushido-server:${{ github.sha }} \
             .
 
-      - name: Smoke test container
+      - name: smoke test container
         run: |
           docker run -d \
             --name bushido-server \
             -p 8000:8000 \
             bushido-server:${{ github.sha }}
+          
+          for i in {1..20}; do
+            if curl --fail http://localhost:8000/api/health/live; then
+              exit 0
+            fi
+            sleep 1
+          done
 
-          sleep 3
+          docker logs bushido-server
+          exit 1
 
-          curl --fail http://localhost:8000/docs
+      - name: stop smoke-test container
+        if: always()
+        run: docker rm -f bushido-server || true

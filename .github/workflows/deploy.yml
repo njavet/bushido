@@ -1,0 +1,87 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "bushido-server/**"
+      - "bushidolib/**"
+      - "uv.lock"
+      - "pyproject.toml"
+      - ".github/workflows/deploy.yml"
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  ACR_NAME: acrbushidopjywbz
+  ACR_REPOSITORY: bushido-server
+  RESOURCE_GROUP: rg-bushido-dev
+  CONTAINER_APP: ca-bushido-dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get ACR login server
+        id: acr
+        run: |
+          ACR_SERVER=$(az acr show \
+            --name "$ACR_NAME" \
+            --query loginServer \
+            -o tsv)
+
+          echo "server=$ACR_SERVER" >> "$GITHUB_OUTPUT"
+
+      - name: Login to ACR
+        run: az acr login --name "$ACR_NAME"
+
+      - name: Build image
+        run: |
+          docker build \
+            -f bushido-server/Dockerfile \
+            -t "${{ steps.acr.outputs.server }}/${ACR_REPOSITORY}:${{ github.sha }}" \
+            .
+
+      - name: Push image
+        run: |
+          docker push \
+            "${{ steps.acr.outputs.server }}/${ACR_REPOSITORY}:${{ github.sha }}"
+
+      - name: Deploy image
+        run: |
+          az containerapp update \
+            --name "$CONTAINER_APP" \
+            --resource-group "$RESOURCE_GROUP" \
+            --image "${{ steps.acr.outputs.server }}/${ACR_REPOSITORY}:${{ github.sha }}"
+
+      - name: Smoke test deployment
+        run: |
+          FQDN=$(az containerapp show \
+            --name "$CONTAINER_APP" \
+            --resource-group "$RESOURCE_GROUP" \
+            --query properties.configuration.ingress.fqdn \
+            -o tsv)
+
+          for i in {1..30}; do
+            if curl --fail "https://${FQDN}/api/health/live"; then
+              exit 0
+            fi
+            sleep 5
+          done
+
+          exit 1
