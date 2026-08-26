@@ -36,8 +36,12 @@ def create_parser() -> ArgumentParser:
 
 @asynccontextmanager
 async def lifespan(app_: FastAPI) -> AsyncIterator[None]:
-    app_.state.sf = SessionFactory(db_url=DB_URL)
-    yield
+    sf = SessionFactory(db_url=DB_URL)
+    app_.state.sf = sf
+    try:
+        yield
+    finally:
+        sf.engine.dispose()
 
 
 def create_app() -> FastAPI:
