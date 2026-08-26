@@ -66,8 +66,7 @@ resource "azurerm_container_app" "bushido" {
   }
 
   registry {
-    server = azurerm_container_registry.bushido.login_server
+    server   = azurerm_container_registry.bushido.login_server
     identity = azurerm_user_assigned_identity.bushido.id
   }
-
 }
