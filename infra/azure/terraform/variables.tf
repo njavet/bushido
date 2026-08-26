@@ -2,10 +2,6 @@ variable "subscription_id" {
   type = string
 }
 
-variable "unique_suffix" {
-  type = string
-}
-
 variable "location" {
     type    = string
     default = "Switzerland North"

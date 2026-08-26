@@ -1,5 +1,5 @@
 resource "azurerm_mssql_server" "bushido" {
-  name                = "sql-bushido-${var.unique_suffix}"
+  name                = "sql-bushido-${random_string.suffix.result}"
   resource_group_name = azurerm_resource_group.bushido.name
   location            = azurerm_resource_group.bushido.location
 
