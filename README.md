@@ -34,6 +34,7 @@ test
 
 `psql -h localhost -U bushido -d bushido`
 
+## terraform
 -> wip
 
 ### Installation for usage
