@@ -10,6 +10,7 @@ on:
       - "uv.lock"
       - "pyproject.toml"
       - ".github/workflows/deploy.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
