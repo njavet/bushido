@@ -1,6 +1,6 @@
-# sunday
 from enum import StrEnum
 
+# sunday
 WEEK_START_DAY = 6
 
 # 0400

@@ -8,6 +8,14 @@ class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
 
 
+class Spartan(Base):
+    """user account"""
+
+    __tablename__ = "spartan"
+
+    name: Mapped[str] = mapped_column(unique=True)
+
+
 class UnitCategoryTable(Base):
     __tablename__ = "unit_category"
 
@@ -19,12 +27,6 @@ class UnitSettingTable(Base):
 
     name: Mapped[str] = mapped_column(unique=True)
     category_id: Mapped[int] = mapped_column(ForeignKey(UnitCategoryTable.id))
-
-
-class Spartan(Base):
-    __tablename__ = "spartan"
-
-    name: Mapped[str] = mapped_column(unique=True)
 
 
 class UnitTable(Base):
