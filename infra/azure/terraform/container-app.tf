@@ -11,6 +11,11 @@ resource "azurerm_container_app" "bushido" {
 
   revision_mode = "Single"
 
+  secret {
+    name  = "db-url"
+    value = local.db_url
+  }
+
   template {
     min_replicas = 0
     max_replicas = 1
@@ -20,6 +25,11 @@ resource "azurerm_container_app" "bushido" {
       image  = "${azurerm_container_registry.bushido.login_server}/bushido-server:latest"
       cpu    = 0.25
       memory = "0.5Gi"
+
+      env {
+        name        = "BUSHIDO_DB_URL"
+        secret_name = "db-url"
+      }
 
       env {
         name  = "DB_HOST"
