@@ -1,21 +1,23 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Request
+from sqlalchemy import text
 
 router = APIRouter()
 
 
-@router.get("/health/startup")
-def startup() -> dict[str, str]:
-    # has initialization completed ?
-    return {"status": "ok"}
-
-
 @router.get("/health/live")
 def liveness() -> dict[str, str]:
-    # is this process broken ?
     return {"status": "ok"}
 
 
 @router.get("/health/ready")
-def readiness() -> dict[str, str]:
-    # should requests send now ?
+def readiness(request: Request) -> dict[str, str]:
+    try:
+        with request.app.state.sf() as session:
+            session.execute(text("SELECT 1"))
+    except Exception as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="Database unavailable",
+        ) from exc
+
     return {"status": "ok"}
