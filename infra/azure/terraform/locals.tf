@@ -1,13 +1,11 @@
 locals {
-  prefix = "bushido-dev"
+  resource_group_name            = "rg-${var.project_name}-${var.environment}"
+  container_app_environment_name = "cae-${var.project_name}-${var.environment}"
+  container_app_name             = "ca-${var.project_name}-${var.environment}"
+  identity_name                  = "id-${var.project_name}-${var.environment}"
 
-  resource_group_name            = "rg-${local.prefix}"
-  container_app_environment_name = "cae-${local.prefix}"
-  container_app_name             = "ca-${local.prefix}"
-  identity_name                  = "id-${local.prefix}"
-
-  acr_name             = "acr${replace(local.prefix, "-", "")}${random_string.suffix.result}"
-  postgres_server_name = "psql-${local.prefix}-${random_string.suffix.result}"
+  acr_name             = "acr${var.project_name}${random_string.suffix.result}"
+  postgres_server_name = "psql-${var.project_name}-${var.environment}-${random_string.suffix.result}"
   postgres_db_name     = "bushido-db"
 
   db_host                = azurerm_postgresql_flexible_server.bushido.fqdn

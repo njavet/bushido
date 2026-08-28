@@ -2,6 +2,11 @@ variable "subscription_id" {
   type = string
 }
 
+variable "project_name" {
+    type    = string
+    default = "bushido"
+}
+
 variable "environment" {
   type    = string
   default = "dev"
