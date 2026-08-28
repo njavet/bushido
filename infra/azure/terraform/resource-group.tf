@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "bushido" {
-  name     = "rg-${local.prefix}"
+  name     = local.resource_group_name
   location = var.location
 }

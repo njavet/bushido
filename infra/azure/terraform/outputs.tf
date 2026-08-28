@@ -1,9 +1,9 @@
-output "sql_server" {
-  value = azurerm_mssql_server.bushido.fully_qualified_domain_name
+output "postgres_server" {
+  value = azurerm_postgresql_flexible_server.bushido.fqdn
 }
 
 output "database_name" {
-  value = azurerm_mssql_database.bushido.name
+  value = azurerm_postgresql_flexible_server_database.bushido.name
 }
 
 output "fastapi_url" {

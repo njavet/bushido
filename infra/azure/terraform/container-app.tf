@@ -1,18 +1,18 @@
 resource "azurerm_container_app_environment" "bushido" {
-  name                = "cae-bushido-dev"
+  name                = local.container_app_environment_name
   resource_group_name = azurerm_resource_group.bushido.name
   location            = azurerm_resource_group.bushido.location
 }
 
 resource "azurerm_container_app" "bushido" {
-  name                         = "ca-bushido-dev"
+  name                         = local.container_app_name
   container_app_environment_id = azurerm_container_app_environment.bushido.id
   resource_group_name          = azurerm_resource_group.bushido.name
 
   revision_mode = "Single"
 
   secret {
-    name  = "db-url"
+    name  = "postgres-url"
     value = local.db_url
   }
 
@@ -22,40 +22,20 @@ resource "azurerm_container_app" "bushido" {
 
     container {
       name   = "bushido-server"
-      image  = "${azurerm_container_registry.bushido.login_server}/bushido-server:latest"
+      image  = local.container_image
       cpu    = 0.25
       memory = "0.5Gi"
 
       env {
-        name        = "BUSHIDO_DB_URL"
-        secret_name = "db-url"
+        name  = "DB_BACKEND"
+        value = "postgres"
       }
 
       env {
-        name  = "DB_HOST"
-        value = azurerm_mssql_server.bushido.fully_qualified_domain_name
-      }
-
-      env {
-        name  = "DB_NAME"
-        value = azurerm_mssql_database.bushido.name
-      }
-
-      env {
-        name  = "DB_USER"
-        value = var.sql_admin_user
-      }
-
-      env {
-        name        = "DB_PASSWORD"
-        secret_name = "db-password"
+        name        = "POSTGRES_URL"
+        secret_name = "postgres-url"
       }
     }
-  }
-
-  secret {
-    name  = "db-password"
-    value = var.sql_admin_password
   }
 
   ingress {

@@ -1,0 +1,9 @@
+subscription_id = "00000000-0000-0000-0000-000000000000"
+location        = "Switzerland North"
+
+# Optional. When null, Terraform deploys from the ACR image:
+# <acr_login_server>/bushido-server:latest
+container_image = null
+
+postgres_admin_user     = "bushidoadmin"
+postgres_admin_password = "CHANGE_ME"

@@ -5,7 +5,7 @@ resource "random_string" "suffix" {
 }
 
 resource "azurerm_container_registry" "bushido" {
-  name                = "acrbushido${random_string.suffix.result}"
+  name                = local.acr_name
   resource_group_name = azurerm_resource_group.bushido.name
   location            = azurerm_resource_group.bushido.location
   sku                 = "Basic"
