@@ -12,7 +12,7 @@ def liveness() -> dict[str, str]:
 @router.get("/health/ready")
 def readiness(request: Request) -> dict[str, str]:
     try:
-        with request.app.state.sf() as session:
+        with request.app.state.sf.session() as session:
             session.execute(text("SELECT 1"))
     except Exception as exc:
         raise HTTPException(
