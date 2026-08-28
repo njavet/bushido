@@ -16,6 +16,7 @@ dependencies = [
     "polars>=1.41.2",
     "psycopg[binary]>=3.3.4",
     "pydantic>=2.13.4",
+    "pydantic-settings>=2.15.0",
     "rich>=15.0.0",
     "sqlalchemy>=2.0.49",
 ]

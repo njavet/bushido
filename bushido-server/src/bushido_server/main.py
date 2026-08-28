@@ -1,5 +1,4 @@
 import logging
-import os
 import sys
 from argparse import ArgumentParser
 from collections.abc import AsyncIterator
@@ -7,12 +6,14 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from dotenv import load_dotenv
+from sqlalchemy import URL
 from fastapi import FastAPI
 from rich.logging import RichHandler
 from starlette.middleware.cors import CORSMiddleware
 
 from bushido_server import __version__
 from bushido_server.api import router
+from bushido_server.conf import DbBackend, Settings, settings
 from bushido_server.persistence import SessionFactory
 
 logging.basicConfig(
@@ -21,10 +22,45 @@ logging.basicConfig(
     handlers=[RichHandler(rich_tracebacks=True, show_time=False)],
 )
 
-# TODO refactor
-load_dotenv()
-PORT = int(os.environ.get("DEFAULT_PORT", "8000"))
-DB_URL = os.environ.get("BUSHIDO_DB_URL", "sqlite:///bushido.db")
+
+logger = logging.getLogger(__name__)
+
+
+def get_db_url(settings: Settings) -> str | URL:
+    match settings.db_backend:
+        case DbBackend.SQLITE:
+            return f"sqlite:///{settings.sqlite_path}"
+
+        case DbBackend.POSTGRES:
+            if settings.postgres_url is None:
+                raise ValueError("POSTGRES_URL is required")
+            return settings.postgres_url
+
+        case DbBackend.AZURE_SQL:
+            if (
+                settings.azure_sql_host is None
+                or settings.azure_sql_database is None
+                or settings.azure_sql_user is None
+                or settings.azure_sql_password is None
+            ):
+                raise ValueError("Azure SQL configuration incomplete")
+
+            return URL.create(
+                "mssql+pyodbc",
+                username=settings.azure_sql_user,
+                password=settings.azure_sql_password,
+                host=settings.azure_sql_host,
+                port=1433,
+                database=settings.azure_sql_database,
+                query={
+                    "driver": "ODBC Driver 18 for SQL Server",
+                    "Encrypt": "yes",
+                    "TrustServerCertificate": "no",
+                },
+            )
+
+        case _:
+            raise ValueError(f"Unsupported DB backend: {settings.db_backend}")
 
 
 def create_parser() -> ArgumentParser:
@@ -36,11 +72,19 @@ def create_parser() -> ArgumentParser:
 
 @asynccontextmanager
 async def lifespan(app_: FastAPI) -> AsyncIterator[None]:
-    sf = SessionFactory(db_url=DB_URL)
+    logger.info('starting application')
+    db_url = get_db_url(settings)
+    sf = SessionFactory(db_url=db_url)
     app_.state.sf = sf
+    logger.info(
+        "database configured: backend=%s database=%s",
+        sf.engine.url.get_backend_name(),
+        sf.engine.url.database,
+    )
     try:
         yield
     finally:
+        logger.info("shutting down application")
         sf.engine.dispose()
 
 
