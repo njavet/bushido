@@ -1,5 +1,5 @@
 resource "azurerm_virtual_network" "bushido" {
-  name                = "vnet-${local.prefix}"
+  name                = "vnet-${var.project_name}-${var.environment}"
   location            = azurerm_resource_group.bushido.location
   resource_group_name = azurerm_resource_group.bushido.name
 

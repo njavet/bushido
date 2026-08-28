@@ -3,8 +3,8 @@ variable "subscription_id" {
 }
 
 variable "project_name" {
-    type    = string
-    default = "bushido"
+  type    = string
+  default = "bushido"
 }
 
 variable "environment" {
