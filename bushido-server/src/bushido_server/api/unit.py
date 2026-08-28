@@ -24,11 +24,17 @@ async def process_load_unit_settings_request(session: SessionDep) -> list[UnitSe
 async def process_log_request(
     request: LogUnitRequest, session: SessionDep
 ) -> LoggedUnit:
-    return log_unit(request.line, session)
+    try:
+        return log_unit(request.line, session)
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
 @router.post("/unit-logs/query")
 async def process_load_units_request(
     request: LoadUnitRequest, session: SessionDep
 ) -> LoadedUnits:
-    return load_units(request, session)
+    try:
+        return load_units(request, session)
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
