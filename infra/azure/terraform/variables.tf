@@ -2,6 +2,11 @@ variable "subscription_id" {
   type = string
 }
 
+variable "environment" {
+    type = string
+    default = "dev"
+}
+
 variable "location" {
   type = object({
     token     = string
