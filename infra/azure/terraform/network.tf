@@ -34,7 +34,6 @@ resource "azurerm_private_dns_zone" "postgres" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "postgres" {
   name                  = "bushido-postgres"
-  resource_group_name   = azurerm_resource_group.bushido.name
-  private_dns_zone_name = azurerm_private_dns_zone.postgres.name
+  private_dns_zone_id   = azurerm_private_dns_zone.postgres.id
   virtual_network_id    = azurerm_virtual_network.bushido.id
 }

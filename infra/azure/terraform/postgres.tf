@@ -8,8 +8,8 @@ resource "azurerm_postgresql_flexible_server" "bushido" {
   administrator_login    = var.postgres_admin_user
   administrator_password = var.postgres_admin_password
 
-  delegated_subnet_id    = azurerm_subnet.postgres.id
-  private_dns_zone_id    = azurerm_private_dns_zone.postgres.id
+  delegated_subnet_id = azurerm_subnet.postgres.id
+  private_dns_zone_id = azurerm_private_dns_zone.postgres.id
 
   sku_name   = "B_Standard_B1ms"
   storage_mb = 32768

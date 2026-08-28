@@ -3,8 +3,14 @@ variable "subscription_id" {
 }
 
 variable "location" {
-  type    = string
-  default = "Switzerland North"
+  type = object({
+    token     = string
+    full_name = string
+  })
+  default = {
+    token     = "swn"
+    full_name = "Switzerland North"
+  }
 }
 
 variable "container_image" {
