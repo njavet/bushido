@@ -17,7 +17,7 @@ def readiness(request: Request) -> dict[str, str]:
     except Exception as exc:
         raise HTTPException(
             status_code=503,
-            detail="Database unavailable",
+            detail=str(exc),
         ) from exc
 
     return {"status": "ok"}

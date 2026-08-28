@@ -5,10 +5,9 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 import uvicorn
-from dotenv import load_dotenv
-from sqlalchemy import URL
 from fastapi import FastAPI
 from rich.logging import RichHandler
+from sqlalchemy import URL
 from starlette.middleware.cors import CORSMiddleware
 
 from bushido_server import __version__
@@ -72,7 +71,7 @@ def create_parser() -> ArgumentParser:
 
 @asynccontextmanager
 async def lifespan(app_: FastAPI) -> AsyncIterator[None]:
-    logger.info('starting application')
+    logger.info("starting application")
     db_url = get_db_url(settings)
     sf = SessionFactory(db_url=db_url)
     app_.state.sf = sf
@@ -114,7 +113,7 @@ def main() -> None:
         uvicorn.run(
             app,
             host="0.0.0.0",
-            port=PORT,
+            port=settings.port,
             log_level="info",
         )
 

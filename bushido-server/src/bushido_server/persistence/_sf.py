@@ -1,13 +1,13 @@
 from collections.abc import Iterator
 from contextlib import contextmanager
 
-from sqlalchemy import create_engine
+from sqlalchemy import URL, create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
 
 class SessionFactory:
-    def __init__(self, db_url: str) -> None:
+    def __init__(self, db_url: str | URL) -> None:
         self._db_url = db_url
         self._engine = create_engine(db_url)
         self._sessionmaker = sessionmaker(bind=self._engine, expire_on_commit=False)
@@ -17,7 +17,7 @@ class SessionFactory:
         return self._engine
 
     @property
-    def db_url(self) -> str:
+    def db_url(self) -> str | URL:
         return self._db_url
 
     @contextmanager

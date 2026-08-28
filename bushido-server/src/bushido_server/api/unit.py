@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from bushido_server.api.deps import SessionDep
 from bushido_server.schema.req import LoadUnitRequest, LogUnitRequest
@@ -14,7 +14,10 @@ router = APIRouter()
 
 @router.get("/unit-settings")
 async def process_load_unit_settings_request(session: SessionDep) -> list[UnitSetting]:
-    return load_unit_mappings(session)
+    try:
+        return load_unit_mappings(session)
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
 @router.post("/unit-logs")
