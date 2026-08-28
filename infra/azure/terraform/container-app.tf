@@ -1,7 +1,9 @@
 resource "azurerm_container_app_environment" "bushido" {
   name                = local.container_app_environment_name
-  resource_group_name = azurerm_resource_group.bushido.name
   location            = azurerm_resource_group.bushido.location
+  resource_group_name = azurerm_resource_group.bushido.name
+
+  infrastructure_subnet_id = azurerm_subnet.container_apps.id
 }
 
 resource "azurerm_container_app" "bushido" {

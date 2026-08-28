@@ -6,6 +6,21 @@ resource "azurerm_virtual_network" "bushido" {
   address_space = ["10.0.0.0/16"]
 }
 
+resource "azurerm_subnet" "container_apps" {
+  name                 = "snet-container-apps"
+  resource_group_name  = azurerm_resource_group.bushido.name
+  virtual_network_name = azurerm_virtual_network.bushido.name
+
+  address_prefixes = ["10.0.2.0/27"]
+
+  delegation {
+    name = "container-apps"
+
+    service_delegation {
+      name = "Microsoft.App/environments"
+    }
+  }
+}
 
 resource "azurerm_subnet" "postgres" {
   name                 = "snet-postgres"
