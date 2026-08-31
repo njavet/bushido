@@ -19,12 +19,12 @@ class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def get_unit_setting_id(self, unit_name: str) -> int:
+    def get_unit_config_id(self, unit_name: str) -> int:
         stmt = select(UnitConfigTable.id).where(UnitConfigTable.name == unit_name)
         return self.session.scalars(stmt).one()
 
-    def get_unit_setting_name(self, setting_id: int) -> str:
-        stmt = select(UnitConfigTable.name).where(UnitConfigTable.id == setting_id)
+    def get_unit_config_name(self, config_id: int) -> str:
+        stmt = select(UnitConfigTable.name).where(UnitConfigTable.id == config_id)
         return self.session.scalars(stmt).one()
 
     def add_unit(self, unit: T_DOMAIN) -> None:

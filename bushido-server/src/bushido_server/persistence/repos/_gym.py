@@ -11,7 +11,7 @@ class GymUnitRepo(BaseUnitRepo[GymUnit, GymUnitTable]):
 
     @override
     def _to_orm(self, unit: GymUnit) -> GymUnitTable:
-        setting_id = self.get_unit_setting_id(unit.name)
+        setting_id = self.get_unit_config_id(unit.name)
         return GymUnitTable(
             unit_setting_id=setting_id,
             log_time=unit.log_time,

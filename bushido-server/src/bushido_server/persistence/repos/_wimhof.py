@@ -11,9 +11,9 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
 
     @override
     def _to_orm(self, unit: WimhofUnit) -> WimhofUnitTable:
-        setting_id = self.get_unit_setting_id(unit.name)
+        config_id = self.get_unit_config_id(unit.name)
         orm_unit = WimhofUnitTable(
-            unit_setting_id=setting_id,
+            unit_config_id=config_id,
             log_time=unit.log_time,
             comment=unit.comment,
         )
@@ -25,7 +25,7 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
 
     @override
     def _from_orm(self, orm_unit: WimhofUnitTable) -> WimhofUnit:
-        name = self.get_unit_setting_name(orm_unit.unit_setting_id)
+        name = self.get_unit_config_name(orm_unit.unit_config_id)
         lst = []
         for r in orm_unit.subunits:
             ws = WimhofRoundData(

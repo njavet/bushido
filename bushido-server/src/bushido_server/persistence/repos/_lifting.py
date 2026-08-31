@@ -14,7 +14,7 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
 
     @override
     def _to_orm(self, unit: LiftingUnit) -> LiftingUnitTable:
-        setting_id = self.get_unit_setting_id(unit.name)
+        setting_id = self.get_unit_config_id(unit.name)
         orm_unit = LiftingUnitTable(
             unit_setting_id=setting_id,
             comment=unit.comment,

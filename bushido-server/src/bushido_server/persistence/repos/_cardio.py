@@ -11,7 +11,7 @@ class CardioUnitRepo(BaseUnitRepo[CardioUnit, CardioUnitTable]):
 
     @override
     def _to_orm(self, unit: CardioUnit) -> CardioUnitTable:
-        setting_id = self.get_unit_setting_id(unit.name)
+        setting_id = self.get_unit_config_id(unit.name)
         return CardioUnitTable(
             unit_setting_id=setting_id,
             log_time=unit.log_time,
