@@ -9,7 +9,7 @@ from sqlalchemy.orm.interfaces import ORMOption
 from bushidolib.constants import UnitCategory
 from bushidolib.unit import BaseUnit, UnitSetting
 
-from ..models import UnitCategoryTable, UnitConfigTable, UnitTable
+from ..models import UnitConfigTable, UnitTable
 
 
 class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
@@ -52,13 +52,5 @@ class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
 
 
 def load_unit_settings(session: Session) -> list[UnitSetting]:
-    stmt = select(
-        UnitConfigTable.name,
-        UnitCategoryTable.name.label("category"),
-    ).join(
-        UnitCategoryTable,
-        UnitConfigTable.category_id == UnitCategoryTable.id,
-    )
-
-    result = session.execute(stmt).all()
+    result = session.execute(select(UnitConfigTable)).all()
     return [UnitSetting(name=r.name, category=UnitCategory(r.category)) for r in result]
