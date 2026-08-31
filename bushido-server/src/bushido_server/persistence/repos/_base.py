@@ -52,5 +52,7 @@ class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
 
 
 def load_unit_settings(session: Session) -> list[UnitSetting]:
-    result = session.execute(select(UnitConfigTable)).all()
+    result = session.execute(
+        select(UnitConfigTable.name, UnitConfigTable.category)
+    ).all()
     return [UnitSetting(name=r.name, category=UnitCategory(r.category)) for r in result]

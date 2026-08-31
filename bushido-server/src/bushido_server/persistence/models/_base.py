@@ -22,7 +22,7 @@ class UnitConfigTable(Base):
     __tablename__ = "unit_config"
 
     name: Mapped[str] = mapped_column(unique=True)
-    unit_category: Mapped[UnitCategory] = mapped_column()
+    category: Mapped[UnitCategory] = mapped_column()
 
 
 class UnitTable(Base):
@@ -31,5 +31,4 @@ class UnitTable(Base):
     comment: Mapped[str | None] = mapped_column()
     log_time: Mapped[datetime.datetime] = mapped_column()
 
-    spartan_id: Mapped[int] = mapped_column()
     unit_config_id: Mapped[int] = mapped_column(ForeignKey(UnitConfigTable.id))

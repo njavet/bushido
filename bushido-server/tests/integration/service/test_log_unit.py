@@ -9,7 +9,6 @@ from bushido_server.persistence.models import (
     Base,
     LiftingSet,
     LiftingUnitTable,
-    UnitCategoryTable,
     UnitConfigTable,
 )
 from bushido_server.service import log_unit
@@ -21,9 +20,7 @@ def session_factory() -> SessionFactory:
     sf = SessionFactory("sqlite+pysqlite:///:memory:")
     Base.metadata.create_all(sf.engine)
     with sf.session() as session:
-        session.add(UnitCategoryTable(name=UnitCategory.LIFTING))
-        session.commit()
-        session.add(UnitConfigTable(name="benchpress", category_id=1))
+        session.add(UnitConfigTable(name="benchpress", category=UnitCategory.LIFTING))
         session.commit()
     return sf
 
