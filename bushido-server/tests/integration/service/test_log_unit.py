@@ -10,7 +10,7 @@ from bushido_server.persistence.models import (
     LiftingSet,
     LiftingUnitTable,
     UnitCategoryTable,
-    UnitSettingTable,
+    UnitConfigTable,
 )
 from bushido_server.service import log_unit
 from bushidolib.constants import UnitCategory
@@ -23,7 +23,7 @@ def session_factory() -> SessionFactory:
     with sf.session() as session:
         session.add(UnitCategoryTable(name=UnitCategory.LIFTING))
         session.commit()
-        session.add(UnitSettingTable(name="benchpress", category_id=1))
+        session.add(UnitConfigTable(name="benchpress", category_id=1))
         session.commit()
     return sf
 

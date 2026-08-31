@@ -9,7 +9,7 @@ from sqlalchemy.orm.interfaces import ORMOption
 from bushidolib.constants import UnitCategory
 from bushidolib.unit import BaseUnit, UnitSetting
 
-from ..models import UnitCategoryTable, UnitSettingTable, UnitTable
+from ..models import UnitCategoryTable, UnitConfigTable, UnitTable
 
 
 class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
@@ -20,11 +20,11 @@ class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
         self.session = session
 
     def get_unit_setting_id(self, unit_name: str) -> int:
-        stmt = select(UnitSettingTable.id).where(UnitSettingTable.name == unit_name)
+        stmt = select(UnitConfigTable.id).where(UnitConfigTable.name == unit_name)
         return self.session.scalars(stmt).one()
 
     def get_unit_setting_name(self, setting_id: int) -> str:
-        stmt = select(UnitSettingTable.name).where(UnitSettingTable.id == setting_id)
+        stmt = select(UnitConfigTable.name).where(UnitConfigTable.id == setting_id)
         return self.session.scalars(stmt).one()
 
     def add_unit(self, unit: T_DOMAIN) -> None:
@@ -53,11 +53,11 @@ class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
 
 def load_unit_settings(session: Session) -> list[UnitSetting]:
     stmt = select(
-        UnitSettingTable.name,
+        UnitConfigTable.name,
         UnitCategoryTable.name.label("category"),
     ).join(
         UnitCategoryTable,
-        UnitSettingTable.category_id == UnitCategoryTable.id,
+        UnitConfigTable.category_id == UnitCategoryTable.id,
     )
 
     result = session.execute(stmt).all()
