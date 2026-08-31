@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: bushido
+      POSTGRES_PASSWORD: bushido
+      POSTGRES_DB: bushido
+    networks:
+      - backend
+
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg://bushido:bushido@postgres:5432/bushido
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+
+networks:
+    backend:
+        driver: bridge
+
+
