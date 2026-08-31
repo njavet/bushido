@@ -14,9 +14,9 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
 
     @override
     def _to_orm(self, unit: LiftingUnit) -> LiftingUnitTable:
-        setting_id = self.get_unit_config_id(unit.name)
+        config_id = self.get_unit_config_id(unit.name)
         orm_unit = LiftingUnitTable(
-            unit_setting_id=setting_id,
+            unit_config_id=config_id,
             comment=unit.comment,
             log_time=unit.log_time,
         )
@@ -28,7 +28,7 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
 
     @override
     def _from_orm(self, orm_unit: LiftingUnitTable) -> LiftingUnit:
-        name = self.get_unit_setting_name(orm_unit.unit_setting_id)
+        name = self.get_unit_config_name(orm_unit.unit_config_id)
         lst = []
         for s in orm_unit.subunits:
             sp = LiftingSetData(
