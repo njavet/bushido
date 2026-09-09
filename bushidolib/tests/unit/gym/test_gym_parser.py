@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from bushidolib.category.gym import GymData, parse_gym_unit
+from bushidolib.category.gym import GymData, parse_gym_data
 
 
 @pytest.mark.parametrize(
@@ -35,5 +35,5 @@ from bushidolib.category.gym import GymData, parse_gym_unit
     ],
 )
 def test_correct_gym_units(tokens: tuple[str, ...], expected: GymData) -> None:
-    unit_data = parse_gym_unit(tokens)
+    unit_data = parse_gym_data(tokens)
     assert unit_data == expected

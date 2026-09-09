@@ -29,7 +29,6 @@ def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
 
     return LiftingData(
         variant=None,
-        program=None,
         sets=[
             LiftingSetData(set_nr=i, weight=weight, reps=rep, rest=rest)
             for i, (weight, rep, rest) in enumerate(

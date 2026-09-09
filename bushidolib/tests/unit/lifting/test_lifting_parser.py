@@ -1,6 +1,6 @@
 import pytest
 
-from bushidolib.category.lifting import LiftingData, LiftingSetData, parse_lifting_unit
+from bushidolib.category.lifting import LiftingData, LiftingSetData, parse_lifting_data
 from bushidolib.exceptions import UnitParsingError
 
 
@@ -14,7 +14,6 @@ from bushidolib.exceptions import UnitParsingError
                     LiftingSetData(set_nr=0, weight=100.0, reps=5, rest=180.0),
                     LiftingSetData(set_nr=1, weight=100.0, reps=5, rest=0.0),
                 ],
-                program=None,
                 variant=None,
             ),
         ),
@@ -22,7 +21,6 @@ from bushidolib.exceptions import UnitParsingError
             ("120", "5"),
             LiftingData(
                 sets=[LiftingSetData(set_nr=0, weight=120.0, reps=5, rest=0.0)],
-                program=None,
                 variant=None,
             ),
         ),
@@ -34,14 +32,13 @@ from bushidolib.exceptions import UnitParsingError
                     LiftingSetData(set_nr=1, weight=160.0, reps=2.0, rest=90.0),
                     LiftingSetData(set_nr=2, weight=100.0, reps=20.0, rest=0.0),
                 ],
-                program=None,
                 variant=None,
             ),
         ),
     ],
 )
 def test_correct_lifting_units(tokens: tuple[str, ...], expected: LiftingData) -> None:
-    unit_data = parse_lifting_unit(tokens)
+    unit_data = parse_lifting_data(tokens)
     assert unit_data == expected
 
 
@@ -55,4 +52,4 @@ def test_correct_lifting_units(tokens: tuple[str, ...], expected: LiftingData) -
 )
 def test_correct_error_message(tokens: tuple[str, ...], expected: str) -> None:
     with pytest.raises(UnitParsingError, match=expected):
-        _ = parse_lifting_unit(tokens)
+        _ = parse_lifting_data(tokens)
