@@ -28,6 +28,7 @@ UnitData = Annotated[
     Field(discriminator="unit_category"),
 ]
 
+
 class BaseUnit(BaseModel):
     name: str
     log_time: datetime.datetime
