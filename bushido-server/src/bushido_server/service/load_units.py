@@ -9,8 +9,8 @@ from bushido_server.persistence.repos import (
 from bushido_server.schema.req import LoadUnitRequest
 from bushido_server.schema.res import LoadedUnits
 from bushidolib.constants import UnitCategory
-from bushidolib.gym import GymData, GymUnit
 from bushidolib.units.cardio import CardioData, CardioUnit
+from bushidolib.units.gym import GymData, GymUnit
 from bushidolib.units.lifting import LiftingData, LiftingUnit
 from bushidolib.wimhof import WimhofData, WimhofUnit
 

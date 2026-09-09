@@ -13,7 +13,7 @@ from textual.widgets import (
 )
 
 from bushidolib.constants import UnitCategory
-from bushidolib.gym import GymUnit
+from bushidolib.units.gym import GymUnit
 from bushidolib.units.lifting import LiftingUnit
 from tui_client.api_client import BushidoApiClient
 from tui_client.dtypes import UnitLogResult

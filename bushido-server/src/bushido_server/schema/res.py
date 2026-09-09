@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-from bushidolib.gym import GymUnit
 from bushidolib.units.cardio import CardioUnit
+from bushidolib.units.gym import GymUnit
 from bushidolib.units.lifting import LiftingUnit
 from bushidolib.wimhof import WimhofUnit
 

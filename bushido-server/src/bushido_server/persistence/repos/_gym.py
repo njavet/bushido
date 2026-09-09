@@ -1,6 +1,6 @@
 from typing import override
 
-from bushidolib.gym import GymData, GymUnit
+from bushidolib.units.gym import GymData, GymUnit
 
 from ..models import GymUnitTable
 from ._base import BaseUnitRepo
