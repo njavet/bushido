@@ -3,7 +3,7 @@ from bushidolib.exceptions import UnitParsingError
 from ._spec import WimhofData, WimhofRoundData
 
 
-def parse(tokens: tuple[str, ...]) -> WimhofData:
+def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
     breaths = [int(b) for b in tokens[::2]]
     retentions = [int(r) for r in tokens[1::2]]
     if len(breaths) == 0:
