@@ -11,7 +11,7 @@ from bushido_server.schema.res import LoadedUnits
 from bushidolib.cardio import CardioData, CardioUnit
 from bushidolib.constants import UnitCategory
 from bushidolib.gym import GymData, GymUnit
-from bushidolib.lifting import LiftingData, LiftingUnit
+from bushidolib.units.lifting import LiftingData, LiftingUnit
 from bushidolib.wimhof import WimhofData, WimhofUnit
 
 

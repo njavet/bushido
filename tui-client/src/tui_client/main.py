@@ -14,7 +14,7 @@ from textual.widgets import (
 
 from bushidolib.constants import UnitCategory
 from bushidolib.gym import GymUnit
-from bushidolib.lifting import LiftingUnit
+from bushidolib.units.lifting import LiftingUnit
 from tui_client.api_client import BushidoApiClient
 from tui_client.dtypes import UnitLogResult
 from tui_client.screens import LogUnitScreen
