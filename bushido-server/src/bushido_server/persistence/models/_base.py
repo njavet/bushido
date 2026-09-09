@@ -30,4 +30,4 @@ class UnitTable(Base):
     comment: Mapped[str | None] = mapped_column()
     log_time: Mapped[datetime.datetime] = mapped_column()
 
-    spartan_id: Mapped[int] = mapped_column(ForeignKey(Spartan.id))
+    spartan_id: Mapped[int] = mapped_column(ForeignKey(Spartan.id), nullable=False)
