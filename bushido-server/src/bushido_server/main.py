@@ -11,7 +11,7 @@ from sqlalchemy import URL
 from starlette.middleware.cors import CORSMiddleware
 
 from bushido_server import __version__
-from bushido_server.api import router
+from bushido_server.api import auth_router, router
 from bushido_server.conf import DbBackend, Settings, settings
 from bushido_server.persistence import SessionFactory
 
@@ -97,6 +97,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     app_.include_router(router)
+    app_.include_router(auth_router)
     return app_
 
 
