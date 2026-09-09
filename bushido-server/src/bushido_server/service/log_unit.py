@@ -16,8 +16,7 @@ from bushidolib.category.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts import LoggedUnit
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.parsing import parse_raw_unit
-from bushidolib.unit import RawUnit
+from bushidolib.unit import RawUnit, parse_raw_unit
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo

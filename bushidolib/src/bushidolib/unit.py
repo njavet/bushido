@@ -5,21 +5,31 @@ from bushidolib.category.cardio import CardioData
 from bushidolib.category.gym import GymData
 from bushidolib.category.lifting import LiftingData
 from bushidolib.category.wimhof import WimhofData
+from bushidolib.exceptions import UnitParsingError
 
 
 @dataclass(frozen=True, slots=True)
 class RawUnit:
     name: str
     tokens: tuple[str, ...]
-    options: list[str]
     comment: str | None = None
 
 
 UnitData = Annotated[
     CardioData | GymData | LiftingData | WimhofData,
 ]
-
 @dataclass(frozen=True, slots=True)
 class Unit:
-    comment: str | None
     data: UnitData
+    comment: str | None
+
+
+def parse_raw_unit(line: str) -> RawUnit:
+    body, sep, comment = line.partition("#")
+    raw_tokens = tuple(body.split())
+
+    if not raw_tokens:
+        raise UnitParsingError(f"Empty unit line: {line}")
+
+    comment_ = comment.strip() if sep and comment.strip() else None
+    return RawUnit(name=raw_tokens[0], tokens=tuple(raw_tokens[1:]), comment=comment_)
