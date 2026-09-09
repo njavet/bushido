@@ -2,8 +2,8 @@ from typing import Literal
 
 from pydantic import BaseModel
 
+from bushidolib.category.unit import BaseUnit
 from bushidolib.constants import UnitCategory
-from bushidolib.unit import BaseUnit
 
 grammar = """
 <name> (<weight> <reps> [<rest>])+ -p <program> -v <variant> # [<comment>]

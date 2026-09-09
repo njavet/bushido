@@ -2,8 +2,8 @@ from unittest.mock import Mock, patch
 
 from fastapi.testclient import TestClient
 
+from bushidolib.category.unit import UnitSetting
 from bushidolib.constants import UnitCategory
-from bushidolib.unit import UnitSetting
 
 
 def test_get_unit_settings(
