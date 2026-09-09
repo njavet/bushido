@@ -9,13 +9,13 @@ from bushido_server.persistence.repos import (
     WimhofUnitRepo,
     load_unit_settings,
 )
-from bushidolib.cardio import CardioData, CardioUnit, parse_cardio_unit
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts import LoggedUnit
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.gym import GymData, GymUnit, parse_gym_unit
 from bushidolib.parsing import parse_raw_unit, split_options
 from bushidolib.unit import RawUnit
+from bushidolib.units.cardio import CardioData, CardioUnit, parse_cardio_unit
 from bushidolib.units.lifting import LiftingData, LiftingUnit, parse_lifting_unit
 from bushidolib.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
 
