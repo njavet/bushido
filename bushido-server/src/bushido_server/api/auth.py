@@ -5,7 +5,7 @@ from bushido_server.api.deps import SessionDep
 from bushido_server.auth.passwords import hash_password, verify_password
 from bushido_server.auth.tokens import create_access_token
 from bushido_server.persistence.models import Spartan
-from bushido_server.schema.auth import (  # pydantic DTOs
+from bushido_server.schema.auth import (
     LoginRequest,
     RegisterRequest,
     Token,
