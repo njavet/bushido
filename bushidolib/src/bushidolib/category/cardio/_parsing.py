@@ -11,9 +11,9 @@ def parse(tokens: tuple[str, ...]) -> CardioData:
     start_t = parse_military_time_string(tokens[0])
     seconds = time_string_to_seconds(tokens[1])
     try:
-        location = tokens[2]
+        gym = tokens[2]
     except IndexError as e:
-        raise UnitParsingError("no location") from e
+        raise UnitParsingError("no gym") from e
 
     try:
         distance = float(tokens[3])
@@ -35,7 +35,7 @@ def parse(tokens: tuple[str, ...]) -> CardioData:
     return CardioData(
         start_t=start_t,
         seconds=seconds,
-        location=location,
+        gym=gym,
         distance=distance,
         avg_hr=avg_hr,
         max_hr=max_hr,

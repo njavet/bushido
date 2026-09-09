@@ -16,7 +16,7 @@ class CardioUnitRepo(BaseUnitRepo[CardioUnit, CardioUnitTable]):
             log_time=unit.log_time,
             start_t=unit.data.start_t,
             seconds=unit.data.seconds,
-            location=unit.data.location,
+            gym=unit.data.gym,
             distance=unit.data.distance,
             avg_hr=unit.data.avg_hr,
             max_hr=unit.data.max_hr,
@@ -31,7 +31,7 @@ class CardioUnitRepo(BaseUnitRepo[CardioUnit, CardioUnitTable]):
             data=CardioData(
                 start_t=orm_unit.start_t,
                 seconds=orm_unit.seconds,
-                location=orm_unit.location,
+                gym=orm_unit.gym,
                 distance=orm_unit.distance,
                 avg_hr=orm_unit.avg_hr,
                 max_hr=orm_unit.max_hr,

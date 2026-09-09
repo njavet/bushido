@@ -1,7 +1,13 @@
 import datetime
+from dataclasses import Field
+from typing import Annotated
 
 from pydantic import BaseModel
 
+from bushidolib.category.cardio import CardioData
+from bushidolib.category.gym import GymData
+from bushidolib.category.lifting import LiftingData
+from bushidolib.category.wimhof import WimhofData
 from bushidolib.constants import UnitCategory
 
 
@@ -16,6 +22,11 @@ class RawUnit(BaseModel):
     options: list[str]
     comment: str | None
 
+
+UnitData = Annotated[
+    CardioData | GymData | LiftingData | WimhofData,
+    Field(discriminator="unit_category"),
+]
 
 class BaseUnit(BaseModel):
     name: str

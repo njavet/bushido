@@ -3,7 +3,6 @@ from typing import Literal
 from pydantic import BaseModel
 
 from bushidolib.constants import UnitCategory
-from bushidolib.unit import BaseUnit
 
 grammar = """
 <name> (<weight> <reps> [<rest>])+ -p <program> -v <variant> # [<comment>]
@@ -18,11 +17,6 @@ class LiftingSetData(BaseModel):
 
 
 class LiftingData(BaseModel):
+    unit_category: Literal[UnitCategory.GYM] = UnitCategory.GYM
     variant: str | None
-    program: str | None
     sets: list[LiftingSetData]
-
-
-class LiftingUnit(BaseUnit):
-    unit_category: Literal[UnitCategory.LIFTING] = UnitCategory.LIFTING
-    data: LiftingData
