@@ -7,7 +7,7 @@ from bushidolib.parsing import (
 from ._spec import CardioData
 
 
-def parse(tokens: tuple[str, ...]) -> CardioData:
+def parse_cardio_data(tokens: tuple[str, ...]) -> CardioData:
     start_t = parse_military_time_string(tokens[0])
     seconds = time_string_to_seconds(tokens[1])
     try:
