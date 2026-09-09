@@ -17,7 +17,7 @@ from bushidolib.unit import RawUnit
 from bushidolib.units.cardio import CardioData, CardioUnit, parse_cardio_unit
 from bushidolib.units.gym import GymData, GymUnit, parse_gym_unit
 from bushidolib.units.lifting import LiftingData, LiftingUnit, parse_lifting_unit
-from bushidolib.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
+from bushidolib.units.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo

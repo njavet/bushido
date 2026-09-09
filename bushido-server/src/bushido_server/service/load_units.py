@@ -12,7 +12,7 @@ from bushidolib.constants import UnitCategory
 from bushidolib.units.cardio import CardioData, CardioUnit
 from bushidolib.units.gym import GymData, GymUnit
 from bushidolib.units.lifting import LiftingData, LiftingUnit
-from bushidolib.wimhof import WimhofData, WimhofUnit
+from bushidolib.units.wimhof import WimhofData, WimhofUnit
 
 
 def load_units(request: LoadUnitRequest, session: Session) -> LoadedUnits:

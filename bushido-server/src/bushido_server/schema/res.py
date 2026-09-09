@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from bushidolib.units.cardio import CardioUnit
 from bushidolib.units.gym import GymUnit
 from bushidolib.units.lifting import LiftingUnit
-from bushidolib.wimhof import WimhofUnit
+from bushidolib.units.wimhof import WimhofUnit
 
 
 class UnitLogResponse(BaseModel):
