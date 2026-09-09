@@ -3,7 +3,7 @@ from bushidolib.exceptions import UnitParsingError
 from ._spec import LiftingData, LiftingSetData
 
 
-def parse(tokens: tuple[str, ...]) -> LiftingData:
+def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
     try:
         weights = [float(w) for w in tokens[::3]]
     except ValueError as e:

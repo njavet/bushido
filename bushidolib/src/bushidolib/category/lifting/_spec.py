@@ -17,6 +17,6 @@ class LiftingSetData(BaseModel):
 
 
 class LiftingData(BaseModel):
-    unit_category: Literal[UnitCategory.GYM] = UnitCategory.GYM
+    unit_category: Literal[UnitCategory.LIFTING] = UnitCategory.LIFTING
     variant: str | None
     sets: list[LiftingSetData]
