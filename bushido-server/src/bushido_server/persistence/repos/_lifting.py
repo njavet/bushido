@@ -14,9 +14,8 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
 
     @override
     def _to_orm(self, unit: LiftingUnit) -> LiftingUnitTable:
-        setting_id = self.get_unit_setting_id(unit.name)
         orm_unit = LiftingUnitTable(
-            unit_setting_id=setting_id,
+            name=unit.name,
             comment=unit.comment,
             log_time=unit.log_time,
         )
@@ -28,7 +27,6 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
 
     @override
     def _from_orm(self, orm_unit: LiftingUnitTable) -> LiftingUnit:
-        name = self.get_unit_setting_name(orm_unit.unit_setting_id)
         lst = []
         for s in orm_unit.subunits:
             sp = LiftingSetData(
@@ -36,7 +34,7 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
             )
             lst.append(sp)
         return LiftingUnit(
-            name=name,
+            name=orm_unit.name,
             data=LiftingData(sets=lst, program=None, variant=None),
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,

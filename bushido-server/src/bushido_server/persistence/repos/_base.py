@@ -6,10 +6,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
-from bushidolib.category.unit import BaseUnit, UnitSetting
-from bushidolib.constants import UnitCategory
+from bushidolib.category.unit import BaseUnit
 
-from ..models import UnitCategoryTable, UnitSettingTable, UnitTable
+from ..models import UnitTable
 
 
 class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
@@ -18,14 +17,6 @@ class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
 
     def __init__(self, session: Session) -> None:
         self.session = session
-
-    def get_unit_setting_id(self, unit_name: str) -> int:
-        stmt = select(UnitSettingTable.id).where(UnitSettingTable.name == unit_name)
-        return self.session.scalars(stmt).one()
-
-    def get_unit_setting_name(self, setting_id: int) -> str:
-        stmt = select(UnitSettingTable.name).where(UnitSettingTable.id == setting_id)
-        return self.session.scalars(stmt).one()
 
     def add_unit(self, unit: T_DOMAIN) -> None:
         self.session.add(self._to_orm(unit))
@@ -49,16 +40,3 @@ class BaseUnitRepo[T_DOMAIN: BaseUnit, T_ORM: UnitTable](ABC):
 
     @abstractmethod
     def _from_orm(self, orm_unit: T_ORM) -> T_DOMAIN: ...
-
-
-def load_unit_settings(session: Session) -> list[UnitSetting]:
-    stmt = select(
-        UnitSettingTable.name,
-        UnitCategoryTable.name.label("category"),
-    ).join(
-        UnitCategoryTable,
-        UnitSettingTable.category_id == UnitCategoryTable.id,
-    )
-
-    result = session.execute(stmt).all()
-    return [UnitSetting(name=r.name, category=UnitCategory(r.category)) for r in result]

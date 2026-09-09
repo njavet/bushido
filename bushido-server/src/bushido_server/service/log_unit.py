@@ -7,8 +7,8 @@ from bushido_server.persistence.repos import (
     GymUnitRepo,
     LiftingUnitRepo,
     WimhofUnitRepo,
-    load_unit_settings,
 )
+from bushido_server.settings import UNIT_REGISTRY
 from bushidolib.category.cardio import CardioData, CardioUnit, parse_cardio_unit
 from bushidolib.category.gym import GymData, GymUnit, parse_gym_unit
 from bushidolib.category.lifting import LiftingData, LiftingUnit, parse_lifting_unit
@@ -24,9 +24,6 @@ UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
 
 
 def log_unit(line: str, session: Session) -> LoggedUnit:
-    unit_settings = {
-        setting.name: setting.category for setting in load_unit_settings(session)
-    }
     raw_unit = parse_raw_unit(line)
     log_time = datetime.datetime.now(tz=datetime.UTC)
     for option in raw_unit.options:
@@ -35,7 +32,7 @@ def log_unit(line: str, session: Session) -> LoggedUnit:
                 tzinfo=datetime.UTC
             )
 
-    category = unit_settings.get(raw_unit.name)
+    category = UNIT_REGISTRY.get(raw_unit.name)
     match category:
         case UnitCategory.CARDIO:
             return log_cardio_unit(raw_unit, log_time, session)

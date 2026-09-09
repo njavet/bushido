@@ -23,23 +23,11 @@ class Spartan(Base):
     )
 
 
-class UnitCategoryTable(Base):
-    __tablename__ = "unit_category"
-
-    name: Mapped[str] = mapped_column(unique=True)
-
-
-class UnitSettingTable(Base):
-    __tablename__ = "unit_setting"
-
-    name: Mapped[str] = mapped_column(unique=True)
-    category_id: Mapped[int] = mapped_column(ForeignKey(UnitCategoryTable.id))
-
-
 class UnitTable(Base):
     __abstract__ = True
 
+    name: Mapped[str] = mapped_column()
     comment: Mapped[str | None] = mapped_column()
     log_time: Mapped[datetime.datetime] = mapped_column()
 
-    unit_setting_id: Mapped[int] = mapped_column(ForeignKey(UnitSettingTable.id))
+    spartan_id: Mapped[int] = mapped_column(ForeignKey(Spartan.id))
