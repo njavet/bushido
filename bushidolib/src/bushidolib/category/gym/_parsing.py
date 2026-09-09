@@ -4,7 +4,7 @@ from bushidolib.parsing import parse_start_end_time_string
 from ._spec import GymData
 
 
-def parse(tokens: tuple[str, ...]) -> GymData:
+def parse_gym_data(tokens: tuple[str, ...]) -> GymData:
     start_t, end_t = parse_start_end_time_string(tokens[0])
     try:
         location = tokens[1]
