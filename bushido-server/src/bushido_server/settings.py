@@ -1,3 +1,16 @@
 from bushidolib.constants import UnitCategory
 
-UNIT_REGISTRY = {"squat": UnitCategory.LIFTING}
+UNIT_REGISTRY = {
+    "running": UnitCategory.CARDIO,
+    "swimming": UnitCategory.CARDIO,
+    "skipping": UnitCategory.CARDIO,
+    "kyokushin": UnitCategory.GYM,
+    "grappling": UnitCategory.GYM,
+    "lifting": UnitCategory.GYM,
+    "squat": UnitCategory.LIFTING,
+    "deadlift": UnitCategory.LIFTING,
+    "benchpress": UnitCategory.LIFTING,
+    "overheadpress": UnitCategory.LIFTING,
+    "rows": UnitCategory.LIFTING,
+    "wimhof": UnitCategory.WIMHOF,
+}
