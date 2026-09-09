@@ -9,6 +9,7 @@ license = {text = "GPL-3"}
 readme = "README.md"
 requires-python = ">=3.14,<4.0.0"
 dependencies = [
+    "bcrypt>=5.0.0",
     "bushidolib",
     "dotenv>=0.9.9",
     "fastapi[standard]>=0.136.1",
