@@ -1,36 +1,25 @@
-import datetime
-from dataclasses import Field
+from dataclasses import dataclass
 from typing import Annotated
-
-from pydantic import BaseModel
 
 from bushidolib.category.cardio import CardioData
 from bushidolib.category.gym import GymData
 from bushidolib.category.lifting import LiftingData
 from bushidolib.category.wimhof import WimhofData
-from bushidolib.constants import UnitCategory
 
 
-class UnitSetting(BaseModel):
-    name: str
-    category: UnitCategory
-
-
-class RawUnit(BaseModel):
+@dataclass(frozen=True, slots=True)
+class RawUnit:
     name: str
     tokens: tuple[str, ...]
     options: list[str]
-    comment: str | None
+    comment: str | None = None
 
 
 UnitData = Annotated[
     CardioData | GymData | LiftingData | WimhofData,
-    Field(discriminator="unit_category"),
 ]
 
-
-class Unit(BaseModel):
-    name: str
-    log_time: datetime.datetime
+@dataclass(frozen=True, slots=True)
+class Unit:
     comment: str | None
     data: UnitData

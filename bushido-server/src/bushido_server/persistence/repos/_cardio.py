@@ -1,16 +1,17 @@
 from typing import override
 
+from bushidolib.unit import Unit
 from bushidolib.category.cardio import CardioData, CardioUnit
 
 from ..models import CardioUnitTable
 from ._base import BaseUnitRepo
 
 
-class CardioUnitRepo(BaseUnitRepo[CardioUnit, CardioUnitTable]):
+class CardioUnitRepo(BaseUnitRepo[Unit, CardioUnitTable]):
     orm_cls = CardioUnitTable
 
     @override
-    def _to_orm(self, unit: CardioUnit) -> CardioUnitTable:
+    def _to_orm(self, unit: Unit) -> CardioUnitTable:
         return CardioUnitTable(
             name=unit.name,
             log_time=unit.log_time,
@@ -25,8 +26,8 @@ class CardioUnitRepo(BaseUnitRepo[CardioUnit, CardioUnitTable]):
         )
 
     @override
-    def _from_orm(self, orm_unit: CardioUnitTable) -> CardioUnit:
-        return CardioUnit(
+    def _from_orm(self, orm_unit: CardioUnitTable) -> Unit:
+        return Unit(
             name=orm_unit.name,
             data=CardioData(
                 start_t=orm_unit.start_t,
