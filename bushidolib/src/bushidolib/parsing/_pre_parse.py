@@ -4,29 +4,28 @@ from bushidolib.exceptions import UnitParsingError
 
 def parse_raw_unit(line: str) -> RawUnit:
     body, sep, comment = line.partition("#")
-    tokens = tuple(body.split())
+    raw_tokens = tuple(body.split())
 
-    if not tokens:
+    if not raw_tokens:
         raise UnitParsingError(f"Empty unit line: {line}")
 
-    name = tokens[0]
-    tokens = tokens[1:]
     comment_ = comment.strip() if sep and comment.strip() else None
-    return RawUnit(name=name, tokens=tokens, comment=comment_)
+    return split_options(raw_tokens, comment_)
 
 
-def split_options(tokens: tuple[str, ...]) -> tuple[tuple[str, ...], str | None]:
-    clean: list[str] = []
-    log_time: str | None = None
-    i = 0
-    while i < len(tokens):
-        token = tokens[i]
-        if token == "--dt":
-            if i + 1 >= len(tokens):
-                raise UnitParsingError("--dt requires a value")
-            log_time = tokens[i + 1]
-            i += 2
-            continue
-        clean.append(token)
+def split_options(raw_tokens: tuple[str, ...], comment: str | None) -> RawUnit:
+    tokens: list[str] = []
+    options: list[str] = []
+
+    i = 1
+    while i < len(raw_tokens):
+        token = raw_tokens[i]
+        if token.startswith("--"):
+            options.append(token)
+        else:
+            tokens.append(token)
         i += 1
-    return tuple(clean), log_time
+
+    return RawUnit(
+        name=raw_tokens[0], tokens=tuple(tokens), options=options, comment=comment
+    )

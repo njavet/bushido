@@ -17,7 +17,7 @@ from bushidolib.category.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts import LoggedUnit
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.parsing import parse_raw_unit, split_options
+from bushidolib.parsing import parse_raw_unit
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
@@ -28,13 +28,12 @@ def log_unit(line: str, session: Session) -> LoggedUnit:
         setting.name: setting.category for setting in load_unit_settings(session)
     }
     raw_unit = parse_raw_unit(line)
-    raw_unit.tokens, log_time_str = split_options(raw_unit.tokens)
-    if log_time_str is None:
-        log_time = datetime.datetime.now(tz=datetime.UTC)
-    else:
-        log_time = datetime.datetime.strptime(log_time_str, "%Y%m%d-%H%M").replace(
-            tzinfo=datetime.UTC
-        )
+    log_time = datetime.datetime.now(tz=datetime.UTC)
+    for option in raw_unit.options:
+        if option.startswith("--dt"):
+            log_time = datetime.datetime.strptime(option[4:], "%Y%m%d-%H%M").replace(
+                tzinfo=datetime.UTC
+            )
 
     category = unit_settings.get(raw_unit.name)
     match category:
