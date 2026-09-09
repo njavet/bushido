@@ -8,11 +8,11 @@ from bushido_server.persistence.repos import (
 )
 from bushido_server.schema.req import LoadUnitRequest
 from bushido_server.schema.res import LoadedUnits
+from bushidolib.category.cardio import CardioData, CardioUnit
+from bushidolib.category.gym import GymData, GymUnit
+from bushidolib.category.lifting import LiftingData, LiftingUnit
+from bushidolib.category.wimhof import WimhofData, WimhofUnit
 from bushidolib.constants import UnitCategory
-from bushidolib.units.cardio import CardioData, CardioUnit
-from bushidolib.units.gym import GymData, GymUnit
-from bushidolib.units.lifting import LiftingData, LiftingUnit
-from bushidolib.units.wimhof import WimhofData, WimhofUnit
 
 
 def load_units(request: LoadUnitRequest, session: Session) -> LoadedUnits:

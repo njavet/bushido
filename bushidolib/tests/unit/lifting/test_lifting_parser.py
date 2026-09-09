@@ -1,7 +1,7 @@
 import pytest
 
+from bushidolib.category.lifting import LiftingData, LiftingSetData, parse_lifting_unit
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.units.lifting import LiftingData, LiftingSetData, parse_lifting_unit
 
 
 @pytest.mark.parametrize(

@@ -3,8 +3,8 @@ from unittest.mock import Mock, patch
 
 from fastapi.testclient import TestClient
 
+from bushidolib.category.lifting import LiftingData, LiftingSetData, LiftingUnit
 from bushidolib.constants import UnitCategory
-from bushidolib.units.lifting import LiftingData, LiftingSetData, LiftingUnit
 
 
 def test_query_units(

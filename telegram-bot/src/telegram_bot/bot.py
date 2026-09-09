@@ -38,7 +38,7 @@ class BushidoTelegramBot:
     ) -> None:
         text = event.raw_text.strip()
 
-        if text == "/units":
+        if text == "/category":
             await self._handle_units(event)
             return
 
@@ -47,7 +47,7 @@ class BushidoTelegramBot:
             return
 
         await event.reply(
-            "Commands:\n/units\n/log <unit command>\n/load <unit command>"
+            "Commands:\n/category\n/log <unit command>\n/load <unit command>"
         )
 
     async def _handle_units(

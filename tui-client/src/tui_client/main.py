@@ -12,9 +12,9 @@ from textual.widgets import (
     TabPane,
 )
 
+from bushidolib.category.gym import GymUnit
+from bushidolib.category.lifting import LiftingUnit
 from bushidolib.constants import UnitCategory
-from bushidolib.units.gym import GymUnit
-from bushidolib.units.lifting import LiftingUnit
 from tui_client.api_client import BushidoApiClient
 from tui_client.dtypes import UnitLogResult
 from tui_client.screens import LogUnitScreen

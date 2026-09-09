@@ -8,7 +8,7 @@ from textual.widgets import (
     RichLog,
 )
 
-from bushidolib.units.gym import GymUnit
+from bushidolib.category.gym import GymUnit
 
 
 class GymContainer(Container):
