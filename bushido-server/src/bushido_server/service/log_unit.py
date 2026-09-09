@@ -12,12 +12,12 @@ from bushido_server.settings import UNIT_REGISTRY
 from bushidolib.category.cardio import CardioData, CardioUnit, parse_cardio_unit
 from bushidolib.category.gym import GymData, GymUnit, parse_gym_unit
 from bushidolib.category.lifting import LiftingData, LiftingUnit, parse_lifting_unit
-from bushidolib.category.unit import RawUnit
 from bushidolib.category.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts import LoggedUnit
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.parsing import parse_raw_unit
+from bushidolib.unit import RawUnit
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
