@@ -2,7 +2,9 @@ import datetime
 import os
 
 import jwt
+from dotenv import load_dotenv
 
+load_dotenv()
 SECRET_KEY = os.environ["JWT_SECRET_KEY"]  # from Azure App Service config / Key Vault
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 1 week — tune to taste
