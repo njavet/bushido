@@ -29,7 +29,8 @@ UnitData = Annotated[
 ]
 
 
-class BaseUnit(BaseModel):
+class Unit(BaseModel):
     name: str
     log_time: datetime.datetime
     comment: str | None
+    data: UnitData
