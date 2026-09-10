@@ -35,6 +35,7 @@ def build_unit(raw_unit: RawUnit, log_time: datetime.datetime, data: UnitData) -
         comment=raw_unit.comment,
     )
 
+
 def parse_raw_unit(line: str) -> RawUnit:
     body, sep, comment = line.partition("#")
     raw_tokens = tuple(body.split())
