@@ -10,6 +10,7 @@ readme = "README.md"
 requires-python = ">=3.14,<4.0.0"
 dependencies = [
     "bushidolib",
+    "bushido-client",
     "platformdirs>=4.9.6",
     "polars>=1.41.2",
     "pydantic>=2.13.4",
@@ -20,6 +21,7 @@ dependencies = [
 
 [tool.uv.sources]
 bushidolib = { workspace = true }
+bushido-client = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

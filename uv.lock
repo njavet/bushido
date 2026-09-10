@@ -2140,6 +2140,7 @@ name = "tui-client"
 version = "0.1.0"
 source = { editable = "tui-client" }
 dependencies = [
+    { name = "bushido-client" },
     { name = "bushidolib" },
     { name = "platformdirs" },
     { name = "polars" },
@@ -2156,6 +2157,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "bushido-client", editable = "bushido-client" },
     { name = "bushidolib", editable = "bushidolib" },
     { name = "platformdirs", specifier = ">=4.9.6" },
     { name = "polars", specifier = ">=1.41.2" },
