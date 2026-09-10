@@ -21,7 +21,7 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
         )
         orm_unit.subunits = [
             LiftingSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
-            for s in unit.data.sets
+            for s in unit.sets
         ]
         return orm_unit
 
@@ -35,7 +35,8 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
             lst.append(sp)
         return LiftingUnit(
             name=orm_unit.name,
-            data=LiftingData(sets=lst, program=None, variant=None),
+            sets=lst,
+            variant=orm_unit.variant,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )

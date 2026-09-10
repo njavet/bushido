@@ -14,11 +14,9 @@ class GymUnitRepo(BaseUnitRepo[GymUnit, GymUnitTable]):
         return GymUnitTable(
             name=unit.name,
             log_time=unit.log_time,
-            start_t=unit.data.start_t,
-            end_t=unit.data.end_t,
-            gym=unit.data.gym,
-            training=unit.data.training,
-            focus=unit.data.focus,
+            start_t=unit.start_t,
+            end_t=unit.end_t,
+            gym=unit.gym,
             comment=unit.comment,
         )
 
@@ -26,13 +24,9 @@ class GymUnitRepo(BaseUnitRepo[GymUnit, GymUnitTable]):
     def _from_orm(self, orm_unit: GymUnitTable) -> GymUnit:
         return GymUnit(
             name=orm_unit.name,
-            data=GymData(
-                start_t=orm_unit.start_t,
-                end_t=orm_unit.end_t,
-                gym=orm_unit.gym,
-                training=orm_unit.training,
-                focus=orm_unit.focus,
-            ),
+            start_t=orm_unit.start_t,
+            end_t=orm_unit.end_t,
+            gym=orm_unit.gym,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )

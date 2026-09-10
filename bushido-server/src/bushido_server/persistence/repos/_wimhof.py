@@ -18,7 +18,7 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
         )
         orm_unit.subunits = [
             WimhofRound(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
-            for r in unit.data.rounds
+            for r in unit.rounds
         ]
         return orm_unit
 
@@ -32,7 +32,7 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
             lst.append(ws)
         return WimhofUnit(
             name=orm_unit.name,
-            data=WimhofData(rounds=lst),
+            rounds=lst,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
