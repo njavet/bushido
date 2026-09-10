@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 
-from bushidolib.cardio import CardioUnit, parse_cardio_unit
+from bushidolib.category.cardio import CardioUnit, parse_cardio_unit
 from bushidolib.constants import UnitCategory
 from bushidolib.gym import GymUnit, parse_gym_unit
 from bushidolib.lifting import LiftingUnit, parse_lifting_unit
