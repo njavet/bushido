@@ -31,6 +31,7 @@ indent-width = 4
 src = [
     "bushidolib/src",
     "bushido-server/src",
+    "bushido-client/src",
     "tui-client/src",
 	"telegram-bot/src",
 ]
@@ -87,6 +88,7 @@ ignore = [
 known-first-party = [
     "busidolib",
     "bushido_server",
+    "bushido_client",
     "tui_client",
 	"telegram-bot",
 ]
@@ -111,6 +113,8 @@ files = [
     "bushidolib/tests",
     "bushido-server/src",
     "bushido-server/tests",
+    "bushido-client/src",
+    "bushido-client/tests",
     "tui-client/src",
     "tui-client/tests",
 	"telegram-bot/src",
@@ -120,6 +124,7 @@ files = [
 mypy_path = [
     "bushidolib/src",
     "bushido-server/src",
+    "bushido-client/src",
     "tui-client/src",
 	"telegram-bot/src",
 ]
@@ -179,6 +184,7 @@ ignore_missing_imports = true
 testpaths = [
     "bushidolib/tests",
     "bushido-server/tests",
+    "bushido-client/tests",
     "tui-client/tests",
 	"telegram-bot/tests",
 ]
