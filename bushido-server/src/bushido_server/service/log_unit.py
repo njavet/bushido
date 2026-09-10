@@ -1,23 +1,16 @@
 import datetime
 
-from bushidolib.category.base import (
-    parse_raw_unit,
-    split_options,
-)
 from sqlalchemy.orm import Session
 
 from bushido_server.dtypes import Clock, SystemClock
-from bushido_server.persistence.repos import (
-    CardioUnitRepo,
-    GymUnitRepo,
-    LiftingUnitRepo,
-    WimhofUnitRepo,
-)
-from bushido_server.settings import UNIT_NAME_REGISTRY
 from bushido_server.registry import CATEGORY_REGISTRY
-from bushidolib.category.base import BaseUnit
+from bushido_server.settings import UNIT_NAME_REGISTRY
+from bushidolib.category.base import (
+    BaseUnit,
+    parse_raw_unit,
+    split_options,
+)
 from bushidolib.exceptions import UnitParsingError
-
 
 
 def log_unit(line: str, session: Session) -> BaseUnit:
