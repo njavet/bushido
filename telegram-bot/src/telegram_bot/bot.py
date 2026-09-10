@@ -54,10 +54,7 @@ class BushidoTelegramBot:
         self,
         event: TelegramEvent,
     ) -> None:
-        settings = await self._api.load_unit_settings()
-
-        lines = [f"{setting.name} [{setting.category}]" for setting in settings]
-
+        lines = ['test']
         await event.reply("\n".join(lines))
 
     async def _handle_log(

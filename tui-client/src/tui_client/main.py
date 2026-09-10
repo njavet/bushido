@@ -104,7 +104,7 @@ class BushidoApp(App[None]):
 async def async_main() -> None:
     api_client = BushidoApiClient(base_url="http://localhost:8000")
     try:
-        settings = await api_client.load_unit_settings()
+        settings = [{'name': 'yo', 'category': 'yo'}]
     except httpx.ConnectError:
         print("Failed to connect to the server. Is it running?")
         await api_client.close()
@@ -112,7 +112,7 @@ async def async_main() -> None:
 
     try:
         unit_settings = {
-            s.name: UnitConf(emoji=unit_emojis[s.name], category=s.category)
+            s['name']: UnitConf(emoji=unit_emojis['name'], category=UnitCategory(s['category']))
             for s in settings
         }
         app = BushidoApp(api_client=api_client, unit_settings=unit_settings)

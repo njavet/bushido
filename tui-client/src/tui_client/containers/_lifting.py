@@ -56,7 +56,7 @@ class LiftingTable(DataTable[str]):
             "",
         )
 
-        for lifting_set in unit.data.sets:
+        for lifting_set in unit.sets:
             self.add_row(
                 "",
                 str(lifting_set.set_nr),
