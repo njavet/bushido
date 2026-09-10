@@ -1,5 +1,6 @@
 import datetime
 from dataclasses import dataclass
+
 from pydantic import BaseModel
 
 from bushidolib.category.cardio import CardioData
@@ -7,7 +8,6 @@ from bushidolib.category.gym import GymData
 from bushidolib.category.lifting import LiftingData
 from bushidolib.category.wimhof import WimhofData
 from bushidolib.exceptions import UnitParsingError
-
 
 UnitData = CardioData | GymData | LiftingData | WimhofData
 
