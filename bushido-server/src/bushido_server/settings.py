@@ -1,6 +1,6 @@
 from bushidolib.constants import UnitCategory
 
-UNIT_REGISTRY = {
+UNIT_NAME_REGISTRY = {
     "running": UnitCategory.CARDIO,
     "swimming": UnitCategory.CARDIO,
     "skipping": UnitCategory.CARDIO,

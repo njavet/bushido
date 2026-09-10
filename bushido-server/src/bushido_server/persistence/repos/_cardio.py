@@ -7,8 +7,9 @@ from ..models import CardioUnitTable
 from ._base import BaseUnitRepo
 
 
-class CardioUnitRepo(BaseUnitRepo[Unit, CardioUnitTable]):
+class CardioUnitRepo(BaseUnitRepo[CardioData, CardioUnitTable]):
     orm_cls = CardioUnitTable
+    data_cls = CardioData
 
     @override
     def _to_orm(self, unit: Unit) -> CardioUnitTable:

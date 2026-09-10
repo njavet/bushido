@@ -2,21 +2,21 @@ import datetime
 
 from sqlalchemy.orm import Session
 
+from bushido_server.dtypes import Clock, SystemClock
 from bushido_server.persistence.repos import (
     CardioUnitRepo,
     GymUnitRepo,
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
-from bushido_server.settings import UNIT_REGISTRY
+from bushido_server.settings import UNIT_NAME_REGISTRY
 from bushidolib.category.cardio import CardioData, CardioUnit, parse_cardio_unit
 from bushidolib.category.gym import GymData, GymUnit, parse_gym_unit
 from bushidolib.category.lifting import LiftingData, LiftingUnit, parse_lifting_unit
 from bushidolib.category.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts import LoggedUnit
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.unit import RawUnit, parse_raw_unit
+from bushidolib.unit import RawUnit, build_unit, parse_raw_unit, split_options
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
@@ -24,25 +24,21 @@ UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
 
 def log_unit(line: str, session: Session) -> LoggedUnit:
     raw_unit = parse_raw_unit(line)
-    log_time = datetime.datetime.now(tz=datetime.UTC)
-    for option in raw_unit.options:
-        if option.startswith("--dt"):
-            log_time = datetime.datetime.strptime(option[4:], "%Y%m%d-%H%M").replace(
-                tzinfo=datetime.UTC
-            )
+    raw_unit.tokens, override = split_options(raw_unit.tokens)
+    log_time = resolve_log_time(override, SystemClock)
 
-    category = UNIT_REGISTRY.get(raw_unit.name)
-    match category:
-        case UnitCategory.CARDIO:
-            return log_cardio_unit(raw_unit, log_time, session)
-        case UnitCategory.GYM:
-            return log_gym_unit(raw_unit, log_time, session)
-        case UnitCategory.LIFTING:
-            return log_lifting_unit(raw_unit, log_time, session)
-        case UnitCategory.WIMHOF:
-            return log_wimhof_unit(raw_unit, log_time, session)
-        case _:
-            raise UnitParsingError(f"Unknown unit: {raw_unit.name}")
+    category = UNIT_NAME_REGISTRY.get(raw_unit.name)
+    if category is None:
+        raise UnitParsingError(f"Unknown unit: {raw_unit.name}")
+
+    unit = build_unit(raw_unit, category, log_time)
+
+
+def resolve_log_time(override: str | None, clock: Clock) -> datetime.datetime:
+    if override is None:
+        return clock.now()
+    # TODO handle user set timezone
+    return datetime.datetime.strptime(override, "%Y%m%d-%H%M").replace(tzinfo=datetime.UTC)
 
 
 def log_cardio_unit(
