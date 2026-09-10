@@ -3,15 +3,9 @@ from dataclasses import dataclass
 
 from pydantic import BaseModel
 
-from bushidolib.category.cardio import CardioData
-from bushidolib.category.gym import GymData
-from bushidolib.category.lifting import LiftingData
-from bushidolib.category.wimhof import WimhofData
 from bushidolib.constants import UnitCategory
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.registry import UNIT_TYPE_REGISTRY
-
-UnitData = CardioData | GymData | LiftingData | WimhofData
+from bushidolib.registry import UNIT_TYPE_REGISTRY, UnitData
 
 
 class Unit(BaseModel):
