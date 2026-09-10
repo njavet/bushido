@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
 from bushidolib.category.base import BaseUnit
+
 from ..models import UnitTable
 
 
