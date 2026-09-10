@@ -26,8 +26,14 @@ class UnitSpec:
 
 
 CATEGORY_REGISTRY: dict[UnitCategory, UnitSpec] = {
-    UnitCategory.CARDIO: UnitSpec(unit_repo=CardioUnitRepo, build_unit=build_cardio_unit),
+    UnitCategory.CARDIO: UnitSpec(
+        unit_repo=CardioUnitRepo, build_unit=build_cardio_unit
+    ),
     UnitCategory.GYM: UnitSpec(unit_repo=GymUnitRepo, build_unit=build_gym_unit),
-    UnitCategory.LIFTING: UnitSpec(unit_repo=LiftingUnitRepo, build_unit=build_lifting_unit),
-    UnitCategory.WIMHOF: UnitSpec(unit_repo=WimhofUnitRepo, build_unit=build_wimhof_unit),
+    UnitCategory.LIFTING: UnitSpec(
+        unit_repo=LiftingUnitRepo, build_unit=build_lifting_unit
+    ),
+    UnitCategory.WIMHOF: UnitSpec(
+        unit_repo=WimhofUnitRepo, build_unit=build_wimhof_unit
+    ),
 }

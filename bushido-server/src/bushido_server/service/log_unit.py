@@ -20,13 +20,13 @@ def log_unit(line: str, session: Session) -> BaseUnit:
 
     try:
         category = UNIT_NAME_REGISTRY[raw_unit.name]
-    except KeyError:
-        raise UnitParsingError(f"Unknown unit: {raw_unit.name}")
+    except KeyError as e:
+        raise UnitParsingError(f"Unknown unit: {raw_unit.name}") from e
 
     try:
         spec = CATEGORY_REGISTRY[category]
-    except KeyError:
-        raise UnitParsingError(f"Unknown unit category: {category}")
+    except KeyError as e:
+        raise UnitParsingError(f"Unknown unit category: {category}") from e
 
     repo = spec.unit_repo(session)
     unit = spec.build_unit(raw_unit, log_time)
