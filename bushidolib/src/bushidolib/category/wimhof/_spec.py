@@ -12,5 +12,4 @@ class WimhofRoundData(BaseModel):
 
 
 class WimhofData(BaseModel):
-    unit_category: Literal[UnitCategory.WIMHOF] = UnitCategory.WIMHOF
     rounds: list[WimhofRoundData]

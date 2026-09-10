@@ -7,7 +7,6 @@ from bushidolib.constants import UnitCategory
 
 
 class GymData(BaseModel):
-    unit_category: Literal[UnitCategory.GYM] = UnitCategory.GYM
     start_t: datetime.time
     end_t: datetime.time
     gym: str
