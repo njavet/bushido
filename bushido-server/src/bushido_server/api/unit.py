@@ -11,9 +11,7 @@ router = APIRouter()
 
 
 @router.post("/unit-logs")
-async def process_log_request(
-    request: LogUnitRequest, session: SessionDep
-) -> BaseUnit:
+async def process_log_request(request: LogUnitRequest, session: SessionDep) -> BaseUnit:
     try:
         return log_unit(request.line, session)
     except Exception as exc:

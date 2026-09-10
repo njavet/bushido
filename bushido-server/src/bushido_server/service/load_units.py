@@ -27,4 +27,3 @@ def load_units(request: LoadUnitRequest, session: Session) -> list[BaseUnit]:
             return repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
         case _:
             raise ValueError(f"Unknown unit category: {request.unit_category}")
-
