@@ -6,14 +6,8 @@ from bushido_server.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
-from bushido_server.registry import CATEGORY_REGISTRY
 from bushido_server.schema.req import LoadUnitRequest
-from bushido_server.schema.res import LoadedUnits
 from bushidolib.category.base import BaseUnit
-from bushidolib.category.cardio import CardioData, CardioUnit
-from bushidolib.category.gym import GymData, GymUnit
-from bushidolib.category.lifting import LiftingData, LiftingUnit
-from bushidolib.category.wimhof import WimhofData, WimhofUnit
 from bushidolib.constants import UnitCategory
 
 
