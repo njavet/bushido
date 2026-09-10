@@ -6,8 +6,10 @@ from bushido_server.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
+from bushido_server.registry import CATEGORY_REGISTRY
 from bushido_server.schema.req import LoadUnitRequest
 from bushido_server.schema.res import LoadedUnits
+from bushidolib.category.base import BaseUnit
 from bushidolib.category.cardio import CardioData, CardioUnit
 from bushidolib.category.gym import GymData, GymUnit
 from bushidolib.category.lifting import LiftingData, LiftingUnit
@@ -15,71 +17,20 @@ from bushidolib.category.wimhof import WimhofData, WimhofUnit
 from bushidolib.constants import UnitCategory
 
 
-def load_units(request: LoadUnitRequest, session: Session) -> LoadedUnits:
+def load_units(request: LoadUnitRequest, session: Session) -> list[BaseUnit]:
     match request.unit_category:
         case UnitCategory.CARDIO:
-            return load_cardio_units(request, session)
+            repo = CardioUnitRepo(session)
+            return repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
         case UnitCategory.GYM:
-            return load_gym_units(request, session)
+            repo = GymUnitRepo(session)
+            return repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
         case UnitCategory.LIFTING:
-            return load_lifting_units(request, session)
+            repo = LiftingUnitRepo(session)
+            return repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
         case UnitCategory.WIMHOF:
-            return load_wimhof_units(request, session)
+            repo = WimhofUnitRepo(session)
+            return repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
         case _:
             raise ValueError(f"Unknown unit category: {request.unit_category}")
 
-
-def load_cardio_units(request: LoadUnitRequest, session: Session) -> list[CardioUnit]:
-    repo = CardioUnitRepo(session)
-    units = repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
-    return [
-        CardioUnit(
-            name=unit.name,
-            log_time=unit.log_time,
-            comment=unit.comment,
-            data=CardioData.model_validate(unit.data),
-        )
-        for unit in units
-    ]
-
-
-def load_gym_units(request: LoadUnitRequest, session: Session) -> list[GymUnit]:
-    repo = GymUnitRepo(session)
-    units = repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
-    return [
-        GymUnit(
-            name=unit.name,
-            log_time=unit.log_time,
-            comment=unit.comment,
-            data=GymData.model_validate(unit.data),
-        )
-        for unit in units
-    ]
-
-
-def load_lifting_units(request: LoadUnitRequest, session: Session) -> list[LiftingUnit]:
-    repo = LiftingUnitRepo(session)
-    units = repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
-    return [
-        LiftingUnit(
-            name=unit.name,
-            log_time=unit.log_time,
-            comment=unit.comment,
-            data=LiftingData.model_validate(unit.data),
-        )
-        for unit in units
-    ]
-
-
-def load_wimhof_units(request: LoadUnitRequest, session: Session) -> list[WimhofUnit]:
-    repo = WimhofUnitRepo(session)
-    units = repo.fetch_units(start_t=request.start_time, end_t=request.end_time)
-    return [
-        WimhofUnit(
-            name=unit.name,
-            log_time=unit.log_time,
-            comment=unit.comment,
-            data=WimhofData.model_validate(unit.data),
-        )
-        for unit in units
-    ]
