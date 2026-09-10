@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 from ..base import BaseUnit
 
+
 class WimhofRoundData(BaseModel):
     round_nr: int
     breaths: int

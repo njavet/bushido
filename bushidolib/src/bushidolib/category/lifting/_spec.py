@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from ..base import BaseUnit
 
+from ..base import BaseUnit
 
 
 class LiftingSetData(BaseModel):
