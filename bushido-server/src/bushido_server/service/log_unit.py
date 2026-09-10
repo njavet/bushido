@@ -31,8 +31,9 @@ def log_unit(line: str, session: Session) -> LoggedUnit:
     raw_unit.tokens, override = split_options(raw_unit.tokens)
     log_time = resolve_log_time(override, SystemClock)
 
-    category = UNIT_NAME_REGISTRY.get(raw_unit.name)
-    if category is None:
+    try:
+        category = UNIT_NAME_REGISTRY[raw_unit.name]
+    except KeyError:
         raise UnitParsingError(f"Unknown unit: {raw_unit.name}")
 
     unit = build_unit(raw_unit, category, log_time)
