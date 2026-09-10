@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from fastapi.testclient import TestClient
 
-from bushidolib.category.lifting import LiftingData, LiftingSetData, LiftingUnit
+from bushidolib.category.lifting import LiftingSetData, LiftingUnit
 from bushidolib.constants import UnitCategory
 
 
@@ -23,14 +23,11 @@ def test_query_units(
                 tzinfo=datetime.UTC,
             ),
             comment=None,
-            data=LiftingData(
-                program=None,
-                variant=None,
-                sets=[
-                    LiftingSetData(set_nr=0, weight=128.0, reps=8, rest=180.0),
-                    LiftingSetData(set_nr=1, weight=128.0, reps=8, rest=0.0),
-                ],
-            ),
+            variant=None,
+            sets=[
+                LiftingSetData(set_nr=0, weight=128.0, reps=8, rest=180.0),
+                LiftingSetData(set_nr=1, weight=128.0, reps=8, rest=0.0),
+            ],
         ),
     ]
 

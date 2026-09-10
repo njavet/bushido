@@ -1,6 +1,7 @@
 import datetime
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Any
 
 from bushido_server.persistence.repos import (
     BaseUnitRepo,
@@ -21,7 +22,7 @@ from bushidolib.constants import UnitCategory
 
 @dataclass(frozen=True)
 class UnitSpec:
-    unit_repo: type[BaseUnitRepo]
+    unit_repo: type[BaseUnitRepo[Any, Any]]
     build_unit: Callable[[RawUnit, datetime.datetime], BaseUnit]
 
 
