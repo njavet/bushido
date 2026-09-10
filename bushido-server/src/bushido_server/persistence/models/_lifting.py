@@ -7,8 +7,7 @@ from ._base import Base, UnitTable
 class LiftingUnitTable(UnitTable):
     __tablename__ = "lifting_unit"
 
-    variant: Mapped[str | None] = mapped_column()
-    program: Mapped[str | None] = mapped_column()
+    variant: Mapped[str] = mapped_column(default='default')
     subunits: Mapped[list[LiftingSet]] = relationship(
         cascade="all, delete-orphan",
         back_populates="unit",

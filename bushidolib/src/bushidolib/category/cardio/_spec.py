@@ -1,13 +1,13 @@
 import datetime
-from typing import Literal
+from typing import Literal, dataclass_transform
 
 from pydantic import BaseModel
 
 from bushidolib.constants import UnitCategory
 
 
+
 class CardioData(BaseModel):
-    unit_category: Literal[UnitCategory.CARDIO] = UnitCategory.CARDIO
     start_t: datetime.time
     seconds: float
     gym: str

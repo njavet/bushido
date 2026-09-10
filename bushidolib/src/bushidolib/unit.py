@@ -15,9 +15,9 @@ class RawUnit:
     comment: str | None = None
 
 
-UnitData = Annotated[
-    CardioData | GymData | LiftingData | WimhofData,
-]
+UnitData = CardioData | GymData | LiftingData | WimhofData
+
+
 @dataclass(frozen=True, slots=True)
 class Unit:
     data: UnitData
@@ -31,5 +31,8 @@ def parse_raw_unit(line: str) -> RawUnit:
     if not raw_tokens:
         raise UnitParsingError(f"Empty unit line: {line}")
 
-    comment_ = comment.strip() if sep and comment.strip() else None
-    return RawUnit(name=raw_tokens[0], tokens=tuple(raw_tokens[1:]), comment=comment_)
+    return RawUnit(
+        name=raw_tokens[0],
+        tokens=tuple(raw_tokens[1:]),
+        comment=comment.strip() if sep and comment.strip() else None,
+    )
