@@ -1,6 +1,9 @@
+import datetime
+
 from bushidolib.exceptions import UnitParsingError
 
-from ._spec import LiftingData, LiftingSetData
+from ._spec import LiftingData, LiftingSetData, LiftingUnit
+from ..base import RawUnit
 
 
 def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
@@ -35,4 +38,15 @@ def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
                 zip(weights, reps, rests, strict=False)
             )
         ],
+    )
+
+
+def build_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> LiftingUnit:
+    lifting_data = parse_lifting_data(raw_unit.tokens)
+    return LiftingUnit(
+        name=raw_unit.name,
+        log_time=log_time,
+        comment=raw_unit.comment,
+        sets=lifting_data.sets,
+        variant=lifting_data.variant,
     )
