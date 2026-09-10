@@ -1,4 +1,4 @@
-from ._parsing import parse_cardio_data
-from ._spec import CardioData
+from ._parsing import parse_cardio_unit
+from ._spec import CardioUnit
 
-__all__ = ["CardioData", "parse_cardio_data"]
+__all__ = ["CardioUnit", "parse_cardio_unit"]
