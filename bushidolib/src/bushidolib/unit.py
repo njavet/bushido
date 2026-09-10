@@ -28,7 +28,9 @@ class RawUnit:
     comment: str | None = None
 
 
-def build_unit(raw_unit: RawUnit, category: UnitCategory, log_time: datetime.datetime) -> Unit:
+def build_unit(
+    raw_unit: RawUnit, category: UnitCategory, log_time: datetime.datetime
+) -> Unit:
     parse_fn = UNIT_TYPE_REGISTRY[category]
     return Unit(
         name=raw_unit.name,
