@@ -2,8 +2,8 @@ import datetime
 
 from bushidolib.exceptions import UnitParsingError
 
-from ._spec import LiftingData, LiftingSetData, LiftingUnit
 from ..base import RawUnit
+from ._spec import LiftingData, LiftingSetData, LiftingUnit
 
 
 def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:

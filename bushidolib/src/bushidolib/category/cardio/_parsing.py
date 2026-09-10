@@ -6,8 +6,8 @@ from bushidolib.parsing import (
     time_string_to_seconds,
 )
 
-from ._spec import CardioData, CardioUnit
 from ..base import RawUnit
+from ._spec import CardioData, CardioUnit
 
 
 def parse_cardio_data(tokens: tuple[str, ...]) -> CardioData:

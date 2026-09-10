@@ -3,8 +3,8 @@ import datetime
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.parsing import parse_start_end_time_string
 
-from ._spec import GymData, GymUnit
 from ..base import RawUnit
+from ._spec import GymData, GymUnit
 
 
 def parse_gym_data(tokens: tuple[str, ...]) -> GymData:
