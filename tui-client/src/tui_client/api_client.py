@@ -6,7 +6,7 @@ from pydantic import BaseModel, TypeAdapter
 
 from bushidolib.constants import UnitCategory
 from bushidolib.contracts import LoggedUnit
-from bushidolib.unit import UnitSetting
+from bushidolib.category.base.unit import UnitSetting
 
 TUnit = TypeVar("TUnit", bound=BaseModel)
 

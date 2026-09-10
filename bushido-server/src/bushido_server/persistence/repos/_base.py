@@ -6,12 +6,12 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
-from bushidolib.unit import Unit
+from bushidolib.category.base.unit import Unit
 
 from ..models import UnitTable
 
 
-class BaseUnitRepo[UnitDataT: Unit, OrmT: UnitTable](ABC):
+class UnitRepo[UnitDataT, OrmT: UnitTable](ABC):
     orm_cls: type[OrmT]
     data_cls: type[UnitDataT]
     load_options: Sequence[ORMOption] = ()

@@ -1,6 +1,6 @@
 from httpx import AsyncClient
 
-from bushidolib.unit import (
+from bushidolib.category.base.unit import (
     UnitSetting,
 )
 

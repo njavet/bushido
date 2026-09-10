@@ -14,9 +14,8 @@ from bushidolib.category.cardio import CardioData, CardioUnit, parse_cardio_unit
 from bushidolib.category.gym import GymData, GymUnit, parse_gym_unit
 from bushidolib.category.lifting import LiftingData, LiftingUnit, parse_lifting_unit
 from bushidolib.category.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
-from bushidolib.constants import UnitCategory
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.unit import RawUnit, build_unit, parse_raw_unit, split_options
+from bushidolib.category.base.unit import RawUnit, build_unit, parse_raw_unit, split_options
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
