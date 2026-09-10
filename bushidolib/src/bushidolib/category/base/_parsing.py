@@ -4,17 +4,7 @@ from bushidolib.constants import UnitCategory
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.registry import UNIT_TYPE_REGISTRY
 
-
-def build_unit(
-    raw_unit: RawUnit, category: UnitCategory, log_time: datetime.datetime
-) -> Unit:
-    parse_fn = UNIT_TYPE_REGISTRY[category]
-    return Unit(
-        name=raw_unit.name,
-        log_time=log_time,
-        data=parse_fn(raw_unit.tokens),
-        comment=raw_unit.comment,
-    )
+from ._spec import RawUnit
 
 
 def parse_raw_unit(line: str) -> RawUnit:
