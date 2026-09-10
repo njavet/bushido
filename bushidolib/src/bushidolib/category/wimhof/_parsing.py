@@ -1,6 +1,9 @@
+import datetime
+
 from bushidolib.exceptions import UnitParsingError
 
-from ._spec import WimhofData, WimhofRoundData
+from ._spec import WimhofData, WimhofRoundData, WimhofUnit
+from ..base import RawUnit
 
 
 def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
@@ -20,4 +23,14 @@ def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
             WimhofRoundData(round_nr=i, breaths=b, retention=r)
             for i, (b, r) in enumerate(zip(breaths, retentions, strict=False))
         ]
+    )
+
+
+def build_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WimhofUnit:
+    wimhof_data = parse_wimhof_data(raw_unit.tokens)
+    return WimhofUnit(
+        name=raw_unit.name,
+        log_time=log_time,
+        comment=raw_unit.comment,
+        rounds=wimhof_data.rounds,
     )
