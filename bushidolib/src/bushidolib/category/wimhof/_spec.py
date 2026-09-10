@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+from ..base import BaseUnit
 
 class WimhofRoundData(BaseModel):
     round_nr: int
@@ -8,4 +9,8 @@ class WimhofRoundData(BaseModel):
 
 
 class WimhofData(BaseModel):
+    rounds: list[WimhofRoundData]
+
+
+class WimhofUnit(BaseUnit):
     rounds: list[WimhofRoundData]
