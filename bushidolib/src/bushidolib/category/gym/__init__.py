@@ -1,4 +1,4 @@
 from ._parsing import parse_gym_data
-from ._spec import GymData
+from ._spec import GymUnit
 
-__all__ = ["GymData", "parse_gym_data"]
+__all__ = ["GymUnit", "parse_gym_data"]
