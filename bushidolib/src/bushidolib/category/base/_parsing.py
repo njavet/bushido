@@ -1,4 +1,3 @@
-
 from bushidolib.exceptions import UnitParsingError
 
 from ._spec import RawUnit
