@@ -12,7 +12,7 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input
 
-from tui_client.api_client import BushidoApiClient
+from bushido_client.api_client import BushidoApiClient
 from tui_client.dtypes import UnitLogResult
 
 

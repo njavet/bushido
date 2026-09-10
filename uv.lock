@@ -8,6 +8,7 @@ resolution-markers = [
 
 [manifest]
 members = [
+    "bushido-client",
     "bushido-server",
     "bushido-workspace",
     "bushidolib",
@@ -269,6 +270,11 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/9f/b9/9d9a641194a730bda138b3dfe53f584d61c58cd5230e37566e83ec2ffa0d/bcrypt-5.0.0-cp39-abi3-win_amd64.whl", hash = "sha256:64ee8434b0da054d830fa8e89e1c8bf30061d539044a39524ff7dec90481e5c2", size = 150912, upload-time = "2025-09-25T19:50:35.69Z" },
     { url = "https://files.pythonhosted.org/packages/27/44/d2ef5e87509158ad2187f4dd0852df80695bb1ee0cfe0a684727b01a69e0/bcrypt-5.0.0-cp39-abi3-win_arm64.whl", hash = "sha256:f2347d3534e76bf50bca5500989d6c1d05ed64b440408057a37673282c654927", size = 144953, upload-time = "2025-09-25T19:50:37.32Z" },
 ]
+
+[[package]]
+name = "bushido-client"
+version = "0.1.0"
+source = { editable = "bushido-client" }
 
 [[package]]
 name = "bushido-server"
@@ -1759,6 +1765,7 @@ name = "telegram-bot"
 version = "0.1.0"
 source = { editable = "telegram-bot" }
 dependencies = [
+    { name = "bushido-client" },
     { name = "bushidolib" },
     { name = "httpx" },
     { name = "telethon" },
@@ -1766,6 +1773,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "bushido-client", editable = "bushido-client" },
     { name = "bushidolib", editable = "bushidolib" },
     { name = "httpx", specifier = ">=0.28" },
     { name = "telethon", specifier = ">=1.43" },
