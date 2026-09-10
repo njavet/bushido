@@ -54,7 +54,7 @@ class BushidoTelegramBot:
         self,
         event: TelegramEvent,
     ) -> None:
-        lines = ['test']
+        lines = ["test"]
         await event.reply("\n".join(lines))
 
     async def _handle_log(
