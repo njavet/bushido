@@ -17,7 +17,8 @@ members = [
     "bushidolib",
     "bushido-server",
     "tui-client",
-	"telegram-bot",
+    "telegram-bot",
+    "bushido-client",
 ]
 
 # ---------------------------------------------------------------------------
