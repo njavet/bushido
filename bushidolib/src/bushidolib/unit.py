@@ -7,7 +7,9 @@ from bushidolib.category.cardio import CardioData
 from bushidolib.category.gym import GymData
 from bushidolib.category.lifting import LiftingData
 from bushidolib.category.wimhof import WimhofData
+from bushidolib.constants import UnitCategory
 from bushidolib.exceptions import UnitParsingError
+from bushidolib.registry import UNIT_TYPE_REGISTRY
 
 UnitData = CardioData | GymData | LiftingData | WimhofData
 
@@ -23,15 +25,15 @@ class Unit(BaseModel):
 class RawUnit:
     name: str
     tokens: tuple[str, ...]
-    log_time_str: str | None = None
     comment: str | None = None
 
 
-def build_unit(raw_unit: RawUnit, log_time: datetime.datetime, data: UnitData) -> Unit:
+def build_unit(raw_unit: RawUnit, category: UnitCategory, log_time: datetime.datetime) -> Unit:
+    parse_fn = UNIT_TYPE_REGISTRY[category]
     return Unit(
         name=raw_unit.name,
         log_time=log_time,
-        data=data,
+        data=parse_fn(raw_unit.tokens),
         comment=raw_unit.comment,
     )
 
@@ -41,16 +43,14 @@ def parse_raw_unit(line: str) -> RawUnit:
     raw_tokens = tuple(body.split())
     if not raw_tokens:
         raise UnitParsingError(f"Empty unit line: {line}")
-    tokens, log_time_str = _split_options(raw_tokens)
     return RawUnit(
-        name=tokens[0],
-        tokens=tokens[1:],
-        log_time_str=log_time_str,
+        name=raw_tokens[0],
+        tokens=raw_tokens[1:],
         comment=comment.strip() if sep and comment.strip() else None,
     )
 
 
-def _split_options(tokens: tuple[str, ...]) -> tuple[tuple[str, ...], str | None]:
+def split_options(tokens: tuple[str, ...]) -> tuple[tuple[str, ...], str | None]:
     clean: list[str] = []
     log_time: str | None = None
     i = 0
