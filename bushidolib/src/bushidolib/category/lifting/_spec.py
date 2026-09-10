@@ -1,8 +1,6 @@
 from pydantic import BaseModel
+from ..base import BaseUnit
 
-grammar = """
-<name> (<weight> <reps> [<rest>])+ -p <program> -v <variant> # [<comment>]
-"""
 
 
 class LiftingSetData(BaseModel):
@@ -13,5 +11,10 @@ class LiftingSetData(BaseModel):
 
 
 class LiftingData(BaseModel):
+    sets: list[LiftingSetData]
+    variant: str | None = None
+
+
+class LiftingUnit(BaseUnit):
     sets: list[LiftingSetData]
     variant: str | None = None
