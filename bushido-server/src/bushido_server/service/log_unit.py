@@ -16,7 +16,7 @@ from bushidolib.exceptions import UnitParsingError
 def log_unit(line: str, session: Session) -> BaseUnit:
     raw_unit = parse_raw_unit(line)
     raw_unit.tokens, override = split_options(raw_unit.tokens)
-    log_time = resolve_log_time(override, SystemClock)
+    log_time = resolve_log_time(override=override, clock=SystemClock())
 
     try:
         category = UNIT_NAME_REGISTRY[raw_unit.name]

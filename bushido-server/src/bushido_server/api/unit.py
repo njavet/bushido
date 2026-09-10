@@ -1,4 +1,3 @@
-from bushidolib.contracts import LoggedUnit
 from fastapi import APIRouter, HTTPException
 
 from bushido_server.api.deps import SessionDep
@@ -6,6 +5,7 @@ from bushido_server.schema.req import LoadUnitRequest, LogUnitRequest
 from bushido_server.schema.res import LoadedUnits
 from bushido_server.service import log_unit
 from bushido_server.service.load_units import load_units
+from bushidolib.category.base import BaseUnit
 
 router = APIRouter()
 
@@ -13,7 +13,7 @@ router = APIRouter()
 @router.post("/unit-logs")
 async def process_log_request(
     request: LogUnitRequest, session: SessionDep
-) -> LoggedUnit:
+) -> BaseUnit:
     try:
         return log_unit(request.line, session)
     except Exception as exc:
