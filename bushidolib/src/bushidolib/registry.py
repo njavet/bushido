@@ -1,12 +1,12 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from bushidolib.cardio import CardioUnit, parse_cardio_unit
 from bushidolib.constants import UnitCategory
+from bushidolib.gym import GymUnit, parse_gym_unit
+from bushidolib.lifting import LiftingUnit, parse_lifting_unit
 from bushidolib.unit import BaseUnit
-from bushidolib.cardio import CardioData, CardioUnit, parse_cardio_unit
-from bushidolib.gym import GymData, GymUnit, parse_gym_unit
-from bushidolib.lifting import LiftingData, LiftingUnit, parse_lifting_unit
-from bushidolib.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
+from bushidolib.wimhof import WimhofUnit, parse_wimhof_unit
 
 
 @dataclass(frozen=True)

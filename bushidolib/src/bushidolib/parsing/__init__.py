@@ -1,3 +1,4 @@
+from ..unit import parse_raw_unit
 from ._dt_parse import (
     find_previous_sunday,
     parse_military_time_string,
@@ -5,7 +6,6 @@ from ._dt_parse import (
     time_string_to_seconds,
 )
 from ._pre_parse import split_options
-from ..unit import parse_raw_unit
 
 __all__ = [
     "find_previous_sunday",

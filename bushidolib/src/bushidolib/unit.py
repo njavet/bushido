@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Annotated
 
 from bushidolib.category.cardio import CardioData
 from bushidolib.category.gym import GymData

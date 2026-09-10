@@ -1,10 +1,6 @@
 import datetime
-from typing import Literal, dataclass_transform
 
 from pydantic import BaseModel
-
-from bushidolib.constants import UnitCategory
-
 
 
 class CardioData(BaseModel):
