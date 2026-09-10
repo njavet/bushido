@@ -1,10 +1,8 @@
 import datetime
 
-from pydantic import BaseModel
-
 from bushidolib.constants import UnitCategory
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.registry import UNIT_TYPE_REGISTRY, UnitData
+from bushidolib.registry import UNIT_TYPE_REGISTRY
 
 
 def build_unit(

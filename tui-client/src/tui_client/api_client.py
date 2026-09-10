@@ -1,12 +1,12 @@
 import datetime
 from typing import TypeVar
 
+from bushidolib.category.base.unit import UnitSetting
+from bushidolib.contracts import LoggedUnit
 from httpx import AsyncClient
 from pydantic import BaseModel, TypeAdapter
 
 from bushidolib.constants import UnitCategory
-from bushidolib.contracts import LoggedUnit
-from bushidolib.category.base.unit import UnitSetting
 
 TUnit = TypeVar("TUnit", bound=BaseModel)
 

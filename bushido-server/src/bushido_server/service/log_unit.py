@@ -1,5 +1,11 @@
 import datetime
 
+from bushidolib.category.base.unit import (
+    RawUnit,
+    build_unit,
+    parse_raw_unit,
+    split_options,
+)
 from sqlalchemy.orm import Session
 
 from bushido_server.dtypes import Clock, SystemClock
@@ -15,7 +21,6 @@ from bushidolib.category.gym import GymData, GymUnit, parse_gym_unit
 from bushidolib.category.lifting import LiftingData, LiftingUnit, parse_lifting_unit
 from bushidolib.category.wimhof import WimhofData, WimhofUnit, parse_wimhof_unit
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.category.base.unit import RawUnit, build_unit, parse_raw_unit, split_options
 
 UnitData = LiftingData | GymData | CardioData | WimhofData
 UnitRepo = CardioUnitRepo | GymUnitRepo | LiftingUnitRepo | WimhofUnitRepo
@@ -37,7 +42,9 @@ def resolve_log_time(override: str | None, clock: Clock) -> datetime.datetime:
     if override is None:
         return clock.now()
     # TODO handle user set timezone
-    return datetime.datetime.strptime(override, "%Y%m%d-%H%M").replace(tzinfo=datetime.UTC)
+    return datetime.datetime.strptime(override, "%Y%m%d-%H%M").replace(
+        tzinfo=datetime.UTC
+    )
 
 
 def log_cardio_unit(

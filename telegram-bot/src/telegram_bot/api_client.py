@@ -1,8 +1,7 @@
-from httpx import AsyncClient
-
 from bushidolib.category.base.unit import (
     UnitSetting,
 )
+from httpx import AsyncClient
 
 
 class BushidoApiClient:

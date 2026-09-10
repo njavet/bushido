@@ -1,3 +1,3 @@
-from ._spec import RawUnit, BaseUnit
+from ._spec import BaseUnit, RawUnit
 
-__all__ = ["RawUnit", "BaseUnit"]
+__all__ = ["BaseUnit", "RawUnit"]

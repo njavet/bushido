@@ -1,3 +1,4 @@
+from bushidolib.contracts import LoggedUnit
 from fastapi import APIRouter, HTTPException
 
 from bushido_server.api.deps import SessionDep
@@ -5,7 +6,6 @@ from bushido_server.schema.req import LoadUnitRequest, LogUnitRequest
 from bushido_server.schema.res import LoadedUnits
 from bushido_server.service import log_unit
 from bushido_server.service.load_units import load_units
-from bushidolib.contracts import LoggedUnit
 
 router = APIRouter()
 
