@@ -1,23 +1,16 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 
-from bushidolib.category.cardio import CardioUnit, parse_cardio_unit
+from bushidolib.category.cardio import parse_cardio_data
+from bushidolib.category.gym import parse_gym_data
 from bushidolib.constants import UnitCategory
-from bushidolib.gym import GymUnit, parse_gym_unit
-from bushidolib.lifting import LiftingUnit, parse_lifting_unit
-from bushidolib.unit import BaseUnit
-from bushidolib.wimhof import WimhofUnit, parse_wimhof_unit
+from bushidolib.category.lifting import parse_lifting_data
+from bushidolib.category.wimhof import parse_wimhof_data
 
 
-@dataclass(frozen=True)
-class UnitTypeSpec:
-    parse: Callable[[tuple[str, ...]], object]
-    unit_cls: type[BaseUnit]
-
-
-UNIT_TYPE_REGISTRY: dict[UnitCategory, UnitTypeSpec] = {
-    UnitCategory.CARDIO: UnitTypeSpec(parse_cardio_unit, CardioUnit),
-    UnitCategory.GYM: UnitTypeSpec(parse_gym_unit, GymUnit),
-    UnitCategory.LIFTING: UnitTypeSpec(parse_lifting_unit, LiftingUnit),
-    UnitCategory.WIMHOF: UnitTypeSpec(parse_wimhof_unit, WimhofUnit),
+UNIT_TYPE_REGISTRY: dict[UnitCategory, Callable[[tuple[str, ...]], object]] = {
+    UnitCategory.CARDIO: parse_cardio_data,
+    UnitCategory.GYM: parse_gym_data,
+    UnitCategory.LIFTING: parse_lifting_data,
+    UnitCategory.WIMHOF: parse_wimhof_data,
 }

@@ -27,12 +27,20 @@ class RawUnit:
     comment: str | None = None
 
 
+def build_unit(raw_unit: RawUnit, log_time: datetime.datetime, data: UnitData) -> Unit:
+    return Unit(
+        name=raw_unit.name,
+        log_time=log_time,
+        data=data,
+        comment=raw_unit.comment,
+    )
+
 def parse_raw_unit(line: str) -> RawUnit:
     body, sep, comment = line.partition("#")
     raw_tokens = tuple(body.split())
     if not raw_tokens:
         raise UnitParsingError(f"Empty unit line: {line}")
-    tokens, log_time_str = split_options(raw_tokens)
+    tokens, log_time_str = _split_options(raw_tokens)
     return RawUnit(
         name=tokens[0],
         tokens=tokens[1:],
@@ -41,7 +49,7 @@ def parse_raw_unit(line: str) -> RawUnit:
     )
 
 
-def split_options(tokens: tuple[str, ...]) -> tuple[tuple[str, ...], str | None]:
+def _split_options(tokens: tuple[str, ...]) -> tuple[tuple[str, ...], str | None]:
     clean: list[str] = []
     log_time: str | None = None
     i = 0

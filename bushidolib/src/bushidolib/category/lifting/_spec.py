@@ -13,5 +13,5 @@ class LiftingSetData(BaseModel):
 
 
 class LiftingData(BaseModel):
-    variant: str | None
     sets: list[LiftingSetData]
+    variant: str | None = None
