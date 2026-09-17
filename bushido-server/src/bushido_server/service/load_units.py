@@ -6,9 +6,9 @@ from bushido_server.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
-from bushido_server.schema.req import LoadUnitRequest
 from bushido_server.schema.res import LoadedUnits
 from bushidolib.constants import UnitCategory
+from bushidolib.schema.req import LoadUnitRequest
 
 
 def load_units(request: LoadUnitRequest, session: Session) -> LoadedUnits:
