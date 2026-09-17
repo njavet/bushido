@@ -15,6 +15,5 @@ class LiftingData(BaseModel):
     variant: str | None = None
 
 
-class LiftingUnit(BaseUnit):
-    sets: list[LiftingSetData]
-    variant: str | None = None
+class LiftingUnit(BaseUnit, LiftingData):
+    pass
