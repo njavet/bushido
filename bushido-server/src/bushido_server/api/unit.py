@@ -4,8 +4,7 @@ from bushido_server.api.deps import SessionDep
 from bushido_server.schema.res import LoadedUnits
 from bushido_server.service import log_unit
 from bushido_server.service.load_units import load_units
-from bushidolib.category.base import BaseUnit
-from bushidolib.schema.unit import LoadUnitRequest, LogUnitRequest
+from bushidolib.schema.unit import BaseUnit, LoadUnitRequest, LogUnitRequest
 
 router = APIRouter()
 

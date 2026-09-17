@@ -10,7 +10,6 @@ from bushido_server.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
-from bushidolib.category.base import BaseUnit, RawUnit
 from bushidolib.category.cardio import build_cardio_unit
 from bushidolib.category.gym import build_gym_unit
 from bushidolib.category.lifting import (
@@ -18,6 +17,7 @@ from bushidolib.category.lifting import (
 )
 from bushidolib.category.wimhof import build_wimhof_unit
 from bushidolib.constants import UnitCategory
+from bushidolib.schema.unit import BaseUnit, RawUnit
 
 
 @dataclass(frozen=True)

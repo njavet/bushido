@@ -5,12 +5,12 @@ from sqlalchemy.orm import Session
 from bushido_server.dtypes import Clock, SystemClock
 from bushido_server.registry import CATEGORY_REGISTRY
 from bushido_server.settings import UNIT_NAME_REGISTRY
-from bushidolib.category.base import (
+from bushidolib.exceptions import UnitParsingError
+from bushidolib.schema.unit import (
     BaseUnit,
     parse_raw_unit,
     split_options,
 )
-from bushidolib.exceptions import UnitParsingError
 
 
 def log_unit(line: str, session: Session) -> BaseUnit:

@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from ..base import BaseUnit
+from bushidolib.schema.unit import BaseUnit
 
 
 class LiftingSetData(BaseModel):
