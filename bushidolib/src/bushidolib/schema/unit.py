@@ -1,4 +1,5 @@
 import datetime
+from typing import Self
 
 from pydantic import BaseModel, Field
 
@@ -19,36 +20,32 @@ class LoadUnitRequest(BaseModel):
 class RawUnit(BaseModel):
     name: str
     tokens: tuple[str, ...]
+    raw_log_time: str | None = None
     comment: str | None = None
 
+    @classmethod
+    def from_line(cls, line: str) -> Self:
+        parts = line.split("#")
+        raw_tokens = tuple(parts[0].split())
+        if not raw_tokens:
+            raise UnitParsingError(f"Empty unit line: {line}")
 
-def parse_raw_unit(line: str) -> RawUnit:
-    body, sep, comment = line.partition("#")
-    raw_tokens = tuple(body.split())
-    if not raw_tokens:
-        raise UnitParsingError(f"Empty unit line: {line}")
-    return RawUnit(
-        name=raw_tokens[0],
-        tokens=raw_tokens[1:],
-        comment=comment.strip() if sep and comment.strip() else None,
-    )
+        try:
+            comment = parts[1].strip()
+        except IndexError:
+            comment = None
 
+        try:
+            raw_log_time = parts[2].strip()
+        except IndexError:
+            raw_log_time = None
 
-def split_options(tokens: tuple[str, ...]) -> tuple[tuple[str, ...], str | None]:
-    clean: list[str] = []
-    log_time: str | None = None
-    i = 0
-    while i < len(tokens):
-        token = tokens[i]
-        if token == "--dt":
-            if i + 1 >= len(tokens):
-                raise UnitParsingError("--dt requires a value")
-            log_time = tokens[i + 1]
-            i += 2
-            continue
-        clean.append(token)
-        i += 1
-    return tuple(clean), log_time
+        return cls(
+            name=raw_tokens[0],
+            tokens=raw_tokens[1:],
+            raw_log_time=raw_log_time,
+            comment=comment,
+        )
 
 
 class BaseUnit(BaseModel):

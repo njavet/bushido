@@ -6,17 +6,12 @@ from bushido_server.dtypes import Clock, SystemClock
 from bushido_server.registry import CATEGORY_REGISTRY
 from bushido_server.settings import UNIT_NAME_REGISTRY
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.schema.unit import (
-    BaseUnit,
-    parse_raw_unit,
-    split_options,
-)
+from bushidolib.schema.unit import BaseUnit, RawUnit
 
 
 def log_unit(line: str, session: Session) -> BaseUnit:
-    raw_unit = parse_raw_unit(line)
-    raw_unit.tokens, override = split_options(raw_unit.tokens)
-    log_time = resolve_log_time(override=override, clock=SystemClock())
+    raw_unit = RawUnit.from_line(line)
+    log_time = resolve_log_time(override=raw_unit.raw_log_time, clock=SystemClock())
 
     try:
         category = UNIT_NAME_REGISTRY[raw_unit.name]
