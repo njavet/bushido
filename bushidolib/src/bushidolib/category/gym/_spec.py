@@ -11,7 +11,5 @@ class GymData(BaseModel):
     gym: str
 
 
-class GymUnit(BaseUnit):
-    start_t: datetime.time
-    end_t: datetime.time
-    gym: str
+class GymUnit(BaseUnit, GymData):
+    pass
