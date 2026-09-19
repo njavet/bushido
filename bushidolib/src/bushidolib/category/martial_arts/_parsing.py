@@ -12,7 +12,7 @@ def parse_gym_data(tokens: tuple[str, ...]) -> GymData:
     try:
         gym = tokens[1]
     except IndexError as e:
-        raise UnitParsingError("no gym") from e
+        raise UnitParsingError("no martial_arts") from e
 
     return GymData(
         start_t=start_t,

@@ -16,7 +16,7 @@ def parse_cardio_data(tokens: tuple[str, ...]) -> CardioData:
     try:
         gym = tokens[2]
     except IndexError as e:
-        raise UnitParsingError("no gym") from e
+        raise UnitParsingError("no martial_arts") from e
 
     try:
         distance = float(tokens[3])

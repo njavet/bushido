@@ -8,7 +8,7 @@ from textual.widgets import (
     RichLog,
 )
 
-from bushidolib.category.gym import GymUnit
+from bushidolib.category.martial_arts import GymUnit
 
 
 class GymContainer(Container):
@@ -31,7 +31,7 @@ class GymContainer(Container):
 class GymTable(DataTable[str]):
     @override
     def on_mount(self) -> None:
-        self.add_columns("date", "training", "start", "end", "gym")
+        self.add_columns("date", "training", "start", "end", "martial_arts")
 
     def set_units(self, units: list[GymUnit]) -> None:
         self.clear()
