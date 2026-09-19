@@ -10,7 +10,7 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushidolib.category.lifting import LiftingUnit
+from bushidolib.category.strength import LiftingUnit
 
 
 class LiftingContainer(Container):

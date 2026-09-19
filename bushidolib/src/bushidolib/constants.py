@@ -20,5 +20,5 @@ COMPLETE_TIME_LEN = 3
 class UnitCategory(StrEnum):
     CARDIO = "cardio"
     GYM = "gym"
-    LIFTING = "lifting"
+    LIFTING = "strength"
     WIMHOF = "wimhof"

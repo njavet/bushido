@@ -12,7 +12,7 @@ from bushido_server.persistence.repos import (
 )
 from bushidolib.category.cardio import build_cardio_unit
 from bushidolib.category.gym import build_gym_unit
-from bushidolib.category.lifting import (
+from bushidolib.category.strength import (
     build_lifting_unit,
 )
 from bushidolib.category.wimhof import build_wimhof_unit

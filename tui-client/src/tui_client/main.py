@@ -14,7 +14,7 @@ from textual.widgets import (
 
 from bushido_client.api_client import BushidoApiClient
 from bushidolib.category.gym import GymUnit
-from bushidolib.category.lifting import LiftingUnit
+from bushidolib.category.strength import LiftingUnit
 from bushidolib.constants import UnitCategory
 from tui_client.dtypes import UnitLogResult
 from tui_client.screens import LogUnitScreen
@@ -62,7 +62,7 @@ class BushidoApp(App[None]):
                 yield SpartanContainer(id="spartan_container")
             with TabPane("gym"):
                 yield GymContainer(filter_units(self.unit_settings, UnitCategory.GYM))
-            with TabPane("lifting"):
+            with TabPane("strength"):
                 yield LiftingContainer(
                     unit_settings=filter_units(self.unit_settings, UnitCategory.LIFTING)
                 )

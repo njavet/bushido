@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from fastapi.testclient import TestClient
 
-from bushidolib.category.lifting import LiftingSetData, LiftingUnit
+from bushidolib.category.strength import LiftingSetData, LiftingUnit
 from bushidolib.constants import UnitCategory
 
 
@@ -38,7 +38,7 @@ def test_query_units(
         response = client.post(
             "/api/unit-logs/query",
             json={
-                "unit_category": "lifting",
+                "unit_category": "strength",
             },
         )
 

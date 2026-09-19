@@ -6,7 +6,7 @@ UNIT_NAME_REGISTRY = {
     "skipping": UnitCategory.CARDIO,
     "kyokushin": UnitCategory.GYM,
     "grappling": UnitCategory.GYM,
-    "lifting": UnitCategory.GYM,
+    "strength": UnitCategory.GYM,
     "squat": UnitCategory.LIFTING,
     "deadlift": UnitCategory.LIFTING,
     "benchpress": UnitCategory.LIFTING,

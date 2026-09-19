@@ -9,7 +9,7 @@ from bushido_server.persistence import SessionFactory
 from bushido_server.service import log_unit
 
 UNIT_NAMES = [
-    "lifting",
+    "strength",
     "kyokushin",
     "boxing",
     "grappling",
