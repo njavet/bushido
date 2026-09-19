@@ -1,4 +1,4 @@
-from ._parsing import build_wimhof_unit, parse_wimhof_data
+from ._parsing import build_wimhof_unit
 from ._spec import WimhofData, WimhofRoundData, WimhofUnit
 
 __all__ = [
@@ -6,5 +6,4 @@ __all__ = [
     "WimhofRoundData",
     "WimhofUnit",
     "build_wimhof_unit",
-    "parse_wimhof_data",
 ]
