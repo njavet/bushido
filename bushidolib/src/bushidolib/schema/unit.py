@@ -49,7 +49,6 @@ class RawUnit(BaseModel):
 
 
 class BaseUnit(BaseModel):
-    name: str
     log_time: datetime.datetime
     comment: str | None = None
 
