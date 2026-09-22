@@ -5,7 +5,7 @@ from bushidolib.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )
-from bushidolib.schema.unit import RawUnit
+from bushidolib.unit.base import RawUnit
 
 from ._spec import CardioData, CardioUnit
 

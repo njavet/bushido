@@ -8,7 +8,7 @@ from bushidolib.constants import (
     WEEK_START_DAY,
 )
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.schema.unit import SpaceTimeData
+from bushidolib.unit.base import SpaceTimeData
 
 
 def time_string_to_seconds(time_string: str) -> float:

@@ -8,7 +8,7 @@ from bushido_server.persistence.repos import (
 )
 from bushido_server.schema.res import LoadedUnits
 from bushidolib.constants import UnitCategory
-from bushidolib.schema.unit import LoadUnitRequest
+from bushidolib.unit.base import LoadUnitRequest
 
 
 def load_units(request: LoadUnitRequest, session: Session) -> LoadedUnits:

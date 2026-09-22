@@ -1,7 +1,7 @@
 import datetime
 
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.schema.unit import RawUnit
+from bushidolib.unit.base import RawUnit
 from bushidolib.parsing import parse_space_time_data
 
 from ._spec import LiftingData, LiftingSetData, LiftingUnit, StrengthUnit

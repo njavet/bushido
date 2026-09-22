@@ -17,7 +17,7 @@ from bushidolib.category.strength import (
 )
 from bushidolib.category.wimhof import build_wimhof_unit
 from bushidolib.constants import UnitCategory
-from bushidolib.schema.unit import BaseUnit, RawUnit
+from bushidolib.unit.base import BaseUnit, RawUnit
 
 
 @dataclass(frozen=True)

@@ -5,7 +5,7 @@ from httpx import AsyncClient
 from pydantic import BaseModel, TypeAdapter
 
 from bushidolib.constants import UnitCategory
-from bushidolib.schema.unit import BaseUnit
+from bushidolib.unit.base import BaseUnit
 
 TUnit = TypeVar("TUnit", bound=BaseModel)
 

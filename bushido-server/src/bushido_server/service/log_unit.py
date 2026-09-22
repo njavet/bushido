@@ -6,7 +6,7 @@ from bushido_server.dtypes import Clock, SystemClock
 from bushido_server.registry import CATEGORY_REGISTRY
 from bushido_server.settings import UNIT_NAME_REGISTRY
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.schema.unit import BaseUnit, RawUnit
+from bushidolib.unit.base import BaseUnit, RawUnit
 
 
 def log_unit(line: str, session: Session) -> BaseUnit:

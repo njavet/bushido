@@ -1,8 +1,4 @@
-import datetime
-
-from pydantic import BaseModel
-
-from bushidolib.schema.unit import BaseUnit, SpaceTimeData
+from bushidolib.unit.base import BaseUnit, SpaceTimeData
 
 
 class MartialArtsUnit(BaseUnit, SpaceTimeData):

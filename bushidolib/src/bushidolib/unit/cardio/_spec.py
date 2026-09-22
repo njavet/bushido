@@ -2,7 +2,7 @@ import datetime
 
 from pydantic import BaseModel
 
-from bushidolib.schema.unit import BaseUnit
+from bushidolib.unit.base import BaseUnit
 
 
 class CardioData(BaseModel):

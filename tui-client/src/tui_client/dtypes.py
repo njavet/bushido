@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from bushidolib.schema.unit import BaseUnit
+from bushidolib.unit.base import BaseUnit
 
 
 @dataclass(frozen=True, slots=True)

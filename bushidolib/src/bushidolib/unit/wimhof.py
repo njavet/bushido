@@ -1,9 +1,23 @@
 import datetime
 
-from bushidolib.exceptions import UnitParsingError
-from bushidolib.schema.unit import RawUnit
+from pydantic import BaseModel
 
-from ._spec import WimhofData, WimhofRoundData, WimhofUnit
+from bushidolib.exceptions import UnitParsingError
+from bushidolib.unit.base import BaseUnit, RawUnit
+
+
+class WimhofRoundData(BaseModel):
+    round_nr: int
+    breaths: int
+    retention: int
+
+
+class WimhofData(BaseModel):
+    rounds: list[WimhofRoundData]
+
+
+class WimhofUnit(BaseUnit, WimhofData):
+    pass
 
 
 def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
