@@ -57,7 +57,3 @@ class SpaceTimeData(BaseModel):
     start_t: datetime.time
     end_t: datetime.time
     gym: str
-
-
-class ChronoData(BaseModel):
-    seconds: float
