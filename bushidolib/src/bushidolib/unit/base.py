@@ -3,7 +3,6 @@ from typing import Self
 
 from pydantic import BaseModel, Field
 
-from bushidolib.constants import UnitCategory
 from bushidolib.exceptions import UnitParsingError
 
 
@@ -12,7 +11,7 @@ class LogUnitRequest(BaseModel):
 
 
 class LoadUnitRequest(BaseModel):
-    unit_category: UnitCategory
+    unit_name: str
     start_time: datetime.datetime | None = None
     end_time: datetime.datetime | None = None
 

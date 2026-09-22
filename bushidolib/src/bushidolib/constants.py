@@ -15,10 +15,3 @@ MINUTE_LEN = 2
 
 # e.g. 05:00:00
 COMPLETE_TIME_LEN = 3
-
-
-class UnitCategory(StrEnum):
-    CARDIO = "cardio"
-    GYM = "martial_arts"
-    LIFTING = "strength"
-    WIMHOF = "wimhof"
