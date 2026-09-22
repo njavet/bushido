@@ -49,7 +49,7 @@ def parse_cardio_data(tokens: tuple[str, ...]) -> CardioData:
 def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioUnit:
     cardio_data = parse_cardio_data(raw_unit.tokens)
     return CardioUnit(
-        name=raw_unit.name,
+        name=raw_unit.key,
         log_time=log_time,
         comment=raw_unit.comment,
         start_t=cardio_data.start_t,

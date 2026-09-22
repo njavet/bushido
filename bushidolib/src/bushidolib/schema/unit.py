@@ -18,7 +18,7 @@ class LoadUnitRequest(BaseModel):
 
 
 class RawUnit(BaseModel):
-    name: str
+    key: str
     tokens: tuple[str, ...]
     raw_log_time: str | None = None
     comment: str | None = None
@@ -41,7 +41,7 @@ class RawUnit(BaseModel):
             raw_log_time = None
 
         return cls(
-            name=raw_tokens[0],
+            key=raw_tokens[0],
             tokens=raw_tokens[1:],
             raw_log_time=raw_log_time,
             comment=comment,

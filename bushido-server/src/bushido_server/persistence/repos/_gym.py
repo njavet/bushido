@@ -12,7 +12,7 @@ class GymUnitRepo(BaseUnitRepo[GymUnit, GymUnitTable]):
     @override
     def _to_orm(self, unit: GymUnit) -> GymUnitTable:
         return GymUnitTable(
-            name=unit.name,
+            name=unit.key,
             log_time=unit.log_time,
             start_t=unit.start_t,
             end_t=unit.end_t,

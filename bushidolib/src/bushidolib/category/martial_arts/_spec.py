@@ -2,14 +2,8 @@ import datetime
 
 from pydantic import BaseModel
 
-from bushidolib.schema.unit import BaseUnit
+from bushidolib.schema.unit import BaseUnit, SpaceTimeData
 
 
-class GymData(BaseModel):
-    start_t: datetime.time
-    end_t: datetime.time
-    gym: str
-
-
-class GymUnit(BaseUnit, GymData):
+class MartialArtsUnit(BaseUnit, SpaceTimeData):
     pass

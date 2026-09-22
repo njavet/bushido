@@ -14,9 +14,9 @@ def log_unit(line: str, session: Session) -> BaseUnit:
     log_time = resolve_log_time(override=raw_unit.raw_log_time, clock=SystemClock())
 
     try:
-        category = UNIT_NAME_REGISTRY[raw_unit.name]
+        category = UNIT_NAME_REGISTRY[raw_unit.key]
     except KeyError as e:
-        raise UnitParsingError(f"Unknown unit: {raw_unit.name}") from e
+        raise UnitParsingError(f"Unknown unit: {raw_unit.key}") from e
 
     try:
         spec = CATEGORY_REGISTRY[category]
