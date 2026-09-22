@@ -2,7 +2,7 @@ from typing import override
 
 from sqlalchemy.orm import selectinload
 
-from bushidolib.category.strength import LiftingSetData, LiftingUnit
+from bushidolib.unit.strength import LiftingSetData, LiftingUnit
 
 from ..models import LiftingSet, LiftingUnitTable
 from ._base import BaseUnitRepo

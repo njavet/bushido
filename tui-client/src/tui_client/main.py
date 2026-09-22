@@ -13,8 +13,8 @@ from textual.widgets import (
 )
 
 from bushido_client.api_client import BushidoApiClient
-from bushidolib.category.martial_arts import GymUnit
-from bushidolib.category.strength import LiftingUnit
+from bushidolib.unit.martial_arts import GymUnit
+from bushidolib.unit.strength import LiftingUnit
 from bushidolib.constants import UnitCategory
 from tui_client.dtypes import UnitLogResult
 from tui_client.screens import LogUnitScreen

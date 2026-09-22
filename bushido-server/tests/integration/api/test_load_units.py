@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from fastapi.testclient import TestClient
 
-from bushidolib.category.strength import LiftingSetData, LiftingUnit
+from bushidolib.unit.strength import LiftingSetData, LiftingUnit
 from bushidolib.constants import UnitCategory
 
 
