@@ -17,3 +17,7 @@ class LiftingData(BaseModel):
 
 class LiftingUnit(BaseUnit, LiftingData):
     pass
+
+
+class StrengthUnit(BaseUnit):
+    pass

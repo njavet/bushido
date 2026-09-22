@@ -52,3 +52,13 @@ class BaseUnit(BaseModel):
     name: str
     log_time: datetime.datetime
     comment: str | None = None
+
+
+class SpaceTimeData(BaseModel):
+    start_t: datetime.time
+    end_t: datetime.time
+    gym: str
+
+
+class ChronoData(BaseModel):
+    seconds: float
