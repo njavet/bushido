@@ -12,7 +12,7 @@ class LiftingSetData(BaseModel):
 
 class LiftingData(BaseModel):
     sets: list[LiftingSetData]
-    variant: str | None = None
+    variant: str = 'default'
 
 
 class LiftingUnit(BaseUnit, LiftingData):

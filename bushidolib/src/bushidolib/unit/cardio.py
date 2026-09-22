@@ -1,3 +1,5 @@
+from pydantic import BaseModel
+
 import datetime
 
 from bushidolib.exceptions import UnitParsingError
@@ -5,9 +7,21 @@ from bushidolib.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )
-from bushidolib.unit.base import RawUnit
+from bushidolib.unit.base import RawUnit, BaseUnit
 
-from ._spec import CardioData, CardioUnit
+
+class CardioData(BaseModel):
+    start_t: datetime.time
+    seconds: float
+    gym: str
+    distance: float | None = None
+    avg_hr: int | None = None
+    max_hr: int | None = None
+    calories: int | None = None
+
+
+class CardioUnit(BaseUnit, CardioData):
+    pass
 
 
 def parse_cardio_data(tokens: tuple[str, ...]) -> CardioData:
@@ -49,7 +63,7 @@ def parse_cardio_data(tokens: tuple[str, ...]) -> CardioData:
 def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioUnit:
     cardio_data = parse_cardio_data(raw_unit.tokens)
     return CardioUnit(
-        name=raw_unit.name,
+        exercise=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
         start_t=cardio_data.start_t,

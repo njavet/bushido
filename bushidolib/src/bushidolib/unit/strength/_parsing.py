@@ -32,7 +32,6 @@ def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
         raise UnitParsingError("rests must all be positive")
 
     return LiftingData(
-        variant=None,
         sets=[
             LiftingSetData(set_nr=i, weight=weight, reps=rep, rest=rest)
             for i, (weight, rep, rest) in enumerate(
