@@ -19,30 +19,32 @@ class LoadUnitRequest(BaseModel):
 class RawUnit(BaseModel):
     name: str
     tokens: tuple[str, ...]
-    raw_log_time: str | None = None
+    options: dict[str, str]
+    flags: list[str]
     comment: str | None = None
 
     @classmethod
     def from_line(cls, line: str) -> Self:
         parts = line.split("#")
-        raw_tokens = tuple(parts[0].split())
-        if not raw_tokens:
+        words = tuple(parts[0].split())
+        if not words:
             raise UnitParsingError(f"Empty unit line: {line}")
-
         try:
             comment = parts[1].strip()
         except IndexError:
             comment = None
 
-        try:
-            raw_log_time = parts[2].strip()
-        except IndexError:
-            raw_log_time = None
+        tokens = []
+        flags = []
+        options = {}
+        for word in words[1:]:
+            if word.startswith("--"):
+
+            pass
 
         return cls(
-            name=raw_tokens[0],
+            name=words[0],
             tokens=raw_tokens[1:],
-            raw_log_time=raw_log_time,
             comment=comment,
         )
 

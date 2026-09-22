@@ -1,0 +1,34 @@
+from typing import NamedTuple
+
+
+class PreprocResult(NamedTuple):
+    tokens: tuple[str, ...]
+    options: dict[str, str]
+    flags: list[str]
+
+
+def split_words(words: tuple[str, ...]) -> PreprocResult:
+    tokens: list[str] = []
+    options: dict[str, str] = {}
+    flags: list[str] = []
+
+    i = 0
+    while i < len(words):
+        word = words[i]
+
+        if word.startswith("--"):
+            if i + 1 >= len(words):
+                raise ValueError(f"Missing value for option {word}")
+
+            options[word] = words[i + 1]
+            i += 2
+
+        elif word.startswith("-"):
+            flags.append(word)
+            i += 1
+
+        else:
+            tokens.append(word)
+            i += 1
+
+    return PreprocResult(tuple(tokens), options, flags)
