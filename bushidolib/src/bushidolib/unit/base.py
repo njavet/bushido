@@ -4,6 +4,7 @@ from typing import Self
 from pydantic import BaseModel, Field
 
 from bushidolib.exceptions import UnitParsingError
+from bushidolib.parsing import split_words
 
 
 class LogUnitRequest(BaseModel):
@@ -33,18 +34,12 @@ class RawUnit(BaseModel):
             comment = parts[1].strip()
         except IndexError:
             comment = None
-
-        tokens = []
-        flags = []
-        options = {}
-        for word in words[1:]:
-            if word.startswith("--"):
-
-            pass
-
+        result = split_words(words[1:])
         return cls(
             name=words[0],
-            tokens=raw_tokens[1:],
+            tokens=result.tokens,
+            options=result.options,
+            flags=result.flags,
             comment=comment,
         )
 
