@@ -45,7 +45,7 @@ def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
 def build_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> LiftingUnit:
     lifting_data = parse_lifting_data(raw_unit.tokens)
     return LiftingUnit(
-        name=raw_unit.name,
+        exercise=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
         sets=lifting_data.sets,
@@ -56,7 +56,6 @@ def build_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> Liftin
 def build_strength_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> StrengthUnit:
     data = parse_space_time_data(raw_unit.tokens)
     return StrengthUnit(
-        name=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
         start_t=data.start_t,

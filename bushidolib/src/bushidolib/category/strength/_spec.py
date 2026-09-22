@@ -16,7 +16,7 @@ class LiftingData(BaseModel):
 
 
 class LiftingUnit(BaseUnit, LiftingData):
-    pass
+    exercise: str
 
 
 class StrengthUnit(BaseUnit, SpaceTimeData):
