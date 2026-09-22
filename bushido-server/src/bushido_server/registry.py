@@ -10,7 +10,7 @@ from bushido_server.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
-from bushidolib.category.cardio import build_cardio_unit
+from bushidolib.unit.cardio import build_cardio_unit
 from bushidolib.category.martial_arts import build_gym_unit
 from bushidolib.category.strength import (
     build_lifting_unit,
