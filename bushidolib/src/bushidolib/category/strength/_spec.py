@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from bushidolib.schema.unit import BaseUnit
+from bushidolib.schema.unit import BaseUnit, SpaceTimeData
 
 
 class LiftingSetData(BaseModel):
@@ -19,5 +19,5 @@ class LiftingUnit(BaseUnit, LiftingData):
     pass
 
 
-class StrengthUnit(BaseUnit):
+class StrengthUnit(BaseUnit, SpaceTimeData):
     pass

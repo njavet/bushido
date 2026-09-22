@@ -2,8 +2,9 @@ import datetime
 
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.schema.unit import RawUnit
+from bushidolib.parsing import parse_space_time_data
 
-from ._spec import LiftingData, LiftingSetData, LiftingUnit
+from ._spec import LiftingData, LiftingSetData, LiftingUnit, StrengthUnit
 
 
 def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
@@ -49,4 +50,16 @@ def build_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> Liftin
         comment=raw_unit.comment,
         sets=lifting_data.sets,
         variant=lifting_data.variant,
+    )
+
+
+def build_strength_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> StrengthUnit:
+    data = parse_space_time_data(raw_unit.tokens)
+    return StrengthUnit(
+        name=raw_unit.name,
+        log_time=log_time,
+        comment=raw_unit.comment,
+        start_t=data.start_t,
+        end_t=data.end_t,
+        gym=data.gym,
     )
