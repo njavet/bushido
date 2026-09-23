@@ -1,8 +1,5 @@
-from dataclasses import dataclass
 from pathlib import Path
 from zoneinfo import ZoneInfo
-
-from bushidolib.constants import UnitCategory
 
 LOCAL_TIMEZONE = ZoneInfo("Europe/Zurich")
 
@@ -27,9 +24,3 @@ unit_emojis = {
     "strength": b"\xf0\x9f\xa6\x8d".decode(),
     "wimhof": b"\xf0\x9f\xaa\x90".decode(),
 }
-
-
-@dataclass(frozen=True, slots=True)
-class UnitConf:
-    emoji: str
-    category: UnitCategory

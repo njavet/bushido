@@ -94,7 +94,7 @@ class LogUnitScreen(ModalScreen[UnitLogResult | None]):
             return
 
         self.notify(
-            f"logged unit: {unit.name}",
+            f"logged unit: {message.value.split()[0]}",
             title="logging successful",
             severity="information",
         )

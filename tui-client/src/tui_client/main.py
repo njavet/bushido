@@ -13,8 +13,7 @@ from textual.widgets import (
 )
 
 from bushido_client.api_client import BushidoApiClient
-from bushidolib.constants import UnitCategory
-from bushidolib.unit.martial_arts import GymUnit
+from bushidolib.unit.martial_arts import MartialArtsUnit
 from bushidolib.unit.strength import LiftingUnit
 from tui_client.dtypes import UnitLogResult
 from tui_client.screens import LogUnitScreen
@@ -68,6 +67,7 @@ class BushidoApp(App[None]):
                 )
         yield Footer(id="app_footer")
 
+    """
     async def on_mount(self) -> None:
         self.load_lifting_units()
         self.load_gym_units()
@@ -81,6 +81,7 @@ class BushidoApp(App[None]):
     async def load_gym_units(self) -> None:
         units = await self.api.load_units(UnitCategory.GYM, GymUnit)
         self.query_one(GymContainer).set_units(units)
+    """
 
     async def action_log_unit(self) -> None:
         await self.push_screen(
@@ -94,8 +95,6 @@ class BushidoApp(App[None]):
         match result.unit:
             case LiftingUnit():
                 self.query_one(LiftingContainer).add_unit(result.unit)
-            case GymUnit():
-                self.query_one(GymContainer).add_unit(result.unit)
 
     async def on_unmount(self) -> None:
         await self.api.close()

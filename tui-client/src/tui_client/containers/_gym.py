@@ -8,7 +8,7 @@ from textual.widgets import (
     RichLog,
 )
 
-from bushidolib.unit.martial_arts import GymUnit
+from bushidolib.unit.martial_arts import MartialArtsUnit
 
 
 class GymContainer(Container):
@@ -21,10 +21,10 @@ class GymContainer(Container):
         yield RichLog(id="gym_stats")
         yield GymTable(id="gym_table")
 
-    def set_units(self, units: list[GymUnit]) -> None:
+    def set_units(self, units: list[MartialArtsUnit]) -> None:
         self.query_one("#gym_table", GymTable).set_units(units)
 
-    def add_unit(self, unit: GymUnit) -> None:
+    def add_unit(self, unit: MartialArtsUnit) -> None:
         self.log(unit)
 
 
@@ -33,7 +33,7 @@ class GymTable(DataTable[str]):
     def on_mount(self) -> None:
         self.add_columns("date", "training", "start", "end", "martial_arts")
 
-    def set_units(self, units: list[GymUnit]) -> None:
+    def set_units(self, units: list[MartialArtsUnit]) -> None:
         self.clear()
         by_day = collections.defaultdict(list)
         for unit in units:
@@ -51,7 +51,7 @@ class GymTable(DataTable[str]):
             for unit in day_units:
                 self.add_row(
                     "",
-                    " ".join([unit.name]),
+                    " ".join([unit.kind]),
                     unit.start_t.strftime("%H%M"),
                     unit.end_t.strftime("%H%M"),
                     unit.gym,

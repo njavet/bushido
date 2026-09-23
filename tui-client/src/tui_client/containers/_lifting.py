@@ -28,12 +28,12 @@ class LiftingContainer(Container):
 
     def set_units(self, units: list[LiftingUnit]) -> None:
         for unit_spec in units:
-            self.query_one(f"#{unit_spec.name}_table", LiftingTable).set_units(
-                [u for u in units if u.name == unit_spec.name]
+            self.query_one(f"#{unit_spec.exercise}_table", LiftingTable).set_units(
+                [u for u in units if u.exercise == unit_spec.exercise]
             )
 
     def add_unit(self, unit: LiftingUnit) -> None:
-        self.query_one(f"#{unit.name}_table", LiftingTable).add_unit(unit)
+        self.query_one(f"#{unit.exercise}_table", LiftingTable).add_unit(unit)
 
 
 class LiftingTable(DataTable[str]):
