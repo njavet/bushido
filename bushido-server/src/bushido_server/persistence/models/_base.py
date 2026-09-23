@@ -32,15 +32,3 @@ class UnitTable(Base):
     spartan_id: Mapped[int] = mapped_column(ForeignKey(Spartan.id))
 
 
-class LogUnitTable(UnitTable):
-    __tablename__ = "log_unit"
-
-    name: Mapped[str] = mapped_column()
-    kind: Mapped[str] = mapped_column()
-
-
-class ChronoUnitTable(UnitTable):
-    __tablename__ = "chrono_unit"
-
-    name: Mapped[str] = mapped_column()
-    seconds: Mapped[float] = mapped_column()

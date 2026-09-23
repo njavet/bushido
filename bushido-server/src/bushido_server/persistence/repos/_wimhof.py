@@ -1,6 +1,6 @@
 from typing import override
 
-from bushidolib.category.wimhof import WimhofRoundData, WimhofUnit
+from bushidolib.unit.wimhof import WimhofRoundData, WimhofUnit
 
 from ..models import WimhofRound, WimhofUnitTable
 from ._base import BaseUnitRepo
@@ -12,7 +12,6 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
     @override
     def _to_orm(self, unit: WimhofUnit) -> WimhofUnitTable:
         orm_unit = WimhofUnitTable(
-            name=unit.name,
             log_time=unit.log_time,
             comment=unit.comment,
         )
@@ -31,7 +30,6 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
             )
             lst.append(ws)
         return WimhofUnit(
-            name=orm_unit.name,
             rounds=lst,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
