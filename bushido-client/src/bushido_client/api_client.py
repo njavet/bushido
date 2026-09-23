@@ -1,10 +1,8 @@
-import datetime
 from typing import TypeVar
 
 from httpx import AsyncClient
 from pydantic import BaseModel, TypeAdapter
 
-from bushidolib.constants import UnitCategory
 from bushidolib.unit.base import BaseUnit
 
 TUnit = TypeVar("TUnit", bound=BaseModel)
@@ -24,24 +22,6 @@ class BushidoApiClient:
         )
         response.raise_for_status()
         return _unit_adapter.validate_python(response.json())
-
-    async def load_units(
-        self,
-        unit_category: UnitCategory,
-        unit_type: type[TUnit],
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[TUnit]:
-        response = await self._client.post(
-            "/api/unit-logs/query",
-            json={
-                "unit_category": unit_category,
-                "start_time": start_t,
-                "end_time": end_t,
-            },
-        )
-        response.raise_for_status()
-        return [unit_type.model_validate(u) for u in response.json()]
 
     async def close(self) -> None:
         await self._client.aclose()
