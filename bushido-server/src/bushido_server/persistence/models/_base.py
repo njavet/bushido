@@ -30,5 +30,3 @@ class UnitTable(Base):
     comment: Mapped[str | None] = mapped_column()
 
     spartan_id: Mapped[int] = mapped_column(ForeignKey(Spartan.id))
-
-
