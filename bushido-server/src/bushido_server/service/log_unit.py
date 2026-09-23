@@ -10,7 +10,7 @@ from bushidolib.unit.base import BaseUnit, RawUnit
 
 def log_unit(line: str, session: Session) -> BaseUnit:
     raw_unit = RawUnit.from_line(line)
-    override = raw_unit.options.get('dt', None)
+    override = raw_unit.options.get("dt", None)
     log_time = resolve_log_time(override=override, clock=SystemClock())
 
     try:
