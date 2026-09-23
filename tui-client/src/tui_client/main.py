@@ -1,8 +1,6 @@
 import asyncio
 from typing import ClassVar, override
 
-import httpx
-from textual import work
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
@@ -13,7 +11,6 @@ from textual.widgets import (
 )
 
 from bushido_client.api_client import BushidoApiClient
-from bushidolib.unit.martial_arts import MartialArtsUnit
 from bushidolib.unit.strength import LiftingUnit
 from tui_client.dtypes import UnitLogResult
 from tui_client.screens import LogUnitScreen
@@ -28,13 +25,10 @@ from .containers import (
 
 
 def filter_units(
-    unit_settings: dict[str, str], units: list[str],
+    unit_settings: dict[str, str],
+    units: list[str],
 ) -> dict[str, str]:
-    return {
-        name: emoji
-        for name, emoji in unit_settings.items()
-        if name in units
-    }
+    return {name: emoji for name, emoji in unit_settings.items() if name in units}
 
 
 class BushidoApp(App[None]):
@@ -44,9 +38,7 @@ class BushidoApp(App[None]):
         Binding("l", "log_unit", "log"),
     ]
 
-    def __init__(
-        self, api_client: BushidoApiClient
-    ) -> None:
+    def __init__(self, api_client: BushidoApiClient) -> None:
         super().__init__()
         self.api = api_client
 
@@ -58,7 +50,7 @@ class BushidoApp(App[None]):
             with TabPane("spartan"):
                 yield SpartanContainer(id="spartan_container")
             with TabPane("martial_arts"):
-                yield GymContainer(filter_units(unit_emojis, ['strength']))
+                yield GymContainer(filter_units(unit_emojis, ["strength"]))
             with TabPane("strength"):
                 yield LiftingContainer(
                     unit_settings=filter_units(unit_emojis, ["squats"])
@@ -100,12 +92,14 @@ class BushidoApp(App[None]):
 
 async def async_main() -> None:
     api_client = BushidoApiClient(base_url="http://localhost:8000")
+    """
     try:
         settings = [{"name": "yo", "category": "yo"}]
     except httpx.ConnectError:
         print("Failed to connect to the server. Is it running?")
         await api_client.close()
         return
+    """
 
     try:
         app = BushidoApp(api_client=api_client)
