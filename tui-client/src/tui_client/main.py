@@ -17,7 +17,7 @@ from bushidolib.unit.martial_arts import MartialArtsUnit
 from bushidolib.unit.strength import LiftingUnit
 from tui_client.dtypes import UnitLogResult
 from tui_client.screens import LogUnitScreen
-from tui_client.settings import UnitConf, unit_emojis
+from tui_client.settings import unit_emojis
 
 from .containers import (
     GymContainer,
@@ -28,12 +28,12 @@ from .containers import (
 
 
 def filter_units(
-    unit_settings: dict[str, UnitConf], category: UnitCategory
+    unit_settings: dict[str, str], units: list[str],
 ) -> dict[str, str]:
     return {
-        name: conf.emoji
-        for name, conf in unit_settings.items()
-        if conf.category == category
+        name: emoji
+        for name, emoji in unit_settings.items()
+        if name in units
     }
 
 
@@ -45,12 +45,10 @@ class BushidoApp(App[None]):
     ]
 
     def __init__(
-        self, api_client: BushidoApiClient, unit_settings: dict[str, UnitConf]
+        self, api_client: BushidoApiClient
     ) -> None:
         super().__init__()
-        # TODO investigate defaults ({}, [])
         self.api = api_client
-        self.unit_settings = unit_settings
 
     @override
     def compose(self) -> ComposeResult:
@@ -60,10 +58,10 @@ class BushidoApp(App[None]):
             with TabPane("spartan"):
                 yield SpartanContainer(id="spartan_container")
             with TabPane("martial_arts"):
-                yield GymContainer(filter_units(self.unit_settings, UnitCategory.GYM))
+                yield GymContainer(filter_units(unit_emojis, ['strength']))
             with TabPane("strength"):
                 yield LiftingContainer(
-                    unit_settings=filter_units(self.unit_settings, UnitCategory.LIFTING)
+                    unit_settings=filter_units(unit_emojis, ["squats"])
                 )
         yield Footer(id="app_footer")
 
@@ -85,7 +83,7 @@ class BushidoApp(App[None]):
 
     async def action_log_unit(self) -> None:
         await self.push_screen(
-            LogUnitScreen(self.api, list(self.unit_settings.keys())),
+            LogUnitScreen(self.api, list(unit_emojis.keys())),
             callback=self.on_log_unit_closed,
         )
 
@@ -110,13 +108,7 @@ async def async_main() -> None:
         return
 
     try:
-        unit_settings = {
-            s["name"]: UnitConf(
-                emoji=unit_emojis["name"], category=UnitCategory(s["category"])
-            )
-            for s in settings
-        }
-        app = BushidoApp(api_client=api_client, unit_settings=unit_settings)
+        app = BushidoApp(api_client=api_client)
         await app.run_async()
     finally:
         await api_client.close()
