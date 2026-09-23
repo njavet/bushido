@@ -18,6 +18,7 @@ class WimhofData(BaseModel):
 
 class WimhofUnit(BaseUnit, WimhofData):
     zen_mode: bool = False
+    guide: str | None = None
 
 
 def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
@@ -46,5 +47,7 @@ def build_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WimhofU
         log_time=log_time,
         comment=raw_unit.comment,
         rounds=data.rounds,
+        # TODO rm hardcoding
         zen_mode='-z' in raw_unit.flags,
+        guide=raw_unit.options.get('--guide', None)
     )
