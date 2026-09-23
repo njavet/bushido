@@ -16,11 +16,11 @@ class LiftingSetData(BaseModel):
 
 class LiftingData(BaseModel):
     sets: list[LiftingSetData]
-    variant: str = "default"
 
 
 class LiftingUnit(BaseUnit, LiftingData):
     exercise: str
+    variant: str = "default"
 
 
 class StrengthUnit(BaseUnit, SpaceTimeData):
@@ -29,17 +29,17 @@ class StrengthUnit(BaseUnit, SpaceTimeData):
 
 def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
     try:
-        weights = [float(w) for w in tokens[::3]]
+        rests = [float(r) for r in tokens[::3]]
     except ValueError as e:
-        raise UnitParsingError(f"invalid weight {tokens[::3]}") from e
+        raise UnitParsingError(f"invalid rest {tokens[::3]}") from e
     try:
-        reps = [float(r) for r in tokens[1::3]]
+        weights = [float(w) for w in tokens[1::3]]
     except ValueError as e:
-        raise UnitParsingError(f"invalid reps {tokens[1::3]}") from e
+        raise UnitParsingError(f"invalid weight {tokens[1::3]}") from e
     try:
-        rests = [float(r) for r in tokens[2::3]] + [0]
+        reps = [float(r) for r in tokens[2::3]]
     except ValueError as e:
-        raise UnitParsingError(f"invalid rest {tokens[2::3]}") from e
+        raise UnitParsingError(f"invalid reps {tokens[2::3]}") from e
     if len(weights) == 0:
         raise UnitParsingError("at least one set")
     if len(weights) != len(reps):
@@ -62,13 +62,13 @@ def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
 
 
 def build_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> LiftingUnit:
-    lifting_data = parse_lifting_data(raw_unit.tokens)
+    data = parse_lifting_data(raw_unit.tokens)
     return LiftingUnit(
         exercise=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
-        sets=lifting_data.sets,
-        variant=lifting_data.variant,
+        sets=data.sets,
+        variant=raw_unit.options.get('variant', 'default')
     )
 
 
