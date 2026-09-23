@@ -13,4 +13,3 @@ async def process_log_request(request: LogUnitRequest, session: SessionDep) -> B
         return log_unit(request.line, session)
     except Exception as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-
