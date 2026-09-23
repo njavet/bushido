@@ -17,7 +17,7 @@ class WimhofData(BaseModel):
 
 
 class WimhofUnit(BaseUnit, WimhofData):
-    pass
+    zen_mode: bool = False
 
 
 def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
@@ -41,9 +41,10 @@ def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
 
 
 def build_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WimhofUnit:
-    wimhof_data = parse_wimhof_data(raw_unit.tokens)
+    data = parse_wimhof_data(raw_unit.tokens)
     return WimhofUnit(
         log_time=log_time,
         comment=raw_unit.comment,
-        rounds=wimhof_data.rounds,
+        rounds=data.rounds,
+        zen_mode='-z' in raw_unit.flags,
     )

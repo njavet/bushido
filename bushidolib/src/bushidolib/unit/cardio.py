@@ -1,13 +1,13 @@
-from pydantic import BaseModel
-
 import datetime
+
+from pydantic import BaseModel
 
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )
-from bushidolib.unit.base import RawUnit, BaseUnit
+from bushidolib.unit.base import BaseUnit, RawUnit
 
 
 class CardioData(BaseModel):

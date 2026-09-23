@@ -1,5 +1,3 @@
-from enum import StrEnum
-
 # TODO move to settings / server
 # sunday
 WEEK_START_DAY = 6

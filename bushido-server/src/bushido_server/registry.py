@@ -3,6 +3,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
+from bushidolib.category.wimhof import build_wimhof_unit
+
 from bushido_server.persistence.repos import (
     BaseUnitRepo,
     CardioUnitRepo,
@@ -10,14 +12,13 @@ from bushido_server.persistence.repos import (
     LiftingUnitRepo,
     WimhofUnitRepo,
 )
+from bushidolib.constants import UnitCategory
+from bushidolib.unit.base import BaseUnit, RawUnit
 from bushidolib.unit.cardio import build_cardio_unit
 from bushidolib.unit.martial_arts import build_gym_unit
 from bushidolib.unit.strength import (
     build_lifting_unit,
 )
-from bushidolib.category.wimhof import build_wimhof_unit
-from bushidolib.constants import UnitCategory
-from bushidolib.unit.base import BaseUnit, RawUnit
 
 
 @dataclass(frozen=True)

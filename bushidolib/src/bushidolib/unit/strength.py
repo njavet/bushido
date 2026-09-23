@@ -4,14 +4,14 @@ from pydantic import BaseModel
 
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.parsing import parse_space_time_data
-from bushidolib.unit.base import BaseUnit, SpaceTimeData, RawUnit
+from bushidolib.unit.base import BaseUnit, RawUnit, SpaceTimeData
 
 
 class LiftingSetData(BaseModel):
     set_nr: int
+    rest: float
     weight: float
     reps: float
-    rest: float
 
 
 class LiftingData(BaseModel):
