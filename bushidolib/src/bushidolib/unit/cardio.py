@@ -98,11 +98,11 @@ def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioU
                 raise UnitParsingError(f"wrong distance {raw_unit.tokens}") from e
             try:
                 pool_length = int(raw_unit.options["pl"])
-            except (KeyError, ValueError):
+            except KeyError, ValueError:
                 pool_length = None
             try:
                 temperature = float(raw_unit.options["tmp"])
-            except (KeyError, ValueError):
+            except KeyError, ValueError:
                 temperature = None
             return SwimmingUnit(
                 log_time=log_time,
