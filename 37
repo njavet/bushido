@@ -34,7 +34,7 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
         return WimhofUnit(
             rounds=lst,
             zen_mode=orm_unit.zen_mode,
-            guide=orm_unit.guide,
+            guid=orm_unit.guid,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
