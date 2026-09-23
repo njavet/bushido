@@ -18,7 +18,7 @@ def log_unit(line: str, session: Session) -> BaseUnit:
     except KeyError as e:
         raise UnitParsingError(f"Unknown unit: {raw_unit.name}") from e
 
-    repo = spec.unit_repo(session)
+    repo = spec.repo(session)
     unit = spec.build_unit(raw_unit, log_time)
     repo.add_unit(unit)
     return unit
