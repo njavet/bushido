@@ -1,7 +1,7 @@
 import datetime
 from enum import StrEnum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.unit.base import BaseUnit, RawUnit
@@ -16,9 +16,9 @@ class WimhofOptions(StrEnum):
 
 
 class WimhofRoundData(BaseModel):
-    round_nr: int
-    breaths: int
-    retention: int
+    round_nr: int = Field(ge=0)
+    breaths: int = Field(ge=0)
+    retention: int = Field(ge=0, lt=600)
 
 
 class WimhofData(BaseModel):
