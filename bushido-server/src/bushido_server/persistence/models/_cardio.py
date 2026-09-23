@@ -16,13 +16,13 @@ class CardioUnitTable(UnitTable):
     calories: Mapped[int | None] = mapped_column()
 
 
-class RunningUnit(CardioUnitTable):
+class RunningUnitTable(CardioUnitTable):
     __tablename__ = "running_unit"
 
     distance: Mapped[float] = mapped_column()
 
 
-class SwimmingUnit(CardioUnitTable):
+class SwimmingUnitTable(CardioUnitTable):
     __tablename__ = "swimming_unit"
 
     distance: Mapped[float] = mapped_column()
@@ -30,5 +30,5 @@ class SwimmingUnit(CardioUnitTable):
     temperature: Mapped[float | None] = mapped_column()
 
 
-class RopeSkipUnit(CardioUnitTable):
+class RopeSkipUnitTable(CardioUnitTable):
     __tablename__ = "rope_skip_unit"
