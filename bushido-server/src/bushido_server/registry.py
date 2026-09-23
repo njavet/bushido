@@ -3,32 +3,32 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
+from bushido_server.persistence.repos import (
+    BaseUnitRepo,
+    CaliUnitRepo,
+    ChronoUnitRepo,
+    LiftingUnitRepo,
+    LogUnitRepo,
+    MartialArtsUnitRepo,
+    RopeSkipUnitRepo,
+    RunningUnitRepo,
+    StrengthUnitRepo,
+    SwimmingUnitRepo,
+    WimhofUnitRepo,
+    WorkUnitRepo,
+)
 from bushidolib.unit.base import BaseUnit, RawUnit
 from bushidolib.unit.cali import build_cali_unit
+from bushidolib.unit.cardio import build_cardio_unit
 from bushidolib.unit.chrono import build_chrono_unit
 from bushidolib.unit.log import build_log_unit
-from bushidolib.unit.wimhof import build_wimhof_unit
-from bushidolib.unit.cardio import build_cardio_unit
-from bushidolib.unit.work import build_work_unit
 from bushidolib.unit.martial_arts import build_martial_arts_unit
 from bushidolib.unit.strength import (
     build_lifting_unit,
-build_strength_unit,
+    build_strength_unit,
 )
-
-from bushido_server.persistence.repos import (
-    BaseUnitRepo,
-    ChronoUnitRepo,
-    CaliUnitRepo,
-    LogUnitRepo,
-    MartialArtsUnitRepo, WorkUnitRepo,
-    WimhofUnitRepo,
-    StrengthUnitRepo,
-    SwimmingUnitRepo,
-    RunningUnitRepo,
-    RopeSkipUnitRepo,
-    LiftingUnitRepo,
-)
+from bushidolib.unit.wimhof import build_wimhof_unit
+from bushidolib.unit.work import build_work_unit
 
 
 @dataclass(frozen=True)
