@@ -1,12 +1,20 @@
 from ._base import BaseUnitRepo
-from ._cardio import CardioUnitRepo
-from ._strength import GymUnitRepo, LiftingUnitRepo
+from ._cali import CaliUnitRepo
+from ._chrono import ChronoUnitRepo
+from ._log import LogUnitRepo
+from ._martial_arts import MartialArtsUnitRepo
+from ._strength import StrengthUnitRepo, LiftingUnitRepo
 from ._wimhof import WimhofUnitRepo
+from ._work import WorkUnitRepo
 
 __all__ = [
     "BaseUnitRepo",
-    "CardioUnitRepo",
-    "GymUnitRepo",
     "LiftingUnitRepo",
+    "StrengthUnitRepo",
     "WimhofUnitRepo",
+    "CaliUnitRepo",
+    "LogUnitRepo",
+    "ChronoUnitRepo",
+    "MartialArtsUnitRepo",
+    "WorkUnitRepo",
 ]
