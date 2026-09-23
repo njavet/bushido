@@ -5,14 +5,14 @@ from bushidolib.exceptions import UnitParsingError
 
 class PreprocResult(NamedTuple):
     tokens: tuple[str, ...]
-    options: dict[str, str]
     flags: list[str]
+    options: dict[str, str]
 
 
 def split_words(words: tuple[str, ...]) -> PreprocResult:
     tokens: list[str] = []
-    options: dict[str, str] = {}
     flags: list[str] = []
+    options: dict[str, str] = {}
     i = 0
     while i < len(words):
         word = words[i]
@@ -27,4 +27,4 @@ def split_words(words: tuple[str, ...]) -> PreprocResult:
         else:
             tokens.append(word)
             i += 1
-    return PreprocResult(tuple(tokens), options, flags)
+    return PreprocResult(tuple(tokens), flags, options)

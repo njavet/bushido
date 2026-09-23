@@ -1,6 +1,10 @@
+import datetime
+
 from pydantic import BaseModel
 
-from bushidolib.unit.base import BaseUnit, SpaceTimeData
+from bushidolib.exceptions import UnitParsingError
+from bushidolib.parsing import parse_space_time_data
+from bushidolib.unit.base import BaseUnit, SpaceTimeData, RawUnit
 
 
 class LiftingSetData(BaseModel):
@@ -12,7 +16,7 @@ class LiftingSetData(BaseModel):
 
 class LiftingData(BaseModel):
     sets: list[LiftingSetData]
-    variant: str = 'default'
+    variant: str = "default"
 
 
 class LiftingUnit(BaseUnit, LiftingData):
@@ -21,13 +25,6 @@ class LiftingUnit(BaseUnit, LiftingData):
 
 class StrengthUnit(BaseUnit, SpaceTimeData):
     pass
-import datetime
-
-from bushidolib.exceptions import UnitParsingError
-from bushidolib.unit.base import RawUnit
-from bushidolib.parsing import parse_space_time_data
-
-from ._spec import LiftingData, LiftingSetData, LiftingUnit, StrengthUnit
 
 
 def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:

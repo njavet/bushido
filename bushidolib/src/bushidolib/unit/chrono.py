@@ -18,4 +18,6 @@ def parse_chrono_data(tokens: tuple[str, ...]) -> float:
 
 def build_chrono_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> ChronoUnit:
     seconds = parse_chrono_data(raw_unit.tokens)
-    return ChronoUnit(name=raw_unit.name, log_time=log_time, comment=raw_unit.comment, seconds=seconds)
+    return ChronoUnit(
+        name=raw_unit.name, log_time=log_time, comment=raw_unit.comment, seconds=seconds
+    )

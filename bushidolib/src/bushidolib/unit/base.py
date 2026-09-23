@@ -20,8 +20,8 @@ class LoadUnitRequest(BaseModel):
 class RawUnit(BaseModel):
     name: str
     tokens: tuple[str, ...]
-    options: dict[str, str]
     flags: list[str]
+    options: dict[str, str]
     comment: str | None = None
 
     @classmethod
@@ -38,8 +38,8 @@ class RawUnit(BaseModel):
         return cls(
             name=words[0],
             tokens=result.tokens,
-            options=result.options,
             flags=result.flags,
+            options=result.options,
             comment=comment,
         )
 
