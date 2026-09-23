@@ -1,7 +1,7 @@
 from ._base import Base, Spartan, UnitTable
 from ._cardio import CardioUnitTable
 from ._gym import GymUnitTable
-from ._lifting import LiftingSet, LiftingUnitTable
+from ._strength import LiftingSet, LiftingUnitTable
 from ._wimhof import WimhofRound, WimhofUnitTable
 
 __all__ = [
