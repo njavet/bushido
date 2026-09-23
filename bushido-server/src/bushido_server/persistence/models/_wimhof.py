@@ -7,6 +7,9 @@ from ._base import Base, UnitTable
 class WimhofUnitTable(UnitTable):
     __tablename__ = "wimhof_unit"
 
+    zen_mode: Mapped[bool] = mapped_column()
+    guide: Mapped[str | None] = mapped_column()
+
     subunits: Mapped[list[WimhofRound]] = relationship(
         cascade="all, delete-orphan",
         back_populates="unit",
