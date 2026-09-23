@@ -2,9 +2,9 @@ from typing import override
 
 from sqlalchemy.orm import selectinload
 
-from bushidolib.unit.strength import StrengthUnit, LiftingUnit, LiftingSetData
+from bushidolib.unit.strength import LiftingSetData, LiftingUnit, StrengthUnit
 
-from ..models import LiftingSet, StrengthUnitTable, LiftingUnitTable
+from ..models import LiftingSet, LiftingUnitTable, StrengthUnitTable
 from ._base import BaseUnitRepo
 
 

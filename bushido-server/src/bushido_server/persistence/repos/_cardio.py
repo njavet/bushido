@@ -1,8 +1,8 @@
 from typing import override
 
-from bushidolib.unit.cardio import RunningUnit, SwimmingUnit, RopeSkipUnit
+from bushidolib.unit.cardio import RopeSkipUnit, RunningUnit, SwimmingUnit
 
-from ..models import RunningUnitTable, SwimmingUnitTable, RopeSkipUnitTable
+from ..models import RopeSkipUnitTable, RunningUnitTable, SwimmingUnitTable
 from ._base import BaseUnitRepo
 
 
