@@ -44,8 +44,12 @@ UNIT_REGISTRY: dict[str, UnitSpec] = {
     "skipping": UnitSpec(unit_repo=RopeSkipUnitRepo, build_unit=build_cardio_unit),
     "log": UnitSpec(unit_repo=LogUnitRepo, build_unit=build_log_unit),
     "chrono": UnitSpec(unit_repo=ChronoUnitRepo, build_unit=build_chrono_unit),
-    "karate": UnitSpec(unit_repo=MartialArtsUnitRepo, build_unit=build_martial_arts_unit),
-    "grappling": UnitSpec(unit_repo=MartialArtsUnitRepo, build_unit=build_martial_arts_unit),
+    "karate": UnitSpec(
+        unit_repo=MartialArtsUnitRepo, build_unit=build_martial_arts_unit
+    ),
+    "grappling": UnitSpec(
+        unit_repo=MartialArtsUnitRepo, build_unit=build_martial_arts_unit
+    ),
     "strength": UnitSpec(unit_repo=StrengthUnitRepo, build_unit=build_strength_unit),
     "squat": UnitSpec(unit_repo=LiftingUnitRepo, build_unit=build_lifting_unit),
     "deadlift": UnitSpec(unit_repo=LiftingUnitRepo, build_unit=build_lifting_unit),

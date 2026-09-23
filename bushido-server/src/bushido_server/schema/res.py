@@ -8,6 +8,4 @@ class UnitLogResponse(BaseModel):
     status: str
 
 
-LoadedUnits = (
-        list[CardioUnit] | list[LiftingUnit]
-)
+LoadedUnits = list[CardioUnit] | list[LiftingUnit]
