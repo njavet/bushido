@@ -1,5 +1,5 @@
-from typing import Self
 import datetime
+from typing import Self
 
 from pydantic import model_validator
 
@@ -23,15 +23,15 @@ class WorkUnit(BaseUnit):
             cond1 = self.end_t is None
             if not cond0 or not cond1:
                 raise UnitParsingError(
-                    f"if time is specified, do not provide start and end time"
+                    "if time is specified, do not provide start and end time"
                 )
         else:
             if self.start_t is None:
-                raise UnitParsingError(f"no start time")
+                raise UnitParsingError("no start time")
             if self.end_t is None:
-                raise UnitParsingError(f"no end time")
+                raise UnitParsingError("no end time")
             if self.end_t <= self.start_t:
-                raise UnitParsingError(f"end time is before start time")
+                raise UnitParsingError("end time is before start time")
         return self
 
 
