@@ -3,6 +3,7 @@ from typing import Self
 
 from pydantic import BaseModel, Field
 
+from bushidolib.constants import COMMENT_SEP
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.parsing import split_words
 
@@ -26,21 +27,17 @@ class RawUnit(BaseModel):
 
     @classmethod
     def from_line(cls, line: str) -> Self:
-        parts = line.split("#")
-        words = tuple(parts[0].split())
+        payload, sep, comment = line.partition(COMMENT_SEP)
+        words = tuple(payload.split())
         if not words:
             raise UnitParsingError(f"Empty unit line: {line}")
-        try:
-            comment = parts[1].strip()
-        except IndexError:
-            comment = None
         result = split_words(words[1:])
         return cls(
             name=words[0],
             tokens=result.tokens,
             flags=result.flags,
             options=result.options,
-            comment=comment,
+            comment=comment.strip() if sep and comment.strip() else None,
         )
 
 

@@ -1,3 +1,5 @@
+COMMENT_SEP = "#"
+
 # TODO move to settings / server
 # sunday
 WEEK_START_DAY = 6
