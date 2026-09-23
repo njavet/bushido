@@ -1,9 +1,18 @@
 import datetime
+from enum import StrEnum
 
 from pydantic import BaseModel
 
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.unit.base import BaseUnit, RawUnit
+
+
+class WimhofFlags(StrEnum):
+    z = "zen_mode"
+
+
+class WimhofOptions(StrEnum):
+    guide = "guide"
 
 
 class WimhofRoundData(BaseModel):
@@ -47,7 +56,6 @@ def build_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WimhofU
         log_time=log_time,
         comment=raw_unit.comment,
         rounds=data.rounds,
-        # TODO rm hardcoding
-        zen_mode='-z' in raw_unit.flags,
-        guide=raw_unit.options.get('--guide', None)
+        zen_mode=WimhofFlags.z in raw_unit.flags,
+        guide=raw_unit.options.get(WimhofOptions.guide, None)
     )

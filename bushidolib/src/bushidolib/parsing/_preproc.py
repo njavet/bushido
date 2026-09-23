@@ -19,10 +19,10 @@ def split_words(words: tuple[str, ...]) -> PreprocResult:
         if word.startswith("--"):
             if i + 1 >= len(words):
                 raise UnitParsingError(f"Missing value for option {word}")
-            options[word] = words[i + 1]
+            options[word[2:]] = words[i + 1]
             i += 2
         elif word.startswith("-"):
-            flags.append(word)
+            flags.append(word[1:])
             i += 1
         else:
             tokens.append(word)
