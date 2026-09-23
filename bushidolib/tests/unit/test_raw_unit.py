@@ -168,6 +168,16 @@ from bushidolib.unit.base import RawUnit
                 comment="# another # hash",
             ),
         ),
+        (
+            "poseidon --tmp -5 # # another # hash",
+            RawUnit(
+                name="poseidon",
+                tokens=(),
+                flags=[],
+                options={"tmp": "-5"},
+                comment="# another # hash",
+            ),
+        ),
     ],
 )
 def test_parse_line(line: str, expected: RawUnit) -> None:

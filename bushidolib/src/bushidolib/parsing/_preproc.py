@@ -26,9 +26,12 @@ def split_words(words: tuple[str, ...]) -> PreprocResult:
                 )
             # catch --option0 -g (flag follows empty option)
             if words[i + 1].startswith("-"):
-                raise UnitParsingError(
-                    f"Invalid value for option {word}: {words[i + 1]}"
-                )
+                try:
+                    _ = float(words[i + 1])
+                except ValueError as e:
+                    raise UnitParsingError(
+                        f"Invalid value for option {word}: {words[i + 1]}"
+                    ) from e
             # catch --avghr 140 --avghr 150 errors
             if word[2:] in options:
                 raise UnitParsingError(f"duplicated option {word[2:]}")
