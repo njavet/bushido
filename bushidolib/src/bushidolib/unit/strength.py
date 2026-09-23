@@ -8,6 +8,7 @@ from bushidolib.unit.base import BaseUnit, RawUnit, SpaceTimeData
 
 # TODO barbell, dumbbell
 
+
 class LiftingSetData(BaseModel):
     set_nr: int
     rest: float
@@ -69,7 +70,7 @@ def build_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> Liftin
         log_time=log_time,
         comment=raw_unit.comment,
         sets=data.sets,
-        variant=raw_unit.options.get('variant', 'default')
+        variant=raw_unit.options.get("variant", "default"),
     )
 
 

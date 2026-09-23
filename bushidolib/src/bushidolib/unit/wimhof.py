@@ -57,5 +57,5 @@ def build_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WimhofU
         comment=raw_unit.comment,
         rounds=data.rounds,
         zen_mode=WimhofFlags.z in raw_unit.flags,
-        guide=raw_unit.options.get(WimhofOptions.guide, None)
+        guide=raw_unit.options.get(WimhofOptions.guide, None),
     )

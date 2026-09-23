@@ -15,8 +15,9 @@ def build_log_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> LogUnit:
     except IndexError:
         raise UnitParsingError(f"no Kind{raw_unit.name}")
 
-    return LogUnit(name=raw_unit.name,
-                   kind=kind,
-                   log_time=log_time,
-                   comment=raw_unit.comment,
+    return LogUnit(
+        name=raw_unit.name,
+        kind=kind,
+        log_time=log_time,
+        comment=raw_unit.comment,
     )

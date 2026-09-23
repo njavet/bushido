@@ -8,7 +8,9 @@ class MartialArtsUnit(BaseUnit, SpaceTimeData):
     kind: str
 
 
-def build_martial_arts_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> MartialArtsUnit:
+def build_martial_arts_unit(
+    raw_unit: RawUnit, log_time: datetime.datetime
+) -> MartialArtsUnit:
     data = parse_space_time_data(raw_unit.tokens)
     return MartialArtsUnit(
         kind=raw_unit.name,

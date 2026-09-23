@@ -22,7 +22,9 @@ class WorkUnit(BaseUnit):
             cond0 = self.start_t is None
             cond1 = self.end_t is None
             if not cond0 or not cond1:
-                raise UnitParsingError(f"if time is specified, do not provide start and end time")
+                raise UnitParsingError(
+                    f"if time is specified, do not provide start and end time"
+                )
         else:
             if self.start_t is None:
                 raise UnitParsingError(f"no start time")

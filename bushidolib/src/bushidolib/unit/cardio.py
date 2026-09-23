@@ -48,15 +48,15 @@ def parse_cardio_data(tokens: tuple[str, ...], options: dict[str, str]) -> Cardi
     except IndexError as e:
         raise UnitParsingError("no gym") from e
     try:
-        avg_hr = int(options['avg_hr'])
+        avg_hr = int(options["avg_hr"])
     except KeyError:
         avg_hr = None
     try:
-        max_hr = int(options['max_hr'])
+        max_hr = int(options["max_hr"])
     except KeyError:
         max_hr = None
     try:
-        calories = int(options['cal'])
+        calories = int(options["cal"])
     except KeyError:
         calories = None
     return CardioData(
@@ -78,7 +78,7 @@ def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioU
         case CardioType.running:
             try:
                 distance = float(raw_unit.tokens[3])
-            except (KeyError, ValueError):
+            except KeyError, ValueError:
                 raise UnitParsingError(f"wrong distance {raw_unit.tokens}")
             return RunningUnit(
                 log_time=log_time,
@@ -94,15 +94,15 @@ def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioU
         case CardioType.swimming:
             try:
                 distance = float(raw_unit.tokens[3])
-            except (KeyError, ValueError):
+            except KeyError, ValueError:
                 raise UnitParsingError(f"wrong distance {raw_unit.tokens}")
             try:
-                pool_length = raw_unit.options['pl']
-            except (KeyError, ValueError):
+                pool_length = raw_unit.options["pl"]
+            except KeyError, ValueError:
                 pool_length = None
             try:
-                temperature = raw_unit.options['tmp']
-            except (KeyError, ValueError):
+                temperature = raw_unit.options["tmp"]
+            except KeyError, ValueError:
                 temperature = None
             return SwimmingUnit(
                 log_time=log_time,
@@ -130,4 +130,3 @@ def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioU
             )
         case _:
             raise UnitParsingError(f"no such unit {raw_unit.name}")
-
