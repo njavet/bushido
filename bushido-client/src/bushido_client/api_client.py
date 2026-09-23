@@ -15,6 +15,11 @@ class BushidoApiClient:
     def __init__(self, base_url: str) -> None:
         self._client = AsyncClient(base_url=base_url)
 
+    async def get_unit_names(self) -> list[str]:
+        response = await self._client.get("/api/unit-names")
+        response.raise_for_status()
+        return list(response.json())
+
     async def log_unit(self, line: str) -> BaseUnit:
         response = await self._client.post(
             "/api/unit-logs",
