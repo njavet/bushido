@@ -3,7 +3,7 @@ import datetime
 from pydantic import BaseModel
 
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.parsing import parse_space_time_data
+from bushidolib.parsing import parse_start_end_time_string
 from bushidolib.unit.base import BaseUnit, RawUnit, SpaceTimeData
 
 # TODO barbell, dumbbell
@@ -75,11 +75,15 @@ def build_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> Liftin
 
 
 def build_strength_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> StrengthUnit:
-    data = parse_space_time_data(raw_unit.tokens)
+    start_t, end_t = parse_start_end_time_string(raw_unit.tokens[0])
+    try:
+        gym = raw_unit.tokens[1]
+    except IndexError as e:
+        raise UnitParsingError("no gym") from e
     return StrengthUnit(
         log_time=log_time,
         comment=raw_unit.comment,
-        start_t=data.start_t,
-        end_t=data.end_t,
-        gym=data.gym,
+        start_t=start_t,
+        end_t=end_t,
+        gym=gym,
     )

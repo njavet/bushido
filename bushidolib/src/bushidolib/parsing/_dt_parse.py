@@ -8,7 +8,6 @@ from bushidolib.constants import (
     WEEK_START_DAY,
 )
 from bushidolib.exceptions import UnitParsingError
-from bushidolib.unit.base import SpaceTimeData
 
 
 def time_string_to_seconds(time_string: str) -> float:
@@ -123,17 +122,3 @@ def find_next_saturday(dt: datetime.date) -> datetime.date:
         days = 5 - dt.weekday()
         return dt + datetime.timedelta(days=days)
     return dt + datetime.timedelta(days=6)
-
-
-def parse_space_time_data(tokens: tuple[str, ...]) -> SpaceTimeData:
-    start_t, end_t = parse_start_end_time_string(tokens[0])
-    try:
-        gym = tokens[1]
-    except IndexError as e:
-        raise UnitParsingError("no gym") from e
-
-    return SpaceTimeData(
-        start_t=start_t,
-        end_t=end_t,
-        gym=gym,
-    )
