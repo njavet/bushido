@@ -29,12 +29,12 @@ class RawUnit(BaseModel):
     def from_line(cls, line: str) -> Self:
         payload, sep, comment = line.partition(COMMENT_SEP)
         words = tuple(payload.split())
-        if not words:
+        result = split_words(words)
+        if not result.tokens:
             raise UnitParsingError(f"Empty unit line: {line}")
-        result = split_words(words[1:])
         return cls(
-            name=words[0],
-            tokens=result.tokens,
+            name=result.tokens[0],
+            tokens=result.tokens[1:],
             flags=result.flags,
             options=result.options,
             comment=comment.strip() if sep and comment.strip() else None,

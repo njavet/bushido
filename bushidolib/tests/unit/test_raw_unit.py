@@ -1,5 +1,6 @@
 import pytest
 
+from bushidolib.exceptions import UnitParsingError
 from bushidolib.unit.base import RawUnit
 
 
@@ -172,3 +173,24 @@ from bushidolib.unit.base import RawUnit
 def test_parse_line(line: str, expected: RawUnit) -> None:
     raw_unit = RawUnit.from_line(line)
     assert raw_unit == expected
+
+
+@pytest.mark.parametrize(
+    "line",
+    [
+        "",
+        "   ",
+        "\t",
+        "--avghr 140",  # no unit name
+        "-x",  # no unit name
+        "# comment only",  # no unit name
+        "running --avghr",  # option missing value
+        "running --cal",  # option missing value
+        # Important ambiguity:
+        "running --avghr --maxhr 180",
+        "running --avghr -x",
+    ],
+)
+def test_parse_line_rejects_invalid_syntax(line: str) -> None:
+    with pytest.raises(UnitParsingError):
+        RawUnit.from_line(line)
