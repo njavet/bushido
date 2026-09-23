@@ -19,9 +19,20 @@ def split_words(words: tuple[str, ...]) -> PreprocResult:
         if word.startswith("--"):
             if i + 1 >= len(words):
                 raise UnitParsingError(f"Missing value for option {word}")
+            # catch --option0 --option1
+            if words[i + 1].startswith("--"):
+                raise UnitParsingError(
+                    f"Invalid value for option {word}: {words[i + 1]}"
+                )
+            # catch --option0 -g
+            if words[i + 1].startswith("-"):
+                raise UnitParsingError(
+                    f"Invalid value for option {word}: {words[i + 1]}"
+                )
             options[word[2:]] = words[i + 1]
             i += 2
-        elif word.startswith("-"):
+        # -5 is not a flag
+        elif word.startswith("-") and word[1:].isalpha():
             flags.append(word[1:])
             i += 1
         else:
