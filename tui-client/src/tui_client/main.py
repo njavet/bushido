@@ -39,9 +39,10 @@ class BushidoApp(App[None]):
         Binding("l", "log_unit", "log"),
     ]
 
-    def __init__(self, api_client: BushidoApiClient) -> None:
+    def __init__(self, api_client: BushidoApiClient, unit_names: list[str]) -> None:
         super().__init__()
         self.api = api_client
+        self.unit_names = unit_names
 
     @override
     def compose(self) -> ComposeResult:
@@ -76,7 +77,7 @@ class BushidoApp(App[None]):
 
     async def action_log_unit(self) -> None:
         await self.push_screen(
-            LogUnitScreen(self.api, list(unit_emojis.keys())),
+            LogUnitScreen(self.api, self.unit_names),
             callback=self.on_log_unit_closed,
         )
 
@@ -94,14 +95,14 @@ class BushidoApp(App[None]):
 async def async_main() -> None:
     api_client = BushidoApiClient(base_url="http://localhost:8000")
     try:
-        _ = await api_client.get_unit_names()
+        unit_names = await api_client.get_unit_names()
     except httpx.ConnectError:
         print("Failed to connect to the server. Is it running?")
         await api_client.close()
         return
 
     try:
-        app = BushidoApp(api_client=api_client)
+        app = BushidoApp(api_client=api_client, unit_names=unit_names)
         await app.run_async()
     finally:
         await api_client.close()
