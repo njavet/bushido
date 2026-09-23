@@ -48,16 +48,20 @@ def build_work_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WorkUnit:
             raise UnitParsingError(f"failed to parse time string: {e}") from e
     try:
         gym = raw_unit.tokens[1]
-    except IndexError:
-        raise UnitParsingError(f"failed to parse gym string: {raw_unit.tokens}")
+    except IndexError as e:
+        raise UnitParsingError(f"failed to parse gym string: {raw_unit.tokens}") from e
     try:
         project = raw_unit.tokens[2]
-    except IndexError:
-        raise UnitParsingError(f"failed to parse project string: {raw_unit.tokens}")
+    except IndexError as e:
+        raise UnitParsingError(
+            f"failed to parse project string: {raw_unit.tokens}"
+        ) from e
     try:
         topic = raw_unit.tokens[3]
-    except IndexError:
-        raise UnitParsingError(f"failed to parse topic string: {raw_unit.tokens}")
+    except IndexError as e:
+        raise UnitParsingError(
+            f"failed to parse topic string: {raw_unit.tokens}"
+        ) from e
 
     return WorkUnit(
         start_t=start_t,
