@@ -10,7 +10,8 @@ from bushidolib.unit.base import BaseUnit, RawUnit
 
 def log_unit(line: str, session: Session) -> BaseUnit:
     raw_unit = RawUnit.from_line(line)
-    log_time = resolve_log_time(override=raw_unit.raw_log_time, clock=SystemClock())
+    override = raw_unit.options.get('dt', None)
+    log_time = resolve_log_time(override=override, clock=SystemClock())
 
     try:
         spec = UNIT_REGISTRY[raw_unit.name]
