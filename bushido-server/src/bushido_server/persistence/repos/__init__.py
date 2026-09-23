@@ -1,5 +1,6 @@
 from ._base import BaseUnitRepo
 from ._cali import CaliUnitRepo
+from ._cardio import RunningUnitRepo, SwimmingUnitRepo, RopeSkipUnitRepo
 from ._chrono import ChronoUnitRepo
 from ._log import LogUnitRepo
 from ._martial_arts import MartialArtsUnitRepo
@@ -17,4 +18,7 @@ __all__ = [
     "ChronoUnitRepo",
     "MartialArtsUnitRepo",
     "WorkUnitRepo",
+    "RunningUnitRepo",
+    "SwimmingUnitRepo",
+    "RopeSkipUnitRepo",
 ]
