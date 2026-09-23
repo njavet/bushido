@@ -189,6 +189,7 @@ def test_parse_line(line: str, expected: RawUnit) -> None:
         # Important ambiguity:
         "running --avghr --maxhr 180",
         "running --avghr -x",
+        "swimming --avghr 140 --avghr 150",
     ],
 )
 def test_parse_line_rejects_invalid_syntax(line: str) -> None:
