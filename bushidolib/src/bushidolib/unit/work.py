@@ -36,16 +36,16 @@ class WorkUnit(BaseUnit):
 
 
 def build_work_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WorkUnit:
+    start_t: datetime.time | None = None
+    end_t: datetime.time | None = None
+    seconds: float | None = None
     try:
         start_t, end_t = parse_start_end_time_string(raw_unit.tokens[0])
     except UnitParsingError:
-        start_t, end_t = None, None
         try:
             seconds = time_string_to_seconds(raw_unit.tokens[0])
         except Exception as e:
             raise UnitParsingError(f"failed to parse time string: {e}") from e
-    else:
-        seconds = None
     try:
         gym = raw_unit.tokens[1]
     except IndexError:
