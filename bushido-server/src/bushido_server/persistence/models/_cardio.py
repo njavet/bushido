@@ -6,12 +6,29 @@ from ._base import UnitTable
 
 
 class CardioUnitTable(UnitTable):
-    __tablename__ = "cardio_unit"
+    __abstract__ = True
 
     start_t: Mapped[datetime.time] = mapped_column()
     seconds: Mapped[float] = mapped_column()
     gym: Mapped[str] = mapped_column()
-    distance: Mapped[float | None] = mapped_column()
     avg_hr: Mapped[int | None] = mapped_column()
     max_hr: Mapped[int | None] = mapped_column()
     calories: Mapped[int | None] = mapped_column()
+
+
+class RunningUnit(CardioUnitTable):
+    __tablename__ = "running_unit"
+
+    distance: Mapped[float] = mapped_column()
+
+
+class SwimmingUnit(CardioUnitTable):
+    __tablename__ = "swimming_unit"
+
+    distance: Mapped[float] = mapped_column()
+    pool_length: Mapped[int | None] = mapped_column()
+    temperature: Mapped[float | None] = mapped_column()
+
+
+class RopeSkipUnit(CardioUnitTable):
+    __tablename__ = "rope_skip_unit"
