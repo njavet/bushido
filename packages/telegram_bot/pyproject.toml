@@ -1,21 +1,21 @@
 [project]
-name = "telegram-bot"
+name = "telegram_bot"
 version = "0.1.0"
 requires-python = ">=3.14,<4"
 
 dependencies = [
     "bushidolib",
-    "bushido-client",
+    "bushido_client",
     "httpx>=0.28",
     "telethon>=1.43",
 ]
 
 [tool.uv.sources]
 bushidolib = { workspace = true }
-bushido-client = { workspace = true }
+bushido_client = { workspace = true }
 
 [project.scripts]
-telegram-bot = "telegram_bot.main:main"
+telegram_bot = "telegram_bot.main:main"
 
 [build-system]
 requires = ["hatchling"]

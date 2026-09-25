@@ -17,10 +17,10 @@ members = ["packages/*"]
 
 [tool.uv.sources]
 bushidolib = { workspace = true }
-bushido-server = { workspace = true }
-bushido-client = { workspace = true }
-tui-client = { workspace = true }
-telegram-bot = { workspace = true }
+bushido_server = { workspace = true }
+bushido_client = { workspace = true }
+tui_client = { workspace = true }
+telegram_bot = { workspace = true }
 
 # ---------------------------------------------------------------------------
 # Ruff
@@ -31,10 +31,10 @@ line-length = 88
 indent-width = 4
 src = [
     "bushidolib/src",
-    "bushido-server/src",
-    "bushido-client/src",
-    "tui-client/src",
-	"telegram-bot/src",
+    "bushido_server/src",
+    "bushido_client/src",
+    "tui_client/src",
+	"telegram_bot/src",
 ]
 
 exclude = [
@@ -91,7 +91,7 @@ known-first-party = [
     "bushido_server",
     "bushido_client",
     "tui_client",
-	"telegram-bot",
+	"telegram_bot",
 ]
 
 [tool.ruff.format]

@@ -1,5 +1,5 @@
 [project]
-name = "bushido-server"
+name = "bushido_server"
 version = "0.1.0"
 description = "Track Trainings and Study Time"
 authors = [
