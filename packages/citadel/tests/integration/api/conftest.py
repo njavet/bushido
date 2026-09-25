@@ -16,8 +16,8 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from bushido_server.api import router
-from bushido_server.api.deps import get_session
+from citadel.api import router
+from citadel.api.deps import get_session
 
 
 @pytest.fixture

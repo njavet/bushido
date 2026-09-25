@@ -4,13 +4,13 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from bushido_server.persistence import SessionFactory
-from bushido_server.persistence.models import (
+from citadel.persistence import SessionFactory
+from citadel.persistence.models import (
     Base,
     LiftingSet,
     LiftingUnitTable,
 )
-from bushido_server.service import log_unit
+from citadel.service import log_unit
 
 
 @pytest.fixture(scope="session")

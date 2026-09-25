@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
-from bushido_server.persistence.models import UnitTable
+from citadel.persistence.models import UnitTable
 
 
 class LogUnitTable(UnitTable):

@@ -4,8 +4,8 @@ from bushidolib.exceptions import UnitParsingError
 from bushidolib.unit.base import BaseUnit, RawUnit
 from sqlalchemy.orm import Session
 
-from bushido_server.dtypes import Clock, SystemClock
-from bushido_server.registry import UNIT_REGISTRY
+from citadel.dtypes import Clock, SystemClock
+from citadel.registry import UNIT_REGISTRY
 
 
 def log_unit(line: str, session: Session) -> BaseUnit:

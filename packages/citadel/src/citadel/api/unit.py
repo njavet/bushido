@@ -1,9 +1,9 @@
 from bushidolib.unit.base import BaseUnit, LogUnitRequest
 from fastapi import APIRouter, HTTPException
 
-from bushido_server.api.deps import SessionDep
-from bushido_server.registry import UNIT_REGISTRY
-from bushido_server.service import log_unit
+from citadel.api.deps import SessionDep
+from citadel.registry import UNIT_REGISTRY
+from citadel.service import log_unit
 
 router = APIRouter()
 

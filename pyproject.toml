@@ -17,7 +17,7 @@ members = ["packages/*"]
 
 [tool.uv.sources]
 bushidolib = { workspace = true }
-bushido_server = { workspace = true }
+citadel = { workspace = true }
 bushido_client = { workspace = true }
 tui_client = { workspace = true }
 telegram_bot = { workspace = true }
@@ -31,7 +31,7 @@ line-length = 88
 indent-width = 4
 src = [
     "bushidolib/src",
-    "bushido_server/src",
+    "citadel/src",
     "bushido_client/src",
     "tui_client/src",
 	"telegram_bot/src",
@@ -112,7 +112,7 @@ explicit_package_bases = true
 files = ["packages"]
 mypy_path = [
     "packages/bushidolib/src",
-    "packages/bushido_server/src",
+    "packages/citadel/src",
     "packages/bushido_client/src",
     "packages/tui_client/src",
     "packages/telegram_bot/src",

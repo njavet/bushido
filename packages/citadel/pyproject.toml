@@ -1,7 +1,7 @@
 [project]
-name = "bushido_server"
+name = "citadel"
 version = "0.1.0"
-description = "Track Trainings and Study Time"
+description = ""
 authors = [
     {name = "Noe Javet", email = "np.javet@gmail.com"}
 ]
@@ -28,10 +28,10 @@ bushidolib = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]
-build-backend = 'hatchling.build'
+build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ['src/bushido_server']
+packages = ["src/citadel"]
 
 [project.scripts]
-server = "bushido_server.main:main"
+server = "citadel.main:main"

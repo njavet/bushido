@@ -10,10 +10,10 @@ from rich.logging import RichHandler
 from sqlalchemy import URL
 from starlette.middleware.cors import CORSMiddleware
 
-from bushido_server import __version__
-from bushido_server.api import auth_router, router
-from bushido_server.conf import DbBackend, Settings, settings
-from bushido_server.persistence import SessionFactory
+from citadel import __version__
+from citadel.api import auth_router, router
+from citadel.conf import DbBackend, Settings, settings
+from citadel.persistence import SessionFactory
 
 logging.basicConfig(
     level=logging.INFO,
@@ -63,7 +63,7 @@ def get_db_url(settings: Settings) -> str | URL:
 
 
 def create_parser() -> ArgumentParser:
-    parser = ArgumentParser(description="bushido_server server")
+    parser = ArgumentParser(description="citadel server")
     parser.add_argument("--version", action="store_true", help="show version")
     parser.add_argument("--dev", action="store_true", help="run development server")
     return parser
@@ -108,7 +108,7 @@ def main() -> None:
     parser = create_parser()
     args = parser.parse_args()
     if args.version:
-        print(f"bushido_server {__version__}")
+        print(f"citadel {__version__}")
         sys.exit(0)
     else:
         uvicorn.run(

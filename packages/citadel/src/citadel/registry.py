@@ -16,7 +16,7 @@ from bushidolib.unit.strength import (
 from bushidolib.unit.wimhof import build_wimhof_unit
 from bushidolib.unit.work import build_work_unit
 
-from bushido_server.persistence.repos import (
+from citadel.persistence.repos import (
     BaseUnitRepo,
     CaliUnitRepo,
     ChronoUnitRepo,

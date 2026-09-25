@@ -5,8 +5,8 @@ from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
-from bushido_server.auth.tokens import decode_access_token
-from bushido_server.persistence.models import Spartan
+from citadel.auth.tokens import decode_access_token
+from citadel.persistence.models import Spartan
 
 
 def get_session(request: Request) -> Generator[Session]:
