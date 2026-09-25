@@ -5,14 +5,14 @@ requires-python = ">=3.14,<4"
 
 dependencies = [
     "bushidolib",
-    "bushido_client",
+    "sekkin",
     "httpx>=0.28",
     "telethon>=1.43",
 ]
 
 [tool.uv.sources]
 bushidolib = { workspace = true }
-bushido_client = { workspace = true }
+sekkin = { workspace = true }
 
 [project.scripts]
 tbot = "tbot.main:main"

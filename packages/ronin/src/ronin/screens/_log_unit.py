@@ -12,7 +12,7 @@ from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input
 
-from bushido_client.api_client import BushidoApiClient
+from sekkin.api_client import BushidoApiClient
 from ronin.dtypes import UnitLogResult
 
 

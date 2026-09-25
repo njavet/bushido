@@ -12,7 +12,7 @@ from textual.widgets import (
     TabPane,
 )
 
-from bushido_client.api_client import BushidoApiClient
+from sekkin.api_client import BushidoApiClient
 from ronin.dtypes import UnitLogResult
 from ronin.screens import LogUnitScreen
 from ronin.settings import unit_emojis

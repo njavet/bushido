@@ -3,7 +3,7 @@ import os
 
 from telethon import TelegramClient
 
-from bushido_client.api_client import BushidoApiClient
+from sekkin.api_client import BushidoApiClient
 from tbot.bot import BushidoTelegramBot
 
 
