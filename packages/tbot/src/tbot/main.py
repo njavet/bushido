@@ -4,7 +4,7 @@ import os
 from telethon import TelegramClient
 
 from bushido_client.api_client import BushidoApiClient
-from telegram_bot.bot import BushidoTelegramBot
+from tbot.bot import BushidoTelegramBot
 
 
 async def async_main() -> None:

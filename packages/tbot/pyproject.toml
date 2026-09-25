@@ -1,5 +1,5 @@
 [project]
-name = "telegram_bot"
+name = "tbot"
 version = "0.1.0"
 requires-python = ">=3.14,<4"
 
@@ -15,12 +15,12 @@ bushidolib = { workspace = true }
 bushido_client = { workspace = true }
 
 [project.scripts]
-telegram_bot = "telegram_bot.main:main"
+tbot = "tbot.main:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/telegram_bot"]
+packages = ["src/tbot"]
 
