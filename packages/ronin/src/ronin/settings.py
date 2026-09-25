@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 LOCAL_TIMEZONE = ZoneInfo("Europe/Zurich")
 
 BUSHIDO_IMG_PATH = Path(
-    "tui-client", "src", "tui_client", "assets", "images", "bushido.png"
+    "tui-client", "src", "ronin", "assets", "images", "bushido.png"
 )
 
 

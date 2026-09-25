@@ -1,5 +1,5 @@
 [project]
-name = "tui_client"
+name = "ronin"
 version = "0.1.0"
 description = "Track Trainings and Study Time"
 authors = [
@@ -33,7 +33,7 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ['src/tui_client']
+packages = ['src/ronin']
 
 [project.scripts]
-client = "tui_client.main:main"
+client = "ronin.main:main"

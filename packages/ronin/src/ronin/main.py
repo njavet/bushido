@@ -13,9 +13,9 @@ from textual.widgets import (
 )
 
 from bushido_client.api_client import BushidoApiClient
-from tui_client.dtypes import UnitLogResult
-from tui_client.screens import LogUnitScreen
-from tui_client.settings import unit_emojis
+from ronin.dtypes import UnitLogResult
+from ronin.screens import LogUnitScreen
+from ronin.settings import unit_emojis
 
 from .containers import (
     GymContainer,

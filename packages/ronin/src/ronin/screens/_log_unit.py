@@ -13,7 +13,7 @@ from textual.widget import Widget
 from textual.widgets import Input
 
 from bushido_client.api_client import BushidoApiClient
-from tui_client.dtypes import UnitLogResult
+from ronin.dtypes import UnitLogResult
 
 
 class UnitSuggester(Suggester):
