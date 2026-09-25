@@ -3,9 +3,7 @@ from zoneinfo import ZoneInfo
 
 LOCAL_TIMEZONE = ZoneInfo("Europe/Zurich")
 
-BUSHIDO_IMG_PATH = Path(
-    "tui-client", "src", "ronin", "assets", "images", "bushido.png"
-)
+BUSHIDO_IMG_PATH = Path("tui-client", "src", "ronin", "assets", "images", "bushido.png")
 
 
 unit_emojis = {

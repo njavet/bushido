@@ -9,11 +9,11 @@ resolution-markers = [
 [manifest]
 members = [
     "bushido",
-    "bushido-client",
     "bushidolib",
     "citadel",
-    "telegram-bot",
-    "tui-client",
+    "ronin",
+    "sekkin",
+    "tbot",
 ]
 
 [[package]]
@@ -305,11 +305,6 @@ dev = [
     { name = "pytest", specifier = ">=9.0.3" },
     { name = "ruff", specifier = ">=0.15.12" },
 ]
-
-[[package]]
-name = "bushido-client"
-version = "0.1.0"
-source = { editable = "packages/bushido_client" }
 
 [[package]]
 name = "bushidolib"
@@ -1781,6 +1776,41 @@ wheels = [
 ]
 
 [[package]]
+name = "ronin"
+version = "0.1.0"
+source = { editable = "packages/ronin" }
+dependencies = [
+    { name = "bushidolib" },
+    { name = "platformdirs" },
+    { name = "polars" },
+    { name = "pydantic" },
+    { name = "rich" },
+    { name = "sekkin" },
+    { name = "textual", extra = ["syntax"] },
+    { name = "textual-image" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "textual-dev" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "bushidolib", editable = "packages/bushidolib" },
+    { name = "platformdirs", specifier = ">=4.9.6" },
+    { name = "polars", specifier = ">=1.41.2" },
+    { name = "pydantic", specifier = ">=2.13.4" },
+    { name = "rich", specifier = ">=15.0.0" },
+    { name = "sekkin", editable = "packages/sekkin" },
+    { name = "textual", extras = ["syntax"], specifier = ">=8.2.5" },
+    { name = "textual-image", specifier = ">=0.12.0" },
+]
+
+[package.metadata.requires-dev]
+dev = [{ name = "textual-dev", specifier = ">=1.8.0" }]
+
+[[package]]
 name = "rsa"
 version = "4.9.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1816,6 +1846,11 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/14/21/26e4643629b3ebb44f0a06f9c9a53058d63d989415f63a9a3c28e2ee7f22/ruff-0.16.9-py3-none-win_amd64.whl", hash = "sha256:6bd40fec8cd4c8a3d4dd589bd8ad4e6320c13c29234159bfd959a40d529d597b", size = 10592965, upload-time = "2026-09-24T20:37:44.944Z" },
     { url = "https://files.pythonhosted.org/packages/51/60/5fb1a39dbb5ae314d5f59bc7348a63c1d5c20f3cd83914c4b5cb0be31d2d/ruff-0.16.9-py3-none-win_arm64.whl", hash = "sha256:ed1a252039200f57a59eebc063b54beabea67bfbaaca0eeaa7f54b5fbcda2284", size = 10458649, upload-time = "2026-09-24T20:37:46.882Z" },
 ]
+
+[[package]]
+name = "sekkin"
+version = "0.1.0"
+source = { editable = "packages/sekkin" }
 
 [[package]]
 name = "sentry-sdk"
@@ -1918,21 +1953,21 @@ wheels = [
 ]
 
 [[package]]
-name = "telegram-bot"
+name = "tbot"
 version = "0.1.0"
-source = { editable = "packages/telegram_bot" }
+source = { editable = "packages/tbot" }
 dependencies = [
-    { name = "bushido-client" },
     { name = "bushidolib" },
     { name = "httpx" },
+    { name = "sekkin" },
     { name = "telethon" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "bushido-client", editable = "packages/bushido_client" },
     { name = "bushidolib", editable = "packages/bushidolib" },
     { name = "httpx", specifier = ">=0.28" },
+    { name = "sekkin", editable = "packages/sekkin" },
     { name = "telethon", specifier = ">=1.43" },
 ]
 
@@ -2291,41 +2326,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/4a/d6/8d1e1ace03db3b02e64e91daf21d1347941d1bbecc606a5473a1a605250d/tree_sitter_yaml-0.7.2-cp310-abi3-win_amd64.whl", hash = "sha256:7587b5ca00fc4f9a548eff649697a3b395370b2304b399ceefa2087d8a6c9186", size = 45514, upload-time = "2025-10-07T14:40:34.562Z" },
     { url = "https://files.pythonhosted.org/packages/d8/c7/dcf3ea1c4f5da9b10353b9af4455d756c92d728a8f58f03c480d3ef0ead5/tree_sitter_yaml-0.7.2-cp310-abi3-win_arm64.whl", hash = "sha256:f63c227b18e7ce7587bce124578f0bbf1f890ac63d3e3cd027417574273642c4", size = 44065, upload-time = "2025-10-07T14:40:35.337Z" },
 ]
-
-[[package]]
-name = "tui-client"
-version = "0.1.0"
-source = { editable = "packages/tui_client" }
-dependencies = [
-    { name = "bushido-client" },
-    { name = "bushidolib" },
-    { name = "platformdirs" },
-    { name = "polars" },
-    { name = "pydantic" },
-    { name = "rich" },
-    { name = "textual", extra = ["syntax"] },
-    { name = "textual-image" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "textual-dev" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "bushido-client", editable = "packages/bushido_client" },
-    { name = "bushidolib", editable = "packages/bushidolib" },
-    { name = "platformdirs", specifier = ">=4.9.6" },
-    { name = "polars", specifier = ">=1.41.2" },
-    { name = "pydantic", specifier = ">=2.13.4" },
-    { name = "rich", specifier = ">=15.0.0" },
-    { name = "textual", extras = ["syntax"], specifier = ">=8.2.5" },
-    { name = "textual-image", specifier = ">=0.12.0" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "textual-dev", specifier = ">=1.8.0" }]
 
 [[package]]
 name = "typer"

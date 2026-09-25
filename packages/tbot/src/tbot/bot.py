@@ -1,8 +1,7 @@
 from typing import Protocol
 
-from telethon import events
-
 from sekkin.api_client import BushidoApiClient
+from telethon import events
 
 
 class TelegramClientProtocol(Protocol):

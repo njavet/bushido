@@ -1,9 +1,9 @@
 import asyncio
 import os
 
+from sekkin.api_client import BushidoApiClient
 from telethon import TelegramClient
 
-from sekkin.api_client import BushidoApiClient
 from tbot.bot import BushidoTelegramBot
 
 

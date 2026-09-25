@@ -1,9 +1,6 @@
 from collections.abc import Iterator
 
 import pytest
-from sqlalchemy import select
-from sqlalchemy.orm import Session
-
 from citadel.persistence import SessionFactory
 from citadel.persistence.models import (
     Base,
@@ -11,6 +8,8 @@ from citadel.persistence.models import (
     LiftingUnitTable,
 )
 from citadel.service import log_unit
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 
 @pytest.fixture(scope="session")

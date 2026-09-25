@@ -3,6 +3,7 @@ from typing import ClassVar, override
 
 import httpx
 from bushidolib.unit.strength import LiftingUnit
+from sekkin.api_client import BushidoApiClient
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
@@ -12,7 +13,6 @@ from textual.widgets import (
     TabPane,
 )
 
-from sekkin.api_client import BushidoApiClient
 from ronin.dtypes import UnitLogResult
 from ronin.screens import LogUnitScreen
 from ronin.settings import unit_emojis

@@ -18,9 +18,9 @@ members = ["packages/*"]
 [tool.uv.sources]
 bushidolib = { workspace = true }
 citadel = { workspace = true }
-bushido_client = { workspace = true }
-tui_client = { workspace = true }
-telegram_bot = { workspace = true }
+sekkin = { workspace = true }
+ronin = { workspace = true }
+tbot = { workspace = true }
 
 # ---------------------------------------------------------------------------
 # Ruff
@@ -32,9 +32,9 @@ indent-width = 4
 src = [
     "bushidolib/src",
     "citadel/src",
-    "bushido_client/src",
-    "tui_client/src",
-	"telegram_bot/src",
+    "sekkin/src",
+    "ronin/src",
+	"tbot/src",
 ]
 
 exclude = [
@@ -113,9 +113,9 @@ files = ["packages"]
 mypy_path = [
     "packages/bushidolib/src",
     "packages/citadel/src",
-    "packages/bushido_client/src",
-    "packages/tui_client/src",
-    "packages/telegram_bot/src",
+    "packages/sekkin/src",
+    "packages/ronin/src",
+    "packages/tbot/src",
 ]
 
 pretty = true
@@ -137,9 +137,6 @@ enable_error_code = [
     "unused-awaitable",
 ]
 
-plugins = [
-    "sqlalchemy.ext.mypy.plugin",
-]
 [[tool.mypy.overrides]]
 module = [
     "telethon",
