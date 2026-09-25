@@ -1,5 +1,5 @@
 [project]
-name = "bushido-workspace"
+name = "bushido"
 version = "0.1.0"
 requires-python = ">=3.14,<4"
 
@@ -13,13 +13,14 @@ dev = [
 ]
 
 [tool.uv.workspace]
-members = [
-    "bushidolib",
-    "bushido-server",
-    "tui-client",
-    "telegram-bot",
-    "bushido-client",
-]
+members = ["packages/*"]
+
+[tool.uv.sources]
+bushidolib = { workspace = true }
+bushido-server = { workspace = true }
+bushido-client = { workspace = true }
+tui-client = { workspace = true }
+telegram-bot = { workspace = true }
 
 # ---------------------------------------------------------------------------
 # Ruff
@@ -105,56 +106,25 @@ docstring-code-format = true
 # ---------------------------------------------------------------------------
 [tool.mypy]
 python_version = "3.14"
-
 strict = true
-
-files = [
-    "bushidolib/src",
-    "bushidolib/tests",
-    "bushido-server/src",
-    "bushido-server/tests",
-    "bushido-client/src",
-    "bushido-client/tests",
-    "tui-client/src",
-    "tui-client/tests",
-	"telegram-bot/src",
-	"telegram-bot/tests",
-]
-
-mypy_path = [
-    "bushidolib/src",
-    "bushido-server/src",
-    "bushido-client/src",
-    "tui-client/src",
-	"telegram-bot/src",
-]
-
 explicit_package_bases = true
-show_error_codes = true
+
+files = ["packages"]
+mypy_path = [
+    "packages/bushidolib/src",
+    "packages/bushido_server/src",
+    "packages/bushido_client/src",
+    "packages/tui_client/src",
+    "packages/telegram_bot/src",
+]
+
+pretty = true
 show_column_numbers = true
 show_error_context = true
-pretty = true
 
-warn_unused_configs = true
-warn_unused_ignores = true
-warn_redundant_casts = true
-warn_return_any = true
 warn_unreachable = true
-
-no_implicit_optional = true
-strict_equality = true
 strict_bytes = true
-
-disallow_any_generics = true
 disallow_any_unimported = true
-disallow_incomplete_defs = true
-disallow_untyped_defs = true
-disallow_untyped_decorators = true
-
-check_untyped_defs = true
-
-no_implicit_reexport = true
-
 local_partial_types = true
 
 enable_error_code = [
@@ -181,16 +151,12 @@ ignore_missing_imports = true
 # pytest
 # ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
-testpaths = [
-    "bushidolib/tests",
-    "bushido-server/tests",
-    "bushido-client/tests",
-    "tui-client/tests",
-	"telegram-bot/tests",
-]
+testpaths = ["packages/*/tests"]
 
 addopts = [
     "-ra",
     "--strict-config",
     "--strict-markers",
+    "--import-mode=importlib",
 ]
+markers = ["integration", "unit"]

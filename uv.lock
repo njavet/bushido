@@ -1,6 +1,6 @@
 version = 1
 revision = 3
-requires-python = ">=3.14, <4.0.0"
+requires-python = ">=3.14, <4"
 resolution-markers = [
     "python_full_version >= '3.15'",
     "python_full_version < '3.15'",
@@ -8,9 +8,9 @@ resolution-markers = [
 
 [manifest]
 members = [
+    "bushido",
     "bushido-client",
     "bushido-server",
-    "bushido-workspace",
     "bushidolib",
     "telegram-bot",
     "tui-client",
@@ -272,47 +272,7 @@ wheels = [
 ]
 
 [[package]]
-name = "bushido-client"
-version = "0.1.0"
-source = { editable = "bushido-client" }
-
-[[package]]
-name = "bushido-server"
-version = "0.1.0"
-source = { editable = "bushido-server" }
-dependencies = [
-    { name = "bcrypt" },
-    { name = "bushidolib" },
-    { name = "dotenv" },
-    { name = "fastapi", extra = ["standard"] },
-    { name = "platformdirs" },
-    { name = "polars" },
-    { name = "psycopg", extra = ["binary"] },
-    { name = "pydantic" },
-    { name = "pydantic-settings" },
-    { name = "pyjwt" },
-    { name = "rich" },
-    { name = "sqlalchemy" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "bcrypt", specifier = ">=5.0.0" },
-    { name = "bushidolib", editable = "bushidolib" },
-    { name = "dotenv", specifier = ">=0.9.9" },
-    { name = "fastapi", extras = ["standard"], specifier = ">=0.136.1" },
-    { name = "platformdirs", specifier = ">=4.9.6" },
-    { name = "polars", specifier = ">=1.41.2" },
-    { name = "psycopg", extras = ["binary"], specifier = ">=3.3.4" },
-    { name = "pydantic", specifier = ">=2.13.4" },
-    { name = "pydantic-settings", specifier = ">=2.15.0" },
-    { name = "pyjwt", specifier = ">=2.13.0" },
-    { name = "rich", specifier = ">=15.0.0" },
-    { name = "sqlalchemy", specifier = ">=2.0.49" },
-]
-
-[[package]]
-name = "bushido-workspace"
+name = "bushido"
 version = "0.1.0"
 source = { virtual = "." }
 
@@ -337,9 +297,49 @@ dev = [
 ]
 
 [[package]]
+name = "bushido-client"
+version = "0.1.0"
+source = { editable = "packages/bushido-client" }
+
+[[package]]
+name = "bushido-server"
+version = "0.1.0"
+source = { editable = "packages/bushido-server" }
+dependencies = [
+    { name = "bcrypt" },
+    { name = "bushidolib" },
+    { name = "dotenv" },
+    { name = "fastapi", extra = ["standard"] },
+    { name = "platformdirs" },
+    { name = "polars" },
+    { name = "psycopg", extra = ["binary"] },
+    { name = "pydantic" },
+    { name = "pydantic-settings" },
+    { name = "pyjwt" },
+    { name = "rich" },
+    { name = "sqlalchemy" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "bcrypt", specifier = ">=5.0.0" },
+    { name = "bushidolib", editable = "packages/bushidolib" },
+    { name = "dotenv", specifier = ">=0.9.9" },
+    { name = "fastapi", extras = ["standard"], specifier = ">=0.136.1" },
+    { name = "platformdirs", specifier = ">=4.9.6" },
+    { name = "polars", specifier = ">=1.41.2" },
+    { name = "psycopg", extras = ["binary"], specifier = ">=3.3.4" },
+    { name = "pydantic", specifier = ">=2.13.4" },
+    { name = "pydantic-settings", specifier = ">=2.15.0" },
+    { name = "pyjwt", specifier = ">=2.13.0" },
+    { name = "rich", specifier = ">=15.0.0" },
+    { name = "sqlalchemy", specifier = ">=2.0.49" },
+]
+
+[[package]]
 name = "bushidolib"
 version = "0.1.0"
-source = { editable = "bushidolib" }
+source = { editable = "packages/bushidolib" }
 dependencies = [
     { name = "platformdirs" },
     { name = "polars" },
@@ -1763,7 +1763,7 @@ wheels = [
 [[package]]
 name = "telegram-bot"
 version = "0.1.0"
-source = { editable = "telegram-bot" }
+source = { editable = "packages/telegram-bot" }
 dependencies = [
     { name = "bushido-client" },
     { name = "bushidolib" },
@@ -1773,8 +1773,8 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bushido-client", editable = "bushido-client" },
-    { name = "bushidolib", editable = "bushidolib" },
+    { name = "bushido-client", editable = "packages/bushido-client" },
+    { name = "bushidolib", editable = "packages/bushidolib" },
     { name = "httpx", specifier = ">=0.28" },
     { name = "telethon", specifier = ">=1.43" },
 ]
@@ -2138,7 +2138,7 @@ wheels = [
 [[package]]
 name = "tui-client"
 version = "0.1.0"
-source = { editable = "tui-client" }
+source = { editable = "packages/tui-client" }
 dependencies = [
     { name = "bushido-client" },
     { name = "bushidolib" },
@@ -2157,8 +2157,8 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bushido-client", editable = "bushido-client" },
-    { name = "bushidolib", editable = "bushidolib" },
+    { name = "bushido-client", editable = "packages/bushido-client" },
+    { name = "bushidolib", editable = "packages/bushidolib" },
     { name = "platformdirs", specifier = ">=4.9.6" },
     { name = "polars", specifier = ">=1.41.2" },
     { name = "pydantic", specifier = ">=2.13.4" },
