@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "bushido-server/**"
+      - "citadel/**"
       - "bushidolib/**"
       - "uv.lock"
       - "pyproject.toml"
@@ -18,7 +18,7 @@ permissions:
 
 env:
   ACR_NAME: acrbushidopjywbz
-  ACR_REPOSITORY: bushido-server
+  ACR_REPOSITORY: citadel
   RESOURCE_GROUP: rg-bushido-dev
   CONTAINER_APP: ca-bushido-dev
 
@@ -54,7 +54,7 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            -f bushido-server/Dockerfile \
+            -f citadel/Dockerfile \
             -t "${{ steps.acr.outputs.server }}/${ACR_REPOSITORY}:${{ github.sha }}" \
             .
 
