@@ -41,24 +41,22 @@ jobs:
         run: uv build --package bushidolib
 
       - name: build server
-        run: uv build --package bushido-server
-
-      - name: build tui client
-        run: uv build --package tui-client
+        run: uv build --package citadel
 
       - name: build server docker image
         run: |
           docker build \
-            -f bushido-server/Dockerfile \
-            -t bushido-server:${{ github.sha }} \
+            -f citadel/Dockerfile \
+            -t citadel:${{ github.sha }} \
             .
 
       - name: smoke test container
         run: |
           docker run -d \
-            --name bushido-server \
+            --name citadel \
+
             -p 8000:8000 \
-            bushido-server:${{ github.sha }}
+            citadel:${{ github.sha }}
           
           for i in {1..20}; do
             if curl --fail http://localhost:8000/api/health/live; then
@@ -67,9 +65,9 @@ jobs:
             sleep 1
           done
 
-          docker logs bushido-server
+          docker logs citadel
           exit 1
 
       - name: stop smoke-test container
         if: always()
-        run: docker rm -f bushido-server || true
+        run: docker rm -f citadel || true
