@@ -54,7 +54,6 @@ jobs:
         run: |
           docker run -d \
             --name citadel \
-
             -p 8000:8000 \
             citadel:${{ github.sha }}
           
