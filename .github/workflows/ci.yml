@@ -46,7 +46,7 @@ jobs:
       - name: build server docker image
         run: |
           docker build \
-            -f citadel/Dockerfile \
+            -f packages/citadel/Dockerfile \
             -t citadel:${{ github.sha }} \
             .
 
