@@ -1,5 +1,5 @@
-from bushidolib.unit.cardio import CardioUnit
-from bushidolib.unit.strength import LiftingUnit
+from citadel.domain.unit.cardio import CardioUnit
+from citadel.domain.unit.strength import LiftingUnit
 from pydantic import BaseModel
 
 

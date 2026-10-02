@@ -1,13 +1,13 @@
 import datetime
 import re
 
-from bushidolib.constants import (
+from citadel.domain.constants import (
     COMPLETE_TIME_LEN,
     MILITARY_TIME_LEN,
     MINUTE_LEN,
     WEEK_START_DAY,
 )
-from bushidolib.exceptions import UnitParsingError
+from citadel.exceptions import UnitParsingError
 
 
 def time_string_to_seconds(time_string: str) -> float:

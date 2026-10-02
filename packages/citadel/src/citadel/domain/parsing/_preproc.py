@@ -1,6 +1,6 @@
 from typing import NamedTuple
 
-from bushidolib.exceptions import UnitParsingError
+from citadel.exceptions import UnitParsingError
 
 
 class PreprocResult(NamedTuple):
