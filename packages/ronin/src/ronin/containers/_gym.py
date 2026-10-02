@@ -1,7 +1,6 @@
 import collections
-from typing import override
+from typing import Any, override
 
-from bushidolib.unit.martial_arts import MartialArtsUnit
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.widgets import (
@@ -20,10 +19,10 @@ class GymContainer(Container):
         yield RichLog(id="gym_stats")
         yield GymTable(id="gym_table")
 
-    def set_units(self, units: list[MartialArtsUnit]) -> None:
+    def set_units(self, units: list[Any]) -> None:
         self.query_one("#gym_table", GymTable).set_units(units)
 
-    def add_unit(self, unit: MartialArtsUnit) -> None:
+    def add_unit(self, unit: Any) -> None:
         self.log(unit)
 
 
@@ -32,7 +31,7 @@ class GymTable(DataTable[str]):
     def on_mount(self) -> None:
         self.add_columns("date", "training", "start", "end", "martial_arts")
 
-    def set_units(self, units: list[MartialArtsUnit]) -> None:
+    def set_units(self, units: list[Any]) -> None:
         self.clear()
         by_day = collections.defaultdict(list)
         for unit in units:

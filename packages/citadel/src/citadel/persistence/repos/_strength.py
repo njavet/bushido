@@ -1,7 +1,8 @@
 from typing import override
 
-from citadel.domain.unit.strength import LiftingSetData, LiftingUnit, StrengthUnit
 from sqlalchemy.orm import selectinload
+
+from citadel.domain.unit.strength import LiftingSetData, LiftingUnit, StrengthUnit
 
 from ..models import LiftingSet, LiftingUnitTable, StrengthUnitTable
 from ._base import BaseUnitRepo

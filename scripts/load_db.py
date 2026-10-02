@@ -5,8 +5,8 @@ from typing import Any
 
 from dotenv import load_dotenv
 
-from bushido_server.persistence import SessionFactory
-from bushido_server.service import log_unit
+from citadel.persistence import SessionFactory
+from citadel.service import log_unit
 
 UNIT_NAMES = [
     "strength",

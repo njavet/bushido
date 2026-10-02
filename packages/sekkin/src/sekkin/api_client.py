@@ -1,13 +1,12 @@
-from typing import TypeVar
+from typing import Any, TypeVar
 
-from bushidolib.unit.base import BaseUnit
 from httpx import AsyncClient
 from pydantic import BaseModel, TypeAdapter
 
 TUnit = TypeVar("TUnit", bound=BaseModel)
 
 
-_unit_adapter: TypeAdapter[BaseUnit] = TypeAdapter(BaseUnit)
+_unit_adapter: TypeAdapter[Any] = TypeAdapter(Any)
 
 
 class BushidoApiClient:
@@ -19,7 +18,7 @@ class BushidoApiClient:
         response.raise_for_status()
         return list(response.json())
 
-    async def log_unit(self, line: str) -> BaseUnit:
+    async def log_unit(self, line: str) -> Any:
         response = await self._client.post(
             "/api/unit-logs",
             json={"line": line},

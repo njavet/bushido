@@ -2,7 +2,6 @@ import asyncio
 from typing import ClassVar, override
 
 import httpx
-from bushidolib.unit.strength import LiftingUnit
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.widgets import (
@@ -84,9 +83,6 @@ class BushidoApp(App[None]):
     def on_log_unit_closed(self, result: UnitLogResult | None) -> None:
         if result is None or result.unit is None:
             return
-        match result.unit:
-            case LiftingUnit():
-                self.query_one(LiftingContainer).add_unit(result.unit)
 
     async def on_unmount(self) -> None:
         await self.api.close()

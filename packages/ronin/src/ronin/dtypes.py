@@ -1,11 +1,10 @@
 from dataclasses import dataclass
-
-from bushidolib.unit.base import BaseUnit
+from typing import Any
 
 
 @dataclass(frozen=True, slots=True)
 class UnitLogResult:
-    unit: BaseUnit | None = None
+    unit: Any | None = None
     error: str | None = None
 
     @property

@@ -1,7 +1,6 @@
 # TODO api
-from typing import override
+from typing import Any, override
 
-from bushidolib.unit.strength import LiftingUnit
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.widgets import (
@@ -25,13 +24,13 @@ class LiftingContainer(Container):
                     yield RichLog(id=f"{name}_stats")
                     yield LiftingTable(id=f"{name}_table")
 
-    def set_units(self, units: list[LiftingUnit]) -> None:
+    def set_units(self, units: list[Any]) -> None:
         for unit_spec in units:
             self.query_one(f"#{unit_spec.exercise}_table", LiftingTable).set_units(
                 [u for u in units if u.exercise == unit_spec.exercise]
             )
 
-    def add_unit(self, unit: LiftingUnit) -> None:
+    def add_unit(self, unit: Any) -> None:
         self.query_one(f"#{unit.exercise}_table", LiftingTable).add_unit(unit)
 
 
@@ -40,12 +39,12 @@ class LiftingTable(DataTable[str]):
     def on_mount(self) -> None:
         self.add_columns("date", "set", "weight", "reps", "rest")
 
-    def set_units(self, units: list[LiftingUnit]) -> None:
+    def set_units(self, units: list[Any]) -> None:
         self.clear()
         for unit in units:
             self.add_unit(unit)
 
-    def add_unit(self, unit: LiftingUnit) -> None:
+    def add_unit(self, unit: Any) -> None:
 
         self.add_row(
             unit.log_time.strftime("%d.%m.%y"),
