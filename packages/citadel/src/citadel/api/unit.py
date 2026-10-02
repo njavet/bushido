@@ -1,6 +1,8 @@
-from bushidolib.unit.base import BaseUnit, LogUnitRequest
+from typing import Any
+
 from fastapi import APIRouter, HTTPException
 
+from citadel.schema.req import LogUnitRequest
 from citadel.api.deps import SessionDep
 from citadel.registry import UNIT_REGISTRY
 from citadel.service import log_unit
@@ -14,7 +16,7 @@ def get_unit_names() -> list[str]:
 
 
 @router.post("/unit-logs")
-async def process_log_request(request: LogUnitRequest, session: SessionDep) -> BaseUnit:
+async def process_log_request(request: LogUnitRequest, session: SessionDep) -> Any:
     try:
         return log_unit(request.line, session)
     except Exception as exc:

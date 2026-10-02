@@ -1,14 +1,15 @@
 import datetime
+from typing import Any
 
-from bushidolib.exceptions import UnitParsingError
-from bushidolib.unit.base import BaseUnit, RawUnit
+from citadel.exceptions import UnitParsingError
+from citadel.schema.unit import RawUnit
 from sqlalchemy.orm import Session
 
 from citadel.dtypes import Clock, SystemClock
 from citadel.registry import UNIT_REGISTRY
 
 
-def log_unit(line: str, session: Session) -> BaseUnit:
+def log_unit(line: str, session: Session) -> Any:
     raw_unit = RawUnit.from_line(line)
     override = raw_unit.options.get("dt", None)
     log_time = resolve_log_time(override=override, clock=SystemClock())
