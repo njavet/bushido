@@ -1,7 +1,8 @@
 import datetime
 
-from bushidolib.exceptions import UnitParsingError
-from bushidolib.unit.base import BaseUnit, RawUnit
+from citadel.exceptions import UnitParsingError
+from citadel.domain.unit.base import BaseUnit
+from citadel.schema.unit import RawUnit
 
 
 class LogUnit(BaseUnit):

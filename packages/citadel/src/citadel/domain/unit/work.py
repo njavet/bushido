@@ -1,10 +1,12 @@
 import datetime
 from typing import Self
 
-from bushidolib.exceptions import UnitParsingError
-from bushidolib.parsing import parse_start_end_time_string, time_string_to_seconds
-from bushidolib.unit.base import BaseUnit, RawUnit
+from citadel.exceptions import UnitParsingError
+from citadel.domain.parsing import parse_start_end_time_string, time_string_to_seconds
+from citadel.domain.unit.base import BaseUnit
 from pydantic import model_validator
+
+from citadel.schema.unit import RawUnit
 
 
 class WorkUnit(BaseUnit):

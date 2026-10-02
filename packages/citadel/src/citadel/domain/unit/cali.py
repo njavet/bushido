@@ -1,6 +1,7 @@
 import datetime
 
-from bushidolib.unit.base import BaseUnit, RawUnit
+from citadel.domain.unit.base import BaseUnit
+from citadel.schema.unit import RawUnit
 
 
 class CaliUnit(BaseUnit):

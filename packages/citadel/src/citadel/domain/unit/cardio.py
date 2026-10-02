@@ -1,13 +1,15 @@
 import datetime
 from enum import StrEnum
 
-from bushidolib.exceptions import UnitParsingError
-from bushidolib.parsing import (
+from citadel.exceptions import UnitParsingError
+from citadel.domain.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )
-from bushidolib.unit.base import BaseUnit, RawUnit
+from citadel.domain.unit.base import BaseUnit
 from pydantic import BaseModel
+
+from citadel.schema.unit import RawUnit
 
 
 class CardioType(StrEnum):
