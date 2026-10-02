@@ -1,11 +1,11 @@
 import datetime
 from typing import Self
 
-from citadel.exceptions import UnitParsingError
-from citadel.domain.parsing import parse_start_end_time_string, time_string_to_seconds
-from citadel.domain.unit.base import BaseUnit
 from pydantic import model_validator
 
+from citadel.domain.parsing import parse_start_end_time_string, time_string_to_seconds
+from citadel.domain.unit.base import BaseUnit
+from citadel.exceptions import UnitParsingError
 from citadel.schema.unit import RawUnit
 
 
