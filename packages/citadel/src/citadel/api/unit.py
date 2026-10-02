@@ -2,9 +2,9 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 
-from citadel.schema.req import LogUnitRequest
 from citadel.api.deps import SessionDep
 from citadel.registry import UNIT_REGISTRY
+from citadel.schema.req import LogUnitRequest
 from citadel.service import log_unit
 
 router = APIRouter()

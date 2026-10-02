@@ -9,7 +9,6 @@ resolution-markers = [
 [manifest]
 members = [
     "bushido",
-    "bushidolib",
     "citadel",
     "ronin",
     "sekkin",
@@ -307,25 +306,6 @@ dev = [
 ]
 
 [[package]]
-name = "bushidolib"
-version = "0.1.0"
-source = { editable = "packages/bushidolib" }
-dependencies = [
-    { name = "platformdirs" },
-    { name = "polars" },
-    { name = "pydantic" },
-    { name = "rich" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "platformdirs", specifier = ">=4.9.6" },
-    { name = "polars", specifier = ">=1.41.2" },
-    { name = "pydantic", specifier = ">=2.13.4" },
-    { name = "rich", specifier = ">=15.0.0" },
-]
-
-[[package]]
 name = "certifi"
 version = "2026.7.22"
 source = { registry = "https://pypi.org/simple" }
@@ -349,7 +329,6 @@ version = "0.1.0"
 source = { editable = "packages/citadel" }
 dependencies = [
     { name = "bcrypt" },
-    { name = "bushidolib" },
     { name = "dotenv" },
     { name = "fastapi", extra = ["standard"] },
     { name = "platformdirs" },
@@ -365,7 +344,6 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "bcrypt", specifier = ">=5.0.0" },
-    { name = "bushidolib", editable = "packages/bushidolib" },
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "fastapi", extras = ["standard"], specifier = ">=0.136.1" },
     { name = "platformdirs", specifier = ">=4.9.6" },
@@ -1780,7 +1758,6 @@ name = "ronin"
 version = "0.1.0"
 source = { editable = "packages/ronin" }
 dependencies = [
-    { name = "bushidolib" },
     { name = "platformdirs" },
     { name = "polars" },
     { name = "pydantic" },
@@ -1797,7 +1774,6 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bushidolib", editable = "packages/bushidolib" },
     { name = "platformdirs", specifier = ">=4.9.6" },
     { name = "polars", specifier = ">=1.41.2" },
     { name = "pydantic", specifier = ">=2.13.4" },
@@ -1957,7 +1933,6 @@ name = "tbot"
 version = "0.1.0"
 source = { editable = "packages/tbot" }
 dependencies = [
-    { name = "bushidolib" },
     { name = "httpx" },
     { name = "sekkin" },
     { name = "telethon" },
@@ -1965,7 +1940,6 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bushidolib", editable = "packages/bushidolib" },
     { name = "httpx", specifier = ">=0.28" },
     { name = "sekkin", editable = "packages/sekkin" },
     { name = "telethon", specifier = ">=1.43" },

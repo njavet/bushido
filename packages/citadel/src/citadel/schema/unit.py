@@ -2,6 +2,10 @@ from typing import Self
 
 from pydantic import BaseModel
 
+from citadel.domain.constants import COMMENT_SEP
+from citadel.domain.parsing import split_words
+from citadel.exceptions import UnitParsingError
+
 
 class RawUnit(BaseModel):
     name: str
@@ -24,4 +28,3 @@ class RawUnit(BaseModel):
             options=result.options,
             comment=comment.strip() if sep and comment.strip() else None,
         )
-

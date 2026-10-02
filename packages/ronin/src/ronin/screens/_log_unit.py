@@ -2,7 +2,6 @@ from typing import ClassVar, override
 
 from rich.console import Group
 from rich.panel import Panel
-from sekkin.api_client import BushidoApiClient
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Vertical
@@ -14,6 +13,7 @@ from textual.widget import Widget
 from textual.widgets import Input
 
 from ronin.dtypes import UnitLogResult
+from sekkin.api_client import BushidoApiClient
 
 
 class UnitSuggester(Suggester):

@@ -1,11 +1,10 @@
 import datetime
 from typing import Self
 
-from pydantic import model_validator
-
 from bushidolib.exceptions import UnitParsingError
 from bushidolib.parsing import parse_start_end_time_string, time_string_to_seconds
 from bushidolib.unit.base import BaseUnit, RawUnit
+from pydantic import model_validator
 
 
 class WorkUnit(BaseUnit):

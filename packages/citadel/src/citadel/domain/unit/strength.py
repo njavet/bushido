@@ -1,10 +1,11 @@
 import datetime
-
 from pydantic import BaseModel
 
-from bushidolib.exceptions import UnitParsingError
-from bushidolib.parsing import parse_start_end_time_string
-from bushidolib.unit.base import BaseUnit, RawUnit, SpaceTimeData
+from citadel.exceptions import UnitParsingError
+from citadel.domain.parsing import parse_start_end_time_string
+from citadel.domain.unit.base import BaseUnit, SpaceTimeData
+from citadel.schema.unit import RawUnit
+
 
 # TODO barbell, dumbbell
 

@@ -1,4 +1,5 @@
 import pytest
+
 from citadel.exceptions import UnitParsingError
 from citadel.schema.unit import RawUnit
 
