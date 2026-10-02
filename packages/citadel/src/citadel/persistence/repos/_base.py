@@ -2,7 +2,7 @@ import datetime
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 
-from bushidolib.unit.base import BaseUnit
+from citadel.domain.unit.base import BaseUnit
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption

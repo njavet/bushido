@@ -3,18 +3,18 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
-from bushidolib.unit.base import BaseUnit, RawUnit
-from bushidolib.unit.cali import build_cali_unit
-from bushidolib.unit.cardio import build_cardio_unit
-from bushidolib.unit.chrono import build_chrono_unit
-from bushidolib.unit.log import build_log_unit
-from bushidolib.unit.martial_arts import build_martial_arts_unit
-from bushidolib.unit.strength import (
+from citadel.domain.unit.base import BaseUnit
+from citadel.domain.unit.cali import build_cali_unit
+from citadel.domain.unit.cardio import build_cardio_unit
+from citadel.domain.unit.chrono import build_chrono_unit
+from citadel.domain.unit.log import build_log_unit
+from citadel.domain.unit.martial_arts import build_martial_arts_unit
+from citadel.domain.unit.strength import (
     build_lifting_unit,
     build_strength_unit,
 )
-from bushidolib.unit.wimhof import build_wimhof_unit
-from bushidolib.unit.work import build_work_unit
+from citadel.domain.unit.wimhof import build_wimhof_unit
+from citadel.domain.unit.work import build_work_unit
 
 from citadel.persistence.repos import (
     BaseUnitRepo,
@@ -30,6 +30,7 @@ from citadel.persistence.repos import (
     WimhofUnitRepo,
     WorkUnitRepo,
 )
+from citadel.schema.unit import RawUnit
 
 
 @dataclass(frozen=True)
