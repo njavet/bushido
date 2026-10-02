@@ -1,6 +1,6 @@
 from typing import override
 
-from bushidolib.unit.strength import LiftingSetData, LiftingUnit, StrengthUnit
+from citadel.domain.unit.strength import LiftingSetData, LiftingUnit, StrengthUnit
 from sqlalchemy.orm import selectinload
 
 from ..models import LiftingSet, LiftingUnitTable, StrengthUnitTable

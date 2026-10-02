@@ -1,6 +1,6 @@
 from typing import override
 
-from bushidolib.unit.martial_arts import MartialArtsUnit
+from citadel.domain.unit.martial_arts import MartialArtsUnit
 
 from ..models import MartialArtsUnitTable
 from ._base import BaseUnitRepo
