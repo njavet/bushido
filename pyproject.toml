@@ -16,7 +16,6 @@ dev = [
 members = ["packages/*"]
 
 [tool.uv.sources]
-bushidolib = { workspace = true }
 citadel = { workspace = true }
 sekkin = { workspace = true }
 ronin = { workspace = true }
@@ -30,7 +29,6 @@ target-version = "py314"
 line-length = 88
 indent-width = 4
 src = [
-    "bushidolib/src",
     "citadel/src",
     "sekkin/src",
     "ronin/src",
@@ -87,11 +85,10 @@ ignore = [
 
 [tool.ruff.lint.isort]
 known-first-party = [
-    "busidolib",
-    "bushido_server",
-    "bushido_client",
-    "tui_client",
-	"telegram_bot",
+    "citadel",
+    "sekkin",
+    "ronin",
+	"tbot",
 ]
 
 [tool.ruff.format]
@@ -111,7 +108,6 @@ explicit_package_bases = true
 
 files = ["packages"]
 mypy_path = [
-    "packages/bushidolib/src",
     "packages/citadel/src",
     "packages/sekkin/src",
     "packages/ronin/src",
