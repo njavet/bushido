@@ -9,7 +9,6 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 
 # Copy packages required by the workspace
-COPY packages/bushidolib ./packages/bushidolib
 COPY packages/citadel ./packages/citadel
 
 # Install Citadel and its dependencies

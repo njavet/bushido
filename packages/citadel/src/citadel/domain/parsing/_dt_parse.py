@@ -1,7 +1,7 @@
 import datetime
 import re
 
-from citadel.domain.constants import (
+from citadel.constants import (
     COMPLETE_TIME_LEN,
     MILITARY_TIME_LEN,
     MINUTE_LEN,
