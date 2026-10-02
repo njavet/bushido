@@ -1,6 +1,6 @@
 import pytest
-from bushidolib.exceptions import UnitParsingError
-from bushidolib.unit.base import RawUnit
+from citadel.exceptions import UnitParsingError
+from citadel.schema.unit import RawUnit
 
 
 @pytest.mark.parametrize(
