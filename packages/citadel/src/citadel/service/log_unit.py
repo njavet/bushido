@@ -1,15 +1,15 @@
 import datetime
-from typing import Any
 
 from sqlalchemy.orm import Session
 
 from citadel.dtypes import Clock, SystemClock
 from citadel.exceptions import UnitParsingError
 from citadel.registry import UNIT_REGISTRY
+from citadel.schema.res import LoggedUnit
 from citadel.schema.unit import RawUnit
 
 
-def log_unit(line: str, session: Session) -> Any:
+def log_unit(line: str, session: Session) -> LoggedUnit:
     raw_unit = RawUnit.from_line(line)
     override = raw_unit.options.get("dt", None)
     log_time = resolve_log_time(override=override, clock=SystemClock())

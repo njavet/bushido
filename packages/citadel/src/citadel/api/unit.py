@@ -1,10 +1,9 @@
-from typing import Any
-
 from fastapi import APIRouter, HTTPException
 
 from citadel.api.deps import SessionDep
 from citadel.registry import UNIT_REGISTRY
 from citadel.schema.req import LogUnitRequest
+from citadel.schema.res import LoggedUnit
 from citadel.service import log_unit
 
 router = APIRouter()
@@ -16,7 +15,9 @@ def get_unit_names() -> list[str]:
 
 
 @router.post("/unit-logs")
-async def process_log_request(request: LogUnitRequest, session: SessionDep) -> Any:
+async def process_log_request(
+    request: LogUnitRequest, session: SessionDep
+) -> LoggedUnit:
     try:
         return log_unit(request.line, session)
     except Exception as exc:
