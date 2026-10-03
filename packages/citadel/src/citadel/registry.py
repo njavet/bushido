@@ -15,7 +15,7 @@ from citadel.domain.strength.strength import (
 )
 from citadel.domain.unit import RawUnit
 from citadel.domain.wimhof.wimhof import build_wimhof_unit
-from citadel.domain.work.work import build_work_unit
+from citadel.domain.unit.work import build_work_unit
 from citadel.persistence.repos import (
     BaseUnitRepo,
     CaliUnitRepo,
