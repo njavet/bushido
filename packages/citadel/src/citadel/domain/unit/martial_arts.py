@@ -1,9 +1,8 @@
 import datetime
 
-from citadel.domain.base import BaseUnit, SpaceTimeData
+from citadel.domain.base import BaseUnit, RawUnit, SpaceTimeData
 from citadel.domain.parsing import parse_start_end_time_string
 from citadel.exceptions import UnitParsingError
-from citadel.schema.unit import RawUnit
 
 
 class MartialArtsUnit(BaseUnit, SpaceTimeData):

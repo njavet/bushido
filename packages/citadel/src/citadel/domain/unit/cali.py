@@ -1,7 +1,6 @@
 import datetime
 
-from citadel.domain.base import BaseUnit
-from citadel.schema.unit import RawUnit
+from citadel.domain.base import BaseUnit, RawUnit
 
 
 class CaliUnit(BaseUnit):

@@ -3,6 +3,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
+from citadel.domain.base import RawUnit
 from citadel.domain.unit.cali import build_cali_unit
 from citadel.domain.unit.cardio import build_cardio_unit
 from citadel.domain.unit.chrono import build_chrono_unit
@@ -29,7 +30,6 @@ from citadel.persistence.repos import (
     WorkUnitRepo,
 )
 from citadel.schema.res import LoggedUnit
-from citadel.schema.unit import RawUnit
 
 
 @dataclass(frozen=True)

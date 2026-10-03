@@ -1,8 +1,7 @@
 import datetime
 
-from citadel.domain.base import BaseUnit
+from citadel.domain.base import BaseUnit, RawUnit
 from citadel.exceptions import UnitParsingError
-from citadel.schema.unit import RawUnit
 
 
 class LogUnit(BaseUnit):
