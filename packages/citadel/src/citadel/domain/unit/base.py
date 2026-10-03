@@ -11,11 +11,18 @@ from citadel.exceptions import UnitParsingError
 
 class UnitType(StrEnum):
     cali = "cali"
-    cardio = "cardio"
+
+    swimming = "swimming"
+    running = "running"
+    skipping = "skipping"
+
     chrono = "chrono"
     log = "log"
+
     martial_arts = "martial_arts"
-    strength = "strength"
+    lifting = "lifting"
+    barbell = "barbell"
+
     wimhof = "wimhof"
     work = "work"
 
