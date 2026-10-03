@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException
 
 from citadel.api.deps import SessionDep
+from citadel.domain.dtypes import LoggedUnit
 from citadel.registry import UNIT_REGISTRY
 from citadel.schema.req import LogUnitRequest
-from citadel.schema.res import LoggedUnit
 from citadel.service import log_unit
 
 router = APIRouter()

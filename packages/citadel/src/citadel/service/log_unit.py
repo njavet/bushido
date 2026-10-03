@@ -3,10 +3,10 @@ import datetime
 from sqlalchemy.orm import Session
 
 from citadel.domain.base import RawUnit
+from citadel.domain.dtypes import LoggedUnit
 from citadel.dtypes import Clock, SystemClock
 from citadel.exceptions import UnitParsingError
 from citadel.registry import UNIT_REGISTRY
-from citadel.schema.res import LoggedUnit
 
 
 def log_unit(line: str, session: Session) -> LoggedUnit:
