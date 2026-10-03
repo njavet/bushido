@@ -1,14 +1,15 @@
 import datetime
-from typing import Self
+from typing import Self, Literal
 
 from pydantic import model_validator
 
 from citadel.domain.parsing import parse_start_end_time_string, time_string_to_seconds
-from citadel.domain.unit import BaseUnit, RawUnit
+from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
 
 
 class WorkUnit(BaseUnit):
+    unit_type: Literal[UnitType.work] = UnitType.work
     start_t: datetime.time | None = None
     end_t: datetime.time | None = None
     seconds: float | None = None
