@@ -1,6 +1,6 @@
 from typing import override
 
-from citadel.domain.unit.chrono import ChronoUnit
+from citadel.domain.unit import ChronoUnit
 
 from ..models import ChronoUnitTable
 from ._base import BaseUnitRepo

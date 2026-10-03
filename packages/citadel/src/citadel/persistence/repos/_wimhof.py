@@ -1,6 +1,6 @@
 from typing import override
 
-from citadel.domain.unit.wimhof import WimhofRoundData, WimhofUnit
+from citadel.domain.unit import RoundData, WimhofUnit
 
 from ..models import WimhofRound, WimhofUnitTable
 from ._base import BaseUnitRepo
@@ -28,7 +28,7 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
     def _from_orm(self, orm_unit: WimhofUnitTable) -> WimhofUnit:
         lst = []
         for r in orm_unit.subunits:
-            ws = WimhofRoundData(
+            ws = RoundData(
                 round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
             )
             lst.append(ws)

@@ -1,6 +1,6 @@
 from typing import override
 
-from citadel.domain.unit.cardio import RopeSkipUnit, RunningUnit, SwimmingUnit
+from citadel.domain.unit import RopeSkipUnit, RunningUnit, SwimmingUnit
 
 from ..models import RopeSkipUnitTable, RunningUnitTable, SwimmingUnitTable
 from ._base import BaseUnitRepo
