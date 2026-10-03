@@ -1,4 +1,4 @@
-from ._barbell import BarbellUnit, build_barbell_unit, SetData
+from ._barbell import BarbellUnit, SetData, build_barbell_unit
 from ._base import BaseUnit, RawUnit
 from ._cardio import (
     RopeSkipUnit,
@@ -12,7 +12,7 @@ from ._chrono import ChronoUnit, build_chrono_unit
 from ._lifting import LiftingUnit, build_lifting_unit
 from ._log import LogUnit, build_log_unit
 from ._martial_arts import MartialArtsUnit, build_martial_arts_unit
-from ._wimhof import WimhofUnit, build_wimhof_unit, RoundData
+from ._wimhof import RoundData, WimhofUnit, build_wimhof_unit
 from ._work import WorkUnit, build_work_unit
 
 __all__ = [
@@ -24,11 +24,11 @@ __all__ = [
     "MartialArtsUnit",
     "RawUnit",
     "RopeSkipUnit",
+    "RoundData",
     "RunningUnit",
+    "SetData",
     "SwimmingUnit",
     "WimhofUnit",
-    "SetData",
-    "RoundData",
     "WorkUnit",
     "build_barbell_unit",
     "build_chrono_unit",
