@@ -14,6 +14,7 @@ class StrengthUnitRepo(BaseUnitRepo[StrengthUnit, StrengthUnitTable]):
     @override
     def _to_orm(self, unit: StrengthUnit) -> StrengthUnitTable:
         return StrengthUnitTable(
+            name=unit.name,
             log_time=unit.log_time,
             start_t=unit.start_t,
             end_t=unit.end_t,
@@ -24,6 +25,7 @@ class StrengthUnitRepo(BaseUnitRepo[StrengthUnit, StrengthUnitTable]):
     @override
     def _from_orm(self, orm_unit: StrengthUnitTable) -> StrengthUnit:
         return StrengthUnit(
+            name=orm_unit.name,
             start_t=orm_unit.start_t,
             end_t=orm_unit.end_t,
             gym=orm_unit.gym,

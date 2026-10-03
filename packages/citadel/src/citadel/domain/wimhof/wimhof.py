@@ -53,6 +53,7 @@ def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
 def build_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WimhofUnit:
     data = parse_wimhof_data(raw_unit.tokens)
     return WimhofUnit(
+        name=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
         rounds=data.rounds,

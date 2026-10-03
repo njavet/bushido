@@ -5,7 +5,6 @@ from citadel.exceptions import UnitParsingError
 
 
 class ChronoUnit(BaseUnit):
-    name: str
     seconds: float
 
 

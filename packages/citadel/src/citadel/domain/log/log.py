@@ -5,7 +5,6 @@ from citadel.exceptions import UnitParsingError
 
 
 class LogUnit(BaseUnit):
-    name: str
     kind: str
 
 

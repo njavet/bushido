@@ -64,6 +64,7 @@ def build_work_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WorkUnit:
         ) from e
 
     return WorkUnit(
+        name=raw_unit.name,
         start_t=start_t,
         end_t=end_t,
         seconds=seconds,

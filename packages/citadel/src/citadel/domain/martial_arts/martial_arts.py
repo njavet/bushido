@@ -6,7 +6,7 @@ from citadel.exceptions import UnitParsingError
 
 
 class MartialArtsUnit(BaseUnit, SpaceTimeData):
-    name: str
+    pass
 
 
 def build_martial_arts_unit(

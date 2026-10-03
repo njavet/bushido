@@ -12,6 +12,7 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
     @override
     def _to_orm(self, unit: WimhofUnit) -> WimhofUnitTable:
         orm_unit = WimhofUnitTable(
+            name=unit.name,
             zen_mode=unit.zen_mode,
             guide=unit.guide,
             log_time=unit.log_time,
@@ -32,6 +33,7 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
             )
             lst.append(ws)
         return WimhofUnit(
+            name=orm_unit.name,
             rounds=lst,
             zen_mode=orm_unit.zen_mode,
             guide=orm_unit.guide,

@@ -76,6 +76,7 @@ def build_strength_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> Stren
     except IndexError as e:
         raise UnitParsingError("no gym") from e
     return StrengthUnit(
+        name=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
         start_t=start_t,

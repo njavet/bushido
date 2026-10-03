@@ -12,6 +12,7 @@ class WorkUnitRepo(BaseUnitRepo[WorkUnit, WorkUnitTable]):
     @override
     def _to_orm(self, unit: WorkUnit) -> WorkUnitTable:
         return WorkUnitTable(
+            name=unit.name,
             start_t=unit.start_t,
             end_t=unit.end_t,
             seconds=unit.seconds,
@@ -25,6 +26,7 @@ class WorkUnitRepo(BaseUnitRepo[WorkUnit, WorkUnitTable]):
     @override
     def _from_orm(self, orm_unit: WorkUnitTable) -> WorkUnit:
         return WorkUnit(
+            name=orm_unit.name,
             start_t=orm_unit.start_t,
             end_t=orm_unit.end_t,
             seconds=orm_unit.seconds,

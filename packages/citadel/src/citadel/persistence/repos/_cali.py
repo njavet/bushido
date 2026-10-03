@@ -12,6 +12,7 @@ class CaliUnitRepo(BaseUnitRepo[CaliUnit, CaliUnitTable]):
     @override
     def _to_orm(self, unit: CaliUnit) -> CaliUnitTable:
         return CaliUnitTable(
+            name=unit.name,
             pushups=unit.pushups,
             squats=unit.squats,
             situps=unit.situps,
@@ -23,6 +24,7 @@ class CaliUnitRepo(BaseUnitRepo[CaliUnit, CaliUnitTable]):
     @override
     def _from_orm(self, orm_unit: CaliUnitTable) -> CaliUnit:
         return CaliUnit(
+            name=orm_unit.name,
             pushups=orm_unit.pushups,
             squats=orm_unit.squats,
             situps=orm_unit.situps,

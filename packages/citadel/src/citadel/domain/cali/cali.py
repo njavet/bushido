@@ -13,6 +13,7 @@ class CaliUnit(BaseUnit):
 def build_cali_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CaliUnit:
     data = raw_unit.tokens[0].split(",")
     return CaliUnit(
+        name=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
         pushups=int(data[0]),

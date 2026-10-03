@@ -81,6 +81,7 @@ def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioU
             except (KeyError, ValueError) as e:
                 raise UnitParsingError(f"wrong distance {raw_unit.tokens}") from e
             return RunningUnit(
+                name=raw_unit.name,
                 log_time=log_time,
                 comment=raw_unit.comment,
                 start_t=data.start_t,
@@ -105,6 +106,7 @@ def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioU
             except KeyError, ValueError:
                 temperature = None
             return SwimmingUnit(
+                name=raw_unit.name,
                 log_time=log_time,
                 comment=raw_unit.comment,
                 start_t=data.start_t,
@@ -119,6 +121,7 @@ def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioU
             )
         case CardioType.skipping:
             return RopeSkipUnit(
+                name=raw_unit.name,
                 log_time=log_time,
                 comment=raw_unit.comment,
                 start_t=data.start_t,

@@ -12,6 +12,7 @@ class RunningUnitRepo(BaseUnitRepo[RunningUnit, RunningUnitTable]):
     @override
     def _to_orm(self, unit: RunningUnit) -> RunningUnitTable:
         return RunningUnitTable(
+            name=unit.name,
             log_time=unit.log_time,
             start_t=unit.start_t,
             seconds=unit.seconds,
@@ -26,6 +27,7 @@ class RunningUnitRepo(BaseUnitRepo[RunningUnit, RunningUnitTable]):
     @override
     def _from_orm(self, orm_unit: RunningUnitTable) -> RunningUnit:
         return RunningUnit(
+            name=orm_unit.name,
             start_t=orm_unit.start_t,
             seconds=orm_unit.seconds,
             gym=orm_unit.gym,
@@ -44,6 +46,7 @@ class SwimmingUnitRepo(BaseUnitRepo[SwimmingUnit, SwimmingUnitTable]):
     @override
     def _to_orm(self, unit: SwimmingUnit) -> SwimmingUnitTable:
         return SwimmingUnitTable(
+            name=unit.name,
             log_time=unit.log_time,
             start_t=unit.start_t,
             seconds=unit.seconds,
@@ -60,6 +63,7 @@ class SwimmingUnitRepo(BaseUnitRepo[SwimmingUnit, SwimmingUnitTable]):
     @override
     def _from_orm(self, orm_unit: SwimmingUnitTable) -> SwimmingUnit:
         return SwimmingUnit(
+            name=orm_unit.name,
             start_t=orm_unit.start_t,
             seconds=orm_unit.seconds,
             gym=orm_unit.gym,
@@ -80,6 +84,7 @@ class RopeSkipUnitRepo(BaseUnitRepo[RopeSkipUnit, RopeSkipUnitTable]):
     @override
     def _to_orm(self, unit: RopeSkipUnit) -> RopeSkipUnitTable:
         return RopeSkipUnitTable(
+            name=unit.name,
             log_time=unit.log_time,
             start_t=unit.start_t,
             seconds=unit.seconds,
@@ -93,6 +98,7 @@ class RopeSkipUnitRepo(BaseUnitRepo[RopeSkipUnit, RopeSkipUnitTable]):
     @override
     def _from_orm(self, orm_unit: RopeSkipUnitTable) -> RopeSkipUnit:
         return RopeSkipUnit(
+            name=orm_unit.name,
             start_t=orm_unit.start_t,
             seconds=orm_unit.seconds,
             gym=orm_unit.gym,
