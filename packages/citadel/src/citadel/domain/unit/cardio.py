@@ -1,5 +1,4 @@
 import datetime
-from enum import StrEnum
 from typing import Literal
 
 from pydantic import BaseModel
@@ -8,8 +7,9 @@ from citadel.domain.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )
-from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
+
+from .base import BaseUnit, RawUnit, UnitType
 
 
 class CardioData(BaseModel):
@@ -128,4 +128,4 @@ def build_skipping_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> RopeS
         avg_hr=data.avg_hr,
         max_hr=data.max_hr,
         calories=data.calories,
-            )
+    )

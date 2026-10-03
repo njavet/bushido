@@ -4,8 +4,9 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
+
+from .base import BaseUnit, RawUnit, UnitType
 
 
 class WimhofFlags(StrEnum):
@@ -42,9 +43,9 @@ def parse_round_data(tokens: tuple[str, ...]) -> list[RoundData]:
         raise UnitParsingError("retentions must all be positive")
 
     return [
-            RoundData(round_nr=i, breaths=b, retention=r)
-            for i, (b, r) in enumerate(zip(breaths, retentions, strict=False))
-        ]
+        RoundData(round_nr=i, breaths=b, retention=r)
+        for i, (b, r) in enumerate(zip(breaths, retentions, strict=False))
+    ]
 
 
 def build_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WimhofUnit:

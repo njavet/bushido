@@ -1,8 +1,9 @@
 import datetime
 from typing import Literal
 
-from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
+
+from .base import BaseUnit, RawUnit, UnitType
 
 
 class LogUnit(BaseUnit):

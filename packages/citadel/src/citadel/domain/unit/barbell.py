@@ -3,9 +3,9 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from citadel.domain.parsing import parse_start_end_time_string
-from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
+
+from .base import BaseUnit, RawUnit, UnitType
 
 # TODO barbell, dumbbell
 
