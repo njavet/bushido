@@ -12,7 +12,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from citadel import __version__
 from citadel.api import auth_router, router
-from citadel.conf import DbBackend, Settings, settings
+from citadel.conf import DbBackend, settings
 from citadel.persistence import SessionFactory
 
 logging.basicConfig(
@@ -25,7 +25,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def get_db_url(settings: Settings) -> str | URL:
+def get_db_url() -> str | URL:
     match settings.db_backend:
         case DbBackend.SQLITE:
             return f"sqlite:///{settings.sqlite_path}"
@@ -72,7 +72,7 @@ def create_parser() -> ArgumentParser:
 @asynccontextmanager
 async def lifespan(app_: FastAPI) -> AsyncIterator[None]:
     logger.info("starting application")
-    db_url = get_db_url(settings)
+    db_url = get_db_url()
     sf = SessionFactory(db_url=db_url)
     app_.state.sf = sf
     logger.info(
