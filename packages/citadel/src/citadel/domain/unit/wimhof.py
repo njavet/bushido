@@ -1,9 +1,10 @@
 import datetime
 from enum import StrEnum
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from citadel.domain.unit import BaseUnit, RawUnit
+from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
 
 
@@ -15,22 +16,20 @@ class WimhofOptions(StrEnum):
     guide = "guide"
 
 
-class WimhofRoundData(BaseModel):
+class RoundData(BaseModel):
     round_nr: int = Field(ge=0)
     breaths: int = Field(ge=0)
     retention: int = Field(ge=0, lt=600)
 
 
-class WimhofData(BaseModel):
-    rounds: list[WimhofRoundData]
-
-
-class WimhofUnit(BaseUnit, WimhofData):
+class WimhofUnit(BaseUnit):
+    unit_type: Literal[UnitType.wimhof] = UnitType.wimhof
+    rounds: list[RoundData]
     zen_mode: bool = False
     guide: str | None = None
 
 
-def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
+def parse_round_data(tokens: tuple[str, ...]) -> list[RoundData]:
     breaths = [int(b) for b in tokens[::2]]
     retentions = [int(r) for r in tokens[1::2]]
     if len(breaths) == 0:
@@ -42,21 +41,19 @@ def parse_wimhof_data(tokens: tuple[str, ...]) -> WimhofData:
     if any(x < 0 for x in retentions):
         raise UnitParsingError("retentions must all be positive")
 
-    return WimhofData(
-        rounds=[
-            WimhofRoundData(round_nr=i, breaths=b, retention=r)
+    return [
+            RoundData(round_nr=i, breaths=b, retention=r)
             for i, (b, r) in enumerate(zip(breaths, retentions, strict=False))
         ]
-    )
 
 
 def build_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WimhofUnit:
-    data = parse_wimhof_data(raw_unit.tokens)
+    rounds = parse_round_data(raw_unit.tokens)
     return WimhofUnit(
         name=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
-        rounds=data.rounds,
+        rounds=rounds,
         zen_mode=WimhofFlags.z in raw_unit.flags,
         guide=raw_unit.options.get(WimhofOptions.guide, None),
     )
