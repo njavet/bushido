@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - "citadel/**"
-      - "bushidolib/**"
       - "uv.lock"
       - "pyproject.toml"
       - ".github/workflows/deploy.yml"

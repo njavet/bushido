@@ -37,9 +37,6 @@ jobs:
       - name: tests
         run: uv run pytest 
 
-      - name: build bushidolib
-        run: uv build --package bushidolib
-
       - name: build server
         run: uv build --package citadel
 
