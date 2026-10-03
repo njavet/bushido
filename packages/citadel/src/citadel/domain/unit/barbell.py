@@ -4,31 +4,27 @@ from typing import Literal
 from pydantic import BaseModel
 
 from citadel.domain.parsing import parse_start_end_time_string
-from citadel.domain.unit import BaseUnit, RawUnit, SpaceTimeData, UnitType
+from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
 
 # TODO barbell, dumbbell
 
 
-class LiftingSetData(BaseModel):
+class SetData(BaseModel):
     set_nr: int
     rest: float
     weight: float
     reps: float
 
 
-class LiftingUnit(BaseUnit):
-    unit_type: Literal[UnitType.strength] = UnitType.strength
+class BarbellUnit(BaseUnit):
+    unit_type: Literal[UnitType.barbell] = UnitType.barbell
     name: str
     variant: str = "default"
-    sets: list[LiftingSetData]
+    sets: list[SetData]
 
 
-class StrengthUnit(BaseUnit, SpaceTimeData):
-    pass
-
-
-def parse_lifting_data(tokens: tuple[str, ...]) -> list[LiftingSetData]:
+def parse_set_data(tokens: tuple[str, ...]) -> list[SetData]:
     try:
         rests = [float(r) for r in tokens[::3]]
     except ValueError as e:
@@ -53,33 +49,17 @@ def parse_lifting_data(tokens: tuple[str, ...]) -> list[LiftingSetData]:
         raise UnitParsingError("rests must all be positive")
 
     return [
-        LiftingSetData(set_nr=i, weight=weight, reps=rep, rest=rest)
+        SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
         for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests, strict=False))
     ]
 
 
-def build_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> LiftingUnit:
-    sets = parse_lifting_data(raw_unit.tokens)
-    return LiftingUnit(
+def build_barbell_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> BarbellUnit:
+    sets = parse_set_data(raw_unit.tokens)
+    return BarbellUnit(
         name=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
         sets=sets,
         variant=raw_unit.options.get("variant", "default"),
-    )
-
-
-def build_strength_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> StrengthUnit:
-    start_t, end_t = parse_start_end_time_string(raw_unit.tokens[0])
-    try:
-        gym = raw_unit.tokens[1]
-    except IndexError as e:
-        raise UnitParsingError("no gym") from e
-    return StrengthUnit(
-        name=raw_unit.name,
-        log_time=log_time,
-        comment=raw_unit.comment,
-        start_t=start_t,
-        end_t=end_t,
-        gym=gym,
     )
