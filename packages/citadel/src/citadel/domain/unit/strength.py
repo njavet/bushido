@@ -2,8 +2,8 @@ import datetime
 
 from pydantic import BaseModel
 
+from citadel.domain.base import BaseUnit, SpaceTimeData
 from citadel.domain.parsing import parse_start_end_time_string
-from citadel.domain.unit.base import BaseUnit, SpaceTimeData
 from citadel.exceptions import UnitParsingError
 from citadel.schema.unit import RawUnit
 

@@ -3,11 +3,11 @@ from enum import StrEnum
 
 from pydantic import BaseModel
 
+from citadel.domain.base import BaseUnit
 from citadel.domain.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )
-from citadel.domain.unit.base import BaseUnit
 from citadel.exceptions import UnitParsingError
 from citadel.schema.unit import RawUnit
 

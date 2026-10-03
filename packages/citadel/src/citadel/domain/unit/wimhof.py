@@ -3,7 +3,7 @@ from enum import StrEnum
 
 from pydantic import BaseModel, Field
 
-from citadel.domain.unit.base import BaseUnit
+from citadel.domain.base import BaseUnit
 from citadel.exceptions import UnitParsingError
 from citadel.schema.unit import RawUnit
 
