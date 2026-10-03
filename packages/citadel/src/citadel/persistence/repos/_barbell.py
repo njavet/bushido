@@ -2,65 +2,39 @@ from typing import override
 
 from sqlalchemy.orm import selectinload
 
-from citadel.domain.unit.lifting import LiftingSetData, LiftingUnit, StrengthUnit
+from citadel.domain.unit.barbell import BarbellUnit, SetData
 
-from ..models import LiftingSet, LiftingUnitTable, StrengthUnitTable
+from ..models import BarbellUnitTable, BarbellSet
 from ._base import BaseUnitRepo
 
 
-class StrengthUnitRepo(BaseUnitRepo[StrengthUnit, StrengthUnitTable]):
-    orm_cls = StrengthUnitTable
+class BarbellUnitRepo(BaseUnitRepo[BarbellUnit, BarbellUnitTable]):
+    orm_cls = BarbellUnitTable
+    load_options = (selectinload(BarbellUnitTable.subunits),)
 
     @override
-    def _to_orm(self, unit: StrengthUnit) -> StrengthUnitTable:
-        return StrengthUnitTable(
-            name=unit.name,
-            log_time=unit.log_time,
-            start_t=unit.start_t,
-            end_t=unit.end_t,
-            gym=unit.gym,
-            comment=unit.comment,
-        )
-
-    @override
-    def _from_orm(self, orm_unit: StrengthUnitTable) -> StrengthUnit:
-        return StrengthUnit(
-            name=orm_unit.name,
-            start_t=orm_unit.start_t,
-            end_t=orm_unit.end_t,
-            gym=orm_unit.gym,
-            log_time=orm_unit.log_time,
-            comment=orm_unit.comment,
-        )
-
-
-class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
-    orm_cls = LiftingUnitTable
-    load_options = (selectinload(LiftingUnitTable.subunits),)
-
-    @override
-    def _to_orm(self, unit: LiftingUnit) -> LiftingUnitTable:
-        orm_unit = LiftingUnitTable(
+    def _to_orm(self, unit: BarbellUnit) -> BarbellUnitTable:
+        orm_unit = BarbellUnitTable(
             name=unit.name,
             variant=unit.variant,
             comment=unit.comment,
             log_time=unit.log_time,
         )
         orm_unit.subunits = [
-            LiftingSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
+            BarbellSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             for s in unit.sets
         ]
         return orm_unit
 
     @override
-    def _from_orm(self, orm_unit: LiftingUnitTable) -> LiftingUnit:
+    def _from_orm(self, orm_unit: BarbellUnitTable) -> BarbellUnit:
         lst = []
         for s in orm_unit.subunits:
-            sp = LiftingSetData(
+            sp = SetData(
                 set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest
             )
             lst.append(sp)
-        return LiftingUnit(
+        return BarbellUnit(
             name=orm_unit.name,
             variant=orm_unit.variant,
             sets=lst,

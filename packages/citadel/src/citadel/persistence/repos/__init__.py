@@ -1,23 +1,22 @@
 from ._base import BaseUnitRepo
-from ._cali import CaliUnitRepo
+from ._barbell import BarbellUnitRepo
 from ._cardio import RopeSkipUnitRepo, RunningUnitRepo, SwimmingUnitRepo
 from ._chrono import ChronoUnitRepo
 from ._log import LogUnitRepo
 from ._martial_arts import MartialArtsUnitRepo
-from ._lifting import LiftingUnitRepo, StrengthUnitRepo
+from ._lifting import LiftingUnitRepo
 from ._wimhof import WimhofUnitRepo
 from ._work import WorkUnitRepo
 
 __all__ = [
     "BaseUnitRepo",
-    "CaliUnitRepo",
+    "BarbellUnitRepo",
     "ChronoUnitRepo",
     "LiftingUnitRepo",
     "LogUnitRepo",
     "MartialArtsUnitRepo",
     "RopeSkipUnitRepo",
     "RunningUnitRepo",
-    "StrengthUnitRepo",
     "SwimmingUnitRepo",
     "WimhofUnitRepo",
     "WorkUnitRepo",
