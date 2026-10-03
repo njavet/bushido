@@ -2,7 +2,18 @@ from typing import Annotated
 
 from pydantic import Field
 
-from citadel.domain.unit import LiftingUnit, ChronoUnit, BarbellUnit, LogUnit, MartialArtsUnit, RopeSkipUnit, RunningUnit, SwimmingUnit, WimhofUnit, WorkUnit
+from citadel.domain.unit import (
+    BarbellUnit,
+    ChronoUnit,
+    LiftingUnit,
+    LogUnit,
+    MartialArtsUnit,
+    RopeSkipUnit,
+    RunningUnit,
+    SwimmingUnit,
+    WimhofUnit,
+    WorkUnit,
+)
 
 type LoggedUnit = Annotated[
     WimhofUnit
