@@ -1,12 +1,33 @@
 from ._base import BaseUnit, RawUnit
-from ._barbell import BarbellUnit
-from ._cardio import SwimmingUnit, RopeSkipUnit, RunningUnit
-from ._chrono import ChronoUnit
-from ._lifting import LiftingUnit
-from ._log import LogUnit
-from ._martial_arts import MartialArtsUnit
-from ._wimhof import WimhofUnit
-from ._work import WorkUnit
+from ._barbell import BarbellUnit, build_barbell_unit
+from ._cardio import SwimmingUnit, RopeSkipUnit, RunningUnit, build_running_unit, build_swimming_unit, build_skipping_unit
+from ._chrono import ChronoUnit, build_chrono_unit
+from ._lifting import LiftingUnit, build_lifting_unit
+from ._log import LogUnit, build_log_unit
+from ._martial_arts import MartialArtsUnit, build_martial_arts_unit
+from ._wimhof import WimhofUnit, build_wimhof_unit
+from ._work import WorkUnit, build_work_unit
 
 
-__all__ = ["BaseUnit", "RawUnit"]
+__all__ = ["BaseUnit",
+           "RawUnit",
+           "BarbellUnit",
+           "ChronoUnit",
+           "LiftingUnit",
+           "LogUnit",
+           "MartialArtsUnit",
+           "RopeSkipUnit",
+           "RunningUnit",
+           "SwimmingUnit",
+           "WimhofUnit",
+           "WorkUnit",
+           "build_wimhof_unit",
+           "build_work_unit",
+           "build_running_unit",
+           "build_swimming_unit",
+           "build_skipping_unit",
+           "build_chrono_unit",
+           "build_lifting_unit",
+           "build_log_unit",
+           "build_martial_arts_unit",
+           ]
