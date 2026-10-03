@@ -1,12 +1,13 @@
 import datetime
+from typing import Literal
 
-from citadel.domain.parsing import parse_start_end_time_string
-from citadel.domain.unit import BaseUnit, RawUnit, SpaceTimeData
 from citadel.exceptions import UnitParsingError
+from citadel.domain.parsing import parse_start_end_time_string
+from .base import BaseUnit, RawUnit, SpaceTimeData, UnitType
 
 
 class MartialArtsUnit(BaseUnit, SpaceTimeData):
-    pass
+    unit_type: Literal[UnitType.martial_arts] = UnitType.martial_arts
 
 
 def build_martial_arts_unit(

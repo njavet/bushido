@@ -1,10 +1,12 @@
 import datetime
+from typing import Literal
 
-from citadel.domain.unit import BaseUnit, RawUnit
+from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
 
 
 class LogUnit(BaseUnit):
+    unit_type: Literal[UnitType.log] = UnitType.log
     kind: str
 
 
