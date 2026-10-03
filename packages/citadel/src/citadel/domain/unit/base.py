@@ -13,14 +13,11 @@ class UnitType(StrEnum):
     swimming = "swimming"
     running = "running"
     skipping = "skipping"
-
     chrono = "chrono"
     log = "log"
-
     martial_arts = "martial_arts"
     lifting = "lifting"
     barbell = "barbell"
-
     wimhof = "wimhof"
     work = "work"
 

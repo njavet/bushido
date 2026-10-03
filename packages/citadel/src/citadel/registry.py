@@ -9,7 +9,7 @@ from citadel.domain.unit.chrono import build_chrono_unit
 from citadel.domain.dtypes import LoggedUnit
 from citadel.domain.unit.log import build_log_unit
 from citadel.domain.unit.martial_arts import build_martial_arts_unit
-from citadel.domain.unit.strength import (
+from citadel.domain.unit.lifting import (
     build_lifting_unit,
     build_strength_unit,
 )
