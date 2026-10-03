@@ -1,10 +1,12 @@
 import datetime
+from typing import Literal
 
-from citadel.domain.unit import BaseUnit, RawUnit
 from citadel.exceptions import UnitParsingError
+from .base import BaseUnit, RawUnit, UnitType
 
 
 class ChronoUnit(BaseUnit):
+    unit_type: Literal[UnitType.chrono] = UnitType.chrono
     seconds: float
 
 

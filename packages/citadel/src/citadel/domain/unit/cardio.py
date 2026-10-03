@@ -12,12 +12,6 @@ from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
 
 
-class CardioType(StrEnum):
-    running = "running"
-    swimming = "swimming"
-    skipping = "skipping"
-
-
 class CardioData(BaseModel):
     start_t: datetime.time
     seconds: float
