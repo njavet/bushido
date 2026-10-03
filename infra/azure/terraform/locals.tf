@@ -17,6 +17,6 @@ locals {
 
   container_image = coalesce(
     var.container_image,
-    "${azurerm_container_registry.bushido.login_server}/bushido-server:latest",
+    "${azurerm_container_registry.bushido.login_server}/citadel:latest",
   )
 }
