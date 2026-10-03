@@ -17,7 +17,6 @@ class StrengthUnitTable(UnitTable):
 class LiftingUnitTable(UnitTable):
     __tablename__ = "lifting_unit"
 
-    exercise: Mapped[str] = mapped_column()
     variant: Mapped[str] = mapped_column(default="default")
     subunits: Mapped[list[LiftingSet]] = relationship(
         cascade="all, delete-orphan",

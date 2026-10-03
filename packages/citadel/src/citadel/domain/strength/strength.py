@@ -1,8 +1,9 @@
 import datetime
+from typing import Literal
 
 from pydantic import BaseModel
 
-from citadel.domain.base import BaseUnit, RawUnit, SpaceTimeData
+from citadel.domain.base import BaseUnit, RawUnit, SpaceTimeData, UnitType
 from citadel.domain.parsing import parse_start_end_time_string
 from citadel.exceptions import UnitParsingError
 
@@ -16,20 +17,18 @@ class LiftingSetData(BaseModel):
     reps: float
 
 
-class LiftingData(BaseModel):
-    sets: list[LiftingSetData]
-
-
-class LiftingUnit(BaseUnit, LiftingData):
-    exercise: str
+class LiftingUnit(BaseUnit):
+    unit_type: Literal[UnitType.strength] = UnitType.strength
+    name: str
     variant: str = "default"
+    sets: list[LiftingSetData]
 
 
 class StrengthUnit(BaseUnit, SpaceTimeData):
     pass
 
 
-def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
+def parse_lifting_data(tokens: tuple[str, ...]) -> list[LiftingSetData]:
     try:
         rests = [float(r) for r in tokens[::3]]
     except ValueError as e:
@@ -53,23 +52,19 @@ def parse_lifting_data(tokens: tuple[str, ...]) -> LiftingData:
     if any(x <= 0 for x in rests[:-1]):
         raise UnitParsingError("rests must all be positive")
 
-    return LiftingData(
-        sets=[
-            LiftingSetData(set_nr=i, weight=weight, reps=rep, rest=rest)
-            for i, (weight, rep, rest) in enumerate(
-                zip(weights, reps, rests, strict=False)
-            )
-        ],
-    )
+    return [
+        LiftingSetData(set_nr=i, weight=weight, reps=rep, rest=rest)
+        for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests, strict=False))
+    ]
 
 
 def build_lifting_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> LiftingUnit:
-    data = parse_lifting_data(raw_unit.tokens)
+    sets = parse_lifting_data(raw_unit.tokens)
     return LiftingUnit(
-        exercise=raw_unit.name,
+        name=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
-        sets=data.sets,
+        sets=sets,
         variant=raw_unit.options.get("variant", "default"),
     )
 

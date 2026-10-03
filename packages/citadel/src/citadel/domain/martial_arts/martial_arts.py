@@ -6,7 +6,7 @@ from citadel.exceptions import UnitParsingError
 
 
 class MartialArtsUnit(BaseUnit, SpaceTimeData):
-    kind: str
+    name: str
 
 
 def build_martial_arts_unit(
@@ -18,7 +18,7 @@ def build_martial_arts_unit(
     except IndexError as e:
         raise UnitParsingError("no gym") from e
     return MartialArtsUnit(
-        kind=raw_unit.name,
+        name=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
         start_t=start_t,

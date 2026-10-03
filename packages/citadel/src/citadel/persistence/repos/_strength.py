@@ -39,7 +39,7 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
     @override
     def _to_orm(self, unit: LiftingUnit) -> LiftingUnitTable:
         orm_unit = LiftingUnitTable(
-            exercise=unit.exercise,
+            name=unit.name,
             variant=unit.variant,
             comment=unit.comment,
             log_time=unit.log_time,
@@ -59,7 +59,7 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
             )
             lst.append(sp)
         return LiftingUnit(
-            exercise=orm_unit.exercise,
+            name=orm_unit.name,
             variant=orm_unit.variant,
             sets=lst,
             log_time=orm_unit.log_time,

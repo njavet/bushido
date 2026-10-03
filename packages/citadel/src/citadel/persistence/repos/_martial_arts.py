@@ -12,7 +12,7 @@ class MartialArtsUnitRepo(BaseUnitRepo[MartialArtsUnit, MartialArtsUnitTable]):
     @override
     def _to_orm(self, unit: MartialArtsUnit) -> MartialArtsUnitTable:
         return MartialArtsUnitTable(
-            kind=unit.kind,
+            name=unit.name,
             log_time=unit.log_time,
             start_t=unit.start_t,
             end_t=unit.end_t,
@@ -23,7 +23,7 @@ class MartialArtsUnitRepo(BaseUnitRepo[MartialArtsUnit, MartialArtsUnitTable]):
     @override
     def _from_orm(self, orm_unit: MartialArtsUnitTable) -> MartialArtsUnit:
         return MartialArtsUnit(
-            kind=orm_unit.kind,
+            name=orm_unit.name,
             start_t=orm_unit.start_t,
             end_t=orm_unit.end_t,
             gym=orm_unit.gym,
