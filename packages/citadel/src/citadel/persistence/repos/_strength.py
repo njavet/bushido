@@ -2,7 +2,7 @@ from typing import override
 
 from sqlalchemy.orm import selectinload
 
-from citadel.domain.strength.strength import LiftingSetData, LiftingUnit, StrengthUnit
+from citadel.domain.unit.strength import LiftingSetData, LiftingUnit, StrengthUnit
 
 from ..models import LiftingSet, LiftingUnitTable, StrengthUnitTable
 from ._base import BaseUnitRepo

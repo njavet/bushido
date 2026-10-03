@@ -1,6 +1,6 @@
 from typing import override
 
-from citadel.domain.wimhof.wimhof import WimhofRoundData, WimhofUnit
+from citadel.domain.unit.wimhof import WimhofRoundData, WimhofUnit
 
 from ..models import WimhofRound, WimhofUnitTable
 from ._base import BaseUnitRepo
