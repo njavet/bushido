@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 from citadel.exceptions import UnitParsingError
 
-from .base import BaseUnit, RawUnit, UnitType
+from ._base import BaseUnit, RawUnit, UnitType
 
 
 class WimhofFlags(StrEnum):

@@ -4,7 +4,7 @@ from typing import Literal
 from citadel.domain.parsing import parse_start_end_time_string
 from citadel.exceptions import UnitParsingError
 
-from .base import BaseUnit, RawUnit, SpaceTimeData, UnitType
+from ._base import BaseUnit, RawUnit, SpaceTimeData, UnitType
 
 
 class MartialArtsUnit(BaseUnit, SpaceTimeData):

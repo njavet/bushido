@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from citadel.exceptions import UnitParsingError
 
-from .base import BaseUnit, RawUnit, UnitType
+from ._base import BaseUnit, RawUnit, UnitType
 
 # TODO barbell, dumbbell
 

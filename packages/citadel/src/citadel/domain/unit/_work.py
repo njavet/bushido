@@ -6,7 +6,7 @@ from pydantic import model_validator
 from citadel.domain.parsing import parse_start_end_time_string, time_string_to_seconds
 from citadel.exceptions import UnitParsingError
 
-from .base import BaseUnit, RawUnit, UnitType
+from ._base import BaseUnit, RawUnit, UnitType
 
 
 class WorkUnit(BaseUnit):
