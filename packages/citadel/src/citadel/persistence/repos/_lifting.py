@@ -1,7 +1,5 @@
 from typing import override
 
-from sqlalchemy.orm import selectinload
-
 from citadel.domain.unit.lifting import LiftingUnit
 
 from ..models import LiftingUnitTable

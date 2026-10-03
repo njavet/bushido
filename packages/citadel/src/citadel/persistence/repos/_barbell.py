@@ -4,7 +4,7 @@ from sqlalchemy.orm import selectinload
 
 from citadel.domain.unit.barbell import BarbellUnit, SetData
 
-from ..models import BarbellUnitTable, BarbellSet
+from ..models import BarbellSet, BarbellUnitTable
 from ._base import BaseUnitRepo
 
 
@@ -30,9 +30,7 @@ class BarbellUnitRepo(BaseUnitRepo[BarbellUnit, BarbellUnitTable]):
     def _from_orm(self, orm_unit: BarbellUnitTable) -> BarbellUnit:
         lst = []
         for s in orm_unit.subunits:
-            sp = SetData(
-                set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest
-            )
+            sp = SetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             lst.append(sp)
         return BarbellUnit(
             name=orm_unit.name,

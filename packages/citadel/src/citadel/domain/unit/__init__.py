@@ -1,3 +1,3 @@
-from .base import RawUnit, BaseUnit
+from .base import BaseUnit, RawUnit
 
-__all__ = ["RawUnit", "BaseUnit"]
+__all__ = ["BaseUnit", "RawUnit"]
