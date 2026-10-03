@@ -53,7 +53,7 @@ jobs:
       - name: Build image
         run: |
           docker build \
-            -f citadel/Dockerfile \
+            -f packages/citadel/Dockerfile \
             -t "${{ steps.acr.outputs.server }}/${ACR_REPOSITORY}:${{ github.sha }}" \
             .
 
