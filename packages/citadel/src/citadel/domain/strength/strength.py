@@ -3,8 +3,8 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from citadel.domain.base import BaseUnit, RawUnit, SpaceTimeData, UnitType
 from citadel.domain.parsing import parse_start_end_time_string
+from citadel.domain.unit import BaseUnit, RawUnit, SpaceTimeData, UnitType
 from citadel.exceptions import UnitParsingError
 
 # TODO barbell, dumbbell

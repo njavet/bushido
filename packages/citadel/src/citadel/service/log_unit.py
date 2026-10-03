@@ -2,8 +2,8 @@ import datetime
 
 from sqlalchemy.orm import Session
 
-from citadel.domain.base import RawUnit
 from citadel.domain.dtypes import LoggedUnit
+from citadel.domain.unit import RawUnit
 from citadel.dtypes import Clock, SystemClock
 from citadel.exceptions import UnitParsingError
 from citadel.registry import UNIT_REGISTRY

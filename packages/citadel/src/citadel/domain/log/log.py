@@ -1,6 +1,6 @@
 import datetime
 
-from citadel.domain.base import BaseUnit, RawUnit
+from citadel.domain.unit import BaseUnit, RawUnit
 from citadel.exceptions import UnitParsingError
 
 

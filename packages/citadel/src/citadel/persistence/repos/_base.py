@@ -6,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
-from citadel.domain.base import BaseUnit
+from citadel.domain.unit import BaseUnit
 
 from ..models import UnitTable
 

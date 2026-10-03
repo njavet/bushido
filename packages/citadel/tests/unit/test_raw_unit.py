@@ -1,6 +1,6 @@
 import pytest
 
-from citadel.domain.base import RawUnit
+from citadel.domain.unit import RawUnit
 from citadel.exceptions import UnitParsingError
 
 

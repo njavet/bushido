@@ -1,7 +1,7 @@
 import datetime
 
-from citadel.domain.base import BaseUnit, RawUnit, SpaceTimeData
 from citadel.domain.parsing import parse_start_end_time_string
+from citadel.domain.unit import BaseUnit, RawUnit, SpaceTimeData
 from citadel.exceptions import UnitParsingError
 
 
