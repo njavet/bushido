@@ -4,7 +4,7 @@ from ._cardio import RopeSkipUnitRepo, RunningUnitRepo, SwimmingUnitRepo
 from ._chrono import ChronoUnitRepo
 from ._log import LogUnitRepo
 from ._martial_arts import MartialArtsUnitRepo
-from ._strength import LiftingUnitRepo, StrengthUnitRepo
+from ._lifting import LiftingUnitRepo, StrengthUnitRepo
 from ._wimhof import WimhofUnitRepo
 from ._work import WorkUnitRepo
 
