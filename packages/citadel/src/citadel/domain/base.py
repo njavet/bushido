@@ -1,4 +1,5 @@
 import datetime
+from enum import StrEnum
 from typing import Self
 
 from pydantic import BaseModel
@@ -6,6 +7,17 @@ from pydantic import BaseModel
 from citadel.constants import COMMENT_SEP
 from citadel.domain.parsing import split_words
 from citadel.exceptions import UnitParsingError
+
+
+class UnitType(StrEnum):
+    cali = "cali"
+    cardio = "cardio"
+    chrono = "chrono"
+    log = "log"
+    martial_arts = "martial_arts"
+    strength = "strength"
+    wimhof = "wimhof"
+    work = "work"
 
 
 class BaseUnit(BaseModel):

@@ -4,17 +4,17 @@ from dataclasses import dataclass
 from typing import Any
 
 from citadel.domain.base import RawUnit
-from citadel.domain.unit.cali import build_cali_unit
-from citadel.domain.unit.cardio import build_cardio_unit
-from citadel.domain.unit.chrono import build_chrono_unit
-from citadel.domain.unit.log import build_log_unit
-from citadel.domain.unit.martial_arts import build_martial_arts_unit
-from citadel.domain.unit.strength import (
+from citadel.domain.cali.cali import build_cali_unit
+from citadel.domain.cardio.cardio import build_cardio_unit
+from citadel.domain.chrono.chrono import build_chrono_unit
+from citadel.domain.log.log import build_log_unit
+from citadel.domain.martial_arts.martial_arts import build_martial_arts_unit
+from citadel.domain.strength.strength import (
     build_lifting_unit,
     build_strength_unit,
 )
-from citadel.domain.unit.wimhof import build_wimhof_unit
-from citadel.domain.unit.work import build_work_unit
+from citadel.domain.wimhof.wimhof import build_wimhof_unit
+from citadel.domain.work.work import build_work_unit
 from citadel.persistence.repos import (
     BaseUnitRepo,
     CaliUnitRepo,

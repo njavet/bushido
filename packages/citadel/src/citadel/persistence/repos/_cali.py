@@ -1,6 +1,6 @@
 from typing import override
 
-from citadel.domain.unit.cali import CaliUnit
+from citadel.domain.cali.cali import CaliUnit
 
 from ..models import CaliUnitTable
 from ._base import BaseUnitRepo

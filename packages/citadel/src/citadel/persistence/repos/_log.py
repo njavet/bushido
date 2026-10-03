@@ -1,6 +1,6 @@
 from typing import override
 
-from citadel.domain.unit.log import LogUnit
+from citadel.domain.log.log import LogUnit
 
 from ..models import LogUnitTable
 from ._base import BaseUnitRepo

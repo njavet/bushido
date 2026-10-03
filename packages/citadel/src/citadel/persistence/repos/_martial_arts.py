@@ -1,6 +1,6 @@
 from typing import override
 
-from citadel.domain.unit.martial_arts import MartialArtsUnit
+from citadel.domain.martial_arts.martial_arts import MartialArtsUnit
 
 from ..models import MartialArtsUnitTable
 from ._base import BaseUnitRepo

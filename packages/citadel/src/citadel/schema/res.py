@@ -1,11 +1,11 @@
-from citadel.domain.unit.cali import CaliUnit
-from citadel.domain.unit.cardio import RopeSkipUnit, RunningUnit, SwimmingUnit
-from citadel.domain.unit.chrono import ChronoUnit
-from citadel.domain.unit.log import LogUnit
-from citadel.domain.unit.martial_arts import MartialArtsUnit
-from citadel.domain.unit.strength import LiftingUnit, StrengthUnit
-from citadel.domain.unit.wimhof import WimhofUnit
-from citadel.domain.unit.work import WorkUnit
+from citadel.domain.cali.cali import CaliUnit
+from citadel.domain.cardio.cardio import RopeSkipUnit, RunningUnit, SwimmingUnit
+from citadel.domain.chrono.chrono import ChronoUnit
+from citadel.domain.log.log import LogUnit
+from citadel.domain.martial_arts.martial_arts import MartialArtsUnit
+from citadel.domain.strength.strength import LiftingUnit, StrengthUnit
+from citadel.domain.wimhof.wimhof import WimhofUnit
+from citadel.domain.work.work import WorkUnit
 
 LoggedUnit = (
     CaliUnit
