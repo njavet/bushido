@@ -10,8 +10,6 @@ from citadel.exceptions import UnitParsingError
 
 
 class UnitType(StrEnum):
-    cali = "cali"
-
     swimming = "swimming"
     running = "running"
     skipping = "skipping"

@@ -1,5 +1,6 @@
 import datetime
 from enum import StrEnum
+from typing import Literal
 
 from pydantic import BaseModel
 
@@ -7,7 +8,7 @@ from citadel.domain.parsing import (
     parse_military_time_string,
     time_string_to_seconds,
 )
-from citadel.domain.unit import BaseUnit, RawUnit
+from .base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
 
 
@@ -27,17 +28,19 @@ class CardioData(BaseModel):
 
 
 class RunningUnit(BaseUnit, CardioData):
+    unit_type: Literal[UnitType.running] = UnitType.running
     distance: float
 
 
 class SwimmingUnit(BaseUnit, CardioData):
+    unit_type: Literal[UnitType.swimming] = UnitType.swimming
     distance: float
     pool_length: int | None = None
     temperature: float | None = None
 
 
 class RopeSkipUnit(BaseUnit, CardioData):
-    pass
+    unit_type: Literal[UnitType.skipping] = UnitType.skipping
 
 
 def parse_cardio_data(tokens: tuple[str, ...], options: dict[str, str]) -> CardioData:
@@ -69,67 +72,66 @@ def parse_cardio_data(tokens: tuple[str, ...], options: dict[str, str]) -> Cardi
     )
 
 
-CardioUnit = RunningUnit | SwimmingUnit | RopeSkipUnit
-
-
-def build_cardio_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> CardioUnit:
+def build_running_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> RunningUnit:
     data = parse_cardio_data(raw_unit.tokens, raw_unit.options)
-    match raw_unit.name:
-        case CardioType.running:
-            try:
-                distance = float(raw_unit.tokens[3])
-            except (KeyError, ValueError) as e:
-                raise UnitParsingError(f"wrong distance {raw_unit.tokens}") from e
-            return RunningUnit(
-                name=raw_unit.name,
-                log_time=log_time,
-                comment=raw_unit.comment,
-                start_t=data.start_t,
-                seconds=data.seconds,
-                gym=data.gym,
-                distance=distance,
-                avg_hr=data.avg_hr,
-                max_hr=data.max_hr,
-                calories=data.calories,
+    try:
+        distance = float(raw_unit.tokens[3])
+    except (KeyError, ValueError) as e:
+        raise UnitParsingError(f"wrong distance {raw_unit.tokens}") from e
+    return RunningUnit(
+        name=raw_unit.name,
+        log_time=log_time,
+        comment=raw_unit.comment,
+        start_t=data.start_t,
+        seconds=data.seconds,
+        gym=data.gym,
+        distance=distance,
+        avg_hr=data.avg_hr,
+        max_hr=data.max_hr,
+        calories=data.calories,
+    )
+
+
+def build_swimming_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> SwimmingUnit:
+    data = parse_cardio_data(raw_unit.tokens, raw_unit.options)
+    try:
+        distance = float(raw_unit.tokens[3])
+    except (KeyError, ValueError) as e:
+        raise UnitParsingError(f"wrong distance {raw_unit.tokens}") from e
+    try:
+        pool_length = int(raw_unit.options["pl"])
+    except KeyError, ValueError:
+        pool_length = None
+    try:
+        temperature = float(raw_unit.options["tmp"])
+    except KeyError, ValueError:
+        temperature = None
+    return SwimmingUnit(
+        name=raw_unit.name,
+        log_time=log_time,
+        comment=raw_unit.comment,
+        start_t=data.start_t,
+        seconds=data.seconds,
+        gym=data.gym,
+        distance=distance,
+        pool_length=pool_length,
+        temperature=temperature,
+        avg_hr=data.avg_hr,
+        max_hr=data.max_hr,
+        calories=data.calories,
+    )
+
+
+def build_skipping_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> RopeSkipUnit:
+    data = parse_cardio_data(raw_unit.tokens, raw_unit.options)
+    return RopeSkipUnit(
+        name=raw_unit.name,
+        log_time=log_time,
+        comment=raw_unit.comment,
+        start_t=data.start_t,
+        seconds=data.seconds,
+        gym=data.gym,
+        avg_hr=data.avg_hr,
+        max_hr=data.max_hr,
+        calories=data.calories,
             )
-        case CardioType.swimming:
-            try:
-                distance = float(raw_unit.tokens[3])
-            except (KeyError, ValueError) as e:
-                raise UnitParsingError(f"wrong distance {raw_unit.tokens}") from e
-            try:
-                pool_length = int(raw_unit.options["pl"])
-            except KeyError, ValueError:
-                pool_length = None
-            try:
-                temperature = float(raw_unit.options["tmp"])
-            except KeyError, ValueError:
-                temperature = None
-            return SwimmingUnit(
-                name=raw_unit.name,
-                log_time=log_time,
-                comment=raw_unit.comment,
-                start_t=data.start_t,
-                seconds=data.seconds,
-                gym=data.gym,
-                distance=distance,
-                pool_length=pool_length,
-                temperature=temperature,
-                avg_hr=data.avg_hr,
-                max_hr=data.max_hr,
-                calories=data.calories,
-            )
-        case CardioType.skipping:
-            return RopeSkipUnit(
-                name=raw_unit.name,
-                log_time=log_time,
-                comment=raw_unit.comment,
-                start_t=data.start_t,
-                seconds=data.seconds,
-                gym=data.gym,
-                avg_hr=data.avg_hr,
-                max_hr=data.max_hr,
-                calories=data.calories,
-            )
-        case _:
-            raise UnitParsingError(f"no such unit {raw_unit.name}")
