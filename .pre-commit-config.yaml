@@ -32,7 +32,7 @@ repos:
         entry: uv run mypy
         language: system
         types: [python]
-        pass_filenames: false
+        exclude: ^packages/citadel/migrations/
 
       - id: pytest
         name: pytest

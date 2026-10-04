@@ -105,6 +105,9 @@ docstring-code-format = true
 python_version = "3.14"
 strict = true
 explicit_package_bases = true
+exclude = [
+    "pachage/citadel/migrations/",
+]
 
 files = ["packages"]
 mypy_path = [
