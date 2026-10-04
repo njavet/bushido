@@ -9,8 +9,6 @@ class Base(DeclarativeBase):
 
 
 class Spartan(Base):
-    """user account"""
-
     __tablename__ = "spartan"
 
     name: Mapped[str] = mapped_column(unique=True)
