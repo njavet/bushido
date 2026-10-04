@@ -49,11 +49,14 @@ jobs:
 
       - name: smoke test container
         run: |
-          docker run -d \
-            --name citadel \
+          docker run -d --rm \
+            --name citadel-smoke \
+            -e DB_BACKEND=sqlite \
+            -e SQLITE_PATH=/tmp/citadel-smoke.db \
             -p 8000:8000 \
             citadel:${{ github.sha }}
-          
+      - name: check HTTP endpoint
+        run: | 
           for i in {1..20}; do
             if curl --fail http://localhost:8000/api/health/live; then
               exit 0
@@ -61,9 +64,9 @@ jobs:
             sleep 1
           done
 
-          docker logs citadel
+          docker logs citadel-smoke
           exit 1
 
       - name: stop smoke-test container
         if: always()
-        run: docker rm -f citadel || true
+        run: docker rm -f citadel-smoke || true
