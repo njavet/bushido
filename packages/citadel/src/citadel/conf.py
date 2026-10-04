@@ -16,12 +16,13 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    host: str = "0.0.0.0"
     port: int = 8000
 
-    db_backend: DbBackend = DbBackend.SQLITE
+    db_backend: DbBackend = DbBackend.POSTGRES
 
     # SQLite
-    sqlite_path: str = "./bushido.db"
+    sqlite_path: str | None = None
 
     # PostgreSQL
     postgres_url: str | None = None

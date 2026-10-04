@@ -1,4 +1,4 @@
-from ._barbell import BarbellUnit, SetData, build_barbell_unit
+from ._barbell import BarbellUnit, SetData, Sets, build_barbell_unit
 from ._base import BaseUnit, RawUnit
 from ._cardio import (
     RopeSkipUnit,
@@ -27,6 +27,7 @@ __all__ = [
     "RoundData",
     "RunningUnit",
     "SetData",
+    "Sets",
     "SwimmingUnit",
     "WimhofUnit",
     "WorkUnit",
