@@ -12,7 +12,7 @@ from ._chrono import ChronoUnit, build_chrono_unit
 from ._lifting import LiftingUnit, build_lifting_unit
 from ._log import LogUnit, build_log_unit
 from ._martial_arts import MartialArtsUnit, build_martial_arts_unit
-from ._wimhof import RoundData, WimhofUnit, build_wimhof_unit
+from ._wimhof import RoundData, Rounds, WimhofUnit, build_wimhof_unit
 from ._work import WorkUnit, build_work_unit
 
 __all__ = [
@@ -25,6 +25,7 @@ __all__ = [
     "RawUnit",
     "RopeSkipUnit",
     "RoundData",
+    "Rounds",
     "RunningUnit",
     "SetData",
     "Sets",
