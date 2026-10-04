@@ -17,19 +17,14 @@ class SetData(BaseModel):
     reps: float
 
 
-# TODO investigate this class vs just list[SetData] for api
-class Sets(BaseModel):
-    sets: list[SetData]
-
-
 class BarbellUnit(BaseUnit):
     unit_type: Literal[UnitType.barbell] = UnitType.barbell
     name: str
     variant: str = "default"
-    sets: Sets
+    sets: list[SetData]
 
 
-def parse_set_data(tokens: tuple[str, ...]) -> Sets:
+def parse_set_data(tokens: tuple[str, ...]) -> list[SetData]:
     try:
         rests = [float(r) for r in tokens[::3]]
     except ValueError as e:
@@ -53,14 +48,10 @@ def parse_set_data(tokens: tuple[str, ...]) -> Sets:
     if any(x <= 0 for x in rests[:-1]):
         raise UnitParsingError("rests must all be positive")
 
-    return Sets(
-        sets=[
-            SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
-            for i, (weight, rep, rest) in enumerate(
-                zip(weights, reps, rests, strict=False)
-            )
-        ]
-    )
+    return [
+        SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
+        for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests, strict=False))
+    ]
 
 
 def build_barbell_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> BarbellUnit:

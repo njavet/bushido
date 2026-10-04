@@ -1,6 +1,6 @@
 from typing import override
 
-from citadel.domain.unit import RoundData, Rounds, WimhofUnit
+from citadel.domain.unit import RoundData, WimhofUnit
 
 from ..models import WimhofRound, WimhofUnitTable
 from ._base import BaseUnitRepo
@@ -20,18 +20,16 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
         )
         orm_unit.subunits = [
             WimhofRound(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
-            for r in unit.rounds.rounds
+            for r in unit.rounds
         ]
         return orm_unit
 
     @override
     def _from_orm(self, orm_unit: WimhofUnitTable) -> WimhofUnit:
-        rounds = Rounds(
-            rounds=[
-                RoundData(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
-                for r in orm_unit.subunits
-            ]
-        )
+        rounds = [
+            RoundData(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
+            for r in orm_unit.subunits
+        ]
 
         return WimhofUnit(
             name=orm_unit.name,

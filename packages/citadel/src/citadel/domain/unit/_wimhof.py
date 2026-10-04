@@ -23,18 +23,14 @@ class RoundData(BaseModel):
     retention: int = Field(ge=0, lt=600)
 
 
-class Rounds(BaseModel):
-    rounds: list[RoundData]
-
-
 class WimhofUnit(BaseUnit):
     unit_type: Literal[UnitType.wimhof] = UnitType.wimhof
-    rounds: Rounds
+    rounds: list[RoundData]
     zen_mode: bool = False
     guide: str | None = None
 
 
-def parse_round_data(tokens: tuple[str, ...]) -> Rounds:
+def parse_round_data(tokens: tuple[str, ...]) -> list[RoundData]:
     breaths = [int(b) for b in tokens[::2]]
     retentions = [int(r) for r in tokens[1::2]]
     if len(breaths) == 0:
@@ -46,12 +42,10 @@ def parse_round_data(tokens: tuple[str, ...]) -> Rounds:
     if any(x < 0 for x in retentions):
         raise UnitParsingError("retentions must all be positive")
 
-    return Rounds(
-        rounds=[
-            RoundData(round_nr=i, breaths=b, retention=r)
-            for i, (b, r) in enumerate(zip(breaths, retentions, strict=False))
-        ]
-    )
+    return [
+        RoundData(round_nr=i, breaths=b, retention=r)
+        for i, (b, r) in enumerate(zip(breaths, retentions, strict=False))
+    ]
 
 
 def build_wimhof_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WimhofUnit:
