@@ -7,12 +7,11 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 from rich.logging import RichHandler
-from sqlalchemy import URL
 from starlette.middleware.cors import CORSMiddleware
 
 from citadel import __version__
 from citadel.api import auth_router, router
-from citadel.conf import DbBackend, settings
+from citadel.conf import get_db_url, settings
 from citadel.persistence import SessionFactory
 
 logging.basicConfig(
@@ -23,43 +22,6 @@ logging.basicConfig(
 
 
 logger = logging.getLogger(__name__)
-
-
-def get_db_url() -> str | URL:
-    match settings.db_backend:
-        case DbBackend.SQLITE:
-            return f"sqlite:///{settings.sqlite_path}"
-
-        case DbBackend.POSTGRES:
-            if settings.postgres_url is None:
-                raise ValueError("POSTGRES_URL is required")
-            return settings.postgres_url
-
-        case DbBackend.AZURE_SQL:
-            if (
-                settings.azure_sql_host is None
-                or settings.azure_sql_database is None
-                or settings.azure_sql_user is None
-                or settings.azure_sql_password is None
-            ):
-                raise ValueError("Azure SQL configuration incomplete")
-
-            return URL.create(
-                "mssql+pyodbc",
-                username=settings.azure_sql_user,
-                password=settings.azure_sql_password,
-                host=settings.azure_sql_host,
-                port=1433,
-                database=settings.azure_sql_database,
-                query={
-                    "driver": "ODBC Driver 18 for SQL Server",
-                    "Encrypt": "yes",
-                    "TrustServerCertificate": "no",
-                },
-            )
-
-        case _:
-            raise ValueError(f"Unsupported DB backend: {settings.db_backend}")
 
 
 def create_parser() -> ArgumentParser:
