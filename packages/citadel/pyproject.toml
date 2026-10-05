@@ -32,3 +32,5 @@ packages = ["src/citadel"]
 
 [project.scripts]
 server = "citadel.main:main"
+migrate = "citadel.admin:migrate"
+cu = "citadel.admin:create_user"
