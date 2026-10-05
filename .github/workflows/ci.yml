@@ -49,7 +49,7 @@ jobs:
 
       - name: smoke test container
         run: |
-          docker run -d --rm \
+          docker run -d \
             --name citadel-smoke \
             -e DB_BACKEND=sqlite \
             -e SQLITE_PATH=/tmp/citadel-smoke.db \

@@ -40,10 +40,10 @@ class Settings(BaseSettings):
 settings = Settings()
 
 
-def get_db_url() -> URL:
+def get_db_url() -> URL | str:
     match settings.db_backend:
         case DbBackend.SQLITE:
-            return URL.create("sqlite:///", settings.sqlite_path)
+            return f"sqlite:///{settings.sqlite_path}"
 
         case DbBackend.POSTGRES:
             if (
