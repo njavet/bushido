@@ -24,7 +24,11 @@ class Settings(BaseSettings):
     sqlite_path: str | None = None
 
     # PostgreSQL
-    postgres_url: str | None = None
+    postgres_host: str | None = None
+    postgres_port: int = 5432
+    postgres_database: str | None = None
+    postgres_user: str | None = None
+    postgres_password: str | None = None
 
     # Azure SQL
     azure_sql_host: str | None = None
@@ -42,9 +46,21 @@ def get_db_url() -> str | URL:
             return f"sqlite:///{settings.sqlite_path}"
 
         case DbBackend.POSTGRES:
-            if settings.postgres_url is None:
-                raise ValueError("POSTGRES_URL is required")
-            return settings.postgres_url
+            if (
+                settings.postgres_host is None
+                or settings.postgres_database is None
+                or settings.postgres_user is None
+                or settings.postgres_password is None
+            ):
+                raise ValueError("POSTGRES config is required")
+            return URL.create(
+                "postgresql+psycopg",
+                username=settings.postgres_user,
+                password=settings.postgres_password,
+                host=settings.postgres_host,
+                port=settings.postgres_port,
+                database=settings.postgres_database,
+            )
 
         case DbBackend.AZURE_SQL:
             if (
