@@ -1,16 +1,12 @@
 from collections.abc import Iterator
 
 import pytest
-from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from citadel.persistence import SessionFactory
 from citadel.persistence.models import (
-    BarbellSet,
-    BarbellUnitTable,
     Base,
 )
-from citadel.service import log_unit
 
 
 @pytest.fixture(scope="session")
@@ -27,18 +23,3 @@ def session(session_factory: SessionFactory) -> Iterator[Session]:
             yield s
         finally:
             s.close()
-
-
-@pytest.mark.skip("auth")
-def test_log_lifting_unit_success(session: Session) -> None:
-    line = "benchpress 100 5 180 100 5"
-    _ = log_unit(line, session)
-    units = session.scalars(select(BarbellUnitTable)).all()
-    assert len(units) == 1
-    subs = session.scalars(select(BarbellSet)).all()
-    assert len(subs) == 2
-    assert subs[0].weight == 100
-    assert subs[0].reps == 5
-    assert subs[0].rest == 180
-    assert subs[1].weight == 100
-    assert subs[1].reps == 5
