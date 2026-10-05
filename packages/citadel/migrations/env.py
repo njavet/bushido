@@ -18,9 +18,11 @@ if config.config_file_name is not None:
 # add your model's MetaData object here
 # for 'autogenerate' support
 target_metadata = Base.metadata
+url = get_db_url()
+
 config.set_main_option(
     "sqlalchemy.url",
-    str(get_db_url()).replace("%", "%%"),
+    url.render_as_string(hide_password=False).replace("%", "%%"),
 )
 
 
