@@ -1,7 +1,7 @@
 import datetime
 from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from citadel.exceptions import UnitParsingError
 
@@ -11,10 +11,10 @@ from ._base import BaseUnit, RawUnit, UnitType
 
 
 class SetData(BaseModel):
-    set_nr: int
-    rest: float
-    weight: float
-    reps: float
+    set_nr: int = Field(ge=0, le=32)
+    rest: float = Field(ge=0, le=1024)
+    weight: float = Field(ge=0, le=512)
+    reps: float = Field(ge=0, le=128)
 
 
 class BarbellUnit(BaseUnit):
