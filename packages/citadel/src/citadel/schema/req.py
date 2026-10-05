@@ -9,5 +9,5 @@ class LogUnitRequest(BaseModel):
 
 class LoadUnitRequest(BaseModel):
     unit_name: str
-    start_time: datetime.datetime | None = None
-    end_time: datetime.datetime | None = None
+    start_t: datetime.datetime | None = None
+    end_t: datetime.datetime | None = None

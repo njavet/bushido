@@ -18,8 +18,10 @@ class BaseUnitRepo[UnitT: BaseUnit, OrmT: UnitTable](ABC):
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def add_unit(self, unit: UnitT) -> None:
-        self.session.add(self._to_orm(unit))
+    def add_unit(self, unit: UnitT, spartan_id: int) -> None:
+        orm_unit = self._to_orm(unit)
+        orm_unit.spartan_id = spartan_id
+        self.session.add(orm_unit)
         self.session.commit()
 
     def fetch_units(

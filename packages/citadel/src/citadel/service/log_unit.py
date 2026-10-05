@@ -6,10 +6,11 @@ from citadel.domain.dtypes import LoggedUnit
 from citadel.domain.unit import RawUnit
 from citadel.dtypes import Clock, SystemClock
 from citadel.exceptions import UnitParsingError
+from citadel.persistence.models import Spartan
 from citadel.registry import UNIT_REGISTRY
 
 
-def log_unit(line: str, session: Session) -> LoggedUnit:
+def log_unit(line: str, session: Session, spartan: Spartan) -> LoggedUnit:
     raw_unit = RawUnit.from_line(line)
     override = raw_unit.options.get("dt", None)
     log_time = resolve_log_time(override=override, clock=SystemClock())
@@ -21,7 +22,7 @@ def log_unit(line: str, session: Session) -> LoggedUnit:
 
     repo = spec.repo(session)
     unit = spec.build_unit(raw_unit, log_time)
-    repo.add_unit(unit)
+    repo.add_unit(unit, spartan.id)
     return unit
 
 

@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>BUSHIDO // CITADEL</title>
 
   <style>
@@ -16,149 +15,109 @@
       --dim: #53616a;
       --text: #c7d4d8;
     }
-
     * {
       box-sizing: border-box;
     }
-
     body {
       margin: 0;
       min-height: 100vh;
-
       display: flex;
       justify-content: center;
       align-items: center;
-
       background:
         linear-gradient(rgba(0, 255, 156, 0.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 255, 156, 0.025) 1px, transparent 1px),
         var(--bg);
-
       background-size: 40px 40px;
-
       color: var(--text);
       font-family: "Courier New", monospace;
     }
-
     .terminal {
       width: min(900px, 90vw);
     }
-
     .header {
       display: flex;
       justify-content: space-between;
       align-items: end;
-
       margin-bottom: 12px;
       padding-bottom: 8px;
-
       border-bottom: 1px solid #19352e;
     }
-
     .title {
       color: var(--green);
       font-size: 1.4rem;
       font-weight: bold;
       letter-spacing: 0.2em;
-
       text-shadow: 0 0 10px rgba(0, 255, 156, 0.6);
     }
-
     .status {
       color: var(--dim);
       font-size: 0.75rem;
       letter-spacing: 0.1em;
     }
-
     .status.online {
       color: var(--green);
     }
-
     .status.error {
       color: var(--red);
     }
-
     .prompt {
       display: flex;
       align-items: center;
-
       background: var(--panel);
       border: 1px solid #1a3d34;
-
       box-shadow:
         0 0 30px rgba(0, 255, 156, 0.06),
         inset 0 0 20px rgba(0, 255, 156, 0.015);
     }
-
     .prompt-symbol {
       padding-left: 18px;
-
       color: var(--green);
       font-weight: bold;
       font-size: 1.2rem;
-
       text-shadow: 0 0 8px rgba(0, 255, 156, 0.8);
     }
-
     input {
       width: 100%;
-
       padding: 18px 14px;
-
       border: none;
       outline: none;
-
       background: transparent;
       color: var(--cyan);
-
       font-family: inherit;
       font-size: 1.05rem;
-
       caret-color: var(--green);
     }
-
     input::placeholder {
       color: #35434a;
     }
-
     .footer {
       display: flex;
       justify-content: space-between;
-
       margin-top: 10px;
-
       color: #344149;
       font-size: 0.7rem;
       letter-spacing: 0.08em;
     }
-
     #message {
       min-height: 1.2em;
       margin-top: 18px;
-
       font-size: 0.8rem;
     }
-
     .success {
       color: var(--green);
     }
-
     .failure {
       color: var(--red);
     }
-
     .sending {
       color: var(--cyan);
     }
-
     body::after {
       content: "";
-
       position: fixed;
       inset: 0;
-
       pointer-events: none;
-
       background:
         repeating-linear-gradient(
           0deg,
@@ -172,18 +131,15 @@
 </head>
 
 <body>
-
   <main class="terminal">
-
     <header class="header">
       <div class="title">BUSHIDO</div>
-   <div id="status" class="status online">CITADEL // ONLINE</div>
+   	  <div id="status" class="status online">CITADEL // ONLINE</div>
     </header>
 
     <form id="unit-form">
       <div class="prompt">
         <span class="prompt-symbol">&gt;</span>
-
         <input
           id="unit"
           type="text"
@@ -196,36 +152,27 @@
     </form>
 
     <div id="message"></div>
-
     <footer class="footer">
       <span>UNIT LOG INTERFACE</span>
       <span>ENTER // TRANSMIT</span>
     </footer>
-
   </main>
 
-
   <script>
-    const API_URL =
-      "https://bushido.nj-cyb.org/api/unit-logs";
+    const API_URL = "https://bushido.nj-cyb.org/api/unit-logs";
 
     const form = document.getElementById("unit-form");
     const input = document.getElementById("unit");
     const message = document.getElementById("message");
     const status = document.getElementById("status");
 
-
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-
       const line = input.value.trim();
-
       if (!line) {
         return;
       }
-
       input.disabled = true;
-
       message.className = "sending";
       message.textContent = "[ TRANSMITTING ]";
 
