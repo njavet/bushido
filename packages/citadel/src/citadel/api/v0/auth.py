@@ -14,7 +14,7 @@ from citadel.schema.auth import (
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-@router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
+@router.post("/signup", response_model=Token, status_code=status.HTTP_201_CREATED)
 def register(body: RegisterRequest, session: SessionDep) -> Token:
     existing = session.scalar(select(Spartan).where(Spartan.email == body.email))
     if existing is not None:
