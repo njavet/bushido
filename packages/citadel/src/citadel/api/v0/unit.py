@@ -24,3 +24,8 @@ async def process_log_request(
         return log_unit(request.line, session, spartan)
     except Exception as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.post("/unit-logs/query")
+async def process_load_units_request() -> dict[str, str]:
+    return {"status": "not done"}

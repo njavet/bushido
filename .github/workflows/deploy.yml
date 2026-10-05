@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "citadel/**"
+      - "packages/citadel/**"
       - "uv.lock"
       - "pyproject.toml"
       - ".github/workflows/deploy.yml"
@@ -78,7 +78,7 @@ jobs:
             -o tsv)
 
           for i in {1..30}; do
-            if curl --fail "https://${FQDN}/api/health/live"; then
+            if curl --fail "https://${FQDN}/health/live"; then
               exit 0
             fi
             sleep 5
