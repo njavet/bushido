@@ -4,7 +4,7 @@ from typing import Self
 
 from pydantic import BaseModel
 
-from citadel.constants import COMMENT_SEP
+from citadel.constants import COMMENT_SEP, MAX_COMMENT_LENGTH, MAX_FLAGS, MAX_OPTIONS
 from citadel.domain.parsing import split_words
 from citadel.exceptions import UnitParsingError
 
@@ -44,8 +44,15 @@ class RawUnit(BaseModel):
     @classmethod
     def from_line(cls, line: str) -> Self:
         payload, sep, comment = line.partition(COMMENT_SEP)
+        if len(comment) > MAX_COMMENT_LENGTH:
+            raise UnitParsingError("comment too long")
+
         words = tuple(payload.split())
         result = split_words(words)
+        if len(result.flags) > MAX_FLAGS:
+            raise UnitParsingError("too many flags")
+        if len(result.options) > MAX_OPTIONS:
+            raise UnitParsingError("too many options")
         if not result.tokens:
             raise UnitParsingError(f"Empty unit line: {line}")
         return cls(
