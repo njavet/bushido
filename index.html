@@ -127,6 +127,19 @@
           transparent 3px
         );
     }
+    [hidden] { display: none !important; }
+    button { font: inherit; color: var(--green); background: var(--panel); border: 1px solid #1a3d34; padding: 12px 16px; cursor: pointer; }
+    button:disabled { opacity: .5; cursor: wait; }
+    button:focus-visible, input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+    .auth-title { font-size: .85rem; color: var(--cyan); letter-spacing: .12em; margin: 24px 0 16px; }
+    .auth-field { display: block; margin-bottom: 12px; }
+    .auth-field > span { display: block; font-size: .75rem; color: var(--dim); margin-bottom: 6px; }
+    .auth-field input { background: var(--panel); border: 1px solid #1a3d34; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 16px; }
+    .link-button { border: 0; background: transparent; color: var(--dim); }
+    #identity { color: var(--cyan); font-size: .8rem; }
+    #demo-banner { color: var(--cyan); font-size: .75rem; margin-bottom: 20px; }
+    @media (max-width: 480px) { .header { align-items: start; gap: 12px; flex-direction: column; } .footer { gap: 12px; } }
   </style>
 </head>
 
@@ -137,94 +150,169 @@
    	  <div id="status" class="status online">CITADEL // ONLINE</div>
     </header>
 
-    <form id="unit-form">
-      <div class="prompt">
-        <span class="prompt-symbol">&gt;</span>
-        <input
-          id="unit"
-          type="text"
-          autocomplete="off"
-          spellcheck="false"
-          autofocus
-          placeholder="enter unit..."
-        >
-      </div>
-    </form>
-
-    <div id="message"></div>
+    <div id="demo-banner" hidden>DEMO MODE // NO SERVER AUTHENTICATION OR DATA STORAGE</div>
+    <section id="auth-screen" hidden>
+      <h1 id="auth-title" class="auth-title">SPARTAN IDENTIFICATION</h1>
+      <form id="auth-form">
+        <label class="auth-field"><span>USERNAME</span><input id="username" name="username" autocomplete="username" required maxlength="128"></label>
+        <label class="auth-field"><span>PASSWORD</span><input id="password" name="password" type="password" autocomplete="current-password" required></label>
+        <label id="confirm-field" class="auth-field" hidden><span>CONFIRM PASSWORD</span><input id="confirm-password" type="password" autocomplete="new-password"></label>
+        <div class="actions">
+          <button id="auth-submit" type="submit">AUTHENTICATE</button>
+          <button id="auth-switch" class="link-button" type="button">NO IDENTITY? // ENLIST</button>
+        </div>
+      </form>
+    </section>
+    <section id="log-screen" hidden>
+      <div class="actions" style="margin: 0 0 16px"><span id="identity"></span><button id="logout" class="link-button" type="button">LOG OUT</button></div>
+      <form id="unit-form">
+        <div class="prompt">
+          <label class="prompt-symbol" for="unit">&gt;</label>
+          <input id="unit" type="text" autocomplete="off" spellcheck="false" placeholder="enter unit..." aria-label="Unit command" required>
+        </div>
+      </form>
+    </section>
+    <div id="message" role="status" aria-live="polite"></div>
     <footer class="footer">
-      <span>UNIT LOG INTERFACE</span>
-      <span>ENTER // TRANSMIT</span>
+      <span id="footer-label">SESSION CHECK</span>
+      <span id="footer-hint">PLEASE WAIT</span>
     </footer>
   </main>
 
   <script>
-    const API_URL = "https://bushido.nj-cyb.org/api/unit-logs";
+    // Serve this page and Citadel under the same origin, with Citadel at /api.
+    const API_BASE = "/api";
+    // Explicit local preview only. Never provides authentication.
+    const DEMO = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname)
+      && new URLSearchParams(location.search).get("demo") === "1";
+    const el = (id) => document.getElementById(id);
+    let signup = false;
+    let demoUser = null;
+    let busy = false;
 
-    const form = document.getElementById("unit-form");
-    const input = document.getElementById("unit");
-    const message = document.getElementById("message");
-    const status = document.getElementById("status");
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const line = input.value.trim();
-      if (!line) {
-        return;
+    function message(text = "", kind = "") {
+      el("message").textContent = text;
+      el("message").className = kind;
+    }
+    function showUser(user) {
+      const loggedIn = Boolean(user);
+      el("auth-screen").hidden = loggedIn;
+      el("log-screen").hidden = !loggedIn;
+      el("status").className = "status online";
+      el("status").textContent = DEMO ? "CITADEL // DEMO" : "CITADEL // CONNECTED";
+      el("identity").textContent = user ? `SPARTAN // ${user.username}` : "";
+      el("footer-label").textContent = loggedIn ? "UNIT LOG INTERFACE" : "SPARTAN IDENTIFICATION";
+      el("footer-hint").textContent = loggedIn ? "ENTER // TRANSMIT" : "ENTER // AUTHENTICATE";
+      (loggedIn ? el("unit") : el("username")).focus();
+    }
+    function setBusy(value) {
+      busy = value;
+      for (const control of document.querySelectorAll("input, button")) control.disabled = value;
+    }
+    async function request(path, body) {
+      const response = await fetch(API_BASE + path, {
+        method: body === undefined ? "GET" : "POST",
+        credentials: "same-origin",
+        headers: body === undefined ? {} : { "Content-Type": "application/json" },
+        ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+      });
+      const text = await response.text();
+      let data;
+      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
+      if (!response.ok) {
+        const detail = typeof data?.detail === "string" ? data.detail : `Request failed (${response.status}).`;
+        const error = new Error(detail);
+        error.status = response.status;
+        throw error;
       }
-      input.disabled = true;
-      message.className = "sending";
-      message.textContent = "[ TRANSMITTING ]";
-
-      try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            line: line
-          })
-        });
-
-
-        if (!response.ok) {
-          const body = await response.text();
-
-          throw new Error(
-            `${response.status} ${response.statusText} ${body}`
-          );
-        }
-
-
-        message.className = "success";
-        message.textContent = "[ UNIT LOGGED ]";
-
-        input.value = "";
-
-        status.className = "status online";
-        status.textContent = "CITADEL // ONLINE";
-
-      } catch (error) {
-
-        console.error(error);
-
-        message.className = "failure";
-        message.textContent =
-          `[ TRANSMISSION FAILED ] ${error.message}`;
-
-        status.className = "status error";
-        status.textContent = "CITADEL // ERROR";
-
-      } finally {
-
-        input.disabled = false;
-        input.focus();
-
-      }
+      return data;
+    }
+    function validUser(user) {
+      if (!user || typeof user.username !== "string") throw new Error("Invalid /auth/me response: expected a username.");
+      return user;
+    }
+    el("auth-switch").addEventListener("click", () => {
+      signup = !signup;
+      el("auth-title").textContent = signup ? "SPARTAN ENLISTMENT" : "SPARTAN IDENTIFICATION";
+      el("confirm-field").hidden = !signup;
+      el("confirm-password").required = signup;
+      el("password").autocomplete = signup ? "new-password" : "current-password";
+      el("auth-submit").textContent = signup ? "CREATE ACCOUNT" : "AUTHENTICATE";
+      el("auth-switch").textContent = signup ? "EXISTING IDENTITY? // LOG IN" : "NO IDENTITY? // ENLIST";
+      el("password").value = el("confirm-password").value = "";
+      message();
     });
+    el("auth-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (busy) return;
+      const username = el("username").value.trim();
+      const password = el("password").value;
+      if (!username) { message("[ USERNAME REQUIRED ]", "failure"); return; }
+      if (signup && password !== el("confirm-password").value) {
+        message("[ PASSWORDS DO NOT MATCH ]", "failure"); return;
+      }
+      setBusy(true);
+      message("[ AUTHENTICATING ]", "sending");
+      try {
+        let user;
+        if (DEMO) { demoUser = { username }; user = demoUser; }
+        else {
+          await request(signup ? "/auth/signup" : "/auth/login", { username, password });
+          user = validUser(await request("/auth/me"));
+        }
+        el("password").value = el("confirm-password").value = "";
+        showUser(user);
+        message(DEMO ? "[ DEMO SESSION // NOT AUTHENTICATED ]" : "[ AUTHENTICATED ]", "success");
+      } catch (error) { message(`[ AUTHENTICATION FAILED ] ${error.message}`, "failure"); }
+      finally { setBusy(false); (el("log-screen").hidden ? el("password") : el("unit")).focus(); }
+    });
+    el("logout").addEventListener("click", async () => {
+      if (busy) return;
+      setBusy(true);
+      try {
+        if (!DEMO) await request("/auth/logout", {});
+        demoUser = null;
+        el("unit").value = "";
+        showUser(null);
+        message("[ LOGGED OUT ]", "success");
+      } catch (error) { message(`[ LOGOUT FAILED ] ${error.message}`, "failure"); }
+      finally { setBusy(false); if (el("log-screen").hidden) el("username").focus(); }
+    });
+    el("unit-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const line = el("unit").value.trim();
+      if (!line || busy) return;
+      setBusy(true);
+      message("[ TRANSMITTING ]", "sending");
+      try {
+        if (!DEMO) await request("/unit-logs", { line });
+        el("unit").value = "";
+        message(DEMO ? "[ DEMO UNIT ACCEPTED // NOT SAVED ]" : "[ UNIT LOGGED ]", "success");
+      } catch (error) {
+        if (error.status === 401) {
+          showUser(null);
+          message("[ SESSION EXPIRED // LOG IN AGAIN ]", "failure");
+        } else { message(`[ TRANSMISSION FAILED ] ${error.message}`, "failure"); }
+      } finally { setBusy(false); (el("log-screen").hidden ? el("username") : el("unit")).focus(); }
+    });
+    async function initialize() {
+      el("demo-banner").hidden = !DEMO;
+      message("[ CHECKING SESSION ]", "sending");
+      setBusy(true);
+      try {
+        if (DEMO) { showUser(demoUser); message(); }
+        else { showUser(validUser(await request("/auth/me"))); message(); }
+      } catch (error) {
+        showUser(null);
+        if (error.status === 401) message();
+        else {
+          el("status").textContent = "CITADEL // UNAVAILABLE";
+          el("status").className = "status error";
+          message(`[ SESSION CHECK FAILED ] ${error.message}`, "failure");
+        }
+      } finally { setBusy(false); (el("log-screen").hidden ? el("username") : el("unit")).focus(); }
+    }
+    initialize();
   </script>
 
 </body>
