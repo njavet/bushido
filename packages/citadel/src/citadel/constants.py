@@ -1,4 +1,9 @@
+# log line
 COMMENT_SEP = "#"
+MAX_COMMENT_LENGTH = 256
+MAX_OPTIONS = 8
+MAX_FLAGS = 8
+
 
 # TODO move to settings / server
 # sunday
