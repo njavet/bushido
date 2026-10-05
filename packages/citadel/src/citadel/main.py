@@ -10,7 +10,7 @@ from rich.logging import RichHandler
 from starlette.middleware.cors import CORSMiddleware
 
 from citadel import __version__
-from citadel.api import auth_router, router
+from citadel.api import health_router, router
 from citadel.conf import get_db_url, settings
 from citadel.persistence import SessionFactory
 
@@ -59,7 +59,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     app_.include_router(router)
-    app_.include_router(auth_router)
+    app_.include_router(health_router)
     return app_
 
 
