@@ -20,9 +20,9 @@ Oauth2SchemeDep = Annotated[str, Depends(oauth2_scheme)]
 SessionDep = Annotated[Session, Depends(get_session)]
 
 
-def get_current_user(token: Oauth2SchemeDep, session: SessionDep) -> Spartan:
+def get_current_spartan(token: Oauth2SchemeDep, session: SessionDep) -> Spartan:
     try:
-        user_id = decode_access_token(token)
+        spartan_id = decode_access_token(token)
     except Exception as e:
         raise HTTPException(
             status.HTTP_401_UNAUTHORIZED,
@@ -30,10 +30,10 @@ def get_current_user(token: Oauth2SchemeDep, session: SessionDep) -> Spartan:
             headers={"WWW-Authenticate": "Bearer"},
         ) from e
 
-    user = session.get(Spartan, user_id)
-    if user is None or not user.is_active:
+    spartan = session.get(Spartan, spartan_id)
+    if spartan is None or not spartan.is_active:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "User not found or inactive")
-    return user
+    return spartan
 
 
-UserDep = Annotated[Spartan, Depends(get_current_user)]
+SpartanDep = Annotated[Spartan, Depends(get_current_spartan)]

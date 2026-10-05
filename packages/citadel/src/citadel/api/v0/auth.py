@@ -19,23 +19,23 @@ def register(body: RegisterRequest, session: SessionDep) -> Token:
     existing = session.scalar(select(Spartan).where(Spartan.email == body.email))
     if existing is not None:
         raise HTTPException(status.HTTP_409_CONFLICT, "Email already registered")
-    user = Spartan(
-        name="test", email=body.email, hashed_password=hash_password(body.password)
+    spartan = Spartan(
+        name=body.name, email=body.email, hashed_password=hash_password(body.password)
     )
-    session.add(user)
+    session.add(spartan)
     session.commit()
-    session.refresh(user)
-    return Token(access_token=create_access_token(user.id))
+    session.refresh(spartan)
+    return Token(access_token=create_access_token(spartan.id))
 
 
 @router.post("/login", response_model=Token)
 def login(body: LoginRequest, session: SessionDep) -> Token:
-    user = session.scalar(select(Spartan).where(Spartan.email == body.email))
-    if user is None or not verify_password(body.password, user.hashed_password):
+    spartan = session.scalar(select(Spartan).where(Spartan.email == body.email))
+    if spartan is None or not verify_password(body.password, spartan.hashed_password):
         # deliberately identical error for "no such user" and "wrong password" —
         # distinguishing them lets an attacker enumerate registered emails
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid email or password")
-    if not user.is_active:
+    if not spartan.is_active:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Account disabled")
 
-    return Token(access_token=create_access_token(user.id))
+    return Token(access_token=create_access_token(spartan.id))
