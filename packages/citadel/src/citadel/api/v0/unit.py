@@ -3,8 +3,8 @@ from fastapi import APIRouter, HTTPException
 from citadel.api.deps import SessionDep, SpartanDep
 from citadel.domain.dtypes import LoggedUnit
 from citadel.registry import UNIT_REGISTRY
-from citadel.schema.req import LogUnitRequest
-from citadel.service import log_unit
+from citadel.schema.req import LoadUnitRequest, LogUnitRequest
+from citadel.service import load_units, log_unit
 
 router = APIRouter(prefix="/unit", tags=["unit"])
 
@@ -27,5 +27,12 @@ async def process_log_request(
 
 
 @router.post("/logs/query")
-async def process_load_units_request() -> dict[str, str]:
-    return {"status": "not done"}
+async def process_load_units_request(
+    request: LoadUnitRequest,
+    session: SessionDep,
+    spartan: SpartanDep,
+) -> list[LoggedUnit]:
+    try:
+        return load_units(request, session, spartan)
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc

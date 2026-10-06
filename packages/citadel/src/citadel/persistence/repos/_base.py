@@ -26,10 +26,15 @@ class BaseUnitRepo[UnitT: BaseUnit, OrmT: UnitTable](ABC):
 
     def fetch_units(
         self,
+        spartan_id: int,
         start_t: datetime.datetime | None = None,
         end_t: datetime.datetime | None = None,
     ) -> list[UnitT]:
-        stmt = select(self.orm_cls).options(*self.load_options)
+        stmt = (
+            select(self.orm_cls)
+            .where(self.orm_cls.spartan_id == spartan_id)
+            .options(*self.load_options)
+        )
         if start_t is not None:
             stmt = stmt.where(start_t <= self.orm_cls.log_time)
         if end_t is not None:
