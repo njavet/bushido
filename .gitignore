@@ -199,3 +199,8 @@ dist-ssr
 *.tfstate.*
 
 *.tfvars
+
+
+# elm
+elm-stuff
+repl-temp-*

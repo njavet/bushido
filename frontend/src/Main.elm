@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Html exposing (Html, button, div, form, h1, input, label, span, text)
-import Html.Attributes exposing (autocomplete, class, disabled, placeholder, type_, value)
+import Html.Attributes exposing (autocomplete, class, disabled, placeholder, type_, value, attribute)
 import Html.Events exposing (onInput, onSubmit)
 import Http
 import Json.Decode as Decode exposing (Decoder, Value)
@@ -478,7 +478,7 @@ field caption hint currentValue toMsg secret =
             , placeholder hint
             , value currentValue
             , onInput toMsg
-            , autocomplete
+            , attribute "autocomplete"
                 (if secret then
                     "current-password"
 
@@ -514,7 +514,7 @@ viewTerminal model spartan =
                 , value model.command
                 , onInput SetCommand
                 , placeholder "log ... | load <unit_name>"
-                , autocomplete "off"
+                , attribute "autocomplete" "off"
                 ]
                 []
             ]
