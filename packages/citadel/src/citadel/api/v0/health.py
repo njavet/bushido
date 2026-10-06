@@ -1,15 +1,15 @@
 from fastapi import APIRouter, HTTPException, Request
 from sqlalchemy import text
 
-router = APIRouter()
+router = APIRouter(prefix="/health", tags=["health"])
 
 
-@router.get("/health/live")
+@router.get("/live")
 def liveness() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@router.get("/health/ready")
+@router.get("/ready")
 def readiness(request: Request) -> dict[str, str]:
     try:
         with request.app.state.sf.session() as session:

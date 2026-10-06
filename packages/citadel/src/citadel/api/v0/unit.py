@@ -6,15 +6,15 @@ from citadel.registry import UNIT_REGISTRY
 from citadel.schema.req import LogUnitRequest
 from citadel.service import log_unit
 
-router = APIRouter()
+router = APIRouter(prefix="/unit", tags=["unit"])
 
 
-@router.get("/unit-names")
+@router.get("/names")
 def get_unit_names() -> list[str]:
     return list(UNIT_REGISTRY.keys())
 
 
-@router.post("/unit-logs")
+@router.post("/logs")
 async def process_log_request(
     request: LogUnitRequest,
     session: SessionDep,
@@ -26,6 +26,6 @@ async def process_log_request(
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
-@router.post("/unit-logs/query")
+@router.post("/logs/query")
 async def process_load_units_request() -> dict[str, str]:
     return {"status": "not done"}
