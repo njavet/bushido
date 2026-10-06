@@ -106,7 +106,7 @@ python_version = "3.14"
 strict = true
 explicit_package_bases = true
 exclude = [
-    "pachage/citadel/migrations/",
+    "packages/citadel/migrations/",
 ]
 
 files = ["packages"]
