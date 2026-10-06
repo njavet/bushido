@@ -6544,10 +6544,13 @@ var $author$project$Main$update = F2(
 				} else {
 					var err = result.a;
 					return _Utils_Tuple2(
-						A2(
-							$author$project$Main$logoutModel,
+						_Utils_update(
 							model,
-							$author$project$Main$httpError(err)),
+							{
+								authState: $author$project$Main$AuthFailed(
+									'GET /api/auth/me failed: ' + $author$project$Main$httpError(err)),
+								token: $elm$core$Maybe$Nothing
+							}),
 						$elm$core$Platform$Cmd$none);
 				}
 			case 'SubmitCommand':

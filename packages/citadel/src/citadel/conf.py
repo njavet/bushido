@@ -12,6 +12,7 @@ class DbBackend(StrEnum):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
+        env_file=".env",
         extra="ignore",
     )
 
@@ -35,6 +36,11 @@ class Settings(BaseSettings):
     azure_sql_database: str | None = None
     azure_sql_user: str | None = None
     azure_sql_password: str | None = None
+
+    # jwt
+    jwt_secret_key: str | None = None
+    jwt_algorithm: str = "HS256"
+    jwt_access_token_expire_minutes: int = 60 * 24 * 7
 
 
 settings = Settings()
