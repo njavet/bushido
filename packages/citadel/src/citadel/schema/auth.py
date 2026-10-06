@@ -13,4 +13,4 @@ class LoginRequest(BaseModel):
 
 
 class Token(BaseModel):
-    access_token: EmailStr
+    access_token: str
