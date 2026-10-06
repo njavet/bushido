@@ -163,7 +163,11 @@ update msg model =
                     )
 
                 Err err ->
-                    ( logoutModel model (httpError err), Cmd.none )
+                    ( { model
+                        | authState = AuthFailed ("GET /api/auth/me failed: " ++ httpError err)
+                        , token = Nothing
+                        }
+                    , Cmd.none )
 
         SubmitCommand ->
             let
