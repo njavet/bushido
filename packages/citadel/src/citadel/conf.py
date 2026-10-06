@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     # cors
     cors_origins: list[str] = [
         "http://localhost:8080",
-        "https://stbushidowebf764ed.z1.web.core.windows.net",
+        "https://bushido.nj-cyb.org",
     ]
 
     host: str = "0.0.0.0"
