@@ -1,0 +1,248 @@
+:root {
+  --bg: #050807;
+  --panel: #08100d;
+  --panel-2: #0a1511;
+  --line: #17372d;
+  --text: #b7d8cb;
+  --muted: #638579;
+  --green: #58f7a4;
+  --cyan: #61dff0;
+  --red: #ff657a;
+  --shadow: rgba(88, 247, 164, .12);
+}
+
+* { box-sizing: border-box; }
+
+html, body { min-height: 100%; }
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(rgba(88,247,164,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88,247,164,.02) 1px, transparent 1px),
+    var(--bg);
+  background-size: 32px 32px;
+  color: var(--text);
+  font-family: "JetBrains Mono", "IBM Plex Mono", "Fira Code", monospace;
+}
+
+button, input { font: inherit; }
+
+.app-shell {
+  min-height: 100vh;
+  padding: 5vh 4vw;
+  position: relative;
+}
+
+.scanline {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 3px,
+    rgba(255,255,255,.012) 4px
+  );
+}
+
+.auth-wrap {
+  min-height: 88vh;
+  display: grid;
+  place-items: center;
+}
+
+.auth-panel,
+.terminal-frame {
+  width: min(980px, 100%);
+  border: 1px solid var(--line);
+  background: rgba(5, 12, 9, .94);
+  box-shadow: 0 0 45px var(--shadow);
+}
+
+.auth-panel {
+  width: min(520px, 100%);
+  padding: 34px;
+}
+
+.eyebrow {
+  color: var(--green);
+  letter-spacing: .16em;
+  font-size: .78rem;
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin: 0 0 24px;
+  color: #d9eee6;
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  font-weight: 500;
+  letter-spacing: .05em;
+}
+
+.system-line {
+  color: var(--muted);
+  font-size: .78rem;
+  letter-spacing: .08em;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.online {
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+}
+
+.offline { background: var(--red); }
+
+.auth-panel form { margin-top: 30px; }
+
+.field {
+  display: block;
+  margin: 18px 0;
+}
+
+.field > span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: .76rem;
+  letter-spacing: .12em;
+}
+
+input {
+  width: 100%;
+  border: 1px solid var(--line);
+  outline: none;
+  background: var(--panel);
+  color: var(--green);
+  padding: 13px 14px;
+}
+
+input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 12px var(--shadow);
+}
+
+.primary {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  border: 1px solid var(--green);
+  background: rgba(88,247,164,.07);
+  color: var(--green);
+  cursor: pointer;
+  letter-spacing: .08em;
+}
+
+.primary:disabled {
+  opacity: .45;
+  cursor: wait;
+}
+
+.link-button {
+  border: 0;
+  background: transparent;
+  color: var(--cyan);
+  padding: 0;
+  margin-top: 18px;
+  cursor: pointer;
+  font-size: .78rem;
+}
+
+.auth-error {
+  margin-top: 18px;
+  color: var(--red);
+  font-size: .82rem;
+}
+
+.terminal-frame {
+  margin: 0 auto;
+  min-height: 82vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.terminal-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.identity {
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+.header-actions {
+  text-align: right;
+}
+
+.header-actions .link-button { margin-top: 8px; }
+
+.output {
+  min-height: 0;
+  padding: 22px;
+  overflow-y: auto;
+}
+
+.entry {
+  margin-bottom: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.command-entry { color: var(--cyan); }
+.info-entry { color: var(--green); }
+.error-entry { color: var(--red); }
+
+.json-entry {
+  padding: 12px 14px;
+  border-left: 2px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  font-size: .82rem;
+}
+
+.record-index { color: var(--muted); }
+
+.command-line {
+  border-top: 1px solid var(--line);
+  background: var(--panel-2);
+  display: flex;
+  align-items: center;
+  padding: 13px 18px;
+}
+
+.prompt {
+  color: var(--green);
+  flex: none;
+}
+
+.command-input {
+  border: 0;
+  background: transparent;
+  box-shadow: none !important;
+  padding: 4px 10px;
+}
+
+@media (max-width: 600px) {
+  .app-shell { padding: 0; }
+  .auth-wrap { min-height: 100vh; }
+  .auth-panel, .terminal-frame {
+    border-left: 0;
+    border-right: 0;
+  }
+  .auth-panel { padding: 24px 18px; }
+  .terminal-frame { min-height: 100vh; }
+  .terminal-header { padding: 14px 16px; }
+  .output { padding: 16px; }
+}

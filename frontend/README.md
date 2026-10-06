@@ -1,32 +1,63 @@
-# React + TypeScript + Vite
+# Bushido Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Minimal Elm frontend for Citadel.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Install Elm:
 
-## React Compiler
+```bash
+sudo pacman -S elm
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Build:
 
-## Expanding the Oxlint configuration
+```bash
+elm make src/Main.elm --output=elm.js
+```
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Serve the static files:
+
+```bash
+python -m http.server 8080
+```
+
+Open:
+
+```text
+http://localhost:8080
+```
+
+Citadel is expected at:
+
+```text
+http://localhost:8000
+```
+
+Change `apiBaseUrl` in `index.html` for another backend.
+
+## Commands
+
+```text
+log <unit line>
+load <unit_name>
+```
+
+Examples:
+
+```text
+log squat 120 100 5
+load squat
+```
+
+`load` currently sends:
 
 ```json
 {
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+  "unit_name": "squat",
+  "start_t": null,
+  "end_t": null
 }
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+The raw `LoggedUnit` JSON is retained and rendered generically in v1. This deliberately avoids duplicating the complete Citadel discriminated union in Elm before type-specific tables are implemented.
