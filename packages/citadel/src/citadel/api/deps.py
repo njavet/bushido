@@ -15,7 +15,7 @@ def get_session(request: Request) -> Generator[Session]:
         yield session
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 Oauth2SchemeDep = Annotated[str, Depends(oauth2_scheme)]
 SessionDep = Annotated[Session, Depends(get_session)]
 
