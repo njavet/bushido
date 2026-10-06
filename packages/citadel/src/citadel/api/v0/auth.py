@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 
-from citadel.api.deps import SessionDep
+from citadel.api.deps import SessionDep, SpartanDep
 from citadel.auth.passwords import hash_password, verify_password
 from citadel.auth.tokens import create_access_token
 from citadel.persistence.models import Spartan
@@ -10,6 +10,7 @@ from citadel.schema.auth import (
     RegisterRequest,
     Token,
 )
+from citadel.schema.res import SpartanResponse
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -39,3 +40,8 @@ def login(body: LoginRequest, session: SessionDep) -> Token:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Account disabled")
 
     return Token(access_token=create_access_token(spartan.id))
+
+
+@router.get("/me")
+def get_me(spartan: SpartanDep) -> SpartanResponse:
+    return SpartanResponse.model_validate(spartan)
