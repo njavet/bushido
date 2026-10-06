@@ -16,6 +16,12 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    # cors
+    cors_origins: list[str] = [
+        "http://localhost:8080",
+        "https://stbushidowebf764ed.z1.web.core.windows.net",
+    ]
+
     host: str = "0.0.0.0"
     port: int = 8000
 
