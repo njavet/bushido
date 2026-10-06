@@ -33,6 +33,7 @@ repos:
         language: system
         types: [python]
         exclude: ^packages/citadel/migrations/
+        pass_filenames: false
 
       - id: pytest
         name: pytest
