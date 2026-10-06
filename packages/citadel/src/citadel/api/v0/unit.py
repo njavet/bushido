@@ -15,7 +15,7 @@ def get_unit_names() -> list[str]:
 
 
 @router.post("/logs")
-async def process_log_request(
+def process_log_request(
     request: LogUnitRequest,
     session: SessionDep,
     spartan: SpartanDep,
@@ -27,7 +27,7 @@ async def process_log_request(
 
 
 @router.post("/logs/query")
-async def process_load_units_request(
+def process_load_units_request(
     request: LoadUnitRequest,
     session: SessionDep,
     spartan: SpartanDep,
