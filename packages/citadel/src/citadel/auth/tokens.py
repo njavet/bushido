@@ -1,15 +1,8 @@
 import datetime
 
 import jwt
-from dotenv import load_dotenv
 
-load_dotenv()
-# TODO fix
-SECRET_KEY = (
-    "TEST"  # os.environ["JWT_SECRET_KEY"]  # from Azure App Service config / Key Vault
-)
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 1 week — tune to taste
+from citadel.conf import settings
 
 
 def create_access_token(user_id: int) -> str:
@@ -17,11 +10,16 @@ def create_access_token(user_id: int) -> str:
     payload = {
         "sub": str(user_id),
         "iat": now,
-        "exp": now + datetime.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+        "exp": now
+        + datetime.timedelta(minutes=settings.jwt_access_token_expire_minutes),
     }
-    return str(jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM))
+    return jwt.encode(
+        payload, settings.jwt_secret_key, algorithm=settings.jwt_algorithm
+    )
 
 
 def decode_access_token(token: str) -> int:
-    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    payload = jwt.decode(
+        token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm]
+    )
     return int(payload["sub"])
