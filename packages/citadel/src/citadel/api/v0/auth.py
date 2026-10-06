@@ -6,6 +6,7 @@ from citadel.auth.passwords import hash_password, verify_password
 from citadel.auth.tokens import create_access_token
 from citadel.persistence.models import Spartan
 from citadel.schema.auth import (
+    ChangePasswordRequest,
     LoginRequest,
     RegisterRequest,
     Token,
@@ -45,3 +46,22 @@ def login(body: LoginRequest, session: SessionDep) -> Token:
 @router.get("/me")
 def get_me(spartan: SpartanDep) -> SpartanResponse:
     return SpartanResponse.model_validate(spartan)
+
+
+@router.post("/change-password", status_code=204)
+def change_password(
+    request: ChangePasswordRequest,
+    spartan: SpartanDep,
+    session: SessionDep,
+) -> None:
+    if not verify_password(
+        request.current_password,
+        spartan.hashed_password,
+    ):
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid current password",
+        )
+
+    spartan.hashed_password = hash_password(request.new_password)
+    session.commit()
