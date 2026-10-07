@@ -1,20 +1,19 @@
 import datetime
 from typing import TYPE_CHECKING
 
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from ._base import BaseUnitTable
-
-if TYPE_CHECKING:
-    from . import UnitTable
+from ._base import UnitTable
 
 
-class LiftingUnitTable(BaseUnitTable):
+class LiftingUnitTable(UnitTable):
     __tablename__ = "lifting_unit"
+
+    id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
 
     start_t: Mapped[datetime.time] = mapped_column()
     end_t: Mapped[datetime.time] = mapped_column()
     gym: Mapped[str] = mapped_column()
-    unit: Mapped[UnitTable] = relationship(
-        back_populates="lifting",
-    )
+
+    __mapper_args__ = {"polymorphic_identity": "lifting"}
