@@ -1,10 +1,9 @@
 from typing import override
 
 from citadel.domain.unit import LiftingUnit, UnitType
-from ._base import BaseUnitRepo
 
 from ..models import LiftingUnitTable, UnitTable
-from ._unit import UnitRepo
+from ._base import BaseUnitRepo
 
 
 class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
@@ -23,7 +22,7 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
                 start_t=unit.start_t,
                 end_t=unit.end_t,
                 gym=unit.gym,
-            )
+            ),
         )
         self.session.add(orm_unit)
 

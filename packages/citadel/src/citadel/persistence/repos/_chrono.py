@@ -1,10 +1,9 @@
 from typing import override
 
 from citadel.domain.unit import ChronoUnit, UnitType
-from ._base import BaseUnitRepo
 
 from ..models import ChronoUnitTable, UnitTable
-from ._unit import UnitRepo
+from ._base import BaseUnitRepo
 
 
 class ChronoUnitRepo(BaseUnitRepo[ChronoUnit, ChronoUnitTable]):
@@ -21,7 +20,7 @@ class ChronoUnitRepo(BaseUnitRepo[ChronoUnit, ChronoUnitTable]):
             log_time=unit.log_time,
             chrono=ChronoUnitTable(
                 seconds=unit.seconds,
-            )
+            ),
         )
         self.session.add(orm_unit)
 

@@ -26,7 +26,7 @@ class RunningUnitRepo(BaseUnitRepo[RunningUnit, RunningUnitTable]):
                 avg_hr=unit.avg_hr,
                 max_hr=unit.max_hr,
                 calories=unit.calories,
-            )
+            ),
         )
         self.session.add(orm_unit)
 
@@ -68,7 +68,7 @@ class SwimmingUnitRepo(BaseUnitRepo[SwimmingUnit, SwimmingUnitTable]):
                 avg_hr=unit.avg_hr,
                 max_hr=unit.max_hr,
                 calories=unit.calories,
-            )
+            ),
         )
         self.session.add(orm_unit)
 
@@ -109,7 +109,7 @@ class RopeSkipUnitRepo(BaseUnitRepo[RopeSkipUnit, RopeSkipUnitTable]):
                 avg_hr=unit.avg_hr,
                 max_hr=unit.max_hr,
                 calories=unit.calories,
-            )
+            ),
         )
         self.session.add(orm_unit)
 

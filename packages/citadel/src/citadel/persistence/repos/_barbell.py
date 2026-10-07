@@ -3,10 +3,9 @@ from typing import override
 from sqlalchemy.orm import selectinload
 
 from citadel.domain.unit import BarbellUnit, SetData, UnitType
-from ._base import BaseUnitRepo
 
 from ..models import BarbellSet, BarbellUnitTable, UnitTable
-from ._unit import UnitRepo
+from ._base import BaseUnitRepo
 
 
 class BarbellUnitRepo(BaseUnitRepo[BarbellUnit, BarbellUnitTable]):
@@ -25,10 +24,12 @@ class BarbellUnitRepo(BaseUnitRepo[BarbellUnit, BarbellUnitTable]):
             barbell=BarbellUnitTable(
                 variant=unit.variant,
                 subunits=[
-                    BarbellSet(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
+                    BarbellSet(
+                        set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest
+                    )
                     for s in unit.sets
                 ],
-            )
+            ),
         )
         self.session.add(orm_unit)
 

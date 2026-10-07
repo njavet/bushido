@@ -18,7 +18,6 @@ from ._work import WorkUnit, build_work_unit
 __all__ = [
     "BarbellUnit",
     "BaseUnit",
-    "UnitType",
     "ChronoUnit",
     "LiftingUnit",
     "LogUnit",
@@ -29,6 +28,7 @@ __all__ = [
     "RunningUnit",
     "SetData",
     "SwimmingUnit",
+    "UnitType",
     "WimhofUnit",
     "WorkUnit",
     "build_barbell_unit",

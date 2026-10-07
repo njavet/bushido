@@ -2,10 +2,9 @@ from typing import override
 
 from citadel.domain.unit import RoundData, WimhofUnit
 
-from ._base import BaseUnitRepo
-from ..models import UnitTable, WimhofRound, WimhofUnitTable
-from ._unit import UnitRepo
 from ...domain.unit import UnitType
+from ..models import UnitTable, WimhofRound, WimhofUnitTable
+from ._base import BaseUnitRepo
 
 
 class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
@@ -24,10 +23,12 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
                 zen_mode=unit.zen_mode,
                 guide=unit.guide,
                 subunits=[
-                    WimhofRound(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
+                    WimhofRound(
+                        round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
+                    )
                     for r in unit.rounds
                 ],
-            )
+            ),
         )
         self.session.add(orm_unit)
 
