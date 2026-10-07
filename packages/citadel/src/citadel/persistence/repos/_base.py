@@ -8,7 +8,7 @@ from sqlalchemy.orm.interfaces import ORMOption
 
 from citadel.domain.unit import BaseUnit, UnitType
 
-from ..models import BaseUnitTable, UnitTable
+from ..models import UnitTable
 
 
 class BaseUnitRepo[UnitT: BaseUnit](ABC):

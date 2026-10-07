@@ -4,7 +4,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 if TYPE_CHECKING:
-    from ._unit import UnitTable
+    pass
 
 
 class Base(DeclarativeBase):
