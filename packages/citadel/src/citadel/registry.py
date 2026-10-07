@@ -19,6 +19,7 @@ from citadel.domain.unit import (
 )
 from citadel.persistence.repos import (
     BarbellUnitRepo,
+    BaseUnitRepo,
     ChronoUnitRepo,
     LiftingUnitRepo,
     LogUnitRepo,
@@ -26,7 +27,6 @@ from citadel.persistence.repos import (
     RopeSkipUnitRepo,
     RunningUnitRepo,
     SwimmingUnitRepo,
-    UnitRepo,
     WimhofUnitRepo,
     WorkUnitRepo,
 )
@@ -34,7 +34,7 @@ from citadel.persistence.repos import (
 
 @dataclass(frozen=True)
 class UnitSpec:
-    repo: type[UnitRepo[Any, Any]]
+    repo: type[BaseUnitRepo[Any, Any]]
     build_unit: Callable[[RawUnit, datetime.datetime], LoggedUnit]
 
 

@@ -23,6 +23,7 @@ def log_unit(line: str, session: Session, spartan: Spartan) -> LoggedUnit:
     repo = spec.repo(session)
     unit = spec.build_unit(raw_unit, log_time)
     repo.add_unit(unit, spartan.id)
+    session.commit()
     return unit
 
 
