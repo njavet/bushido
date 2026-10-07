@@ -37,11 +37,11 @@ class BarbellUnitRepo(BaseUnitRepo[BarbellUnit, BarbellUnitTable]):
     def _from_orm(self, orm_unit: UnitTable) -> BarbellUnit:
         sets = [
             SetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
-            for s in orm_unit.subunits
+            for s in orm_unit.barbell.subunits
         ]
         return BarbellUnit(
             name=orm_unit.name,
-            variant=orm_unit.variant,
+            variant=orm_unit.barbell.variant,
             sets=sets,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
