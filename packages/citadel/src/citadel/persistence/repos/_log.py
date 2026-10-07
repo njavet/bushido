@@ -6,8 +6,7 @@ from ..models import LogUnitTable, UnitTable
 from ._base import BaseUnitRepo
 
 
-class LogUnitRepo(BaseUnitRepo[LogUnit, LogUnitTable]):
-    orm_cls = LogUnitTable
+class LogUnitRepo(BaseUnitRepo[LogUnit]):
     unit_type = UnitType.log
 
     @override
@@ -25,10 +24,11 @@ class LogUnitRepo(BaseUnitRepo[LogUnit, LogUnitTable]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: LogUnitTable) -> LogUnit:
+    def _from_orm(self, orm_unit: UnitTable) -> LogUnit:
+        assert orm_unit.log is not None
         return LogUnit(
             name=orm_unit.name,
-            kind=orm_unit.kind,
+            kind=orm_unit.log.kind,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
