@@ -9,20 +9,19 @@ from sqlalchemy.orm.interfaces import ORMOption
 from citadel.domain.unit import BaseUnit
 
 from ..models import UnitTable
+from ..models import BaseUnitTable
 
 
-class BaseUnitRepo[UnitT: BaseUnit, OrmT: UnitTable](ABC):
+class BaseUnitRepo[UnitT: BaseUnit, OrmT: BaseUnitTable](ABC):
     orm_cls: type[OrmT]
     load_options: Sequence[ORMOption] = ()
 
     def __init__(self, session: Session) -> None:
         self.session = session
 
+    @abstractmethod
     def add_unit(self, unit: UnitT, spartan_id: int) -> None:
-        orm_unit = self._to_orm(unit)
-        orm_unit.spartan_id = spartan_id
-        self.session.add(orm_unit)
-        self.session.commit()
+        ...
 
     def fetch_units(
         self,
