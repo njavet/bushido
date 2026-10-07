@@ -34,7 +34,7 @@ class BarbellUnitRepo(BaseUnitRepo[BarbellUnit, BarbellUnitTable]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: BarbellUnitTable) -> BarbellUnit:
+    def _from_orm(self, orm_unit: UnitTable) -> BarbellUnit:
         sets = [
             SetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             for s in orm_unit.subunits

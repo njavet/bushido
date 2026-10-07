@@ -1,7 +1,11 @@
 import datetime
 
 from sqlalchemy import DateTime, ForeignKey
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+
+from citadel.persistence.models import LogUnitTable
+from citadel.persistence.models import MartialArtsUnitTable
+from citadel.persistence.models import WorkUnitTable
 
 
 class Base(DeclarativeBase):
@@ -32,6 +36,58 @@ class UnitTable(Base):
     name: Mapped[str] = mapped_column()
     log_time: Mapped[datetime.datetime] = mapped_column()
     comment: Mapped[str | None] = mapped_column()
+
+
+    barbell: Mapped["BarbellUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
+    swimming: Mapped["SwimmingUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
+    running: Mapped["RunningUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
+    skipping: Mapped["RopeSkipUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
+    chrono: Mapped["ChronoUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
+    lifting: Mapped["LiftingUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
+    log: Mapped["LogUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
+    martial_arts: Mapped["MartialArtsUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
+    wimhof: Mapped["WimhofUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
+    work: Mapped["WorkUnitTable | None"] = relationship(
+        back_populates="unit",
+        cascade="all, delete-orphan",
+        single_parent=True,
+    )
 
 
 class BaseUnitTable(Base):
