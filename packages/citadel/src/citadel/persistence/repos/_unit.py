@@ -2,7 +2,7 @@ import datetime
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 from sqlalchemy.orm.interfaces import ORMOption
 
@@ -11,39 +11,27 @@ from citadel.domain.unit import BaseUnit
 from ..models import UnitTable
 
 
-class UnitRepo[UnitT: BaseUnit, OrmT: UnitTable](ABC):
-    orm_cls: type[OrmT]
-    load_options: Sequence[ORMOption] = ()
-
+class UnitRepo:
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def add_unit(self, unit: UnitT, spartan_id: int) -> None:
-        orm_unit = self._to_orm(unit)
-        orm_unit.spartan_id = spartan_id
-        self.session.add(orm_unit)
-        self.session.commit()
+    def count(self, spartan_id: int) -> int:
+        stmt = (
+            select(func.count())
+            .select_from(UnitTable)
+            .where(UnitTable.spartan_id == spartan_id)
+        )
+        return self.session.scalar(stmt) or 0
 
     def fetch_units(
         self,
         spartan_id: int,
-        start_t: datetime.datetime | None = None,
-        end_t: datetime.datetime | None = None,
-    ) -> list[UnitT]:
+        limit: int = 101,
+    ) -> list[UnitTable]:
         stmt = (
-            select(self.orm_cls)
-            .where(self.orm_cls.spartan_id == spartan_id)
-            .options(*self.load_options)
+            select(UnitTable)
+            .where(UnitTable.spartan_id == spartan_id)
+            .order_by(UnitTable.log_time.desc())
+            .limit(limit)
         )
-        if start_t is not None:
-            stmt = stmt.where(start_t <= self.orm_cls.log_time)
-        if end_t is not None:
-            stmt = stmt.where(self.orm_cls.log_time <= end_t)
-        stmt = stmt.order_by(self.orm_cls.log_time.desc())
-        return [self._from_orm(unit) for unit in self.session.scalars(stmt)]
-
-    @abstractmethod
-    def _to_orm(self, unit: UnitT) -> OrmT: ...
-
-    @abstractmethod
-    def _from_orm(self, orm_unit: OrmT) -> UnitT: ...
+        return list(self.session.scalars(stmt))
