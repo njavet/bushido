@@ -5,7 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from citadel.persistence.models._base import BaseUnitTable
 
 if TYPE_CHECKING:
-    from models import UnitTable
+    from . import UnitTable
 
 
 class LogUnitTable(BaseUnitTable):

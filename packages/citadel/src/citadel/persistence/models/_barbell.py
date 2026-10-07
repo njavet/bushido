@@ -16,6 +16,7 @@ class BarbellUnitTable(BaseUnitTable):
     unit: Mapped[UnitTable] = relationship(
         back_populates="barbell",
     )
+
     subunits: Mapped[list[BarbellSet]] = relationship(
         cascade="all, delete-orphan",
         back_populates="unit",
