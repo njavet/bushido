@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 class BarbellUnitTable(BaseUnitTable):
     __tablename__ = "barbell_unit"
 
+    id: Mapped[int] = mapped_column(ForeignKey("unit.id"), primary_key=True)
     variant: Mapped[str] = mapped_column(default="default")
     unit: Mapped[UnitTable] = relationship(
         back_populates="barbell",
