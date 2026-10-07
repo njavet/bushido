@@ -12,21 +12,19 @@ class RunningUnitRepo(BaseUnitRepo[RunningUnit, RunningUnitTable]):
 
     @override
     def add_unit(self, unit: RunningUnit, spartan_id: int) -> None:
-        orm_unit = UnitTable(
+        orm_unit = RunningUnitTable(
             spartan_id=spartan_id,
             unit_type=self.unit_type,
             name=unit.name,
             comment=unit.comment,
             log_time=unit.log_time,
-            running=RunningUnitTable(
-                start_t=unit.start_t,
-                seconds=unit.seconds,
-                gym=unit.gym,
-                distance=unit.distance,
-                avg_hr=unit.avg_hr,
-                max_hr=unit.max_hr,
-                calories=unit.calories,
-            ),
+            start_t=unit.start_t,
+            seconds=unit.seconds,
+            gym=unit.gym,
+            distance=unit.distance,
+            avg_hr=unit.avg_hr,
+            max_hr=unit.max_hr,
+            calories=unit.calories,
         )
         self.session.add(orm_unit)
 
@@ -52,23 +50,21 @@ class SwimmingUnitRepo(BaseUnitRepo[SwimmingUnit, SwimmingUnitTable]):
 
     @override
     def add_unit(self, unit: SwimmingUnit, spartan_id: int) -> None:
-        orm_unit = UnitTable(
+        orm_unit = SwimmingUnitTable(
             spartan_id=spartan_id,
             unit_type=self.unit_type,
             name=unit.name,
             comment=unit.comment,
             log_time=unit.log_time,
-            swimming=SwimmingUnitTable(
-                start_t=unit.start_t,
-                seconds=unit.seconds,
-                gym=unit.gym,
-                distance=unit.distance,
-                pool_length=unit.pool_length,
-                temperature=unit.temperature,
-                avg_hr=unit.avg_hr,
-                max_hr=unit.max_hr,
-                calories=unit.calories,
-            ),
+            start_t=unit.start_t,
+            seconds=unit.seconds,
+            gym=unit.gym,
+            distance=unit.distance,
+            pool_length=unit.pool_length,
+            temperature=unit.temperature,
+            avg_hr=unit.avg_hr,
+            max_hr=unit.max_hr,
+            calories=unit.calories,
         )
         self.session.add(orm_unit)
 
@@ -96,20 +92,18 @@ class SkippingUnitRepo(BaseUnitRepo[RopeSkipUnit, SkippingUnitTable]):
 
     @override
     def add_unit(self, unit: RopeSkipUnit, spartan_id: int) -> None:
-        orm_unit = UnitTable(
+        orm_unit = SkippingUnitTable(
             spartan_id=spartan_id,
             unit_type=self.unit_type,
             name=unit.name,
             comment=unit.comment,
             log_time=unit.log_time,
-            skipping=SkippingUnitTable(
-                start_t=unit.start_t,
-                seconds=unit.seconds,
-                gym=unit.gym,
-                avg_hr=unit.avg_hr,
-                max_hr=unit.max_hr,
-                calories=unit.calories,
-            ),
+            start_t=unit.start_t,
+            seconds=unit.seconds,
+            gym=unit.gym,
+            avg_hr=unit.avg_hr,
+            max_hr=unit.max_hr,
+            calories=unit.calories,
         )
         self.session.add(orm_unit)
 

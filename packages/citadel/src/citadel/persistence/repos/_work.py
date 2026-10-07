@@ -12,20 +12,18 @@ class WorkUnitRepo(BaseUnitRepo[WorkUnit, WorkUnitTable]):
 
     @override
     def add_unit(self, unit: WorkUnit, spartan_id: int) -> None:
-        orm_unit = UnitTable(
+        orm_unit = WorkUnitTable(
             spartan_id=spartan_id,
             unit_type=self.unit_type,
             name=unit.name,
             log_time=unit.log_time,
             comment=unit.comment,
-            work=WorkUnitTable(
-                start_t=unit.start_t,
-                end_t=unit.end_t,
-                seconds=unit.seconds,
-                gym=unit.gym,
-                project=unit.project,
-                topic=unit.topic,
-            ),
+            start_t=unit.start_t,
+            end_t=unit.end_t,
+            seconds=unit.seconds,
+            gym=unit.gym,
+            project=unit.project,
+            topic=unit.topic,
         )
         self.session.add(orm_unit)
 

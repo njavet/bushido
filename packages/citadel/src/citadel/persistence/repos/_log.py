@@ -12,7 +12,7 @@ class LogUnitRepo(BaseUnitRepo[LogUnit, LogUnitTable]):
 
     @override
     def add_unit(self, unit: LogUnit, spartan_id: int) -> None:
-        orm_unit = UnitTable(
+        orm_unit = LogUnitTable(
             spartan_id=spartan_id,
             unit_type=self.unit_type,
             name=unit.name,

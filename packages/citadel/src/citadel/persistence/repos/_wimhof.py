@@ -13,22 +13,20 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
 
     @override
     def add_unit(self, unit: WimhofUnit, spartan_id: int) -> None:
-        orm_unit = UnitTable(
+        orm_unit = WimhofUnitTable(
             spartan_id=spartan_id,
             unit_type=self.unit_type,
             name=unit.name,
             log_time=unit.log_time,
             comment=unit.comment,
-            wimhof=WimhofUnitTable(
-                zen_mode=unit.zen_mode,
-                guide=unit.guide,
-                subunits=[
-                    WimhofRound(
-                        round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
-                    )
-                    for r in unit.rounds
-                ],
-            ),
+            zen_mode=unit.zen_mode,
+            guide=unit.guide,
+            subunits=[
+                WimhofRound(
+                    round_nr=r.round_nr, breaths=r.breaths, retention=r.retention
+                )
+                for r in unit.rounds
+            ],
         )
         self.session.add(orm_unit)
 

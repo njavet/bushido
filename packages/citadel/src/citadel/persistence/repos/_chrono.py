@@ -12,15 +12,13 @@ class ChronoUnitRepo(BaseUnitRepo[ChronoUnit, ChronoUnitTable]):
 
     @override
     def add_unit(self, unit: ChronoUnit, spartan_id: int) -> None:
-        orm_unit = UnitTable(
+        orm_unit = ChronoUnitTable(
             spartan_id=spartan_id,
             unit_type=self.unit_type,
             name=unit.name,
             comment=unit.comment,
             log_time=unit.log_time,
-            chrono=ChronoUnitTable(
-                seconds=unit.seconds,
-            ),
+            seconds=unit.seconds,
         )
         self.session.add(orm_unit)
 

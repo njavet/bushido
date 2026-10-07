@@ -12,17 +12,15 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
 
     @override
     def add_unit(self, unit: LiftingUnit, spartan_id: int) -> None:
-        orm_unit = UnitTable(
+        orm_unit = LiftingUnitTable(
             spartan_id=spartan_id,
             unit_type=self.unit_type,
             name=unit.name,
             comment=unit.comment,
             log_time=unit.log_time,
-            lifting=LiftingUnitTable(
-                start_t=unit.start_t,
-                end_t=unit.end_t,
-                gym=unit.gym,
-            ),
+            start_t=unit.start_t,
+            end_t=unit.end_t,
+            gym=unit.gym,
         )
         self.session.add(orm_unit)
 
