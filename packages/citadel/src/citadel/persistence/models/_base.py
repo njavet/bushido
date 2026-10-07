@@ -27,6 +27,7 @@ class UnitTable(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     spartan_id: Mapped[int] = mapped_column(ForeignKey(Spartan.id))
+
     unit_type: Mapped[str] = mapped_column()
     name: Mapped[str] = mapped_column()
     log_time: Mapped[datetime.datetime] = mapped_column()

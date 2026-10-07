@@ -3,7 +3,7 @@ from typing import override
 from citadel.domain.unit import LiftingUnit
 
 from ..models import LiftingUnitTable
-from ._base import BaseUnitRepo
+from ._unit import BaseUnitRepo
 
 
 class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):

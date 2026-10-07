@@ -5,7 +5,7 @@ from sqlalchemy.orm import selectinload
 from citadel.domain.unit import BarbellUnit, SetData
 
 from ..models import BarbellSet, BarbellUnitTable
-from ._base import BaseUnitRepo
+from ._unit import BaseUnitRepo
 
 
 class BarbellUnitRepo(BaseUnitRepo[BarbellUnit, BarbellUnitTable]):

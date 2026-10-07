@@ -3,7 +3,7 @@ from typing import override
 from citadel.domain.unit import RoundData, WimhofUnit
 
 from ..models import WimhofRound, WimhofUnitTable
-from ._base import BaseUnitRepo
+from ._unit import BaseUnitRepo
 
 
 class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):

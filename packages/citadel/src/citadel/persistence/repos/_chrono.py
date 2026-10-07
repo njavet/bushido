@@ -3,7 +3,7 @@ from typing import override
 from citadel.domain.unit import ChronoUnit
 
 from ..models import ChronoUnitTable
-from ._base import BaseUnitRepo
+from ._unit import BaseUnitRepo
 
 
 class ChronoUnitRepo(BaseUnitRepo[ChronoUnit, ChronoUnitTable]):
