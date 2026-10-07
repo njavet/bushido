@@ -1,7 +1,11 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ._base import Base, BaseUnitTable
+if TYPE_CHECKING:
+    from . import UnitTable
 
 
 class WimhofUnitTable(BaseUnitTable):
@@ -13,6 +17,9 @@ class WimhofUnitTable(BaseUnitTable):
     subunits: Mapped[list[WimhofRound]] = relationship(
         cascade="all, delete-orphan",
         back_populates="unit",
+    )
+    unit: Mapped[UnitTable] = relationship(
+        back_populates="wimhof",
     )
 
 

@@ -1,8 +1,11 @@
 import datetime
+from typing import TYPE_CHECKING
 
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ._base import BaseUnitTable
+if TYPE_CHECKING:
+    from . import UnitTable
 
 
 class WorkUnitTable(BaseUnitTable):
@@ -14,3 +17,6 @@ class WorkUnitTable(BaseUnitTable):
     gym: Mapped[str] = mapped_column()
     project: Mapped[str] = mapped_column()
     topic: Mapped[str] = mapped_column()
+    unit: Mapped[UnitTable] = relationship(
+        back_populates="work",
+    )
