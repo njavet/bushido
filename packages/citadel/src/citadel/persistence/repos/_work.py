@@ -2,7 +2,7 @@ from typing import override
 
 from citadel.domain.unit import UnitType, WorkUnit
 
-from ..models import UnitTable, WorkUnitTable
+from ..models import WorkUnitTable
 from ._base import BaseUnitRepo
 
 

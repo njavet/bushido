@@ -1,15 +1,18 @@
 from typing import override
 
+from sqlalchemy.orm import selectinload
+
 from citadel.domain.unit import RoundData, WimhofUnit
 
 from ...domain.unit import UnitType
-from ..models import UnitTable, WimhofRound, WimhofUnitTable
+from ..models import WimhofRound, WimhofUnitTable
 from ._base import BaseUnitRepo
 
 
 class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
     orm_cls = WimhofUnitTable
     unit_type = UnitType.wimhof
+    load_options = (selectinload(WimhofUnitTable.subunits),)
 
     @override
     def add_unit(self, unit: WimhofUnit, spartan_id: int) -> None:

@@ -2,7 +2,7 @@ from typing import override
 
 from citadel.domain.unit import MartialArtsUnit, UnitType
 
-from ..models import MartialArtsUnitTable, UnitTable
+from ..models import MartialArtsUnitTable
 from ._base import BaseUnitRepo
 
 

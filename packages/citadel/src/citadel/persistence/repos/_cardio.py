@@ -2,7 +2,7 @@ from typing import override
 
 from citadel.domain.unit import RopeSkipUnit, RunningUnit, SwimmingUnit, UnitType
 
-from ..models import RunningUnitTable, SkippingUnitTable, SwimmingUnitTable, UnitTable
+from ..models import RunningUnitTable, SkippingUnitTable, SwimmingUnitTable
 from ._base import BaseUnitRepo
 
 
