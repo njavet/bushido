@@ -1,24 +1,30 @@
 from typing import override
 
-from citadel.domain.unit import MartialArtsUnit
+from citadel.domain.unit import MartialArtsUnit, UnitType
 
-from ..models import MartialArtsUnitTable
+from ..models import MartialArtsUnitTable, UnitTable
 from ._base import BaseUnitRepo
 
 
 class MartialArtsUnitRepo(BaseUnitRepo[MartialArtsUnit, MartialArtsUnitTable]):
     orm_cls = MartialArtsUnitTable
+    unit_type = UnitType.martial_arts
 
     @override
-    def _to_orm(self, unit: MartialArtsUnit) -> MartialArtsUnitTable:
-        return MartialArtsUnitTable(
+    def add_unit(self, unit: MartialArtsUnit, spartan_id: int) -> None:
+        orm_unit = UnitTable(
+            spartan_id=spartan_id,
+            unit_type=self.unit_type,
             name=unit.name,
             log_time=unit.log_time,
-            start_t=unit.start_t,
-            end_t=unit.end_t,
-            gym=unit.gym,
             comment=unit.comment,
+            martial_arts=MartialArtsUnitTable(
+                start_t=unit.start_t,
+                end_t=unit.end_t,
+                gym=unit.gym,
+            ),
         )
+        self.session.add(orm_unit)
 
     @override
     def _from_orm(self, orm_unit: MartialArtsUnitTable) -> MartialArtsUnit:
