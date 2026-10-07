@@ -34,7 +34,7 @@ from citadel.persistence.repos import (
 
 @dataclass(frozen=True)
 class UnitSpec:
-    repo: type[BaseUnitRepo[Any]]
+    repo: type[BaseUnitRepo[Any, Any]]
     build_unit: Callable[[RawUnit, datetime.datetime], LoggedUnit]
 
 

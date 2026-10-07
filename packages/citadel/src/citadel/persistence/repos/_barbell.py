@@ -8,7 +8,8 @@ from ..models import BarbellSet, BarbellUnitTable, UnitTable
 from ._base import BaseUnitRepo
 
 
-class BarbellUnitRepo(BaseUnitRepo[BarbellUnit]):
+class BarbellUnitRepo(BaseUnitRepo[BarbellUnit, BarbellUnitTable]):
+    orm_cls = BarbellUnitTable
     unit_type = UnitType.barbell
     load_options = (selectinload(BarbellUnitTable.subunits),)
 
@@ -33,15 +34,14 @@ class BarbellUnitRepo(BaseUnitRepo[BarbellUnit]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: UnitTable) -> BarbellUnit:
-        assert orm_unit.barbell is not None
+    def _from_orm(self, orm_unit: BarbellUnitTable) -> BarbellUnit:
         sets = [
             SetData(set_nr=s.set_nr, weight=s.weight, reps=s.reps, rest=s.rest)
             for s in orm_unit.barbell.subunits
         ]
         return BarbellUnit(
             name=orm_unit.name,
-            variant=orm_unit.barbell.variant,
+            variant=orm_unit.variant,
             sets=sets,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
