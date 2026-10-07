@@ -19,7 +19,7 @@ from citadel.domain.unit import (
 )
 from citadel.persistence.repos import (
     BarbellUnitRepo,
-    BaseUnitRepo,
+    UnitRepo,
     ChronoUnitRepo,
     LiftingUnitRepo,
     LogUnitRepo,
@@ -34,7 +34,7 @@ from citadel.persistence.repos import (
 
 @dataclass(frozen=True)
 class UnitSpec:
-    repo: type[BaseUnitRepo[Any, Any]]
+    repo: type[UnitRepo[Any, Any]]
     build_unit: Callable[[RawUnit, datetime.datetime], LoggedUnit]
 
 

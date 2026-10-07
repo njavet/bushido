@@ -1,5 +1,5 @@
 from ._barbell import BarbellUnitRepo
-from ._base import BaseUnitRepo
+from ._unit import UnitRepo
 from ._cardio import RopeSkipUnitRepo, RunningUnitRepo, SwimmingUnitRepo
 from ._chrono import ChronoUnitRepo
 from ._lifting import LiftingUnitRepo
@@ -10,7 +10,7 @@ from ._work import WorkUnitRepo
 
 __all__ = [
     "BarbellUnitRepo",
-    "BaseUnitRepo",
+    "UnitRepo",
     "ChronoUnitRepo",
     "LiftingUnitRepo",
     "LogUnitRepo",

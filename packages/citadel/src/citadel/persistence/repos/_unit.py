@@ -11,7 +11,7 @@ from citadel.domain.unit import BaseUnit
 from ..models import UnitTable
 
 
-class BaseUnitRepo[UnitT: BaseUnit, OrmT: UnitTable](ABC):
+class UnitRepo[UnitT: BaseUnit, OrmT: UnitTable](ABC):
     orm_cls: type[OrmT]
     load_options: Sequence[ORMOption] = ()
 

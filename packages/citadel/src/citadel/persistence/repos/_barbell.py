@@ -5,10 +5,10 @@ from sqlalchemy.orm import selectinload
 from citadel.domain.unit import BarbellUnit, SetData
 
 from ..models import BarbellSet, BarbellUnitTable
-from ._unit import BaseUnitRepo
+from ._unit import UnitRepo
 
 
-class BarbellUnitRepo(BaseUnitRepo[BarbellUnit, BarbellUnitTable]):
+class BarbellUnitRepo(UnitRepo[BarbellUnit, BarbellUnitTable]):
     orm_cls = BarbellUnitTable
     load_options = (selectinload(BarbellUnitTable.subunits),)
 

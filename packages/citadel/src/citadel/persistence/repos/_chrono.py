@@ -3,10 +3,10 @@ from typing import override
 from citadel.domain.unit import ChronoUnit
 
 from ..models import ChronoUnitTable
-from ._unit import BaseUnitRepo
+from ._unit import UnitRepo
 
 
-class ChronoUnitRepo(BaseUnitRepo[ChronoUnit, ChronoUnitTable]):
+class ChronoUnitRepo(UnitRepo[ChronoUnit, ChronoUnitTable]):
     orm_cls = ChronoUnitTable
 
     @override

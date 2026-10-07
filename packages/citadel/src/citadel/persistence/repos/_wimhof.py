@@ -3,10 +3,10 @@ from typing import override
 from citadel.domain.unit import RoundData, WimhofUnit
 
 from ..models import WimhofRound, WimhofUnitTable
-from ._unit import BaseUnitRepo
+from ._unit import UnitRepo
 
 
-class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
+class WimhofUnitRepo(UnitRepo[WimhofUnit, WimhofUnitTable]):
     orm_cls = WimhofUnitTable
 
     @override

@@ -3,10 +3,10 @@ from typing import override
 from citadel.domain.unit import LiftingUnit
 
 from ..models import LiftingUnitTable
-from ._unit import BaseUnitRepo
+from ._unit import UnitRepo
 
 
-class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
+class LiftingUnitRepo(UnitRepo[LiftingUnit, LiftingUnitTable]):
     orm_cls = LiftingUnitTable
 
     @override
