@@ -1,5 +1,3 @@
-from typing import Any, ClassVar
-
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -13,4 +11,4 @@ class ChronoUnitTable(UnitTable):
 
     seconds: Mapped[float] = mapped_column()
 
-    __mapper_args__: ClassVar[dict[str, Any]] = {"polymorphic_identity": "chrono"}
+    __mapper_args__ = {"polymorphic_identity": "chrono"}

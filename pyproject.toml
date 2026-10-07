@@ -82,6 +82,7 @@ ignore = [
     "ARG001",  # fixtures/callback signatures may intentionally leave args unused
     "PLR2004", # magic values are often fine in tests
 ]
+"packages/citadel/src/citadel/persistence/models/*.py" = ["RUF012"] # ClassVar __mapper_args__ 
 
 [tool.ruff.lint.isort]
 known-first-party = [

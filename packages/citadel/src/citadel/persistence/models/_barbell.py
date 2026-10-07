@@ -1,5 +1,3 @@
-from typing import Any, ClassVar
-
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -16,7 +14,7 @@ class BarbellUnitTable(UnitTable):
         back_populates="unit",
     )
 
-    __mapper_args__: ClassVar[dict[str, Any]] = {
+    __mapper_args__ = {
         "polymorphic_identity": "barbell",
     }
 

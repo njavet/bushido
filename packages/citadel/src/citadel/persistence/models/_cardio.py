@@ -1,5 +1,4 @@
 import datetime
-from typing import Any, ClassVar
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
@@ -24,7 +23,7 @@ class RunningUnitTable(CardioUnitTable):
     id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
     distance: Mapped[float] = mapped_column()
 
-    __mapper_args__: ClassVar[dict[str, Any]] = {"polymorphic_identity": "running"}
+    __mapper_args__ = {"polymorphic_identity": "running"}
 
 
 class SwimmingUnitTable(CardioUnitTable):
@@ -35,7 +34,7 @@ class SwimmingUnitTable(CardioUnitTable):
     pool_length: Mapped[int | None] = mapped_column()
     temperature: Mapped[float | None] = mapped_column()
 
-    __mapper_args__: ClassVar[dict[str, Any]] = {"polymorphic_identity": "swimming"}
+    __mapper_args__ = {"polymorphic_identity": "swimming"}
 
 
 class SkippingUnitTable(CardioUnitTable):
@@ -43,4 +42,4 @@ class SkippingUnitTable(CardioUnitTable):
 
     id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
 
-    __mapper_args__: ClassVar[dict[str, Any]] = {"polymorphic_identity": "skipping"}
+    __mapper_args__ = {"polymorphic_identity": "skipping"}

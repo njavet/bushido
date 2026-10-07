@@ -1,5 +1,4 @@
 import datetime
-from typing import Any, ClassVar
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
@@ -19,4 +18,4 @@ class WorkUnitTable(UnitTable):
     project: Mapped[str] = mapped_column()
     topic: Mapped[str] = mapped_column()
 
-    __mapper_args__: ClassVar[dict[str, Any]] = {"polymorphic_identity": "work"}
+    __mapper_args__ = {"polymorphic_identity": "work"}
