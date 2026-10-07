@@ -1,15 +1,13 @@
 import datetime
 from typing import TYPE_CHECKING
 
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from ._base import BaseUnitTable
-
-if TYPE_CHECKING:
-    from . import UnitTable
+from ._base import UnitTable
 
 
-class CardioUnitTable(BaseUnitTable):
+class CardioUnitTable(UnitTable):
     __abstract__ = True
 
     start_t: Mapped[datetime.time] = mapped_column()
@@ -23,25 +21,26 @@ class CardioUnitTable(BaseUnitTable):
 class RunningUnitTable(CardioUnitTable):
     __tablename__ = "running_unit"
 
+    id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
     distance: Mapped[float] = mapped_column()
-    unit: Mapped[UnitTable] = relationship(
-        back_populates="running",
-    )
+
+    __mapper_args__ = {"polymorphic_identity": "running"}
 
 
 class SwimmingUnitTable(CardioUnitTable):
     __tablename__ = "swimming_unit"
 
+    id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
     distance: Mapped[float] = mapped_column()
     pool_length: Mapped[int | None] = mapped_column()
     temperature: Mapped[float | None] = mapped_column()
-    unit: Mapped[UnitTable] = relationship(
-        back_populates="swimming",
-    )
+
+    __mapper_args__ = {"polymorphic_identity": "swimming"}
 
 
 class RopeSkipUnitTable(CardioUnitTable):
-    __tablename__ = "rope_skip_unit"
-    unit: Mapped[UnitTable] = relationship(
-        back_populates="skipping",
-    )
+    __tablename__ = "skipping_unit"
+
+    id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
+
+    __mapper_args__ = {"polymorphic_identity": "skipping"}
