@@ -1,5 +1,5 @@
 from ._barbell import BarbellUnit, SetData, build_barbell_unit
-from ._base import BaseUnit, RawUnit
+from ._base import BaseUnit, RawUnit, UnitType
 from ._cardio import (
     RopeSkipUnit,
     RunningUnit,
@@ -18,6 +18,7 @@ from ._work import WorkUnit, build_work_unit
 __all__ = [
     "BarbellUnit",
     "BaseUnit",
+    "UnitType",
     "ChronoUnit",
     "LiftingUnit",
     "LogUnit",

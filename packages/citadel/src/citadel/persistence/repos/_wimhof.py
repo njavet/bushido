@@ -2,27 +2,32 @@ from typing import override
 
 from citadel.domain.unit import RoundData, WimhofUnit
 
-from ..models import WimhofRound, WimhofUnitTable
+from ._base import BaseUnitRepo
+from ..models import UnitTable, WimhofRound, WimhofUnitTable
 from ._unit import UnitRepo
 
 
-class WimhofUnitRepo(UnitRepo[WimhofUnit, WimhofUnitTable]):
+class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
     orm_cls = WimhofUnitTable
 
     @override
-    def _to_orm(self, unit: WimhofUnit) -> WimhofUnitTable:
-        orm_unit = WimhofUnitTable(
+    def add_unit(self, unit: WimhofUnit, spartan_id: int) -> None:
+        orm_unit = UnitTable(
+            spartan_id=spartan_id,
+            unit_type='wimhof',
             name=unit.name,
-            zen_mode=unit.zen_mode,
-            guide=unit.guide,
             log_time=unit.log_time,
             comment=unit.comment,
+            wimhof=WimhofUnitTable(
+                zen_mode=unit.zen_mode,
+                guide=unit.guide,
+                subunits=[
+                    WimhofRound(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
+                    for r in unit.rounds
+                ],
+            )
         )
-        orm_unit.subunits = [
-            WimhofRound(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
-            for r in unit.rounds
-        ]
-        return orm_unit
+        self.session.add(orm_unit)
 
     @override
     def _from_orm(self, orm_unit: WimhofUnitTable) -> WimhofUnit:
