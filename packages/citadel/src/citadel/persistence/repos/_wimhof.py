@@ -5,16 +5,18 @@ from citadel.domain.unit import RoundData, WimhofUnit
 from ._base import BaseUnitRepo
 from ..models import UnitTable, WimhofRound, WimhofUnitTable
 from ._unit import UnitRepo
+from ...domain.unit import UnitType
 
 
 class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
     orm_cls = WimhofUnitTable
+    unit_type = UnitType.wimhof
 
     @override
     def add_unit(self, unit: WimhofUnit, spartan_id: int) -> None:
         orm_unit = UnitTable(
             spartan_id=spartan_id,
-            unit_type='wimhof',
+            unit_type=self.unit_type,
             name=unit.name,
             log_time=unit.log_time,
             comment=unit.comment,
