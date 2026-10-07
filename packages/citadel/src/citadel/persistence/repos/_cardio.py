@@ -2,7 +2,7 @@ from typing import override
 
 from citadel.domain.unit import RopeSkipUnit, RunningUnit, SwimmingUnit, UnitType
 
-from ..models import RopeSkipUnitTable, RunningUnitTable, SwimmingUnitTable, UnitTable
+from ..models import SkippingUnitTable, RunningUnitTable, SwimmingUnitTable, UnitTable
 from ._base import BaseUnitRepo
 
 
@@ -101,7 +101,7 @@ class RopeSkipUnitRepo(BaseUnitRepo[RopeSkipUnit]):
             name=unit.name,
             comment=unit.comment,
             log_time=unit.log_time,
-            skipping=RopeSkipUnitTable(
+            skipping=SkippingUnitTable(
                 start_t=unit.start_t,
                 seconds=unit.seconds,
                 gym=unit.gym,

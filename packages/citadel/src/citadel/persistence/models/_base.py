@@ -1,4 +1,5 @@
 import datetime
+from typing import Any, ClassVar
 
 from sqlalchemy import DateTime, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -33,7 +34,7 @@ class UnitTable(Base):
     log_time: Mapped[datetime.datetime] = mapped_column()
     comment: Mapped[str | None] = mapped_column()
 
-    __mapper_args__ = {
+    __mapper_args__: ClassVar[dict[str, Any]] = {
         "polymorphic_on": unit_type,
         "polymorphic_identity": "unit",
     }

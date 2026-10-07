@@ -37,7 +37,7 @@ class SwimmingUnitTable(CardioUnitTable):
     __mapper_args__ = {"polymorphic_identity": "swimming"}
 
 
-class RopeSkipUnitTable(CardioUnitTable):
+class SkippingUnitTable(CardioUnitTable):
     __tablename__ = "skipping_unit"
 
     id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
