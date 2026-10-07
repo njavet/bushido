@@ -1,13 +1,21 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ._base import Base, BaseUnitTable
+
+if TYPE_CHECKING:
+    from . import UnitTable
 
 
 class BarbellUnitTable(BaseUnitTable):
     __tablename__ = "barbell_unit"
 
     variant: Mapped[str] = mapped_column(default="default")
+    unit: Mapped[UnitTable] = relationship(
+        back_populates="barbell",
+    )
     subunits: Mapped[list[BarbellSet]] = relationship(
         cascade="all, delete-orphan",
         back_populates="unit",

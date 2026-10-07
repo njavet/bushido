@@ -14,4 +14,4 @@ class Base(DeclarativeBase):
 class BaseUnitTable(Base):
     __abstract__ = True
 
-    id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
+    id: Mapped[int] = mapped_column(ForeignKey("unit.id"), primary_key=True)

@@ -1,21 +1,24 @@
 import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from citadel.persistence.models import (
-    BarbellUnitTable,
-    Base,
-    ChronoUnitTable,
-    LiftingUnitTable,
-    LogUnitTable,
-    MartialArtsUnitTable,
-    RopeSkipUnitTable,
-    RunningUnitTable,
-    SwimmingUnitTable,
-    WimhofUnitTable,
-    WorkUnitTable,
-)
+from citadel.persistence.models import Base
+
+if TYPE_CHECKING:
+    from citadel.persistence.models import (
+        BarbellUnitTable,
+        ChronoUnitTable,
+        LiftingUnitTable,
+        LogUnitTable,
+        MartialArtsUnitTable,
+        RopeSkipUnitTable,
+        RunningUnitTable,
+        SwimmingUnitTable,
+        WimhofUnitTable,
+        WorkUnitTable,
+    )
 
 
 class Spartan(Base):

@@ -1,8 +1,12 @@
 import datetime
+from typing import TYPE_CHECKING
 
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ._base import BaseUnitTable
+
+if TYPE_CHECKING:
+    from . import UnitTable
 
 
 class CardioUnitTable(BaseUnitTable):
@@ -20,6 +24,9 @@ class RunningUnitTable(CardioUnitTable):
     __tablename__ = "running_unit"
 
     distance: Mapped[float] = mapped_column()
+    unit: Mapped[UnitTable] = relationship(
+        back_populates="running",
+    )
 
 
 class SwimmingUnitTable(CardioUnitTable):
@@ -28,7 +35,13 @@ class SwimmingUnitTable(CardioUnitTable):
     distance: Mapped[float] = mapped_column()
     pool_length: Mapped[int | None] = mapped_column()
     temperature: Mapped[float | None] = mapped_column()
+    unit: Mapped[UnitTable] = relationship(
+        back_populates="swimming",
+    )
 
 
 class RopeSkipUnitTable(CardioUnitTable):
     __tablename__ = "rope_skip_unit"
+    unit: Mapped[UnitTable] = relationship(
+        back_populates="skipping",
+    )
