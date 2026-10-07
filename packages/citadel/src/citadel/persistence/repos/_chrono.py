@@ -1,22 +1,29 @@
 from typing import override
 
-from citadel.domain.unit import ChronoUnit
+from citadel.domain.unit import ChronoUnit, UnitType
+from ._base import BaseUnitRepo
 
-from ..models import ChronoUnitTable
+from ..models import ChronoUnitTable, UnitTable
 from ._unit import UnitRepo
 
 
-class ChronoUnitRepo(UnitRepo[ChronoUnit, ChronoUnitTable]):
+class ChronoUnitRepo(BaseUnitRepo[ChronoUnit, ChronoUnitTable]):
     orm_cls = ChronoUnitTable
+    unit_type = UnitType.chrono
 
     @override
-    def _to_orm(self, unit: ChronoUnit) -> ChronoUnitTable:
-        return ChronoUnitTable(
+    def add_unit(self, unit: ChronoUnit, spartan_id: int) -> None:
+        orm_unit = UnitTable(
+            spartan_id=spartan_id,
+            unit_type=self.unit_type,
             name=unit.name,
-            seconds=unit.seconds,
-            log_time=unit.log_time,
             comment=unit.comment,
+            log_time=unit.log_time,
+            chrono=ChronoUnitTable(
+                seconds=unit.seconds,
+            )
         )
+        self.session.add(orm_unit)
 
     @override
     def _from_orm(self, orm_unit: ChronoUnitTable) -> ChronoUnit:
