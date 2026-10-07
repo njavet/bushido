@@ -1,8 +1,9 @@
+from typing import Any, ClassVar
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from citadel.persistence.models import UnitTable
+from ._base import UnitTable
 
 
 class LogUnitTable(UnitTable):
@@ -15,4 +16,4 @@ class LogUnitTable(UnitTable):
         back_populates="log",
     )
 
-    __mapper_args__ = {"polymorphic_identity": "log"}
+    __mapper_args__: ClassVar[dict[str, Any]] = {"polymorphic_identity": "log"}

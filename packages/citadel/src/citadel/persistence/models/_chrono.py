@@ -1,8 +1,9 @@
+from typing import Any, ClassVar
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from citadel.persistence.models import UnitTable
+from ._base import UnitTable
 
 
 class ChronoUnitTable(UnitTable):
@@ -12,4 +13,4 @@ class ChronoUnitTable(UnitTable):
 
     seconds: Mapped[float] = mapped_column()
 
-    __mapper_args__ = {"polymorphic_identity": "chrono"}
+    __mapper_args__: ClassVar[dict[str, Any]] = {"polymorphic_identity": "chrono"}

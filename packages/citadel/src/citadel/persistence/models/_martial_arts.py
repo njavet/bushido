@@ -1,4 +1,5 @@
 import datetime
+from typing import Any, ClassVar
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
@@ -15,4 +16,4 @@ class MartialArtsUnitTable(UnitTable):
     end_t: Mapped[datetime.time] = mapped_column()
     gym: Mapped[str] = mapped_column()
 
-    __mapper_args__ = {"polymorphic_identity": "martial_arts"}
+    __mapper_args__: ClassVar[dict[str, Any]] = {"polymorphic_identity": "martial_arts"}
