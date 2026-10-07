@@ -32,3 +32,8 @@ class UnitTable(Base):
     name: Mapped[str] = mapped_column()
     log_time: Mapped[datetime.datetime] = mapped_column()
     comment: Mapped[str | None] = mapped_column()
+
+    __mapper_args__ = {
+        "polymorphic_on": unit_type,
+        "polymorphic_identity": "unit",
+    }
