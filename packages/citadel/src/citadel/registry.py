@@ -24,7 +24,7 @@ from citadel.persistence.repos import (
     LiftingUnitRepo,
     LogUnitRepo,
     MartialArtsUnitRepo,
-    RopeSkipUnitRepo,
+    SkippingUnitRepo,
     RunningUnitRepo,
     SwimmingUnitRepo,
     WimhofUnitRepo,
@@ -41,7 +41,7 @@ class UnitSpec:
 UNIT_REGISTRY: dict[str, UnitSpec] = {
     "running": UnitSpec(repo=RunningUnitRepo, build_unit=build_running_unit),
     "swimming": UnitSpec(repo=SwimmingUnitRepo, build_unit=build_swimming_unit),
-    "skipping": UnitSpec(repo=RopeSkipUnitRepo, build_unit=build_skipping_unit),
+    "skipping": UnitSpec(repo=SkippingUnitRepo, build_unit=build_skipping_unit),
     "log": UnitSpec(repo=LogUnitRepo, build_unit=build_log_unit),
     "chrono": UnitSpec(repo=ChronoUnitRepo, build_unit=build_chrono_unit),
     "karate": UnitSpec(repo=MartialArtsUnitRepo, build_unit=build_martial_arts_unit),

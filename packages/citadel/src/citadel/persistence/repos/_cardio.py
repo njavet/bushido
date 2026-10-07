@@ -6,7 +6,8 @@ from ..models import RunningUnitTable, SkippingUnitTable, SwimmingUnitTable, Uni
 from ._base import BaseUnitRepo
 
 
-class RunningUnitRepo(BaseUnitRepo[RunningUnit]):
+class RunningUnitRepo(BaseUnitRepo[RunningUnit, RunningUnitTable]):
+    orm_cls = RunningUnitTable
     unit_type = UnitType.running
 
     @override
@@ -30,23 +31,23 @@ class RunningUnitRepo(BaseUnitRepo[RunningUnit]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: UnitTable) -> RunningUnit:
-        assert orm_unit.running is not None
+    def _from_orm(self, orm_unit: RunningUnitTable) -> RunningUnit:
         return RunningUnit(
             name=orm_unit.name,
-            start_t=orm_unit.running.start_t,
-            seconds=orm_unit.running.seconds,
-            gym=orm_unit.running.gym,
-            distance=orm_unit.running.distance,
-            avg_hr=orm_unit.running.avg_hr,
-            max_hr=orm_unit.running.max_hr,
-            calories=orm_unit.running.calories,
+            start_t=orm_unit.start_t,
+            seconds=orm_unit.seconds,
+            gym=orm_unit.gym,
+            distance=orm_unit.distance,
+            avg_hr=orm_unit.avg_hr,
+            max_hr=orm_unit.max_hr,
+            calories=orm_unit.calories,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
 
 
-class SwimmingUnitRepo(BaseUnitRepo[SwimmingUnit]):
+class SwimmingUnitRepo(BaseUnitRepo[SwimmingUnit, SwimmingUnitTable]):
+    orm_cls = SwimmingUnitTable
     unit_type = UnitType.swimming
 
     @override
@@ -72,25 +73,25 @@ class SwimmingUnitRepo(BaseUnitRepo[SwimmingUnit]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: UnitTable) -> SwimmingUnit:
-        assert orm_unit.swimming is not None
+    def _from_orm(self, orm_unit: SwimmingUnitTable) -> SwimmingUnit:
         return SwimmingUnit(
             name=orm_unit.name,
-            start_t=orm_unit.swimming.start_t,
-            seconds=orm_unit.swimming.seconds,
-            gym=orm_unit.swimming.gym,
-            distance=orm_unit.swimming.distance,
-            pool_length=orm_unit.swimming.pool_length,
-            temperature=orm_unit.swimming.temperature,
-            avg_hr=orm_unit.swimming.avg_hr,
-            max_hr=orm_unit.swimming.max_hr,
-            calories=orm_unit.swimming.calories,
+            start_t=orm_unit.start_t,
+            seconds=orm_unit.seconds,
+            gym=orm_unit.gym,
+            distance=orm_unit.distance,
+            pool_length=orm_unit.pool_length,
+            temperature=orm_unit.temperature,
+            avg_hr=orm_unit.avg_hr,
+            max_hr=orm_unit.max_hr,
+            calories=orm_unit.calories,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
 
 
-class RopeSkipUnitRepo(BaseUnitRepo[RopeSkipUnit]):
+class SkippingUnitRepo(BaseUnitRepo[RopeSkipUnit, SkippingUnitTable]):
+    orm_cls = SkippingUnitTable
     unit_type = UnitType.skipping
 
     @override
@@ -113,16 +114,15 @@ class RopeSkipUnitRepo(BaseUnitRepo[RopeSkipUnit]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: UnitTable) -> RopeSkipUnit:
-        assert orm_unit.skipping is not None
+    def _from_orm(self, orm_unit: SkippingUnitTable) -> RopeSkipUnit:
         return RopeSkipUnit(
             name=orm_unit.name,
-            start_t=orm_unit.skipping.start_t,
-            seconds=orm_unit.skipping.seconds,
-            gym=orm_unit.skipping.gym,
-            avg_hr=orm_unit.skipping.avg_hr,
-            max_hr=orm_unit.skipping.max_hr,
-            calories=orm_unit.skipping.calories,
+            start_t=orm_unit.start_t,
+            seconds=orm_unit.seconds,
+            gym=orm_unit.gym,
+            avg_hr=orm_unit.avg_hr,
+            max_hr=orm_unit.max_hr,
+            calories=orm_unit.calories,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
