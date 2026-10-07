@@ -1,9 +1,8 @@
 import datetime
 
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from ._base import Base, BaseUnitTable, UnitTable
+from ._base import BaseUnitTable
 
 
 class MartialArtsUnitTable(BaseUnitTable):

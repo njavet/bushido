@@ -1,7 +1,6 @@
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from citadel.persistence.models import Base, BaseUnitTable
+from citadel.persistence.models import BaseUnitTable
 
 
 class ChronoUnitTable(BaseUnitTable):

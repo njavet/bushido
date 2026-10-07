@@ -19,7 +19,6 @@ from citadel.domain.unit import (
 )
 from citadel.persistence.repos import (
     BarbellUnitRepo,
-    UnitRepo,
     ChronoUnitRepo,
     LiftingUnitRepo,
     LogUnitRepo,
@@ -27,6 +26,7 @@ from citadel.persistence.repos import (
     RopeSkipUnitRepo,
     RunningUnitRepo,
     SwimmingUnitRepo,
+    UnitRepo,
     WimhofUnitRepo,
     WorkUnitRepo,
 )

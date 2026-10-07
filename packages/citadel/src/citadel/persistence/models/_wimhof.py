@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from ._base import Base, BaseUnitTable, UnitTable
+from ._base import Base, BaseUnitTable
 
 
 class WimhofUnitTable(BaseUnitTable):

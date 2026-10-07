@@ -8,7 +8,6 @@ from sqlalchemy.orm.interfaces import ORMOption
 
 from citadel.domain.unit import BaseUnit
 
-from ..models import UnitTable
 from ..models import BaseUnitTable
 
 
@@ -20,8 +19,7 @@ class BaseUnitRepo[UnitT: BaseUnit, OrmT: BaseUnitTable](ABC):
         self.session = session
 
     @abstractmethod
-    def add_unit(self, unit: UnitT, spartan_id: int) -> None:
-        ...
+    def add_unit(self, unit: UnitT, spartan_id: int) -> None: ...
 
     def fetch_units(
         self,
