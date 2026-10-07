@@ -20,7 +20,7 @@ class LogUnitRepo(BaseUnitRepo[LogUnit, LogUnitTable]):
             comment=unit.comment,
             log=LogUnitTable(
                 kind=unit.kind,
-            )
+            ),
         )
         self.session.add(orm_unit)
 
