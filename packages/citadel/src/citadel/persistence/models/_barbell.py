@@ -1,13 +1,12 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from ._base import Base, UnitTable
+from ._base import Base, BaseUnitTable
 
 
-class BarbellUnitTable(Base):
+class BarbellUnitTable(BaseUnitTable):
     __tablename__ = "barbell_unit"
 
-    id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
     variant: Mapped[str] = mapped_column(default="default")
     subunits: Mapped[list[BarbellSet]] = relationship(
         cascade="all, delete-orphan",

@@ -32,3 +32,9 @@ class UnitTable(Base):
     name: Mapped[str] = mapped_column()
     log_time: Mapped[datetime.datetime] = mapped_column()
     comment: Mapped[str | None] = mapped_column()
+
+
+class BaseUnitTable(Base):
+    __abstract__ = True
+
+    id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
