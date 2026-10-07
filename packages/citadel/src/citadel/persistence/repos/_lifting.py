@@ -6,7 +6,8 @@ from ..models import LiftingUnitTable, UnitTable
 from ._base import BaseUnitRepo
 
 
-class LiftingUnitRepo(BaseUnitRepo[LiftingUnit]):
+class LiftingUnitRepo(BaseUnitRepo[LiftingUnit, LiftingUnitTable]):
+    orm_cls = LiftingUnitTable
     unit_type = UnitType.lifting
 
     @override
@@ -26,13 +27,12 @@ class LiftingUnitRepo(BaseUnitRepo[LiftingUnit]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: UnitTable) -> LiftingUnit:
-        assert orm_unit.lifting is not None
+    def _from_orm(self, orm_unit: LiftingUnitTable) -> LiftingUnit:
         return LiftingUnit(
             name=orm_unit.name,
-            start_t=orm_unit.lifting.start_t,
-            end_t=orm_unit.lifting.end_t,
-            gym=orm_unit.lifting.gym,
+            start_t=orm_unit.start_t,
+            end_t=orm_unit.end_t,
+            gym=orm_unit.gym,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )

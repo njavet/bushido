@@ -6,7 +6,8 @@ from ..models import ChronoUnitTable, UnitTable
 from ._base import BaseUnitRepo
 
 
-class ChronoUnitRepo(BaseUnitRepo[ChronoUnit]):
+class ChronoUnitRepo(BaseUnitRepo[ChronoUnit, ChronoUnitTable]):
+    orm_cls = ChronoUnitTable
     unit_type = UnitType.chrono
 
     @override
@@ -24,11 +25,10 @@ class ChronoUnitRepo(BaseUnitRepo[ChronoUnit]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: UnitTable) -> ChronoUnit:
-        assert orm_unit.chrono is not None
+    def _from_orm(self, orm_unit: ChronoUnitTable) -> ChronoUnit:
         return ChronoUnit(
             name=orm_unit.name,
-            seconds=orm_unit.chrono.seconds,
+            seconds=orm_unit.seconds,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )

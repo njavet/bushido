@@ -6,7 +6,8 @@ from ..models import MartialArtsUnitTable, UnitTable
 from ._base import BaseUnitRepo
 
 
-class MartialArtsUnitRepo(BaseUnitRepo[MartialArtsUnit]):
+class MartialArtsUnitRepo(BaseUnitRepo[MartialArtsUnit, MartialArtsUnitTable]):
+    orm_cls = MartialArtsUnitTable
     unit_type = UnitType.martial_arts
 
     @override
@@ -26,13 +27,12 @@ class MartialArtsUnitRepo(BaseUnitRepo[MartialArtsUnit]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: UnitTable) -> MartialArtsUnit:
-        assert orm_unit.martial_arts is not None
+    def _from_orm(self, orm_unit: MartialArtsUnitTable) -> MartialArtsUnit:
         return MartialArtsUnit(
             name=orm_unit.name,
-            start_t=orm_unit.martial_arts.start_t,
-            end_t=orm_unit.martial_arts.end_t,
-            gym=orm_unit.martial_arts.gym,
+            start_t=orm_unit.start_t,
+            end_t=orm_unit.end_t,
+            gym=orm_unit.gym,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )

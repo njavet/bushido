@@ -1,13 +1,14 @@
 from typing import override
 
-from citadel.domain.unit import WorkUnit
+from citadel.domain.unit import UnitType, WorkUnit
 
 from ..models import UnitTable, WorkUnitTable
 from ._base import BaseUnitRepo
 
 
-class WorkUnitRepo(BaseUnitRepo[WorkUnit]):
+class WorkUnitRepo(BaseUnitRepo[WorkUnit, WorkUnitTable]):
     orm_cls = WorkUnitTable
+    unit_type = UnitType.work
 
     @override
     def add_unit(self, unit: WorkUnit, spartan_id: int) -> None:
@@ -29,16 +30,15 @@ class WorkUnitRepo(BaseUnitRepo[WorkUnit]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: UnitTable) -> WorkUnit:
-        assert orm_unit.work is not None
+    def _from_orm(self, orm_unit: WorkUnitTable) -> WorkUnit:
         return WorkUnit(
             name=orm_unit.name,
-            start_t=orm_unit.work.start_t,
-            end_t=orm_unit.work.end_t,
-            seconds=orm_unit.work.seconds,
-            gym=orm_unit.work.gym,
-            project=orm_unit.work.project,
-            topic=orm_unit.work.topic,
+            start_t=orm_unit.start_t,
+            end_t=orm_unit.end_t,
+            seconds=orm_unit.seconds,
+            gym=orm_unit.gym,
+            project=orm_unit.project,
+            topic=orm_unit.topic,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )
