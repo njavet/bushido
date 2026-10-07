@@ -1,27 +1,33 @@
 from typing import override
 
-from citadel.domain.unit import WorkUnit
+from citadel.domain.unit import UnitType, WorkUnit
 
-from ..models import WorkUnitTable
+from ..models import UnitTable, WorkUnitTable
 from ._base import BaseUnitRepo
 
 
 class WorkUnitRepo(BaseUnitRepo[WorkUnit, WorkUnitTable]):
     orm_cls = WorkUnitTable
+    unit_type = UnitType.work
 
     @override
-    def _to_orm(self, unit: WorkUnit) -> WorkUnitTable:
-        return WorkUnitTable(
+    def add_unit(self, unit: WorkUnit, spartan_id: int) -> None:
+        orm_unit = UnitTable(
+            spartan_id=spartan_id,
+            unit_type=self.unit_type,
             name=unit.name,
-            start_t=unit.start_t,
-            end_t=unit.end_t,
-            seconds=unit.seconds,
-            gym=unit.gym,
-            project=unit.project,
-            topic=unit.topic,
             log_time=unit.log_time,
             comment=unit.comment,
+            work=WorkUnitTable(
+                start_t=unit.start_t,
+                end_t=unit.end_t,
+                seconds=unit.seconds,
+                gym=unit.gym,
+                project=unit.project,
+                topic=unit.topic,
+            ),
         )
+        self.session.add(orm_unit)
 
     @override
     def _from_orm(self, orm_unit: WorkUnitTable) -> WorkUnit:
