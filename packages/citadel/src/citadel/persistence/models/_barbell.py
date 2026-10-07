@@ -4,9 +4,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ._base import Base, UnitTable
 
 
-class BarbellUnitTable(UnitTable):
+class BarbellUnitTable(Base):
     __tablename__ = "barbell_unit"
 
+    id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
     variant: Mapped[str] = mapped_column(default="default")
     subunits: Mapped[list[BarbellSet]] = relationship(
         cascade="all, delete-orphan",
@@ -17,6 +18,7 @@ class BarbellUnitTable(UnitTable):
 class BarbellSet(Base):
     __tablename__ = "barbell_set"
 
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     set_nr: Mapped[int] = mapped_column()
     rest: Mapped[float] = mapped_column()
     weight: Mapped[float] = mapped_column()

@@ -4,9 +4,10 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from ._base import Base, UnitTable
 
 
-class WimhofUnitTable(UnitTable):
+class WimhofUnitTable(Base):
     __tablename__ = "wimhof_unit"
 
+    id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
     zen_mode: Mapped[bool] = mapped_column()
     guide: Mapped[str | None] = mapped_column()
 
@@ -19,6 +20,7 @@ class WimhofUnitTable(UnitTable):
 class WimhofRound(Base):
     __tablename__ = "wimhof_round"
 
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     round_nr: Mapped[int] = mapped_column()
     breaths: Mapped[int] = mapped_column()
     retention: Mapped[int] = mapped_column()
