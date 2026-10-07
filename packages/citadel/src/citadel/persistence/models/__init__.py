@@ -1,6 +1,6 @@
 from ._barbell import BarbellSet, BarbellUnitTable
 from ._base import Base, Spartan, UnitTable
-from ._cardio import SkippingUnitTable, RunningUnitTable, SwimmingUnitTable
+from ._cardio import RunningUnitTable, SkippingUnitTable, SwimmingUnitTable
 from ._chrono import ChronoUnitTable
 from ._lifting import LiftingUnitTable
 from ._log import LogUnitTable
@@ -12,15 +12,15 @@ __all__ = [
     "BarbellSet",
     "BarbellUnitTable",
     "Base",
-    "Spartan",
-    "UnitTable",
-    "SkippingUnitTable",
-    "RunningUnitTable",
-    "SwimmingUnitTable",
     "ChronoUnitTable",
     "LiftingUnitTable",
     "LogUnitTable",
     "MartialArtsUnitTable",
+    "RunningUnitTable",
+    "SkippingUnitTable",
+    "Spartan",
+    "SwimmingUnitTable",
+    "UnitTable",
     "WimhofRound",
     "WimhofUnitTable",
     "WorkUnitTable",
