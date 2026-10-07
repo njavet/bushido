@@ -7,8 +7,7 @@ from ..models import UnitTable, WimhofRound, WimhofUnitTable
 from ._base import BaseUnitRepo
 
 
-class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
-    orm_cls = WimhofUnitTable
+class WimhofUnitRepo(BaseUnitRepo[WimhofUnit]):
     unit_type = UnitType.wimhof
 
     @override
@@ -33,17 +32,18 @@ class WimhofUnitRepo(BaseUnitRepo[WimhofUnit, WimhofUnitTable]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: WimhofUnitTable) -> WimhofUnit:
+    def _from_orm(self, orm_unit: UnitTable) -> WimhofUnit:
+        assert orm_unit.wimhof is not None
         rounds = [
             RoundData(round_nr=r.round_nr, breaths=r.breaths, retention=r.retention)
-            for r in orm_unit.subunits
+            for r in orm_unit.wimhof.subunits
         ]
 
         return WimhofUnit(
             name=orm_unit.name,
             rounds=rounds,
-            zen_mode=orm_unit.zen_mode,
-            guide=orm_unit.guide,
+            zen_mode=orm_unit.wimhof.zen_mode,
+            guide=orm_unit.wimhof.guide,
             log_time=orm_unit.log_time,
             comment=orm_unit.comment,
         )

@@ -11,8 +11,7 @@ from citadel.domain.unit import BaseUnit, UnitType
 from ..models import BaseUnitTable, UnitTable
 
 
-class BaseUnitRepo[UnitT: BaseUnit, OrmT: BaseUnitTable](ABC):
-    orm_cls: type[OrmT]
+class BaseUnitRepo[UnitT: BaseUnit](ABC):
     unit_type: UnitType
     load_options: Sequence[ORMOption] = ()
 
@@ -45,4 +44,4 @@ class BaseUnitRepo[UnitT: BaseUnit, OrmT: BaseUnitTable](ABC):
         return [self._from_orm(unit) for unit in self.session.scalars(stmt)]
 
     @abstractmethod
-    def _from_orm(self, orm_unit: OrmT) -> UnitT: ...
+    def _from_orm(self, orm_unit: UnitTable) -> UnitT: ...
