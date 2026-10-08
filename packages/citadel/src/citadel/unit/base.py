@@ -18,6 +18,7 @@ class UnitType(StrEnum):
     martial_arts = "martial_arts"
     lifting = "lifting"
     barbell = "barbell"
+    dumbbell = "dumbbell"
     wimhof = "wimhof"
     work = "work"
 
