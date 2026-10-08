@@ -58,3 +58,20 @@ UNIT_REGISTRY: dict[str, UnitSpec] = {
     "work": UnitSpec(repo=WorkUnitRepo, build_unit=build_work_unit),
     "wimhof": UnitSpec(repo=WimhofUnitRepo, build_unit=build_wimhof_unit),
 }
+
+
+"""
+one level higher grouping:
+* cardio screen
+    running, swimming, skipping
+* strength
+    lifting, squat, deadlift, benchpress, overheadpress, rows, curls, shoulder, neck
+* martial arts
+    karate, grappling, chrono parts
+* breathing
+    wimhof, chrono parts
+* work
+    work
+* log
+    log
+"""

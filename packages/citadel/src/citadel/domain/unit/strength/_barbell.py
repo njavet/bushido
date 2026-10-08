@@ -3,9 +3,8 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from citadel.domain.unit._base import BaseUnit, RawUnit, UnitType
 from citadel.exceptions import UnitParsingError
-
-from ._base import BaseUnit, RawUnit, UnitType
 
 # TODO barbell, dumbbell
 

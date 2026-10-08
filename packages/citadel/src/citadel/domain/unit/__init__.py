@@ -1,4 +1,9 @@
-from ._barbell import BarbellUnit, SetData, build_barbell_unit
+from citadel.domain.unit.strength._barbell import (
+    BarbellUnit,
+    SetData,
+    build_barbell_unit,
+)
+
 from ._base import BaseUnit, RawUnit, UnitType
 from ._cardio import (
     RopeSkipUnit,
