@@ -16,20 +16,13 @@ from citadel.persistence.repos import (
     WimhofUnitRepo,
     WorkUnitRepo,
 )
-from citadel.unit import (
-    LoggedUnit,
-    RawUnit,
-    build_barbell_unit,
-    build_chrono_unit,
-    build_lifting_unit,
-    build_log_unit,
-    build_martial_arts_unit,
-    build_running_unit,
-    build_skipping_unit,
-    build_swimming_unit,
-    build_wimhof_unit,
-    build_work_unit,
-)
+from citadel.unit.dtypes import LoggedUnit
+from citadel.unit.base import RawUnit
+from citadel.unit.cardio import build_running_unit, build_skipping_unit, build_swimming_unit
+from citadel.unit.martial_arts import build_martial_arts_unit, build_wimhof_unit, build_chrono_unit
+from citadel.unit.strength import build_lifting_unit, build_barbell_unit
+from citadel.unit.log import build_log_unit
+from citadel.unit.work import build_work_unit
 
 
 @dataclass(frozen=True)
