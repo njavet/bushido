@@ -267,4 +267,118 @@ az storage queue create \
   --account-name $STORAGE \
   --name ai-jobs \
   --auth-mode login
+  
+export SNET_PE=snet-private-endpoints-prod
+
+az network vnet subnet create \
+  -g $RG \
+  --vnet-name $VNET \
+  -n $SNET_PE \
+  --address-prefixes 10.0.3.0/24
+  
+export PE_SUBNET_ID=$(az network vnet subnet show \
+  -g $RG \
+  --vnet-name $VNET \
+  -n $SNET_PE \
+  --query id -o tsv)
+
+export STORAGE_ID=$(az storage account show \
+  -g $RG \
+  -n $STORAGE \
+  --query id -o tsv)
+  
+az network private-endpoint create \
+  -g $RG \
+  -n pe-bushido-blob-prod \
+  --subnet $PE_SUBNET_ID \
+  --private-connection-resource-id $STORAGE_ID \
+  --group-id blob \
+  --connection-name pec-bushido-blob-prod
+  
+export BLOB_PDNS=privatelink.blob.core.windows.net
+
+az network private-dns zone create \
+  -g $RG \
+  -n $BLOB_PDNS
+  
+az network private-dns link vnet create \
+  -g $RG \
+  -n pdnslink-blob-prod \
+  -z $BLOB_PDNS \
+  -v $VNET \
+  -e false
+  
+az network private-endpoint dns-zone-group create \
+  -g $RG \
+  --endpoint-name pe-bushido-blob-prod \
+  -n dzg-blob-prod \
+  --private-dns-zone $BLOB_PDNS \
+  --zone-name blob
+```
+
+### 17. disable public access
+```aiignore
+az storage account update \
+  -g $RG \
+  -n $STORAGE \
+  --public-network-access Disabled
+```
+
+### 18. frontend
+```aiignore
+export WEB=stbushidowebprodnjg
+
+az storage account create \
+  -g $RG \
+  -n $WEB \
+  -l $LOC \
+  --sku Standard_LRS \
+  --kind StorageV2 \
+  --https-only true
+  
+export WEB_ID=$(az storage account show \
+  -g $RG \
+  -n $WEB \
+  --query id -o tsv)
+  
+ az role assignment create \
+  --assignee-object-id $MY_ID \
+  --assignee-principal-type User \
+  --role "Storage Blob Data Contributor" \
+  --scope $WEB_ID 
+  
+ az storage blob service-properties update \
+  --account-name $WEB \
+  --static-website \
+  --index-document index.html \
+  --404-document index.html 
+  
+az storage blob upload \
+  --account-name $WEB \
+  --container-name '$web' \
+  --name index.html \
+  --file index.html \
+  --auth-mode login \
+  --overwrite
+
+az storage blob upload \
+  --account-name $WEB \
+  --container-name '$web' \
+  --name elm.js \
+  --file elm.js \
+  --auth-mode login \
+  --overwrite
+  
+export WEB_URL=$(az storage account show \
+  -g $RG \
+  -n $WEB \
+  --query primaryEndpoints.web \
+  -o tsv)
+
+export API_FQDN=$(az containerapp show \
+  -g $RG \
+  -n $CA \
+  --query properties.configuration.ingress.fqdn \
+  -o tsv)
+
 ```
