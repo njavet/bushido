@@ -38,19 +38,17 @@ def remove_options(line: str, dt: str) -> str:
 
 
 def replace_emoji(line: str) -> str:
-    body, sep, comment = line.partition("#")
-    tokens = tuple(body.split())
-    eb = tokens[0].encode()
+    words = line.split()
+    eb = words[0].encode()
+    try:
+        eb = single_char2complete[eb]
+    except KeyError:
+        pass
     try:
         name = EMOJIS[eb]
     except KeyError:
         print("NO EMOJIS FOUND", eb.decode())
         return line
-    try:
-        eb = single_char2complete[eb]
-    except KeyError:
-        pass
-    e = eb.decode()
     if name.lower() == "bjj" or name == "grappling":
         unit_name = "grappling"
     elif name == "boxing":
@@ -100,10 +98,9 @@ def replace_emoji(line: str) -> str:
     elif name == "1_orbital" or name == "orbital":
         unit_name = "work"
     else:
-        unit_name = e
-        print("domain", unit_name, "emoji", e.encode())
-    new_line = line.replace(e, unit_name, count=1)
-    return new_line
+        unit_name = name
+        print("domain", unit_name, "emoji", eb)
+    return ' '.join([unit_name] + words[1:])
 
 
 def main() -> None:
@@ -116,6 +113,7 @@ def main() -> None:
     lst = []
     for item in data:
         line = item["line"]
+        line = replace_emoji(line)
         line = remove_options(line, item["local_datetime"])
         body, sep, comment = line.partition("#")
         line = add_logtime(body, sep, comment, item["local_datetime"])
