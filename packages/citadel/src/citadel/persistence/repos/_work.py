@@ -1,6 +1,7 @@
 from typing import override
 
-from citadel.unit import UnitType, WorkUnit
+from citadel.unit.work import WorkUnit
+from citadel.unit.base import UnitType
 
 from ..models import WorkUnitTable
 from ._base import BaseUnitRepo

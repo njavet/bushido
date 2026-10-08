@@ -2,7 +2,8 @@ from typing import override
 
 from sqlalchemy.orm import selectinload
 
-from citadel.unit import RoundData, UnitType, WimhofUnit
+from citadel.unit.martial_arts import RoundData, WimhofUnit
+from citadel.unit.base import UnitType
 
 from ..models import WimhofRound, WimhofUnitTable
 from ._base import BaseUnitRepo
