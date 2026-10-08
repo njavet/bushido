@@ -2,12 +2,11 @@ from typing import Annotated
 
 from pydantic import Field
 
-from .cardio import SwimmingUnit, RunningUnit, SkippingUnit
+from .cardio import RunningUnit, SkippingUnit, SwimmingUnit
 from .log import LogUnit
-from .martial_arts import WimhofUnit, MartialArtsUnit, ChronoUnit
-from .work import WorkUnit
+from .martial_arts import ChronoUnit, MartialArtsUnit, WimhofUnit
 from .strength import BarbellUnit, LiftingUnit
-
+from .work import WorkUnit
 
 type LoggedUnit = Annotated[
     WimhofUnit
