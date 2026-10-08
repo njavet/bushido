@@ -22,7 +22,9 @@ def register(body: RegisterRequest, session: SessionDep) -> Token:
     if existing is not None:
         raise HTTPException(status.HTTP_409_CONFLICT, "Email already registered")
     spartan = Spartan(
-        name=body.name, email=body.email, hashed_password=hash_password(body.password)
+        username=body.username,
+        email=body.email,
+        hashed_password=hash_password(body.password),
     )
     session.add(spartan)
     session.commit()
@@ -32,7 +34,7 @@ def register(body: RegisterRequest, session: SessionDep) -> Token:
 
 @router.post("/login", response_model=Token)
 def login(body: LoginRequest, session: SessionDep) -> Token:
-    spartan = session.scalar(select(Spartan).where(Spartan.email == body.email))
+    spartan = session.scalar(select(Spartan).where(Spartan.username == body.username))
     if spartan is None or not verify_password(body.password, spartan.hashed_password):
         # deliberately identical error for "no such user" and "wrong password" —
         # distinguishing them lets an attacker enumerate registered emails
