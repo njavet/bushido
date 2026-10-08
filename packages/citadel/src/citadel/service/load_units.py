@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from citadel.domain.dtypes import LoggedUnit
+from citadel.domain.unit.dtypes import LoggedUnit
 from citadel.exceptions import UnitParsingError
 from citadel.persistence.models import Spartan
 from citadel.registry import UNIT_REGISTRY

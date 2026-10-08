@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
 from citadel.api.deps import SessionDep, SpartanDep
-from citadel.domain.dtypes import LoggedUnit
+from citadel.domain.unit.dtypes import LoggedUnit
 from citadel.registry import UNIT_REGISTRY
 from citadel.schema.req import LoadUnitRequest, LogUnitRequest
 from citadel.service import load_units, log_unit
