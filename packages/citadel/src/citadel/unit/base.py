@@ -17,8 +17,8 @@ class UnitType(StrEnum):
     log = "log"
     martial_arts = "martial_arts"
     lifting = "lifting"
-    barbell = "barbell"
-    dumbbell = "dumbbell"
+    bilateral = "bilateral"
+    unilateral = "unilateral"
     wimhof = "wimhof"
     work = "work"
 

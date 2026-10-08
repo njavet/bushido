@@ -1,29 +1,12 @@
 import datetime
-from typing import Literal
-
-from pydantic import BaseModel, Field
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit.base import BaseUnit, RawUnit, UnitType
+from citadel.unit.base import RawUnit
 
-# TODO barbell, dumbbell
-
-
-class SetData(BaseModel):
-    set_nr: int = Field(ge=0, le=32)
-    rest: float = Field(ge=0, le=1024)
-    weight: float = Field(ge=0, le=512)
-    reps: float = Field(ge=0, le=128)
+from ._base import BilateralSet
 
 
-class BarbellUnit(BaseUnit):
-    unit_type: Literal[UnitType.barbell] = UnitType.barbell
-    name: str
-    variant: str = "default"
-    sets: list[SetData]
-
-
-def parse_set_data(tokens: tuple[str, ...]) -> list[SetData]:
+def parse_dumbbell_set_data(tokens: tuple[str, ...]) -> list[BilateralSet]:
     try:
         rests = [float(r) for r in tokens[::3]]
     except ValueError as e:
@@ -48,7 +31,7 @@ def parse_set_data(tokens: tuple[str, ...]) -> list[SetData]:
         raise UnitParsingError("rests must all be positive")
 
     return [
-        SetData(set_nr=i, weight=weight, reps=rep, rest=rest)
+        BilateralSet(set_nr=i, weight=weight, reps=rep, rest=rest)
         for i, (weight, rep, rest) in enumerate(zip(weights, reps, rests, strict=False))
     ]
 
