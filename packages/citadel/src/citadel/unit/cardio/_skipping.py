@@ -11,15 +11,6 @@ from citadel.unit.parsing import (
 )
 
 
-class CardioData(BaseModel):
-    start_t: datetime.time
-    seconds: float
-    gym: str
-    avg_hr: int | None = None
-    max_hr: int | None = None
-    calories: int | None = None
-
-
 class RunningUnit(BaseUnit, CardioData):
     unit_type: Literal[UnitType.running] = UnitType.running
     distance: float
