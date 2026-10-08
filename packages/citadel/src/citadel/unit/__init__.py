@@ -1,4 +1,3 @@
-from citadel.unit.log._log import LogUnit, build_log_unit
 from citadel.unit.martial_arts._chrono import ChronoUnit, build_chrono_unit
 from citadel.unit.martial_arts._martial_arts import (
     MartialArtsUnit,
@@ -24,7 +23,6 @@ __all__ = [
     "BaseUnit",
     "ChronoUnit",
     "LiftingUnit",
-    "LogUnit",
     "MartialArtsUnit",
     "RawUnit",
     "RoundData",
@@ -35,7 +33,6 @@ __all__ = [
     "build_barbell_unit",
     "build_chrono_unit",
     "build_lifting_unit",
-    "build_log_unit",
     "build_martial_arts_unit",
     "build_wimhof_unit",
     "build_work_unit",
