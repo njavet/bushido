@@ -59,13 +59,11 @@ az network private-dns link vnet create \
   -z $PDNS \
   -v $VNET \
   -e false
-  
 ```
 
 ### 6. postgres
 ```aiignore
 export PG_PASSWORD=$(openssl rand -base64 32)
-export PG=psql-bushido-prod-njg
 
 az postgres flexible-server create \
   -g $RG \
@@ -189,3 +187,84 @@ az containerapp env create \
   --infrastructure-subnet-resource-id "$APP_SUBNET_ID"
 ```
 
+### 13. image / acr
+```aiignore
+az acr login -n $ACR`
+
+docker build \
+  -f packages/citadel/Dockerfile \
+  -t $ACR.azurecr.io/citadel:latest .
+  
+docker push $ACR.azurecr.io/citadel:latest
+```
+
+### 14. container app
+```aiignore
+export ID_RESOURCE=$(az identity show \
+  -g $RG \
+  -n $ID \
+  --query id -o tsv)
+
+az containerapp create \
+  -g $RG \
+  -n $CA \
+  --environment $CAE \
+  --image $ACR.azurecr.io/citadel:latest \
+  --registry-server $ACR.azurecr.io \
+  --registry-identity "$ID_RESOURCE" \
+  --user-assigned "$ID_RESOURCE" \
+  --target-port 8000 \
+  --ingress external
+```
+
+### 15. kv and postgres conf
+```aiignore
+az containerapp secret set \
+  -g $RG \
+  -n $CA \
+  --secrets \
+  "postgres-password=keyvaultref:$SECRET_URI,identityref:$ID_RESOURCE"
+  
+ export PG_HOST=$(az postgres flexible-server show \
+  -g $RG \
+  -n $PG \
+  --query fullyQualifiedDomainName -o tsv) 
+  
+ az containerapp update \
+  -g $RG \
+  -n $CA \
+  --set-env-vars \
+  "POSTGRES_HOST=$PG_HOST" \
+  "POSTGRES_DATABASE=bushido-db" \
+  "POSTGRES_USER=bushido" \
+  "POSTGRES_PASSWORD=secretref:postgres-password" 
+```
+
+### 16. storage account
+```aiignore
+export STORAGE=stbushidoprodnjg
+
+az storage account create \
+  -g $RG \
+  -n $STORAGE \
+  -l $LOC \
+  --sku Standard_LRS \
+  --kind StorageV2 \
+  --https-only true \
+  --min-tls-version TLS1_2
+  
+az storage container create \
+  --account-name $STORAGE \
+  --name videos \
+  --auth-mode login
+
+az storage container create \
+  --account-name $STORAGE \
+  --name backups \
+  --auth-mode login
+  
+az storage queue create \
+  --account-name $STORAGE \
+  --name ai-jobs \
+  --auth-mode login
+```
