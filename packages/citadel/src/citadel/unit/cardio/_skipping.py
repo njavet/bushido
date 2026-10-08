@@ -13,13 +13,13 @@ from citadel.unit.parsing import (
 from ._base import CardioData, parse_cardio_data
 
 
-class RopeSkipUnit(BaseUnit, CardioData):
+class SkippingUnit(BaseUnit, CardioData):
     unit_type: Literal[UnitType.skipping] = UnitType.skipping
 
 
-def build_skipping_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> RopeSkipUnit:
+def build_skipping_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> SkippingUnit:
     data = parse_cardio_data(raw_unit.tokens, raw_unit.options)
-    return RopeSkipUnit(
+    return SkippingUnit(
         name=raw_unit.name,
         log_time=log_time,
         comment=raw_unit.comment,
