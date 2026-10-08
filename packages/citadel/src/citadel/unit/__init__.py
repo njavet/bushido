@@ -19,7 +19,7 @@ from citadel.unit.martial_arts._wimhof import (
 )
 from citadel.unit.work._work import WorkUnit, build_work_unit
 
-from ._base import BaseUnit, RawUnit, UnitType
+from .base import BaseUnit, RawUnit, UnitType
 from .strength._barbell import (
     BarbellUnit,
     SetData,

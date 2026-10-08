@@ -4,7 +4,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit._base import BaseUnit, RawUnit, UnitType
+from citadel.unit.base import BaseUnit, RawUnit, UnitType
 from citadel.unit.parsing import (
     parse_military_time_string,
     time_string_to_seconds,

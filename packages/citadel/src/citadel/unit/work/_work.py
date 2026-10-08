@@ -4,7 +4,7 @@ from typing import Literal, Self
 from pydantic import model_validator
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit._base import BaseUnit, RawUnit, UnitType
+from citadel.unit.base import BaseUnit, RawUnit, UnitType
 from citadel.unit.parsing import parse_start_end_time_string, time_string_to_seconds
 
 
