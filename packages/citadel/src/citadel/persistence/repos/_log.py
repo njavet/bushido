@@ -1,7 +1,7 @@
 from typing import override
 
-from citadel.unit.log import LogUnit
 from citadel.unit.base import UnitType
+from citadel.unit.log import LogUnit
 
 from ..models import LogUnitTable
 from ._base import BaseUnitRepo

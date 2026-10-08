@@ -1,7 +1,7 @@
 from typing import override
 
-from citadel.unit.cardio import SkippingUnit, RunningUnit, SwimmingUnit
 from citadel.unit.base import UnitType
+from citadel.unit.cardio import RunningUnit, SkippingUnit, SwimmingUnit
 
 from ..models import RunningUnitTable, SkippingUnitTable, SwimmingUnitTable
 from ._base import BaseUnitRepo

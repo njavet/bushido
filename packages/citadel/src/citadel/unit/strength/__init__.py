@@ -3,8 +3,8 @@ from ._lifting import LiftingUnit, build_lifting_unit
 
 __all__ = [
     "BarbellUnit",
-    "SetData",
     "LiftingUnit",
+    "SetData",
     "build_barbell_unit",
     "build_lifting_unit",
 ]

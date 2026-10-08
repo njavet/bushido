@@ -2,8 +2,8 @@ from typing import override
 
 from sqlalchemy.orm import selectinload
 
-from citadel.unit.strength import BarbellUnit, SetData
 from citadel.unit.base import UnitType
+from citadel.unit.strength import BarbellUnit, SetData
 
 from ..models import BarbellSet, BarbellUnitTable
 from ._base import BaseUnitRepo

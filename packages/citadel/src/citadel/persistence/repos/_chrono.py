@@ -1,7 +1,7 @@
 from typing import override
 
-from citadel.unit.martial_arts import ChronoUnit
 from citadel.unit.base import UnitType
+from citadel.unit.martial_arts import ChronoUnit
 
 from ..models import ChronoUnitTable
 from ._base import BaseUnitRepo
