@@ -1,11 +1,3 @@
-from citadel.unit.cardio._cardio import (
-    RopeSkipUnit,
-    RunningUnit,
-    SwimmingUnit,
-    build_running_unit,
-    build_skipping_unit,
-    build_swimming_unit,
-)
 from citadel.unit.log._log import LogUnit, build_log_unit
 from citadel.unit.martial_arts._chrono import ChronoUnit, build_chrono_unit
 from citadel.unit.martial_arts._martial_arts import (
