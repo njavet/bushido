@@ -1,11 +1,4 @@
-from citadel.domain.unit.strength._barbell import (
-    BarbellUnit,
-    SetData,
-    build_barbell_unit,
-)
-
-from ._base import BaseUnit, RawUnit, UnitType
-from ._cardio import (
+from citadel.domain.unit.cardio._cardio import (
     RopeSkipUnit,
     RunningUnit,
     SwimmingUnit,
@@ -13,12 +6,26 @@ from ._cardio import (
     build_skipping_unit,
     build_swimming_unit,
 )
-from ._chrono import ChronoUnit, build_chrono_unit
-from ._lifting import LiftingUnit, build_lifting_unit
-from ._log import LogUnit, build_log_unit
-from ._martial_arts import MartialArtsUnit, build_martial_arts_unit
-from ._wimhof import RoundData, WimhofUnit, build_wimhof_unit
-from ._work import WorkUnit, build_work_unit
+from citadel.domain.unit.log._log import LogUnit, build_log_unit
+from citadel.domain.unit.martial_arts._chrono import ChronoUnit, build_chrono_unit
+from citadel.domain.unit.martial_arts._martial_arts import (
+    MartialArtsUnit,
+    build_martial_arts_unit,
+)
+from citadel.domain.unit.martial_arts._wimhof import (
+    RoundData,
+    WimhofUnit,
+    build_wimhof_unit,
+)
+from citadel.domain.unit.work._work import WorkUnit, build_work_unit
+
+from ._base import BaseUnit, RawUnit, UnitType
+from .strength._barbell import (
+    BarbellUnit,
+    SetData,
+    build_barbell_unit,
+)
+from .strength._lifting import LiftingUnit, build_lifting_unit
 
 __all__ = [
     "BarbellUnit",
