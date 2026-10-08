@@ -382,3 +382,106 @@ export API_FQDN=$(az containerapp show \
   -o tsv)
 
 ```
+
+### 19. dns
+```aiignore
+az containerapp hostname add \
+  -g $RG \
+  -n $CA \
+  --hostname api.bushido.nj-cyb.org
+  
+az containerapp hostname bind \
+  -g $RG \
+  -n $CA \
+  --hostname api.bushido.nj-cyb.org \
+  --environment $CAE \
+  --validation-method CNAME
+```
+
+### 20. frontdoor
+```aiignore
+export AFD_PROFILE=afd-bushido-prod
+export AFD_ENDPOINT=bushido-prod-njg
+export AFD_ORIGIN_GROUP=og-bushido-web-prod
+export AFD_ORIGIN=origin-bushido-web-prod
+export AFD_ROUTE=route-bushido-web-prod
+
+az afd profile create \
+  -g $RG \
+  -n $AFD_PROFILE \
+  --sku Standard_AzureFrontDoor
+  
+ az afd endpoint create \
+  -g $RG \
+  --profile-name $AFD_PROFILE \
+  -n $AFD_ENDPOINT \
+  --enabled-state Enabled 
+  
+  export WEB_HOST=$(az storage account show \
+  -g $RG \
+  -n $WEB \
+  --query 'primaryEndpoints.web' \
+  -o tsv | sed -E 's#^https?://##; s#/$##')
+
+echo $WEB_HOST
+az afd origin-group create \
+  -g $RG \
+  --profile-name $AFD_PROFILE \
+  -n $AFD_ORIGIN_GROUP \
+  --probe-request-type GET \
+  --probe-protocol Https \
+  --probe-interval-in-seconds 120 \
+  --probe-path / \
+  --sample-size 4 \
+  --successful-samples-required 3 \
+  --additional-latency-in-milliseconds 50
+
+az afd origin create \
+  -g $RG \
+  --profile-name $AFD_PROFILE \
+  --origin-group-name $AFD_ORIGIN_GROUP \
+  -n $AFD_ORIGIN \
+  --host-name $WEB_HOST \
+  --origin-host-header $WEB_HOST \
+  --http-port 80 \
+  --https-port 443 \
+  --priority 1 \
+  --weight 1000 \
+  --enabled-state Enabled
+  
+ az afd route create \
+  -g $RG \
+  --profile-name $AFD_PROFILE \
+  --endpoint-name $AFD_ENDPOINT \
+  -n $AFD_ROUTE \
+  --origin-group $AFD_ORIGIN_GROUP \
+  --supported-protocols Http Https \
+  --patterns-to-match '/*' \
+  --forwarding-protocol HttpsOnly \
+  --https-redirect Enabled \
+  --link-to-default-domain Enabled 
+  
+ az afd endpoint show \
+  -g $RG \
+  --profile-name $AFD_PROFILE \
+  -n $AFD_ENDPOINT \
+  --query hostName \
+  -o tsv 
+  
+  
+ export AFD_HOST=$(az afd endpoint show \
+  -g $RG \
+  --profile-name $AFD_PROFILE \
+  -n $AFD_ENDPOINT \
+  --query hostName -o tsv)
+
+echo $AFD_HOST 
+
+az afd custom-domain create \
+  -g $RG \
+  --profile-name $AFD_PROFILE \
+  -n bushido-prod \
+  --host-name bushido.nj-cyb.org \
+  --certificate-type ManagedCertificate \
+  --minimum-tls-version TLS12
+```
