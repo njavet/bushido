@@ -1,6 +1,7 @@
 from typing import override
 
-from citadel.unit import RopeSkipUnit, RunningUnit, SwimmingUnit, UnitType
+from citadel.unit.cardio import SkippingUnit, RunningUnit, SwimmingUnit
+from citadel.unit.base import UnitType
 
 from ..models import RunningUnitTable, SkippingUnitTable, SwimmingUnitTable
 from ._base import BaseUnitRepo
@@ -86,12 +87,12 @@ class SwimmingUnitRepo(BaseUnitRepo[SwimmingUnit, SwimmingUnitTable]):
         )
 
 
-class SkippingUnitRepo(BaseUnitRepo[RopeSkipUnit, SkippingUnitTable]):
+class SkippingUnitRepo(BaseUnitRepo[SkippingUnit, SkippingUnitTable]):
     orm_cls = SkippingUnitTable
     unit_type = UnitType.skipping
 
     @override
-    def add_unit(self, unit: RopeSkipUnit, spartan_id: int) -> None:
+    def add_unit(self, unit: SkippingUnit, spartan_id: int) -> None:
         orm_unit = SkippingUnitTable(
             spartan_id=spartan_id,
             unit_type=self.unit_type,
@@ -108,8 +109,8 @@ class SkippingUnitRepo(BaseUnitRepo[RopeSkipUnit, SkippingUnitTable]):
         self.session.add(orm_unit)
 
     @override
-    def _from_orm(self, orm_unit: SkippingUnitTable) -> RopeSkipUnit:
-        return RopeSkipUnit(
+    def _from_orm(self, orm_unit: SkippingUnitTable) -> SkippingUnit:
+        return SkippingUnit(
             name=orm_unit.name,
             start_t=orm_unit.start_t,
             seconds=orm_unit.seconds,
