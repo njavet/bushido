@@ -5,8 +5,8 @@ from typing import Self
 from pydantic import BaseModel
 
 from citadel.constants import COMMENT_SEP, MAX_COMMENT_LENGTH, MAX_FLAGS, MAX_OPTIONS
-from citadel.domain.parsing import split_words
 from citadel.exceptions import UnitParsingError
+from citadel.unit.parsing import split_words
 
 
 class UnitType(StrEnum):

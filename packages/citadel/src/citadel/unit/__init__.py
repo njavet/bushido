@@ -1,4 +1,4 @@
-from citadel.domain.unit.cardio._cardio import (
+from citadel.unit.cardio._cardio import (
     RopeSkipUnit,
     RunningUnit,
     SwimmingUnit,
@@ -6,18 +6,18 @@ from citadel.domain.unit.cardio._cardio import (
     build_skipping_unit,
     build_swimming_unit,
 )
-from citadel.domain.unit.log._log import LogUnit, build_log_unit
-from citadel.domain.unit.martial_arts._chrono import ChronoUnit, build_chrono_unit
-from citadel.domain.unit.martial_arts._martial_arts import (
+from citadel.unit.log._log import LogUnit, build_log_unit
+from citadel.unit.martial_arts._chrono import ChronoUnit, build_chrono_unit
+from citadel.unit.martial_arts._martial_arts import (
     MartialArtsUnit,
     build_martial_arts_unit,
 )
-from citadel.domain.unit.martial_arts._wimhof import (
+from citadel.unit.martial_arts._wimhof import (
     RoundData,
     WimhofUnit,
     build_wimhof_unit,
 )
-from citadel.domain.unit.work._work import WorkUnit, build_work_unit
+from citadel.unit.work._work import WorkUnit, build_work_unit
 
 from ._base import BaseUnit, RawUnit, UnitType
 from .strength._barbell import (

@@ -2,7 +2,7 @@ from typing import Annotated
 
 from pydantic import Field
 
-from citadel.domain.unit import (
+from citadel.unit import (
     BarbellUnit,
     ChronoUnit,
     LiftingUnit,

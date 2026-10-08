@@ -1,6 +1,6 @@
 import datetime
 
-from citadel.domain.parsing import (
+from citadel.unit.parsing import (
     find_previous_sunday,
     parse_military_time_string,
     time_string_to_seconds,

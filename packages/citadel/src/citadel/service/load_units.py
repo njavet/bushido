@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
 
-from citadel.domain.unit.dtypes import LoggedUnit
 from citadel.exceptions import UnitParsingError
 from citadel.persistence.models import Spartan
 from citadel.registry import UNIT_REGISTRY
 from citadel.schema.req import LoadUnitRequest
+from citadel.unit import LoggedUnit
 
 
 def load_units(

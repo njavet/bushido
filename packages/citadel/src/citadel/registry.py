@@ -3,20 +3,6 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
-from citadel.domain.unit import (
-    RawUnit,
-    build_barbell_unit,
-    build_chrono_unit,
-    build_lifting_unit,
-    build_log_unit,
-    build_martial_arts_unit,
-    build_running_unit,
-    build_skipping_unit,
-    build_swimming_unit,
-    build_wimhof_unit,
-    build_work_unit,
-)
-from citadel.domain.unit.dtypes import LoggedUnit
 from citadel.persistence.repos import (
     BarbellUnitRepo,
     BaseUnitRepo,
@@ -29,6 +15,20 @@ from citadel.persistence.repos import (
     SwimmingUnitRepo,
     WimhofUnitRepo,
     WorkUnitRepo,
+)
+from citadel.unit import (
+    LoggedUnit,
+    RawUnit,
+    build_barbell_unit,
+    build_chrono_unit,
+    build_lifting_unit,
+    build_log_unit,
+    build_martial_arts_unit,
+    build_running_unit,
+    build_skipping_unit,
+    build_swimming_unit,
+    build_wimhof_unit,
+    build_work_unit,
 )
 
 

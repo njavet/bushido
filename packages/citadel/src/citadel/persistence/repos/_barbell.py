@@ -2,7 +2,7 @@ from typing import override
 
 from sqlalchemy.orm import selectinload
 
-from citadel.domain.unit import BarbellUnit, SetData, UnitType
+from citadel.unit import BarbellUnit, SetData, UnitType
 
 from ..models import BarbellSet, BarbellUnitTable
 from ._base import BaseUnitRepo
