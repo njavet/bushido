@@ -1,12 +1,10 @@
 import datetime
-from citadel.unit.base import RawUnit
-
 from typing import Literal
 
 from pydantic import BaseModel, Field
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit.base import BaseUnit, UnitType
+from citadel.unit.base import BaseUnit, RawUnit, UnitType
 
 
 class UnilateralSet(BaseModel):
@@ -31,16 +29,18 @@ def parse_unilateral_set_data(tokens: tuple[str, ...]) -> list[UnilateralSet]:
     sets = []
     while i + 2 < len(tokens):
         try:
-            weight_left, weight_right = tokens[i+1].split(',')
-            reps_left, reps_right = tokens[i+2].split(',')
-            s = UnilateralSet(set_nr=set_nr,
-                         rest=int(tokens[i]),
-                             weight_left=float(weight_left),
-                             weight_right=float(weight_right),
-                             reps_left=float(reps_left),
-                             reps_right=float(reps_right))
+            weight_left, weight_right = tokens[i + 1].split(",")
+            reps_left, reps_right = tokens[i + 2].split(",")
+            s = UnilateralSet(
+                set_nr=set_nr,
+                rest=int(tokens[i]),
+                weight_left=float(weight_left),
+                weight_right=float(weight_right),
+                reps_left=float(reps_left),
+                reps_right=float(reps_right),
+            )
         except Exception as e:
-            raise UnitParsingError(f"invalid set {tokens[i:i+3]}") from e
+            raise UnitParsingError(f"invalid set {tokens[i : i + 3]}") from e
         else:
             sets.append(s)
             i += 3
@@ -48,7 +48,9 @@ def parse_unilateral_set_data(tokens: tuple[str, ...]) -> list[UnilateralSet]:
     return sets
 
 
-def build_unilateral_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> UnilateralUnit:
+def build_unilateral_unit(
+    raw_unit: RawUnit, log_time: datetime.datetime
+) -> UnilateralUnit:
     sets = parse_unilateral_set_data(raw_unit.tokens)
     return UnilateralUnit(
         name=raw_unit.name,

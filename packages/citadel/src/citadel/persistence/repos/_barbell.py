@@ -5,7 +5,7 @@ from sqlalchemy.orm import selectinload
 from citadel.unit.base import UnitType
 from citadel.unit.strength import BilateralSet, BilateralUnit
 
-from ..models import BarbellSet, BarbellUnitTable
+from ..models import BarbellUnitTable
 from ._base import BaseUnitRepo
 
 

@@ -2,10 +2,9 @@ import datetime
 from typing import Literal
 
 from pydantic import BaseModel, Field
-from citadel.unit.base import RawUnit
-from citadel.exceptions import UnitParsingError
-from citadel.unit.base import BaseUnit, UnitType
 
+from citadel.exceptions import UnitParsingError
+from citadel.unit.base import BaseUnit, RawUnit, UnitType
 
 
 class BilateralSet(BaseModel):
@@ -28,12 +27,14 @@ def parse_bilateral_set_data(tokens: tuple[str, ...]) -> list[BilateralSet]:
     sets = []
     while i + 2 < len(tokens):
         try:
-            s = BilateralSet(set_nr=set_nr,
-                         rest=int(tokens[i]),
-                         weight=float(tokens[i + 1]),
-                         reps=float(tokens[i + 2]))
+            s = BilateralSet(
+                set_nr=set_nr,
+                rest=int(tokens[i]),
+                weight=float(tokens[i + 1]),
+                reps=float(tokens[i + 2]),
+            )
         except Exception as e:
-            raise UnitParsingError(f"invalid set {tokens[i:i+3]}") from e
+            raise UnitParsingError(f"invalid set {tokens[i : i + 3]}") from e
         else:
             sets.append(s)
             i += 3
@@ -41,7 +42,9 @@ def parse_bilateral_set_data(tokens: tuple[str, ...]) -> list[BilateralSet]:
     return sets
 
 
-def build_bilateral_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> BilateralUnit:
+def build_bilateral_unit(
+    raw_unit: RawUnit, log_time: datetime.datetime
+) -> BilateralUnit:
     sets = parse_bilateral_set_data(raw_unit.tokens)
     return BilateralUnit(
         name=raw_unit.name,
