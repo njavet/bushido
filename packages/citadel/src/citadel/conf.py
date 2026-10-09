@@ -13,6 +13,7 @@ class DbBackend(StrEnum):
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
+        env_file_encoding="utf-8",
         extra="ignore",
     )
 
@@ -58,13 +59,14 @@ def get_db_url() -> URL | str:
             return f"sqlite:///{settings.sqlite_path}"
 
         case DbBackend.POSTGRES:
-            if (
-                settings.postgres_host is None
-                or settings.postgres_database is None
-                or settings.postgres_user is None
-                or settings.postgres_password is None
-            ):
-                raise ValueError("POSTGRES config is required")
+            if settings.postgres_host is None:
+                raise ValueError("no postgres_host")
+            if settings.postgres_database is None:
+                raise ValueError("no postgres_database")
+            if settings.postgres_user is None:
+                raise ValueError("no postgres_user")
+            if settings.postgres_password is None:
+                raise ValueError("no postgres_password")
             return URL.create(
                 "postgresql+psycopg",
                 username=settings.postgres_user,

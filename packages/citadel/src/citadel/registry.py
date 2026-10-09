@@ -55,7 +55,7 @@ UNIT_REGISTRY: dict[str, UnitSpec] = {
     "swimming": UnitSpec(repo=SwimmingUnitRepo, build_unit=build_swimming_unit),
     "skipping": UnitSpec(repo=SkippingUnitRepo, build_unit=build_skipping_unit),
     "log": UnitSpec(repo=LogUnitRepo, build_unit=build_log_unit),
-    "chrono": UnitSpec(repo=ChronoUnitRepo, build_unit=build_chrono_unit),
+    "split_machine": UnitSpec(repo=ChronoUnitRepo, build_unit=build_chrono_unit),
     "karate": UnitSpec(repo=MartialArtsUnitRepo, build_unit=build_karate_unit),
     "grappling": UnitSpec(repo=MartialArtsUnitRepo, build_unit=build_grappling_unit),
     "lifting": UnitSpec(repo=LiftingUnitRepo, build_unit=build_lifting_unit),

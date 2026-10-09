@@ -4,6 +4,8 @@ from typing import Any
 
 from citadel.conf import get_db_url
 from citadel.persistence import SessionFactory
+from citadel.persistence.repos import AdminRepo
+from citadel.schema.auth import RegisterRequest
 from citadel.service import log_unit
 
 UNIT_NAMES = [
@@ -24,14 +26,16 @@ UNIT_NAMES = [
 def load_db(data: list[Any]) -> None:
     db_url = get_db_url()
     sf = SessionFactory(db_url=db_url)
+    request = RegisterRequest(username='', email="np.javet@gmail.com", password="yo")
+
     with sf.session() as session:
+        repo = AdminRepo(session)
+        spartan = repo.create_spartan(request)
+        session.commit()
         for unit in data:
             line = unit["line"]
-            unit_name = line.split()[0]
-            if unit_name not in UNIT_NAMES:
-                continue
             try:
-                log_unit(line, session)
+                log_unit(line, session, spartan)
             except Exception as e:
                 print(str(e))
 
