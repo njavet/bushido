@@ -5,12 +5,10 @@ from citadel.exceptions import UnitParsingError
 from citadel.unit.base import BaseUnit, RawUnit, SpaceTimeData, UnitType
 from citadel.unit.parsing import parse_start_end_time_string
 
-
-class MartialArtsUnit(BaseUnit, SpaceTimeData):
-    unit_type: Literal[UnitType.martial_arts] = UnitType.martial_arts
+from ._base import MartialArtsUnit
 
 
-def build_martial_arts_unit(
+def build_grappling_unit(
     raw_unit: RawUnit, log_time: datetime.datetime
 ) -> MartialArtsUnit:
     start_t, end_t = parse_start_end_time_string(raw_unit.tokens[0])

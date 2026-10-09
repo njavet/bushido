@@ -46,16 +46,3 @@ def parse_unilateral_set_data(tokens: tuple[str, ...]) -> list[UnilateralSet]:
             i += 3
             set_nr += 1
     return sets
-
-
-def build_unilateral_unit(
-    raw_unit: RawUnit, log_time: datetime.datetime
-) -> UnilateralUnit:
-    sets = parse_unilateral_set_data(raw_unit.tokens)
-    return UnilateralUnit(
-        name=raw_unit.name,
-        log_time=log_time,
-        comment=raw_unit.comment,
-        sets=sets,
-        variant=raw_unit.options.get("variant", "default"),
-    )
