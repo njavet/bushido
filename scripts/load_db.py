@@ -1,10 +1,8 @@
 import json
-import os
 import sys
 from typing import Any
 
-from dotenv import load_dotenv
-
+from citadel.conf import get_db_url
 from citadel.persistence import SessionFactory
 from citadel.service import log_unit
 
@@ -22,12 +20,10 @@ UNIT_NAMES = [
     "overheadpress",
 ]
 
-load_dotenv()
-BUSHIDO_DB_URL = os.environ.get("BUSHIDO_DB_URL", "sqlite:///bushido.db")
-
 
 def load_db(data: list[Any]) -> None:
-    sf = SessionFactory(db_url=BUSHIDO_DB_URL)
+    db_url = get_db_url()
+    sf = SessionFactory(db_url=db_url)
     with sf.session() as session:
         for unit in data:
             line = unit["line"]
