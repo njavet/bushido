@@ -6,7 +6,8 @@ from citadel.dtypes import Clock, SystemClock
 from citadel.exceptions import UnitParsingError
 from citadel.persistence.models import Spartan
 from citadel.registry import UNIT_REGISTRY
-from citadel.unit import LoggedUnit, RawUnit
+from citadel.schema.res import LoggedUnit
+from citadel.unit import RawUnit
 
 
 def log_unit(line: str, session: Session, spartan: Spartan) -> LoggedUnit:

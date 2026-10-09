@@ -24,7 +24,7 @@ class BarbellSet(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     set_nr: Mapped[int] = mapped_column()
-    rest: Mapped[float] = mapped_column()
+    rest: Mapped[int] = mapped_column()
     weight: Mapped[float] = mapped_column()
     reps: Mapped[float] = mapped_column()
     fk_unit: Mapped[int] = mapped_column(ForeignKey(BarbellUnitTable.id))

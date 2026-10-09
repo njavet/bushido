@@ -4,7 +4,7 @@ from citadel.exceptions import UnitParsingError
 from citadel.persistence.models import Spartan
 from citadel.registry import UNIT_REGISTRY
 from citadel.schema.req import LoadUnitRequest
-from citadel.unit import LoggedUnit
+from citadel.schema.res import LoggedUnit
 
 
 def load_units(

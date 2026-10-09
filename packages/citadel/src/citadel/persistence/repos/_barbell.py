@@ -11,7 +11,7 @@ from ._base import BaseUnitRepo
 
 class BarbellUnitRepo(BaseUnitRepo[BilateralUnit, BarbellUnitTable]):
     orm_cls = BarbellUnitTable
-    unit_type = UnitType.barbell
+    unit_type = UnitType.bilateral
     load_options = (selectinload(BarbellUnitTable.subunits),)
 
     @override

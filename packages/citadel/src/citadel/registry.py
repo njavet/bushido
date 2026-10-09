@@ -16,7 +16,8 @@ from citadel.persistence.repos import (
     WimhofUnitRepo,
     WorkUnitRepo,
 )
-from citadel.unit import LoggedUnit, RawUnit
+from citadel.schema.res import LoggedUnit
+from citadel.unit import RawUnit
 from citadel.unit.cardio import (
     build_running_unit,
     build_skipping_unit,

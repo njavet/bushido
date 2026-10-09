@@ -1,8 +1,8 @@
 import datetime
 
 from citadel.unit.base import RawUnit
-from citadel.unit.strength import BilateralUnit
-from citadel.unit.strength._bilateral import parse_bilateral_set_data
+
+from ._bilateral import BilateralUnit, parse_bilateral_set_data
 
 
 def build_benchpress_unit(
