@@ -21,6 +21,8 @@ class UnitType(StrEnum):
     unilateral = "unilateral"
     wimhof = "wimhof"
     work = "work"
+    blood_pressure = "blood_pressure"
+    scale = "scale"
 
 
 class BaseUnit(BaseModel):

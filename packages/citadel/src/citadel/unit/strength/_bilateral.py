@@ -15,7 +15,6 @@ class BilateralSet(BaseModel):
 
 class BilateralUnit(BaseUnit):
     unit_type: Literal[UnitType.bilateral] = UnitType.bilateral
-    name: str
     variant: str = "barbell"
     sets: list[BilateralSet] = Field(min_length=1)
 
