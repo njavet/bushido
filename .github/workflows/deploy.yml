@@ -20,7 +20,7 @@ env:
   ACR_REPOSITORY: citadel
   RESOURCE_GROUP: rg-bushido-prod
   CONTAINER_APP: ca-bushido-api-prod
-  MIGRATION_JOB: job-bushido-migration-prod
+  MIGRATION_JOB: job-bushido-migrate-prod
 
 jobs:
   deploy:
