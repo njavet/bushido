@@ -1,10 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
-from sqlalchemy import select
 
 from citadel.api.v0.deps import SessionDep, SpartanDep
 from citadel.auth.passwords import hash_password, verify_password
-from citadel.auth.tokens import create_access_token
-from citadel.persistence.models import Spartan
+from citadel.exceptions import AdminError
 from citadel.schema.auth import (
     ChangePasswordRequest,
     LoginRequest,
@@ -12,37 +10,31 @@ from citadel.schema.auth import (
     Token,
 )
 from citadel.schema.res import SpartanResponse
+from citadel.service.admin import login_spartan, register_spartan
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.post("/signup", response_model=Token, status_code=status.HTTP_201_CREATED)
 def register(body: RegisterRequest, session: SessionDep) -> Token:
-    existing = session.scalar(select(Spartan).where(Spartan.email == body.email))
-    if existing is not None:
-        raise HTTPException(status.HTTP_409_CONFLICT, "Email already registered")
-    spartan = Spartan(
-        username=body.username,
-        email=body.email,
-        hashed_password=hash_password(body.password),
-    )
-    session.add(spartan)
-    session.commit()
-    session.refresh(spartan)
-    return Token(access_token=create_access_token(spartan.id))
+    try:
+        token = register_spartan(body, session)
+    except AdminError as e:
+        raise HTTPException(status.HTTP_409_CONFLICT, str(e)) from e
+    return token
 
 
 @router.post("/login", response_model=Token)
 def login(body: LoginRequest, session: SessionDep) -> Token:
-    spartan = session.scalar(select(Spartan).where(Spartan.username == body.username))
-    if spartan is None or not verify_password(body.password, spartan.hashed_password):
+    try:
+        token = login_spartan(body, session)
+    except Exception as e:
         # deliberately identical error for "no such user" and "wrong password" —
         # distinguishing them lets an attacker enumerate registered emails
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid email or password")
-    if not spartan.is_active:
-        raise HTTPException(status.HTTP_403_FORBIDDEN, "Account disabled")
-
-    return Token(access_token=create_access_token(spartan.id))
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "login error") from e
+    if token is None:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "login error")
+    return token
 
 
 @router.get("/me")
