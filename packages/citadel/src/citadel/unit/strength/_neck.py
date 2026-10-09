@@ -1,15 +1,11 @@
 import datetime
-from typing import Literal
 
-from pydantic import BaseModel, Field
-
-from citadel.exceptions import UnitParsingError
-from citadel.unit.base import BaseUnit, RawUnit, UnitType
+from citadel.unit.base import RawUnit
 from citadel.unit.strength import BilateralUnit
 from citadel.unit.strength._bilateral import parse_bilateral_set_data
 
 
-def build_squat_unit(
+def build_neck_unit(
     raw_unit: RawUnit, log_time: datetime.datetime
 ) -> BilateralUnit:
     sets = parse_bilateral_set_data(raw_unit.tokens)

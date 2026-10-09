@@ -1,10 +1,9 @@
-import datetime
 from typing import Literal
 
 from pydantic import BaseModel, Field
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit.base import BaseUnit, RawUnit, UnitType
+from citadel.unit.base import BaseUnit, UnitType
 
 
 class BilateralSet(BaseModel):
