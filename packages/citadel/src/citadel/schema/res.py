@@ -35,3 +35,8 @@ type LoggedUnit = Annotated[
     | MartialArtsUnit,
     Field(discriminator="unit_type"),
 ]
+
+
+class UnitsPerDay(BaseModel):
+    day: datetime.date
+    units: list[LoggedUnit]
