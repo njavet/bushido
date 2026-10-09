@@ -20,6 +20,7 @@ env:
   ACR_REPOSITORY: citadel
   RESOURCE_GROUP: rg-bushido-dev
   CONTAINER_APP: ca-bushido-dev
+  MIGRATION_JOB: job-bushido-dev-migration
 
 jobs:
   deploy:
@@ -62,6 +63,48 @@ jobs:
           docker push \
             "${{ steps.acr.outputs.server }}/${ACR_REPOSITORY}:${{ github.sha }}"
 
+      - name: Update migration image
+        run: |
+          az containerapp job update \
+            --name "$MIGRATION_JOB" \
+            --resource-group "$RESOURCE_GROUP" \
+            --image "${{ steps.acr.outputs.server }}/${ACR_REPOSITORY}:${{ github.sha }}"
+
+      - name: Run database migrations
+        run: |
+          EXECUTION=$(az containerapp job start \
+            --name "$MIGRATION_JOB" \
+            --resource-group "$RESOURCE_GROUP" \
+            --query name \
+            -o tsv)
+
+          echo "Migration execution: $EXECUTION"
+
+          for i in {1..60}; do
+            STATUS=$(az containerapp job execution show \
+              --name "$MIGRATION_JOB" \
+              --resource-group "$RESOURCE_GROUP" \
+              --job-execution-name "$EXECUTION" \
+              --query properties.status \
+              -o tsv)
+
+            echo "Migration status: $STATUS"
+
+            if [ "$STATUS" = "Succeeded" ]; then
+              exit 0
+            fi
+
+            if [ "$STATUS" = "Failed" ]; then
+              echo "Database migration failed"
+              exit 1
+            fi
+
+            sleep 5
+          done
+
+          echo "Timed out waiting for database migration"
+          exit 1
+          
       - name: Deploy image
         run: |
           az containerapp update \
