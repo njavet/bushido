@@ -23,6 +23,7 @@ class UnitType(StrEnum):
     work = "work"
     blood_pressure = "blood_pressure"
     scale = "scale"
+    tape = "tape"
 
 
 class BaseUnit(BaseModel):

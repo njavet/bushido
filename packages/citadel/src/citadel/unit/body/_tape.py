@@ -1,7 +1,13 @@
+from typing import Literal
+
 from pydantic import BaseModel
+
+from citadel.unit import UnitType
 
 
 class TapeUnit(BaseModel):
+    unit_type: Literal[UnitType.tape] = UnitType.tape
+
     waist: float
     right_arm: float | None = None
     left_arm: float | None = None
