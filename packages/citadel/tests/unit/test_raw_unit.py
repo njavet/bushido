@@ -1,7 +1,7 @@
 import pytest
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit.base import RawUnit
+from citadel.unit import RawUnit
 
 
 @pytest.mark.parametrize(

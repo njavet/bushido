@@ -1,6 +1,6 @@
 from typing import override
 
-from citadel.unit.base import UnitType
+from citadel.unit import UnitType
 from citadel.unit.strength import LiftingUnit
 
 from ..models import LiftingUnitTable
