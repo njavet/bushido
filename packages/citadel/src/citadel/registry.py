@@ -29,7 +29,7 @@ from citadel.unit.martial_arts import (
     build_martial_arts_unit,
     build_wimhof_unit,
 )
-from citadel.unit.strength import build_barbell_unit, build_lifting_unit
+from citadel.unit.strength import build_lifting_unit, build_bilateral_unit, build_unilateral_unit
 from citadel.unit.work import build_work_unit
 
 
