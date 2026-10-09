@@ -4,8 +4,8 @@ locals {
   container_app_name             = "ca-${var.project_name}-${var.environment}"
   identity_name                  = "id-${var.project_name}-${var.environment}"
 
-  acr_name             = "acr${var.project_name}${random_string.suffix.result}"
-  postgres_server_name = "psql-${var.project_name}-${var.environment}-${random_string.suffix.result}"
+  acr_name             = "acr${var.project_name}njg"
+  postgres_server_name = "psql-${var.project_name}-${var.environment}-njg"
   postgres_db_name     = "bushido-db"
 
   db_host                = azurerm_postgresql_flexible_server.bushido.fqdn

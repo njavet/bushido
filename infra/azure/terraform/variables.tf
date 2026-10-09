@@ -19,7 +19,7 @@ variable "location" {
   })
   default = {
     token     = "swn"
-    full_name = "Switzerland North"
+    full_name = "switzerlandnorth"
   }
 }
 
