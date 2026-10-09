@@ -16,11 +16,11 @@ permissions:
   id-token: write
 
 env:
-  ACR_NAME: acrbushidopjywbz
+  ACR_NAME: acrbushidoprodnjg
   ACR_REPOSITORY: citadel
-  RESOURCE_GROUP: rg-bushido-dev
-  CONTAINER_APP: ca-bushido-dev
-  MIGRATION_JOB: job-bushido-dev-migration
+  RESOURCE_GROUP: rg-bushido-prod
+  CONTAINER_APP: ca-bushido-api-prod
+  MIGRATION_JOB: job-bushido-migration-prod
 
 jobs:
   deploy:
@@ -104,7 +104,7 @@ jobs:
 
           echo "Timed out waiting for database migration"
           exit 1
-          
+
       - name: Deploy image
         run: |
           az containerapp update \
