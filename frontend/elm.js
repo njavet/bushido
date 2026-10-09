@@ -5349,10 +5349,10 @@ var $author$project$Main$init = function (flags) {
 			authState: $author$project$Main$LoggedOut,
 			command: '',
 			email: '',
-			name: '',
 			output: _List_Nil,
 			password: '',
-			token: $elm$core$Maybe$Nothing
+			token: $elm$core$Maybe$Nothing,
+			username: ''
 		},
 		$elm$core$Platform$Cmd$none);
 };
@@ -5372,6 +5372,9 @@ var $author$project$Main$InfoEntry = function (a) {
 var $author$project$Main$LoadingIdentity = {$: 'LoadingIdentity'};
 var $author$project$Main$LoggedIn = function (a) {
 	return {$: 'LoggedIn', a: a};
+};
+var $author$project$Main$Registered = function (a) {
+	return {$: 'Registered', a: a};
 };
 var $author$project$Main$SignupMode = {$: 'SignupMode'};
 var $author$project$Main$UnitEntry = function (a) {
@@ -6206,8 +6209,8 @@ var $author$project$Main$authenticate = function (model) {
 					_List_fromArray(
 						[
 							_Utils_Tuple2(
-							'email',
-							$elm$json$Json$Encode$string(model.email)),
+							'username',
+							$elm$json$Json$Encode$string(model.username)),
 							_Utils_Tuple2(
 							'password',
 							$elm$json$Json$Encode$string(model.password))
@@ -6219,8 +6222,8 @@ var $author$project$Main$authenticate = function (model) {
 					_List_fromArray(
 						[
 							_Utils_Tuple2(
-							'name',
-							$elm$json$Json$Encode$string(model.name)),
+							'username',
+							$elm$json$Json$Encode$string(model.username)),
 							_Utils_Tuple2(
 							'email',
 							$elm$json$Json$Encode$string(model.email)),
@@ -6255,8 +6258,8 @@ var $author$project$Main$authHeaders = function (token) {
 };
 var $elm$http$Http$emptyBody = _Http_emptyBody;
 var $author$project$Main$Spartan = F5(
-	function (id, name, email, isActive, isAdmin) {
-		return {email: email, id: id, isActive: isActive, isAdmin: isAdmin, name: name};
+	function (id, username, email, isActive, isAdmin) {
+		return {email: email, id: id, isActive: isActive, isAdmin: isAdmin, username: username};
 	});
 var $elm$json$Json$Decode$bool = _Json_decodeBool;
 var $elm$json$Json$Decode$int = _Json_decodeInt;
@@ -6265,7 +6268,7 @@ var $author$project$Main$spartanDecoder = A6(
 	$elm$json$Json$Decode$map5,
 	$author$project$Main$Spartan,
 	A2($elm$json$Json$Decode$field, 'id', $elm$json$Json$Decode$int),
-	A2($elm$json$Json$Decode$field, 'name', $elm$json$Json$Decode$string),
+	A2($elm$json$Json$Decode$field, 'username', $elm$json$Json$Decode$string),
 	A2($elm$json$Json$Decode$field, 'email', $elm$json$Json$Decode$string),
 	A2($elm$json$Json$Decode$field, 'is_active', $elm$json$Json$Decode$bool),
 	A2($elm$json$Json$Decode$field, 'is_admin', $elm$json$Json$Decode$bool));
@@ -6445,12 +6448,12 @@ var $elm$core$String$trim = _String_trim;
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
-			case 'SetName':
-				var name = msg.a;
+			case 'SetUsername':
+				var username = msg.a;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{name: name}),
+						{username: username}),
 					$elm$core$Platform$Cmd$none);
 			case 'SetEmail':
 				var email = msg.a;
@@ -6490,31 +6493,65 @@ var $author$project$Main$update = F2(
 						}),
 					$elm$core$Platform$Cmd$none);
 			case 'SubmitAuth':
-				return ($elm$core$String$isEmpty(
-					$elm$core$String$trim(model.email)) || $elm$core$String$isEmpty(model.password)) ? _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							authState: $author$project$Main$AuthFailed('Email and password are required.')
-						}),
-					$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{authState: $author$project$Main$Authenticating}),
-					$author$project$Main$authenticate(model));
+				var usernameMissing = $elm$core$String$isEmpty(
+					$elm$core$String$trim(model.username));
+				var passwordMissing = $elm$core$String$isEmpty(model.password);
+				var emailMissing = $elm$core$String$isEmpty(
+					$elm$core$String$trim(model.email));
+				var _v2 = model.authMode;
+				if (_v2.$ === 'LoginMode') {
+					return (usernameMissing || passwordMissing) ? _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								authState: $author$project$Main$AuthFailed('Username and password are required.')
+							}),
+						$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{authState: $author$project$Main$Authenticating}),
+						$author$project$Main$authenticate(model));
+				} else {
+					return (usernameMissing || (emailMissing || passwordMissing)) ? _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								authState: $author$project$Main$AuthFailed('Username, email and password are required.')
+							}),
+						$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{authState: $author$project$Main$Authenticating}),
+						$author$project$Main$authenticate(model));
+				}
 			case 'AuthCompleted':
 				var result = msg.a;
 				if (result.$ === 'Ok') {
 					var token = result.a;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								authState: $author$project$Main$LoadingIdentity,
-								password: '',
-								token: $elm$core$Maybe$Just(token.accessToken)
-							}),
-						A2($author$project$Main$getMe, model.apiBaseUrl, token.accessToken));
+					var _v4 = model.authMode;
+					if (_v4.$ === 'LoginMode') {
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{
+									authState: $author$project$Main$LoadingIdentity,
+									password: '',
+									token: $elm$core$Maybe$Just(token.accessToken)
+								}),
+							A2($author$project$Main$getMe, model.apiBaseUrl, token.accessToken));
+					} else {
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{
+									authMode: $author$project$Main$LoginMode,
+									authState: $author$project$Main$Registered(model.username),
+									email: '',
+									password: '',
+									token: $elm$core$Maybe$Nothing
+								}),
+							$elm$core$Platform$Cmd$none);
+					}
 				} else {
 					var err = result.a;
 					return _Utils_Tuple2(
@@ -6537,7 +6574,7 @@ var $author$project$Main$update = F2(
 								authState: $author$project$Main$LoggedIn(spartan),
 								output: _List_fromArray(
 									[
-										$author$project$Main$InfoEntry('IDENTITY VERIFIED // SPARTAN ' + spartan.name)
+										$author$project$Main$InfoEntry('IDENTITY VERIFIED // SPARTAN ' + spartan.username)
 									])
 							}),
 						$elm$core$Platform$Cmd$none);
@@ -6569,13 +6606,13 @@ var $author$project$Main$update = F2(
 				if ($elm$core$String$isEmpty(raw)) {
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				} else {
-					var _v4 = model.token;
-					if (_v4.$ === 'Nothing') {
+					var _v6 = model.token;
+					if (_v6.$ === 'Nothing') {
 						return _Utils_Tuple2(
 							A2($author$project$Main$logoutModel, model, 'Authentication required.'),
 							$elm$core$Platform$Cmd$none);
 					} else {
-						var token = _v4.a;
+						var token = _v6.a;
 						return A3($author$project$Main$runCommand, token, raw, withCommand);
 					}
 				}
@@ -6641,11 +6678,11 @@ var $elm$html$Html$div = _VirtualDom_node('div');
 var $author$project$Main$SetEmail = function (a) {
 	return {$: 'SetEmail', a: a};
 };
-var $author$project$Main$SetName = function (a) {
-	return {$: 'SetName', a: a};
-};
 var $author$project$Main$SetPassword = function (a) {
 	return {$: 'SetPassword', a: a};
+};
+var $author$project$Main$SetUsername = function (a) {
+	return {$: 'SetUsername', a: a};
 };
 var $author$project$Main$SubmitAuth = {$: 'SubmitAuth'};
 var $author$project$Main$SwitchAuthMode = {$: 'SwitchAuthMode'};
@@ -6781,6 +6818,7 @@ var $elm$html$Html$Events$onSubmit = function (msg) {
 			$elm$html$Html$Events$alwaysPreventDefault,
 			$elm$json$Json$Decode$succeed(msg)));
 };
+var $elm$core$String$toUpper = _String_toUpper;
 var $author$project$Main$viewAuth = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -6840,15 +6878,15 @@ var $author$project$Main$viewAuth = function (model) {
 							]),
 						_List_fromArray(
 							[
+								A5($author$project$Main$field, 'IDENTITY', 'username', model.username, $author$project$Main$SetUsername, false),
 								function () {
 								var _v0 = model.authMode;
 								if (_v0.$ === 'SignupMode') {
-									return A5($author$project$Main$field, 'SPARTAN', 'name', model.name, $author$project$Main$SetName, false);
+									return A5($author$project$Main$field, 'COMMS', 'email', model.email, $author$project$Main$SetEmail, false);
 								} else {
 									return $elm$html$Html$text('');
 								}
 							}(),
-								A5($author$project$Main$field, 'IDENTITY', 'email', model.email, $author$project$Main$SetEmail, false),
 								A5($author$project$Main$field, 'PASSPHRASE', 'password', model.password, $author$project$Main$SetPassword, true),
 								A2(
 								$elm$html$Html$button,
@@ -6882,20 +6920,41 @@ var $author$project$Main$viewAuth = function (model) {
 							])),
 						function () {
 						var _v3 = model.authState;
-						if (_v3.$ === 'AuthFailed') {
-							var message = _v3.a;
-							return A2(
-								$elm$html$Html$div,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$class('auth-error')
-									]),
-								_List_fromArray(
-									[
-										$elm$html$Html$text('[AUTH FAILED] ' + message)
-									]));
-						} else {
-							return $elm$html$Html$text('');
+						switch (_v3.$) {
+							case 'Registered':
+								var username = _v3.a;
+								return A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('auth-success')
+										]),
+									_List_fromArray(
+										[
+											A2(
+											$elm$html$Html$span,
+											_List_fromArray(
+												[
+													$elm$html$Html$Attributes$class('status-dot online')
+												]),
+											_List_Nil),
+											$elm$html$Html$text(
+											' [REGISTRATION COMPLETE] IDENTITY // ' + ($elm$core$String$toUpper(username) + ' // READY FOR LOGIN'))
+										]));
+							case 'AuthFailed':
+								var message = _v3.a;
+								return A2(
+									$elm$html$Html$div,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$class('auth-error')
+										]),
+									_List_fromArray(
+										[
+											$elm$html$Html$text('[AUTH FAILED] ' + message)
+										]));
+							default:
+								return $elm$html$Html$text('');
 						}
 					}(),
 						A2(
@@ -6926,7 +6985,6 @@ var $author$project$Main$SetCommand = function (a) {
 	return {$: 'SetCommand', a: a};
 };
 var $author$project$Main$SubmitCommand = {$: 'SubmitCommand'};
-var $elm$core$String$toUpper = _String_toUpper;
 var $author$project$Main$viewEntry = function (entry) {
 	switch (entry.$) {
 		case 'CommandEntry':
@@ -7065,7 +7123,7 @@ var $author$project$Main$viewTerminal = F2(
 									_List_fromArray(
 										[
 											$elm$html$Html$text(
-											'SPARTAN // ' + $elm$core$String$toUpper(spartan.name))
+											'SPARTAN // ' + $elm$core$String$toUpper(spartan.username))
 										]))
 								])),
 							A2(

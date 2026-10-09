@@ -155,10 +155,20 @@ input:focus {
   font-size: .78rem;
 }
 
-.auth-error {
+.auth-error,
+.auth-success {
   margin-top: 18px;
-  color: var(--red);
+  padding: 10px 12px;
+  border-left: 2px solid currentColor;
+  background: var(--panel);
   font-size: .82rem;
+  letter-spacing: .03em;
+}
+
+.auth-error { color: var(--red); }
+.auth-success {
+  color: var(--green);
+  box-shadow: 0 0 14px var(--shadow);
 }
 
 .terminal-frame {

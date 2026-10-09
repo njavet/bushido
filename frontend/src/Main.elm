@@ -19,7 +19,7 @@ type alias Model =
     , authMode : AuthMode
     , authState : AuthState
     , token : Maybe String
-    , name : String
+    , username : String
     , email : String
     , password : String
     , command : String
@@ -37,12 +37,13 @@ type AuthState
     | Authenticating
     | LoadingIdentity
     | LoggedIn Spartan
+    | Registered String
     | AuthFailed String
 
 
 type alias Spartan =
     { id : Int
-    , name : String
+    , username : String
     , email : String
     , isActive : Bool
     , isAdmin : Bool
@@ -62,7 +63,7 @@ type TerminalEntry
 
 
 type Msg
-    = SetName String
+    = SetUsername String
     | SetEmail String
     | SetPassword String
     | SetCommand String
@@ -92,7 +93,7 @@ init flags =
       , authMode = LoginMode
       , authState = LoggedOut
       , token = Nothing
-      , name = ""
+      , username = ""
       , email = ""
       , password = ""
       , command = ""
@@ -105,8 +106,8 @@ init flags =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SetName name ->
-            ( { model | name = name }, Cmd.none )
+        SetUsername username ->
+            ( { model | username = username }, Cmd.none )
 
         SetEmail email ->
             ( { model | email = email }, Cmd.none )
@@ -132,22 +133,54 @@ update msg model =
             )
 
         SubmitAuth ->
-            if String.isEmpty (String.trim model.email) || String.isEmpty model.password then
-                ( { model | authState = AuthFailed "Email and password are required." }, Cmd.none )
+            let
+                usernameMissing =
+                    String.isEmpty (String.trim model.username)
 
-            else
-                ( { model | authState = Authenticating }, authenticate model )
+                emailMissing =
+                    String.isEmpty (String.trim model.email)
+
+                passwordMissing =
+                    String.isEmpty model.password
+            in
+            case model.authMode of
+                LoginMode ->
+                    if usernameMissing || passwordMissing then
+                        ( { model | authState = AuthFailed "Username and password are required." }, Cmd.none )
+
+                    else
+                        ( { model | authState = Authenticating }, authenticate model )
+
+                SignupMode ->
+                    if usernameMissing || emailMissing || passwordMissing then
+                        ( { model | authState = AuthFailed "Username, email and password are required." }, Cmd.none )
+
+                    else
+                        ( { model | authState = Authenticating }, authenticate model )
 
         AuthCompleted result ->
             case result of
                 Ok token ->
-                    ( { model
-                        | token = Just token.accessToken
-                        , authState = LoadingIdentity
-                        , password = ""
-                      }
-                    , getMe model.apiBaseUrl token.accessToken
-                    )
+                    case model.authMode of
+                        LoginMode ->
+                            ( { model
+                                | token = Just token.accessToken
+                                , authState = LoadingIdentity
+                                , password = ""
+                              }
+                            , getMe model.apiBaseUrl token.accessToken
+                            )
+
+                        SignupMode ->
+                            ( { model
+                                | authMode = LoginMode
+                                , authState = Registered model.username
+                                , token = Nothing
+                                , email = ""
+                                , password = ""
+                              }
+                            , Cmd.none
+                            )
 
                 Err err ->
                     ( { model | authState = AuthFailed (httpError err) }, Cmd.none )
@@ -157,7 +190,7 @@ update msg model =
                 Ok spartan ->
                     ( { model
                         | authState = LoggedIn spartan
-                        , output = [ InfoEntry ("IDENTITY VERIFIED // SPARTAN " ++ spartan.name) ]
+                        , output = [ InfoEntry ("IDENTITY VERIFIED // SPARTAN " ++ spartan.username) ]
                       }
                     , Cmd.none
                     )
@@ -255,7 +288,7 @@ authenticate model =
                 LoginMode ->
                     ( "/api/auth/login"
                     , Encode.object
-                        [ ( "email", Encode.string model.email )
+                        [ ( "username", Encode.string model.username )
                         , ( "password", Encode.string model.password )
                         ]
                     )
@@ -263,7 +296,7 @@ authenticate model =
                 SignupMode ->
                     ( "/api/auth/signup"
                     , Encode.object
-                        [ ( "name", Encode.string model.name )
+                        [ ( "username", Encode.string model.username )
                         , ( "email", Encode.string model.email )
                         , ( "password", Encode.string model.password )
                         ]
@@ -336,7 +369,7 @@ spartanDecoder : Decoder Spartan
 spartanDecoder =
     Decode.map5 Spartan
         (Decode.field "id" Decode.int)
-        (Decode.field "name" Decode.string)
+        (Decode.field "username" Decode.string)
         (Decode.field "email" Decode.string)
         (Decode.field "is_active" Decode.bool)
         (Decode.field "is_admin" Decode.bool)
@@ -416,13 +449,13 @@ viewAuth model =
                 , text " CITADEL NETWORK // DISCONNECTED"
                 ]
             , form [ onSubmit SubmitAuth ]
-                [ case model.authMode of
+                [ field "IDENTITY" "username" model.username SetUsername False
+                , case model.authMode of
                     SignupMode ->
-                        field "SPARTAN" "name" model.name SetName False
+                        field "COMMS" "email" model.email SetEmail False
 
                     LoginMode ->
                         text ""
-                , field "IDENTITY" "email" model.email SetEmail False
                 , field "PASSPHRASE" "password" model.password SetPassword True
                 , button
                     [ class "primary"
@@ -448,6 +481,12 @@ viewAuth model =
                     ]
                 ]
             , case model.authState of
+                Registered username ->
+                    div [ class "auth-success" ]
+                        [ span [ class "status-dot online" ] []
+                        , text (" [REGISTRATION COMPLETE] IDENTITY // " ++ String.toUpper username ++ " // READY FOR LOGIN")
+                        ]
+
                 AuthFailed message ->
                     div [ class "auth-error" ] [ text ("[AUTH FAILED] " ++ message) ]
 
@@ -500,7 +539,7 @@ viewTerminal model spartan =
         [ div [ class "terminal-header" ]
             [ div []
                 [ div [ class "eyebrow" ] [ text "BUSHIDO // CITADEL" ]
-                , div [ class "identity" ] [ text ("SPARTAN // " ++ String.toUpper spartan.name) ]
+                , div [ class "identity" ] [ text ("SPARTAN // " ++ String.toUpper spartan.username) ]
                 ]
             , div [ class "header-actions" ]
                 [ div [ class "system-line" ]
