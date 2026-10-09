@@ -34,6 +34,14 @@ test
 
 `psql -h localhost -U bushido -d bushido`
 
+### alembic
+```aiignore
+uv run alembic revision --autogenerate -m "initial migration"
+uv run alembic history
+uv run alembic heads
+uv run alembic upgrade head
+```
+
 ## terraform
 -> wip
 
