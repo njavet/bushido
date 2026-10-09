@@ -484,13 +484,36 @@ az afd custom-domain create \
   --host-name bushido.nj-cyb.org \
   --certificate-type ManagedCertificate \
   --minimum-tls-version TLS12
-```
-az afd route update \
+  
+ export DOMAIN_ID=$(az afd custom-domain show \
+  -g $RG \
+  --profile-name $AFD_PROFILE \
+  -n bushido-prod \
+  --query id -o tsv) 
+  
+ az afd route update \
   -g $RG \
   --profile-name $AFD_PROFILE \
   --endpoint-name $AFD_ENDPOINT \
   -n $AFD_ROUTE \
-  --custom-domains bushido-prod
+  --formatted-custom-domains "[{id:$DOMAIN_ID}]" 
+
+az afd custom-domain show \
+ -g $RG \
+ --profile-name $AFD_PROFILE \
+ -n bushido-dev \
+ --query validationProperties  \
+ -o yaml
+ 
+
+```
+
+### alembic 
+```
+export JOB=job-bushido-migrate-prod
+
+```
+
 
 
 

@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = [
         "http://localhost:8080",
         "https://bushido.nj-cyb.org",
+        "https://dev.bushido.nj-cyb.org",
     ]
 
     host: str = "0.0.0.0"
