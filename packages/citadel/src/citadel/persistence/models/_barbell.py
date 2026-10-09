@@ -9,14 +9,13 @@ class BarbellUnitTable(UnitTable):
 
     id: Mapped[int] = mapped_column(ForeignKey(UnitTable.id), primary_key=True)
     variant: Mapped[str] = mapped_column(default="default")
+
     subunits: Mapped[list[BarbellSet]] = relationship(
         cascade="all, delete-orphan",
         back_populates="unit",
     )
 
-    __mapper_args__ = {
-        "polymorphic_identity": "barbell",
-    }
+    __mapper_args__ = {"polymorphic_identity": "barbell"}
 
 
 class BarbellSet(Base):
