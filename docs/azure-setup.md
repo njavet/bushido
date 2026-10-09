@@ -189,7 +189,7 @@ az containerapp env create \
 
 ### 13. image / acr
 ```aiignore
-az acr login -n $ACR`
+az acr login -n $ACR -g $RG
 
 docker build \
   -f packages/citadel/Dockerfile \
@@ -511,11 +511,48 @@ az afd custom-domain show \
 ### alembic 
 ```
 export JOB=job-bushido-migrate-prod
+export IMAGE="$ACR.azurecr.io/citadel:latest"
 
+az containerapp job create \
+  -g $RG \
+  -n $JOB \
+  --environment $CAE \
+  --trigger-type Manual \
+  --replica-timeout 300 \
+  --replica-retry-limit 1 \
+  --image "$IMAGE" \
+  --registry-server "$ACR.azurecr.io" \
+  --registry-identity "$ID_RESOURCE" \
+  --user-assigned "$ID_RESOURCE" \
+  --command "uv" \
+  --args "run" "alembic" "upgrade" "head"
+  
+ az containerapp job secret set \
+  -g $RG \
+  -n $JOB \
+  --secrets \
+  "postgres-password=keyvaultref:$SECRET_URI,identityref:$ID_RESOURCE"
+  
+  az containerapp job update \
+  -g $RG \
+  -n $JOB \
+  --set-env-vars \
+  "POSTGRES_HOST=$PG_HOST" \
+  "POSTGRES_DATABASE=bushido-db" \
+  "POSTGRES_USER=bushido" \
+  "POSTGRES_PASSWORD=secretref:postgres-password"
 ```
-
-
-
+manual run:
+```aiignore
+az containerapp job start \
+  -g $RG \
+  -n $JOB
+  
+ az containerapp job execution list \
+  -g $RG \
+  -n $JOB \
+  -o table
+```
 
 ### prod architecture
 
