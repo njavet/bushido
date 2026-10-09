@@ -25,20 +25,20 @@ from citadel.unit.cardio import (
 from citadel.unit.log import build_log_unit
 from citadel.unit.martial_arts import (
     build_chrono_unit,
+    build_grappling_unit,
+    build_karate_unit,
     build_wimhof_unit,
-build_karate_unit,
-build_grappling_unit,
 )
 from citadel.unit.strength import (
+    build_benchpress_unit,
+    build_curls_unit,
+    build_deadlift_unit,
     build_lifting_unit,
-build_squat_unit,
-build_rows_unit,
-build_shoulder_unit,
-build_benchpress_unit,
-build_deadlift_unit,
-build_ohp_unit,
-build_neck_unit,
-build_curls_unit,
+    build_neck_unit,
+    build_ohp_unit,
+    build_rows_unit,
+    build_shoulder_unit,
+    build_squat_unit,
 )
 from citadel.unit.work import build_work_unit
 

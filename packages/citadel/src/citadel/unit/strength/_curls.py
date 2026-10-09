@@ -5,9 +5,7 @@ from citadel.unit.strength import BilateralUnit
 from citadel.unit.strength._bilateral import parse_bilateral_set_data
 
 
-def build_curls_unit(
-    raw_unit: RawUnit, log_time: datetime.datetime
-) -> BilateralUnit:
+def build_curls_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> BilateralUnit:
     sets = parse_bilateral_set_data(raw_unit.tokens)
     return BilateralUnit(
         name=raw_unit.name,
