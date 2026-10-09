@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 
-from citadel.api.deps import SessionDep, SpartanDep
+from citadel.api.v0.deps import SessionDep, SpartanDep
 from citadel.auth.passwords import hash_password, verify_password
 from citadel.auth.tokens import create_access_token
 from citadel.persistence.models import Spartan

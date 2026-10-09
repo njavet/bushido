@@ -17,7 +17,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from citadel.api import router
-from citadel.api.deps import get_session
+from citadel.api.v0.deps import get_session
 
 
 @pytest.fixture

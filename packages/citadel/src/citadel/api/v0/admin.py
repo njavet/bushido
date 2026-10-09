@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from sqlalchemy import select
 
-from citadel.api.deps import SessionDep, SpartanDep
+from citadel.api.v0.deps import SessionDep, SpartanDep
 from citadel.persistence.models import Spartan
 from citadel.schema.res import SpartanResponse
 
