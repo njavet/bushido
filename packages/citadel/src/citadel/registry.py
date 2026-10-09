@@ -16,13 +16,12 @@ from citadel.persistence.repos import (
     WimhofUnitRepo,
     WorkUnitRepo,
 )
-from citadel.unit.base import RawUnit
+from citadel.unit import LoggedUnit, RawUnit
 from citadel.unit.cardio import (
     build_running_unit,
     build_skipping_unit,
     build_swimming_unit,
 )
-from citadel.unit.dtypes import LoggedUnit
 from citadel.unit.log import build_log_unit
 from citadel.unit.martial_arts import (
     build_chrono_unit,
