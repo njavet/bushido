@@ -485,3 +485,40 @@ az afd custom-domain create \
   --certificate-type ManagedCertificate \
   --minimum-tls-version TLS12
 ```
+az afd route update \
+  -g $RG \
+  --profile-name $AFD_PROFILE \
+  --endpoint-name $AFD_ENDPOINT \
+  -n $AFD_ROUTE \
+  --custom-domains bushido-prod
+
+
+
+### prod architecture
+
+bushido.nj-cyb.org
+        │
+        ▼
+   Front Door
+        │
+        ▼
+Storage static website
+        │
+        ▼
+   Elm browser app
+        │ HTTPS
+        ▼
+api.bushido.nj-cyb.org
+        │
+        ▼
+ Container Apps
+   │         │
+   │         └── Managed Identity
+   │               ├── ACR
+   │               └── Key Vault
+   │
+   ▼
+Private DNS
+   │
+   ▼
+Private PostgreSQL
