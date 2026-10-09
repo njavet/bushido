@@ -42,6 +42,47 @@ uv run alembic heads
 uv run alembic upgrade head
 ```
 
+## elm frontend
+```aiignore
+cd frontend
+elm make src/Main.elm --output=elm.js
+```
+deploy
+```
+az storage blob upload \
+  --account-name "$WEB" \
+  --container-name '$web' \
+  --name index.html \
+  --file index.html \
+  --auth-mode login \
+  --overwrite
+
+az storage blob upload \
+  --account-name "$WEB" \
+  --container-name '$web' \
+  --name elm.js \
+  --file elm.js \
+  --auth-mode login \
+  --overwrite
+  
+az storage blob upload \
+  --account-name "$WEB" \
+  --container-name '$web' \
+  --name styles.css \
+  --file styles.css \
+  --auth-mode login \
+  --overwrite
+```
+* purge frontdoor cache
+```aiignore
+az afd endpoint purge \
+  -g "$RG" \
+  --profile-name "$AFD_PROFILE" \
+  --endpoint-name "$AFD_ENDPOINT" \
+  --content-paths "/*"
+```
+
+
 ## terraform
 -> wip
 

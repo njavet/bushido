@@ -10,6 +10,8 @@ COPY pyproject.toml uv.lock ./
 
 # Copy packages required by the workspace
 COPY packages/citadel ./packages/citadel
+COPY alembic.ini /app/alembic.ini
+COPY migrations /app/migrations
 
 # Install Citadel and its dependencies
 RUN uv sync \
