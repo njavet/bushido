@@ -25,7 +25,6 @@ from citadel.unit.cardio import (
 from citadel.unit.log import build_log_unit
 from citadel.unit.martial_arts import (
     build_chrono_unit,
-    build_martial_arts_unit,
     build_wimhof_unit,
 )
 from citadel.unit.strength import (
