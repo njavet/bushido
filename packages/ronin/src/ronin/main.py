@@ -7,7 +7,7 @@ from textual.binding import Binding
 from textual.widgets import Footer, Rule
 
 from ronin.settings import BASE_URL
-from ronin.widgets.command_line import CommandLine
+from ronin.widgets.command_line import CommandLine, CommandSubmitted
 from sekkin.api_client import BushidoApiClient
 
 from .containers import HeaderContainer
@@ -32,36 +32,33 @@ class BushidoApp(App[None]):
         yield CommandLine(commands=self.unit_names)
         yield Footer(id="app_footer")
 
-    async def on_unmount(self) -> None:
-        await self.api.close()
-
-
-"""
     async def on_command_submitted(self, message: CommandSubmitted) -> None:
-        if not message.value:
+        if not message.line:
             self.notify(
                 "empty domain",
-                title="logging failed",
+                title="command failed",
                 severity="error",
             )
             return
 
         try:
-            unit = await self.api.log_unit(line=message.value)
+            _ = await self.api.log_unit(line=message.line)
         except Exception as exc:
             self.notify(
                 str(exc),
-                title="logging failed",
+                title="command failed",
                 severity="error",
             )
             return
 
         self.notify(
-            f"logged unit: {message.value.split()[0]}",
+            f"logged unit: {message.line.split()[0]}",
             title="logging successful",
             severity="information",
         )
-"""
+
+    async def on_unmount(self) -> None:
+        await self.api.close()
 
 
 async def async_main() -> None:

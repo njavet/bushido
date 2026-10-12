@@ -41,11 +41,7 @@ class CommandSuggester(Suggester):
 
 class CommandInput(Input):
     def __init__(self, id_: str, suggester: CommandSuggester) -> None:
-        super().__init__(
-            suggester=suggester,
-            id=id_,
-            placeholder="enter command...",
-        )
+        super().__init__(suggester=suggester, id=id_, placeholder="enter command...")
 
     def on_suggestion_ready(self, event: SuggestionReady) -> None:
         self.action_delete_left_all()
