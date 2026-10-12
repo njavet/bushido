@@ -17,8 +17,8 @@ from ronin.settings import unit_emojis
 from sekkin.api_client import BushidoApiClient
 
 from .containers import (
-    GymContainer,
     HeaderContainer,
+    MartialArtsContainer,
     SpartanContainer,
     StrengthContainer,
 )
@@ -51,7 +51,7 @@ class BushidoApp(App[None]):
             with TabPane("spartan"):
                 yield SpartanContainer(id="spartan_container")
             with TabPane("martial_arts"):
-                yield GymContainer(filter_units(unit_emojis, ["strength"]))
+                yield MartialArtsContainer(filter_units(unit_emojis, ["strength"]))
             with TabPane("strength"):
                 yield StrengthContainer(
                     unit_settings=filter_units(unit_emojis, ["squats"])

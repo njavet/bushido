@@ -1,11 +1,11 @@
-from ._gym import GymContainer
 from ._header import HeaderContainer
+from ._martial_arts import MartialArtsContainer
 from ._spartan import SpartanContainer
 from ._strength import StrengthContainer
 
 __all__ = [
-    "GymContainer",
     "HeaderContainer",
+    "MartialArtsContainer",
     "SpartanContainer",
     "StrengthContainer",
 ]
