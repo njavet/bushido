@@ -4,13 +4,13 @@ from typing import ClassVar, override
 import httpx
 from textual.app import App, ComposeResult
 from textual.binding import Binding
-from textual.widgets import Footer, Rule
+from textual.widgets import Footer, Rule, TabbedContent, TabPane
 
 from ronin.settings import BASE_URL
 from ronin.widgets.command_line import CommandLine, CommandSubmitted
 from sekkin.api_client import BushidoApiClient
 
-from .containers import HeaderContainer
+from .containers import HeaderContainer, ProfileContainer
 
 
 class BushidoApp(App[None]):
@@ -29,18 +29,15 @@ class BushidoApp(App[None]):
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
         yield Rule(line_style="dashed")
+        with TabbedContent(id="main_tabs"), TabPane("profile"):
+            yield ProfileContainer()
+
         yield CommandLine(commands=self.unit_names)
         yield Footer(id="app_footer")
 
     async def on_command_submitted(self, message: CommandSubmitted) -> None:
         if not message.line:
-            self.notify(
-                "empty domain",
-                title="command failed",
-                severity="error",
-            )
             return
-
         try:
             _ = await self.api.log_unit(line=message.line)
         except Exception as exc:
@@ -50,7 +47,6 @@ class BushidoApp(App[None]):
                 severity="error",
             )
             return
-
         self.notify(
             f"logged unit: {message.line.split()[0]}",
             title="logging successful",
