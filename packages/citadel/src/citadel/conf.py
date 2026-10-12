@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     host: str = "0.0.0.0"
     port: int = 8000
 
-    db_backend: DbBackend = DbBackend.POSTGRES
+    db_backend: DbBackend = DbBackend.SQLITE
 
     # SQLite
     sqlite_path: str | None = None

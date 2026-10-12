@@ -11,7 +11,7 @@ from textual.widgets import (
 )
 
 
-class LiftingContainer(Container):
+class StrengthContainer(Container):
     def __init__(self, unit_settings: dict[str, str]) -> None:
         super().__init__()
         self.unit_settings = unit_settings

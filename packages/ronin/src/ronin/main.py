@@ -19,8 +19,8 @@ from sekkin.api_client import BushidoApiClient
 from .containers import (
     GymContainer,
     HeaderContainer,
-    LiftingContainer,
     SpartanContainer,
+    StrengthContainer,
 )
 
 
@@ -53,7 +53,7 @@ class BushidoApp(App[None]):
             with TabPane("martial_arts"):
                 yield GymContainer(filter_units(unit_emojis, ["strength"]))
             with TabPane("strength"):
-                yield LiftingContainer(
+                yield StrengthContainer(
                     unit_settings=filter_units(unit_emojis, ["squats"])
                 )
         yield Footer(id="app_footer")
