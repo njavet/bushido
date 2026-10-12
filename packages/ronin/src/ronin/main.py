@@ -12,7 +12,6 @@ from textual.widgets import (
 )
 
 from ronin.dtypes import UnitLogResult
-from ronin.screens import LogUnitScreen
 from ronin.settings import BASE_URL, unit_emojis
 from sekkin.api_client import BushidoApiClient
 
@@ -73,12 +72,6 @@ class BushidoApp(App[None]):
         units = await self.api.load_units(UnitCategory.GYM, GymUnit)
         self.query_one(GymContainer).set_units(units)
     """
-
-    async def action_log_unit(self) -> None:
-        await self.push_screen(
-            LogUnitScreen(self.api, self.unit_names),
-            callback=self.on_log_unit_closed,
-        )
 
     def on_log_unit_closed(self, result: UnitLogResult | None) -> None:
         if result is None or result.unit is None:
