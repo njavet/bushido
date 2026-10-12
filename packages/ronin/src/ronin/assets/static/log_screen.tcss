@@ -1,0 +1,83 @@
+LogUnitScreen {
+    align: center middle;
+    background: #03080c 75%;
+}
+
+#log_unit_dialog {
+    width: 80;
+    height: auto;
+    max-height: 32;
+    padding: 0 2 1 2;
+
+    background: #050b10;
+    border: solid #16404a;
+    color: #b8dce2;
+}
+
+#terminal_header {
+    width: 100%;
+    height: 3;
+
+    padding: 1 0;
+    color: #72f3ff;
+    background: #071116;
+
+    text-style: bold;
+}
+
+UnitHelpWidget {
+    width: 100%;
+    height: 7;
+
+    padding: 1 1;
+    color: #b8dce2;
+}
+
+.separator {
+    height: 1;
+    color: #16404a;
+}
+
+#prompt {
+    width: 3;
+    height: 1;
+    margin-top: 1;
+
+    color: #45e6f2;
+    text-style: bold;
+}
+
+#text_input {
+    width: 100%;
+    height: 3;
+
+    padding: 0 1;
+
+    background: #071116;
+    color: #72f3ff;
+
+    border: solid #16404a;
+}
+
+#text_input:focus {
+    border: solid #45e6f2;
+}
+
+#text_input > .input--placeholder {
+    color: #608890;
+}
+
+#text_input > .input--suggestion {
+    color: #35bfc5;
+    text-style: dim;
+}
+
+#terminal_status {
+    width: 100%;
+    height: 2;
+
+    margin-top: 1;
+
+    color: #608890;
+    text-align: right;
+}
