@@ -11,7 +11,7 @@ from textual.widget import Widget
 from textual.widgets import Input, Static
 
 
-class Shell(Container):
+class Shell(Widget):
     def __init__(self, commands: list[str]) -> None:
         super().__init__()
         self.commands = commands
@@ -21,12 +21,11 @@ class Shell(Container):
         yield CommandLine(commands=self.commands)
         yield ShellView()
 
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        self.post_message(CommandSubmitted(event.value.strip()))
+
 
 class ShellView(Container):
-    @override
-    def compose(self) -> ComposeResult:
-        yield Static("YOO")
-
     async def show(self, widget: Widget) -> None:
         await self.remove_children()
         await self.mount(widget)
@@ -34,17 +33,14 @@ class ShellView(Container):
 
 class CommandLine(Widget):
     def __init__(self, commands: list[str]) -> None:
-        super().__init__()
+        super().__init__(id="command_line")
         self.suggester = CommandSuggester(commands)
 
     @override
     def compose(self) -> ComposeResult:
-        with Horizontal(id="command_line"):
+        with Horizontal():
             yield Static(" >_", id="prompt")
             yield CommandInput(suggester=self.suggester)
-
-    def on_input_submitted(self, event: Input.Submitted) -> None:
-        self.post_message(CommandSubmitted(event.value.strip()))
 
 
 class CommandSuggester(Suggester):

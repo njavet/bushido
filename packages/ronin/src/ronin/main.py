@@ -29,7 +29,7 @@ class BushidoApp(App[None]):
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
         yield Rule(line_style="dashed")
-        with TabbedContent(id="main_tabs"):
+        with TabbedContent():
             with TabPane("shell"):
                 yield Shell(self.unit_names)
             with TabPane("profile"):
