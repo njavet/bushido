@@ -11,6 +11,46 @@ from textual.widget import Widget
 from textual.widgets import Input, Static
 
 
+class CommandLine(Widget):
+    def __init__(self, commands: list[str]) -> None:
+        super().__init__()
+        self.suggester = CommandSuggester(commands)
+
+    @override
+    def compose(self) -> ComposeResult:
+        with Vertical(id="log_unit_dialog"):
+            yield Static("> ", id="prompt")
+            yield CommandInput(suggester=self.suggester)
+
+
+"""
+    async def on_command_submitted(self, message: CommandSubmitted) -> None:
+        if not message.value:
+            self.notify(
+                "empty domain",
+                title="logging failed",
+                severity="error",
+            )
+            return
+
+        try:
+            unit = await self.api.log_unit(line=message.value)
+        except Exception as exc:
+            self.notify(
+                str(exc),
+                title="logging failed",
+                severity="error",
+            )
+            return
+
+        self.notify(
+            f"logged unit: {message.value.split()[0]}",
+            title="logging successful",
+            severity="information",
+        )
+"""
+
+
 class CommandSuggester(Suggester):
     def __init__(self, commands: list[str]) -> None:
         super().__init__()
@@ -77,56 +117,3 @@ class UnitHelpWidget(Widget):
             grammar,
             hint,
         )
-
-
-class CommandLine(Widget):
-    def __init__(self, commands: list[str]) -> None:
-        super().__init__()
-        self.suggester = CommandSuggester(commands)
-
-    @override
-    def compose(self) -> ComposeResult:
-        with Vertical(id="log_unit_dialog"):
-            yield Static(
-                " BUSHIDO // CITADEL                           LOG UNIT ",
-                id="terminal_header",
-            )
-            yield UnitHelpWidget()
-            yield Static(
-                "────────────────────────────────────────────────────",
-                classes="separator",
-            )
-            yield Static("> ", id="prompt")
-            yield CommandInput(suggester=self.suggester)
-            yield Static(
-                "SYSTEM READY // AWAITING INPUT",
-                id="terminal_status",
-            )
-
-
-"""
-    async def on_command_submitted(self, message: CommandSubmitted) -> None:
-        if not message.value:
-            self.notify(
-                "empty domain",
-                title="logging failed",
-                severity="error",
-            )
-            return
-
-        try:
-            unit = await self.api.log_unit(line=message.value)
-        except Exception as exc:
-            self.notify(
-                str(exc),
-                title="logging failed",
-                severity="error",
-            )
-            return
-
-        self.notify(
-            f"logged unit: {message.value.split()[0]}",
-            title="logging successful",
-            severity="information",
-        )
-"""
