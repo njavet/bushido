@@ -42,7 +42,7 @@ class BushidoApp(App[None]):
         yield Rule(line_style="dashed")
         with TabbedContent(id="main_tabs"):
             with TabPane("profile"):
-                yield ProfileContainer(id="profile_container")
+                yield ProfileContainer()
             with TabPane("martial_arts"):
                 yield MartialArtsContainer(unit_emojis)
             with TabPane("strength"):
