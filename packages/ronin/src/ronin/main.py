@@ -13,22 +13,15 @@ from textual.widgets import (
 
 from ronin.dtypes import UnitLogResult
 from ronin.screens import LogUnitScreen
-from ronin.settings import unit_emojis
+from ronin.settings import BASE_URL, unit_emojis
 from sekkin.api_client import BushidoApiClient
 
 from .containers import (
     HeaderContainer,
     MartialArtsContainer,
-    SpartanContainer,
+    ProfileContainer,
     StrengthContainer,
 )
-
-
-def filter_units(
-    unit_settings: dict[str, str],
-    units: list[str],
-) -> dict[str, str]:
-    return {name: emoji for name, emoji in unit_settings.items() if name in units}
 
 
 class BushidoApp(App[None]):
@@ -48,14 +41,12 @@ class BushidoApp(App[None]):
         yield HeaderContainer()
         yield Rule(line_style="dashed")
         with TabbedContent(id="main_tabs"):
-            with TabPane("spartan"):
-                yield SpartanContainer(id="spartan_container")
+            with TabPane("profile"):
+                yield ProfileContainer(id="profile_container")
             with TabPane("martial_arts"):
-                yield MartialArtsContainer(filter_units(unit_emojis, ["strength"]))
+                yield MartialArtsContainer(unit_emojis)
             with TabPane("strength"):
-                yield StrengthContainer(
-                    unit_settings=filter_units(unit_emojis, ["squats"])
-                )
+                yield StrengthContainer(unit_emojis)
         yield Footer(id="app_footer")
 
     """
@@ -89,7 +80,7 @@ class BushidoApp(App[None]):
 
 
 async def async_main() -> None:
-    api_client = BushidoApiClient(base_url="http://localhost:8000")
+    api_client = BushidoApiClient(base_url=BASE_URL)
     try:
         unit_names = await api_client.get_unit_names()
     except httpx.ConnectError:

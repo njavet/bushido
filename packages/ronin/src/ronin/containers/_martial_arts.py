@@ -10,9 +10,9 @@ from textual.widgets import (
 
 
 class MartialArtsContainer(Container):
-    def __init__(self, unit_settings: dict[str, str]) -> None:
+    def __init__(self, emojis: dict[str, str]) -> None:
         super().__init__()
-        self.unit_settings = unit_settings
+        self.emojis = emojis
 
     @override
     def compose(self) -> ComposeResult:

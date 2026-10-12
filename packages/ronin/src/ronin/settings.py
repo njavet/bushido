@@ -1,6 +1,7 @@
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+BASE_URL = "http://localhost:8000"
 LOCAL_TIMEZONE = ZoneInfo("Europe/Zurich")
 
 BUSHIDO_IMG_PATH = Path(
