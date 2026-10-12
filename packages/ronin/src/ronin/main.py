@@ -17,10 +17,13 @@ from ronin.settings import BASE_URL, unit_emojis
 from sekkin.api_client import BushidoApiClient
 
 from .containers import (
+    CardioContainer,
     HeaderContainer,
+    LogsContainer,
     MartialArtsContainer,
     ProfileContainer,
     StrengthContainer,
+    WorkContainer,
 )
 
 
@@ -47,6 +50,12 @@ class BushidoApp(App[None]):
                 yield MartialArtsContainer(unit_emojis)
             with TabPane("strength"):
                 yield StrengthContainer(unit_emojis)
+            with TabPane("cardio"):
+                yield CardioContainer()
+            with TabPane("work"):
+                yield WorkContainer()
+            with TabPane("logs"):
+                yield LogsContainer()
         yield Footer(id="app_footer")
 
     """
