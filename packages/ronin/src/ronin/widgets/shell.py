@@ -3,12 +3,33 @@ from typing import override
 from rich.console import Group
 from rich.text import Text
 from textual.app import ComposeResult
-from textual.containers import Horizontal
+from textual.containers import Container, Horizontal
 from textual.events import Key
 from textual.message import Message
 from textual.suggester import Suggester, SuggestionReady
 from textual.widget import Widget
 from textual.widgets import Input, Static
+
+
+class Shell(Container):
+    def __init__(self, commands: list[str]) -> None:
+        super().__init__()
+        self.commands = commands
+
+    @override
+    def compose(self) -> ComposeResult:
+        yield CommandLine(commands=self.commands)
+        yield ShellView()
+
+
+class ShellView(Container):
+    @override
+    def compose(self) -> ComposeResult:
+        yield Static("YOO")
+
+    async def show(self, widget: Widget) -> None:
+        await self.remove_children()
+        await self.mount(widget)
 
 
 class CommandLine(Widget):
@@ -20,7 +41,7 @@ class CommandLine(Widget):
     def compose(self) -> ComposeResult:
         with Horizontal(id="command_line"):
             yield Static(" >_", id="prompt")
-            yield CommandInput(id_="command_input", suggester=self.suggester)
+            yield CommandInput(suggester=self.suggester)
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
         self.post_message(CommandSubmitted(event.value.strip()))
@@ -40,8 +61,10 @@ class CommandSuggester(Suggester):
 
 
 class CommandInput(Input):
-    def __init__(self, id_: str, suggester: CommandSuggester) -> None:
-        super().__init__(suggester=suggester, id=id_, placeholder="enter command...")
+    def __init__(self, suggester: CommandSuggester) -> None:
+        super().__init__(
+            suggester=suggester, id="command_input", placeholder="enter command..."
+        )
 
     def on_suggestion_ready(self, event: SuggestionReady) -> None:
         self.action_delete_left_all()

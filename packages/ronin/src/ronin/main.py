@@ -7,7 +7,7 @@ from textual.binding import Binding
 from textual.widgets import Footer, Rule, TabbedContent, TabPane
 
 from ronin.settings import BASE_URL
-from ronin.widgets.command_line import CommandLine, CommandSubmitted
+from ronin.widgets.shell import CommandSubmitted, Shell
 from sekkin.api_client import BushidoApiClient
 
 from .containers import HeaderContainer, ProfileContainer
@@ -29,10 +29,11 @@ class BushidoApp(App[None]):
     def compose(self) -> ComposeResult:
         yield HeaderContainer()
         yield Rule(line_style="dashed")
-        with TabbedContent(id="main_tabs"), TabPane("profile"):
-            yield ProfileContainer()
-
-        yield CommandLine(commands=self.unit_names)
+        with TabbedContent(id="main_tabs"):
+            with TabPane("shell"):
+                yield Shell(self.unit_names)
+            with TabPane("profile"):
+                yield ProfileContainer()
         yield Footer(id="app_footer")
 
     async def on_command_submitted(self, message: CommandSubmitted) -> None:

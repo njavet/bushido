@@ -1,49 +1,63 @@
+/* =========================================================
+   APP
+   ========================================================= */
 Screen {
+    background: #05090c;
+    color: #b8dce2;
     overflow: hidden;
 }
-
 HeaderContainer {
     layout: horizontal;
     height: 4;
     background: $surface;
 }
-
 #bin_date {
     padding: 0 2;
     width: 1fr;
 }
-
-#bin_clock {
-    padding: 0 2;
-    width: 1fr;
-    content-align: right middle;
-}
-
 #bushido_img {
     width: 8;
     height: 4;
     padding: 0 2;
     content-align: center middle;
 }
+#bin_clock {
+    padding: 0 2;
+    width: 1fr;
+    content-align: right middle;
+}
 
+/* =========================================================
+   TABS
+   ========================================================= */
+#main_tabs {
+    width: 100%;
+    height: 1fr;
+}
+
+/* =========================================================
+   SHELL
+   ========================================================= */
+
+/* =========================================================
+   COMMAND LINE
+   =========================================================*/
 #command_line {
-    width: 80%;
+    margin: 0 1;
+    width: 100%;
     height: 3;
     border: solid #16404a;
     background: #071116;
 }
-
 #command_line:focus-within {
     border: solid #45e6f2;
 }
-
 #prompt {
     width: 3;
     height: 1fr;
     color: #45e6f2;
     text-style: bold;
 }
-
 #command_input {
     width: 1fr;
     height: 1fr;
@@ -58,29 +72,22 @@ HeaderContainer {
     color: #35bfc5;
     text-style: dim;
 }
-
 #terminal_header {
     width: 100%;
     height: 3;
-
     padding: 1 0;
     color: #72f3ff;
     background: #071116;
-
     text-style: bold;
 }
-
 .separator {
     height: 1;
     color: #16404a;
 }
-
 #terminal_status {
     width: 100%;
     height: 2;
-
     margin-top: 1;
-
     color: #608890;
     text-align: right;
 }
