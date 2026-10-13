@@ -3,7 +3,7 @@ from typing import Annotated
 
 from pydantic import BaseModel, StringConstraints
 
-LogLine = Annotated[
+CommandLine = Annotated[
     str,
     StringConstraints(
         strip_whitespace=True,
@@ -13,8 +13,8 @@ LogLine = Annotated[
 ]
 
 
-class LogUnitRequest(BaseModel):
-    line: LogLine
+class CommandRequest(BaseModel):
+    line: CommandLine
 
 
 class LoadUnitRequest(BaseModel):
