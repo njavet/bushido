@@ -6,4 +6,3 @@ class LogUnitCommand:
     unit_name: str
     body: str
     comment: str | None = None
-

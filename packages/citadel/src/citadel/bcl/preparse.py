@@ -25,17 +25,15 @@ def preparse(line: str, separator: str = "#") -> PreparsedCommand:
     flags = []
     options = []
     for token in tokens:
-        if token.startswith('-') or token.startswith("--"):
-            if '=' in token:
+        if token.startswith("-") or token.startswith("--"):
+            if "=" in token:
                 if token in options:
                     raise CommandSyntaxError(f"duplicated option {token}")
-                else:
-                    options.append(token)
+                options.append(token)
+            elif token in flags:
+                raise CommandSyntaxError(f"duplicated flag {token}")
             else:
-                if token in flags:
-                    raise CommandSyntaxError(f"duplicated option {token}")
-                else:
-                    flags.append(token)
+                flags.append(token)
         else:
             args.append(token)
 
