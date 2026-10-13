@@ -1,6 +1,6 @@
-class CommandSyntaxError(Exception):
+class UnknownCommand(Exception):
     pass
 
 
-class CommandError(Exception):
+class CommandSyntaxError(Exception):
     pass
