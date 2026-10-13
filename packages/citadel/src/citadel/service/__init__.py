@@ -1,7 +1,7 @@
 from .load_units import load_units
-from .log_unit import log_unit
+from .process_command import process_command
 
 __all__ = [
     "load_units",
-    "log_unit",
+    "process_command",
 ]
