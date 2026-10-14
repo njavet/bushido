@@ -4,8 +4,9 @@ from typing import Literal, Self
 from pydantic import model_validator
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit.base import BaseUnit, RawUnit, UnitType
+from citadel.unit.base import BaseUnit, UnitType
 from citadel.unit.parsing import parse_start_end_time_string, time_string_to_seconds
+from citadel.bcl import LogUnitCommand
 
 
 class WorkUnit(BaseUnit):
@@ -36,36 +37,36 @@ class WorkUnit(BaseUnit):
         return self
 
 
-def build_work_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> WorkUnit:
+def build_work_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> WorkUnit:
     start_t: datetime.time | None = None
     end_t: datetime.time | None = None
     seconds: float | None = None
     try:
-        start_t, end_t = parse_start_end_time_string(raw_unit.tokens[0])
+        start_t, end_t = parse_start_end_time_string(raw_unit.args[0])
     except UnitParsingError:
         try:
-            seconds = time_string_to_seconds(raw_unit.tokens[0])
+            seconds = time_string_to_seconds(raw_unit.args[0])
         except Exception as e:
             raise UnitParsingError(f"failed to parse time string: {e}") from e
     try:
-        gym = raw_unit.tokens[1]
+        gym = raw_unit.args[1]
     except IndexError as e:
-        raise UnitParsingError(f"failed to parse gym string: {raw_unit.tokens}") from e
+        raise UnitParsingError(f"failed to parse gym string: {raw_unit.args}") from e
     try:
-        project = raw_unit.tokens[2]
+        project = raw_unit.args[2]
     except IndexError as e:
         raise UnitParsingError(
-            f"failed to parse project string: {raw_unit.tokens}"
+            f"failed to parse project string: {raw_unit.args}"
         ) from e
     try:
-        topic = raw_unit.tokens[3]
+        topic = raw_unit.args[3]
     except IndexError as e:
         raise UnitParsingError(
-            f"failed to parse topic string: {raw_unit.tokens}"
+            f"failed to parse topic string: {raw_unit.args}"
         ) from e
 
     return WorkUnit(
-        name=raw_unit.name,
+        name=raw_unit.unit_name,
         start_t=start_t,
         end_t=end_t,
         seconds=seconds,

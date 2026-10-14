@@ -2,7 +2,8 @@ import datetime
 from typing import Literal
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit.base import BaseUnit, RawUnit, UnitType
+from citadel.unit.base import BaseUnit, UnitType
+from citadel.bcl import LogUnitCommand
 
 from ._base import CardioData, parse_cardio_data
 
@@ -14,12 +15,12 @@ class SwimmingUnit(BaseUnit, CardioData):
     temperature: float | None = None
 
 
-def build_swimming_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> SwimmingUnit:
-    data = parse_cardio_data(raw_unit.tokens, raw_unit.options)
+def build_swimming_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> SwimmingUnit:
+    data = parse_cardio_data(raw_unit.args, raw_unit.options)
     try:
-        distance = float(raw_unit.tokens[3])
+        distance = float(raw_unit.args[3])
     except (KeyError, ValueError) as e:
-        raise UnitParsingError(f"wrong distance {raw_unit.tokens}") from e
+        raise UnitParsingError(f"wrong distance {raw_unit.args}") from e
     try:
         pool_length = int(raw_unit.options["pl"])
     except KeyError, ValueError:
@@ -29,7 +30,7 @@ def build_swimming_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> Swimm
     except KeyError, ValueError:
         temperature = None
     return SwimmingUnit(
-        name=raw_unit.name,
+        name=raw_unit.unit_name,
         log_time=log_time,
         comment=raw_unit.comment,
         start_t=data.start_t,
