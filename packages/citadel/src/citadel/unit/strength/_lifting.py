@@ -1,17 +1,19 @@
 import datetime
 from typing import Literal
 
+from citadel.bcl import LogUnitCommand
 from citadel.exceptions import UnitParsingError
 from citadel.unit.base import BaseUnit, SpaceTimeData, UnitType
 from citadel.unit.parsing import parse_start_end_time_string
-from citadel.bcl import LogUnitCommand
 
 
 class LiftingUnit(BaseUnit, SpaceTimeData):
     unit_type: Literal[UnitType.lifting] = UnitType.lifting
 
 
-def build_lifting_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> LiftingUnit:
+def build_lifting_unit(
+    raw_unit: LogUnitCommand, log_time: datetime.datetime
+) -> LiftingUnit:
     start_t, end_t = parse_start_end_time_string(raw_unit.args[0])
     try:
         gym = raw_unit.args[1]

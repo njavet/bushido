@@ -4,9 +4,9 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from citadel.bcl import LogUnitCommand
 from citadel.exceptions import UnitParsingError
 from citadel.unit.base import BaseUnit, UnitType
-from citadel.bcl import LogUnitCommand
 
 
 class WimhofFlags(StrEnum):
@@ -48,7 +48,9 @@ def parse_round_data(tokens: tuple[str, ...]) -> list[RoundData]:
     ]
 
 
-def build_wimhof_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> WimhofUnit:
+def build_wimhof_unit(
+    raw_unit: LogUnitCommand, log_time: datetime.datetime
+) -> WimhofUnit:
     rounds = parse_round_data(raw_unit.args)
     return WimhofUnit(
         name=raw_unit.unit_name,

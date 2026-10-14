@@ -11,7 +11,9 @@ class SkippingUnit(BaseUnit, CardioData):
     unit_type: Literal[UnitType.skipping] = UnitType.skipping
 
 
-def build_skipping_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> SkippingUnit:
+def build_skipping_unit(
+    raw_unit: LogUnitCommand, log_time: datetime.datetime
+) -> SkippingUnit:
     data = parse_cardio_data(raw_unit.args, raw_unit.options)
     return SkippingUnit(
         name=raw_unit.unit_name,

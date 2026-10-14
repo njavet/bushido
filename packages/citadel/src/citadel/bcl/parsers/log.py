@@ -26,12 +26,13 @@ def log_parser(line: str, separator: str = "#") -> LogUnitCommand:
     options = {}
     for token in tokens[1:]:
         if token.startswith(("-", "--")):
-            if "=" in token:
-                if token in options:
+            t = token.lstrip("-")
+            if "=" in t:
+                key, value = t.split("=", 1)
+                if key in options:
                     raise CommandSyntaxError(f"duplicated option {token}")
-                key, value = token.split("=", 1)
                 options[key] = value
-            elif token in flags:
+            elif t in flags:
                 raise CommandSyntaxError(f"duplicated flag {token}")
             else:
                 flags.append(token)

@@ -1,9 +1,9 @@
 import datetime
 from typing import Literal
 
+from citadel.bcl import LogUnitCommand
 from citadel.exceptions import UnitParsingError
 from citadel.unit.base import BaseUnit, UnitType
-from citadel.bcl import LogUnitCommand
 
 from ._base import CardioData, parse_cardio_data
 
@@ -15,7 +15,9 @@ class SwimmingUnit(BaseUnit, CardioData):
     temperature: float | None = None
 
 
-def build_swimming_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> SwimmingUnit:
+def build_swimming_unit(
+    raw_unit: LogUnitCommand, log_time: datetime.datetime
+) -> SwimmingUnit:
     data = parse_cardio_data(raw_unit.args, raw_unit.options)
     try:
         distance = float(raw_unit.args[3])

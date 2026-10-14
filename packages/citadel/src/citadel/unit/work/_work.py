@@ -3,10 +3,10 @@ from typing import Literal, Self
 
 from pydantic import model_validator
 
+from citadel.bcl import LogUnitCommand
 from citadel.exceptions import UnitParsingError
 from citadel.unit.base import BaseUnit, UnitType
 from citadel.unit.parsing import parse_start_end_time_string, time_string_to_seconds
-from citadel.bcl import LogUnitCommand
 
 
 class WorkUnit(BaseUnit):
@@ -61,9 +61,7 @@ def build_work_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> Wo
     try:
         topic = raw_unit.args[3]
     except IndexError as e:
-        raise UnitParsingError(
-            f"failed to parse topic string: {raw_unit.args}"
-        ) from e
+        raise UnitParsingError(f"failed to parse topic string: {raw_unit.args}") from e
 
     return WorkUnit(
         name=raw_unit.unit_name,

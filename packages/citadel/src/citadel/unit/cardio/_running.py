@@ -13,7 +13,9 @@ class RunningUnit(BaseUnit, CardioData):
     distance: float
 
 
-def build_running_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> RunningUnit:
+def build_running_unit(
+    raw_unit: LogUnitCommand, log_time: datetime.datetime
+) -> RunningUnit:
     data = parse_cardio_data(raw_unit.args, raw_unit.options)
     try:
         distance = float(raw_unit.args[3])

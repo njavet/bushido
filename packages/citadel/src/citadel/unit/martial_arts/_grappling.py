@@ -1,7 +1,7 @@
 import datetime
 
-from citadel.exceptions import UnitParsingError
 from citadel.bcl import LogUnitCommand
+from citadel.exceptions import UnitParsingError
 from citadel.unit.parsing import parse_start_end_time_string
 
 from ._base import MartialArtsUnit

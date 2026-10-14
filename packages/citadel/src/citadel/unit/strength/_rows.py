@@ -5,7 +5,9 @@ from citadel.unit.strength import BilateralUnit
 from citadel.unit.strength._bilateral import parse_bilateral_set_data
 
 
-def build_rows_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> BilateralUnit:
+def build_rows_unit(
+    raw_unit: LogUnitCommand, log_time: datetime.datetime
+) -> BilateralUnit:
     sets = parse_bilateral_set_data(raw_unit.args)
     return BilateralUnit(
         name=raw_unit.unit_name,

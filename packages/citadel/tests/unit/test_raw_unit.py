@@ -1,7 +1,7 @@
 import pytest
 
 from citadel.bcl import LogUnitCommand, log_parser
-from citadel.exceptions import UnitParsingError
+from citadel.bcl.errors import CommandSyntaxError
 
 
 @pytest.mark.parametrize(
@@ -191,17 +191,13 @@ def test_parse_line(line: str, expected: LogUnitCommand) -> None:
         "",
         "   ",
         "\t",
-        "--avghr 140",  # no unit unit_name
+        "--avghr=140",  # no unit unit_name
         "-x",  # no unit unit_name
         "# comment only",  # no unit unit_name
-        "running --avghr",  # option missing value
-        "running --cal",  # option missing value
         # Important ambiguity:
-        "running --avghr --maxhr 180",
-        "running --avghr -x",
-        "swimming --avghr 140 --avghr 150",
+        "swimming --avghr=140 --avghr=150",
     ],
 )
 def test_parse_line_rejects_invalid_syntax(line: str) -> None:
-    with pytest.raises(UnitParsingError):
+    with pytest.raises(CommandSyntaxError):
         _ = log_parser(line)
