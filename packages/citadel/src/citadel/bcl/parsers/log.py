@@ -9,7 +9,7 @@ class LogUnitCommand:
     args: tuple[str, ...]
     options: dict[str, str]
     flags: list[str]
-    comment: str | None = None
+    comment: str | None
 
 
 def log_parser(line: str, separator: str = "#") -> LogUnitCommand:
@@ -24,7 +24,7 @@ def log_parser(line: str, separator: str = "#") -> LogUnitCommand:
     args = []
     flags = []
     options = {}
-    for token in tokens:
+    for token in tokens[1:]:
         if token.startswith(("-", "--")):
             if "=" in token:
                 if token in options:
