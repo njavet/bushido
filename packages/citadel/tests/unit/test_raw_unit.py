@@ -1,7 +1,7 @@
 import pytest
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit import RawUnit
+from citadel.bcl.parsers.log import LogUnitCommand, log_parser
 
 
 @pytest.mark.parametrize(
@@ -9,9 +9,9 @@ from citadel.unit import RawUnit
     [
         (
             "some-unit",
-            RawUnit(
-                name="some-unit",
-                tokens=(),
+            LogUnitCommand(
+                unit_name="some-unit",
+                args=(),
                 flags=[],
                 options={},
                 comment=None,
@@ -19,9 +19,9 @@ from citadel.unit import RawUnit
         ),
         (
             "running 1730",
-            RawUnit(
-                name="running",
-                tokens=("1730",),
+            LogUnitCommand(
+                unit_name="running",
+                args=("1730",),
                 flags=[],
                 options={},
                 comment=None,
@@ -29,9 +29,9 @@ from citadel.unit import RawUnit
         ),
         (
             "athena 1730 45:00 gym 5.2",
-            RawUnit(
-                name="athena",
-                tokens=("1730", "45:00", "gym", "5.2"),
+            LogUnitCommand(
+                unit_name="athena",
+                args=("1730", "45:00", "gym", "5.2"),
                 flags=[],
                 options={},
                 comment=None,
@@ -39,9 +39,9 @@ from citadel.unit import RawUnit
         ),
         (
             "platon -x",
-            RawUnit(
-                name="platon",
-                tokens=(),
+            LogUnitCommand(
+                unit_name="platon",
+                args=(),
                 flags=["x"],
                 options={},
                 comment=None,
@@ -49,9 +49,9 @@ from citadel.unit import RawUnit
         ),
         (
             "kant -x -y -z",
-            RawUnit(
-                name="kant",
-                tokens=(),
+            LogUnitCommand(
+                unit_name="kant",
+                args=(),
                 flags=["x", "y", "z"],
                 options={},
                 comment=None,
@@ -59,9 +59,9 @@ from citadel.unit import RawUnit
         ),
         (
             "starcraft --avghr 140",
-            RawUnit(
-                name="starcraft",
-                tokens=(),
+            LogUnitCommand(
+                unit_name="starcraft",
+                args=(),
                 flags=[],
                 options={"avghr": "140"},
                 comment=None,
@@ -69,9 +69,9 @@ from citadel.unit import RawUnit
         ),
         (
             "jogging --avghr 140 --maxhr 175 --cal 500",
-            RawUnit(
-                name="jogging",
-                tokens=(),
+            LogUnitCommand(
+                unit_name="jogging",
+                args=(),
                 flags=[],
                 options={
                     "avghr": "140",
@@ -83,9 +83,9 @@ from citadel.unit import RawUnit
         ),
         (
             "running # easy run",
-            RawUnit(
-                name="running",
-                tokens=(),
+            LogUnitCommand(
+                unit_name="running",
+                args=(),
                 flags=[],
                 options={},
                 comment="easy run",
@@ -93,9 +93,9 @@ from citadel.unit import RawUnit
         ),
         (
             "running 1730 45:00 # easy zone 2 run",
-            RawUnit(
-                name="running",
-                tokens=("1730", "45:00"),
+            LogUnitCommand(
+                unit_name="running",
+                args=("1730", "45:00"),
                 flags=[],
                 options={},
                 comment="easy zone 2 run",
@@ -103,9 +103,9 @@ from citadel.unit import RawUnit
         ),
         (
             "running 1730 45:00 gym 16.4 -x --avghr 160 --maxhr 187 --cal 500 # hard",
-            RawUnit(
-                name="running",
-                tokens=("1730", "45:00", "gym", "16.4"),
+            LogUnitCommand(
+                unit_name="running",
+                args=("1730", "45:00", "gym", "16.4"),
                 flags=["x"],
                 options={
                     "avghr": "160",
@@ -117,9 +117,9 @@ from citadel.unit import RawUnit
         ),
         (
             "running --avghr 140 1730 -x 45:00 --cal 500 gym 5.2",
-            RawUnit(
-                name="running",
-                tokens=("1730", "45:00", "gym", "5.2"),
+            LogUnitCommand(
+                unit_name="running",
+                args=("1730", "45:00", "gym", "5.2"),
                 flags=["x"],
                 options={
                     "avghr": "140",
@@ -130,9 +130,9 @@ from citadel.unit import RawUnit
         ),
         (
             "  running   1730   45:00   --avghr   140   ",
-            RawUnit(
-                name="running",
-                tokens=("1730", "45:00"),
+            LogUnitCommand(
+                unit_name="running",
+                args=("1730", "45:00"),
                 flags=[],
                 options={"avghr": "140"},
                 comment=None,
@@ -140,9 +140,9 @@ from citadel.unit import RawUnit
         ),
         (
             "\trunning\t1730\t45:00\t-x",
-            RawUnit(
-                name="running",
-                tokens=("1730", "45:00"),
+            LogUnitCommand(
+                unit_name="running",
+                args=("1730", "45:00"),
                 flags=["x"],
                 options={},
                 comment=None,
@@ -150,9 +150,9 @@ from citadel.unit import RawUnit
         ),
         (
             "running 1730 # --avghr 999 -x whatever",
-            RawUnit(
-                name="running",
-                tokens=("1730",),
+            LogUnitCommand(
+                unit_name="running",
+                args=("1730",),
                 flags=[],
                 options={},
                 comment="--avghr 999 -x whatever",
@@ -160,9 +160,9 @@ from citadel.unit import RawUnit
         ),
         (
             "running # # another # hash",
-            RawUnit(
-                name="running",
-                tokens=(),
+            LogUnitCommand(
+                unit_name="running",
+                args=(),
                 flags=[],
                 options={},
                 comment="# another # hash",
@@ -170,9 +170,9 @@ from citadel.unit import RawUnit
         ),
         (
             "poseidon --tmp -5 # # another # hash",
-            RawUnit(
-                name="poseidon",
-                tokens=(),
+            LogUnitCommand(
+                unit_name="poseidon",
+                args=(),
                 flags=[],
                 options={"tmp": "-5"},
                 comment="# another # hash",
@@ -180,9 +180,9 @@ from citadel.unit import RawUnit
         ),
     ],
 )
-def test_parse_line(line: str, expected: RawUnit) -> None:
-    raw_unit = RawUnit.from_line(line)
-    assert raw_unit == expected
+def test_parse_line(line: str, expected: LogUnitCommand) -> None:
+    cmd = log_parser(line)
+    assert cmd == expected
 
 
 @pytest.mark.parametrize(
@@ -191,9 +191,9 @@ def test_parse_line(line: str, expected: RawUnit) -> None:
         "",
         "   ",
         "\t",
-        "--avghr 140",  # no unit name
-        "-x",  # no unit name
-        "# comment only",  # no unit name
+        "--avghr 140",  # no unit unit_name
+        "-x",  # no unit unit_name
+        "# comment only",  # no unit unit_name
         "running --avghr",  # option missing value
         "running --cal",  # option missing value
         # Important ambiguity:
@@ -204,4 +204,4 @@ def test_parse_line(line: str, expected: RawUnit) -> None:
 )
 def test_parse_line_rejects_invalid_syntax(line: str) -> None:
     with pytest.raises(UnitParsingError):
-        RawUnit.from_line(line)
+        _ = log_parser(line)

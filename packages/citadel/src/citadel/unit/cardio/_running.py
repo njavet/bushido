@@ -2,7 +2,7 @@ import datetime
 from typing import Literal
 
 from citadel.exceptions import UnitParsingError
-from citadel.unit.base import BaseUnit, RawUnit, UnitType
+from citadel.unit.base import BaseUnit, UnitType
 
 from ._base import CardioData, parse_cardio_data
 

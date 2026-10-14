@@ -3,6 +3,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
+from citadel.bcl.parsers.log import LogUnitCommand
 from citadel.persistence.repos import (
     BarbellUnitRepo,
     BaseUnitRepo,
@@ -17,7 +18,6 @@ from citadel.persistence.repos import (
     WorkUnitRepo,
 )
 from citadel.schema.res import LoggedUnit
-from citadel.unit import RawUnit
 from citadel.unit.cardio import (
     build_running_unit,
     build_skipping_unit,
@@ -47,7 +47,7 @@ from citadel.unit.work import build_work_unit
 @dataclass(frozen=True)
 class UnitSpec:
     repo: type[BaseUnitRepo[Any, Any]]
-    build_unit: Callable[[RawUnit, datetime.datetime], LoggedUnit]
+    build_unit: Callable[[LogUnitCommand, datetime.datetime], LoggedUnit]
 
 
 UNIT_REGISTRY: dict[str, UnitSpec] = {
