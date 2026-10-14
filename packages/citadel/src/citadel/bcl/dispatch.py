@@ -1,4 +1,4 @@
-from .errors import UnknownCommand
+from .errors import UnknownCommandError
 from .parsers.log import LogUnitCommand, log_parser
 
 type Command = LogUnitCommand
@@ -10,4 +10,4 @@ def dispatch_command(line: str) -> Command:
         case "log":
             return log_parser(rest)
         case _:
-            raise UnknownCommand(f"Unknown command: {cmd_name}")
+            raise UnknownCommandError(f"Unknown command: {cmd_name}")

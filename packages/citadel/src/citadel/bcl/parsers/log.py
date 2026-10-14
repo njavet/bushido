@@ -16,7 +16,7 @@ def log_parser(line: str, separator: str = "#") -> LogUnitCommand:
     line = line.strip()
     if not line:
         raise CommandSyntaxError("empty command")
-    structured, sep, comment = line.partition(separator)
+    structured, _, comment = line.partition(separator)
     tokens = structured.split()
     if not tokens:
         raise CommandSyntaxError("missing command")
@@ -25,7 +25,7 @@ def log_parser(line: str, separator: str = "#") -> LogUnitCommand:
     flags = []
     options = []
     for token in tokens:
-        if token.startswith("-") or token.startswith("--"):
+        if token.startswith(("-", "--")):
             if "=" in token:
                 if token in options:
                     raise CommandSyntaxError(f"duplicated option {token}")

@@ -1,4 +1,4 @@
-class UnknownCommand(Exception):
+class UnknownCommandError(Exception):
     pass
 
 
