@@ -1,7 +1,6 @@
-from .base import BaseUnit, RawUnit, UnitType
+from .base import BaseUnit, UnitType
 
 __all__ = [
     "BaseUnit",
-    "RawUnit",
     "UnitType",
 ]
