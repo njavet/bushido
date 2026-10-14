@@ -7,7 +7,7 @@ from citadel.bcl.errors import CommandSyntaxError
 class LogUnitCommand:
     unit_name: str
     args: tuple[str, ...]
-    options: list[str]
+    options: dict[str, str]
     flags: list[str]
     comment: str | None = None
 
@@ -23,13 +23,14 @@ def log_parser(line: str, separator: str = "#") -> LogUnitCommand:
 
     args = []
     flags = []
-    options = []
+    options = {}
     for token in tokens:
         if token.startswith(("-", "--")):
             if "=" in token:
                 if token in options:
                     raise CommandSyntaxError(f"duplicated option {token}")
-                options.append(token)
+                key, value = token.split("=", 1)
+                options[key] = value
             elif token in flags:
                 raise CommandSyntaxError(f"duplicated flag {token}")
             else:

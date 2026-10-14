@@ -11,9 +11,9 @@ from citadel.registry import UNIT_REGISTRY
 from citadel.schema.res import LoggedUnit
 
 
-def process_command(line: str, session: Session, spartan: Spartan) -> None:
-    print(session, spartan)
-    _ = dispatch_command(line)
+def process_command(line: str, session: Session, spartan: Spartan) -> LoggedUnit:
+    command = dispatch_command(line)
+    return log_unit(command, session, spartan)
 
 
 def log_unit(log_cmd: LogUnitCommand, session: Session, spartan: Spartan) -> LoggedUnit:
