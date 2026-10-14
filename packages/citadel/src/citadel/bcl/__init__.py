@@ -1,7 +1,8 @@
-from .parsers.log import log_parser, LogUnitCommand
 from .dispatch import dispatch_command
+from .parsers.log import LogUnitCommand, log_parser
 
-__all__ = ["dispatch_command",
-           "log_parser",
+__all__ = [
            "LogUnitCommand",
+           "dispatch_command",
+           "log_parser",
            ]

@@ -1,6 +1,7 @@
 import datetime
 from typing import Literal
 
+from citadel.bcl import LogUnitCommand
 from citadel.exceptions import UnitParsingError
 from citadel.unit.base import BaseUnit, UnitType
 
@@ -12,14 +13,14 @@ class RunningUnit(BaseUnit, CardioData):
     distance: float
 
 
-def build_running_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> RunningUnit:
-    data = parse_cardio_data(raw_unit.tokens, raw_unit.options)
+def build_running_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> RunningUnit:
+    data = parse_cardio_data(raw_unit.args, raw_unit.options)
     try:
-        distance = float(raw_unit.tokens[3])
+        distance = float(raw_unit.args[3])
     except (KeyError, ValueError) as e:
-        raise UnitParsingError(f"wrong distance {raw_unit.tokens}") from e
+        raise UnitParsingError(f"wrong distance {raw_unit.args}") from e
     return RunningUnit(
-        name=raw_unit.name,
+        name=raw_unit.unit_name,
         log_time=log_time,
         comment=raw_unit.comment,
         start_t=data.start_t,

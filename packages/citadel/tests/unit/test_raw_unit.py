@@ -1,7 +1,7 @@
 import pytest
 
-from citadel.exceptions import UnitParsingError
 from citadel.bcl import LogUnitCommand, log_parser
+from citadel.exceptions import UnitParsingError
 
 
 @pytest.mark.parametrize(

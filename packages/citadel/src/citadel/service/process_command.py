@@ -2,8 +2,7 @@ import datetime
 
 from sqlalchemy.orm import Session
 
-from citadel.bcl import dispatch_command
-from citadel.bcl.parsers.log import LogUnitCommand
+from citadel.bcl import LogUnitCommand, dispatch_command
 from citadel.dtypes import Clock, SystemClock
 from citadel.exceptions import UnitParsingError
 from citadel.persistence.models import Spartan
