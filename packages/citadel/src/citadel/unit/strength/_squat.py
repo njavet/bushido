@@ -1,14 +1,14 @@
 import datetime
 
-from citadel.unit.base import RawUnit
 from citadel.unit.strength import BilateralUnit
 from citadel.unit.strength._bilateral import parse_bilateral_set_data
+from citadel.bcl import LogUnitCommand
 
 
-def build_squat_unit(raw_unit: RawUnit, log_time: datetime.datetime) -> BilateralUnit:
-    sets = parse_bilateral_set_data(raw_unit.tokens)
+def build_squat_unit(raw_unit: LogUnitCommand, log_time: datetime.datetime) -> BilateralUnit:
+    sets = parse_bilateral_set_data(raw_unit.args)
     return BilateralUnit(
-        name=raw_unit.name,
+        name=raw_unit.unit_name,
         log_time=log_time,
         comment=raw_unit.comment,
         sets=sets,

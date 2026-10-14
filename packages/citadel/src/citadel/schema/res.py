@@ -3,11 +3,9 @@ from typing import Annotated
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
-from citadel.unit.cardio import RunningUnit, SkippingUnit, SwimmingUnit
-from citadel.unit.log import LogUnit
+from citadel.unit.cardio import RunningUnit
 from citadel.unit.martial_arts import ChronoUnit, MartialArtsUnit, WimhofUnit
 from citadel.unit.strength import BilateralUnit, LiftingUnit, UnilateralUnit
-from citadel.unit.work import WorkUnit
 
 
 class SpartanResponse(BaseModel):
@@ -25,13 +23,9 @@ type LoggedUnit = Annotated[
     WimhofUnit
     | BilateralUnit
     | UnilateralUnit
-    | WorkUnit
     | LiftingUnit
-    | SwimmingUnit
     | RunningUnit
-    | SkippingUnit
     | ChronoUnit
-    | LogUnit
     | MartialArtsUnit,
     Field(discriminator="unit_type"),
 ]
