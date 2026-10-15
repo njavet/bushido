@@ -31,6 +31,8 @@ from citadel.unit.strength import (
     build_squat_unit,
 )
 
+ölm = 2
+
 
 @dataclass(frozen=True)
 class UnitSpec:
