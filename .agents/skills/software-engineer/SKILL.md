@@ -1,3 +1,8 @@
+---
+name: software-engineer
+description: Implement, modify, test, debug, and review software in this repository. Use for software engineering tasks that require inspecting or changing repository code.
+---
+
 # Bushido Software Engineer
 
 ## Purpose
